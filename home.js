@@ -8284,6 +8284,12 @@ var _user$project$Domain_Core$Article = function (a) {
 	return {ctor: 'Article', _0: a};
 };
 
+var _user$project$Home$getPassword = function (model) {
+	return model.login.password;
+};
+var _user$project$Home$getUsername = function (model) {
+	return model.login.username;
+};
 var _user$project$Home$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
@@ -8365,7 +8371,10 @@ var _user$project$Home$view = function (model) {
 										_1: {
 											ctor: '::',
 											_0: _elm_lang$html$Html_Events$onClick(
-												A2(_user$project$Home$SignIn, model.login.username, model.login.password)),
+												A2(
+													_user$project$Home$SignIn,
+													_user$project$Home$getUsername(model),
+													_user$project$Home$getPassword(model))),
 											_1: {ctor: '[]'}
 										}
 									}

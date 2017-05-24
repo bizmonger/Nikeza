@@ -87,7 +87,7 @@ view model =
     div []
         [ span []
             [ label [ class "title" ] [ text "Nikeza" ]
-            , input [ class "signin", type_ "submit", value "Signin", onClick <| SignIn model.login.username model.login.password ] []
+            , input [ class "signin", type_ "submit", value "Signin", onClick <| SignIn (getUsername model) (getPassword model) ] []
             , input [ class "signin", type_ "password", placeholder "password", onInput Password, value model.login.password ] []
             , input [ class "signin", type_ "text", placeholder "username", onInput UserName, value model.login.username ] []
             ]
@@ -96,3 +96,11 @@ view model =
             , label [] [ text "GitHub" ]
             ]
         ]
+
+
+getUsername model =
+    model.login.username
+
+
+getPassword model =
+    model.login.password
