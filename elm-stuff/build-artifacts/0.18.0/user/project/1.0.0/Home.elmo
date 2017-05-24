@@ -1,0 +1,52 @@
+var _user$project$Home$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{ctor: '[]'});
+};
+var _user$project$Home$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'Video':
+				return model;
+			case 'Article':
+				return model;
+			case 'Submitter':
+				return model;
+			case 'Search':
+				return model;
+			case 'Register':
+				return model;
+			default:
+				return model;
+		}
+	});
+var _user$project$Home$model = {
+	videos: {ctor: '[]'},
+	articles: {ctor: '[]'}
+};
+var _user$project$Home$init = {ctor: '_Tuple2', _0: _user$project$Home$model, _1: _elm_lang$core$Platform_Cmd$none};
+var _user$project$Home$main = _elm_lang$html$Html$beginnerProgram(
+	{model: _user$project$Home$model, update: _user$project$Home$update, view: _user$project$Home$view})();
+var _user$project$Home$Model = F2(
+	function (a, b) {
+		return {videos: a, articles: b};
+	});
+var _user$project$Home$SignIn = F2(
+	function (a, b) {
+		return {ctor: 'SignIn', _0: a, _1: b};
+	});
+var _user$project$Home$Register = {ctor: 'Register'};
+var _user$project$Home$Search = function (a) {
+	return {ctor: 'Search', _0: a};
+};
+var _user$project$Home$Submitter = function (a) {
+	return {ctor: 'Submitter', _0: a};
+};
+var _user$project$Home$Article = function (a) {
+	return {ctor: 'Article', _0: a};
+};
+var _user$project$Home$Video = function (a) {
+	return {ctor: 'Video', _0: a};
+};

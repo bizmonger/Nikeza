@@ -1,0 +1,19 @@
+var _user$project$Domain_Core$Post = F3(
+	function (a, b, c) {
+		return {submitter: a, title: b, url: c};
+	});
+var _user$project$Domain_Core$Submitter = function (a) {
+	return {ctor: 'Submitter', _0: a};
+};
+var _user$project$Domain_Core$Title = function (a) {
+	return {ctor: 'Title', _0: a};
+};
+var _user$project$Domain_Core$Url = function (a) {
+	return {ctor: 'Url', _0: a};
+};
+var _user$project$Domain_Core$Video = function (a) {
+	return {ctor: 'Video', _0: a};
+};
+var _user$project$Domain_Core$Article = function (a) {
+	return {ctor: 'Article', _0: a};
+};

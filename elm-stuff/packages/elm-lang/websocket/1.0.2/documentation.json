@@ -1,0 +1,119 @@
+[
+  {
+    "name": "WebSocket",
+    "comment": " Web sockets make it cheaper to talk to your servers.\n\nConnecting to a server takes some time, so with web sockets, you make that\nconnection once and then keep using. The major benefits of this are:\n\n  1. It faster to send messages. No need to do a bunch of work for every single\n  message.\n\n  2. The server can push messages to you. With normal HTTP you would have to\n  keep *asking* for changes, but a web socket, the server can talk to you\n  whenever it wants. This means there is less unnecessary network traffic.\n\nThe API here attempts to cover the typical usage scenarios, but if you need\nmany unique connections to the same endpoint, you need a different library.\n\n# Web Sockets\n@docs listen, keepAlive, send\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "keepAlive",
+        "comment": " Keep a connection alive, but do not report any messages. This is useful\nfor keeping a connection open for when you only need to `send` messages. So\nyou might say something like this:\n\n    subscriptions model =\n      keepAlive \"ws://echo.websocket.org\"\n\n**Note:** If the connection goes down, the effect manager tries to reconnect\nwith an exponential backoff strategy. Any messages you try to `send` while the\nconnection is down are queued and will be sent as soon as possible.\n",
+        "type": "String -> Platform.Sub.Sub msg"
+      },
+      {
+        "name": "listen",
+        "comment": " Subscribe to any incoming messages on a websocket. You might say something\nlike this:\n\n    type Msg = Echo String | ...\n\n    subscriptions model =\n      listen \"ws://echo.websocket.org\" Echo\n\n**Note:** If the connection goes down, the effect manager tries to reconnect\nwith an exponential backoff strategy. Any messages you try to `send` while the\nconnection is down are queued and will be sent as soon as possible.\n",
+        "type": "String -> (String -> msg) -> Platform.Sub.Sub msg"
+      },
+      {
+        "name": "send",
+        "comment": " Send a message to a particular address. You might say something like this:\n\n    send \"ws://echo.websocket.org\" \"Hello!\"\n\n**Note:** It is important that you are also subscribed to this address with\n`listen` or `keepAlive`. If you are not, the web socket will be created to\nsend one message and then closed. Not good!\n",
+        "type": "String -> String -> Platform.Cmd.Cmd msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "WebSocket.LowLevel",
+    "comment": " Low-level bindings to [the JavaScript API for web sockets][ws]. This is\nuseful primarily for making effect modules like [WebSocket](WebSocket). So\nif you happen to be the creator of Elixir’s Phoenix framework, and you want\nit to be super easy to use channels, this module will help you make a really\nnice subscription-based API. If you are someone else, you probably do not want\nthese things.\n\n[ws]: https://developer.mozilla.org/en-US/docs/Web/API/WebSocket\n\n# WebSockets\n@docs WebSocket\n\n# Using WebSockets\n@docs open, Settings, send, close, closeWith, bytesQueued\n\n# Errors\n@docs BadOpen, BadClose, BadSend\n\n",
+    "aliases": [
+      {
+        "name": "Settings",
+        "comment": " The settings describe how a `WebSocket` works as long as it is still open.\n\nThe `onMessage` function gives you access to (1) the `WebSocket` itself so you\ncan use functions like `send` and `close` and (2) the `Message` from the server\nso you can decide what to do next.\n\nThe `onClose` function tells you everything about why the `WebSocket` is\nclosing. There are a ton of codes with standardized meanings, so learn more\nabout them [here](https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent).\n\nYou will typically want to set up a channel before opening a WebSocket. That\nway the `onMessage` and `onClose` can communicate with the other parts of your\nprogram. **Ideally this is handled by the effect library you are using though.\nMost people should not be working with this stuff directly.**\n",
+        "args": [],
+        "type": "{ onMessage : WebSocket.LowLevel.WebSocket -> String -> Task.Task Basics.Never () , onClose : { code : Int, reason : String, wasClean : Bool } -> Task.Task Basics.Never () }"
+      }
+    ],
+    "types": [
+      {
+        "name": "BadClose",
+        "comment": " It is possible to provide invalid codes or reasons for closing a\nconnection. The connection will still be closed, but the `closeWith` function\nwill give you `BadCode` if an invalid code was specified or `BadReason` if your\nreason is too long or contains unpaired surrogates.\n",
+        "args": [],
+        "cases": [
+          [
+            "BadCode",
+            []
+          ],
+          [
+            "BadReason",
+            []
+          ]
+        ]
+      },
+      {
+        "name": "BadOpen",
+        "comment": " Opening the websocket went wrong because:\n\n  1. Maybe you are on an `https://` domain trying to use an `ws://` websocket\n  instead of `wss://`.\n\n  2. You gave an invalid URL or something crazy.\n\n",
+        "args": [],
+        "cases": [
+          [
+            "BadSecurity",
+            []
+          ],
+          [
+            "BadArgs",
+            []
+          ]
+        ]
+      },
+      {
+        "name": "BadSend",
+        "comment": " There are a few ways a send can go wrong. The send function will ultimately\ngive you a `NotOpen` if the connection is no longer open or a `BadString` if\nthe string has unpaired surrogates (badly formatted UTF-16).\n",
+        "args": [],
+        "cases": [
+          [
+            "NotOpen",
+            []
+          ],
+          [
+            "BadString",
+            []
+          ]
+        ]
+      },
+      {
+        "name": "WebSocket",
+        "comment": " A value representing an open connection to a server. Normally every single\nHTTP request must establish a connection with the server, but here we just set\nit up once and keep using it. This means it is faster to send messages.\n\nThere is a request/response pattern for all HTTP requests. Client asks for\nsomething, server gives some response. With websockets, you can drive messages\nfrom the server instead.\n",
+        "args": [],
+        "cases": []
+      }
+    ],
+    "values": [
+      {
+        "name": "bytesQueued",
+        "comment": " The number of bytes of data queued by `send` but not yet transmitted to the\nnetwork. If you have been sending data to a closed connection, it will just\npile up on the queue endlessly.\n",
+        "type": "WebSocket.LowLevel.WebSocket -> Task.Task x Int"
+      },
+      {
+        "name": "close",
+        "comment": " Close a `WebSocket`. If the connection is already closed, it does nothing.\n",
+        "type": "WebSocket.LowLevel.WebSocket -> Task.Task x ()"
+      },
+      {
+        "name": "closeWith",
+        "comment": " Closes the `WebSocket`. If the connection is already closed, it does nothing.\n\nIn addition to providing the `WebSocket` you want to close, you must provide:\n\n  1. A status code explaining why the connection is being closed. The default\n  value is 1000, indicating indicates a normal \"transaction complete\" closure.\n  There are a ton of different status codes though. See them all\n  [here](https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent).\n\n  2. A human-readable string explaining why the connection is closing. This\n  string must be no longer than 123 bytes of UTF-8 text (not characters).\n\n",
+        "type": "Int -> String -> WebSocket.LowLevel.WebSocket -> Task.Task x (Maybe.Maybe WebSocket.LowLevel.BadClose)"
+      },
+      {
+        "name": "open",
+        "comment": " Attempt to open a connection to a particular URL.\n",
+        "type": "String -> WebSocket.LowLevel.Settings -> Task.Task WebSocket.LowLevel.BadOpen WebSocket.LowLevel.WebSocket"
+      },
+      {
+        "name": "send",
+        "comment": " Send a string over the `WebSocket` to the server. If there is any problem\nwith the send, you will get some data about it as the result of running this\ntask.\n",
+        "type": "WebSocket.LowLevel.WebSocket -> String -> Task.Task x (Maybe.Maybe WebSocket.LowLevel.BadSend)"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  }
+]
