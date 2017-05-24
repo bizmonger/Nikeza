@@ -5,6 +5,10 @@ header {
     height:40px;
 }
 
+label.title {
+    text-align: center;
+}
+
 .signin {
     float:right
 }

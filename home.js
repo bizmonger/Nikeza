@@ -8177,21 +8177,17 @@ var _user$project$Home$view = function (model) {
 				{
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$input,
+						_elm_lang$html$Html$label,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('signin'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$type_('submit'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$value('Signin'),
-									_1: {ctor: '[]'}
-								}
-							}
+							_0: _elm_lang$html$Html_Attributes$class('title'),
+							_1: {ctor: '[]'}
 						},
-						{ctor: '[]'}),
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Nikeza'),
+							_1: {ctor: '[]'}
+						}),
 					_1: {
 						ctor: '::',
 						_0: A2(
@@ -8201,10 +8197,10 @@ var _user$project$Home$view = function (model) {
 								_0: _elm_lang$html$Html_Attributes$class('signin'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$type_('password'),
+									_0: _elm_lang$html$Html_Attributes$type_('submit'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$placeholder('password'),
+										_0: _elm_lang$html$Html_Attributes$value('Signin'),
 										_1: {ctor: '[]'}
 									}
 								}
@@ -8219,16 +8215,35 @@ var _user$project$Home$view = function (model) {
 									_0: _elm_lang$html$Html_Attributes$class('signin'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$type_('text'),
+										_0: _elm_lang$html$Html_Attributes$type_('password'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$placeholder('username'),
+											_0: _elm_lang$html$Html_Attributes$placeholder('password'),
 											_1: {ctor: '[]'}
 										}
 									}
 								},
 								{ctor: '[]'}),
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$input,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('signin'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$type_('text'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$placeholder('username'),
+												_1: {ctor: '[]'}
+											}
+										}
+									},
+									{ctor: '[]'}),
+								_1: {ctor: '[]'}
+							}
 						}
 					}
 				}),

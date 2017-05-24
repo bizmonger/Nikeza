@@ -74,7 +74,8 @@ view : Model -> Html Msg
 view model =
     div []
         [ header []
-            [ input [ class "signin", type_ "submit", value "Signin" ] []
+            [ label [ class "title" ] [ text "Nikeza" ]
+            , input [ class "signin", type_ "submit", value "Signin" ] []
             , input [ class "signin", type_ "password", placeholder "password" ] []
             , input [ class "signin", type_ "text", placeholder "username" ] []
             ]
