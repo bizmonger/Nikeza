@@ -2,6 +2,7 @@ module Home exposing (..)
 
 import Domain.Core exposing (..)
 import Html exposing (..)
+import Html.Attributes exposing (..)
 
 
 main =
@@ -71,4 +72,10 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div [] []
+    div []
+        [ header []
+            [ label [] [ text "Signin:" ]
+            , input [ type_ "text", placeholder "username" ] []
+            , input [ type_ "password", placeholder "password" ] []
+            ]
+        ]
