@@ -8145,6 +8145,125 @@ var _elm_lang$html$Html_Attributes$classList = function (list) {
 };
 var _elm_lang$html$Html_Attributes$style = _elm_lang$virtual_dom$VirtualDom$style;
 
+var _elm_lang$html$Html_Events$keyCode = A2(_elm_lang$core$Json_Decode$field, 'keyCode', _elm_lang$core$Json_Decode$int);
+var _elm_lang$html$Html_Events$targetChecked = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'target',
+		_1: {
+			ctor: '::',
+			_0: 'checked',
+			_1: {ctor: '[]'}
+		}
+	},
+	_elm_lang$core$Json_Decode$bool);
+var _elm_lang$html$Html_Events$targetValue = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'target',
+		_1: {
+			ctor: '::',
+			_0: 'value',
+			_1: {ctor: '[]'}
+		}
+	},
+	_elm_lang$core$Json_Decode$string);
+var _elm_lang$html$Html_Events$defaultOptions = _elm_lang$virtual_dom$VirtualDom$defaultOptions;
+var _elm_lang$html$Html_Events$onWithOptions = _elm_lang$virtual_dom$VirtualDom$onWithOptions;
+var _elm_lang$html$Html_Events$on = _elm_lang$virtual_dom$VirtualDom$on;
+var _elm_lang$html$Html_Events$onFocus = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'focus',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onBlur = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'blur',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onSubmitOptions = _elm_lang$core$Native_Utils.update(
+	_elm_lang$html$Html_Events$defaultOptions,
+	{preventDefault: true});
+var _elm_lang$html$Html_Events$onSubmit = function (msg) {
+	return A3(
+		_elm_lang$html$Html_Events$onWithOptions,
+		'submit',
+		_elm_lang$html$Html_Events$onSubmitOptions,
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onCheck = function (tagger) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'change',
+		A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$targetChecked));
+};
+var _elm_lang$html$Html_Events$onInput = function (tagger) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'input',
+		A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$targetValue));
+};
+var _elm_lang$html$Html_Events$onMouseOut = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseout',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseOver = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseover',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseLeave = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseleave',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseEnter = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseenter',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseUp = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseup',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseDown = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mousedown',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onDoubleClick = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'dblclick',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onClick = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'click',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$Options = F2(
+	function (a, b) {
+		return {stopPropagation: a, preventDefault: b};
+	});
+
+var _user$project$Domain_Core$Credentials = F2(
+	function (a, b) {
+		return {username: a, password: b};
+	});
 var _user$project$Domain_Core$Post = F3(
 	function (a, b, c) {
 		return {submitter: a, title: b, url: c};
@@ -8165,6 +8284,48 @@ var _user$project$Domain_Core$Article = function (a) {
 	return {ctor: 'Article', _0: a};
 };
 
+var _user$project$Home$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'Video':
+				return model;
+			case 'Article':
+				return model;
+			case 'Submitter':
+				return model;
+			case 'Search':
+				return model;
+			case 'Register':
+				return model;
+			case 'UserName':
+				return model;
+			case 'Password':
+				return model;
+			default:
+				return model;
+		}
+	});
+var _user$project$Home$model = {
+	videos: {ctor: '[]'},
+	articles: {ctor: '[]'},
+	login: A2(_user$project$Domain_Core$Credentials, '', '')
+};
+var _user$project$Home$init = {ctor: '_Tuple2', _0: _user$project$Home$model, _1: _elm_lang$core$Platform_Cmd$none};
+var _user$project$Home$Model = F3(
+	function (a, b, c) {
+		return {videos: a, articles: b, login: c};
+	});
+var _user$project$Home$SignIn = F2(
+	function (a, b) {
+		return {ctor: 'SignIn', _0: a, _1: b};
+	});
+var _user$project$Home$Password = function (a) {
+	return {ctor: 'Password', _0: a};
+};
+var _user$project$Home$UserName = function (a) {
+	return {ctor: 'UserName', _0: a};
+};
 var _user$project$Home$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -8172,7 +8333,7 @@ var _user$project$Home$view = function (model) {
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$header,
+				_elm_lang$html$Html$span,
 				{ctor: '[]'},
 				{
 					ctor: '::',
@@ -8201,7 +8362,12 @@ var _user$project$Home$view = function (model) {
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Attributes$value('Signin'),
-										_1: {ctor: '[]'}
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(
+												A2(_user$project$Home$SignIn, model.login.username, model.login.password)),
+											_1: {ctor: '[]'}
+										}
 									}
 								}
 							},
@@ -8219,7 +8385,15 @@ var _user$project$Home$view = function (model) {
 										_1: {
 											ctor: '::',
 											_0: _elm_lang$html$Html_Attributes$placeholder('password'),
-											_1: {ctor: '[]'}
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onInput(_user$project$Home$Password),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$value(model.login.password),
+													_1: {ctor: '[]'}
+												}
+											}
 										}
 									}
 								},
@@ -8237,7 +8411,15 @@ var _user$project$Home$view = function (model) {
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Attributes$placeholder('username'),
-												_1: {ctor: '[]'}
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Events$onInput(_user$project$Home$UserName),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$value(model.login.username),
+														_1: {ctor: '[]'}
+													}
+												}
 											}
 										}
 									},
@@ -8279,39 +8461,8 @@ var _user$project$Home$view = function (model) {
 			}
 		});
 };
-var _user$project$Home$update = F2(
-	function (msg, model) {
-		var _p0 = msg;
-		switch (_p0.ctor) {
-			case 'Video':
-				return model;
-			case 'Article':
-				return model;
-			case 'Submitter':
-				return model;
-			case 'Search':
-				return model;
-			case 'Register':
-				return model;
-			default:
-				return model;
-		}
-	});
-var _user$project$Home$model = {
-	videos: {ctor: '[]'},
-	articles: {ctor: '[]'}
-};
-var _user$project$Home$init = {ctor: '_Tuple2', _0: _user$project$Home$model, _1: _elm_lang$core$Platform_Cmd$none};
 var _user$project$Home$main = _elm_lang$html$Html$beginnerProgram(
 	{model: _user$project$Home$model, update: _user$project$Home$update, view: _user$project$Home$view})();
-var _user$project$Home$Model = F2(
-	function (a, b) {
-		return {videos: a, articles: b};
-	});
-var _user$project$Home$SignIn = F2(
-	function (a, b) {
-		return {ctor: 'SignIn', _0: a, _1: b};
-	});
 var _user$project$Home$Register = {ctor: 'Register'};
 var _user$project$Home$Search = function (a) {
 	return {ctor: 'Search', _0: a};
