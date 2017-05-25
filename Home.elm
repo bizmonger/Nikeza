@@ -1,9 +1,8 @@
 module Home exposing (..)
 
 import Domain.Core exposing (..)
+import Domain.Login as Login exposing (..)
 import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
 
 
 main =
@@ -21,13 +20,13 @@ main =
 type alias Model =
     { videos : List Video
     , articles : List Article
-    , login : Credentials
+    , login : Login.Model
     }
 
 
 model : Model
 model =
-    { videos = [], articles = [], login = Credentials "" "" }
+    { videos = [], articles = [], login = Login.Model "" "" }
 
 
 init : ( Model, Cmd Msg )
@@ -45,9 +44,7 @@ type Msg
     | Submitter Submitter
     | Search String
     | Register
-    | UserName String
-    | Password String
-    | SignIn String String
+    | HandleLogin Login.Msg
 
 
 update : Msg -> Model -> Model
@@ -68,14 +65,12 @@ update msg model =
         Register ->
             model
 
-        UserName v ->
-            model
-
-        Password v ->
-            model
-
-        SignIn username password ->
-            model
+        HandleLogin subMsg ->
+            let
+                newState =
+                    Login.update subMsg model.login
+            in
+                { model | login = newState }
 
 
 
@@ -85,22 +80,9 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ span []
-            [ label [ class "title" ] [ text "Nikeza" ]
-            , input [ class "signin", type_ "submit", value "Signin", onClick <| SignIn (getUsername model) (getPassword model) ] []
-            , input [ class "signin", type_ "password", placeholder "password", onInput Password, value model.login.password ] []
-            , input [ class "signin", type_ "text", placeholder "username", onInput UserName, value model.login.username ] []
-            ]
+        [ header [] [ Html.map HandleLogin <| Login.view model.login ]
         , footer []
             [ label [] [ text "(c)2017" ]
             , label [] [ text "GitHub" ]
             ]
         ]
-
-
-getUsername model =
-    model.login.username
-
-
-getPassword model =
-    model.login.password

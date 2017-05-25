@@ -1,7 +1,3 @@
-var _user$project$Domain_Core$Credentials = F2(
-	function (a, b) {
-		return {username: a, password: b};
-	});
 var _user$project$Domain_Core$Post = F3(
 	function (a, b, c) {
 		return {submitter: a, title: b, url: c};

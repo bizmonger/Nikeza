@@ -1,10 +1,6 @@
 module Domain.Core exposing (..)
 
 
-type alias Credentials =
-    { username : String, password : String }
-
-
 type Submitter
     = Submitter String
 

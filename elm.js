@@ -8260,10 +8260,6 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
-var _user$project$Domain_Core$Credentials = F2(
-	function (a, b) {
-		return {username: a, password: b};
-	});
 var _user$project$Domain_Core$Post = F3(
 	function (a, b, c) {
 		return {submitter: a, title: b, url: c};
@@ -8284,6 +8280,133 @@ var _user$project$Domain_Core$Article = function (a) {
 	return {ctor: 'Article', _0: a};
 };
 
+var _user$project$Domain_Login$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'UserInput':
+				return model;
+			case 'PasswordInput':
+				return model;
+			default:
+				return model;
+		}
+	});
+var _user$project$Domain_Login$Model = F2(
+	function (a, b) {
+		return {username: a, password: b};
+	});
+var _user$project$Domain_Login$model = A2(_user$project$Domain_Login$Model, '', '');
+var _user$project$Domain_Login$SignIn = function (a) {
+	return {ctor: 'SignIn', _0: a};
+};
+var _user$project$Domain_Login$PasswordInput = function (a) {
+	return {ctor: 'PasswordInput', _0: a};
+};
+var _user$project$Domain_Login$UserInput = function (a) {
+	return {ctor: 'UserInput', _0: a};
+};
+var _user$project$Domain_Login$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$label,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('title'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Nikeza'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$input,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('signin'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$type_('submit'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$value('Signin'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(
+										_user$project$Domain_Login$SignIn(
+											{ctor: '_Tuple2', _0: model.username, _1: model.password})),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$input,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('signin'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$type_('password'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$placeholder('password'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onInput(_user$project$Domain_Login$PasswordInput),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$value(model.password),
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							}
+						},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$input,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('signin'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$type_('text'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$placeholder('username'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onInput(_user$project$Domain_Login$UserInput),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$value(model.username),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		});
+};
+
 var _user$project$Home$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
@@ -8298,33 +8421,25 @@ var _user$project$Home$update = F2(
 				return model;
 			case 'Register':
 				return model;
-			case 'UserName':
-				return model;
-			case 'Password':
-				return model;
 			default:
-				return model;
+				var newState = A2(_user$project$Domain_Login$update, _p0._0, model.login);
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{login: newState});
 		}
 	});
 var _user$project$Home$model = {
 	videos: {ctor: '[]'},
 	articles: {ctor: '[]'},
-	login: A2(_user$project$Domain_Core$Credentials, '', '')
+	login: A2(_user$project$Domain_Login$Model, '', '')
 };
 var _user$project$Home$init = {ctor: '_Tuple2', _0: _user$project$Home$model, _1: _elm_lang$core$Platform_Cmd$none};
 var _user$project$Home$Model = F3(
 	function (a, b, c) {
 		return {videos: a, articles: b, login: c};
 	});
-var _user$project$Home$SignIn = F2(
-	function (a, b) {
-		return {ctor: 'SignIn', _0: a, _1: b};
-	});
-var _user$project$Home$Password = function (a) {
-	return {ctor: 'Password', _0: a};
-};
-var _user$project$Home$UserName = function (a) {
-	return {ctor: 'UserName', _0: a};
+var _user$project$Home$HandleLogin = function (a) {
+	return {ctor: 'HandleLogin', _0: a};
 };
 var _user$project$Home$view = function (model) {
 	return A2(
@@ -8333,101 +8448,15 @@ var _user$project$Home$view = function (model) {
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$span,
+				_elm_lang$html$Html$header,
 				{ctor: '[]'},
 				{
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$label,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('title'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('Nikeza'),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$input,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('signin'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$type_('submit'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$value('Signin'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(
-												A2(_user$project$Home$SignIn, model.login.username, model.login.password)),
-											_1: {ctor: '[]'}
-										}
-									}
-								}
-							},
-							{ctor: '[]'}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$input,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('signin'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$type_('password'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$placeholder('password'),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onInput(_user$project$Home$Password),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$value(model.login.password),
-													_1: {ctor: '[]'}
-												}
-											}
-										}
-									}
-								},
-								{ctor: '[]'}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$input,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('signin'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$type_('text'),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$placeholder('username'),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onInput(_user$project$Home$UserName),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$value(model.login.username),
-														_1: {ctor: '[]'}
-													}
-												}
-											}
-										}
-									},
-									{ctor: '[]'}),
-								_1: {ctor: '[]'}
-							}
-						}
-					}
+						_elm_lang$html$Html$map,
+						_user$project$Home$HandleLogin,
+						_user$project$Domain_Login$view(model.login)),
+					_1: {ctor: '[]'}
 				}),
 			_1: {
 				ctor: '::',
