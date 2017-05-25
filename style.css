@@ -10,7 +10,12 @@ label.title {
 }
 
 .signin {
-    float:right
+    float:right;
+    text-align: center;
+}
+
+.copyright {
+    text-align: center;
 }
 
 footer {

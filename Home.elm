@@ -3,6 +3,7 @@ module Home exposing (..)
 import Domain.Core exposing (..)
 import Domain.Login as Login exposing (..)
 import Html exposing (..)
+import Html.Attributes exposing (..)
 
 
 main =
@@ -26,7 +27,7 @@ type alias Model =
 
 model : Model
 model =
-    { videos = [], articles = [], login = Login.Model "" "" }
+    { videos = [], articles = [], login = Login.model }
 
 
 init : ( Model, Cmd Msg )
@@ -44,7 +45,7 @@ type Msg
     | Submitter Submitter
     | Search String
     | Register
-    | HandleLogin Login.Msg
+    | Login Login.Msg
 
 
 update : Msg -> Model -> Model
@@ -65,7 +66,7 @@ update msg model =
         Register ->
             model
 
-        HandleLogin subMsg ->
+        Login subMsg ->
             let
                 newState =
                     Login.update subMsg model.login
@@ -80,9 +81,30 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ header [] [ Html.map HandleLogin <| Login.view model.login ]
-        , footer []
+        [ header []
+            [ label [] [ text "Nikeza" ]
+            , model |> sessionUI
+            ]
+        , footer [ class "copyright" ]
             [ label [] [ text "(c)2017" ]
             , label [] [ text "GitHub" ]
             ]
         ]
+
+
+sessionUI : Model -> Html Msg
+sessionUI model =
+    let
+        loggedIn =
+            model.login.loggedIn
+
+        welcome =
+            p [] [ text <| "Welcome " ++ model.login.username ++ "!" ]
+
+        signout =
+            a [ href "" ] [ label [] [ text "Signout" ] ]
+    in
+        if (not loggedIn) then
+            Html.map Login <| Login.view model.login
+        else
+            div [ class "signin" ] [ welcome, signout ]
