@@ -1,4 +1,4 @@
-module Domain.Login exposing (..)
+module Controls.Login exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)

@@ -13,7 +13,7 @@ var _user$project$Home$update = F2(
 			case 'Register':
 				return model;
 			default:
-				var newState = A2(_user$project$Domain_Login$update, _p0._0, model.login);
+				var newState = A2(_user$project$Controls_Login$update, _p0._0, model.login);
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{login: newState});
@@ -22,15 +22,15 @@ var _user$project$Home$update = F2(
 var _user$project$Home$model = {
 	videos: {ctor: '[]'},
 	articles: {ctor: '[]'},
-	login: _user$project$Domain_Login$model
+	login: _user$project$Controls_Login$model
 };
 var _user$project$Home$init = {ctor: '_Tuple2', _0: _user$project$Home$model, _1: _elm_lang$core$Platform_Cmd$none};
 var _user$project$Home$Model = F3(
 	function (a, b, c) {
 		return {videos: a, articles: b, login: c};
 	});
-var _user$project$Home$Login = function (a) {
-	return {ctor: 'Login', _0: a};
+var _user$project$Home$OnLogin = function (a) {
+	return {ctor: 'OnLogin', _0: a};
 };
 var _user$project$Home$sessionUI = function (model) {
 	var signout = A2(
@@ -67,8 +67,8 @@ var _user$project$Home$sessionUI = function (model) {
 	var loggedIn = model.login.loggedIn;
 	return (!loggedIn) ? A2(
 		_elm_lang$html$Html$map,
-		_user$project$Home$Login,
-		_user$project$Domain_Login$view(model.login)) : A2(
+		_user$project$Home$OnLogin,
+		_user$project$Controls_Login$view(model.login)) : A2(
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
@@ -132,8 +132,12 @@ var _user$project$Home$view = function (model) {
 						_1: {
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$label,
-								{ctor: '[]'},
+								_elm_lang$html$Html$a,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$href(''),
+									_1: {ctor: '[]'}
+								},
 								{
 									ctor: '::',
 									_0: _elm_lang$html$Html$text('GitHub'),

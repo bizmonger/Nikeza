@@ -1,7 +1,7 @@
 module Home exposing (..)
 
 import Domain.Core exposing (..)
-import Domain.Login as Login exposing (..)
+import Controls.Login as Login exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
@@ -45,7 +45,7 @@ type Msg
     | Submitter Submitter
     | Search String
     | Register
-    | Login Login.Msg
+    | OnLogin Login.Msg
 
 
 update : Msg -> Model -> Model
@@ -66,7 +66,7 @@ update msg model =
         Register ->
             model
 
-        Login subMsg ->
+        OnLogin subMsg ->
             let
                 newState =
                     Login.update subMsg model.login
@@ -87,7 +87,7 @@ view model =
             ]
         , footer [ class "copyright" ]
             [ label [] [ text "(c)2017" ]
-            , label [] [ text "GitHub" ]
+            , a [ href "" ] [ text "GitHub" ]
             ]
         ]
 
@@ -105,6 +105,6 @@ sessionUI model =
             a [ href "" ] [ label [] [ text "Signout" ] ]
     in
         if (not loggedIn) then
-            Html.map Login <| Login.view model.login
+            Html.map OnLogin <| Login.view model.login
         else
             div [ class "signin" ] [ welcome, signout ]
