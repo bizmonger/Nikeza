@@ -1,3 +1,8 @@
+var _user$project$Domain_Core$tryLogin = F3(
+	function (loginf, username, password) {
+		return loginf(
+			A3(_user$project$Controls_Login$Model, username, password, false));
+	});
 var _user$project$Domain_Core$Post = F3(
 	function (a, b, c) {
 		return {submitter: a, title: b, url: c};

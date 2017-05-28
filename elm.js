@@ -8378,6 +8378,11 @@ var _user$project$Controls_Login$view = function (model) {
 		});
 };
 
+var _user$project$Domain_Core$tryLogin = F3(
+	function (loginf, username, password) {
+		return loginf(
+			A3(_user$project$Controls_Login$Model, username, password, false));
+	});
 var _user$project$Domain_Core$Post = F3(
 	function (a, b, c) {
 		return {submitter: a, title: b, url: c};
@@ -8398,27 +8403,42 @@ var _user$project$Domain_Core$Article = function (a) {
 	return {ctor: 'Article', _0: a};
 };
 
-var _user$project$Home$attemptLogin = function (credentials) {
+var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 	var successful = _elm_lang$core$Native_Utils.eq(
 		_elm_lang$core$String$toLower(credentials.username),
 		'test') && _elm_lang$core$Native_Utils.eq(
 		_elm_lang$core$String$toLower(credentials.password),
 		'test');
-	return successful ? _elm_lang$core$Result$Ok(
-		{username: credentials.username, password: credentials.password, loggedIn: true}) : _elm_lang$core$Result$Err(
-		{username: credentials.username, password: credentials.password, loggedIn: false});
+	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
-var _user$project$Home$handleTextInput = F2(
-	function (subMsg, model) {
-		var newState = A2(_user$project$Controls_Login$update, subMsg, model.login);
-		return _elm_lang$core$Native_Utils.update(
-			model,
-			{login: newState});
+
+var _user$project$Home$model = {
+	videos: {ctor: '[]'},
+	articles: {ctor: '[]'},
+	login: _user$project$Controls_Login$model
+};
+var _user$project$Home$init = {ctor: '_Tuple2', _0: _user$project$Home$model, _1: _elm_lang$core$Platform_Cmd$none};
+var _user$project$Home$Dependencies = function (a) {
+	return {tryLogin: a};
+};
+var _user$project$Home$Model = F3(
+	function (a, b, c) {
+		return {videos: a, articles: b, login: c};
 	});
+var _user$project$Home$Isolation = {ctor: 'Isolation'};
+var _user$project$Home$configuration = _user$project$Home$Isolation;
+var _user$project$Home$dependencies = function () {
+	var _p0 = _user$project$Home$configuration;
+	if (_p0.ctor === 'Integration') {
+		return _user$project$Home$Dependencies(_user$project$Tests_TestAPI$tryLogin);
+	} else {
+		return _user$project$Home$Dependencies(_user$project$Tests_TestAPI$tryLogin);
+	}
+}();
 var _user$project$Home$update = F2(
 	function (msg, model) {
-		var _p0 = msg;
-		switch (_p0.ctor) {
+		var _p1 = msg;
+		switch (_p1.ctor) {
 			case 'Video':
 				return model;
 			case 'Article':
@@ -8430,41 +8450,32 @@ var _user$project$Home$update = F2(
 			case 'Register':
 				return model;
 			default:
-				var _p3 = _p0._0;
-				var _p1 = _p3;
-				switch (_p1.ctor) {
+				var _p3 = _p1._0;
+				var _p2 = _p3;
+				switch (_p2.ctor) {
 					case 'Attempt':
-						var newState = A2(_user$project$Controls_Login$update, _p3, model.login);
-						var loginModel = _elm_lang$core$Native_Utils.update(
+						var latest = A2(_user$project$Controls_Login$update, _p3, model.login);
+						return _elm_lang$core$Native_Utils.update(
 							model,
-							{login: newState});
-						var _p2 = _user$project$Home$attemptLogin(loginModel.login);
-						if (_p2.ctor === 'Ok') {
-							return _elm_lang$core$Native_Utils.update(
-								model,
-								{login: _p2._0});
-						} else {
-							return _elm_lang$core$Native_Utils.update(
-								model,
-								{login: _p2._0});
-						}
+							{
+								login: _user$project$Home$dependencies.tryLogin(latest)
+							});
 					case 'UserInput':
-						return A2(_user$project$Home$handleTextInput, _p3, model);
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								login: A2(_user$project$Controls_Login$update, _p3, model.login)
+							});
 					default:
-						return A2(_user$project$Home$handleTextInput, _p3, model);
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								login: A2(_user$project$Controls_Login$update, _p3, model.login)
+							});
 				}
 		}
 	});
-var _user$project$Home$model = {
-	videos: {ctor: '[]'},
-	articles: {ctor: '[]'},
-	login: _user$project$Controls_Login$model
-};
-var _user$project$Home$init = {ctor: '_Tuple2', _0: _user$project$Home$model, _1: _elm_lang$core$Platform_Cmd$none};
-var _user$project$Home$Model = F3(
-	function (a, b, c) {
-		return {videos: a, articles: b, login: c};
-	});
+var _user$project$Home$Integration = {ctor: 'Integration'};
 var _user$project$Home$OnLogin = function (a) {
 	return {ctor: 'OnLogin', _0: a};
 };

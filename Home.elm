@@ -2,6 +2,7 @@ module Home exposing (..)
 
 import Domain.Core exposing (..)
 import Controls.Login as Login exposing (..)
+import Tests.TestAPI as TestAPI exposing (tryLogin)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
@@ -12,6 +13,34 @@ main =
         , update = update
         , view = view
         }
+
+
+
+-- CONFIGURATION
+
+
+configuration : Configuration
+configuration =
+    Isolation
+
+
+type Configuration
+    = Integration
+    | Isolation
+
+
+type alias Dependencies =
+    { tryLogin : Login.Loginfunction }
+
+
+runtime : Dependencies
+runtime =
+    case configuration of
+        Integration ->
+            Dependencies TestAPI.tryLogin
+
+        Isolation ->
+            Dependencies TestAPI.tryLogin
 
 
 
@@ -73,25 +102,13 @@ update msg model =
                         latest =
                             Login.update subMsg model.login
                     in
-                        { model | login = attemptLogin latest }
+                        { model | login = runtime.tryLogin latest }
 
                 Login.UserInput _ ->
                     { model | login = Login.update subMsg model.login }
 
                 Login.PasswordInput _ ->
                     { model | login = Login.update subMsg model.login }
-
-
-attemptLogin : Login.Model -> Login.Model
-attemptLogin credentials =
-    let
-        successful =
-            String.toLower credentials.username == "test" && String.toLower credentials.password == "test"
-    in
-        if successful then
-            { username = credentials.username, password = credentials.password, loggedIn = True }
-        else
-            { username = credentials.username, password = credentials.password, loggedIn = False }
 
 
 

@@ -1,5 +1,7 @@
 module Domain.Core exposing (..)
 
+import Controls.Login as Login exposing (Model, Loginfunction)
+
 
 type Submitter
     = Submitter String
@@ -23,3 +25,12 @@ type Article
 
 type alias Post =
     { submitter : Submitter, title : Title, url : Url }
+
+
+type alias Loginfunction =
+    Login.Model -> Login.Model
+
+
+tryLogin : Login.Loginfunction -> String -> String -> Login.Model
+tryLogin loginf username password =
+    loginf <| Login.Model username password False

@@ -8398,7 +8398,7 @@ var _user$project$Domain_Core$Article = function (a) {
 	return {ctor: 'Article', _0: a};
 };
 
-var _user$project$Home$attemptLogin = function (credentials) {
+var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 	var successful = _elm_lang$core$Native_Utils.eq(
 		_elm_lang$core$String$toLower(credentials.username),
 		'test') && _elm_lang$core$Native_Utils.eq(
@@ -8406,6 +8406,7 @@ var _user$project$Home$attemptLogin = function (credentials) {
 		'test');
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
+
 var _user$project$Home$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
@@ -8429,7 +8430,7 @@ var _user$project$Home$update = F2(
 						return _elm_lang$core$Native_Utils.update(
 							model,
 							{
-								login: _user$project$Home$attemptLogin(latest)
+								login: _user$project$Tests_TestAPI$tryLogin(latest)
 							});
 					case 'UserInput':
 						return _elm_lang$core$Native_Utils.update(
