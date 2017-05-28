@@ -1,0 +1,8 @@
+var _user$project$Server$tryLogin = function (credentials) {
+	var successful = _elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$String$toLower(credentials.username),
+		'test') && _elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$String$toLower(credentials.password),
+		'test');
+	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
+};

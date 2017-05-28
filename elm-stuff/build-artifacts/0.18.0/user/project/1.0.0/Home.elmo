@@ -16,7 +16,7 @@ var _user$project$Home$configuration = _user$project$Home$Isolation;
 var _user$project$Home$runtime = function () {
 	var _p0 = _user$project$Home$configuration;
 	if (_p0.ctor === 'Integration') {
-		return _user$project$Home$Dependencies(_user$project$Tests_TestAPI$tryLogin);
+		return _user$project$Home$Dependencies(_user$project$Services_Server$tryLogin);
 	} else {
 		return _user$project$Home$Dependencies(_user$project$Tests_TestAPI$tryLogin);
 	}

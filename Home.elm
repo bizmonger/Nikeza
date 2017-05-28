@@ -3,6 +3,7 @@ module Home exposing (..)
 import Domain.Core exposing (..)
 import Controls.Login as Login exposing (..)
 import Tests.TestAPI as TestAPI exposing (tryLogin)
+import Services.Server as Services exposing (tryLogin)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
@@ -37,7 +38,7 @@ runtime : Dependencies
 runtime =
     case configuration of
         Integration ->
-            Dependencies TestAPI.tryLogin
+            Dependencies Services.tryLogin
 
         Isolation ->
             Dependencies TestAPI.tryLogin
