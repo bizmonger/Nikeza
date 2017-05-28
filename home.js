@@ -8260,27 +8260,7 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
-var _user$project$Domain_Core$Post = F3(
-	function (a, b, c) {
-		return {submitter: a, title: b, url: c};
-	});
-var _user$project$Domain_Core$Submitter = function (a) {
-	return {ctor: 'Submitter', _0: a};
-};
-var _user$project$Domain_Core$Title = function (a) {
-	return {ctor: 'Title', _0: a};
-};
-var _user$project$Domain_Core$Url = function (a) {
-	return {ctor: 'Url', _0: a};
-};
-var _user$project$Domain_Core$Video = function (a) {
-	return {ctor: 'Video', _0: a};
-};
-var _user$project$Domain_Core$Article = function (a) {
-	return {ctor: 'Article', _0: a};
-};
-
-var _user$project$Domain_Login$update = F2(
+var _user$project$Controls_Login$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		switch (_p0.ctor) {
@@ -8293,32 +8273,26 @@ var _user$project$Domain_Login$update = F2(
 					model,
 					{password: _p0._0});
 			default:
-				return (_elm_lang$core$Native_Utils.eq(
-					_elm_lang$core$String$toLower(_p0._0._0),
-					'test') && _elm_lang$core$Native_Utils.eq(
-					_elm_lang$core$String$toLower(_p0._0._1),
-					'test')) ? _elm_lang$core$Native_Utils.update(
+				return _elm_lang$core$Native_Utils.update(
 					model,
-					{loggedIn: true}) : _elm_lang$core$Native_Utils.update(
-					model,
-					{loggedIn: false});
+					{username: _p0._0._0, password: _p0._0._1});
 		}
 	});
-var _user$project$Domain_Login$Model = F3(
+var _user$project$Controls_Login$Model = F3(
 	function (a, b, c) {
 		return {username: a, password: b, loggedIn: c};
 	});
-var _user$project$Domain_Login$model = A3(_user$project$Domain_Login$Model, '', '', false);
-var _user$project$Domain_Login$Attempt = function (a) {
+var _user$project$Controls_Login$model = A3(_user$project$Controls_Login$Model, '', '', false);
+var _user$project$Controls_Login$Attempt = function (a) {
 	return {ctor: 'Attempt', _0: a};
 };
-var _user$project$Domain_Login$PasswordInput = function (a) {
+var _user$project$Controls_Login$PasswordInput = function (a) {
 	return {ctor: 'PasswordInput', _0: a};
 };
-var _user$project$Domain_Login$UserInput = function (a) {
+var _user$project$Controls_Login$UserInput = function (a) {
 	return {ctor: 'UserInput', _0: a};
 };
-var _user$project$Domain_Login$view = function (model) {
+var _user$project$Controls_Login$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -8338,7 +8312,7 @@ var _user$project$Domain_Login$view = function (model) {
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Events$onClick(
-									_user$project$Domain_Login$Attempt(
+									_user$project$Controls_Login$Attempt(
 										{ctor: '_Tuple2', _0: model.username, _1: model.password})),
 								_1: {ctor: '[]'}
 							}
@@ -8361,7 +8335,7 @@ var _user$project$Domain_Login$view = function (model) {
 								_0: _elm_lang$html$Html_Attributes$placeholder('password'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onInput(_user$project$Domain_Login$PasswordInput),
+									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Login$PasswordInput),
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Attributes$value(model.password),
@@ -8387,7 +8361,7 @@ var _user$project$Domain_Login$view = function (model) {
 									_0: _elm_lang$html$Html_Attributes$placeholder('username'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onInput(_user$project$Domain_Login$UserInput),
+										_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Login$UserInput),
 										_1: {
 											ctor: '::',
 											_0: _elm_lang$html$Html_Attributes$value(model.username),
@@ -8404,6 +8378,34 @@ var _user$project$Domain_Login$view = function (model) {
 		});
 };
 
+var _user$project$Domain_Core$Post = F3(
+	function (a, b, c) {
+		return {submitter: a, title: b, url: c};
+	});
+var _user$project$Domain_Core$Submitter = function (a) {
+	return {ctor: 'Submitter', _0: a};
+};
+var _user$project$Domain_Core$Title = function (a) {
+	return {ctor: 'Title', _0: a};
+};
+var _user$project$Domain_Core$Url = function (a) {
+	return {ctor: 'Url', _0: a};
+};
+var _user$project$Domain_Core$Video = function (a) {
+	return {ctor: 'Video', _0: a};
+};
+var _user$project$Domain_Core$Article = function (a) {
+	return {ctor: 'Article', _0: a};
+};
+
+var _user$project$Home$attemptLogin = function (credentials) {
+	var successful = _elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$String$toLower(credentials.username),
+		'test') && _elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$String$toLower(credentials.password),
+		'test');
+	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
+};
 var _user$project$Home$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
@@ -8419,24 +8421,43 @@ var _user$project$Home$update = F2(
 			case 'Register':
 				return model;
 			default:
-				var newState = A2(_user$project$Domain_Login$update, _p0._0, model.login);
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{login: newState});
+				var _p2 = _p0._0;
+				var _p1 = _p2;
+				switch (_p1.ctor) {
+					case 'Attempt':
+						var latest = A2(_user$project$Controls_Login$update, _p2, model.login);
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								login: _user$project$Home$attemptLogin(latest)
+							});
+					case 'UserInput':
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								login: A2(_user$project$Controls_Login$update, _p2, model.login)
+							});
+					default:
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								login: A2(_user$project$Controls_Login$update, _p2, model.login)
+							});
+				}
 		}
 	});
 var _user$project$Home$model = {
 	videos: {ctor: '[]'},
 	articles: {ctor: '[]'},
-	login: _user$project$Domain_Login$model
+	login: _user$project$Controls_Login$model
 };
 var _user$project$Home$init = {ctor: '_Tuple2', _0: _user$project$Home$model, _1: _elm_lang$core$Platform_Cmd$none};
 var _user$project$Home$Model = F3(
 	function (a, b, c) {
 		return {videos: a, articles: b, login: c};
 	});
-var _user$project$Home$Login = function (a) {
-	return {ctor: 'Login', _0: a};
+var _user$project$Home$OnLogin = function (a) {
+	return {ctor: 'OnLogin', _0: a};
 };
 var _user$project$Home$sessionUI = function (model) {
 	var signout = A2(
@@ -8473,8 +8494,8 @@ var _user$project$Home$sessionUI = function (model) {
 	var loggedIn = model.login.loggedIn;
 	return (!loggedIn) ? A2(
 		_elm_lang$html$Html$map,
-		_user$project$Home$Login,
-		_user$project$Domain_Login$view(model.login)) : A2(
+		_user$project$Home$OnLogin,
+		_user$project$Controls_Login$view(model.login)) : A2(
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
@@ -8538,8 +8559,12 @@ var _user$project$Home$view = function (model) {
 						_1: {
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$label,
-								{ctor: '[]'},
+								_elm_lang$html$Html$a,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$href(''),
+									_1: {ctor: '[]'}
+								},
 								{
 									ctor: '::',
 									_0: _elm_lang$html$Html$text('GitHub'),

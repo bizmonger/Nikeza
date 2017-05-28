@@ -1,3 +1,11 @@
+var _user$project$Home$attemptLogin = function (credentials) {
+	var successful = _elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$String$toLower(credentials.username),
+		'test') && _elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$String$toLower(credentials.password),
+		'test');
+	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
+};
 var _user$project$Home$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
@@ -13,10 +21,29 @@ var _user$project$Home$update = F2(
 			case 'Register':
 				return model;
 			default:
-				var newState = A2(_user$project$Controls_Login$update, _p0._0, model.login);
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{login: newState});
+				var _p2 = _p0._0;
+				var _p1 = _p2;
+				switch (_p1.ctor) {
+					case 'Attempt':
+						var latest = A2(_user$project$Controls_Login$update, _p2, model.login);
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								login: _user$project$Home$attemptLogin(latest)
+							});
+					case 'UserInput':
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								login: A2(_user$project$Controls_Login$update, _p2, model.login)
+							});
+					default:
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								login: A2(_user$project$Controls_Login$update, _p2, model.login)
+							});
+				}
 		}
 	});
 var _user$project$Home$model = {

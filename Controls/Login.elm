@@ -40,10 +40,7 @@ update msg model =
             { model | password = v }
 
         Attempt ( username, password ) ->
-            if String.toLower username == "test" && String.toLower password == "test" then
-                { model | loggedIn = True }
-            else
-                { model | loggedIn = False }
+            { model | username = username, password = password }
 
 
 

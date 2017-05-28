@@ -11,15 +11,9 @@ var _user$project$Controls_Login$update = F2(
 					model,
 					{password: _p0._0});
 			default:
-				return (_elm_lang$core$Native_Utils.eq(
-					_elm_lang$core$String$toLower(_p0._0._0),
-					'test') && _elm_lang$core$Native_Utils.eq(
-					_elm_lang$core$String$toLower(_p0._0._1),
-					'test')) ? _elm_lang$core$Native_Utils.update(
+				return _elm_lang$core$Native_Utils.update(
 					model,
-					{loggedIn: true}) : _elm_lang$core$Native_Utils.update(
-					model,
-					{loggedIn: false});
+					{username: _p0._0._0, password: _p0._0._1});
 		}
 	});
 var _user$project$Controls_Login$Model = F3(

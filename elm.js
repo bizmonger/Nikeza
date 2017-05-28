@@ -8273,15 +8273,9 @@ var _user$project$Controls_Login$update = F2(
 					model,
 					{password: _p0._0});
 			default:
-				return (_elm_lang$core$Native_Utils.eq(
-					_elm_lang$core$String$toLower(_p0._0._0),
-					'test') && _elm_lang$core$Native_Utils.eq(
-					_elm_lang$core$String$toLower(_p0._0._1),
-					'test')) ? _elm_lang$core$Native_Utils.update(
+				return _elm_lang$core$Native_Utils.update(
 					model,
-					{loggedIn: true}) : _elm_lang$core$Native_Utils.update(
-					model,
-					{loggedIn: false});
+					{username: _p0._0._0, password: _p0._0._1});
 		}
 	});
 var _user$project$Controls_Login$Model = F3(
@@ -8404,6 +8398,23 @@ var _user$project$Domain_Core$Article = function (a) {
 	return {ctor: 'Article', _0: a};
 };
 
+var _user$project$Home$attemptLogin = function (credentials) {
+	var successful = _elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$String$toLower(credentials.username),
+		'test') && _elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$String$toLower(credentials.password),
+		'test');
+	return successful ? _elm_lang$core$Result$Ok(
+		{username: credentials.username, password: credentials.password, loggedIn: true}) : _elm_lang$core$Result$Err(
+		{username: credentials.username, password: credentials.password, loggedIn: false});
+};
+var _user$project$Home$handleTextInput = F2(
+	function (subMsg, model) {
+		var newState = A2(_user$project$Controls_Login$update, subMsg, model.login);
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{login: newState});
+	});
 var _user$project$Home$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
@@ -8419,10 +8430,29 @@ var _user$project$Home$update = F2(
 			case 'Register':
 				return model;
 			default:
-				var newState = A2(_user$project$Controls_Login$update, _p0._0, model.login);
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{login: newState});
+				var _p3 = _p0._0;
+				var _p1 = _p3;
+				switch (_p1.ctor) {
+					case 'Attempt':
+						var newState = A2(_user$project$Controls_Login$update, _p3, model.login);
+						var loginModel = _elm_lang$core$Native_Utils.update(
+							model,
+							{login: newState});
+						var _p2 = _user$project$Home$attemptLogin(loginModel.login);
+						if (_p2.ctor === 'Ok') {
+							return _elm_lang$core$Native_Utils.update(
+								model,
+								{login: _p2._0});
+						} else {
+							return _elm_lang$core$Native_Utils.update(
+								model,
+								{login: _p2._0});
+						}
+					case 'UserInput':
+						return A2(_user$project$Home$handleTextInput, _p3, model);
+					default:
+						return A2(_user$project$Home$handleTextInput, _p3, model);
+				}
 		}
 	});
 var _user$project$Home$model = {

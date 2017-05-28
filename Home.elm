@@ -67,11 +67,31 @@ update msg model =
             model
 
         OnLogin subMsg ->
-            let
-                newState =
-                    Login.update subMsg model.login
-            in
-                { model | login = newState }
+            case subMsg of
+                Login.Attempt v ->
+                    let
+                        latest =
+                            Login.update subMsg model.login
+                    in
+                        { model | login = attemptLogin latest }
+
+                Login.UserInput _ ->
+                    { model | login = Login.update subMsg model.login }
+
+                Login.PasswordInput _ ->
+                    { model | login = Login.update subMsg model.login }
+
+
+attemptLogin : Login.Model -> Login.Model
+attemptLogin credentials =
+    let
+        successful =
+            String.toLower credentials.username == "test" && String.toLower credentials.password == "test"
+    in
+        if successful then
+            { username = credentials.username, password = credentials.password, loggedIn = True }
+        else
+            { username = credentials.username, password = credentials.password, loggedIn = False }
 
 
 
