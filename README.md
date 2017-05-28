@@ -7,6 +7,10 @@ Platform for associating content to their providers.
 
 ## Installation
 
+Reference the Setup document at [https://github.com/Lambda-Cartel/everything/wiki/Installing-Elm]
+
+In summary, the following is required:
+
 1. You need NodeJS. You can download it at [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
 2. Run `npm install -g yarn`
 3. Then `yarn install`
