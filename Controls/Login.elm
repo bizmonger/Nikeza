@@ -15,10 +15,6 @@ type alias Model =
     }
 
 
-type alias Loginfunction =
-    Model -> Model
-
-
 model : Model
 model =
     Model "" "" False
