@@ -8260,7 +8260,7 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
-var _user$project$Controls_Login$update = F2(
+var _user$project$Controls_Register$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		switch (_p0.ctor) {
@@ -8272,27 +8272,34 @@ var _user$project$Controls_Login$update = F2(
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{password: _p0._0});
+			case 'ConfirmInput':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{confirm: _p0._0});
 			default:
 				return _elm_lang$core$Native_Utils.update(
 					model,
-					{username: _p0._0._0, password: _p0._0._1});
+					{username: _p0._0._0, password: _p0._0._1, confirm: _p0._0._2});
 		}
 	});
-var _user$project$Controls_Login$Model = F3(
+var _user$project$Controls_Register$Model = F3(
 	function (a, b, c) {
-		return {username: a, password: b, loggedIn: c};
+		return {username: a, password: b, confirm: c};
 	});
-var _user$project$Controls_Login$model = A3(_user$project$Controls_Login$Model, '', '', false);
-var _user$project$Controls_Login$Attempt = function (a) {
-	return {ctor: 'Attempt', _0: a};
+var _user$project$Controls_Register$model = A3(_user$project$Controls_Register$Model, '', '', '');
+var _user$project$Controls_Register$Submit = function (a) {
+	return {ctor: 'Submit', _0: a};
 };
-var _user$project$Controls_Login$PasswordInput = function (a) {
+var _user$project$Controls_Register$ConfirmInput = function (a) {
+	return {ctor: 'ConfirmInput', _0: a};
+};
+var _user$project$Controls_Register$PasswordInput = function (a) {
 	return {ctor: 'PasswordInput', _0: a};
 };
-var _user$project$Controls_Login$UserInput = function (a) {
+var _user$project$Controls_Register$UserInput = function (a) {
 	return {ctor: 'UserInput', _0: a};
 };
-var _user$project$Controls_Login$view = function (model) {
+var _user$project$Controls_Register$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -8312,8 +8319,8 @@ var _user$project$Controls_Login$view = function (model) {
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Events$onClick(
-									_user$project$Controls_Login$Attempt(
-										{ctor: '_Tuple2', _0: model.username, _1: model.password})),
+									_user$project$Controls_Register$Submit(
+										{ctor: '_Tuple3', _0: model.username, _1: model.password, _2: model.confirm})),
 								_1: {ctor: '[]'}
 							}
 						}
@@ -8329,16 +8336,16 @@ var _user$project$Controls_Login$view = function (model) {
 						_0: _elm_lang$html$Html_Attributes$class('signin'),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$type_('password'),
+							_0: _elm_lang$html$Html_Attributes$type_('confirm'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$placeholder('password'),
+								_0: _elm_lang$html$Html_Attributes$placeholder('confirm password'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Login$PasswordInput),
+									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$ConfirmInput),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$value(model.password),
+										_0: _elm_lang$html$Html_Attributes$value(model.confirm),
 										_1: {ctor: '[]'}
 									}
 								}
@@ -8355,16 +8362,16 @@ var _user$project$Controls_Login$view = function (model) {
 							_0: _elm_lang$html$Html_Attributes$class('signin'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$type_('text'),
+								_0: _elm_lang$html$Html_Attributes$type_('password'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$placeholder('username'),
+									_0: _elm_lang$html$Html_Attributes$placeholder('password'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Login$UserInput),
+										_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$PasswordInput),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$value(model.username),
+											_0: _elm_lang$html$Html_Attributes$value(model.password),
 											_1: {ctor: '[]'}
 										}
 									}
@@ -8372,260 +8379,44 @@ var _user$project$Controls_Login$view = function (model) {
 							}
 						},
 						{ctor: '[]'}),
-					_1: {ctor: '[]'}
-				}
-			}
-		});
-};
-
-var _user$project$Domain_Core$tryLogin = F3(
-	function (loginf, username, password) {
-		return loginf(
-			A3(_user$project$Controls_Login$Model, username, password, false));
-	});
-var _user$project$Domain_Core$Post = F3(
-	function (a, b, c) {
-		return {submitter: a, title: b, url: c};
-	});
-var _user$project$Domain_Core$Submitter = function (a) {
-	return {ctor: 'Submitter', _0: a};
-};
-var _user$project$Domain_Core$Title = function (a) {
-	return {ctor: 'Title', _0: a};
-};
-var _user$project$Domain_Core$Url = function (a) {
-	return {ctor: 'Url', _0: a};
-};
-var _user$project$Domain_Core$Video = function (a) {
-	return {ctor: 'Video', _0: a};
-};
-var _user$project$Domain_Core$Article = function (a) {
-	return {ctor: 'Article', _0: a};
-};
-
-var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
-	var successful = _elm_lang$core$Native_Utils.eq(
-		_elm_lang$core$String$toLower(credentials.username),
-		'test') && _elm_lang$core$Native_Utils.eq(
-		_elm_lang$core$String$toLower(credentials.password),
-		'test');
-	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
-};
-
-var _user$project$Services_Server$tryLogin = function (credentials) {
-	var successful = _elm_lang$core$Native_Utils.eq(
-		_elm_lang$core$String$toLower(credentials.username),
-		'test') && _elm_lang$core$Native_Utils.eq(
-		_elm_lang$core$String$toLower(credentials.password),
-		'test');
-	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
-};
-
-var _user$project$Home$model = {
-	videos: {ctor: '[]'},
-	articles: {ctor: '[]'},
-	login: _user$project$Controls_Login$model
-};
-var _user$project$Home$init = {ctor: '_Tuple2', _0: _user$project$Home$model, _1: _elm_lang$core$Platform_Cmd$none};
-var _user$project$Home$Dependencies = function (a) {
-	return {tryLogin: a};
-};
-var _user$project$Home$Model = F3(
-	function (a, b, c) {
-		return {videos: a, articles: b, login: c};
-	});
-var _user$project$Home$Isolation = {ctor: 'Isolation'};
-var _user$project$Home$configuration = _user$project$Home$Isolation;
-var _user$project$Home$runtime = function () {
-	var _p0 = _user$project$Home$configuration;
-	if (_p0.ctor === 'Integration') {
-		return _user$project$Home$Dependencies(_user$project$Services_Server$tryLogin);
-	} else {
-		return _user$project$Home$Dependencies(_user$project$Tests_TestAPI$tryLogin);
-	}
-}();
-var _user$project$Home$update = F2(
-	function (msg, model) {
-		var _p1 = msg;
-		switch (_p1.ctor) {
-			case 'Video':
-				return model;
-			case 'Article':
-				return model;
-			case 'Submitter':
-				return model;
-			case 'Search':
-				return model;
-			case 'Register':
-				return model;
-			default:
-				var _p3 = _p1._0;
-				var _p2 = _p3;
-				switch (_p2.ctor) {
-					case 'Attempt':
-						var latest = A2(_user$project$Controls_Login$update, _p3, model.login);
-						return _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								login: _user$project$Home$runtime.tryLogin(latest)
-							});
-					case 'UserInput':
-						return _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								login: A2(_user$project$Controls_Login$update, _p3, model.login)
-							});
-					default:
-						return _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								login: A2(_user$project$Controls_Login$update, _p3, model.login)
-							});
-				}
-		}
-	});
-var _user$project$Home$Integration = {ctor: 'Integration'};
-var _user$project$Home$OnLogin = function (a) {
-	return {ctor: 'OnLogin', _0: a};
-};
-var _user$project$Home$sessionUI = function (model) {
-	var signout = A2(
-		_elm_lang$html$Html$a,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$href(''),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$label,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Signout'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {ctor: '[]'}
-		});
-	var welcome = A2(
-		_elm_lang$html$Html$p,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text(
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					'Welcome ',
-					A2(_elm_lang$core$Basics_ops['++'], model.login.username, '!'))),
-			_1: {ctor: '[]'}
-		});
-	var loggedIn = model.login.loggedIn;
-	return (!loggedIn) ? A2(
-		_elm_lang$html$Html$map,
-		_user$project$Home$OnLogin,
-		_user$project$Controls_Login$view(model.login)) : A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('signin'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: welcome,
-			_1: {
-				ctor: '::',
-				_0: signout,
-				_1: {ctor: '[]'}
-			}
-		});
-};
-var _user$project$Home$view = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$header,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$label,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('Nikeza'),
-							_1: {ctor: '[]'}
-						}),
 					_1: {
 						ctor: '::',
-						_0: _user$project$Home$sessionUI(model),
-						_1: {ctor: '[]'}
-					}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$footer,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('copyright'),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$label,
-							{ctor: '[]'},
+							_elm_lang$html$Html$input,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html$text('(c)2017'),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$a,
-								{
+								_0: _elm_lang$html$Html_Attributes$class('signin'),
+								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$href(''),
-									_1: {ctor: '[]'}
-								},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text('GitHub'),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
-					}),
-				_1: {ctor: '[]'}
+									_0: _elm_lang$html$Html_Attributes$type_('text'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$placeholder('username'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$UserInput),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$value(model.username),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
+				}
 			}
 		});
-};
-var _user$project$Home$main = _elm_lang$html$Html$beginnerProgram(
-	{model: _user$project$Home$model, update: _user$project$Home$update, view: _user$project$Home$view})();
-var _user$project$Home$Register = {ctor: 'Register'};
-var _user$project$Home$Search = function (a) {
-	return {ctor: 'Search', _0: a};
-};
-var _user$project$Home$Submitter = function (a) {
-	return {ctor: 'Submitter', _0: a};
-};
-var _user$project$Home$Article = function (a) {
-	return {ctor: 'Article', _0: a};
-};
-var _user$project$Home$Video = function (a) {
-	return {ctor: 'Video', _0: a};
 };
 
 var Elm = {};
-Elm['Home'] = Elm['Home'] || {};
-if (typeof _user$project$Home$main !== 'undefined') {
-    _user$project$Home$main(Elm['Home'], 'Home', undefined);
+Elm['Controls'] = Elm['Controls'] || {};
+Elm['Controls']['Register'] = Elm['Controls']['Register'] || {};
+if (typeof _user$project$Controls_Register$main !== 'undefined') {
+    _user$project$Controls_Register$main(Elm['Controls']['Register'], 'Controls.Register', undefined);
 }
 
 if (typeof define === "function" && define['amd'])
