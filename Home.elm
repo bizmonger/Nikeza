@@ -31,7 +31,7 @@ type Configuration
 
 
 type alias Dependencies =
-    { tryLogin : Login.Loginfunction }
+    { tryLogin : Loginfunction }
 
 
 runtime : Dependencies

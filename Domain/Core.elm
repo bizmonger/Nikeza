@@ -1,6 +1,6 @@
 module Domain.Core exposing (..)
 
-import Controls.Login as Login exposing (Model, Loginfunction)
+import Controls.Login as Login exposing (Model)
 
 
 type Submitter
@@ -31,6 +31,6 @@ type alias Loginfunction =
     Login.Model -> Login.Model
 
 
-tryLogin : Login.Loginfunction -> String -> String -> Login.Model
+tryLogin : Loginfunction -> String -> String -> Login.Model
 tryLogin loginf username password =
     loginf <| Login.Model username password False
