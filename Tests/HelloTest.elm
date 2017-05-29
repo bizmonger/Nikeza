@@ -8,7 +8,7 @@ import Expect
 
 suite : Test
 suite =
-    describe "The Login module"
+    describe "Login module"
         [ test "runtime.tryLogin succeeds with valid credentials" <|
             \_ ->
                 let
