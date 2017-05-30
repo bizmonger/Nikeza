@@ -1,25 +1,60 @@
-var _user$project$Home$recentSubmitters = A2(
-	_elm_lang$core$List$map,
-	function (p) {
-		return A2(
-			_elm_lang$html$Html$img,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$src(
-					_user$project$Domain_Core$getUrl(p.imageUrl)),
-				_1: {
+var _user$project$Home$thumbnail = function (profile) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$img,
+				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$width(50),
+					_0: _elm_lang$html$Html_Attributes$src(
+						_user$project$Domain_Core$getUrl(profile.imageUrl)),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$height(50),
+						_0: _elm_lang$html$Html_Attributes$width(50),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$height(50),
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$label,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(profile.bio),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$br,
+						{ctor: '[]'},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$label,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(
+									_user$project$Domain_Core$getName(profile.name)),
+								_1: {ctor: '[]'}
+							}),
 						_1: {ctor: '[]'}
 					}
 				}
-			},
-			{ctor: '[]'});
-	},
-	_user$project$Tests_TestAPI$recentSubmitters);
+			}
+		});
+};
+var _user$project$Home$recentSubmitters = A2(_elm_lang$core$List$map, _user$project$Home$thumbnail, _user$project$Tests_TestAPI$recentSubmitters);
 var _user$project$Home$Dependencies = function (a) {
 	return {tryLogin: a};
 };
@@ -176,57 +211,46 @@ var _user$project$Home$view = function (model) {
 			_1: {
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$label,
+					_elm_lang$html$Html$div,
 					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text('Recent Submitters:'),
-						_1: {ctor: '[]'}
-					}),
+					_user$project$Home$recentSubmitters),
 				_1: {
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$div,
-						{ctor: '[]'},
-						_user$project$Home$recentSubmitters),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$footer,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('copyright'),
-								_1: {ctor: '[]'}
-							},
-							{
+						_elm_lang$html$Html$footer,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('copyright'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$label,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('(c)2017'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$label,
-									{ctor: '[]'},
+									_elm_lang$html$Html$a,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html$text('(c)2017'),
+										_0: _elm_lang$html$Html_Attributes$href(''),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('GitHub'),
 										_1: {ctor: '[]'}
 									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$a,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$href(''),
-											_1: {ctor: '[]'}
-										},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text('GitHub'),
-											_1: {ctor: '[]'}
-										}),
-									_1: {ctor: '[]'}
-								}
-							}),
-						_1: {ctor: '[]'}
-					}
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {ctor: '[]'}
 				}
 			}
 		});

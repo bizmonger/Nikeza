@@ -133,7 +133,6 @@ view model =
             [ label [] [ text "Nikeza" ]
             , model |> sessionUI
             ]
-        , label [] [ text "Recent Submitters:" ]
         , div [] recentSubmitters
         , footer [ class "copyright" ]
             [ label [] [ text "(c)2017" ]
@@ -144,7 +143,17 @@ view model =
 
 recentSubmitters : List (Html Msg)
 recentSubmitters =
-    TestAPI.recentSubmitters |> List.map (\p -> img [ src <| getUrl p.imageUrl, width 50, height 50 ] [])
+    TestAPI.recentSubmitters |> List.map thumbnail
+
+
+thumbnail : Profile -> Html Msg
+thumbnail profile =
+    div []
+        [ img [ src <| getUrl profile.imageUrl, width 50, height 50 ] []
+        , label [] [ text profile.bio ]
+        , br [] []
+        , label [] [ text (profile.name |> getName) ]
+        ]
 
 
 sessionUI : Model -> Html Msg
