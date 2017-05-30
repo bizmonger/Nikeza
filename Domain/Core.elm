@@ -23,6 +23,10 @@ type Article
     = Article Post
 
 
+type Podcast
+    = Podcast Post
+
+
 type alias Post =
     { submitter : Submitter, title : Title, url : Url }
 

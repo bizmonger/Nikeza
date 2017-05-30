@@ -48,16 +48,26 @@ runtime =
 -- MODEL
 
 
-type alias Model =
+type alias Content =
     { videos : List Video
     , articles : List Article
+    , podcasts : List Podcast
+    }
+
+
+type alias Model =
+    { content : Content
+    , submitters : List Submitter
     , login : Login.Model
     }
 
 
 model : Model
 model =
-    { videos = [], articles = [], login = Login.model }
+    { content = Content [] [] []
+    , submitters = []
+    , login = Login.model
+    }
 
 
 init : ( Model, Cmd Msg )

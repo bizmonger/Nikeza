@@ -22,3 +22,6 @@ var _user$project$Domain_Core$Video = function (a) {
 var _user$project$Domain_Core$Article = function (a) {
 	return {ctor: 'Article', _0: a};
 };
+var _user$project$Domain_Core$Podcast = function (a) {
+	return {ctor: 'Podcast', _0: a};
+};

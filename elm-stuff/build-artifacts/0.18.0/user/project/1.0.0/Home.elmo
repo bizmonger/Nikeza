@@ -1,15 +1,23 @@
-var _user$project$Home$model = {
-	videos: {ctor: '[]'},
-	articles: {ctor: '[]'},
-	login: _user$project$Controls_Login$model
-};
-var _user$project$Home$init = {ctor: '_Tuple2', _0: _user$project$Home$model, _1: _elm_lang$core$Platform_Cmd$none};
 var _user$project$Home$Dependencies = function (a) {
 	return {tryLogin: a};
 };
+var _user$project$Home$Content = F3(
+	function (a, b, c) {
+		return {videos: a, articles: b, podcasts: c};
+	});
+var _user$project$Home$model = {
+	content: A3(
+		_user$project$Home$Content,
+		{ctor: '[]'},
+		{ctor: '[]'},
+		{ctor: '[]'}),
+	submitters: {ctor: '[]'},
+	login: _user$project$Controls_Login$model
+};
+var _user$project$Home$init = {ctor: '_Tuple2', _0: _user$project$Home$model, _1: _elm_lang$core$Platform_Cmd$none};
 var _user$project$Home$Model = F3(
 	function (a, b, c) {
-		return {videos: a, articles: b, login: c};
+		return {content: a, submitters: b, login: c};
 	});
 var _user$project$Home$Isolation = {ctor: 'Isolation'};
 var _user$project$Home$configuration = _user$project$Home$Isolation;
