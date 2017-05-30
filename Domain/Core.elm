@@ -7,6 +7,7 @@ type alias Profile =
     { name : Submitter
     , imageUrl : Url
     , bio : String
+    , tags : List String
     }
 
 

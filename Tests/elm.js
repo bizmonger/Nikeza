@@ -8393,9 +8393,9 @@ var _user$project$Domain_Core$getName = function (submitter) {
 	var name = _p1._0;
 	return name;
 };
-var _user$project$Domain_Core$Profile = F3(
-	function (a, b, c) {
-		return {name: a, imageUrl: b, bio: c};
+var _user$project$Domain_Core$Profile = F4(
+	function (a, b, c, d) {
+		return {name: a, imageUrl: b, bio: c, tags: d};
 	});
 var _user$project$Domain_Core$Post = F3(
 	function (a, b, c) {
@@ -8428,24 +8428,48 @@ var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 		'test');
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
+var _user$project$Tests_TestAPI$someTags = {
+	ctor: '::',
+	_0: 'F#',
+	_1: {
+		ctor: '::',
+		_0: 'Elm',
+		_1: {
+			ctor: '::',
+			_0: 'Test Automation',
+			_1: {
+				ctor: '::',
+				_0: 'Xamarin',
+				_1: {
+					ctor: '::',
+					_0: 'WPF',
+					_1: {ctor: '[]'}
+				}
+			}
+		}
+	}
+};
 var _user$project$Tests_TestAPI$someDescrtiption = 'some description...';
 var _user$project$Tests_TestAPI$someTitle = _user$project$Domain_Core$Title('Some Title');
-var _user$project$Tests_TestAPI$someUrl = _user$project$Domain_Core$Url('http://some_url.com');
-var _user$project$Tests_TestAPI$submitter1 = A3(
+var _user$project$Tests_TestAPI$someImageUrl = _user$project$Domain_Core$Url('http://www.ngu.edu/myimages/silhouette2230.jpg');
+var _user$project$Tests_TestAPI$submitter1 = A4(
 	_user$project$Domain_Core$Profile,
 	_user$project$Domain_Core$Submitter('Submitter 1'),
-	_user$project$Tests_TestAPI$someUrl,
-	_user$project$Tests_TestAPI$someDescrtiption);
-var _user$project$Tests_TestAPI$submitter2 = A3(
+	_user$project$Tests_TestAPI$someImageUrl,
+	_user$project$Tests_TestAPI$someDescrtiption,
+	_user$project$Tests_TestAPI$someTags);
+var _user$project$Tests_TestAPI$submitter2 = A4(
 	_user$project$Domain_Core$Profile,
 	_user$project$Domain_Core$Submitter('Submitter 2'),
-	_user$project$Tests_TestAPI$someUrl,
-	_user$project$Tests_TestAPI$someDescrtiption);
-var _user$project$Tests_TestAPI$submitter3 = A3(
+	_user$project$Tests_TestAPI$someImageUrl,
+	_user$project$Tests_TestAPI$someDescrtiption,
+	_user$project$Tests_TestAPI$someTags);
+var _user$project$Tests_TestAPI$submitter3 = A4(
 	_user$project$Domain_Core$Profile,
 	_user$project$Domain_Core$Submitter('Submitter 3'),
-	_user$project$Tests_TestAPI$someUrl,
-	_user$project$Tests_TestAPI$someDescrtiption);
+	_user$project$Tests_TestAPI$someImageUrl,
+	_user$project$Tests_TestAPI$someDescrtiption,
+	_user$project$Tests_TestAPI$someTags);
 var _user$project$Tests_TestAPI$recentSubmitters = {
 	ctor: '::',
 	_0: _user$project$Tests_TestAPI$submitter1,
@@ -8462,15 +8486,15 @@ var _user$project$Tests_TestAPI$recentSubmitters = {
 var _user$project$Tests_TestAPI$recentPodcasts = {
 	ctor: '::',
 	_0: _user$project$Domain_Core$Podcast(
-		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someUrl)),
+		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
 	_1: {
 		ctor: '::',
 		_0: _user$project$Domain_Core$Podcast(
-			A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someUrl)),
+			A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
 		_1: {
 			ctor: '::',
 			_0: _user$project$Domain_Core$Podcast(
-				A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someUrl)),
+				A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
 			_1: {ctor: '[]'}
 		}
 	}
@@ -8478,15 +8502,15 @@ var _user$project$Tests_TestAPI$recentPodcasts = {
 var _user$project$Tests_TestAPI$recentArticles = {
 	ctor: '::',
 	_0: _user$project$Domain_Core$Article(
-		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someUrl)),
+		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
 	_1: {
 		ctor: '::',
 		_0: _user$project$Domain_Core$Article(
-			A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someUrl)),
+			A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
 		_1: {
 			ctor: '::',
 			_0: _user$project$Domain_Core$Article(
-				A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someUrl)),
+				A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
 			_1: {ctor: '[]'}
 		}
 	}
@@ -8494,19 +8518,20 @@ var _user$project$Tests_TestAPI$recentArticles = {
 var _user$project$Tests_TestAPI$recentVideos = {
 	ctor: '::',
 	_0: _user$project$Domain_Core$Video(
-		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someUrl)),
+		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
 	_1: {
 		ctor: '::',
 		_0: _user$project$Domain_Core$Video(
-			A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someUrl)),
+			A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
 		_1: {
 			ctor: '::',
 			_0: _user$project$Domain_Core$Video(
-				A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someUrl)),
+				A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
 			_1: {ctor: '[]'}
 		}
 	}
 };
+var _user$project$Tests_TestAPI$someUrl = _user$project$Domain_Core$Url('http://some_url.com');
 
 var Elm = {};
 Elm['Tests'] = Elm['Tests'] || {};

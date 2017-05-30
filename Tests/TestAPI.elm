@@ -24,19 +24,24 @@ someDescrtiption =
     "some description..."
 
 
+someTags : List String
+someTags =
+    [ "F#", "Elm", "Test Automation", "Xamarin", "WPF" ]
+
+
 submitter1 : Profile
 submitter1 =
-    Profile (Submitter "Submitter 1") someImageUrl someDescrtiption
+    Profile (Submitter "Submitter 1") someImageUrl someDescrtiption someTags
 
 
 submitter2 : Profile
 submitter2 =
-    Profile (Submitter "Submitter 2") someImageUrl someDescrtiption
+    Profile (Submitter "Submitter 2") someImageUrl someDescrtiption someTags
 
 
 submitter3 : Profile
 submitter3 =
-    Profile (Submitter "Submitter 3") someImageUrl someDescrtiption
+    Profile (Submitter "Submitter 3") someImageUrl someDescrtiption someTags
 
 
 tryLogin : Login.Model -> Login.Model

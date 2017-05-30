@@ -8393,9 +8393,9 @@ var _user$project$Domain_Core$getName = function (submitter) {
 	var name = _p1._0;
 	return name;
 };
-var _user$project$Domain_Core$Profile = F3(
-	function (a, b, c) {
-		return {name: a, imageUrl: b, bio: c};
+var _user$project$Domain_Core$Profile = F4(
+	function (a, b, c, d) {
+		return {name: a, imageUrl: b, bio: c, tags: d};
 	});
 var _user$project$Domain_Core$Post = F3(
 	function (a, b, c) {
@@ -8428,24 +8428,48 @@ var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 		'test');
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
+var _user$project$Tests_TestAPI$someTags = {
+	ctor: '::',
+	_0: 'F#',
+	_1: {
+		ctor: '::',
+		_0: 'Elm',
+		_1: {
+			ctor: '::',
+			_0: 'Test Automation',
+			_1: {
+				ctor: '::',
+				_0: 'Xamarin',
+				_1: {
+					ctor: '::',
+					_0: 'WPF',
+					_1: {ctor: '[]'}
+				}
+			}
+		}
+	}
+};
 var _user$project$Tests_TestAPI$someDescrtiption = 'some description...';
 var _user$project$Tests_TestAPI$someTitle = _user$project$Domain_Core$Title('Some Title');
 var _user$project$Tests_TestAPI$someImageUrl = _user$project$Domain_Core$Url('http://www.ngu.edu/myimages/silhouette2230.jpg');
-var _user$project$Tests_TestAPI$submitter1 = A3(
+var _user$project$Tests_TestAPI$submitter1 = A4(
 	_user$project$Domain_Core$Profile,
 	_user$project$Domain_Core$Submitter('Submitter 1'),
 	_user$project$Tests_TestAPI$someImageUrl,
-	_user$project$Tests_TestAPI$someDescrtiption);
-var _user$project$Tests_TestAPI$submitter2 = A3(
+	_user$project$Tests_TestAPI$someDescrtiption,
+	_user$project$Tests_TestAPI$someTags);
+var _user$project$Tests_TestAPI$submitter2 = A4(
 	_user$project$Domain_Core$Profile,
 	_user$project$Domain_Core$Submitter('Submitter 2'),
 	_user$project$Tests_TestAPI$someImageUrl,
-	_user$project$Tests_TestAPI$someDescrtiption);
-var _user$project$Tests_TestAPI$submitter3 = A3(
+	_user$project$Tests_TestAPI$someDescrtiption,
+	_user$project$Tests_TestAPI$someTags);
+var _user$project$Tests_TestAPI$submitter3 = A4(
 	_user$project$Domain_Core$Profile,
 	_user$project$Domain_Core$Submitter('Submitter 3'),
 	_user$project$Tests_TestAPI$someImageUrl,
-	_user$project$Tests_TestAPI$someDescrtiption);
+	_user$project$Tests_TestAPI$someDescrtiption,
+	_user$project$Tests_TestAPI$someTags);
 var _user$project$Tests_TestAPI$recentSubmitters = {
 	ctor: '::',
 	_0: _user$project$Tests_TestAPI$submitter1,
@@ -8519,28 +8543,81 @@ var _user$project$Services_Server$tryLogin = function (credentials) {
 };
 
 var _user$project$Home$thumbnail = function (profile) {
+	var addTag = F2(
+		function (tag1, tag2) {
+			return A2(
+				_elm_lang$core$Basics_ops['++'],
+				tag1,
+				A2(_elm_lang$core$Basics_ops['++'], ', ', tag2));
+		});
+	var tags = A3(_elm_lang$core$List$foldr, addTag, '', profile.tags);
+	var formattedTags = A2(_elm_lang$core$String$dropRight, 2, tags);
+	var tagsAndBio = A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$label,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(formattedTags),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$br,
+					{ctor: '[]'},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$label,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(profile.bio),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$img,
+				_elm_lang$html$Html$span,
+				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$src(
-						_user$project$Domain_Core$getUrl(profile.imageUrl)),
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								_user$project$Domain_Core$getUrl(profile.imageUrl)),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$width(50),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$height(50),
+									_1: {ctor: '[]'}
+								}
+							}
+						},
+						{ctor: '[]'}),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$width(50),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$height(50),
-							_1: {ctor: '[]'}
-						}
+						_0: tagsAndBio,
+						_1: {ctor: '[]'}
 					}
-				},
-				{ctor: '[]'}),
+				}),
 			_1: {
 				ctor: '::',
 				_0: A2(
@@ -8548,29 +8625,11 @@ var _user$project$Home$thumbnail = function (profile) {
 					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text(profile.bio),
+						_0: _elm_lang$html$Html$text(
+							_user$project$Domain_Core$getName(profile.name)),
 						_1: {ctor: '[]'}
 					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$br,
-						{ctor: '[]'},
-						{ctor: '[]'}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$label,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(
-									_user$project$Domain_Core$getName(profile.name)),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}
-				}
+				_1: {ctor: '[]'}
 			}
 		});
 };

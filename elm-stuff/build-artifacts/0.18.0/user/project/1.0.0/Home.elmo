@@ -1,26 +1,79 @@
 var _user$project$Home$thumbnail = function (profile) {
+	var addTag = F2(
+		function (tag1, tag2) {
+			return A2(
+				_elm_lang$core$Basics_ops['++'],
+				tag1,
+				A2(_elm_lang$core$Basics_ops['++'], ', ', tag2));
+		});
+	var tags = A3(_elm_lang$core$List$foldr, addTag, '', profile.tags);
+	var formattedTags = A2(_elm_lang$core$String$dropRight, 2, tags);
+	var tagsAndBio = A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$label,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(formattedTags),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$br,
+					{ctor: '[]'},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$label,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(profile.bio),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$img,
+				_elm_lang$html$Html$span,
+				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$src(
-						_user$project$Domain_Core$getUrl(profile.imageUrl)),
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								_user$project$Domain_Core$getUrl(profile.imageUrl)),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$width(50),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$height(50),
+									_1: {ctor: '[]'}
+								}
+							}
+						},
+						{ctor: '[]'}),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$width(50),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$height(50),
-							_1: {ctor: '[]'}
-						}
+						_0: tagsAndBio,
+						_1: {ctor: '[]'}
 					}
-				},
-				{ctor: '[]'}),
+				}),
 			_1: {
 				ctor: '::',
 				_0: A2(
@@ -28,29 +81,11 @@ var _user$project$Home$thumbnail = function (profile) {
 					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text(profile.bio),
+						_0: _elm_lang$html$Html$text(
+							_user$project$Domain_Core$getName(profile.name)),
 						_1: {ctor: '[]'}
 					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$br,
-						{ctor: '[]'},
-						{ctor: '[]'}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$label,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(
-									_user$project$Domain_Core$getName(profile.name)),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}
-				}
+				_1: {ctor: '[]'}
 			}
 		});
 };

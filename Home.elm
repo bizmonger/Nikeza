@@ -148,12 +148,31 @@ submitters =
 
 thumbnail : Profile -> Html Msg
 thumbnail profile =
-    div []
-        [ img [ src <| getUrl profile.imageUrl, width 50, height 50 ] []
-        , label [] [ text profile.bio ]
-        , br [] []
-        , label [] [ text (profile.name |> getName) ]
-        ]
+    let
+        addTag tag1 tag2 =
+            tag1 ++ ", " ++ tag2
+
+        tags =
+            List.foldr addTag "" profile.tags
+
+        formattedTags =
+            String.dropRight 2 tags
+
+        tagsAndBio =
+            div []
+                [ label []
+                    [ text formattedTags ]
+                , br [] []
+                , label [] [ text profile.bio ]
+                ]
+    in
+        div []
+            [ span []
+                [ img [ src <| getUrl profile.imageUrl, width 50, height 50 ] []
+                , tagsAndBio
+                ]
+            , label [] [ text (profile.name |> getName) ]
+            ]
 
 
 sessionUI : Model -> Html Msg
