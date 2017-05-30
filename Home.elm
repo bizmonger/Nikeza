@@ -133,6 +133,7 @@ view model =
             [ label [] [ text "Nikeza" ]
             , model |> sessionUI
             ]
+        , label [] [ text "Recent Submitters:" ]
         , div [] recentSubmitters
         , footer [ class "copyright" ]
             [ label [] [ text "(c)2017" ]
