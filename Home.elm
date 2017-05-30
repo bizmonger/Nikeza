@@ -133,11 +133,17 @@ view model =
             [ label [] [ text "Nikeza" ]
             , model |> sessionUI
             ]
+        , div [] recentSubmitters
         , footer [ class "copyright" ]
             [ label [] [ text "(c)2017" ]
             , a [ href "" ] [ text "GitHub" ]
             ]
         ]
+
+
+recentSubmitters : List (Html Msg)
+recentSubmitters =
+    TestAPI.recentSubmitters |> List.map (\s -> a [ href "" ] [ text <| getName s, br [] [] ])
 
 
 sessionUI : Model -> Html Msg

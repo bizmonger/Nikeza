@@ -6,3 +6,39 @@ var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 		'test');
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
+var _user$project$Tests_TestAPI$submitter3 = _user$project$Domain_Core$Submitter('Submitter 3');
+var _user$project$Tests_TestAPI$submitter2 = _user$project$Domain_Core$Submitter('Submitter 2');
+var _user$project$Tests_TestAPI$submitter1 = _user$project$Domain_Core$Submitter('Submitter 1');
+var _user$project$Tests_TestAPI$recentSubmitters = {
+	ctor: '::',
+	_0: _user$project$Tests_TestAPI$submitter1,
+	_1: {
+		ctor: '::',
+		_0: _user$project$Tests_TestAPI$submitter2,
+		_1: {
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$submitter3,
+			_1: {ctor: '[]'}
+		}
+	}
+};
+var _user$project$Tests_TestAPI$someTitle = _user$project$Domain_Core$Title('Some Title');
+var _user$project$Tests_TestAPI$someUrl = _user$project$Domain_Core$Url('http://some_url.com');
+var _user$project$Tests_TestAPI$recentPodcasts = {
+	ctor: '::',
+	_0: _user$project$Domain_Core$Podcast(
+		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someUrl)),
+	_1: {ctor: '[]'}
+};
+var _user$project$Tests_TestAPI$recentArticles = {
+	ctor: '::',
+	_0: _user$project$Domain_Core$Article(
+		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someUrl)),
+	_1: {ctor: '[]'}
+};
+var _user$project$Tests_TestAPI$recentVideos = {
+	ctor: '::',
+	_0: _user$project$Domain_Core$Video(
+		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someUrl)),
+	_1: {ctor: '[]'}
+};

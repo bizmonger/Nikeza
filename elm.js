@@ -8414,6 +8414,42 @@ var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 		'test');
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
+var _user$project$Tests_TestAPI$submitter3 = _user$project$Domain_Core$Submitter('Submitter 3');
+var _user$project$Tests_TestAPI$submitter2 = _user$project$Domain_Core$Submitter('Submitter 2');
+var _user$project$Tests_TestAPI$submitter1 = _user$project$Domain_Core$Submitter('Submitter 1');
+var _user$project$Tests_TestAPI$recentSubmitters = {
+	ctor: '::',
+	_0: _user$project$Tests_TestAPI$submitter1,
+	_1: {
+		ctor: '::',
+		_0: _user$project$Tests_TestAPI$submitter2,
+		_1: {
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$submitter3,
+			_1: {ctor: '[]'}
+		}
+	}
+};
+var _user$project$Tests_TestAPI$someTitle = _user$project$Domain_Core$Title('Some Title');
+var _user$project$Tests_TestAPI$someUrl = _user$project$Domain_Core$Url('http://some_url.com');
+var _user$project$Tests_TestAPI$recentPodcasts = {
+	ctor: '::',
+	_0: _user$project$Domain_Core$Podcast(
+		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someUrl)),
+	_1: {ctor: '[]'}
+};
+var _user$project$Tests_TestAPI$recentArticles = {
+	ctor: '::',
+	_0: _user$project$Domain_Core$Article(
+		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someUrl)),
+	_1: {ctor: '[]'}
+};
+var _user$project$Tests_TestAPI$recentVideos = {
+	ctor: '::',
+	_0: _user$project$Domain_Core$Video(
+		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someUrl)),
+	_1: {ctor: '[]'}
+};
 
 var _user$project$Services_Server$tryLogin = function (credentials) {
 	var successful = _elm_lang$core$Native_Utils.eq(
@@ -8424,19 +8460,26 @@ var _user$project$Services_Server$tryLogin = function (credentials) {
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
 
-var _user$project$Home$model = {
-	videos: {ctor: '[]'},
-	articles: {ctor: '[]'},
-	podcasts: {ctor: '[]'},
-	login: _user$project$Controls_Login$model
-};
-var _user$project$Home$init = {ctor: '_Tuple2', _0: _user$project$Home$model, _1: _elm_lang$core$Platform_Cmd$none};
 var _user$project$Home$Dependencies = function (a) {
 	return {tryLogin: a};
 };
-var _user$project$Home$Model = F4(
-	function (a, b, c, d) {
-		return {videos: a, articles: b, podcasts: c, login: d};
+var _user$project$Home$Content = F3(
+	function (a, b, c) {
+		return {videos: a, articles: b, podcasts: c};
+	});
+var _user$project$Home$model = {
+	content: A3(
+		_user$project$Home$Content,
+		{ctor: '[]'},
+		{ctor: '[]'},
+		{ctor: '[]'}),
+	submitters: {ctor: '[]'},
+	login: _user$project$Controls_Login$model
+};
+var _user$project$Home$init = {ctor: '_Tuple2', _0: _user$project$Home$model, _1: _elm_lang$core$Platform_Cmd$none};
+var _user$project$Home$Model = F3(
+	function (a, b, c) {
+		return {content: a, submitters: b, login: c};
 	});
 var _user$project$Home$Isolation = {ctor: 'Isolation'};
 var _user$project$Home$configuration = _user$project$Home$Isolation;
@@ -8573,40 +8616,55 @@ var _user$project$Home$view = function (model) {
 			_1: {
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$footer,
+					_elm_lang$html$Html$a,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('copyright'),
+						_0: _elm_lang$html$Html_Attributes$href(''),
 						_1: {ctor: '[]'}
 					},
 					{
 						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$label,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('(c)2017'),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
+						_0: _elm_lang$html$Html$text('some member'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$footer,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('copyright'),
+							_1: {ctor: '[]'}
+						},
+						{
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$a,
+								_elm_lang$html$Html$label,
+								{ctor: '[]'},
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$href(''),
-									_1: {ctor: '[]'}
-								},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text('GitHub'),
+									_0: _elm_lang$html$Html$text('(c)2017'),
 									_1: {ctor: '[]'}
 								}),
-							_1: {ctor: '[]'}
-						}
-					}),
-				_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$a,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$href(''),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('GitHub'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {ctor: '[]'}
+				}
 			}
 		});
 };

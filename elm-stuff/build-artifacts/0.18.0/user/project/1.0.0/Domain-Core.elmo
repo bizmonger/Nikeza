@@ -3,6 +3,16 @@ var _user$project$Domain_Core$tryLogin = F3(
 		return loginf(
 			A3(_user$project$Controls_Login$Model, username, password, false));
 	});
+var _user$project$Domain_Core$getUrl = function (url) {
+	var _p0 = url;
+	var address = _p0._0;
+	return address;
+};
+var _user$project$Domain_Core$getName = function (submitter) {
+	var _p1 = submitter;
+	var name = _p1._0;
+	return name;
+};
 var _user$project$Domain_Core$Post = F3(
 	function (a, b, c) {
 		return {submitter: a, title: b, url: c};

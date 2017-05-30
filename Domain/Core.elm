@@ -7,12 +7,30 @@ type Submitter
     = Submitter String
 
 
+getName : Submitter -> String
+getName submitter =
+    let
+        (Submitter name) =
+            submitter
+    in
+        name
+
+
 type Title
     = Title String
 
 
 type Url
     = Url String
+
+
+getUrl : Url -> String
+getUrl url =
+    let
+        (Url address) =
+            url
+    in
+        address
 
 
 type Video
