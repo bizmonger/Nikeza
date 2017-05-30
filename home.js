@@ -8574,7 +8574,7 @@ var _user$project$Home$thumbnail = function (profile) {
 			}
 		});
 };
-var _user$project$Home$recentSubmitters = A2(_elm_lang$core$List$map, _user$project$Home$thumbnail, _user$project$Tests_TestAPI$recentSubmitters);
+var _user$project$Home$submitters = A2(_elm_lang$core$List$map, _user$project$Home$thumbnail, _user$project$Tests_TestAPI$recentSubmitters);
 var _user$project$Home$Dependencies = function (a) {
 	return {tryLogin: a};
 };
@@ -8733,7 +8733,7 @@ var _user$project$Home$view = function (model) {
 				_0: A2(
 					_elm_lang$html$Html$div,
 					{ctor: '[]'},
-					_user$project$Home$recentSubmitters),
+					_user$project$Home$submitters),
 				_1: {
 					ctor: '::',
 					_0: A2(

@@ -133,7 +133,7 @@ view model =
             [ label [] [ text "Nikeza" ]
             , model |> sessionUI
             ]
-        , div [] recentSubmitters
+        , div [] submitters
         , footer [ class "copyright" ]
             [ label [] [ text "(c)2017" ]
             , a [ href "" ] [ text "GitHub" ]
@@ -141,8 +141,8 @@ view model =
         ]
 
 
-recentSubmitters : List (Html Msg)
-recentSubmitters =
+submitters : List (Html Msg)
+submitters =
     TestAPI.recentSubmitters |> List.map thumbnail
 
 
