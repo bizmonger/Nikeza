@@ -13,6 +13,10 @@ var _user$project$Domain_Core$getName = function (submitter) {
 	var name = _p1._0;
 	return name;
 };
+var _user$project$Domain_Core$Profile = F3(
+	function (a, b, c) {
+		return {name: a, imageUrl: b, bio: c};
+	});
 var _user$project$Domain_Core$Post = F3(
 	function (a, b, c) {
 		return {submitter: a, title: b, url: c};

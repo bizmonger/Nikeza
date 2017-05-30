@@ -1,26 +1,23 @@
 var _user$project$Home$recentSubmitters = A2(
 	_elm_lang$core$List$map,
-	function (s) {
+	function (p) {
 		return A2(
-			_elm_lang$html$Html$a,
+			_elm_lang$html$Html$img,
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$href(''),
-				_1: {ctor: '[]'}
-			},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text(
-					_user$project$Domain_Core$getName(s)),
+				_0: _elm_lang$html$Html_Attributes$src(
+					_user$project$Domain_Core$getUrl(p.imageUrl)),
 				_1: {
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$br,
-						{ctor: '[]'},
-						{ctor: '[]'}),
-					_1: {ctor: '[]'}
+					_0: _elm_lang$html$Html_Attributes$width(50),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$height(50),
+						_1: {ctor: '[]'}
+					}
 				}
-			});
+			},
+			{ctor: '[]'});
 	},
 	_user$project$Tests_TestAPI$recentSubmitters);
 var _user$project$Home$Dependencies = function (a) {

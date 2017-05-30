@@ -3,6 +3,13 @@ module Domain.Core exposing (..)
 import Controls.Login as Login exposing (Model)
 
 
+type alias Profile =
+    { name : Submitter
+    , imageUrl : Url
+    , bio : String
+    }
+
+
 type Submitter
     = Submitter String
 
@@ -46,7 +53,7 @@ type Podcast
 
 
 type alias Post =
-    { submitter : Submitter, title : Title, url : Url }
+    { submitter : Profile, title : Title, url : Url }
 
 
 type alias Loginfunction =

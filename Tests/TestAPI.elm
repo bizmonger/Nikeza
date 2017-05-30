@@ -9,24 +9,34 @@ someUrl =
     Url "http://some_url.com"
 
 
+someImageUrl : Url
+someImageUrl =
+    Url "http://www.ngu.edu/myimages/silhouette2230.jpg"
+
+
 someTitle : Title
 someTitle =
     Title "Some Title"
 
 
-submitter1 : Submitter
+someDescrtiption : String
+someDescrtiption =
+    "some description..."
+
+
+submitter1 : Profile
 submitter1 =
-    Submitter "Submitter 1"
+    Profile (Submitter "Submitter 1") someImageUrl someDescrtiption
 
 
-submitter2 : Submitter
+submitter2 : Profile
 submitter2 =
-    Submitter "Submitter 2"
+    Profile (Submitter "Submitter 2") someImageUrl someDescrtiption
 
 
-submitter3 : Submitter
+submitter3 : Profile
 submitter3 =
-    Submitter "Submitter 3"
+    Profile (Submitter "Submitter 3") someImageUrl someDescrtiption
 
 
 tryLogin : Login.Model -> Login.Model
@@ -41,7 +51,7 @@ tryLogin credentials =
             { username = credentials.username, password = credentials.password, loggedIn = False }
 
 
-recentSubmitters : List Submitter
+recentSubmitters : List Profile
 recentSubmitters =
     [ submitter1
     , submitter2
@@ -51,14 +61,23 @@ recentSubmitters =
 
 recentPodcasts : List Podcast
 recentPodcasts =
-    [ Podcast (Post submitter1 someTitle someUrl) ]
+    [ Podcast <| Post submitter1 someTitle someImageUrl
+    , Podcast <| Post submitter2 someTitle someImageUrl
+    , Podcast <| Post submitter3 someTitle someImageUrl
+    ]
 
 
 recentArticles : List Article
 recentArticles =
-    [ Article (Post submitter2 someTitle someUrl) ]
+    [ Article <| Post submitter1 someTitle someImageUrl
+    , Article <| Post submitter2 someTitle someImageUrl
+    , Article <| Post submitter3 someTitle someImageUrl
+    ]
 
 
 recentVideos : List Video
 recentVideos =
-    [ Video (Post submitter3 someTitle someUrl) ]
+    [ Video <| Post submitter1 someTitle someImageUrl
+    , Video <| Post submitter2 someTitle someImageUrl
+    , Video <| Post submitter3 someTitle someImageUrl
+    ]

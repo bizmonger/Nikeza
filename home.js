@@ -8393,6 +8393,10 @@ var _user$project$Domain_Core$getName = function (submitter) {
 	var name = _p1._0;
 	return name;
 };
+var _user$project$Domain_Core$Profile = F3(
+	function (a, b, c) {
+		return {name: a, imageUrl: b, bio: c};
+	});
 var _user$project$Domain_Core$Post = F3(
 	function (a, b, c) {
 		return {submitter: a, title: b, url: c};
@@ -8424,9 +8428,24 @@ var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 		'test');
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
-var _user$project$Tests_TestAPI$submitter3 = _user$project$Domain_Core$Submitter('Submitter 3');
-var _user$project$Tests_TestAPI$submitter2 = _user$project$Domain_Core$Submitter('Submitter 2');
-var _user$project$Tests_TestAPI$submitter1 = _user$project$Domain_Core$Submitter('Submitter 1');
+var _user$project$Tests_TestAPI$someDescrtiption = 'some description...';
+var _user$project$Tests_TestAPI$someTitle = _user$project$Domain_Core$Title('Some Title');
+var _user$project$Tests_TestAPI$someImageUrl = _user$project$Domain_Core$Url('http://www.ngu.edu/myimages/silhouette2230.jpg');
+var _user$project$Tests_TestAPI$submitter1 = A3(
+	_user$project$Domain_Core$Profile,
+	_user$project$Domain_Core$Submitter('Submitter 1'),
+	_user$project$Tests_TestAPI$someImageUrl,
+	_user$project$Tests_TestAPI$someDescrtiption);
+var _user$project$Tests_TestAPI$submitter2 = A3(
+	_user$project$Domain_Core$Profile,
+	_user$project$Domain_Core$Submitter('Submitter 2'),
+	_user$project$Tests_TestAPI$someImageUrl,
+	_user$project$Tests_TestAPI$someDescrtiption);
+var _user$project$Tests_TestAPI$submitter3 = A3(
+	_user$project$Domain_Core$Profile,
+	_user$project$Domain_Core$Submitter('Submitter 3'),
+	_user$project$Tests_TestAPI$someImageUrl,
+	_user$project$Tests_TestAPI$someDescrtiption);
 var _user$project$Tests_TestAPI$recentSubmitters = {
 	ctor: '::',
 	_0: _user$project$Tests_TestAPI$submitter1,
@@ -8440,26 +8459,55 @@ var _user$project$Tests_TestAPI$recentSubmitters = {
 		}
 	}
 };
-var _user$project$Tests_TestAPI$someTitle = _user$project$Domain_Core$Title('Some Title');
-var _user$project$Tests_TestAPI$someUrl = _user$project$Domain_Core$Url('http://some_url.com');
 var _user$project$Tests_TestAPI$recentPodcasts = {
 	ctor: '::',
 	_0: _user$project$Domain_Core$Podcast(
-		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someUrl)),
-	_1: {ctor: '[]'}
+		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+	_1: {
+		ctor: '::',
+		_0: _user$project$Domain_Core$Podcast(
+			A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+		_1: {
+			ctor: '::',
+			_0: _user$project$Domain_Core$Podcast(
+				A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+			_1: {ctor: '[]'}
+		}
+	}
 };
 var _user$project$Tests_TestAPI$recentArticles = {
 	ctor: '::',
 	_0: _user$project$Domain_Core$Article(
-		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someUrl)),
-	_1: {ctor: '[]'}
+		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+	_1: {
+		ctor: '::',
+		_0: _user$project$Domain_Core$Article(
+			A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+		_1: {
+			ctor: '::',
+			_0: _user$project$Domain_Core$Article(
+				A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+			_1: {ctor: '[]'}
+		}
+	}
 };
 var _user$project$Tests_TestAPI$recentVideos = {
 	ctor: '::',
 	_0: _user$project$Domain_Core$Video(
-		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someUrl)),
-	_1: {ctor: '[]'}
+		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+	_1: {
+		ctor: '::',
+		_0: _user$project$Domain_Core$Video(
+			A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+		_1: {
+			ctor: '::',
+			_0: _user$project$Domain_Core$Video(
+				A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+			_1: {ctor: '[]'}
+		}
+	}
 };
+var _user$project$Tests_TestAPI$someUrl = _user$project$Domain_Core$Url('http://some_url.com');
 
 var _user$project$Services_Server$tryLogin = function (credentials) {
 	var successful = _elm_lang$core$Native_Utils.eq(
@@ -8472,27 +8520,24 @@ var _user$project$Services_Server$tryLogin = function (credentials) {
 
 var _user$project$Home$recentSubmitters = A2(
 	_elm_lang$core$List$map,
-	function (s) {
+	function (p) {
 		return A2(
-			_elm_lang$html$Html$a,
+			_elm_lang$html$Html$img,
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$href(''),
-				_1: {ctor: '[]'}
-			},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text(
-					_user$project$Domain_Core$getName(s)),
+				_0: _elm_lang$html$Html_Attributes$src(
+					_user$project$Domain_Core$getUrl(p.imageUrl)),
 				_1: {
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$br,
-						{ctor: '[]'},
-						{ctor: '[]'}),
-					_1: {ctor: '[]'}
+					_0: _elm_lang$html$Html_Attributes$width(50),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$height(50),
+						_1: {ctor: '[]'}
+					}
 				}
-			});
+			},
+			{ctor: '[]'});
 	},
 	_user$project$Tests_TestAPI$recentSubmitters);
 var _user$project$Home$Dependencies = function (a) {

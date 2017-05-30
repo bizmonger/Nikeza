@@ -144,7 +144,7 @@ view model =
 
 recentSubmitters : List (Html Msg)
 recentSubmitters =
-    TestAPI.recentSubmitters |> List.map (\s -> a [ href "" ] [ text <| getName s, br [] [] ])
+    TestAPI.recentSubmitters |> List.map (\p -> img [ src <| getUrl p.imageUrl, width 50, height 50 ] [])
 
 
 sessionUI : Model -> Html Msg
