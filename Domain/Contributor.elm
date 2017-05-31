@@ -2,6 +2,7 @@ module Domain.Contributor exposing (..)
 
 import Html exposing (..)
 import Domain.Core exposing (..)
+import Settings exposing (..)
 import Services.Server as Services exposing (tryLogin)
 import Tests.TestAPI as TestAPI exposing (recentPodcasts, recentVideos, recentArticles)
 
@@ -9,37 +10,53 @@ import Tests.TestAPI as TestAPI exposing (recentPodcasts, recentVideos, recentAr
 -- MODEL
 
 
+type alias Dependencies =
+    { topicUrl : TopicUrlFunction
+    , latestPosts : LatestPostsfunction
+    }
+
+
+runtime : Dependencies
+runtime =
+    case configuration of
+        Integration ->
+            Dependencies Services.topicUrl Services.latestPosts
+
+        Isolation ->
+            Dependencies TestAPI.topicUrl TestAPI.latestPosts
+
+
 type alias Model =
     { profileId : Id
     , runtime : Dependencies
     , topics : List Topic
-    , articles : List Article Post
-    , videos : List Video Post
-    , podcasts : List Podcast Post
+    , articles : List Post
+    , videos : List Post
+    , podcasts : List Post
     }
 
 
 type Msg
-    = Topics (List Topic)
-    | Articles (List Article Post)
-    | Videos (List Video Post)
-    | Podcasts (List Podcast Post)
+    = TopicsSelected
+    | ArticlesSelected
+    | VideosSelected
+    | PodcastsSelected
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        Topics v ->
-            { model | topics = v }
+        TopicsSelected ->
+            { model | topics = [] }
 
-        Articles v ->
-            { model | articles = v }
+        ArticlesSelected ->
+            { model | articles = runtime.latestPosts model.profileId Articles }
 
-        Videos v ->
-            { model | videos = v }
+        VideosSelected ->
+            { model | videos = runtime.latestPosts model.profileId Videos }
 
-        Podcasts v ->
-            { model | podcasts = v }
+        PodcastsSelected ->
+            { model | podcasts = runtime.latestPosts model.profileId Podcasts }
 
 
 

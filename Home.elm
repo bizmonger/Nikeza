@@ -2,6 +2,7 @@ module Home exposing (..)
 
 import Domain.Core exposing (..)
 import Controls.Login as Login exposing (..)
+import Settings exposing (..)
 import Tests.TestAPI as TestAPI exposing (tryLogin)
 import Services.Server as Services exposing (tryLogin)
 import Html exposing (..)
@@ -17,20 +18,6 @@ main =
         , update = update
         , view = view
         }
-
-
-
--- CONFIGURATION
-
-
-configuration : Configuration
-configuration =
-    Isolation
-
-
-type Configuration
-    = Integration
-    | Isolation
 
 
 type alias Dependencies =

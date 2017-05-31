@@ -8447,6 +8447,10 @@ var _user$project$Domain_Core$Podcasts = {ctor: 'Podcasts'};
 var _user$project$Domain_Core$Videos = {ctor: 'Videos'};
 var _user$project$Domain_Core$Articles = {ctor: 'Articles'};
 
+var _user$project$Settings$Isolation = {ctor: 'Isolation'};
+var _user$project$Settings$configuration = _user$project$Settings$Isolation;
+var _user$project$Settings$Integration = {ctor: 'Integration'};
+
 var _user$project$Tests_TestAPI$latestPosts = F2(
 	function (id, contentType) {
 		return {ctor: '[]'};
@@ -8593,27 +8597,8 @@ var _user$project$Home$Dependencies = F3(
 	function (a, b, c) {
 		return {tryLogin: a, topicUrl: b, latestPosts: c};
 	});
-var _user$project$Home$Content = F3(
-	function (a, b, c) {
-		return {videos: a, articles: b, podcasts: c};
-	});
-var _user$project$Home$model = {
-	content: A3(
-		_user$project$Home$Content,
-		{ctor: '[]'},
-		{ctor: '[]'},
-		{ctor: '[]'}),
-	contributors: {ctor: '[]'},
-	login: _user$project$Controls_Login$model
-};
-var _user$project$Home$Model = F3(
-	function (a, b, c) {
-		return {content: a, contributors: b, login: c};
-	});
-var _user$project$Home$Isolation = {ctor: 'Isolation'};
-var _user$project$Home$configuration = _user$project$Home$Isolation;
 var _user$project$Home$runtime = function () {
-	var _p0 = _user$project$Home$configuration;
+	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
 		return A3(_user$project$Home$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl, _user$project$Services_Server$latestPosts);
 	} else {
@@ -8826,7 +8811,23 @@ var _user$project$Home$thumbnail = function (profile) {
 		});
 };
 var _user$project$Home$contributors = A2(_elm_lang$core$List$map, _user$project$Home$thumbnail, _user$project$Tests_TestAPI$recentContributors);
-var _user$project$Home$Integration = {ctor: 'Integration'};
+var _user$project$Home$Content = F3(
+	function (a, b, c) {
+		return {videos: a, articles: b, podcasts: c};
+	});
+var _user$project$Home$model = {
+	content: A3(
+		_user$project$Home$Content,
+		{ctor: '[]'},
+		{ctor: '[]'},
+		{ctor: '[]'}),
+	contributors: {ctor: '[]'},
+	login: _user$project$Controls_Login$model
+};
+var _user$project$Home$Model = F3(
+	function (a, b, c) {
+		return {content: a, contributors: b, login: c};
+	});
 var _user$project$Home$OnLogin = function (a) {
 	return {ctor: 'OnLogin', _0: a};
 };
