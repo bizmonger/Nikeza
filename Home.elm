@@ -8,6 +8,9 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 
 
+-- elm-live Home.elm --open --output=home.js
+
+
 main =
     Html.beginnerProgram
         { model = model
