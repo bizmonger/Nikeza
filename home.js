@@ -8378,17 +8378,17 @@ var _user$project$Controls_Login$view = function (model) {
 		});
 };
 
-var _user$project$Domain_Core$tagUrl = F3(
-	function (f, id, tag) {
-		return A2(f, id, tag);
+var _user$project$Domain_Core$topicUrl = F3(
+	function (f, id, topic) {
+		return A2(f, id, topic);
 	});
 var _user$project$Domain_Core$tryLogin = F3(
 	function (loginf, username, password) {
 		return loginf(
 			A3(_user$project$Controls_Login$Model, username, password, false));
 	});
-var _user$project$Domain_Core$getTag = function (tag) {
-	var _p0 = tag;
+var _user$project$Domain_Core$gettopic = function (topic) {
+	var _p0 = topic;
 	var value = _p0._0;
 	return value;
 };
@@ -8409,7 +8409,7 @@ var _user$project$Domain_Core$getId = function (id) {
 };
 var _user$project$Domain_Core$Profile = F5(
 	function (a, b, c, d, e) {
-		return {id: a, name: b, imageUrl: c, bio: d, tags: e};
+		return {id: a, name: b, imageUrl: c, bio: d, topics: e};
 	});
 var _user$project$Domain_Core$Post = F3(
 	function (a, b, c) {
@@ -8427,8 +8427,8 @@ var _user$project$Domain_Core$Title = function (a) {
 var _user$project$Domain_Core$Url = function (a) {
 	return {ctor: 'Url', _0: a};
 };
-var _user$project$Domain_Core$Tag = function (a) {
-	return {ctor: 'Tag', _0: a};
+var _user$project$Domain_Core$Topic = function (a) {
+	return {ctor: 'Topic', _0: a};
 };
 var _user$project$Domain_Core$Video = function (a) {
 	return {ctor: 'Video', _0: a};
@@ -8448,21 +8448,21 @@ var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 		'test');
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
-var _user$project$Tests_TestAPI$someTags = {
+var _user$project$Tests_TestAPI$someTopics = {
 	ctor: '::',
-	_0: _user$project$Domain_Core$Tag('F#'),
+	_0: _user$project$Domain_Core$Topic('F#'),
 	_1: {
 		ctor: '::',
-		_0: _user$project$Domain_Core$Tag('Elm'),
+		_0: _user$project$Domain_Core$Topic('Elm'),
 		_1: {
 			ctor: '::',
-			_0: _user$project$Domain_Core$Tag('Test Automation'),
+			_0: _user$project$Domain_Core$Topic('Test Automation'),
 			_1: {
 				ctor: '::',
-				_0: _user$project$Domain_Core$Tag('Xamarin'),
+				_0: _user$project$Domain_Core$Topic('Xamarin'),
 				_1: {
 					ctor: '::',
-					_0: _user$project$Domain_Core$Tag('WPF'),
+					_0: _user$project$Domain_Core$Topic('WPF'),
 					_1: {ctor: '[]'}
 				}
 			}
@@ -8473,8 +8473,8 @@ var _user$project$Tests_TestAPI$someDescrtiption = 'some description...';
 var _user$project$Tests_TestAPI$someTitle = _user$project$Domain_Core$Title('Some Title');
 var _user$project$Tests_TestAPI$someImageUrl = _user$project$Domain_Core$Url('http://www.ngu.edu/myimages/silhouette2230.jpg');
 var _user$project$Tests_TestAPI$someUrl = _user$project$Domain_Core$Url('http://some_url.com');
-var _user$project$Tests_TestAPI$tagUrl = F2(
-	function (id, tag) {
+var _user$project$Tests_TestAPI$topicUrl = F2(
+	function (id, topic) {
 		return _user$project$Tests_TestAPI$someUrl;
 	});
 var _user$project$Tests_TestAPI$someId = _user$project$Domain_Core$Id('some_id');
@@ -8484,21 +8484,21 @@ var _user$project$Tests_TestAPI$submitter1 = A5(
 	_user$project$Domain_Core$Submitter('Submitter 1'),
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$someTags);
+	_user$project$Tests_TestAPI$someTopics);
 var _user$project$Tests_TestAPI$submitter2 = A5(
 	_user$project$Domain_Core$Profile,
 	_user$project$Tests_TestAPI$someId,
 	_user$project$Domain_Core$Submitter('Submitter 2'),
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$someTags);
+	_user$project$Tests_TestAPI$someTopics);
 var _user$project$Tests_TestAPI$submitter3 = A5(
 	_user$project$Domain_Core$Profile,
 	_user$project$Tests_TestAPI$someId,
 	_user$project$Domain_Core$Submitter('Submitter 3'),
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$someTags);
+	_user$project$Tests_TestAPI$someTopics);
 var _user$project$Tests_TestAPI$recentSubmitters = {
 	ctor: '::',
 	_0: _user$project$Tests_TestAPI$submitter1,
@@ -8561,8 +8561,8 @@ var _user$project$Tests_TestAPI$recentVideos = {
 	}
 };
 
-var _user$project$Services_Server$tagUrl = F2(
-	function (id, tag) {
+var _user$project$Services_Server$topicUrl = F2(
+	function (id, topic) {
 		return _user$project$Domain_Core$Url('http://google.com');
 	});
 var _user$project$Services_Server$tryLogin = function (credentials) {
@@ -8576,7 +8576,7 @@ var _user$project$Services_Server$tryLogin = function (credentials) {
 
 var _user$project$Home$Dependencies = F2(
 	function (a, b) {
-		return {tryLogin: a, tagUrl: b};
+		return {tryLogin: a, topicUrl: b};
 	});
 var _user$project$Home$Content = F3(
 	function (a, b, c) {
@@ -8601,9 +8601,9 @@ var _user$project$Home$configuration = _user$project$Home$Isolation;
 var _user$project$Home$runtime = function () {
 	var _p0 = _user$project$Home$configuration;
 	if (_p0.ctor === 'Integration') {
-		return A2(_user$project$Home$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$tagUrl);
+		return A2(_user$project$Home$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl);
 	} else {
-		return A2(_user$project$Home$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$tagUrl);
+		return A2(_user$project$Home$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$topicUrl);
 	}
 }();
 var _user$project$Home$update = F2(
@@ -8647,14 +8647,14 @@ var _user$project$Home$update = F2(
 		}
 	});
 var _user$project$Home$thumbnail = function (profile) {
-	var concatTags = F2(
-		function (tag1, tag2) {
+	var concatTopics = F2(
+		function (topic1, topic2) {
 			return A2(
 				_elm_lang$html$Html$span,
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: tag1,
+					_0: topic1,
 					_1: {
 						ctor: '::',
 						_0: A2(
@@ -8667,7 +8667,7 @@ var _user$project$Home$thumbnail = function (profile) {
 							}),
 						_1: {
 							ctor: '::',
-							_0: tag2,
+							_0: topic2,
 							_1: {
 								ctor: '::',
 								_0: A2(
@@ -8684,14 +8684,14 @@ var _user$project$Home$thumbnail = function (profile) {
 					}
 				});
 		});
-	var formatTag = function (tag) {
+	var formatTopic = function (topic) {
 		return A2(
 			_elm_lang$html$Html$a,
 			{
 				ctor: '::',
 				_0: _elm_lang$html$Html_Attributes$href(
 					_user$project$Domain_Core$getUrl(
-						A3(_user$project$Domain_Core$tagUrl, _user$project$Home$runtime.tagUrl, profile.id, tag))),
+						A3(_user$project$Domain_Core$topicUrl, _user$project$Home$runtime.topicUrl, profile.id, topic))),
 				_1: {ctor: '[]'}
 			},
 			{
@@ -8702,26 +8702,26 @@ var _user$project$Home$thumbnail = function (profile) {
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html$text(
-							_user$project$Domain_Core$getTag(tag)),
+							_user$project$Domain_Core$gettopic(topic)),
 						_1: {ctor: '[]'}
 					}),
 				_1: {ctor: '[]'}
 			});
 	};
-	var tags = A3(
+	var topics = A3(
 		_elm_lang$core$List$foldr,
-		concatTags,
+		concatTopics,
 		A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
 			{ctor: '[]'}),
-		A2(_elm_lang$core$List$map, formatTag, profile.tags));
-	var tagsAndBio = A2(
+		A2(_elm_lang$core$List$map, formatTopic, profile.topics));
+	var topicsAndBio = A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: tags,
+			_0: topics,
 			_1: {
 				ctor: '::',
 				_0: A2(
@@ -8788,7 +8788,7 @@ var _user$project$Home$thumbnail = function (profile) {
 									{ctor: '[]'},
 									{
 										ctor: '::',
-										_0: tagsAndBio,
+										_0: topicsAndBio,
 										_1: {ctor: '[]'}
 									}),
 								_1: {ctor: '[]'}

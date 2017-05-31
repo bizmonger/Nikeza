@@ -17,6 +17,6 @@ tryLogin credentials =
             { username = credentials.username, password = credentials.password, loggedIn = False }
 
 
-tagUrl : Id -> Tag -> Url
-tagUrl id tag =
+topicUrl : Id -> Topic -> Url
+topicUrl id topic =
     Url "http://google.com"

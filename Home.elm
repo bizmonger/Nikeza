@@ -31,17 +31,17 @@ type Configuration
 
 
 type alias Dependencies =
-    { tryLogin : Loginfunction, tagUrl : TagUrlFunction }
+    { tryLogin : Loginfunction, topicUrl : TopicUrlFunction }
 
 
 runtime : Dependencies
 runtime =
     case configuration of
         Integration ->
-            Dependencies Services.tryLogin Services.tagUrl
+            Dependencies Services.tryLogin Services.topicUrl
 
         Isolation ->
-            Dependencies TestAPI.tryLogin TestAPI.tagUrl
+            Dependencies TestAPI.tryLogin TestAPI.topicUrl
 
 
 
@@ -149,23 +149,23 @@ submitters =
 thumbnail : Profile -> Html Msg
 thumbnail profile =
     let
-        formatTag tag =
-            a [ href <| getUrl <| tagUrl runtime.tagUrl profile.id tag ] [ i [] [ text <| getTag tag ] ]
+        formatTopic topic =
+            a [ href <| getUrl <| topicUrl runtime.topicUrl profile.id topic ] [ i [] [ text <| gettopic topic ] ]
 
-        concatTags tag1 tag2 =
+        concatTopics topic1 topic2 =
             span []
-                [ tag1
+                [ topic1
                 , label [] [ text " " ]
-                , tag2
+                , topic2
                 , label [] [ text " " ]
                 ]
 
-        tags =
-            List.foldr concatTags (div [] []) (profile.tags |> List.map formatTag)
+        topics =
+            List.foldr concatTopics (div [] []) (profile.topics |> List.map formatTopic)
 
-        tagsAndBio =
+        topicsAndBio =
             div []
-                [ tags
+                [ topics
                 , br [] []
                 , label [] [ text profile.bio ]
                 ]
@@ -174,7 +174,7 @@ thumbnail profile =
             [ table []
                 [ tr []
                     [ td [] [ img [ src <| getUrl profile.imageUrl, width 50, height 50 ] [] ]
-                    , td [] [ tagsAndBio ]
+                    , td [] [ topicsAndBio ]
                     ]
                 ]
             , label [] [ text (profile.name |> getName) ]

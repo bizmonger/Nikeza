@@ -29,24 +29,24 @@ someDescrtiption =
     "some description..."
 
 
-someTags : List Tag
-someTags =
-    [ Tag "F#", Tag "Elm", Tag "Test Automation", Tag "Xamarin", Tag "WPF" ]
+someTopics : List Topic
+someTopics =
+    [ Topic "F#", Topic "Elm", Topic "Test Automation", Topic "Xamarin", Topic "WPF" ]
 
 
 submitter1 : Profile
 submitter1 =
-    Profile someId (Submitter "Submitter 1") someImageUrl someDescrtiption someTags
+    Profile someId (Submitter "Submitter 1") someImageUrl someDescrtiption someTopics
 
 
 submitter2 : Profile
 submitter2 =
-    Profile someId (Submitter "Submitter 2") someImageUrl someDescrtiption someTags
+    Profile someId (Submitter "Submitter 2") someImageUrl someDescrtiption someTopics
 
 
 submitter3 : Profile
 submitter3 =
-    Profile someId (Submitter "Submitter 3") someImageUrl someDescrtiption someTags
+    Profile someId (Submitter "Submitter 3") someImageUrl someDescrtiption someTopics
 
 
 tryLogin : Login.Model -> Login.Model
@@ -61,8 +61,8 @@ tryLogin credentials =
             { username = credentials.username, password = credentials.password, loggedIn = False }
 
 
-tagUrl : Id -> Tag -> Url
-tagUrl id tag =
+topicUrl : Id -> Topic -> Url
+topicUrl id topic =
     someUrl
 
 

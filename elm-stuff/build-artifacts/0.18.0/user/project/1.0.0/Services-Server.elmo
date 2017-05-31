@@ -1,5 +1,5 @@
-var _user$project$Services_Server$tagUrl = F2(
-	function (id, tag) {
+var _user$project$Services_Server$topicUrl = F2(
+	function (id, topic) {
 		return _user$project$Domain_Core$Url('http://google.com');
 	});
 var _user$project$Services_Server$tryLogin = function (credentials) {

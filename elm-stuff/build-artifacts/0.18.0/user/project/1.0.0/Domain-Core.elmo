@@ -1,14 +1,14 @@
-var _user$project$Domain_Core$tagUrl = F3(
-	function (f, id, tag) {
-		return A2(f, id, tag);
+var _user$project$Domain_Core$topicUrl = F3(
+	function (f, id, topic) {
+		return A2(f, id, topic);
 	});
 var _user$project$Domain_Core$tryLogin = F3(
 	function (loginf, username, password) {
 		return loginf(
 			A3(_user$project$Controls_Login$Model, username, password, false));
 	});
-var _user$project$Domain_Core$getTag = function (tag) {
-	var _p0 = tag;
+var _user$project$Domain_Core$gettopic = function (topic) {
+	var _p0 = topic;
 	var value = _p0._0;
 	return value;
 };
@@ -29,7 +29,7 @@ var _user$project$Domain_Core$getId = function (id) {
 };
 var _user$project$Domain_Core$Profile = F5(
 	function (a, b, c, d, e) {
-		return {id: a, name: b, imageUrl: c, bio: d, tags: e};
+		return {id: a, name: b, imageUrl: c, bio: d, topics: e};
 	});
 var _user$project$Domain_Core$Post = F3(
 	function (a, b, c) {
@@ -47,8 +47,8 @@ var _user$project$Domain_Core$Title = function (a) {
 var _user$project$Domain_Core$Url = function (a) {
 	return {ctor: 'Url', _0: a};
 };
-var _user$project$Domain_Core$Tag = function (a) {
-	return {ctor: 'Tag', _0: a};
+var _user$project$Domain_Core$Topic = function (a) {
+	return {ctor: 'Topic', _0: a};
 };
 var _user$project$Domain_Core$Video = function (a) {
 	return {ctor: 'Video', _0: a};

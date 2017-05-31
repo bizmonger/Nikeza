@@ -8378,17 +8378,17 @@ var _user$project$Controls_Login$view = function (model) {
 		});
 };
 
-var _user$project$Domain_Core$tagUrl = F3(
-	function (getUrlf, id, tag) {
-		return A2(getUrlf, id, tag);
+var _user$project$Domain_Core$topicUrl = F3(
+	function (f, id, topic) {
+		return A2(f, id, topic);
 	});
 var _user$project$Domain_Core$tryLogin = F3(
 	function (loginf, username, password) {
 		return loginf(
 			A3(_user$project$Controls_Login$Model, username, password, false));
 	});
-var _user$project$Domain_Core$getTag = function (tag) {
-	var _p0 = tag;
+var _user$project$Domain_Core$gettopic = function (topic) {
+	var _p0 = topic;
 	var value = _p0._0;
 	return value;
 };
@@ -8409,7 +8409,7 @@ var _user$project$Domain_Core$getId = function (id) {
 };
 var _user$project$Domain_Core$Profile = F5(
 	function (a, b, c, d, e) {
-		return {id: a, name: b, imageUrl: c, bio: d, tags: e};
+		return {id: a, name: b, imageUrl: c, bio: d, topics: e};
 	});
 var _user$project$Domain_Core$Post = F3(
 	function (a, b, c) {
@@ -8427,8 +8427,8 @@ var _user$project$Domain_Core$Title = function (a) {
 var _user$project$Domain_Core$Url = function (a) {
 	return {ctor: 'Url', _0: a};
 };
-var _user$project$Domain_Core$Tag = function (a) {
-	return {ctor: 'Tag', _0: a};
+var _user$project$Domain_Core$Topic = function (a) {
+	return {ctor: 'Topic', _0: a};
 };
 var _user$project$Domain_Core$Video = function (a) {
 	return {ctor: 'Video', _0: a};
@@ -8440,8 +8440,129 @@ var _user$project$Domain_Core$Podcast = function (a) {
 	return {ctor: 'Podcast', _0: a};
 };
 
-var _user$project$Services_Server$tagUrl = F2(
-	function (id, tag) {
+var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
+	var successful = _elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$String$toLower(credentials.username),
+		'test') && _elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$String$toLower(credentials.password),
+		'test');
+	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
+};
+var _user$project$Tests_TestAPI$someTopics = {
+	ctor: '::',
+	_0: _user$project$Domain_Core$Topic('F#'),
+	_1: {
+		ctor: '::',
+		_0: _user$project$Domain_Core$Topic('Elm'),
+		_1: {
+			ctor: '::',
+			_0: _user$project$Domain_Core$Topic('Test Automation'),
+			_1: {
+				ctor: '::',
+				_0: _user$project$Domain_Core$Topic('Xamarin'),
+				_1: {
+					ctor: '::',
+					_0: _user$project$Domain_Core$Topic('WPF'),
+					_1: {ctor: '[]'}
+				}
+			}
+		}
+	}
+};
+var _user$project$Tests_TestAPI$someDescrtiption = 'some description...';
+var _user$project$Tests_TestAPI$someTitle = _user$project$Domain_Core$Title('Some Title');
+var _user$project$Tests_TestAPI$someImageUrl = _user$project$Domain_Core$Url('http://www.ngu.edu/myimages/silhouette2230.jpg');
+var _user$project$Tests_TestAPI$someUrl = _user$project$Domain_Core$Url('http://some_url.com');
+var _user$project$Tests_TestAPI$topicUrl = F2(
+	function (id, topic) {
+		return _user$project$Tests_TestAPI$someUrl;
+	});
+var _user$project$Tests_TestAPI$someId = _user$project$Domain_Core$Id('some_id');
+var _user$project$Tests_TestAPI$submitter1 = A5(
+	_user$project$Domain_Core$Profile,
+	_user$project$Tests_TestAPI$someId,
+	_user$project$Domain_Core$Submitter('Submitter 1'),
+	_user$project$Tests_TestAPI$someImageUrl,
+	_user$project$Tests_TestAPI$someDescrtiption,
+	_user$project$Tests_TestAPI$someTopics);
+var _user$project$Tests_TestAPI$submitter2 = A5(
+	_user$project$Domain_Core$Profile,
+	_user$project$Tests_TestAPI$someId,
+	_user$project$Domain_Core$Submitter('Submitter 2'),
+	_user$project$Tests_TestAPI$someImageUrl,
+	_user$project$Tests_TestAPI$someDescrtiption,
+	_user$project$Tests_TestAPI$someTopics);
+var _user$project$Tests_TestAPI$submitter3 = A5(
+	_user$project$Domain_Core$Profile,
+	_user$project$Tests_TestAPI$someId,
+	_user$project$Domain_Core$Submitter('Submitter 3'),
+	_user$project$Tests_TestAPI$someImageUrl,
+	_user$project$Tests_TestAPI$someDescrtiption,
+	_user$project$Tests_TestAPI$someTopics);
+var _user$project$Tests_TestAPI$recentSubmitters = {
+	ctor: '::',
+	_0: _user$project$Tests_TestAPI$submitter1,
+	_1: {
+		ctor: '::',
+		_0: _user$project$Tests_TestAPI$submitter2,
+		_1: {
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$submitter3,
+			_1: {ctor: '[]'}
+		}
+	}
+};
+var _user$project$Tests_TestAPI$recentPodcasts = {
+	ctor: '::',
+	_0: _user$project$Domain_Core$Podcast(
+		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+	_1: {
+		ctor: '::',
+		_0: _user$project$Domain_Core$Podcast(
+			A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+		_1: {
+			ctor: '::',
+			_0: _user$project$Domain_Core$Podcast(
+				A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+			_1: {ctor: '[]'}
+		}
+	}
+};
+var _user$project$Tests_TestAPI$recentArticles = {
+	ctor: '::',
+	_0: _user$project$Domain_Core$Article(
+		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+	_1: {
+		ctor: '::',
+		_0: _user$project$Domain_Core$Article(
+			A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+		_1: {
+			ctor: '::',
+			_0: _user$project$Domain_Core$Article(
+				A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+			_1: {ctor: '[]'}
+		}
+	}
+};
+var _user$project$Tests_TestAPI$recentVideos = {
+	ctor: '::',
+	_0: _user$project$Domain_Core$Video(
+		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+	_1: {
+		ctor: '::',
+		_0: _user$project$Domain_Core$Video(
+			A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+		_1: {
+			ctor: '::',
+			_0: _user$project$Domain_Core$Video(
+				A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$submitter3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+			_1: {ctor: '[]'}
+		}
+	}
+};
+
+var _user$project$Services_Server$topicUrl = F2(
+	function (id, topic) {
 		return _user$project$Domain_Core$Url('http://google.com');
 	});
 var _user$project$Services_Server$tryLogin = function (credentials) {
@@ -8453,11 +8574,393 @@ var _user$project$Services_Server$tryLogin = function (credentials) {
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
 
+var _user$project$Home$Dependencies = F2(
+	function (a, b) {
+		return {tryLogin: a, topicUrl: b};
+	});
+var _user$project$Home$Content = F3(
+	function (a, b, c) {
+		return {videos: a, articles: b, podcasts: c};
+	});
+var _user$project$Home$model = {
+	content: A3(
+		_user$project$Home$Content,
+		{ctor: '[]'},
+		{ctor: '[]'},
+		{ctor: '[]'}),
+	submitters: {ctor: '[]'},
+	login: _user$project$Controls_Login$model
+};
+var _user$project$Home$init = {ctor: '_Tuple2', _0: _user$project$Home$model, _1: _elm_lang$core$Platform_Cmd$none};
+var _user$project$Home$Model = F3(
+	function (a, b, c) {
+		return {content: a, submitters: b, login: c};
+	});
+var _user$project$Home$Isolation = {ctor: 'Isolation'};
+var _user$project$Home$configuration = _user$project$Home$Isolation;
+var _user$project$Home$runtime = function () {
+	var _p0 = _user$project$Home$configuration;
+	if (_p0.ctor === 'Integration') {
+		return A2(_user$project$Home$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl);
+	} else {
+		return A2(_user$project$Home$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$topicUrl);
+	}
+}();
+var _user$project$Home$update = F2(
+	function (msg, model) {
+		var _p1 = msg;
+		switch (_p1.ctor) {
+			case 'Video':
+				return model;
+			case 'Article':
+				return model;
+			case 'Submitter':
+				return model;
+			case 'Search':
+				return model;
+			case 'Register':
+				return model;
+			default:
+				var _p3 = _p1._0;
+				var _p2 = _p3;
+				switch (_p2.ctor) {
+					case 'Attempt':
+						var latest = A2(_user$project$Controls_Login$update, _p3, model.login);
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								login: _user$project$Home$runtime.tryLogin(latest)
+							});
+					case 'UserInput':
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								login: A2(_user$project$Controls_Login$update, _p3, model.login)
+							});
+					default:
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								login: A2(_user$project$Controls_Login$update, _p3, model.login)
+							});
+				}
+		}
+	});
+var _user$project$Home$thumbnail = function (profile) {
+	var concatTopics = F2(
+		function (topic1, topic2) {
+			return A2(
+				_elm_lang$html$Html$span,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: topic1,
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$label,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(' '),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: topic2,
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$label,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(' '),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				});
+		});
+	var formatTopic = function (topic) {
+		return A2(
+			_elm_lang$html$Html$a,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$href(
+					_user$project$Domain_Core$getUrl(
+						A3(_user$project$Domain_Core$topicUrl, _user$project$Home$runtime.topicUrl, profile.id, topic))),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$i,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							_user$project$Domain_Core$gettopic(topic)),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			});
+	};
+	var topics = A3(
+		_elm_lang$core$List$foldr,
+		concatTopics,
+		A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{ctor: '[]'}),
+		A2(_elm_lang$core$List$map, formatTopic, profile.topics));
+	var topicsAndBio = A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: topics,
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$br,
+					{ctor: '[]'},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$label,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(profile.bio),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$table,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$tr,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$td,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$img,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$src(
+												_user$project$Domain_Core$getUrl(profile.imageUrl)),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$width(50),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$height(50),
+													_1: {ctor: '[]'}
+												}
+											}
+										},
+										{ctor: '[]'}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$td,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: topicsAndBio,
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$label,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							_user$project$Domain_Core$getName(profile.name)),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _user$project$Home$submitters = A2(_elm_lang$core$List$map, _user$project$Home$thumbnail, _user$project$Tests_TestAPI$recentSubmitters);
+var _user$project$Home$Integration = {ctor: 'Integration'};
+var _user$project$Home$OnLogin = function (a) {
+	return {ctor: 'OnLogin', _0: a};
+};
+var _user$project$Home$sessionUI = function (model) {
+	var signout = A2(
+		_elm_lang$html$Html$a,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$href(''),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$label,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Signout'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		});
+	var welcome = A2(
+		_elm_lang$html$Html$p,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'Welcome ',
+					A2(_elm_lang$core$Basics_ops['++'], model.login.username, '!'))),
+			_1: {ctor: '[]'}
+		});
+	var loggedIn = model.login.loggedIn;
+	return (!loggedIn) ? A2(
+		_elm_lang$html$Html$map,
+		_user$project$Home$OnLogin,
+		_user$project$Controls_Login$view(model.login)) : A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('signin'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: welcome,
+			_1: {
+				ctor: '::',
+				_0: signout,
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _user$project$Home$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$header,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$label,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Nikeza'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: _user$project$Home$sessionUI(model),
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					_user$project$Home$submitters),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$footer,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('copyright'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$label,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('(c)2017'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$a,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$href(''),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('GitHub'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
+var _user$project$Home$main = _elm_lang$html$Html$beginnerProgram(
+	{model: _user$project$Home$model, update: _user$project$Home$update, view: _user$project$Home$view})();
+var _user$project$Home$Register = {ctor: 'Register'};
+var _user$project$Home$Search = function (a) {
+	return {ctor: 'Search', _0: a};
+};
+var _user$project$Home$Submitter = function (a) {
+	return {ctor: 'Submitter', _0: a};
+};
+var _user$project$Home$Article = function (a) {
+	return {ctor: 'Article', _0: a};
+};
+var _user$project$Home$Video = function (a) {
+	return {ctor: 'Video', _0: a};
+};
+
 var Elm = {};
-Elm['Services'] = Elm['Services'] || {};
-Elm['Services']['Server'] = Elm['Services']['Server'] || {};
-if (typeof _user$project$Services_Server$main !== 'undefined') {
-    _user$project$Services_Server$main(Elm['Services']['Server'], 'Services.Server', undefined);
+Elm['Home'] = Elm['Home'] || {};
+if (typeof _user$project$Home$main !== 'undefined') {
+    _user$project$Home$main(Elm['Home'], 'Home', undefined);
 }
 
 if (typeof define === "function" && define['amd'])

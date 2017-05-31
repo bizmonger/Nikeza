@@ -8,7 +8,7 @@ type alias Profile =
     , name : Submitter
     , imageUrl : Url
     , bio : String
-    , tags : List Tag
+    , topics : List Topic
     }
 
 
@@ -55,15 +55,15 @@ getUrl url =
         value
 
 
-type Tag
-    = Tag String
+type Topic
+    = Topic String
 
 
-getTag : Tag -> String
-getTag tag =
+gettopic : Topic -> String
+gettopic topic =
     let
-        (Tag value) =
-            tag
+        (Topic value) =
+            topic
     in
         value
 
@@ -93,10 +93,10 @@ tryLogin loginf username password =
     loginf <| Login.Model username password False
 
 
-type alias TagUrlFunction =
-    Id -> Tag -> Url
+type alias TopicUrlFunction =
+    Id -> Topic -> Url
 
 
-tagUrl : TagUrlFunction -> Id -> Tag -> Url
-tagUrl f id tag =
-    f id tag
+topicUrl : TopicUrlFunction -> Id -> Topic -> Url
+topicUrl f id topic =
+    f id topic

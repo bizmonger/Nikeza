@@ -1,6 +1,6 @@
 var _user$project$Home$Dependencies = F2(
 	function (a, b) {
-		return {tryLogin: a, tagUrl: b};
+		return {tryLogin: a, topicUrl: b};
 	});
 var _user$project$Home$Content = F3(
 	function (a, b, c) {
@@ -25,9 +25,9 @@ var _user$project$Home$configuration = _user$project$Home$Isolation;
 var _user$project$Home$runtime = function () {
 	var _p0 = _user$project$Home$configuration;
 	if (_p0.ctor === 'Integration') {
-		return A2(_user$project$Home$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$tagUrl);
+		return A2(_user$project$Home$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl);
 	} else {
-		return A2(_user$project$Home$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$tagUrl);
+		return A2(_user$project$Home$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$topicUrl);
 	}
 }();
 var _user$project$Home$update = F2(
@@ -71,14 +71,14 @@ var _user$project$Home$update = F2(
 		}
 	});
 var _user$project$Home$thumbnail = function (profile) {
-	var concatTags = F2(
-		function (tag1, tag2) {
+	var concatTopics = F2(
+		function (topic1, topic2) {
 			return A2(
 				_elm_lang$html$Html$span,
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: tag1,
+					_0: topic1,
 					_1: {
 						ctor: '::',
 						_0: A2(
@@ -91,7 +91,7 @@ var _user$project$Home$thumbnail = function (profile) {
 							}),
 						_1: {
 							ctor: '::',
-							_0: tag2,
+							_0: topic2,
 							_1: {
 								ctor: '::',
 								_0: A2(
@@ -108,14 +108,14 @@ var _user$project$Home$thumbnail = function (profile) {
 					}
 				});
 		});
-	var formatTag = function (tag) {
+	var formatTopic = function (topic) {
 		return A2(
 			_elm_lang$html$Html$a,
 			{
 				ctor: '::',
 				_0: _elm_lang$html$Html_Attributes$href(
 					_user$project$Domain_Core$getUrl(
-						A3(_user$project$Domain_Core$tagUrl, _user$project$Home$runtime.tagUrl, profile.id, tag))),
+						A3(_user$project$Domain_Core$topicUrl, _user$project$Home$runtime.topicUrl, profile.id, topic))),
 				_1: {ctor: '[]'}
 			},
 			{
@@ -126,26 +126,26 @@ var _user$project$Home$thumbnail = function (profile) {
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html$text(
-							_user$project$Domain_Core$getTag(tag)),
+							_user$project$Domain_Core$gettopic(topic)),
 						_1: {ctor: '[]'}
 					}),
 				_1: {ctor: '[]'}
 			});
 	};
-	var tags = A3(
+	var topics = A3(
 		_elm_lang$core$List$foldr,
-		concatTags,
+		concatTopics,
 		A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
 			{ctor: '[]'}),
-		A2(_elm_lang$core$List$map, formatTag, profile.tags));
-	var tagsAndBio = A2(
+		A2(_elm_lang$core$List$map, formatTopic, profile.topics));
+	var topicsAndBio = A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: tags,
+			_0: topics,
 			_1: {
 				ctor: '::',
 				_0: A2(
@@ -212,7 +212,7 @@ var _user$project$Home$thumbnail = function (profile) {
 									{ctor: '[]'},
 									{
 										ctor: '::',
-										_0: tagsAndBio,
+										_0: topicsAndBio,
 										_1: {ctor: '[]'}
 									}),
 								_1: {ctor: '[]'}
