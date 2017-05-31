@@ -22,7 +22,7 @@ main =
 
 type alias Dependencies =
     { tryLogin : Loginfunction
-    , topicUrl : TopicUrlFunction
+    , topicUrl : TopicUrlfunction
     , contributorUrl : ContributorUrlfunction
     , latestPosts : LatestPostsfunction
     }

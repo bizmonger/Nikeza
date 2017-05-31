@@ -97,11 +97,11 @@ tryLogin loginf username password =
     loginf <| Login.Model username password False
 
 
-type alias TopicUrlFunction =
+type alias TopicUrlfunction =
     Id -> Topic -> Url
 
 
-topicUrl : TopicUrlFunction -> Id -> Topic -> Url
+topicUrl : TopicUrlfunction -> Id -> Topic -> Url
 topicUrl f id topic =
     f id topic
 
