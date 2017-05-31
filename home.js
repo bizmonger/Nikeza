@@ -8831,7 +8831,7 @@ var _user$project$Home$Model = F3(
 var _user$project$Home$OnLogin = function (a) {
 	return {ctor: 'OnLogin', _0: a};
 };
-var _user$project$Home$sessionUI = function (model) {
+var _user$project$Home$renderLogin = function (model) {
 	var signout = A2(
 		_elm_lang$html$Html$a,
 		{
@@ -8905,7 +8905,7 @@ var _user$project$Home$view = function (model) {
 						}),
 					_1: {
 						ctor: '::',
-						_0: _user$project$Home$sessionUI(model),
+						_0: _user$project$Home$renderLogin(model),
 						_1: {ctor: '[]'}
 					}
 				}),

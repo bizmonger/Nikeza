@@ -119,7 +119,7 @@ view model =
     div []
         [ header []
             [ label [] [ text "Nikeza" ]
-            , model |> sessionUI
+            , model |> renderLogin
             ]
         , div [] contributors
         , footer [ class "copyright" ]
@@ -169,8 +169,8 @@ thumbnail profile =
             ]
 
 
-sessionUI : Model -> Html Msg
-sessionUI model =
+renderLogin : Model -> Html Msg
+renderLogin model =
     let
         loggedIn =
             model.login.loggedIn
