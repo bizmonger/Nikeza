@@ -149,18 +149,23 @@ submitters =
 thumbnail : Profile -> Html Msg
 thumbnail profile =
     let
-        addTag tag1 tag2 =
-            tag1 ++ ", " ++ tag2
+        formatTag t =
+            a [ href "" ] [ i [] [ text t ] ]
 
-        tags =
-            List.foldr addTag "" profile.tags
+        concatTags t1 t2 =
+            span []
+                [ t1
+                , label [] [ text " " ]
+                , t2
+                , label [] [ text " " ]
+                ]
 
-        formattedTags =
-            String.dropRight 2 tags
+        tagLinks =
+            List.foldr concatTags (div [] []) (profile.tags |> List.map formatTag)
 
         tagsAndBio =
             div []
-                [ i [] [ text formattedTags ]
+                [ tagLinks
                 , br [] []
                 , label [] [ text profile.bio ]
                 ]

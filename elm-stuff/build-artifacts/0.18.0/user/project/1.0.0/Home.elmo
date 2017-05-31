@@ -1,26 +1,76 @@
 var _user$project$Home$thumbnail = function (profile) {
-	var addTag = F2(
-		function (tag1, tag2) {
+	var concatTags = F2(
+		function (t1, t2) {
 			return A2(
-				_elm_lang$core$Basics_ops['++'],
-				tag1,
-				A2(_elm_lang$core$Basics_ops['++'], ', ', tag2));
+				_elm_lang$html$Html$span,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: t1,
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$label,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(' '),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: t2,
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$label,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(' '),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				});
 		});
-	var tags = A3(_elm_lang$core$List$foldr, addTag, '', profile.tags);
-	var formattedTags = A2(_elm_lang$core$String$dropRight, 2, tags);
+	var formatTag = function (t) {
+		return A2(
+			_elm_lang$html$Html$a,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$href(''),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$i,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(t),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			});
+	};
+	var tagLinks = A3(
+		_elm_lang$core$List$foldr,
+		concatTags,
+		A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{ctor: '[]'}),
+		A2(_elm_lang$core$List$map, formatTag, profile.tags));
 	var tagsAndBio = A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$i,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(formattedTags),
-					_1: {ctor: '[]'}
-				}),
+			_0: tagLinks,
 			_1: {
 				ctor: '::',
 				_0: A2(
