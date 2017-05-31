@@ -160,16 +160,19 @@ thumbnail profile =
 
         tagsAndBio =
             div []
-                [ label []
-                    [ text formattedTags ]
+                [ i [] [ text formattedTags ]
                 , br [] []
                 , label [] [ text profile.bio ]
                 ]
     in
         div []
-            [ span []
-                [ img [ src <| getUrl profile.imageUrl, width 50, height 50 ] []
-                , tagsAndBio
+            [ table []
+                [ tr []
+                    [ td []
+                        [ img [ src <| getUrl profile.imageUrl, width 50, height 50 ] []
+                        ]
+                    , td [] [ tagsAndBio ]
+                    ]
                 ]
             , label [] [ text (profile.name |> getName) ]
             ]
