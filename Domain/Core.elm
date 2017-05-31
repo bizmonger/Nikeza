@@ -5,7 +5,7 @@ import Controls.Login as Login exposing (Model)
 
 type alias Profile =
     { id : Id
-    , name : Submitter
+    , name : Contributor
     , imageUrl : Url
     , bio : String
     , topics : List Topic
@@ -25,15 +25,15 @@ getId id =
         value
 
 
-type Submitter
-    = Submitter String
+type Contributor
+    = Contributor String
 
 
-getName : Submitter -> String
-getName submitter =
+getName : Contributor -> String
+getName contributor =
     let
-        (Submitter value) =
-            submitter
+        (Contributor value) =
+            contributor
     in
         value
 
@@ -81,7 +81,7 @@ type Podcast
 
 
 type alias Post =
-    { submitter : Profile, title : Title, url : Url }
+    { contributor : Profile, title : Title, url : Url }
 
 
 type alias Loginfunction =

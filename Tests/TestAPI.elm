@@ -34,19 +34,19 @@ someTopics =
     [ Topic "F#", Topic "Elm", Topic "Test Automation", Topic "Xamarin", Topic "WPF" ]
 
 
-submitter1 : Profile
-submitter1 =
-    Profile someId (Submitter "Submitter 1") someImageUrl someDescrtiption someTopics
+contributor1 : Profile
+contributor1 =
+    Profile someId (Contributor "Contributor 1") someImageUrl someDescrtiption someTopics
 
 
-submitter2 : Profile
-submitter2 =
-    Profile someId (Submitter "Submitter 2") someImageUrl someDescrtiption someTopics
+contributor2 : Profile
+contributor2 =
+    Profile someId (Contributor "Contributor 2") someImageUrl someDescrtiption someTopics
 
 
-submitter3 : Profile
-submitter3 =
-    Profile someId (Submitter "Submitter 3") someImageUrl someDescrtiption someTopics
+contributor3 : Profile
+contributor3 =
+    Profile someId (Contributor "Contributor 3") someImageUrl someDescrtiption someTopics
 
 
 tryLogin : Login.Model -> Login.Model
@@ -66,33 +66,33 @@ topicUrl id topic =
     someUrl
 
 
-recentSubmitters : List Profile
-recentSubmitters =
-    [ submitter1
-    , submitter2
-    , submitter3
+recentContributors : List Profile
+recentContributors =
+    [ contributor1
+    , contributor2
+    , contributor3
     ]
 
 
 recentPodcasts : List Podcast
 recentPodcasts =
-    [ Podcast <| Post submitter1 someTitle someImageUrl
-    , Podcast <| Post submitter2 someTitle someImageUrl
-    , Podcast <| Post submitter3 someTitle someImageUrl
+    [ Podcast <| Post contributor1 someTitle someImageUrl
+    , Podcast <| Post contributor2 someTitle someImageUrl
+    , Podcast <| Post contributor3 someTitle someImageUrl
     ]
 
 
 recentArticles : List Article
 recentArticles =
-    [ Article <| Post submitter1 someTitle someImageUrl
-    , Article <| Post submitter2 someTitle someImageUrl
-    , Article <| Post submitter3 someTitle someImageUrl
+    [ Article <| Post contributor1 someTitle someImageUrl
+    , Article <| Post contributor2 someTitle someImageUrl
+    , Article <| Post contributor3 someTitle someImageUrl
     ]
 
 
 recentVideos : List Video
 recentVideos =
-    [ Video <| Post submitter1 someTitle someImageUrl
-    , Video <| Post submitter2 someTitle someImageUrl
-    , Video <| Post submitter3 someTitle someImageUrl
+    [ Video <| Post contributor1 someTitle someImageUrl
+    , Video <| Post contributor2 someTitle someImageUrl
+    , Video <| Post contributor3 someTitle someImageUrl
     ]

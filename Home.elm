@@ -57,7 +57,7 @@ type alias Content =
 
 type alias Model =
     { content : Content
-    , submitters : List Submitter
+    , contributors : List Contributor
     , login : Login.Model
     }
 
@@ -65,7 +65,7 @@ type alias Model =
 model : Model
 model =
     { content = Content [] [] []
-    , submitters = []
+    , contributors = []
     , login = Login.model
     }
 
@@ -82,7 +82,7 @@ init =
 type Msg
     = Video Video
     | Article Article
-    | Submitter Submitter
+    | Contributor Contributor
     | Search String
     | Register
     | OnLogin Login.Msg
@@ -97,7 +97,7 @@ update msg model =
         Article v ->
             model
 
-        Submitter v ->
+        Contributor v ->
             model
 
         Search v ->
@@ -133,7 +133,7 @@ view model =
             [ label [] [ text "Nikeza" ]
             , model |> sessionUI
             ]
-        , div [] submitters
+        , div [] contributors
         , footer [ class "copyright" ]
             [ label [] [ text "(c)2017" ]
             , a [ href "" ] [ text "GitHub" ]
@@ -141,9 +141,9 @@ view model =
         ]
 
 
-submitters : List (Html Msg)
-submitters =
-    TestAPI.recentSubmitters |> List.map thumbnail
+contributors : List (Html Msg)
+contributors =
+    TestAPI.recentContributors |> List.map thumbnail
 
 
 thumbnail : Profile -> Html Msg

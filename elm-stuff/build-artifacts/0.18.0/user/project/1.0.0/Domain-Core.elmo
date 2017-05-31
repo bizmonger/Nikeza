@@ -17,8 +17,8 @@ var _user$project$Domain_Core$getUrl = function (url) {
 	var value = _p1._0;
 	return value;
 };
-var _user$project$Domain_Core$getName = function (submitter) {
-	var _p2 = submitter;
+var _user$project$Domain_Core$getName = function (contributor) {
+	var _p2 = contributor;
 	var value = _p2._0;
 	return value;
 };
@@ -33,13 +33,13 @@ var _user$project$Domain_Core$Profile = F5(
 	});
 var _user$project$Domain_Core$Post = F3(
 	function (a, b, c) {
-		return {submitter: a, title: b, url: c};
+		return {contributor: a, title: b, url: c};
 	});
 var _user$project$Domain_Core$Id = function (a) {
 	return {ctor: 'Id', _0: a};
 };
-var _user$project$Domain_Core$Submitter = function (a) {
-	return {ctor: 'Submitter', _0: a};
+var _user$project$Domain_Core$Contributor = function (a) {
+	return {ctor: 'Contributor', _0: a};
 };
 var _user$project$Domain_Core$Title = function (a) {
 	return {ctor: 'Title', _0: a};
