@@ -4,11 +4,25 @@ import Controls.Login as Login exposing (Model)
 
 
 type alias Profile =
-    { name : Submitter
+    { id : Id
+    , name : Submitter
     , imageUrl : Url
     , bio : String
-    , tags : List String
+    , tags : List Tag
     }
+
+
+type Id
+    = Id String
+
+
+getId : Id -> String
+getId id =
+    let
+        (Id value) =
+            id
+    in
+        value
 
 
 type Submitter
@@ -18,10 +32,10 @@ type Submitter
 getName : Submitter -> String
 getName submitter =
     let
-        (Submitter name) =
+        (Submitter value) =
             submitter
     in
-        name
+        value
 
 
 type Title
@@ -35,10 +49,23 @@ type Url
 getUrl : Url -> String
 getUrl url =
     let
-        (Url address) =
+        (Url value) =
             url
     in
-        address
+        value
+
+
+type Tag
+    = Tag String
+
+
+getTag : Tag -> String
+getTag tag =
+    let
+        (Tag value) =
+            tag
+    in
+        value
 
 
 type Video
@@ -64,3 +91,12 @@ type alias Loginfunction =
 tryLogin : Loginfunction -> String -> String -> Login.Model
 tryLogin loginf username password =
     loginf <| Login.Model username password False
+
+
+type alias TagUrlFunction =
+    Id -> Tag -> Url
+
+
+tagUrl : TagUrlFunction -> Id -> Tag -> Url
+tagUrl f id tag =
+    f id tag

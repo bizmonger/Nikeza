@@ -1,3 +1,7 @@
+var _user$project$Services_Server$tagUrl = F2(
+	function (id, tag) {
+		return _user$project$Domain_Core$Url('http://google.com');
+	});
 var _user$project$Services_Server$tryLogin = function (credentials) {
 	var successful = _elm_lang$core$Native_Utils.eq(
 		_elm_lang$core$String$toLower(credentials.username),

@@ -31,17 +31,17 @@ type Configuration
 
 
 type alias Dependencies =
-    { tryLogin : Loginfunction }
+    { tryLogin : Loginfunction, tagUrl : TagUrlFunction }
 
 
 runtime : Dependencies
 runtime =
     case configuration of
         Integration ->
-            Dependencies Services.tryLogin
+            Dependencies Services.tryLogin Services.tagUrl
 
         Isolation ->
-            Dependencies TestAPI.tryLogin
+            Dependencies TestAPI.tryLogin TestAPI.tagUrl
 
 
 
@@ -149,23 +149,23 @@ submitters =
 thumbnail : Profile -> Html Msg
 thumbnail profile =
     let
-        formatTag t =
-            a [ href "" ] [ i [] [ text t ] ]
+        formatTag tag =
+            a [ href <| getUrl <| tagUrl runtime.tagUrl profile.id tag ] [ i [] [ text <| getTag tag ] ]
 
-        concatTags t1 t2 =
+        concatTags tag1 tag2 =
             span []
-                [ t1
+                [ tag1
                 , label [] [ text " " ]
-                , t2
+                , tag2
                 , label [] [ text " " ]
                 ]
 
-        tagLinks =
+        tags =
             List.foldr concatTags (div [] []) (profile.tags |> List.map formatTag)
 
         tagsAndBio =
             div []
-                [ tagLinks
+                [ tags
                 , br [] []
                 , label [] [ text profile.bio ]
                 ]
@@ -173,9 +173,7 @@ thumbnail profile =
         div []
             [ table []
                 [ tr []
-                    [ td []
-                        [ img [ src <| getUrl profile.imageUrl, width 50, height 50 ] []
-                        ]
+                    [ td [] [ img [ src <| getUrl profile.imageUrl, width 50, height 50 ] [] ]
                     , td [] [ tagsAndBio ]
                     ]
                 ]

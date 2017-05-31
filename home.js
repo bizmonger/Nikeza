@@ -8378,29 +8378,46 @@ var _user$project$Controls_Login$view = function (model) {
 		});
 };
 
+var _user$project$Domain_Core$tagUrl = F3(
+	function (f, id, tag) {
+		return A2(f, id, tag);
+	});
 var _user$project$Domain_Core$tryLogin = F3(
 	function (loginf, username, password) {
 		return loginf(
 			A3(_user$project$Controls_Login$Model, username, password, false));
 	});
+var _user$project$Domain_Core$getTag = function (tag) {
+	var _p0 = tag;
+	var value = _p0._0;
+	return value;
+};
 var _user$project$Domain_Core$getUrl = function (url) {
-	var _p0 = url;
-	var address = _p0._0;
-	return address;
+	var _p1 = url;
+	var value = _p1._0;
+	return value;
 };
 var _user$project$Domain_Core$getName = function (submitter) {
-	var _p1 = submitter;
-	var name = _p1._0;
-	return name;
+	var _p2 = submitter;
+	var value = _p2._0;
+	return value;
 };
-var _user$project$Domain_Core$Profile = F4(
-	function (a, b, c, d) {
-		return {name: a, imageUrl: b, bio: c, tags: d};
+var _user$project$Domain_Core$getId = function (id) {
+	var _p3 = id;
+	var value = _p3._0;
+	return value;
+};
+var _user$project$Domain_Core$Profile = F5(
+	function (a, b, c, d, e) {
+		return {id: a, name: b, imageUrl: c, bio: d, tags: e};
 	});
 var _user$project$Domain_Core$Post = F3(
 	function (a, b, c) {
 		return {submitter: a, title: b, url: c};
 	});
+var _user$project$Domain_Core$Id = function (a) {
+	return {ctor: 'Id', _0: a};
+};
 var _user$project$Domain_Core$Submitter = function (a) {
 	return {ctor: 'Submitter', _0: a};
 };
@@ -8409,6 +8426,9 @@ var _user$project$Domain_Core$Title = function (a) {
 };
 var _user$project$Domain_Core$Url = function (a) {
 	return {ctor: 'Url', _0: a};
+};
+var _user$project$Domain_Core$Tag = function (a) {
+	return {ctor: 'Tag', _0: a};
 };
 var _user$project$Domain_Core$Video = function (a) {
 	return {ctor: 'Video', _0: a};
@@ -8430,19 +8450,19 @@ var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 };
 var _user$project$Tests_TestAPI$someTags = {
 	ctor: '::',
-	_0: 'F#',
+	_0: _user$project$Domain_Core$Tag('F#'),
 	_1: {
 		ctor: '::',
-		_0: 'Elm',
+		_0: _user$project$Domain_Core$Tag('Elm'),
 		_1: {
 			ctor: '::',
-			_0: 'Test Automation',
+			_0: _user$project$Domain_Core$Tag('Test Automation'),
 			_1: {
 				ctor: '::',
-				_0: 'Xamarin',
+				_0: _user$project$Domain_Core$Tag('Xamarin'),
 				_1: {
 					ctor: '::',
-					_0: 'WPF',
+					_0: _user$project$Domain_Core$Tag('WPF'),
 					_1: {ctor: '[]'}
 				}
 			}
@@ -8452,20 +8472,29 @@ var _user$project$Tests_TestAPI$someTags = {
 var _user$project$Tests_TestAPI$someDescrtiption = 'some description...';
 var _user$project$Tests_TestAPI$someTitle = _user$project$Domain_Core$Title('Some Title');
 var _user$project$Tests_TestAPI$someImageUrl = _user$project$Domain_Core$Url('http://www.ngu.edu/myimages/silhouette2230.jpg');
-var _user$project$Tests_TestAPI$submitter1 = A4(
+var _user$project$Tests_TestAPI$someUrl = _user$project$Domain_Core$Url('http://some_url.com');
+var _user$project$Tests_TestAPI$tagUrl = F2(
+	function (id, tag) {
+		return _user$project$Tests_TestAPI$someUrl;
+	});
+var _user$project$Tests_TestAPI$someId = _user$project$Domain_Core$Id('some_id');
+var _user$project$Tests_TestAPI$submitter1 = A5(
 	_user$project$Domain_Core$Profile,
+	_user$project$Tests_TestAPI$someId,
 	_user$project$Domain_Core$Submitter('Submitter 1'),
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$someTags);
-var _user$project$Tests_TestAPI$submitter2 = A4(
+var _user$project$Tests_TestAPI$submitter2 = A5(
 	_user$project$Domain_Core$Profile,
+	_user$project$Tests_TestAPI$someId,
 	_user$project$Domain_Core$Submitter('Submitter 2'),
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$someTags);
-var _user$project$Tests_TestAPI$submitter3 = A4(
+var _user$project$Tests_TestAPI$submitter3 = A5(
 	_user$project$Domain_Core$Profile,
+	_user$project$Tests_TestAPI$someId,
 	_user$project$Domain_Core$Submitter('Submitter 3'),
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
@@ -8531,8 +8560,11 @@ var _user$project$Tests_TestAPI$recentVideos = {
 		}
 	}
 };
-var _user$project$Tests_TestAPI$someUrl = _user$project$Domain_Core$Url('http://some_url.com');
 
+var _user$project$Services_Server$tagUrl = F2(
+	function (id, tag) {
+		return _user$project$Domain_Core$Url('http://google.com');
+	});
 var _user$project$Services_Server$tryLogin = function (credentials) {
 	var successful = _elm_lang$core$Native_Utils.eq(
 		_elm_lang$core$String$toLower(credentials.username),
@@ -8542,15 +8574,87 @@ var _user$project$Services_Server$tryLogin = function (credentials) {
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
 
+var _user$project$Home$Dependencies = F2(
+	function (a, b) {
+		return {tryLogin: a, tagUrl: b};
+	});
+var _user$project$Home$Content = F3(
+	function (a, b, c) {
+		return {videos: a, articles: b, podcasts: c};
+	});
+var _user$project$Home$model = {
+	content: A3(
+		_user$project$Home$Content,
+		{ctor: '[]'},
+		{ctor: '[]'},
+		{ctor: '[]'}),
+	submitters: {ctor: '[]'},
+	login: _user$project$Controls_Login$model
+};
+var _user$project$Home$init = {ctor: '_Tuple2', _0: _user$project$Home$model, _1: _elm_lang$core$Platform_Cmd$none};
+var _user$project$Home$Model = F3(
+	function (a, b, c) {
+		return {content: a, submitters: b, login: c};
+	});
+var _user$project$Home$Isolation = {ctor: 'Isolation'};
+var _user$project$Home$configuration = _user$project$Home$Isolation;
+var _user$project$Home$runtime = function () {
+	var _p0 = _user$project$Home$configuration;
+	if (_p0.ctor === 'Integration') {
+		return A2(_user$project$Home$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$tagUrl);
+	} else {
+		return A2(_user$project$Home$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$tagUrl);
+	}
+}();
+var _user$project$Home$update = F2(
+	function (msg, model) {
+		var _p1 = msg;
+		switch (_p1.ctor) {
+			case 'Video':
+				return model;
+			case 'Article':
+				return model;
+			case 'Submitter':
+				return model;
+			case 'Search':
+				return model;
+			case 'Register':
+				return model;
+			default:
+				var _p3 = _p1._0;
+				var _p2 = _p3;
+				switch (_p2.ctor) {
+					case 'Attempt':
+						var latest = A2(_user$project$Controls_Login$update, _p3, model.login);
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								login: _user$project$Home$runtime.tryLogin(latest)
+							});
+					case 'UserInput':
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								login: A2(_user$project$Controls_Login$update, _p3, model.login)
+							});
+					default:
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								login: A2(_user$project$Controls_Login$update, _p3, model.login)
+							});
+				}
+		}
+	});
 var _user$project$Home$thumbnail = function (profile) {
 	var concatTags = F2(
-		function (t1, t2) {
+		function (tag1, tag2) {
 			return A2(
 				_elm_lang$html$Html$span,
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: t1,
+					_0: tag1,
 					_1: {
 						ctor: '::',
 						_0: A2(
@@ -8563,7 +8667,7 @@ var _user$project$Home$thumbnail = function (profile) {
 							}),
 						_1: {
 							ctor: '::',
-							_0: t2,
+							_0: tag2,
 							_1: {
 								ctor: '::',
 								_0: A2(
@@ -8580,12 +8684,14 @@ var _user$project$Home$thumbnail = function (profile) {
 					}
 				});
 		});
-	var formatTag = function (t) {
+	var formatTag = function (tag) {
 		return A2(
 			_elm_lang$html$Html$a,
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$href(''),
+				_0: _elm_lang$html$Html_Attributes$href(
+					_user$project$Domain_Core$getUrl(
+						A3(_user$project$Domain_Core$tagUrl, _user$project$Home$runtime.tagUrl, profile.id, tag))),
 				_1: {ctor: '[]'}
 			},
 			{
@@ -8595,13 +8701,14 @@ var _user$project$Home$thumbnail = function (profile) {
 					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text(t),
+						_0: _elm_lang$html$Html$text(
+							_user$project$Domain_Core$getTag(tag)),
 						_1: {ctor: '[]'}
 					}),
 				_1: {ctor: '[]'}
 			});
 	};
-	var tagLinks = A3(
+	var tags = A3(
 		_elm_lang$core$List$foldr,
 		concatTags,
 		A2(
@@ -8614,7 +8721,7 @@ var _user$project$Home$thumbnail = function (profile) {
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: tagLinks,
+			_0: tags,
 			_1: {
 				ctor: '::',
 				_0: A2(
@@ -8705,77 +8812,6 @@ var _user$project$Home$thumbnail = function (profile) {
 		});
 };
 var _user$project$Home$submitters = A2(_elm_lang$core$List$map, _user$project$Home$thumbnail, _user$project$Tests_TestAPI$recentSubmitters);
-var _user$project$Home$Dependencies = function (a) {
-	return {tryLogin: a};
-};
-var _user$project$Home$Content = F3(
-	function (a, b, c) {
-		return {videos: a, articles: b, podcasts: c};
-	});
-var _user$project$Home$model = {
-	content: A3(
-		_user$project$Home$Content,
-		{ctor: '[]'},
-		{ctor: '[]'},
-		{ctor: '[]'}),
-	submitters: {ctor: '[]'},
-	login: _user$project$Controls_Login$model
-};
-var _user$project$Home$init = {ctor: '_Tuple2', _0: _user$project$Home$model, _1: _elm_lang$core$Platform_Cmd$none};
-var _user$project$Home$Model = F3(
-	function (a, b, c) {
-		return {content: a, submitters: b, login: c};
-	});
-var _user$project$Home$Isolation = {ctor: 'Isolation'};
-var _user$project$Home$configuration = _user$project$Home$Isolation;
-var _user$project$Home$runtime = function () {
-	var _p0 = _user$project$Home$configuration;
-	if (_p0.ctor === 'Integration') {
-		return _user$project$Home$Dependencies(_user$project$Services_Server$tryLogin);
-	} else {
-		return _user$project$Home$Dependencies(_user$project$Tests_TestAPI$tryLogin);
-	}
-}();
-var _user$project$Home$update = F2(
-	function (msg, model) {
-		var _p1 = msg;
-		switch (_p1.ctor) {
-			case 'Video':
-				return model;
-			case 'Article':
-				return model;
-			case 'Submitter':
-				return model;
-			case 'Search':
-				return model;
-			case 'Register':
-				return model;
-			default:
-				var _p3 = _p1._0;
-				var _p2 = _p3;
-				switch (_p2.ctor) {
-					case 'Attempt':
-						var latest = A2(_user$project$Controls_Login$update, _p3, model.login);
-						return _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								login: _user$project$Home$runtime.tryLogin(latest)
-							});
-					case 'UserInput':
-						return _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								login: A2(_user$project$Controls_Login$update, _p3, model.login)
-							});
-					default:
-						return _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								login: A2(_user$project$Controls_Login$update, _p3, model.login)
-							});
-				}
-		}
-	});
 var _user$project$Home$Integration = {ctor: 'Integration'};
 var _user$project$Home$OnLogin = function (a) {
 	return {ctor: 'OnLogin', _0: a};

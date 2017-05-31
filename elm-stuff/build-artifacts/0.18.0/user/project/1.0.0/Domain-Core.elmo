@@ -1,26 +1,43 @@
+var _user$project$Domain_Core$tagUrl = F3(
+	function (f, id, tag) {
+		return A2(f, id, tag);
+	});
 var _user$project$Domain_Core$tryLogin = F3(
 	function (loginf, username, password) {
 		return loginf(
 			A3(_user$project$Controls_Login$Model, username, password, false));
 	});
+var _user$project$Domain_Core$getTag = function (tag) {
+	var _p0 = tag;
+	var value = _p0._0;
+	return value;
+};
 var _user$project$Domain_Core$getUrl = function (url) {
-	var _p0 = url;
-	var address = _p0._0;
-	return address;
+	var _p1 = url;
+	var value = _p1._0;
+	return value;
 };
 var _user$project$Domain_Core$getName = function (submitter) {
-	var _p1 = submitter;
-	var name = _p1._0;
-	return name;
+	var _p2 = submitter;
+	var value = _p2._0;
+	return value;
 };
-var _user$project$Domain_Core$Profile = F4(
-	function (a, b, c, d) {
-		return {name: a, imageUrl: b, bio: c, tags: d};
+var _user$project$Domain_Core$getId = function (id) {
+	var _p3 = id;
+	var value = _p3._0;
+	return value;
+};
+var _user$project$Domain_Core$Profile = F5(
+	function (a, b, c, d, e) {
+		return {id: a, name: b, imageUrl: c, bio: d, tags: e};
 	});
 var _user$project$Domain_Core$Post = F3(
 	function (a, b, c) {
 		return {submitter: a, title: b, url: c};
 	});
+var _user$project$Domain_Core$Id = function (a) {
+	return {ctor: 'Id', _0: a};
+};
 var _user$project$Domain_Core$Submitter = function (a) {
 	return {ctor: 'Submitter', _0: a};
 };
@@ -29,6 +46,9 @@ var _user$project$Domain_Core$Title = function (a) {
 };
 var _user$project$Domain_Core$Url = function (a) {
 	return {ctor: 'Url', _0: a};
+};
+var _user$project$Domain_Core$Tag = function (a) {
+	return {ctor: 'Tag', _0: a};
 };
 var _user$project$Domain_Core$Video = function (a) {
 	return {ctor: 'Video', _0: a};

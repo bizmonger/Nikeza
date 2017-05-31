@@ -1,6 +1,7 @@
 module Services.Server exposing (..)
 
 import Controls.Login as Login exposing (Model)
+import Domain.Core exposing (..)
 
 
 tryLogin : Login.Model -> Login.Model
@@ -14,3 +15,8 @@ tryLogin credentials =
             { username = credentials.username, password = credentials.password, loggedIn = True }
         else
             { username = credentials.username, password = credentials.password, loggedIn = False }
+
+
+tagUrl : Id -> Tag -> Url
+tagUrl id tag =
+    Url "http://google.com"

@@ -4,6 +4,11 @@ import Controls.Login as Login exposing (Model)
 import Domain.Core exposing (..)
 
 
+someId : Id
+someId =
+    Id "some_id"
+
+
 someUrl : Url
 someUrl =
     Url "http://some_url.com"
@@ -24,24 +29,24 @@ someDescrtiption =
     "some description..."
 
 
-someTags : List String
+someTags : List Tag
 someTags =
-    [ "F#", "Elm", "Test Automation", "Xamarin", "WPF" ]
+    [ Tag "F#", Tag "Elm", Tag "Test Automation", Tag "Xamarin", Tag "WPF" ]
 
 
 submitter1 : Profile
 submitter1 =
-    Profile (Submitter "Submitter 1") someImageUrl someDescrtiption someTags
+    Profile someId (Submitter "Submitter 1") someImageUrl someDescrtiption someTags
 
 
 submitter2 : Profile
 submitter2 =
-    Profile (Submitter "Submitter 2") someImageUrl someDescrtiption someTags
+    Profile someId (Submitter "Submitter 2") someImageUrl someDescrtiption someTags
 
 
 submitter3 : Profile
 submitter3 =
-    Profile (Submitter "Submitter 3") someImageUrl someDescrtiption someTags
+    Profile someId (Submitter "Submitter 3") someImageUrl someDescrtiption someTags
 
 
 tryLogin : Login.Model -> Login.Model
@@ -54,6 +59,11 @@ tryLogin credentials =
             { username = credentials.username, password = credentials.password, loggedIn = True }
         else
             { username = credentials.username, password = credentials.password, loggedIn = False }
+
+
+tagUrl : Id -> Tag -> Url
+tagUrl id tag =
+    someUrl
 
 
 recentSubmitters : List Profile
