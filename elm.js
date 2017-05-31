@@ -8378,6 +8378,10 @@ var _user$project$Controls_Login$view = function (model) {
 		});
 };
 
+var _user$project$Domain_Core$latestPosts = F3(
+	function (f, contributorId, contentType) {
+		return A2(f, contributorId, contentType);
+	});
 var _user$project$Domain_Core$topicUrl = F3(
 	function (f, id, topic) {
 		return A2(f, id, topic);
@@ -8439,7 +8443,14 @@ var _user$project$Domain_Core$Article = function (a) {
 var _user$project$Domain_Core$Podcast = function (a) {
 	return {ctor: 'Podcast', _0: a};
 };
+var _user$project$Domain_Core$Podcasts = {ctor: 'Podcasts'};
+var _user$project$Domain_Core$Videos = {ctor: 'Videos'};
+var _user$project$Domain_Core$Articles = {ctor: 'Articles'};
 
+var _user$project$Tests_TestAPI$latestPosts = F2(
+	function (id, contentType) {
+		return {ctor: '[]'};
+	});
 var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 	var successful = _elm_lang$core$Native_Utils.eq(
 		_elm_lang$core$String$toLower(credentials.username),
@@ -8561,6 +8572,10 @@ var _user$project$Tests_TestAPI$recentVideos = {
 	}
 };
 
+var _user$project$Services_Server$latestPosts = F2(
+	function (id, contentType) {
+		return {ctor: '[]'};
+	});
 var _user$project$Services_Server$topicUrl = F2(
 	function (id, topic) {
 		return _user$project$Domain_Core$Url('http://google.com');
@@ -8574,9 +8589,9 @@ var _user$project$Services_Server$tryLogin = function (credentials) {
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
 
-var _user$project$Home$Dependencies = F2(
-	function (a, b) {
-		return {tryLogin: a, topicUrl: b};
+var _user$project$Home$Dependencies = F3(
+	function (a, b, c) {
+		return {tryLogin: a, topicUrl: b, latestPosts: c};
 	});
 var _user$project$Home$Content = F3(
 	function (a, b, c) {
@@ -8591,7 +8606,6 @@ var _user$project$Home$model = {
 	contributors: {ctor: '[]'},
 	login: _user$project$Controls_Login$model
 };
-var _user$project$Home$init = {ctor: '_Tuple2', _0: _user$project$Home$model, _1: _elm_lang$core$Platform_Cmd$none};
 var _user$project$Home$Model = F3(
 	function (a, b, c) {
 		return {content: a, contributors: b, login: c};
@@ -8601,9 +8615,9 @@ var _user$project$Home$configuration = _user$project$Home$Isolation;
 var _user$project$Home$runtime = function () {
 	var _p0 = _user$project$Home$configuration;
 	if (_p0.ctor === 'Integration') {
-		return A2(_user$project$Home$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl);
+		return A3(_user$project$Home$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl, _user$project$Services_Server$latestPosts);
 	} else {
-		return A2(_user$project$Home$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$topicUrl);
+		return A3(_user$project$Home$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$topicUrl, _user$project$Tests_TestAPI$latestPosts);
 	}
 }();
 var _user$project$Home$update = F2(

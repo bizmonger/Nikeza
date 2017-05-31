@@ -1,6 +1,6 @@
-var _user$project$Home$Dependencies = F2(
-	function (a, b) {
-		return {tryLogin: a, topicUrl: b};
+var _user$project$Home$Dependencies = F3(
+	function (a, b, c) {
+		return {tryLogin: a, topicUrl: b, latestPosts: c};
 	});
 var _user$project$Home$Content = F3(
 	function (a, b, c) {
@@ -15,7 +15,6 @@ var _user$project$Home$model = {
 	contributors: {ctor: '[]'},
 	login: _user$project$Controls_Login$model
 };
-var _user$project$Home$init = {ctor: '_Tuple2', _0: _user$project$Home$model, _1: _elm_lang$core$Platform_Cmd$none};
 var _user$project$Home$Model = F3(
 	function (a, b, c) {
 		return {content: a, contributors: b, login: c};
@@ -25,9 +24,9 @@ var _user$project$Home$configuration = _user$project$Home$Isolation;
 var _user$project$Home$runtime = function () {
 	var _p0 = _user$project$Home$configuration;
 	if (_p0.ctor === 'Integration') {
-		return A2(_user$project$Home$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl);
+		return A3(_user$project$Home$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl, _user$project$Services_Server$latestPosts);
 	} else {
-		return A2(_user$project$Home$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$topicUrl);
+		return A3(_user$project$Home$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$topicUrl, _user$project$Tests_TestAPI$latestPosts);
 	}
 }();
 var _user$project$Home$update = F2(

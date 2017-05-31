@@ -20,3 +20,8 @@ tryLogin credentials =
 topicUrl : Id -> Topic -> Url
 topicUrl id topic =
     Url "http://google.com"
+
+
+latestPosts : Id -> ContentType -> List Post
+latestPosts id contentType =
+    []

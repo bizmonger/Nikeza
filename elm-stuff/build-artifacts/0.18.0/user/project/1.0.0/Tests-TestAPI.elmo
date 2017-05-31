@@ -1,3 +1,7 @@
+var _user$project$Tests_TestAPI$latestPosts = F2(
+	function (id, contentType) {
+		return {ctor: '[]'};
+	});
 var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 	var successful = _elm_lang$core$Native_Utils.eq(
 		_elm_lang$core$String$toLower(credentials.username),

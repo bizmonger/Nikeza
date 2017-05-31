@@ -96,3 +96,8 @@ recentVideos =
     , Video <| Post contributor2 someTitle someImageUrl
     , Video <| Post contributor3 someTitle someImageUrl
     ]
+
+
+latestPosts : Id -> ContentType -> List Post
+latestPosts id contentType =
+    []

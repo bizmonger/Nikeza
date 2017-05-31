@@ -100,3 +100,18 @@ type alias TopicUrlFunction =
 topicUrl : TopicUrlFunction -> Id -> Topic -> Url
 topicUrl f id topic =
     f id topic
+
+
+type ContentType
+    = Articles
+    | Videos
+    | Podcasts
+
+
+type alias LatestPostsfunction =
+    Id -> ContentType -> List Post
+
+
+latestPosts : LatestPostsfunction -> Id -> ContentType -> List Post
+latestPosts f contributorId contentType =
+    f contributorId contentType

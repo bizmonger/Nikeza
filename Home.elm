@@ -31,17 +31,20 @@ type Configuration
 
 
 type alias Dependencies =
-    { tryLogin : Loginfunction, topicUrl : TopicUrlFunction }
+    { tryLogin : Loginfunction
+    , topicUrl : TopicUrlFunction
+    , latestPosts : LatestPostsfunction
+    }
 
 
 runtime : Dependencies
 runtime =
     case configuration of
         Integration ->
-            Dependencies Services.tryLogin Services.topicUrl
+            Dependencies Services.tryLogin Services.topicUrl Services.latestPosts
 
         Isolation ->
-            Dependencies TestAPI.tryLogin TestAPI.topicUrl
+            Dependencies TestAPI.tryLogin TestAPI.topicUrl TestAPI.latestPosts
 
 
 
@@ -68,11 +71,6 @@ model =
     , contributors = []
     , login = Login.model
     }
-
-
-init : ( Model, Cmd Msg )
-init =
-    ( model, Cmd.none )
 
 
 

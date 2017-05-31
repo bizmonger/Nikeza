@@ -1,3 +1,7 @@
+var _user$project$Domain_Core$latestPosts = F3(
+	function (f, contributorId, contentType) {
+		return A2(f, contributorId, contentType);
+	});
 var _user$project$Domain_Core$topicUrl = F3(
 	function (f, id, topic) {
 		return A2(f, id, topic);
@@ -59,3 +63,6 @@ var _user$project$Domain_Core$Article = function (a) {
 var _user$project$Domain_Core$Podcast = function (a) {
 	return {ctor: 'Podcast', _0: a};
 };
+var _user$project$Domain_Core$Podcasts = {ctor: 'Podcasts'};
+var _user$project$Domain_Core$Videos = {ctor: 'Videos'};
+var _user$project$Domain_Core$Articles = {ctor: 'Articles'};

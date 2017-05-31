@@ -1,3 +1,7 @@
+var _user$project$Services_Server$latestPosts = F2(
+	function (id, contentType) {
+		return {ctor: '[]'};
+	});
 var _user$project$Services_Server$topicUrl = F2(
 	function (id, topic) {
 		return _user$project$Domain_Core$Url('http://google.com');
