@@ -1,3 +1,6 @@
+var _user$project$Services_Server$contributorUrl = function (id) {
+	return _user$project$Domain_Core$Url('http://google.com');
+};
 var _user$project$Services_Server$latestPosts = F2(
 	function (id, contentType) {
 		return {ctor: '[]'};

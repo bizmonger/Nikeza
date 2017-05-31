@@ -23,6 +23,7 @@ main =
 type alias Dependencies =
     { tryLogin : Loginfunction
     , topicUrl : TopicUrlFunction
+    , contributorUrl : ContributorUrlfunction
     , latestPosts : LatestPostsfunction
     }
 
@@ -31,10 +32,10 @@ runtime : Dependencies
 runtime =
     case configuration of
         Integration ->
-            Dependencies Services.tryLogin Services.topicUrl Services.latestPosts
+            Dependencies Services.tryLogin Services.topicUrl Services.contributorUrl Services.latestPosts
 
         Isolation ->
-            Dependencies TestAPI.tryLogin TestAPI.topicUrl TestAPI.latestPosts
+            Dependencies TestAPI.tryLogin TestAPI.topicUrl TestAPI.contributorUrl TestAPI.latestPosts
 
 
 
@@ -161,7 +162,10 @@ thumbnail profile =
         div []
             [ table []
                 [ tr []
-                    [ td [] [ img [ src <| getUrl profile.imageUrl, width 50, height 50 ] [] ]
+                    [ td []
+                        [ a [ href <| getUrl <| runtime.contributorUrl profile.id ]
+                            [ img [ src <| getUrl profile.imageUrl, width 50, height 50 ] [] ]
+                        ]
                     , td [] [ topicsAndBio ]
                     ]
                 ]

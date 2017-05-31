@@ -101,3 +101,8 @@ recentVideos =
 latestPosts : Id -> ContentType -> List Post
 latestPosts id contentType =
     []
+
+
+contributorUrl : Id -> Url
+contributorUrl id =
+    someUrl

@@ -25,3 +25,8 @@ topicUrl id topic =
 latestPosts : Id -> ContentType -> List Post
 latestPosts id contentType =
     []
+
+
+contributorUrl : Id -> Url
+contributorUrl id =
+    Url "http://google.com"

@@ -84,6 +84,10 @@ type alias Post =
     { contributor : Profile, title : Title, url : Url }
 
 
+type alias ContributorUrlfunction =
+    Id -> Url
+
+
 type alias Loginfunction =
     Login.Model -> Login.Model
 

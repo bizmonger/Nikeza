@@ -8492,6 +8492,9 @@ var _user$project$Tests_TestAPI$topicUrl = F2(
 	function (id, topic) {
 		return _user$project$Tests_TestAPI$someUrl;
 	});
+var _user$project$Tests_TestAPI$contributorUrl = function (id) {
+	return _user$project$Tests_TestAPI$someUrl;
+};
 var _user$project$Tests_TestAPI$someId = _user$project$Domain_Core$Id('some_id');
 var _user$project$Tests_TestAPI$contributor1 = A5(
 	_user$project$Domain_Core$Profile,
@@ -8576,6 +8579,9 @@ var _user$project$Tests_TestAPI$recentVideos = {
 	}
 };
 
+var _user$project$Services_Server$contributorUrl = function (id) {
+	return _user$project$Domain_Core$Url('http://google.com');
+};
 var _user$project$Services_Server$latestPosts = F2(
 	function (id, contentType) {
 		return {ctor: '[]'};
@@ -8593,16 +8599,16 @@ var _user$project$Services_Server$tryLogin = function (credentials) {
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
 
-var _user$project$Home$Dependencies = F3(
-	function (a, b, c) {
-		return {tryLogin: a, topicUrl: b, latestPosts: c};
+var _user$project$Home$Dependencies = F4(
+	function (a, b, c, d) {
+		return {tryLogin: a, topicUrl: b, contributorUrl: c, latestPosts: d};
 	});
 var _user$project$Home$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return A3(_user$project$Home$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl, _user$project$Services_Server$latestPosts);
+		return A4(_user$project$Home$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl, _user$project$Services_Server$contributorUrl, _user$project$Services_Server$latestPosts);
 	} else {
-		return A3(_user$project$Home$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$topicUrl, _user$project$Tests_TestAPI$latestPosts);
+		return A4(_user$project$Home$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$topicUrl, _user$project$Tests_TestAPI$contributorUrl, _user$project$Tests_TestAPI$latestPosts);
 	}
 }();
 var _user$project$Home$update = F2(
@@ -8762,22 +8768,35 @@ var _user$project$Home$thumbnail = function (profile) {
 								{
 									ctor: '::',
 									_0: A2(
-										_elm_lang$html$Html$img,
+										_elm_lang$html$Html$a,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$src(
-												_user$project$Domain_Core$getUrl(profile.imageUrl)),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$width(50),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$height(50),
-													_1: {ctor: '[]'}
-												}
-											}
+											_0: _elm_lang$html$Html_Attributes$href(
+												_user$project$Domain_Core$getUrl(
+													_user$project$Home$runtime.contributorUrl(profile.id))),
+											_1: {ctor: '[]'}
 										},
-										{ctor: '[]'}),
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$img,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$src(
+														_user$project$Domain_Core$getUrl(profile.imageUrl)),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$width(50),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$height(50),
+															_1: {ctor: '[]'}
+														}
+													}
+												},
+												{ctor: '[]'}),
+											_1: {ctor: '[]'}
+										}),
 									_1: {ctor: '[]'}
 								}),
 							_1: {
