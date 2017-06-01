@@ -8448,7 +8448,7 @@ var _user$project$Domain_Core$Videos = {ctor: 'Videos'};
 var _user$project$Domain_Core$Articles = {ctor: 'Articles'};
 
 var _user$project$Tests_TestAPI$contributorUrl = function (id) {
-	return _user$project$Domain_Core$Url('Domain/Contributor.htm');
+	return _user$project$Domain_Core$Url('Domain/Contributor.html');
 };
 var _user$project$Tests_TestAPI$latestPosts = F2(
 	function (id, contentType) {
@@ -8491,25 +8491,27 @@ var _user$project$Tests_TestAPI$topicUrl = F2(
 	function (id, topic) {
 		return _user$project$Tests_TestAPI$someUrl;
 	});
-var _user$project$Tests_TestAPI$someId = _user$project$Domain_Core$Id('some_id');
-var _user$project$Tests_TestAPI$profile1 = A5(
+var _user$project$Tests_TestAPI$someId3 = _user$project$Domain_Core$Id('some_id_3');
+var _user$project$Tests_TestAPI$profile3 = A5(
 	_user$project$Domain_Core$Profile,
-	_user$project$Tests_TestAPI$someId,
-	_user$project$Domain_Core$Contributor('Contributor 1'),
+	_user$project$Tests_TestAPI$someId3,
+	_user$project$Domain_Core$Contributor('Contributor 3'),
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$someTopics);
+var _user$project$Tests_TestAPI$someId2 = _user$project$Domain_Core$Id('some_id_2');
 var _user$project$Tests_TestAPI$profile2 = A5(
 	_user$project$Domain_Core$Profile,
-	_user$project$Tests_TestAPI$someId,
+	_user$project$Tests_TestAPI$someId2,
 	_user$project$Domain_Core$Contributor('Contributor 2'),
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$someTopics);
-var _user$project$Tests_TestAPI$profile3 = A5(
+var _user$project$Tests_TestAPI$someId1 = _user$project$Domain_Core$Id('some_id_1');
+var _user$project$Tests_TestAPI$profile1 = A5(
 	_user$project$Domain_Core$Profile,
-	_user$project$Tests_TestAPI$someId,
-	_user$project$Domain_Core$Contributor('Contributor 3'),
+	_user$project$Tests_TestAPI$someId1,
+	_user$project$Domain_Core$Contributor('Contributor 1'),
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$someTopics);
@@ -8574,7 +8576,13 @@ var _user$project$Tests_TestAPI$recentVideos = {
 		}
 	}
 };
+var _user$project$Tests_TestAPI$getContributor = function (id) {
+	return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$someId1) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$someId2) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$someId3) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile3) : _elm_lang$core$Maybe$Nothing));
+};
 
+var _user$project$Services_Server$getContributor = function (id) {
+	return _elm_lang$core$Maybe$Nothing;
+};
 var _user$project$Services_Server$recentContributors = {ctor: '[]'};
 var _user$project$Services_Server$contributorUrl = function (id) {
 	return _user$project$Domain_Core$Url('../Domain/Contributor.elm');
@@ -8596,18 +8604,18 @@ var _user$project$Services_Server$tryLogin = function (credentials) {
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
 
-var _user$project$Settings$Dependencies = F5(
-	function (a, b, c, d, e) {
-		return {tryLogin: a, topicUrl: b, contributorUrl: c, latestPosts: d, recentContributors: e};
+var _user$project$Settings$Dependencies = F6(
+	function (a, b, c, d, e, f) {
+		return {tryLogin: a, topicUrl: b, contributorUrl: c, latestPosts: d, recentContributors: e, getContributor: f};
 	});
 var _user$project$Settings$Isolation = {ctor: 'Isolation'};
 var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return A5(_user$project$Settings$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl, _user$project$Services_Server$contributorUrl, _user$project$Services_Server$latestPosts, _user$project$Services_Server$recentContributors);
+		return A6(_user$project$Settings$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl, _user$project$Services_Server$contributorUrl, _user$project$Services_Server$latestPosts, _user$project$Services_Server$recentContributors, _user$project$Services_Server$getContributor);
 	} else {
-		return A5(_user$project$Settings$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$topicUrl, _user$project$Tests_TestAPI$contributorUrl, _user$project$Tests_TestAPI$latestPosts, _user$project$Tests_TestAPI$recentContributors);
+		return A6(_user$project$Settings$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$topicUrl, _user$project$Tests_TestAPI$contributorUrl, _user$project$Tests_TestAPI$latestPosts, _user$project$Tests_TestAPI$recentContributors, _user$project$Tests_TestAPI$getContributor);
 	}
 }();
 var _user$project$Settings$Integration = {ctor: 'Integration'};

@@ -5,16 +5,34 @@ import Domain.Core exposing (..)
 import Settings exposing (..)
 
 
+main =
+    Html.beginnerProgram
+        { model = model
+        , update = update
+        , view = view
+        }
+
+
+
 -- MODEL
 
 
 type alias Model =
     { profileId : Id
-    , runtime : Dependencies
     , topics : List Topic
     , articles : List Post
     , videos : List Post
     , podcasts : List Post
+    }
+
+
+model : Model
+model =
+    { profileId = Id "undefined"
+    , topics = []
+    , articles = []
+    , videos = []
+    , podcasts = []
     }
 
 
