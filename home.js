@@ -8447,10 +8447,6 @@ var _user$project$Domain_Core$Podcasts = {ctor: 'Podcasts'};
 var _user$project$Domain_Core$Videos = {ctor: 'Videos'};
 var _user$project$Domain_Core$Articles = {ctor: 'Articles'};
 
-var _user$project$Settings$Isolation = {ctor: 'Isolation'};
-var _user$project$Settings$configuration = _user$project$Settings$Isolation;
-var _user$project$Settings$Integration = {ctor: 'Integration'};
-
 var _user$project$Tests_TestAPI$latestPosts = F2(
 	function (id, contentType) {
 		return {ctor: '[]'};
@@ -8496,21 +8492,21 @@ var _user$project$Tests_TestAPI$contributorUrl = function (id) {
 	return _user$project$Tests_TestAPI$someUrl;
 };
 var _user$project$Tests_TestAPI$someId = _user$project$Domain_Core$Id('some_id');
-var _user$project$Tests_TestAPI$contributor1 = A5(
+var _user$project$Tests_TestAPI$profile1 = A5(
 	_user$project$Domain_Core$Profile,
 	_user$project$Tests_TestAPI$someId,
 	_user$project$Domain_Core$Contributor('Contributor 1'),
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$someTopics);
-var _user$project$Tests_TestAPI$contributor2 = A5(
+var _user$project$Tests_TestAPI$profile2 = A5(
 	_user$project$Domain_Core$Profile,
 	_user$project$Tests_TestAPI$someId,
 	_user$project$Domain_Core$Contributor('Contributor 2'),
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$someTopics);
-var _user$project$Tests_TestAPI$contributor3 = A5(
+var _user$project$Tests_TestAPI$profile3 = A5(
 	_user$project$Domain_Core$Profile,
 	_user$project$Tests_TestAPI$someId,
 	_user$project$Domain_Core$Contributor('Contributor 3'),
@@ -8519,13 +8515,13 @@ var _user$project$Tests_TestAPI$contributor3 = A5(
 	_user$project$Tests_TestAPI$someTopics);
 var _user$project$Tests_TestAPI$recentContributors = {
 	ctor: '::',
-	_0: _user$project$Tests_TestAPI$contributor1,
+	_0: _user$project$Tests_TestAPI$profile1,
 	_1: {
 		ctor: '::',
-		_0: _user$project$Tests_TestAPI$contributor2,
+		_0: _user$project$Tests_TestAPI$profile2,
 		_1: {
 			ctor: '::',
-			_0: _user$project$Tests_TestAPI$contributor3,
+			_0: _user$project$Tests_TestAPI$profile3,
 			_1: {ctor: '[]'}
 		}
 	}
@@ -8533,15 +8529,15 @@ var _user$project$Tests_TestAPI$recentContributors = {
 var _user$project$Tests_TestAPI$recentPodcasts = {
 	ctor: '::',
 	_0: _user$project$Domain_Core$Podcast(
-		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$contributor1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$profile1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
 	_1: {
 		ctor: '::',
 		_0: _user$project$Domain_Core$Podcast(
-			A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$contributor2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+			A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$profile2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
 		_1: {
 			ctor: '::',
 			_0: _user$project$Domain_Core$Podcast(
-				A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$contributor3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+				A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$profile3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
 			_1: {ctor: '[]'}
 		}
 	}
@@ -8549,15 +8545,15 @@ var _user$project$Tests_TestAPI$recentPodcasts = {
 var _user$project$Tests_TestAPI$recentArticles = {
 	ctor: '::',
 	_0: _user$project$Domain_Core$Article(
-		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$contributor1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$profile1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
 	_1: {
 		ctor: '::',
 		_0: _user$project$Domain_Core$Article(
-			A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$contributor2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+			A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$profile2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
 		_1: {
 			ctor: '::',
 			_0: _user$project$Domain_Core$Article(
-				A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$contributor3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+				A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$profile3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
 			_1: {ctor: '[]'}
 		}
 	}
@@ -8565,20 +8561,21 @@ var _user$project$Tests_TestAPI$recentArticles = {
 var _user$project$Tests_TestAPI$recentVideos = {
 	ctor: '::',
 	_0: _user$project$Domain_Core$Video(
-		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$contributor1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+		A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$profile1, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
 	_1: {
 		ctor: '::',
 		_0: _user$project$Domain_Core$Video(
-			A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$contributor2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+			A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$profile2, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
 		_1: {
 			ctor: '::',
 			_0: _user$project$Domain_Core$Video(
-				A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$contributor3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
+				A3(_user$project$Domain_Core$Post, _user$project$Tests_TestAPI$profile3, _user$project$Tests_TestAPI$someTitle, _user$project$Tests_TestAPI$someImageUrl)),
 			_1: {ctor: '[]'}
 		}
 	}
 };
 
+var _user$project$Services_Server$recentContributors = {ctor: '[]'};
 var _user$project$Services_Server$contributorUrl = function (id) {
 	return _user$project$Domain_Core$Url('http://google.com');
 };
@@ -8599,58 +8596,22 @@ var _user$project$Services_Server$tryLogin = function (credentials) {
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
 
-var _user$project$Home$Dependencies = F4(
-	function (a, b, c, d) {
-		return {tryLogin: a, topicUrl: b, contributorUrl: c, latestPosts: d};
+var _user$project$Settings$Dependencies = F5(
+	function (a, b, c, d, e) {
+		return {tryLogin: a, topicUrl: b, contributorUrl: c, latestPosts: d, recentContributors: e};
 	});
-var _user$project$Home$runtime = function () {
+var _user$project$Settings$Isolation = {ctor: 'Isolation'};
+var _user$project$Settings$configuration = _user$project$Settings$Isolation;
+var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return A4(_user$project$Home$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl, _user$project$Services_Server$contributorUrl, _user$project$Services_Server$latestPosts);
+		return A5(_user$project$Settings$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl, _user$project$Services_Server$contributorUrl, _user$project$Services_Server$latestPosts, _user$project$Services_Server$recentContributors);
 	} else {
-		return A4(_user$project$Home$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$topicUrl, _user$project$Tests_TestAPI$contributorUrl, _user$project$Tests_TestAPI$latestPosts);
+		return A5(_user$project$Settings$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$topicUrl, _user$project$Tests_TestAPI$contributorUrl, _user$project$Tests_TestAPI$latestPosts, _user$project$Tests_TestAPI$recentContributors);
 	}
 }();
-var _user$project$Home$update = F2(
-	function (msg, model) {
-		var _p1 = msg;
-		switch (_p1.ctor) {
-			case 'Video':
-				return model;
-			case 'Article':
-				return model;
-			case 'Contributor':
-				return model;
-			case 'Search':
-				return model;
-			case 'Register':
-				return model;
-			default:
-				var _p3 = _p1._0;
-				var _p2 = _p3;
-				switch (_p2.ctor) {
-					case 'Attempt':
-						var latest = A2(_user$project$Controls_Login$update, _p3, model.login);
-						return _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								login: _user$project$Home$runtime.tryLogin(latest)
-							});
-					case 'UserInput':
-						return _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								login: A2(_user$project$Controls_Login$update, _p3, model.login)
-							});
-					default:
-						return _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								login: A2(_user$project$Controls_Login$update, _p3, model.login)
-							});
-				}
-		}
-	});
+var _user$project$Settings$Integration = {ctor: 'Integration'};
+
 var _user$project$Home$thumbnail = function (profile) {
 	var concatTopics = F2(
 		function (topic1, topic2) {
@@ -8696,7 +8657,7 @@ var _user$project$Home$thumbnail = function (profile) {
 				ctor: '::',
 				_0: _elm_lang$html$Html_Attributes$href(
 					_user$project$Domain_Core$getUrl(
-						A3(_user$project$Domain_Core$topicUrl, _user$project$Home$runtime.topicUrl, profile.id, topic))),
+						A3(_user$project$Domain_Core$topicUrl, _user$project$Settings$runtime.topicUrl, profile.id, topic))),
 				_1: {ctor: '[]'}
 			},
 			{
@@ -8773,7 +8734,7 @@ var _user$project$Home$thumbnail = function (profile) {
 											ctor: '::',
 											_0: _elm_lang$html$Html_Attributes$href(
 												_user$project$Domain_Core$getUrl(
-													_user$project$Home$runtime.contributorUrl(profile.id))),
+													_user$project$Settings$runtime.contributorUrl(profile.id))),
 											_1: {ctor: '[]'}
 										},
 										{
@@ -8829,7 +8790,47 @@ var _user$project$Home$thumbnail = function (profile) {
 			}
 		});
 };
-var _user$project$Home$contributors = A2(_elm_lang$core$List$map, _user$project$Home$thumbnail, _user$project$Tests_TestAPI$recentContributors);
+var _user$project$Home$contributors = A2(_elm_lang$core$List$map, _user$project$Home$thumbnail, _user$project$Settings$runtime.recentContributors);
+var _user$project$Home$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'Video':
+				return model;
+			case 'Article':
+				return model;
+			case 'Contributor':
+				return model;
+			case 'Search':
+				return model;
+			case 'Register':
+				return model;
+			default:
+				var _p2 = _p0._0;
+				var _p1 = _p2;
+				switch (_p1.ctor) {
+					case 'Attempt':
+						var latest = A2(_user$project$Controls_Login$update, _p2, model.login);
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								login: _user$project$Settings$runtime.tryLogin(latest)
+							});
+					case 'UserInput':
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								login: A2(_user$project$Controls_Login$update, _p2, model.login)
+							});
+					default:
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								login: A2(_user$project$Controls_Login$update, _p2, model.login)
+							});
+				}
+		}
+	});
 var _user$project$Home$Content = F3(
 	function (a, b, c) {
 		return {videos: a, articles: b, podcasts: c};

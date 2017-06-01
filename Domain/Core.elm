@@ -88,6 +88,10 @@ type alias ContributorUrlfunction =
     Id -> Url
 
 
+type alias Contributorsfunction =
+    List Profile
+
+
 type alias Loginfunction =
     Login.Model -> Login.Model
 

@@ -3,8 +3,6 @@ module Home exposing (..)
 import Domain.Core exposing (..)
 import Controls.Login as Login exposing (..)
 import Settings exposing (..)
-import Tests.TestAPI as TestAPI exposing (tryLogin)
-import Services.Server as Services exposing (tryLogin)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
@@ -18,24 +16,6 @@ main =
         , update = update
         , view = view
         }
-
-
-type alias Dependencies =
-    { tryLogin : Loginfunction
-    , topicUrl : TopicUrlfunction
-    , contributorUrl : ContributorUrlfunction
-    , latestPosts : LatestPostsfunction
-    }
-
-
-runtime : Dependencies
-runtime =
-    case configuration of
-        Integration ->
-            Dependencies Services.tryLogin Services.topicUrl Services.contributorUrl Services.latestPosts
-
-        Isolation ->
-            Dependencies TestAPI.tryLogin TestAPI.topicUrl TestAPI.contributorUrl TestAPI.latestPosts
 
 
 
@@ -132,7 +112,7 @@ view model =
 
 contributors : List (Html Msg)
 contributors =
-    TestAPI.recentContributors |> List.map thumbnail
+    runtime.recentContributors |> List.map thumbnail
 
 
 thumbnail : Profile -> Html Msg

@@ -30,3 +30,8 @@ latestPosts id contentType =
 contributorUrl : Id -> Url
 contributorUrl id =
     Url "http://google.com"
+
+
+recentContributors : List Profile
+recentContributors =
+    []

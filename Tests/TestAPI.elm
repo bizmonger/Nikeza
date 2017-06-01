@@ -34,18 +34,18 @@ someTopics =
     [ Topic "F#", Topic "Elm", Topic "Test Automation", Topic "Xamarin", Topic "WPF" ]
 
 
-contributor1 : Profile
-contributor1 =
+profile1 : Profile
+profile1 =
     Profile someId (Contributor "Contributor 1") someImageUrl someDescrtiption someTopics
 
 
-contributor2 : Profile
-contributor2 =
+profile2 : Profile
+profile2 =
     Profile someId (Contributor "Contributor 2") someImageUrl someDescrtiption someTopics
 
 
-contributor3 : Profile
-contributor3 =
+profile3 : Profile
+profile3 =
     Profile someId (Contributor "Contributor 3") someImageUrl someDescrtiption someTopics
 
 
@@ -68,33 +68,33 @@ topicUrl id topic =
 
 recentContributors : List Profile
 recentContributors =
-    [ contributor1
-    , contributor2
-    , contributor3
+    [ profile1
+    , profile2
+    , profile3
     ]
 
 
 recentPodcasts : List Podcast
 recentPodcasts =
-    [ Podcast <| Post contributor1 someTitle someImageUrl
-    , Podcast <| Post contributor2 someTitle someImageUrl
-    , Podcast <| Post contributor3 someTitle someImageUrl
+    [ Podcast <| Post profile1 someTitle someImageUrl
+    , Podcast <| Post profile2 someTitle someImageUrl
+    , Podcast <| Post profile3 someTitle someImageUrl
     ]
 
 
 recentArticles : List Article
 recentArticles =
-    [ Article <| Post contributor1 someTitle someImageUrl
-    , Article <| Post contributor2 someTitle someImageUrl
-    , Article <| Post contributor3 someTitle someImageUrl
+    [ Article <| Post profile1 someTitle someImageUrl
+    , Article <| Post profile2 someTitle someImageUrl
+    , Article <| Post profile3 someTitle someImageUrl
     ]
 
 
 recentVideos : List Video
 recentVideos =
-    [ Video <| Post contributor1 someTitle someImageUrl
-    , Video <| Post contributor2 someTitle someImageUrl
-    , Video <| Post contributor3 someTitle someImageUrl
+    [ Video <| Post profile1 someTitle someImageUrl
+    , Video <| Post profile2 someTitle someImageUrl
+    , Video <| Post profile3 someTitle someImageUrl
     ]
 
 
