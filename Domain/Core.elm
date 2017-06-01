@@ -96,6 +96,10 @@ type alias Loginfunction =
     Login.Model -> Login.Model
 
 
+type alias GetContributorfunction =
+    Id -> Maybe Profile
+
+
 tryLogin : Loginfunction -> String -> String -> Login.Model
 tryLogin loginf username password =
     loginf <| Login.Model username password False

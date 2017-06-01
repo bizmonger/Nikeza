@@ -21,6 +21,7 @@ type alias Dependencies =
     , contributorUrl : ContributorUrlfunction
     , latestPosts : LatestPostsfunction
     , recentContributors : Contributorsfunction
+    , getContributor : GetContributorfunction
     }
 
 
@@ -34,6 +35,7 @@ runtime =
                 Services.contributorUrl
                 Services.latestPosts
                 Services.recentContributors
+                Services.getContributor
 
         Isolation ->
             Dependencies
@@ -42,3 +44,4 @@ runtime =
                 TestAPI.contributorUrl
                 TestAPI.latestPosts
                 TestAPI.recentContributors
+                TestAPI.getContributor

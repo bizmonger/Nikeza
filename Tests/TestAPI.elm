@@ -4,9 +4,19 @@ import Controls.Login as Login exposing (Model)
 import Domain.Core exposing (..)
 
 
-someId : Id
-someId =
-    Id "some_id"
+someId1 : Id
+someId1 =
+    Id "some_id_1"
+
+
+someId2 : Id
+someId2 =
+    Id "some_id_2"
+
+
+someId3 : Id
+someId3 =
+    Id "some_id_3"
 
 
 someUrl : Url
@@ -36,17 +46,17 @@ someTopics =
 
 profile1 : Profile
 profile1 =
-    Profile someId (Contributor "Contributor 1") someImageUrl someDescrtiption someTopics
+    Profile someId1 (Contributor "Contributor 1") someImageUrl someDescrtiption someTopics
 
 
 profile2 : Profile
 profile2 =
-    Profile someId (Contributor "Contributor 2") someImageUrl someDescrtiption someTopics
+    Profile someId2 (Contributor "Contributor 2") someImageUrl someDescrtiption someTopics
 
 
 profile3 : Profile
 profile3 =
-    Profile someId (Contributor "Contributor 3") someImageUrl someDescrtiption someTopics
+    Profile someId3 (Contributor "Contributor 3") someImageUrl someDescrtiption someTopics
 
 
 tryLogin : Login.Model -> Login.Model
@@ -105,4 +115,16 @@ latestPosts id contentType =
 
 contributorUrl : Id -> Url
 contributorUrl id =
-    Url "Domain/Contributor.htm"
+    Url "Domain/Contributor.html"
+
+
+getContributor : Id -> Maybe Profile
+getContributor id =
+    if id == someId1 then
+        Just profile1
+    else if id == someId2 then
+        Just profile2
+    else if id == someId3 then
+        Just profile3
+    else
+        Nothing

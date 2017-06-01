@@ -8,6 +8,8 @@ import Html.Attributes exposing (..)
 
 
 -- elm-live Home.elm --open --output=home.js
+-- elm-make Home.elm --output=home.html
+-- elm-make Domain/Contributor.elm --output=Domain/Contributor.html
 
 
 main =

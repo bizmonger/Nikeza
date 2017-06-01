@@ -35,3 +35,8 @@ contributorUrl id =
 recentContributors : List Profile
 recentContributors =
     []
+
+
+getContributor : Id -> Maybe Profile
+getContributor id =
+    Nothing

@@ -1,3 +1,6 @@
+var _user$project$Services_Server$getContributor = function (id) {
+	return _elm_lang$core$Maybe$Nothing;
+};
 var _user$project$Services_Server$recentContributors = {ctor: '[]'};
 var _user$project$Services_Server$contributorUrl = function (id) {
 	return _user$project$Domain_Core$Url('../Domain/Contributor.elm');

@@ -8447,6 +8447,9 @@ var _user$project$Domain_Core$Podcasts = {ctor: 'Podcasts'};
 var _user$project$Domain_Core$Videos = {ctor: 'Videos'};
 var _user$project$Domain_Core$Articles = {ctor: 'Articles'};
 
+var _user$project$Tests_TestAPI$contributorUrl = function (id) {
+	return _user$project$Domain_Core$Url('Domain/Contributor.elm');
+};
 var _user$project$Tests_TestAPI$latestPosts = F2(
 	function (id, contentType) {
 		return {ctor: '[]'};
@@ -8488,46 +8491,42 @@ var _user$project$Tests_TestAPI$topicUrl = F2(
 	function (id, topic) {
 		return _user$project$Tests_TestAPI$someUrl;
 	});
-var _user$project$Tests_TestAPI$contributorUrl = function (id) {
-	return _user$project$Tests_TestAPI$someUrl;
-};
-var _user$project$Tests_TestAPI$someId = _user$project$Domain_Core$Id('some_id');
-var _user$project$Tests_TestAPI$profile1 = A5(
-	_user$project$Domain_Core$Profile,
-	_user$project$Tests_TestAPI$someId,
-	_user$project$Domain_Core$Contributor('Contributor 1'),
-	_user$project$Tests_TestAPI$someImageUrl,
-	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$someTopics);
-var _user$project$Tests_TestAPI$profile2 = A5(
-	_user$project$Domain_Core$Profile,
-	_user$project$Tests_TestAPI$someId,
-	_user$project$Domain_Core$Contributor('Contributor 2'),
-	_user$project$Tests_TestAPI$someImageUrl,
-	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$someTopics);
+var _user$project$Tests_TestAPI$someId3 = _user$project$Domain_Core$Id('some_id_3');
 var _user$project$Tests_TestAPI$profile3 = A5(
 	_user$project$Domain_Core$Profile,
-	_user$project$Tests_TestAPI$someId,
+	_user$project$Tests_TestAPI$someId3,
 	_user$project$Domain_Core$Contributor('Contributor 3'),
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$someTopics);
-var _user$project$Tests_TestAPI$recentContributors = function (_p0) {
-	var _p1 = _p0;
-	return {
+var _user$project$Tests_TestAPI$someId2 = _user$project$Domain_Core$Id('some_id_2');
+var _user$project$Tests_TestAPI$profile2 = A5(
+	_user$project$Domain_Core$Profile,
+	_user$project$Tests_TestAPI$someId2,
+	_user$project$Domain_Core$Contributor('Contributor 2'),
+	_user$project$Tests_TestAPI$someImageUrl,
+	_user$project$Tests_TestAPI$someDescrtiption,
+	_user$project$Tests_TestAPI$someTopics);
+var _user$project$Tests_TestAPI$someId1 = _user$project$Domain_Core$Id('some_id_1');
+var _user$project$Tests_TestAPI$profile1 = A5(
+	_user$project$Domain_Core$Profile,
+	_user$project$Tests_TestAPI$someId1,
+	_user$project$Domain_Core$Contributor('Contributor 1'),
+	_user$project$Tests_TestAPI$someImageUrl,
+	_user$project$Tests_TestAPI$someDescrtiption,
+	_user$project$Tests_TestAPI$someTopics);
+var _user$project$Tests_TestAPI$recentContributors = {
+	ctor: '::',
+	_0: _user$project$Tests_TestAPI$profile1,
+	_1: {
 		ctor: '::',
-		_0: _user$project$Tests_TestAPI$profile1,
+		_0: _user$project$Tests_TestAPI$profile2,
 		_1: {
 			ctor: '::',
-			_0: _user$project$Tests_TestAPI$profile2,
-			_1: {
-				ctor: '::',
-				_0: _user$project$Tests_TestAPI$profile3,
-				_1: {ctor: '[]'}
-			}
+			_0: _user$project$Tests_TestAPI$profile3,
+			_1: {ctor: '[]'}
 		}
-	};
+	}
 };
 var _user$project$Tests_TestAPI$recentPodcasts = {
 	ctor: '::',
@@ -8576,6 +8575,9 @@ var _user$project$Tests_TestAPI$recentVideos = {
 			_1: {ctor: '[]'}
 		}
 	}
+};
+var _user$project$Tests_TestAPI$getContributor = function (id) {
+	return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$someId1) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$someId2) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$someId3) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile3) : _elm_lang$core$Maybe$Nothing));
 };
 
 var Elm = {};
