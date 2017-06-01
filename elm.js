@@ -8577,7 +8577,7 @@ var _user$project$Tests_TestAPI$recentVideos = {
 
 var _user$project$Services_Server$recentContributors = {ctor: '[]'};
 var _user$project$Services_Server$contributorUrl = function (id) {
-	return _user$project$Domain_Core$Url('http://google.com');
+	return _user$project$Domain_Core$Url('../Domain/Contributor.elm');
 };
 var _user$project$Services_Server$latestPosts = F2(
 	function (id, contentType) {

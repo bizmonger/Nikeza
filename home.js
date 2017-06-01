@@ -8447,6 +8447,9 @@ var _user$project$Domain_Core$Podcasts = {ctor: 'Podcasts'};
 var _user$project$Domain_Core$Videos = {ctor: 'Videos'};
 var _user$project$Domain_Core$Articles = {ctor: 'Articles'};
 
+var _user$project$Tests_TestAPI$contributorUrl = function (id) {
+	return _user$project$Domain_Core$Url('Domain/Contributor.htm');
+};
 var _user$project$Tests_TestAPI$latestPosts = F2(
 	function (id, contentType) {
 		return {ctor: '[]'};
@@ -8488,9 +8491,6 @@ var _user$project$Tests_TestAPI$topicUrl = F2(
 	function (id, topic) {
 		return _user$project$Tests_TestAPI$someUrl;
 	});
-var _user$project$Tests_TestAPI$contributorUrl = function (id) {
-	return _user$project$Tests_TestAPI$someUrl;
-};
 var _user$project$Tests_TestAPI$someId = _user$project$Domain_Core$Id('some_id');
 var _user$project$Tests_TestAPI$profile1 = A5(
 	_user$project$Domain_Core$Profile,
@@ -8577,7 +8577,7 @@ var _user$project$Tests_TestAPI$recentVideos = {
 
 var _user$project$Services_Server$recentContributors = {ctor: '[]'};
 var _user$project$Services_Server$contributorUrl = function (id) {
-	return _user$project$Domain_Core$Url('http://google.com');
+	return _user$project$Domain_Core$Url('../Domain/Contributor.elm');
 };
 var _user$project$Services_Server$latestPosts = F2(
 	function (id, contentType) {

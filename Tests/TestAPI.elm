@@ -105,4 +105,4 @@ latestPosts id contentType =
 
 contributorUrl : Id -> Url
 contributorUrl id =
-    someUrl
+    Url "Domain/Contributor.htm"

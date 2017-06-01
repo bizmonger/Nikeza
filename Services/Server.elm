@@ -29,7 +29,7 @@ latestPosts id contentType =
 
 contributorUrl : Id -> Url
 contributorUrl id =
-    Url "http://google.com"
+    Url "../Domain/Contributor.elm"
 
 
 recentContributors : List Profile
