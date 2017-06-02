@@ -5,23 +5,34 @@ import Controls.Login as Login exposing (..)
 import Settings exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Navigation exposing (..)
 
 
 -- elm-live Home.elm --open --output=home.js
 -- elm-make Home.elm --output=home.html
 -- elm-make Domain/Contributor.elm --output=Domain/Contributor.html
+-- elm-package install elm-lang/navigation
 
 
 main =
-    Html.beginnerProgram
-        { model = model
-        , update = update
+    Navigation.program UrlChange
+        { init = model
         , view = view
+        , update = update
+        , subscriptions = (\_ -> Sub.none)
         }
 
 
 
 -- MODEL
+
+
+type alias Model =
+    { page : Page
+    , content : Content
+    , contributors : List Contributor
+    , login : Login.Model
+    }
 
 
 type alias Content =
@@ -31,19 +42,15 @@ type alias Content =
     }
 
 
-type alias Model =
-    { content : Content
-    , contributors : List Contributor
-    , login : Login.Model
-    }
-
-
-model : Model
-model =
-    { content = Content [] [] []
-    , contributors = []
-    , login = Login.model
-    }
+model : Navigation.Location -> ( Model, Cmd Msg )
+model location =
+    ( { page = HomePage
+      , content = Content [] [] []
+      , contributors = []
+      , login = Login.model
+      }
+    , Cmd.none
+    )
 
 
 
@@ -51,7 +58,8 @@ model =
 
 
 type Msg
-    = Video Video
+    = UrlChange Navigation.Location
+    | Video Video
     | Article Article
     | Contributor Contributor
     | Search String
@@ -59,23 +67,26 @@ type Msg
     | OnLogin Login.Msg
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        UrlChange location ->
+            { model | page = (getPage location.hash) } ! [ Cmd.none ]
+
         Video v ->
-            model
+            ( model, Cmd.none )
 
         Article v ->
-            model
+            ( model, Cmd.none )
 
         Contributor v ->
-            model
+            ( model, Cmd.none )
 
         Search v ->
-            model
+            ( model, Cmd.none )
 
         Register ->
-            model
+            ( model, Cmd.none )
 
         OnLogin subMsg ->
             case subMsg of
@@ -84,13 +95,13 @@ update msg model =
                         latest =
                             Login.update subMsg model.login
                     in
-                        { model | login = runtime.tryLogin latest }
+                        ( { model | login = runtime.tryLogin latest }, Cmd.none )
 
                 Login.UserInput _ ->
-                    { model | login = Login.update subMsg model.login }
+                    ( { model | login = Login.update subMsg model.login }, Cmd.none )
 
                 Login.PasswordInput _ ->
-                    { model | login = Login.update subMsg model.login }
+                    ( { model | login = Login.update subMsg model.login }, Cmd.none )
 
 
 
@@ -99,17 +110,22 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ header []
-            [ label [] [ text "Nikeza" ]
-            , model |> renderLogin
-            ]
-        , div [] contributors
-        , footer [ class "copyright" ]
-            [ label [] [ text "(c)2017" ]
-            , a [ href "" ] [ text "GitHub" ]
-            ]
-        ]
+    case model.page of
+        HomePage ->
+            div []
+                [ header []
+                    [ label [] [ text "Nikeza" ]
+                    , model |> renderLogin
+                    ]
+                , div [] contributors
+                , footer [ class "copyright" ]
+                    [ label [] [ text "(c)2017" ]
+                    , a [ href "" ] [ text "GitHub" ]
+                    ]
+                ]
+
+        _ ->
+            div [] [ text "Not Found" ]
 
 
 contributors : List (Html Msg)
@@ -171,3 +187,33 @@ renderLogin model =
             Html.map OnLogin <| Login.view model.login
         else
             div [ class "signin" ] [ welcome, signout ]
+
+
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.none
+
+
+
+-- NAVIGATION
+
+
+type Page
+    = HomePage
+    | ContributorsPage
+    | ContributorPage
+    | NotFound
+
+
+getPage : String -> Page
+getPage hash =
+    case hash of
+        "#home" ->
+            HomePage
+
+        _ ->
+            NotFound

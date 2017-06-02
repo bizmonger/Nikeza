@@ -1,3 +1,6 @@
+var _user$project$Home$subscriptions = function (model) {
+	return _elm_lang$core$Platform_Sub$none;
+};
 var _user$project$Home$thumbnail = function (profile) {
 	var concatTopics = F2(
 		function (topic1, topic2) {
@@ -177,62 +180,13 @@ var _user$project$Home$thumbnail = function (profile) {
 		});
 };
 var _user$project$Home$contributors = A2(_elm_lang$core$List$map, _user$project$Home$thumbnail, _user$project$Settings$runtime.recentContributors);
-var _user$project$Home$update = F2(
-	function (msg, model) {
-		var _p0 = msg;
-		switch (_p0.ctor) {
-			case 'Video':
-				return model;
-			case 'Article':
-				return model;
-			case 'Contributor':
-				return model;
-			case 'Search':
-				return model;
-			case 'Register':
-				return model;
-			default:
-				var _p2 = _p0._0;
-				var _p1 = _p2;
-				switch (_p1.ctor) {
-					case 'Attempt':
-						var latest = A2(_user$project$Controls_Login$update, _p2, model.login);
-						return _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								login: _user$project$Settings$runtime.tryLogin(latest)
-							});
-					case 'UserInput':
-						return _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								login: A2(_user$project$Controls_Login$update, _p2, model.login)
-							});
-					default:
-						return _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								login: A2(_user$project$Controls_Login$update, _p2, model.login)
-							});
-				}
-		}
+var _user$project$Home$Model = F4(
+	function (a, b, c, d) {
+		return {page: a, content: b, contributors: c, login: d};
 	});
 var _user$project$Home$Content = F3(
 	function (a, b, c) {
 		return {videos: a, articles: b, podcasts: c};
-	});
-var _user$project$Home$model = {
-	content: A3(
-		_user$project$Home$Content,
-		{ctor: '[]'},
-		{ctor: '[]'},
-		{ctor: '[]'}),
-	contributors: {ctor: '[]'},
-	login: _user$project$Controls_Login$model
-};
-var _user$project$Home$Model = F3(
-	function (a, b, c) {
-		return {content: a, contributors: b, login: c};
 	});
 var _user$project$Home$OnLogin = function (a) {
 	return {ctor: 'OnLogin', _0: a};
@@ -291,79 +245,89 @@ var _user$project$Home$renderLogin = function (model) {
 		});
 };
 var _user$project$Home$view = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$header,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$label,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('Nikeza'),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: _user$project$Home$renderLogin(model),
-						_1: {ctor: '[]'}
-					}
-				}),
-			_1: {
+	var _p0 = model.page;
+	if (_p0.ctor === 'HomePage') {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$div,
+					_elm_lang$html$Html$header,
 					{ctor: '[]'},
-					_user$project$Home$contributors),
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$label,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Nikeza'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: _user$project$Home$renderLogin(model),
+							_1: {ctor: '[]'}
+						}
+					}),
 				_1: {
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$footer,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('copyright'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$label,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text('(c)2017'),
-									_1: {ctor: '[]'}
-								}),
-							_1: {
+						_elm_lang$html$Html$div,
+						{ctor: '[]'},
+						_user$project$Home$contributors),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$footer,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('copyright'),
+								_1: {ctor: '[]'}
+							},
+							{
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$a,
+									_elm_lang$html$Html$label,
+									{ctor: '[]'},
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$href(''),
-										_1: {ctor: '[]'}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text('GitHub'),
+										_0: _elm_lang$html$Html$text('(c)2017'),
 										_1: {ctor: '[]'}
 									}),
-								_1: {ctor: '[]'}
-							}
-						}),
-					_1: {ctor: '[]'}
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$a,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$href(''),
+											_1: {ctor: '[]'}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('GitHub'),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}),
+						_1: {ctor: '[]'}
+					}
 				}
-			}
-		});
+			});
+	} else {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text('Not Found'),
+				_1: {ctor: '[]'}
+			});
+	}
 };
-var _user$project$Home$main = _elm_lang$html$Html$beginnerProgram(
-	{model: _user$project$Home$model, update: _user$project$Home$update, view: _user$project$Home$view})();
 var _user$project$Home$Register = {ctor: 'Register'};
 var _user$project$Home$Search = function (a) {
 	return {ctor: 'Search', _0: a};
@@ -377,3 +341,110 @@ var _user$project$Home$Article = function (a) {
 var _user$project$Home$Video = function (a) {
 	return {ctor: 'Video', _0: a};
 };
+var _user$project$Home$UrlChange = function (a) {
+	return {ctor: 'UrlChange', _0: a};
+};
+var _user$project$Home$NotFound = {ctor: 'NotFound'};
+var _user$project$Home$ContributorPage = {ctor: 'ContributorPage'};
+var _user$project$Home$ContributorsPage = {ctor: 'ContributorsPage'};
+var _user$project$Home$HomePage = {ctor: 'HomePage'};
+var _user$project$Home$model = function (location) {
+	return {
+		ctor: '_Tuple2',
+		_0: {
+			page: _user$project$Home$HomePage,
+			content: A3(
+				_user$project$Home$Content,
+				{ctor: '[]'},
+				{ctor: '[]'},
+				{ctor: '[]'}),
+			contributors: {ctor: '[]'},
+			login: _user$project$Controls_Login$model
+		},
+		_1: _elm_lang$core$Platform_Cmd$none
+	};
+};
+var _user$project$Home$getPage = function (hash) {
+	var _p1 = hash;
+	if (_p1 === '#home') {
+		return _user$project$Home$HomePage;
+	} else {
+		return _user$project$Home$NotFound;
+	}
+};
+var _user$project$Home$update = F2(
+	function (msg, model) {
+		var _p2 = msg;
+		switch (_p2.ctor) {
+			case 'UrlChange':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{
+							page: _user$project$Home$getPage(_p2._0.hash)
+						}),
+					{
+						ctor: '::',
+						_0: _elm_lang$core$Platform_Cmd$none,
+						_1: {ctor: '[]'}
+					});
+			case 'Video':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'Article':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'Contributor':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'Search':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'Register':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			default:
+				var _p4 = _p2._0;
+				var _p3 = _p4;
+				switch (_p3.ctor) {
+					case 'Attempt':
+						var latest = A2(_user$project$Controls_Login$update, _p4, model.login);
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{
+									login: _user$project$Settings$runtime.tryLogin(latest)
+								}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					case 'UserInput':
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{
+									login: A2(_user$project$Controls_Login$update, _p4, model.login)
+								}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					default:
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{
+									login: A2(_user$project$Controls_Login$update, _p4, model.login)
+								}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+				}
+		}
+	});
+var _user$project$Home$main = A2(
+	_elm_lang$navigation$Navigation$program,
+	_user$project$Home$UrlChange,
+	{
+		init: _user$project$Home$model,
+		view: _user$project$Home$view,
+		update: _user$project$Home$update,
+		subscriptions: function (_p5) {
+			return _elm_lang$core$Platform_Sub$none;
+		}
+	})();
