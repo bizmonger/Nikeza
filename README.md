@@ -1,4 +1,6 @@
 # Nikeza
+![Build Pipeline](https://lambdacartel.visualstudio.com/_apis/public/build/definitions/b1ffd400-fa75-4529-a3a9-dadf020b2150/1/badge)
+
 Platform for associating content to their providers.
 
 ## Pre-Requisites
