@@ -167,14 +167,11 @@ contributors =
 renderLogin : Model -> Html Msg
 renderLogin model =
     let
-        loggedIn =
-            model.login.loggedIn
-
-        welcome =
-            p [] [ text <| "Welcome " ++ model.login.username ++ "!" ]
-
-        signout =
-            a [ href "" ] [ label [] [ text "Signout" ] ]
+        ( loggedIn, welcome, signout ) =
+            ( model.login.loggedIn
+            , p [] [ text <| "Welcome " ++ model.login.username ++ "!" ]
+            , a [ href "" ] [ label [] [ text "Signout" ] ]
+            )
     in
         if (not loggedIn) then
             Html.map OnLogin <| Login.view model.login

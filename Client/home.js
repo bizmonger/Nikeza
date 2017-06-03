@@ -10006,38 +10006,44 @@ var _user$project$Home$OnLogin = function (a) {
 	return {ctor: 'OnLogin', _0: a};
 };
 var _user$project$Home$renderLogin = function (model) {
-	var signout = A2(
-		_elm_lang$html$Html$a,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$href(''),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$label,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Signout'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {ctor: '[]'}
-		});
-	var welcome = A2(
-		_elm_lang$html$Html$p,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text(
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					'Welcome ',
-					A2(_elm_lang$core$Basics_ops['++'], model.login.username, '!'))),
-			_1: {ctor: '[]'}
-		});
-	var loggedIn = model.login.loggedIn;
+	var _p2 = {
+		ctor: '_Tuple3',
+		_0: model.login.loggedIn,
+		_1: A2(
+			_elm_lang$html$Html$p,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						'Welcome ',
+						A2(_elm_lang$core$Basics_ops['++'], model.login.username, '!'))),
+				_1: {ctor: '[]'}
+			}),
+		_2: A2(
+			_elm_lang$html$Html$a,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$href(''),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$label,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Signout'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			})
+	};
+	var loggedIn = _p2._0;
+	var welcome = _p2._1;
+	var signout = _p2._2;
 	return (!loggedIn) ? A2(
 		_elm_lang$html$Html$map,
 		_user$project$Home$OnLogin,
@@ -10136,20 +10142,20 @@ var _user$project$Home$homePage = function (model) {
 };
 var _user$project$Home$view = function (model) {
 	var routePath = _user$project$Home$fromUrlHash(model.currentRoute.hash);
-	var _p2 = routePath;
+	var _p3 = routePath;
 	_v2_3:
 	do {
-		if (_p2.ctor === '[]') {
+		if (_p3.ctor === '[]') {
 			return _user$project$Home$homePage(model);
 		} else {
-			if (_p2._1.ctor === '[]') {
-				if (_p2._0 === 'home') {
+			if (_p3._1.ctor === '[]') {
+				if (_p3._0 === 'home') {
 					return _user$project$Home$homePage(model);
 				} else {
 					break _v2_3;
 				}
 			} else {
-				if ((_p2._0 === 'contributor') && (_p2._1._1.ctor === '[]')) {
+				if ((_p3._0 === 'contributor') && (_p3._1._1.ctor === '[]')) {
 					return A2(
 						_elm_lang$html$Html$map,
 						_user$project$Home$Contributor,
@@ -10179,7 +10185,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$model,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p3) {
+		subscriptions: function (_p4) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();
