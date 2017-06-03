@@ -75,6 +75,9 @@ update msg model =
         UrlChange location ->
             ( { model | currentRoute = location }, Cmd.none )
 
+        OnLogin subMsg ->
+            onLogin model subMsg
+
         Video v ->
             ( model, Cmd.none )
 
@@ -90,23 +93,25 @@ update msg model =
         Register ->
             ( model, Cmd.none )
 
-        OnLogin subMsg ->
-            case subMsg of
-                Login.Attempt v ->
-                    let
-                        latest =
-                            Login.update subMsg model.login
-                    in
-                        ( { model | login = runtime.tryLogin latest }, Cmd.none )
-
-                Login.UserInput _ ->
-                    ( { model | login = Login.update subMsg model.login }, Cmd.none )
-
-                Login.PasswordInput _ ->
-                    ( { model | login = Login.update subMsg model.login }, Cmd.none )
-
         ContributorMsg subMsg ->
             ( model, Cmd.none )
+
+
+onLogin : Model -> Login.Msg -> ( Model, Cmd Msg )
+onLogin model subMsg =
+    case subMsg of
+        Login.Attempt v ->
+            let
+                latest =
+                    Login.update subMsg model.login
+            in
+                ( { model | login = runtime.tryLogin latest }, Cmd.none )
+
+        Login.UserInput _ ->
+            ( { model | login = Login.update subMsg model.login }, Cmd.none )
+
+        Login.PasswordInput _ ->
+            ( { model | login = Login.update subMsg model.login }, Cmd.none )
 
 
 

@@ -9889,18 +9889,57 @@ var _user$project$Home$notFoundPage = A2(
 		_0: _elm_lang$html$Html$text('Not Found'),
 		_1: {ctor: '[]'}
 	});
+var _user$project$Home$onLogin = F2(
+	function (model, subMsg) {
+		var _p0 = subMsg;
+		switch (_p0.ctor) {
+			case 'Attempt':
+				var latest = A2(_user$project$Controls_Login$update, subMsg, model.login);
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							login: _user$project$Settings$runtime.tryLogin(latest)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'UserInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							login: A2(_user$project$Controls_Login$update, subMsg, model.login)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							login: A2(_user$project$Controls_Login$update, subMsg, model.login)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+		}
+	});
 var _user$project$Home$update = F2(
 	function (msg, model) {
-		var _p0 = msg;
-		switch (_p0.ctor) {
+		var _p1 = msg;
+		switch (_p1.ctor) {
 			case 'UrlChange':
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{currentRoute: _p0._0}),
+						{currentRoute: _p1._0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
+			case 'OnLogin':
+				return A2(_user$project$Home$onLogin, model, _p1._0);
 			case 'Video':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Article':
@@ -9911,42 +9950,6 @@ var _user$project$Home$update = F2(
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Register':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			case 'OnLogin':
-				var _p2 = _p0._0;
-				var _p1 = _p2;
-				switch (_p1.ctor) {
-					case 'Attempt':
-						var latest = A2(_user$project$Controls_Login$update, _p2, model.login);
-						return {
-							ctor: '_Tuple2',
-							_0: _elm_lang$core$Native_Utils.update(
-								model,
-								{
-									login: _user$project$Settings$runtime.tryLogin(latest)
-								}),
-							_1: _elm_lang$core$Platform_Cmd$none
-						};
-					case 'UserInput':
-						return {
-							ctor: '_Tuple2',
-							_0: _elm_lang$core$Native_Utils.update(
-								model,
-								{
-									login: A2(_user$project$Controls_Login$update, _p2, model.login)
-								}),
-							_1: _elm_lang$core$Platform_Cmd$none
-						};
-					default:
-						return {
-							ctor: '_Tuple2',
-							_0: _elm_lang$core$Native_Utils.update(
-								model,
-								{
-									login: A2(_user$project$Controls_Login$update, _p2, model.login)
-								}),
-							_1: _elm_lang$core$Platform_Cmd$none
-						};
-				}
 			default:
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 		}
@@ -10108,20 +10111,20 @@ var _user$project$Home$homePage = function (model) {
 };
 var _user$project$Home$view = function (model) {
 	var routePath = _user$project$Home$fromUrlHash(model.currentRoute.hash);
-	var _p3 = routePath;
+	var _p2 = routePath;
 	_v2_3:
 	do {
-		if (_p3.ctor === '[]') {
+		if (_p2.ctor === '[]') {
 			return _user$project$Home$homePage(model);
 		} else {
-			if (_p3._1.ctor === '[]') {
-				if (_p3._0 === 'home') {
+			if (_p2._1.ctor === '[]') {
+				if (_p2._0 === 'home') {
 					return _user$project$Home$notFoundPage;
 				} else {
 					break _v2_3;
 				}
 			} else {
-				if ((_p3._0 === 'contributors') && (_p3._1._1.ctor === '[]')) {
+				if ((_p2._0 === 'contributors') && (_p2._1._1.ctor === '[]')) {
 					var contributorModel = A5(
 						_user$project$Domain_Contributor$Model,
 						_user$project$Domain_Core$Id(''),
@@ -10164,7 +10167,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$model,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p4) {
+		subscriptions: function (_p3) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();
