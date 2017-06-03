@@ -143,9 +143,9 @@ homePage model =
     div []
         [ header []
             [ label [] [ text "Nikeza" ]
-            , model |> renderLogin
+            , model |> loginUI
             ]
-        , div [] [ contributors ]
+        , div [] [ contributorsUI ]
         , footer [ class "copyright" ]
             [ label [] [ text "(c)2017" ]
             , a [ href "" ] [ text "GitHub" ]
@@ -158,13 +158,13 @@ notFoundPage =
     div [] [ text "Not Found" ]
 
 
-contributors : Html Msg
-contributors =
+contributorsUI : Html Msg
+contributorsUI =
     Html.map ProfileThumbnail (div [] (runtime.recentContributors |> List.map thumbnail))
 
 
-renderLogin : Model -> Html Msg
-renderLogin model =
+loginUI : Model -> Html Msg
+loginUI model =
     let
         ( loggedIn, welcome, signout ) =
             ( model.login.loggedIn

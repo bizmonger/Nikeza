@@ -9975,7 +9975,7 @@ var _user$project$Home$model = function (location) {
 var _user$project$Home$ProfileThumbnail = function (a) {
 	return {ctor: 'ProfileThumbnail', _0: a};
 };
-var _user$project$Home$contributors = A2(
+var _user$project$Home$contributorsUI = A2(
 	_elm_lang$html$Html$map,
 	_user$project$Home$ProfileThumbnail,
 	A2(
@@ -9998,7 +9998,7 @@ var _user$project$Home$Contributor = function (a) {
 var _user$project$Home$OnLogin = function (a) {
 	return {ctor: 'OnLogin', _0: a};
 };
-var _user$project$Home$renderLogin = function (model) {
+var _user$project$Home$loginUI = function (model) {
 	var _p2 = {
 		ctor: '_Tuple3',
 		_0: model.login.loggedIn,
@@ -10078,7 +10078,7 @@ var _user$project$Home$homePage = function (model) {
 						}),
 					_1: {
 						ctor: '::',
-						_0: _user$project$Home$renderLogin(model),
+						_0: _user$project$Home$loginUI(model),
 						_1: {ctor: '[]'}
 					}
 				}),
@@ -10089,7 +10089,7 @@ var _user$project$Home$homePage = function (model) {
 					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: _user$project$Home$contributors,
+						_0: _user$project$Home$contributorsUI,
 						_1: {ctor: '[]'}
 					}),
 				_1: {
