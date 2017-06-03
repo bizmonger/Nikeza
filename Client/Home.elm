@@ -3,6 +3,7 @@ module Home exposing (..)
 import Domain.Core exposing (..)
 import Domain.Contributor as Contributor exposing (..)
 import Controls.Login as Login exposing (..)
+import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
 import Settings exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -67,6 +68,7 @@ type Msg
     | Search String
     | Register
     | ContributorMsg Contributor.Msg
+    | OnProfileThumbnail ProfileThumbnail.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -94,6 +96,9 @@ update msg model =
             ( model, Cmd.none )
 
         ContributorMsg subMsg ->
+            ( model, Cmd.none )
+
+        OnProfileThumbnail subMsg ->
             ( model, Cmd.none )
 
 
@@ -145,7 +150,7 @@ homePage model =
             [ label [] [ text "Nikeza" ]
             , model |> renderLogin
             ]
-        , div [] contributors
+        , div [] [ contributors ]
         , footer [ class "copyright" ]
             [ label [] [ text "(c)2017" ]
             , a [ href "" ] [ text "GitHub" ]
@@ -158,47 +163,9 @@ notFoundPage =
     div [] [ text "Not Found" ]
 
 
-contributors : List (Html Msg)
+contributors : Html Msg
 contributors =
-    runtime.recentContributors |> List.map thumbnail
-
-
-thumbnail : Profile -> Html Msg
-thumbnail profile =
-    let
-        formatTopic topic =
-            a [ href <| getUrl <| topicUrl runtime.topicUrl profile.id topic ] [ i [] [ text <| gettopic topic ] ]
-
-        concatTopics topic1 topic2 =
-            span []
-                [ topic1
-                , label [] [ text " " ]
-                , topic2
-                , label [] [ text " " ]
-                ]
-
-        topics =
-            List.foldr concatTopics (div [] []) (profile.topics |> List.map formatTopic)
-
-        topicsAndBio =
-            div []
-                [ topics
-                , br [] []
-                , label [] [ text profile.bio ]
-                ]
-    in
-        div []
-            [ table []
-                [ tr []
-                    [ td []
-                        [ a [ href <| getUrl <| runtime.contributorUrl profile.id ]
-                            [ img [ src <| getUrl profile.imageUrl, width 50, height 50 ] [] ]
-                        ]
-                    , td [] [ topicsAndBio ]
-                    ]
-                ]
-            , label [] [ text (profile.name |> getName) ]
-            ]
+    Html.map OnProfileThumbnail (div [] (runtime.recentContributors |> List.map thumbnail))
 
 
 renderLogin : Model -> Html Msg
