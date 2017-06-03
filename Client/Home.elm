@@ -179,15 +179,6 @@ renderLogin model =
 
 
 
--- SUBSCRIPTIONS
-
-
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    Sub.none
-
-
-
 -- NAVIGATION
 
 

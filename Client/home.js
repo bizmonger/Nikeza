@@ -9875,9 +9875,6 @@ var _user$project$Home$fromUrlHash = function (urlHash) {
 		1,
 		A2(_elm_lang$core$String$split, '/', urlHash));
 };
-var _user$project$Home$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$none;
-};
 var _user$project$Home$notFoundPage = A2(
 	_elm_lang$html$Html$div,
 	{ctor: '[]'},
