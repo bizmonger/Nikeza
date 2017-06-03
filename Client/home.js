@@ -9478,15 +9478,11 @@ var _user$project$Tests_TestAPI$someTopics = {
 		_0: _user$project$Domain_Core$Topic('Elm'),
 		_1: {
 			ctor: '::',
-			_0: _user$project$Domain_Core$Topic('Test Automation'),
+			_0: _user$project$Domain_Core$Topic('Xamarin'),
 			_1: {
 				ctor: '::',
-				_0: _user$project$Domain_Core$Topic('Xamarin'),
-				_1: {
-					ctor: '::',
-					_0: _user$project$Domain_Core$Topic('WPF'),
-					_1: {ctor: '[]'}
-				}
+				_0: _user$project$Domain_Core$Topic('WPF'),
+				_1: {ctor: '[]'}
 			}
 		}
 	}

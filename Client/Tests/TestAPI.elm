@@ -41,7 +41,7 @@ someDescrtiption =
 
 someTopics : List Topic
 someTopics =
-    [ Topic "F#", Topic "Elm", Topic "Test Automation", Topic "Xamarin", Topic "WPF" ]
+    [ Topic "F#", Topic "Elm", Topic "Xamarin", Topic "WPF" ]
 
 
 profile1 : Profile
