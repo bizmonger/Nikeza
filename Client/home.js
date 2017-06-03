@@ -9981,6 +9981,19 @@ var _user$project$Home$model = function (location) {
 var _user$project$Home$ContributorMsg = function (a) {
 	return {ctor: 'ContributorMsg', _0: a};
 };
+var _user$project$Home$Register = {ctor: 'Register'};
+var _user$project$Home$Search = function (a) {
+	return {ctor: 'Search', _0: a};
+};
+var _user$project$Home$Contributor = function (a) {
+	return {ctor: 'Contributor', _0: a};
+};
+var _user$project$Home$Article = function (a) {
+	return {ctor: 'Article', _0: a};
+};
+var _user$project$Home$Video = function (a) {
+	return {ctor: 'Video', _0: a};
+};
 var _user$project$Home$OnLogin = function (a) {
 	return {ctor: 'OnLogin', _0: a};
 };
@@ -10143,19 +10156,6 @@ var _user$project$Home$view = function (model) {
 		}
 	} while(false);
 	return _user$project$Home$notFoundPage;
-};
-var _user$project$Home$Register = {ctor: 'Register'};
-var _user$project$Home$Search = function (a) {
-	return {ctor: 'Search', _0: a};
-};
-var _user$project$Home$Contributor = function (a) {
-	return {ctor: 'Contributor', _0: a};
-};
-var _user$project$Home$Article = function (a) {
-	return {ctor: 'Article', _0: a};
-};
-var _user$project$Home$Video = function (a) {
-	return {ctor: 'Video', _0: a};
 };
 var _user$project$Home$UrlChange = function (a) {
 	return {ctor: 'UrlChange', _0: a};

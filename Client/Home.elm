@@ -60,12 +60,12 @@ model location =
 
 type Msg
     = UrlChange Navigation.Location
+    | OnLogin Login.Msg
     | Video Video
     | Article Article
     | Contributor Contributor
     | Search String
     | Register
-    | OnLogin Login.Msg
     | ContributorMsg Contributor.Msg
 
 
