@@ -2,6 +2,7 @@ module Domain.Contributor exposing (..)
 
 import Html exposing (..)
 import Domain.Core exposing (..)
+import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
 import Settings exposing (..)
 
 
@@ -18,7 +19,7 @@ main =
 
 
 type alias Model =
-    { profileId : Id
+    { profile : Profile
     , topics : List Topic
     , articles : List Post
     , videos : List Post
@@ -28,7 +29,7 @@ type alias Model =
 
 model : Model
 model =
-    { profileId = Id "undefined"
+    { profile = Profile (Id undefined) (Contributor undefined) (Url undefined) undefined []
     , topics = []
     , articles = []
     , videos = []
@@ -41,6 +42,7 @@ type Msg
     | ArticlesSelected
     | VideosSelected
     | PodcastsSelected
+    | None ProfileThumbnail.Msg
 
 
 update : Msg -> Model -> Model
@@ -50,13 +52,16 @@ update msg model =
             { model | topics = [] }
 
         ArticlesSelected ->
-            { model | articles = runtime.latestPosts model.profileId Articles }
+            { model | articles = runtime.latestPosts model.profile.id Articles }
 
         VideosSelected ->
-            { model | videos = runtime.latestPosts model.profileId Videos }
+            { model | videos = runtime.latestPosts model.profile.id Videos }
 
         PodcastsSelected ->
-            { model | podcasts = runtime.latestPosts model.profileId Podcasts }
+            { model | podcasts = runtime.latestPosts model.profile.id Podcasts }
+
+        None subMsg ->
+            model
 
 
 
@@ -66,5 +71,5 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ p [] [ text "Welcome to the Contributor Page..." ]
+        [ Html.map None (thumbnail model.profile)
         ]

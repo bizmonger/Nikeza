@@ -9382,6 +9382,7 @@ var _user$project$Controls_Login$view = function (model) {
 		});
 };
 
+var _user$project$Domain_Core$undefined = 'undefined';
 var _user$project$Domain_Core$latestPosts = F3(
 	function (f, contributorId, contentType) {
 		return A2(f, contributorId, contentType);
@@ -9804,23 +9805,6 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (profile) {
 };
 var _user$project$Controls_ProfileThumbnail$None = {ctor: 'None'};
 
-var _user$project$Domain_Contributor$view = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$p,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Welcome to the Contributor Page...'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {ctor: '[]'}
-		});
-};
 var _user$project$Domain_Contributor$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
@@ -9835,35 +9819,59 @@ var _user$project$Domain_Contributor$update = F2(
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{
-						articles: A2(_user$project$Settings$runtime.latestPosts, model.profileId, _user$project$Domain_Core$Articles)
+						articles: A2(_user$project$Settings$runtime.latestPosts, model.profile.id, _user$project$Domain_Core$Articles)
 					});
 			case 'VideosSelected':
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{
-						videos: A2(_user$project$Settings$runtime.latestPosts, model.profileId, _user$project$Domain_Core$Videos)
+						videos: A2(_user$project$Settings$runtime.latestPosts, model.profile.id, _user$project$Domain_Core$Videos)
 					});
-			default:
+			case 'PodcastsSelected':
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{
-						podcasts: A2(_user$project$Settings$runtime.latestPosts, model.profileId, _user$project$Domain_Core$Podcasts)
+						podcasts: A2(_user$project$Settings$runtime.latestPosts, model.profile.id, _user$project$Domain_Core$Podcasts)
 					});
+			default:
+				return model;
 		}
 	});
 var _user$project$Domain_Contributor$model = {
-	profileId: _user$project$Domain_Core$Id('undefined'),
+	profile: A5(
+		_user$project$Domain_Core$Profile,
+		_user$project$Domain_Core$Id(_user$project$Domain_Core$undefined),
+		_user$project$Domain_Core$Contributor(_user$project$Domain_Core$undefined),
+		_user$project$Domain_Core$Url(_user$project$Domain_Core$undefined),
+		_user$project$Domain_Core$undefined,
+		{ctor: '[]'}),
 	topics: {ctor: '[]'},
 	articles: {ctor: '[]'},
 	videos: {ctor: '[]'},
 	podcasts: {ctor: '[]'}
 };
-var _user$project$Domain_Contributor$main = _elm_lang$html$Html$beginnerProgram(
-	{model: _user$project$Domain_Contributor$model, update: _user$project$Domain_Contributor$update, view: _user$project$Domain_Contributor$view})();
 var _user$project$Domain_Contributor$Model = F5(
 	function (a, b, c, d, e) {
-		return {profileId: a, topics: b, articles: c, videos: d, podcasts: e};
+		return {profile: a, topics: b, articles: c, videos: d, podcasts: e};
 	});
+var _user$project$Domain_Contributor$None = function (a) {
+	return {ctor: 'None', _0: a};
+};
+var _user$project$Domain_Contributor$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$map,
+				_user$project$Domain_Contributor$None,
+				_user$project$Controls_ProfileThumbnail$thumbnail(model.profile)),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Domain_Contributor$main = _elm_lang$html$Html$beginnerProgram(
+	{model: _user$project$Domain_Contributor$model, update: _user$project$Domain_Contributor$update, view: _user$project$Domain_Contributor$view})();
 var _user$project$Domain_Contributor$PodcastsSelected = {ctor: 'PodcastsSelected'};
 var _user$project$Domain_Contributor$VideosSelected = {ctor: 'VideosSelected'};
 var _user$project$Domain_Contributor$ArticlesSelected = {ctor: 'ArticlesSelected'};
@@ -10149,17 +10157,24 @@ var _user$project$Home$view = function (model) {
 				}
 			} else {
 				if ((_p3._0 === 'contributor') && (_p3._1._1.ctor === '[]')) {
-					return A2(
-						_elm_lang$html$Html$map,
-						_user$project$Home$Contributor,
-						_user$project$Domain_Contributor$view(
-							A5(
-								_user$project$Domain_Contributor$Model,
-								_user$project$Domain_Core$Id(''),
-								{ctor: '[]'},
-								{ctor: '[]'},
-								{ctor: '[]'},
-								{ctor: '[]'})));
+					var result = _user$project$Settings$runtime.getContributor(
+						_user$project$Domain_Core$Id(_p3._1._0));
+					var _p4 = result;
+					if (_p4.ctor === 'Just') {
+						return A2(
+							_elm_lang$html$Html$map,
+							_user$project$Home$Contributor,
+							_user$project$Domain_Contributor$view(
+								A5(
+									_user$project$Domain_Contributor$Model,
+									_p4._0,
+									{ctor: '[]'},
+									{ctor: '[]'},
+									{ctor: '[]'},
+									{ctor: '[]'})));
+					} else {
+						return _user$project$Home$notFoundPage;
+					}
 				} else {
 					break _v2_3;
 				}
@@ -10178,7 +10193,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$model,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p4) {
+		subscriptions: function (_p5) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();

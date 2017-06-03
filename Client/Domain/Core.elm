@@ -127,3 +127,8 @@ type alias LatestPostsfunction =
 latestPosts : LatestPostsfunction -> Id -> ContentType -> List Post
 latestPosts f contributorId contentType =
     f contributorId contentType
+
+
+undefined : String
+undefined =
+    "undefined"

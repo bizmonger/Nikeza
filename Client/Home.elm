@@ -132,7 +132,16 @@ view model =
                 homePage model
 
             [ "contributor", id ] ->
-                Html.map Contributor <| Contributor.view <| Contributor.Model (Id "") [] [] [] []
+                let
+                    result =
+                        runtime.getContributor <| Id id
+                in
+                    case result of
+                        Just p ->
+                            Html.map Contributor <| Contributor.view <| Contributor.Model p [] [] [] []
+
+                        Nothing ->
+                            notFoundPage
 
             _ ->
                 notFoundPage
