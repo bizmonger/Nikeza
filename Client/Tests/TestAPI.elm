@@ -4,19 +4,19 @@ import Controls.Login as Login exposing (Model)
 import Domain.Core exposing (..)
 
 
-someId1 : Id
-someId1 =
-    Id "some_id_1"
+profileId1 : Id
+profileId1 =
+    Id "profile_1"
 
 
-someId2 : Id
-someId2 =
-    Id "some_id_2"
+profileId2 : Id
+profileId2 =
+    Id "profile_2"
 
 
-someId3 : Id
-someId3 =
-    Id "some_id_3"
+profileId3 : Id
+profileId3 =
+    Id "profile_3"
 
 
 someUrl : Url
@@ -46,17 +46,17 @@ someTopics =
 
 profile1 : Profile
 profile1 =
-    Profile someId1 (Contributor "Contributor 1") someImageUrl someDescrtiption someTopics
+    Profile profileId1 (Contributor "Contributor 1") someImageUrl someDescrtiption someTopics
 
 
 profile2 : Profile
 profile2 =
-    Profile someId2 (Contributor "Contributor 2") someImageUrl someDescrtiption someTopics
+    Profile profileId2 (Contributor "Contributor 2") someImageUrl someDescrtiption someTopics
 
 
 profile3 : Profile
 profile3 =
-    Profile someId3 (Contributor "Contributor 3") someImageUrl someDescrtiption someTopics
+    Profile profileId3 (Contributor "Contributor 3") someImageUrl someDescrtiption someTopics
 
 
 tryLogin : Login.Model -> Login.Model
@@ -120,11 +120,11 @@ contributorUrl id =
 
 getContributor : Id -> Maybe Profile
 getContributor id =
-    if id == someId1 then
+    if id == profileId1 then
         Just profile1
-    else if id == someId2 then
+    else if id == profileId2 then
         Just profile2
-    else if id == someId3 then
+    else if id == profileId3 then
         Just profile3
     else
         Nothing
