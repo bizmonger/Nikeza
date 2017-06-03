@@ -9945,13 +9945,11 @@ var _user$project$Home$update = F2(
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Article':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			case 'Contributor':
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Search':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Register':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			case 'ContributorMsg':
+			case 'Contributor':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			default:
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -9981,31 +9979,28 @@ var _user$project$Home$model = function (location) {
 		_1: _elm_lang$core$Platform_Cmd$none
 	};
 };
-var _user$project$Home$OnProfileThumbnail = function (a) {
-	return {ctor: 'OnProfileThumbnail', _0: a};
+var _user$project$Home$ProfileThumbnail = function (a) {
+	return {ctor: 'ProfileThumbnail', _0: a};
 };
 var _user$project$Home$contributors = A2(
 	_elm_lang$html$Html$map,
-	_user$project$Home$OnProfileThumbnail,
+	_user$project$Home$ProfileThumbnail,
 	A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, _user$project$Settings$runtime.recentContributors)));
-var _user$project$Home$ContributorMsg = function (a) {
-	return {ctor: 'ContributorMsg', _0: a};
-};
 var _user$project$Home$Register = {ctor: 'Register'};
 var _user$project$Home$Search = function (a) {
 	return {ctor: 'Search', _0: a};
-};
-var _user$project$Home$Contributor = function (a) {
-	return {ctor: 'Contributor', _0: a};
 };
 var _user$project$Home$Article = function (a) {
 	return {ctor: 'Article', _0: a};
 };
 var _user$project$Home$Video = function (a) {
 	return {ctor: 'Video', _0: a};
+};
+var _user$project$Home$Contributor = function (a) {
+	return {ctor: 'Contributor', _0: a};
 };
 var _user$project$Home$OnLogin = function (a) {
 	return {ctor: 'OnLogin', _0: a};
@@ -10157,7 +10152,7 @@ var _user$project$Home$view = function (model) {
 				if ((_p2._0 === 'contributor') && (_p2._1._1.ctor === '[]')) {
 					return A2(
 						_elm_lang$html$Html$map,
-						_user$project$Home$ContributorMsg,
+						_user$project$Home$Contributor,
 						_user$project$Domain_Contributor$view(
 							A5(
 								_user$project$Domain_Contributor$Model,

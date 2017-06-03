@@ -62,13 +62,12 @@ model location =
 type Msg
     = UrlChange Navigation.Location
     | OnLogin Login.Msg
+    | Contributor Contributor.Msg
     | Video Video
     | Article Article
-    | Contributor Contributor
     | Search String
     | Register
-    | ContributorMsg Contributor.Msg
-    | OnProfileThumbnail ProfileThumbnail.Msg
+    | ProfileThumbnail ProfileThumbnail.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -86,19 +85,16 @@ update msg model =
         Article v ->
             ( model, Cmd.none )
 
-        Contributor v ->
-            ( model, Cmd.none )
-
         Search v ->
             ( model, Cmd.none )
 
         Register ->
             ( model, Cmd.none )
 
-        ContributorMsg subMsg ->
+        Contributor subMsg ->
             ( model, Cmd.none )
 
-        OnProfileThumbnail subMsg ->
+        ProfileThumbnail subMsg ->
             ( model, Cmd.none )
 
 
@@ -137,7 +133,7 @@ view model =
                 homePage model
 
             [ "contributor", id ] ->
-                Html.map ContributorMsg <| Contributor.view <| Contributor.Model (Id "") [] [] [] []
+                Html.map Contributor <| Contributor.view <| Contributor.Model (Id "") [] [] [] []
 
             _ ->
                 notFoundPage
@@ -165,7 +161,7 @@ notFoundPage =
 
 contributors : Html Msg
 contributors =
-    Html.map OnProfileThumbnail (div [] (runtime.recentContributors |> List.map thumbnail))
+    Html.map ProfileThumbnail (div [] (runtime.recentContributors |> List.map thumbnail))
 
 
 renderLogin : Model -> Html Msg
