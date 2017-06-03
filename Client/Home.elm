@@ -129,14 +129,10 @@ view model =
                 homePage model
 
             [ "home" ] ->
-                notFoundPage
+                homePage model
 
-            [ "contributors", _ ] ->
-                let
-                    contributorModel =
-                        Contributor.Model (Id "") [] [] [] []
-                in
-                    Html.map ContributorMsg <| Contributor.view contributorModel
+            [ "contributor", id ] ->
+                Html.map ContributorMsg <| Contributor.view <| Contributor.Model (Id "") [] [] [] []
 
             _ ->
                 notFoundPage

@@ -9455,7 +9455,7 @@ var _user$project$Tests_TestAPI$contributorUrl = function (id) {
 	return _user$project$Domain_Core$Url(
 		A2(
 			_elm_lang$core$Basics_ops['++'],
-			'/#/contributors/',
+			'/#/contributor/',
 			_user$project$Domain_Core$getId(id)));
 };
 var _user$project$Tests_TestAPI$latestPosts = F2(
@@ -9639,7 +9639,7 @@ var _user$project$Domain_Contributor$view = function (model) {
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('Welcome to the Contributors Page...'),
+					_0: _elm_lang$html$Html$text('Welcome to the Contributor Page...'),
 					_1: {ctor: '[]'}
 				}),
 			_1: {ctor: '[]'}
@@ -10132,23 +10132,23 @@ var _user$project$Home$view = function (model) {
 		} else {
 			if (_p2._1.ctor === '[]') {
 				if (_p2._0 === 'home') {
-					return _user$project$Home$notFoundPage;
+					return _user$project$Home$homePage(model);
 				} else {
 					break _v2_3;
 				}
 			} else {
-				if ((_p2._0 === 'contributors') && (_p2._1._1.ctor === '[]')) {
-					var contributorModel = A5(
-						_user$project$Domain_Contributor$Model,
-						_user$project$Domain_Core$Id(''),
-						{ctor: '[]'},
-						{ctor: '[]'},
-						{ctor: '[]'},
-						{ctor: '[]'});
+				if ((_p2._0 === 'contributor') && (_p2._1._1.ctor === '[]')) {
 					return A2(
 						_elm_lang$html$Html$map,
 						_user$project$Home$ContributorMsg,
-						_user$project$Domain_Contributor$view(contributorModel));
+						_user$project$Domain_Contributor$view(
+							A5(
+								_user$project$Domain_Contributor$Model,
+								_user$project$Domain_Core$Id(''),
+								{ctor: '[]'},
+								{ctor: '[]'},
+								{ctor: '[]'},
+								{ctor: '[]'})));
 				} else {
 					break _v2_3;
 				}
