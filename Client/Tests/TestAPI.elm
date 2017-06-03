@@ -108,6 +108,30 @@ recentVideos =
     ]
 
 
+articles : Id -> List Article
+articles profileId =
+    [ Article <| Post profile1 someTitle someImageUrl
+    , Article <| Post profile2 someTitle someImageUrl
+    , Article <| Post profile3 someTitle someImageUrl
+    ]
+
+
+videos : Id -> List Video
+videos profileId =
+    [ Video <| Post profile1 someTitle someImageUrl
+    , Video <| Post profile2 someTitle someImageUrl
+    , Video <| Post profile3 someTitle someImageUrl
+    ]
+
+
+podcasts : Id -> List Podcast
+podcasts profileId =
+    [ Podcast <| Post profile1 someTitle someImageUrl
+    , Podcast <| Post profile2 someTitle someImageUrl
+    , Podcast <| Post profile3 someTitle someImageUrl
+    ]
+
+
 latestPosts : Id -> ContentType -> List Post
 latestPosts id contentType =
     []

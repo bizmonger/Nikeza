@@ -124,9 +124,36 @@ type alias LatestPostsfunction =
     Id -> ContentType -> List Post
 
 
+type alias Videosfunction =
+    Id -> List Video
+
+
+type alias Articlesfunction =
+    Id -> List Article
+
+
+type alias Podcastsfunction =
+    Id -> List Podcast
+
+
 latestPosts : LatestPostsfunction -> Id -> ContentType -> List Post
-latestPosts f contributorId contentType =
-    f contributorId contentType
+latestPosts f profileId contentType =
+    f profileId contentType
+
+
+videos : Videosfunction -> Id -> List Video
+videos f profileId =
+    f profileId
+
+
+articles : Articlesfunction -> Id -> List Article
+articles f profileId =
+    f profileId
+
+
+podcasts : Podcastsfunction -> Id -> List Podcast
+podcasts f profileId =
+    f profileId
 
 
 undefined : String

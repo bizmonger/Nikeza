@@ -72,4 +72,6 @@ view : Model -> Html Msg
 view model =
     div []
         [ Html.map None (thumbnail model.profile)
+
+        -- Add contributor's content here !!!
         ]

@@ -61,12 +61,12 @@ model location =
 type Msg
     = UrlChange Navigation.Location
     | OnLogin Login.Msg
+    | ProfileThumbnail ProfileThumbnail.Msg
     | Contributor Contributor.Msg
     | Video Video
     | Article Article
     | Search String
     | Register
-    | ProfileThumbnail ProfileThumbnail.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -97,6 +97,21 @@ update msg model =
             ( model, Cmd.none )
 
 
+videos : Id -> List Video
+videos profileId =
+    runtime.videos profileId
+
+
+articles : Id -> List Article
+articles profileId =
+    runtime.articles profileId
+
+
+podcasts : Id -> List Podcast
+podcasts profileId =
+    runtime.podcasts profileId
+
+
 onLogin : Model -> Login.Msg -> ( Model, Cmd Msg )
 onLogin model subMsg =
     case subMsg of
@@ -120,31 +135,23 @@ onLogin model subMsg =
 
 view : Model -> Html Msg
 view model =
-    let
-        routePath =
-            fromUrlHash model.currentRoute.hash
-    in
-        case routePath of
-            [] ->
-                homePage model
+    case model.currentRoute.hash |> tokenizeUrl of
+        [] ->
+            homePage model
 
-            [ "home" ] ->
-                homePage model
+        [ "home" ] ->
+            homePage model
 
-            [ "contributor", id ] ->
-                let
-                    result =
-                        runtime.getContributor <| Id id
-                in
-                    case result of
-                        Just p ->
-                            Html.map Contributor <| Contributor.view <| Contributor.Model p [] [] [] []
+        [ "contributor", id ] ->
+            case runtime.getContributor <| Id id of
+                Just p ->
+                    Html.map Contributor <| Contributor.view <| Contributor.Model p [] [] [] []
 
-                        Nothing ->
-                            notFoundPage
+                Nothing ->
+                    notFoundPage
 
-            _ ->
-                notFoundPage
+        _ ->
+            notFoundPage
 
 
 homePage : Model -> Html Msg
@@ -195,6 +202,6 @@ type alias RoutePath =
     List String
 
 
-fromUrlHash : String -> RoutePath
-fromUrlHash urlHash =
+tokenizeUrl : String -> RoutePath
+tokenizeUrl urlHash =
     urlHash |> String.split "/" |> List.drop 1
