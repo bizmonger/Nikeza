@@ -115,7 +115,7 @@ latestPosts id contentType =
 
 contributorUrl : Id -> Url
 contributorUrl id =
-    Url "Domain/Contributor.html"
+    Url <| "/#/contributors/" ++ getId id
 
 
 getContributor : Id -> Maybe Profile

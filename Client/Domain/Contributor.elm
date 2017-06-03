@@ -66,5 +66,5 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ p [] [ text "Hello World" ]
+        [ p [] [ text "Welcome to the Contributors Page..." ]
         ]

@@ -1,6 +1,7 @@
 module Home exposing (..)
 
 import Domain.Core exposing (..)
+import Domain.Contributor as Contributor exposing (..)
 import Controls.Login as Login exposing (..)
 import Settings exposing (..)
 import Html exposing (..)
@@ -28,7 +29,7 @@ main =
 
 
 type alias Model =
-    { page : Page
+    { currentRoute : Navigation.Location
     , content : Content
     , contributors : List Contributor
     , login : Login.Model
@@ -44,7 +45,7 @@ type alias Content =
 
 model : Navigation.Location -> ( Model, Cmd Msg )
 model location =
-    ( { page = HomePage
+    ( { currentRoute = location
       , content = Content [] [] []
       , contributors = []
       , login = Login.model
@@ -65,13 +66,14 @@ type Msg
     | Search String
     | Register
     | OnLogin Login.Msg
+    | ContributorMsg Contributor.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         UrlChange location ->
-            { model | page = (getPage location.hash) } ! [ Cmd.none ]
+            ( { model | currentRoute = location }, Cmd.none )
 
         Video v ->
             ( model, Cmd.none )
@@ -103,6 +105,9 @@ update msg model =
                 Login.PasswordInput _ ->
                     ( { model | login = Login.update subMsg model.login }, Cmd.none )
 
+        ContributorMsg subMsg ->
+            ( model, Cmd.none )
+
 
 
 -- VIEW
@@ -110,22 +115,46 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    case model.page of
-        HomePage ->
-            div []
-                [ header []
-                    [ label [] [ text "Nikeza" ]
-                    , model |> renderLogin
-                    ]
-                , div [] contributors
-                , footer [ class "copyright" ]
-                    [ label [] [ text "(c)2017" ]
-                    , a [ href "" ] [ text "GitHub" ]
-                    ]
-                ]
+    let
+        routePath =
+            fromUrlHash model.currentRoute.hash
+    in
+        case routePath of
+            [] ->
+                homePage model
 
-        _ ->
-            div [] [ text "Not Found" ]
+            [ "home" ] ->
+                notFoundPage
+
+            [ "contributors", _ ] ->
+                let
+                    contributorModel =
+                        Contributor.Model (Id "") [] [] [] []
+                in
+                    Html.map ContributorMsg <| Contributor.view contributorModel
+
+            _ ->
+                notFoundPage
+
+
+homePage : Model -> Html Msg
+homePage model =
+    div []
+        [ header []
+            [ label [] [ text "Nikeza" ]
+            , model |> renderLogin
+            ]
+        , div [] contributors
+        , footer [ class "copyright" ]
+            [ label [] [ text "(c)2017" ]
+            , a [ href "" ] [ text "GitHub" ]
+            ]
+        ]
+
+
+notFoundPage : Html Msg
+notFoundPage =
+    div [] [ text "Not Found" ]
 
 
 contributors : List (Html Msg)
@@ -202,18 +231,10 @@ subscriptions model =
 -- NAVIGATION
 
 
-type Page
-    = HomePage
-    | ContributorsPage
-    | ContributorPage
-    | NotFound
+type alias RoutePath =
+    List String
 
 
-getPage : String -> Page
-getPage hash =
-    case hash of
-        "#home" ->
-            HomePage
-
-        _ ->
-            NotFound
+fromUrlHash : String -> RoutePath
+fromUrlHash urlHash =
+    urlHash |> String.split "/" |> List.drop 1
