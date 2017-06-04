@@ -95,6 +95,6 @@ topicsUI : List Topic -> Html Msg
 topicsUI topics =
     let
         formattedTopics =
-            topics |> List.map (\t -> p [] [ text <| getTopic t ])
+            topics |> List.map (\t -> div [] [ input [ type_ "submit", value <| getTopic t ] [] ])
     in
         div [] formattedTopics

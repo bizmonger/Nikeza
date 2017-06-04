@@ -9885,12 +9885,23 @@ var _user$project$Domain_Contributor$topicsUI = function (topics) {
 		_elm_lang$core$List$map,
 		function (t) {
 			return A2(
-				_elm_lang$html$Html$p,
+				_elm_lang$html$Html$div,
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text(
-						_user$project$Domain_Core$getTopic(t)),
+					_0: A2(
+						_elm_lang$html$Html$input,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$type_('submit'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$value(
+									_user$project$Domain_Core$getTopic(t)),
+								_1: {ctor: '[]'}
+							}
+						},
+						{ctor: '[]'}),
 					_1: {ctor: '[]'}
 				});
 		},
