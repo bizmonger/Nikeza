@@ -9989,7 +9989,7 @@ var _user$project$Domain_Contributor$view = function (model) {
 																		{
 																			ctor: '::',
 																			_0: A2(
-																				_elm_lang$html$Html$u,
+																				_elm_lang$html$Html$b,
 																				{ctor: '[]'},
 																				{
 																					ctor: '::',
@@ -10013,7 +10013,7 @@ var _user$project$Domain_Contributor$view = function (model) {
 																			{
 																				ctor: '::',
 																				_0: A2(
-																					_elm_lang$html$Html$u,
+																					_elm_lang$html$Html$b,
 																					{ctor: '[]'},
 																					{
 																						ctor: '::',
@@ -10037,7 +10037,7 @@ var _user$project$Domain_Contributor$view = function (model) {
 																				{
 																					ctor: '::',
 																					_0: A2(
-																						_elm_lang$html$Html$u,
+																						_elm_lang$html$Html$b,
 																						{ctor: '[]'},
 																						{
 																							ctor: '::',
