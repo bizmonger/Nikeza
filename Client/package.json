@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "build": "./node_modules/elm/binwrappers/elm-make --yes",
     "server": "./node_modules/http-server/bin/http-server ."
   },
   "dependencies": {
@@ -19,6 +20,7 @@
     "webpack-dev-server": "^2.4.5"
   },
   "devDependencies": {
+    "elm": "^0.18.0",
     "http-server": "^0.10.0"
   }
 }
