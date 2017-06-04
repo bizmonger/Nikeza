@@ -1,9 +1,10 @@
 module Domain.Contributor exposing (..)
 
-import Html exposing (..)
 import Domain.Core exposing (..)
 import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
 import Settings exposing (..)
+import Html exposing (..)
+import Html.Attributes exposing (..)
 
 
 main =
@@ -71,7 +72,9 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ Html.map None (thumbnail model.profile)
-
-        -- Add contributor's content here !!!
+        [ table []
+            [ tr [] [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ] ]
+            , tr [] [ td [] [ text <| getName model.profile.name ] ]
+            , tr [] [ td [] [ p [] [ text model.profile.bio ] ] ]
+            ]
         ]

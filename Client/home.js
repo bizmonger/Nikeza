@@ -9880,6 +9880,97 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (profile) {
 };
 var _user$project$Controls_ProfileThumbnail$None = {ctor: 'None'};
 
+var _user$project$Domain_Contributor$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$table,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$tr,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$td,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$img,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$src(
+												_user$project$Domain_Core$getUrl(model.profile.imageUrl)),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$width(100),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$height(100),
+													_1: {ctor: '[]'}
+												}
+											}
+										},
+										{ctor: '[]'}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$tr,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$td,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(
+											_user$project$Domain_Core$getName(model.profile.name)),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$tr,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$td,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$p,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text(model.profile.bio),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$Domain_Contributor$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
@@ -9925,6 +10016,8 @@ var _user$project$Domain_Contributor$model = {
 	videos: {ctor: '[]'},
 	podcasts: {ctor: '[]'}
 };
+var _user$project$Domain_Contributor$main = _elm_lang$html$Html$beginnerProgram(
+	{model: _user$project$Domain_Contributor$model, update: _user$project$Domain_Contributor$update, view: _user$project$Domain_Contributor$view})();
 var _user$project$Domain_Contributor$Model = F5(
 	function (a, b, c, d, e) {
 		return {profile: a, topics: b, articles: c, videos: d, podcasts: e};
@@ -9932,21 +10025,6 @@ var _user$project$Domain_Contributor$Model = F5(
 var _user$project$Domain_Contributor$None = function (a) {
 	return {ctor: 'None', _0: a};
 };
-var _user$project$Domain_Contributor$view = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$map,
-				_user$project$Domain_Contributor$None,
-				_user$project$Controls_ProfileThumbnail$thumbnail(model.profile)),
-			_1: {ctor: '[]'}
-		});
-};
-var _user$project$Domain_Contributor$main = _elm_lang$html$Html$beginnerProgram(
-	{model: _user$project$Domain_Contributor$model, update: _user$project$Domain_Contributor$update, view: _user$project$Domain_Contributor$view})();
 var _user$project$Domain_Contributor$PodcastsSelected = {ctor: 'PodcastsSelected'};
 var _user$project$Domain_Contributor$VideosSelected = {ctor: 'VideosSelected'};
 var _user$project$Domain_Contributor$ArticlesSelected = {ctor: 'ArticlesSelected'};
