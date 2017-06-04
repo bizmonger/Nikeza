@@ -59,8 +59,8 @@ type Topic
     = Topic String
 
 
-gettopic : Topic -> String
-gettopic topic =
+getTopic : Topic -> String
+getTopic topic =
     let
         (Topic value) =
             topic

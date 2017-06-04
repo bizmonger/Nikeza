@@ -73,8 +73,28 @@ view : Model -> Html Msg
 view model =
     div []
         [ table []
-            [ tr [] [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ] ]
-            , tr [] [ td [] [ text <| getName model.profile.name ] ]
-            , tr [] [ td [] [ p [] [ text model.profile.bio ] ] ]
+            [ tr []
+                [ table []
+                    [ tr []
+                        [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
+                        , td [] [ topicsUI model.profile.topics ]
+
+                        -- [ p [] [ text "Topic 1" ]
+                        -- , p [] [ text "Topic 2" ]
+                        -- ]
+                        ]
+                    , tr [] [ td [] [ text <| getName model.profile.name ] ]
+                    , tr [] [ td [] [ p [] [ text model.profile.bio ] ] ]
+                    ]
+                ]
             ]
         ]
+
+
+topicsUI : List Topic -> Html Msg
+topicsUI topics =
+    let
+        formattedTopics =
+            topics |> List.map (\t -> p [] [ text <| getTopic t ])
+    in
+        div [] formattedTopics
