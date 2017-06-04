@@ -9971,7 +9971,89 @@ var _user$project$Domain_Contributor$view = function (model) {
 														_0: _user$project$Domain_Contributor$topicsUI(model.profile.topics),
 														_1: {ctor: '[]'}
 													}),
-												_1: {ctor: '[]'}
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$table,
+														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$tr,
+																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$td,
+																		{ctor: '[]'},
+																		{
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$u,
+																				{ctor: '[]'},
+																				{
+																					ctor: '::',
+																					_0: _elm_lang$html$Html$text('Videos'),
+																					_1: {ctor: '[]'}
+																				}),
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$tr,
+																	{ctor: '[]'},
+																	{
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$td,
+																			{ctor: '[]'},
+																			{
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html$u,
+																					{ctor: '[]'},
+																					{
+																						ctor: '::',
+																						_0: _elm_lang$html$Html$text('Podcasts'),
+																						_1: {ctor: '[]'}
+																					}),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$tr,
+																		{ctor: '[]'},
+																		{
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$td,
+																				{ctor: '[]'},
+																				{
+																					ctor: '::',
+																					_0: A2(
+																						_elm_lang$html$Html$u,
+																						{ctor: '[]'},
+																						{
+																							ctor: '::',
+																							_0: _elm_lang$html$Html$text('Articles'),
+																							_1: {ctor: '[]'}
+																						}),
+																					_1: {ctor: '[]'}
+																				}),
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {ctor: '[]'}
+																}
+															}
+														}),
+													_1: {ctor: '[]'}
+												}
 											}
 										}),
 									_1: {
