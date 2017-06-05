@@ -99,52 +99,50 @@ recentContributors =
     ]
 
 
-recentPodcasts : List Podcast
+recentPodcasts : List Post
 recentPodcasts =
-    [ Podcast <| Post profile1 someTitle someUrl [ someTopic1 ]
-    , Podcast <| Post profile2 someTitle someUrl [ someTopic2 ]
-    , Podcast <| Post profile3 someTitle someUrl [ someTopic3 ]
+    [ Post profile1 someTitle someUrl [ someTopic1 ]
+    , Post profile2 someTitle someUrl [ someTopic2 ]
+    , Post profile3 someTitle someUrl [ someTopic3 ]
     ]
 
 
-recentArticles : List Article
+recentArticles : List Post
 recentArticles =
-    [ Article <| Post profile1 someTitle someUrl [ someTopic1 ]
-    , Article <| Post profile2 someTitle someUrl [ someTopic2 ]
-    , Article <| Post profile3 someTitle someUrl [ someTopic3 ]
+    [ Post profile1 someTitle someUrl [ someTopic1 ]
+    , Post profile2 someTitle someUrl [ someTopic2 ]
+    , Post profile3 someTitle someUrl [ someTopic3 ]
     ]
 
 
-recentVideos : List Video
+recentVideos : List Post
 recentVideos =
-    [ Video <| Post profile1 someTitle someUrl [ someTopic1 ]
-    , Video <| Post profile2 someTitle someUrl [ someTopic2 ]
-    , Video <| Post profile3 someTitle someUrl [ someTopic3 ]
+    [ Post profile1 someTitle someUrl [ someTopic1 ]
+    , Post profile2 someTitle someUrl [ someTopic2 ]
+    , Post profile3 someTitle someUrl [ someTopic3 ]
     ]
 
 
-articles : Id -> List Article
-articles profileId =
-    [ Article <| Post profile1 someTitle someUrl [ someTopic1 ]
-    , Article <| Post profile2 someTitle someUrl [ someTopic2 ]
-    , Article <| Post profile3 someTitle someUrl [ someTopic3 ]
-    ]
+getContent : Id -> ContentType -> List Post
+getContent profileId contentType =
+    case contentType of
+        Article ->
+            [ Post profile1 someTitle someUrl [ someTopic1 ]
+            , Post profile2 someTitle someUrl [ someTopic2 ]
+            , Post profile3 someTitle someUrl [ someTopic3 ]
+            ]
 
+        Video ->
+            [ Post profile1 someTitle someUrl [ someTopic1 ]
+            , Post profile2 someTitle someUrl [ someTopic2 ]
+            , Post profile3 someTitle someUrl [ someTopic3 ]
+            ]
 
-videos : Id -> List Video
-videos profileId =
-    [ Video <| Post profile1 someTitle someUrl [ someTopic1 ]
-    , Video <| Post profile2 someTitle someUrl [ someTopic2 ]
-    , Video <| Post profile3 someTitle someUrl [ someTopic3 ]
-    ]
-
-
-podcasts : Id -> List Podcast
-podcasts profileId =
-    [ Podcast <| Post profile1 someTitle someUrl [ someTopic1 ]
-    , Podcast <| Post profile2 someTitle someUrl [ someTopic2 ]
-    , Podcast <| Post profile3 someTitle someUrl [ someTopic3 ]
-    ]
+        Podcast ->
+            [ Post profile1 someTitle someUrl [ someTopic1 ]
+            , Post profile2 someTitle someUrl [ someTopic2 ]
+            , Post profile3 someTitle someUrl [ someTopic3 ]
+            ]
 
 
 latestPosts : Id -> ContentType -> List Post

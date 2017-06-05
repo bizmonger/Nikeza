@@ -37,9 +37,9 @@ type alias Model =
 
 
 type alias Content =
-    { videos : List Video
-    , articles : List Article
-    , podcasts : List Podcast
+    { videos : List Post
+    , articles : List Post
+    , podcasts : List Post
     }
 
 
@@ -63,8 +63,8 @@ type Msg
     | OnLogin Login.Msg
     | ProfileThumbnail ProfileThumbnail.Msg
     | Contributor Contributor.Msg
-    | Video Video
-    | Article Article
+    | Video Post
+    | Article Post
     | Search String
     | Register
 
@@ -95,21 +95,6 @@ update msg model =
 
         ProfileThumbnail subMsg ->
             ( model, Cmd.none )
-
-
-videos : Id -> List Video
-videos profileId =
-    runtime.videos profileId
-
-
-articles : Id -> List Article
-articles profileId =
-    runtime.articles profileId
-
-
-podcasts : Id -> List Podcast
-podcasts profileId =
-    runtime.podcasts profileId
 
 
 onLogin : Model -> Login.Msg -> ( Model, Cmd Msg )

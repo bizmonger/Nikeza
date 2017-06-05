@@ -9383,17 +9383,9 @@ var _user$project$Controls_Login$view = function (model) {
 };
 
 var _user$project$Domain_Core$undefined = 'undefined';
-var _user$project$Domain_Core$podcasts = F2(
-	function (f, profileId) {
-		return f(profileId);
-	});
-var _user$project$Domain_Core$articles = F2(
-	function (f, profileId) {
-		return f(profileId);
-	});
-var _user$project$Domain_Core$videos = F2(
-	function (f, profileId) {
-		return f(profileId);
+var _user$project$Domain_Core$getContent = F3(
+	function (f, profileId, contentType) {
+		return A2(f, profileId, contentType);
 	});
 var _user$project$Domain_Core$latestPosts = F3(
 	function (f, profileId, contentType) {
@@ -9408,44 +9400,29 @@ var _user$project$Domain_Core$tryLogin = F3(
 		return loginf(
 			A3(_user$project$Controls_Login$Model, username, password, false));
 	});
-var _user$project$Domain_Core$getArticle = function (article) {
-	var _p0 = article;
-	var post = _p0._0;
-	return post;
-};
-var _user$project$Domain_Core$getPodcast = function (podcast) {
-	var _p1 = podcast;
-	var post = _p1._0;
-	return post;
-};
-var _user$project$Domain_Core$getVideo = function (video) {
-	var _p2 = video;
-	var post = _p2._0;
-	return post;
-};
 var _user$project$Domain_Core$getTopic = function (topic) {
-	var _p3 = topic;
-	var value = _p3._0;
+	var _p0 = topic;
+	var value = _p0._0;
 	return value;
 };
 var _user$project$Domain_Core$getUrl = function (url) {
-	var _p4 = url;
-	var value = _p4._0;
+	var _p1 = url;
+	var value = _p1._0;
 	return value;
 };
 var _user$project$Domain_Core$getTitle = function (title) {
-	var _p5 = title;
-	var value = _p5._0;
+	var _p2 = title;
+	var value = _p2._0;
 	return value;
 };
 var _user$project$Domain_Core$getName = function (contributor) {
-	var _p6 = contributor;
-	var value = _p6._0;
+	var _p3 = contributor;
+	var value = _p3._0;
 	return value;
 };
 var _user$project$Domain_Core$getId = function (id) {
-	var _p7 = id;
-	var value = _p7._0;
+	var _p4 = id;
+	var value = _p4._0;
 	return value;
 };
 var _user$project$Domain_Core$Profile = F5(
@@ -9471,18 +9448,9 @@ var _user$project$Domain_Core$Url = function (a) {
 var _user$project$Domain_Core$Topic = function (a) {
 	return {ctor: 'Topic', _0: a};
 };
-var _user$project$Domain_Core$Video = function (a) {
-	return {ctor: 'Video', _0: a};
-};
-var _user$project$Domain_Core$Article = function (a) {
-	return {ctor: 'Article', _0: a};
-};
-var _user$project$Domain_Core$Podcast = function (a) {
-	return {ctor: 'Podcast', _0: a};
-};
-var _user$project$Domain_Core$Podcasts = {ctor: 'Podcasts'};
-var _user$project$Domain_Core$Videos = {ctor: 'Videos'};
-var _user$project$Domain_Core$Articles = {ctor: 'Articles'};
+var _user$project$Domain_Core$Podcast = {ctor: 'Podcast'};
+var _user$project$Domain_Core$Video = {ctor: 'Video'};
+var _user$project$Domain_Core$Article = {ctor: 'Article'};
 
 var _user$project$Tests_TestAPI$contributorUrl = function (id) {
 	return _user$project$Domain_Core$Url(
@@ -9570,281 +9538,261 @@ var _user$project$Tests_TestAPI$recentContributors = {
 };
 var _user$project$Tests_TestAPI$recentPodcasts = {
 	ctor: '::',
-	_0: _user$project$Domain_Core$Podcast(
-		A4(
+	_0: A4(
+		_user$project$Domain_Core$Post,
+		_user$project$Tests_TestAPI$profile1,
+		_user$project$Tests_TestAPI$someTitle,
+		_user$project$Tests_TestAPI$someUrl,
+		{
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$someTopic1,
+			_1: {ctor: '[]'}
+		}),
+	_1: {
+		ctor: '::',
+		_0: A4(
 			_user$project$Domain_Core$Post,
-			_user$project$Tests_TestAPI$profile1,
+			_user$project$Tests_TestAPI$profile2,
 			_user$project$Tests_TestAPI$someTitle,
 			_user$project$Tests_TestAPI$someUrl,
 			{
 				ctor: '::',
-				_0: _user$project$Tests_TestAPI$someTopic1,
+				_0: _user$project$Tests_TestAPI$someTopic2,
 				_1: {ctor: '[]'}
-			})),
-	_1: {
-		ctor: '::',
-		_0: _user$project$Domain_Core$Podcast(
-			A4(
+			}),
+		_1: {
+			ctor: '::',
+			_0: A4(
 				_user$project$Domain_Core$Post,
-				_user$project$Tests_TestAPI$profile2,
+				_user$project$Tests_TestAPI$profile3,
 				_user$project$Tests_TestAPI$someTitle,
 				_user$project$Tests_TestAPI$someUrl,
 				{
 					ctor: '::',
-					_0: _user$project$Tests_TestAPI$someTopic2,
+					_0: _user$project$Tests_TestAPI$someTopic3,
 					_1: {ctor: '[]'}
-				})),
-		_1: {
-			ctor: '::',
-			_0: _user$project$Domain_Core$Podcast(
-				A4(
-					_user$project$Domain_Core$Post,
-					_user$project$Tests_TestAPI$profile3,
-					_user$project$Tests_TestAPI$someTitle,
-					_user$project$Tests_TestAPI$someUrl,
-					{
-						ctor: '::',
-						_0: _user$project$Tests_TestAPI$someTopic3,
-						_1: {ctor: '[]'}
-					})),
+				}),
 			_1: {ctor: '[]'}
 		}
 	}
 };
 var _user$project$Tests_TestAPI$recentArticles = {
 	ctor: '::',
-	_0: _user$project$Domain_Core$Article(
-		A4(
+	_0: A4(
+		_user$project$Domain_Core$Post,
+		_user$project$Tests_TestAPI$profile1,
+		_user$project$Tests_TestAPI$someTitle,
+		_user$project$Tests_TestAPI$someUrl,
+		{
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$someTopic1,
+			_1: {ctor: '[]'}
+		}),
+	_1: {
+		ctor: '::',
+		_0: A4(
 			_user$project$Domain_Core$Post,
-			_user$project$Tests_TestAPI$profile1,
+			_user$project$Tests_TestAPI$profile2,
 			_user$project$Tests_TestAPI$someTitle,
 			_user$project$Tests_TestAPI$someUrl,
 			{
 				ctor: '::',
-				_0: _user$project$Tests_TestAPI$someTopic1,
+				_0: _user$project$Tests_TestAPI$someTopic2,
 				_1: {ctor: '[]'}
-			})),
-	_1: {
-		ctor: '::',
-		_0: _user$project$Domain_Core$Article(
-			A4(
+			}),
+		_1: {
+			ctor: '::',
+			_0: A4(
 				_user$project$Domain_Core$Post,
-				_user$project$Tests_TestAPI$profile2,
+				_user$project$Tests_TestAPI$profile3,
 				_user$project$Tests_TestAPI$someTitle,
 				_user$project$Tests_TestAPI$someUrl,
 				{
 					ctor: '::',
-					_0: _user$project$Tests_TestAPI$someTopic2,
+					_0: _user$project$Tests_TestAPI$someTopic3,
 					_1: {ctor: '[]'}
-				})),
-		_1: {
-			ctor: '::',
-			_0: _user$project$Domain_Core$Article(
-				A4(
-					_user$project$Domain_Core$Post,
-					_user$project$Tests_TestAPI$profile3,
-					_user$project$Tests_TestAPI$someTitle,
-					_user$project$Tests_TestAPI$someUrl,
-					{
-						ctor: '::',
-						_0: _user$project$Tests_TestAPI$someTopic3,
-						_1: {ctor: '[]'}
-					})),
+				}),
 			_1: {ctor: '[]'}
 		}
 	}
 };
 var _user$project$Tests_TestAPI$recentVideos = {
 	ctor: '::',
-	_0: _user$project$Domain_Core$Video(
-		A4(
+	_0: A4(
+		_user$project$Domain_Core$Post,
+		_user$project$Tests_TestAPI$profile1,
+		_user$project$Tests_TestAPI$someTitle,
+		_user$project$Tests_TestAPI$someUrl,
+		{
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$someTopic1,
+			_1: {ctor: '[]'}
+		}),
+	_1: {
+		ctor: '::',
+		_0: A4(
 			_user$project$Domain_Core$Post,
-			_user$project$Tests_TestAPI$profile1,
+			_user$project$Tests_TestAPI$profile2,
 			_user$project$Tests_TestAPI$someTitle,
 			_user$project$Tests_TestAPI$someUrl,
 			{
 				ctor: '::',
-				_0: _user$project$Tests_TestAPI$someTopic1,
+				_0: _user$project$Tests_TestAPI$someTopic2,
 				_1: {ctor: '[]'}
-			})),
-	_1: {
-		ctor: '::',
-		_0: _user$project$Domain_Core$Video(
-			A4(
+			}),
+		_1: {
+			ctor: '::',
+			_0: A4(
 				_user$project$Domain_Core$Post,
-				_user$project$Tests_TestAPI$profile2,
+				_user$project$Tests_TestAPI$profile3,
 				_user$project$Tests_TestAPI$someTitle,
 				_user$project$Tests_TestAPI$someUrl,
 				{
 					ctor: '::',
-					_0: _user$project$Tests_TestAPI$someTopic2,
+					_0: _user$project$Tests_TestAPI$someTopic3,
 					_1: {ctor: '[]'}
-				})),
-		_1: {
-			ctor: '::',
-			_0: _user$project$Domain_Core$Video(
-				A4(
-					_user$project$Domain_Core$Post,
-					_user$project$Tests_TestAPI$profile3,
-					_user$project$Tests_TestAPI$someTitle,
-					_user$project$Tests_TestAPI$someUrl,
-					{
-						ctor: '::',
-						_0: _user$project$Tests_TestAPI$someTopic3,
-						_1: {ctor: '[]'}
-					})),
+				}),
 			_1: {ctor: '[]'}
 		}
 	}
 };
-var _user$project$Tests_TestAPI$articles = function (profileId) {
-	return {
-		ctor: '::',
-		_0: _user$project$Domain_Core$Article(
-			A4(
-				_user$project$Domain_Core$Post,
-				_user$project$Tests_TestAPI$profile1,
-				_user$project$Tests_TestAPI$someTitle,
-				_user$project$Tests_TestAPI$someUrl,
-				{
+var _user$project$Tests_TestAPI$getContent = F2(
+	function (profileId, contentType) {
+		var _p0 = contentType;
+		switch (_p0.ctor) {
+			case 'Article':
+				return {
 					ctor: '::',
-					_0: _user$project$Tests_TestAPI$someTopic1,
-					_1: {ctor: '[]'}
-				})),
-		_1: {
-			ctor: '::',
-			_0: _user$project$Domain_Core$Article(
-				A4(
-					_user$project$Domain_Core$Post,
-					_user$project$Tests_TestAPI$profile2,
-					_user$project$Tests_TestAPI$someTitle,
-					_user$project$Tests_TestAPI$someUrl,
-					{
-						ctor: '::',
-						_0: _user$project$Tests_TestAPI$someTopic2,
-						_1: {ctor: '[]'}
-					})),
-			_1: {
-				ctor: '::',
-				_0: _user$project$Domain_Core$Article(
-					A4(
+					_0: A4(
 						_user$project$Domain_Core$Post,
-						_user$project$Tests_TestAPI$profile3,
+						_user$project$Tests_TestAPI$profile1,
 						_user$project$Tests_TestAPI$someTitle,
 						_user$project$Tests_TestAPI$someUrl,
 						{
 							ctor: '::',
-							_0: _user$project$Tests_TestAPI$someTopic3,
+							_0: _user$project$Tests_TestAPI$someTopic1,
 							_1: {ctor: '[]'}
-						})),
-				_1: {ctor: '[]'}
-			}
-		}
-	};
-};
-var _user$project$Tests_TestAPI$videos = function (profileId) {
-	return {
-		ctor: '::',
-		_0: _user$project$Domain_Core$Video(
-			A4(
-				_user$project$Domain_Core$Post,
-				_user$project$Tests_TestAPI$profile1,
-				_user$project$Tests_TestAPI$someTitle,
-				_user$project$Tests_TestAPI$someUrl,
-				{
-					ctor: '::',
-					_0: _user$project$Tests_TestAPI$someTopic1,
-					_1: {ctor: '[]'}
-				})),
-		_1: {
-			ctor: '::',
-			_0: _user$project$Domain_Core$Video(
-				A4(
-					_user$project$Domain_Core$Post,
-					_user$project$Tests_TestAPI$profile2,
-					_user$project$Tests_TestAPI$someTitle,
-					_user$project$Tests_TestAPI$someUrl,
-					{
+						}),
+					_1: {
 						ctor: '::',
-						_0: _user$project$Tests_TestAPI$someTopic2,
-						_1: {ctor: '[]'}
-					})),
-			_1: {
-				ctor: '::',
-				_0: _user$project$Domain_Core$Video(
-					A4(
+						_0: A4(
+							_user$project$Domain_Core$Post,
+							_user$project$Tests_TestAPI$profile2,
+							_user$project$Tests_TestAPI$someTitle,
+							_user$project$Tests_TestAPI$someUrl,
+							{
+								ctor: '::',
+								_0: _user$project$Tests_TestAPI$someTopic2,
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A4(
+								_user$project$Domain_Core$Post,
+								_user$project$Tests_TestAPI$profile3,
+								_user$project$Tests_TestAPI$someTitle,
+								_user$project$Tests_TestAPI$someUrl,
+								{
+									ctor: '::',
+									_0: _user$project$Tests_TestAPI$someTopic3,
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				};
+			case 'Video':
+				return {
+					ctor: '::',
+					_0: A4(
 						_user$project$Domain_Core$Post,
-						_user$project$Tests_TestAPI$profile3,
+						_user$project$Tests_TestAPI$profile1,
 						_user$project$Tests_TestAPI$someTitle,
 						_user$project$Tests_TestAPI$someUrl,
 						{
 							ctor: '::',
-							_0: _user$project$Tests_TestAPI$someTopic3,
+							_0: _user$project$Tests_TestAPI$someTopic1,
 							_1: {ctor: '[]'}
-						})),
-				_1: {ctor: '[]'}
-			}
-		}
-	};
-};
-var _user$project$Tests_TestAPI$podcasts = function (profileId) {
-	return {
-		ctor: '::',
-		_0: _user$project$Domain_Core$Podcast(
-			A4(
-				_user$project$Domain_Core$Post,
-				_user$project$Tests_TestAPI$profile1,
-				_user$project$Tests_TestAPI$someTitle,
-				_user$project$Tests_TestAPI$someUrl,
-				{
-					ctor: '::',
-					_0: _user$project$Tests_TestAPI$someTopic1,
-					_1: {ctor: '[]'}
-				})),
-		_1: {
-			ctor: '::',
-			_0: _user$project$Domain_Core$Podcast(
-				A4(
-					_user$project$Domain_Core$Post,
-					_user$project$Tests_TestAPI$profile2,
-					_user$project$Tests_TestAPI$someTitle,
-					_user$project$Tests_TestAPI$someUrl,
-					{
+						}),
+					_1: {
 						ctor: '::',
-						_0: _user$project$Tests_TestAPI$someTopic2,
-						_1: {ctor: '[]'}
-					})),
-			_1: {
-				ctor: '::',
-				_0: _user$project$Domain_Core$Podcast(
-					A4(
+						_0: A4(
+							_user$project$Domain_Core$Post,
+							_user$project$Tests_TestAPI$profile2,
+							_user$project$Tests_TestAPI$someTitle,
+							_user$project$Tests_TestAPI$someUrl,
+							{
+								ctor: '::',
+								_0: _user$project$Tests_TestAPI$someTopic2,
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A4(
+								_user$project$Domain_Core$Post,
+								_user$project$Tests_TestAPI$profile3,
+								_user$project$Tests_TestAPI$someTitle,
+								_user$project$Tests_TestAPI$someUrl,
+								{
+									ctor: '::',
+									_0: _user$project$Tests_TestAPI$someTopic3,
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				};
+			default:
+				return {
+					ctor: '::',
+					_0: A4(
 						_user$project$Domain_Core$Post,
-						_user$project$Tests_TestAPI$profile3,
+						_user$project$Tests_TestAPI$profile1,
 						_user$project$Tests_TestAPI$someTitle,
 						_user$project$Tests_TestAPI$someUrl,
 						{
 							ctor: '::',
-							_0: _user$project$Tests_TestAPI$someTopic3,
+							_0: _user$project$Tests_TestAPI$someTopic1,
 							_1: {ctor: '[]'}
-						})),
-				_1: {ctor: '[]'}
-			}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A4(
+							_user$project$Domain_Core$Post,
+							_user$project$Tests_TestAPI$profile2,
+							_user$project$Tests_TestAPI$someTitle,
+							_user$project$Tests_TestAPI$someUrl,
+							{
+								ctor: '::',
+								_0: _user$project$Tests_TestAPI$someTopic2,
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A4(
+								_user$project$Domain_Core$Post,
+								_user$project$Tests_TestAPI$profile3,
+								_user$project$Tests_TestAPI$someTitle,
+								_user$project$Tests_TestAPI$someUrl,
+								{
+									ctor: '::',
+									_0: _user$project$Tests_TestAPI$someTopic3,
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				};
 		}
-	};
-};
+	});
 var _user$project$Tests_TestAPI$getContributor = function (id) {
 	return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile3) : _elm_lang$core$Maybe$Nothing));
 };
 
-var _user$project$Services_Server$podcasts = function (profileId) {
-	return {ctor: '[]'};
-};
-var _user$project$Services_Server$videos = function (profileId) {
-	return {ctor: '[]'};
-};
-var _user$project$Services_Server$articles = function (profileId) {
-	return {ctor: '[]'};
-};
+var _user$project$Services_Server$getContent = F2(
+	function (profileId, contentType) {
+		return {ctor: '[]'};
+	});
 var _user$project$Services_Server$getContributor = function (id) {
 	return _elm_lang$core$Maybe$Nothing;
 };
@@ -9869,18 +9817,18 @@ var _user$project$Services_Server$tryLogin = function (credentials) {
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
 
-var _user$project$Settings$Dependencies = F9(
-	function (a, b, c, d, e, f, g, h, i) {
-		return {tryLogin: a, topicUrl: b, contributorUrl: c, latestPosts: d, recentContributors: e, getContributor: f, videos: g, articles: h, podcasts: i};
+var _user$project$Settings$Dependencies = F7(
+	function (a, b, c, d, e, f, g) {
+		return {tryLogin: a, topicUrl: b, contributorUrl: c, latestPosts: d, recentContributors: e, getContributor: f, getContent: g};
 	});
 var _user$project$Settings$Isolation = {ctor: 'Isolation'};
 var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return A9(_user$project$Settings$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl, _user$project$Services_Server$contributorUrl, _user$project$Services_Server$latestPosts, _user$project$Services_Server$recentContributors, _user$project$Services_Server$getContributor, _user$project$Services_Server$videos, _user$project$Services_Server$articles, _user$project$Services_Server$podcasts);
+		return A7(_user$project$Settings$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl, _user$project$Services_Server$contributorUrl, _user$project$Services_Server$latestPosts, _user$project$Services_Server$recentContributors, _user$project$Services_Server$getContributor, _user$project$Services_Server$getContent);
 	} else {
-		return A9(_user$project$Settings$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$topicUrl, _user$project$Tests_TestAPI$contributorUrl, _user$project$Tests_TestAPI$latestPosts, _user$project$Tests_TestAPI$recentContributors, _user$project$Tests_TestAPI$getContributor, _user$project$Tests_TestAPI$videos, _user$project$Tests_TestAPI$articles, _user$project$Tests_TestAPI$podcasts);
+		return A7(_user$project$Settings$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$topicUrl, _user$project$Tests_TestAPI$contributorUrl, _user$project$Tests_TestAPI$latestPosts, _user$project$Tests_TestAPI$recentContributors, _user$project$Tests_TestAPI$getContributor, _user$project$Tests_TestAPI$getContent);
 	}
 }();
 var _user$project$Settings$Integration = {ctor: 'Integration'};
@@ -10096,13 +10044,7 @@ var _user$project$Domain_Contributor$topicsUI = function (topics) {
 		{ctor: '[]'},
 		formattedTopics);
 };
-var _user$project$Domain_Contributor$articlesUI = function (podcasts) {
-	var posts = A2(
-		_elm_lang$core$List$map,
-		function (v) {
-			return _user$project$Domain_Core$getArticle(v);
-		},
-		podcasts);
+var _user$project$Domain_Contributor$contentUI = function (videos) {
 	return A2(
 		_elm_lang$core$List$map,
 		function (post) {
@@ -10127,76 +10069,8 @@ var _user$project$Domain_Contributor$articlesUI = function (podcasts) {
 						_1: {ctor: '[]'}
 					}
 				});
-		},
-		posts);
-};
-var _user$project$Domain_Contributor$podcastsUI = function (podcasts) {
-	var posts = A2(
-		_elm_lang$core$List$map,
-		function (v) {
-			return _user$project$Domain_Core$getPodcast(v);
-		},
-		podcasts);
-	return A2(
-		_elm_lang$core$List$map,
-		function (post) {
-			return A2(
-				_elm_lang$html$Html$a,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$href(
-						_user$project$Domain_Core$getUrl(post.url)),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(
-						_user$project$Domain_Core$getTitle(post.title)),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
-						_1: {ctor: '[]'}
-					}
-				});
-		},
-		posts);
-};
-var _user$project$Domain_Contributor$videosUI = function (videos) {
-	var posts = A2(
-		_elm_lang$core$List$map,
-		function (v) {
-			return _user$project$Domain_Core$getVideo(v);
 		},
 		videos);
-	return A2(
-		_elm_lang$core$List$map,
-		function (post) {
-			return A2(
-				_elm_lang$html$Html$a,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$href(
-						_user$project$Domain_Core$getUrl(post.url)),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(
-						_user$project$Domain_Core$getTitle(post.title)),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
-						_1: {ctor: '[]'}
-					}
-				});
-		},
-		posts);
 };
 var _user$project$Domain_Contributor$view = function (model) {
 	return A2(
@@ -10292,8 +10166,8 @@ var _user$project$Domain_Contributor$view = function (model) {
 																_0: A2(
 																	_elm_lang$html$Html$div,
 																	{ctor: '[]'},
-																	_user$project$Domain_Contributor$videosUI(
-																		_user$project$Settings$runtime.videos(model.profile.id))),
+																	_user$project$Domain_Contributor$contentUI(
+																		A2(_user$project$Settings$runtime.getContent, model.profile.id, _user$project$Domain_Core$Video))),
 																_1: {
 																	ctor: '::',
 																	_0: A2(
@@ -10323,8 +10197,8 @@ var _user$project$Domain_Contributor$view = function (model) {
 																		_0: A2(
 																			_elm_lang$html$Html$div,
 																			{ctor: '[]'},
-																			_user$project$Domain_Contributor$podcastsUI(
-																				_user$project$Settings$runtime.podcasts(model.profile.id))),
+																			_user$project$Domain_Contributor$contentUI(
+																				A2(_user$project$Settings$runtime.getContent, model.profile.id, _user$project$Domain_Core$Podcast))),
 																		_1: {
 																			ctor: '::',
 																			_0: A2(
@@ -10354,8 +10228,8 @@ var _user$project$Domain_Contributor$view = function (model) {
 																				_0: A2(
 																					_elm_lang$html$Html$div,
 																					{ctor: '[]'},
-																					_user$project$Domain_Contributor$articlesUI(
-																						_user$project$Settings$runtime.articles(model.profile.id))),
+																					_user$project$Domain_Contributor$contentUI(
+																						A2(_user$project$Settings$runtime.getContent, model.profile.id, _user$project$Domain_Core$Article))),
 																				_1: {ctor: '[]'}
 																			}
 																		}
@@ -10434,19 +10308,19 @@ var _user$project$Domain_Contributor$update = F2(
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{
-						articles: A2(_user$project$Settings$runtime.latestPosts, model.profile.id, _user$project$Domain_Core$Articles)
+						articles: A2(_user$project$Settings$runtime.latestPosts, model.profile.id, _user$project$Domain_Core$Article)
 					});
 			case 'VideosSelected':
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{
-						videos: A2(_user$project$Settings$runtime.latestPosts, model.profile.id, _user$project$Domain_Core$Videos)
+						videos: A2(_user$project$Settings$runtime.latestPosts, model.profile.id, _user$project$Domain_Core$Video)
 					});
 			case 'PodcastsSelected':
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{
-						podcasts: A2(_user$project$Settings$runtime.latestPosts, model.profile.id, _user$project$Domain_Core$Podcasts)
+						podcasts: A2(_user$project$Settings$runtime.latestPosts, model.profile.id, _user$project$Domain_Core$Podcast)
 					});
 			default:
 				return model;
@@ -10530,15 +10404,6 @@ var _user$project$Home$onLogin = F2(
 				};
 		}
 	});
-var _user$project$Home$podcasts = function (profileId) {
-	return _user$project$Settings$runtime.podcasts(profileId);
-};
-var _user$project$Home$articles = function (profileId) {
-	return _user$project$Settings$runtime.articles(profileId);
-};
-var _user$project$Home$videos = function (profileId) {
-	return _user$project$Settings$runtime.videos(profileId);
-};
 var _user$project$Home$update = F2(
 	function (msg, model) {
 		var _p1 = msg;

@@ -42,16 +42,6 @@ getContributor id =
     Nothing
 
 
-articles : Id -> List Article
-articles profileId =
-    []
-
-
-videos : Id -> List Video
-videos profileId =
-    []
-
-
-podcasts : Id -> List Podcast
-podcasts profileId =
+getContent : Id -> ContentType -> List Post
+getContent profileId contentType =
     []

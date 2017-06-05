@@ -77,51 +77,6 @@ getTopic topic =
         value
 
 
-type Video
-    = Video Post
-
-
-
----------------------------------------------------------------
--- TODO: Refactor the get functions below to something more generic.
----------------------------------------------------------------
-
-
-getVideo : Video -> Post
-getVideo video =
-    let
-        (Video post) =
-            video
-    in
-        post
-
-
-getPodcast : Podcast -> Post
-getPodcast podcast =
-    let
-        (Podcast post) =
-            podcast
-    in
-        post
-
-
-getArticle : Article -> Post
-getArticle article =
-    let
-        (Article post) =
-            article
-    in
-        post
-
-
-type Article
-    = Article Post
-
-
-type Podcast
-    = Podcast Post
-
-
 type alias Post =
     { contributor : Profile, title : Title, url : Url, topics : List Topic }
 
@@ -157,25 +112,17 @@ topicUrl f id topic =
 
 
 type ContentType
-    = Articles
-    | Videos
-    | Podcasts
+    = Article
+    | Video
+    | Podcast
 
 
 type alias LatestPostsfunction =
     Id -> ContentType -> List Post
 
 
-type alias Videosfunction =
-    Id -> List Video
-
-
-type alias Articlesfunction =
-    Id -> List Article
-
-
-type alias Podcastsfunction =
-    Id -> List Podcast
+type alias ContentTypefunction =
+    Id -> ContentType -> List Post
 
 
 latestPosts : LatestPostsfunction -> Id -> ContentType -> List Post
@@ -183,19 +130,9 @@ latestPosts f profileId contentType =
     f profileId contentType
 
 
-videos : Videosfunction -> Id -> List Video
-videos f profileId =
-    f profileId
-
-
-articles : Articlesfunction -> Id -> List Article
-articles f profileId =
-    f profileId
-
-
-podcasts : Podcastsfunction -> Id -> List Podcast
-podcasts f profileId =
-    f profileId
+getContent : ContentTypefunction -> Id -> ContentType -> List Post
+getContent f profileId contentType =
+    f profileId contentType
 
 
 undefined : String

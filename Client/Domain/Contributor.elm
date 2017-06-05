@@ -53,13 +53,13 @@ update msg model =
             { model | topics = [] }
 
         ArticlesSelected ->
-            { model | articles = runtime.latestPosts model.profile.id Articles }
+            { model | articles = runtime.latestPosts model.profile.id Article }
 
         VideosSelected ->
-            { model | videos = runtime.latestPosts model.profile.id Videos }
+            { model | videos = runtime.latestPosts model.profile.id Video }
 
         PodcastsSelected ->
-            { model | podcasts = runtime.latestPosts model.profile.id Podcasts }
+            { model | podcasts = runtime.latestPosts model.profile.id Podcast }
 
         None subMsg ->
             model
@@ -81,11 +81,11 @@ view model =
                             [ topicsUI model.profile.topics ]
                         , table []
                             [ tr [] [ td [] [ b [] [ text "Videos" ] ] ]
-                            , div [] (videosUI (runtime.videos model.profile.id))
+                            , div [] (contentUI (runtime.getContent model.profile.id Video))
                             , tr [] [ td [] [ b [] [ text "Podcasts" ] ] ]
-                            , div [] (podcastsUI (runtime.podcasts model.profile.id))
+                            , div [] (contentUI (runtime.getContent model.profile.id Podcast))
                             , tr [] [ td [] [ b [] [ text "Articles" ] ] ]
-                            , div [] (articlesUI (runtime.articles model.profile.id))
+                            , div [] (contentUI (runtime.getContent model.profile.id Article))
                             ]
                         ]
                     , tr [] [ td [] [ text <| getName model.profile.name ] ]
@@ -96,37 +96,9 @@ view model =
         ]
 
 
-
----------------------------------------------------------------
--- TODO: Refactor the UI functions below to something more generic.
----------------------------------------------------------------
-
-
-videosUI : List Video -> List (Html Msg)
-videosUI videos =
-    let
-        posts =
-            videos |> List.map (\v -> (getVideo v))
-    in
-        posts |> List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ])
-
-
-podcastsUI : List Podcast -> List (Html Msg)
-podcastsUI podcasts =
-    let
-        posts =
-            podcasts |> List.map (\v -> (getPodcast v))
-    in
-        posts |> List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ])
-
-
-articlesUI : List Article -> List (Html Msg)
-articlesUI podcasts =
-    let
-        posts =
-            podcasts |> List.map (\v -> (getArticle v))
-    in
-        posts |> List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ])
+contentUI : List Post -> List (Html Msg)
+contentUI videos =
+    videos |> List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ])
 
 
 topicsUI : List Topic -> Html Msg
