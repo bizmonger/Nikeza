@@ -42,6 +42,6 @@ getContributor id =
     Nothing
 
 
-getContent : Id -> ContentType -> List Post
-getContent profileId contentType =
+posts : Id -> ContentType -> List Post
+posts profileId contentType =
     []

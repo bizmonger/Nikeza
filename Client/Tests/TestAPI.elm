@@ -123,8 +123,8 @@ recentVideos =
     ]
 
 
-getContent : Id -> ContentType -> List Post
-getContent profileId contentType =
+posts : Id -> ContentType -> List Post
+posts profileId contentType =
     case contentType of
         Article ->
             [ Post profile1 someTitle someUrl [ someTopic1 ]

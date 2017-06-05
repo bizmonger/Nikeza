@@ -81,11 +81,11 @@ view model =
                             [ topicsUI model.profile.topics ]
                         , table []
                             [ tr [] [ td [] [ b [] [ text "Videos" ] ] ]
-                            , div [] (contentUI (runtime.getContent model.profile.id Video))
+                            , div [] (contentUI (runtime.posts model.profile.id Video))
                             , tr [] [ td [] [ b [] [ text "Podcasts" ] ] ]
-                            , div [] (contentUI (runtime.getContent model.profile.id Podcast))
+                            , div [] (contentUI (runtime.posts model.profile.id Podcast))
                             , tr [] [ td [] [ b [] [ text "Articles" ] ] ]
-                            , div [] (contentUI (runtime.getContent model.profile.id Article))
+                            , div [] (contentUI (runtime.posts model.profile.id Article))
                             ]
                         ]
                     , tr [] [ td [] [ text <| getName model.profile.name ] ]

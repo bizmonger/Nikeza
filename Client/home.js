@@ -9656,7 +9656,7 @@ var _user$project$Tests_TestAPI$recentVideos = {
 		}
 	}
 };
-var _user$project$Tests_TestAPI$getContent = F2(
+var _user$project$Tests_TestAPI$posts = F2(
 	function (profileId, contentType) {
 		var _p0 = contentType;
 		switch (_p0.ctor) {
@@ -9789,7 +9789,7 @@ var _user$project$Tests_TestAPI$getContributor = function (id) {
 	return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile3) : _elm_lang$core$Maybe$Nothing));
 };
 
-var _user$project$Services_Server$getContent = F2(
+var _user$project$Services_Server$posts = F2(
 	function (profileId, contentType) {
 		return {ctor: '[]'};
 	});
@@ -9819,16 +9819,16 @@ var _user$project$Services_Server$tryLogin = function (credentials) {
 
 var _user$project$Settings$Dependencies = F7(
 	function (a, b, c, d, e, f, g) {
-		return {tryLogin: a, topicUrl: b, contributorUrl: c, latestPosts: d, recentContributors: e, getContributor: f, getContent: g};
+		return {tryLogin: a, topicUrl: b, contributorUrl: c, latestPosts: d, recentContributors: e, getContributor: f, posts: g};
 	});
 var _user$project$Settings$Isolation = {ctor: 'Isolation'};
 var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return A7(_user$project$Settings$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl, _user$project$Services_Server$contributorUrl, _user$project$Services_Server$latestPosts, _user$project$Services_Server$recentContributors, _user$project$Services_Server$getContributor, _user$project$Services_Server$getContent);
+		return A7(_user$project$Settings$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl, _user$project$Services_Server$contributorUrl, _user$project$Services_Server$latestPosts, _user$project$Services_Server$recentContributors, _user$project$Services_Server$getContributor, _user$project$Services_Server$posts);
 	} else {
-		return A7(_user$project$Settings$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$topicUrl, _user$project$Tests_TestAPI$contributorUrl, _user$project$Tests_TestAPI$latestPosts, _user$project$Tests_TestAPI$recentContributors, _user$project$Tests_TestAPI$getContributor, _user$project$Tests_TestAPI$getContent);
+		return A7(_user$project$Settings$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$topicUrl, _user$project$Tests_TestAPI$contributorUrl, _user$project$Tests_TestAPI$latestPosts, _user$project$Tests_TestAPI$recentContributors, _user$project$Tests_TestAPI$getContributor, _user$project$Tests_TestAPI$posts);
 	}
 }();
 var _user$project$Settings$Integration = {ctor: 'Integration'};
@@ -10167,7 +10167,7 @@ var _user$project$Domain_Contributor$view = function (model) {
 																	_elm_lang$html$Html$div,
 																	{ctor: '[]'},
 																	_user$project$Domain_Contributor$contentUI(
-																		A2(_user$project$Settings$runtime.getContent, model.profile.id, _user$project$Domain_Core$Video))),
+																		A2(_user$project$Settings$runtime.posts, model.profile.id, _user$project$Domain_Core$Video))),
 																_1: {
 																	ctor: '::',
 																	_0: A2(
@@ -10198,7 +10198,7 @@ var _user$project$Domain_Contributor$view = function (model) {
 																			_elm_lang$html$Html$div,
 																			{ctor: '[]'},
 																			_user$project$Domain_Contributor$contentUI(
-																				A2(_user$project$Settings$runtime.getContent, model.profile.id, _user$project$Domain_Core$Podcast))),
+																				A2(_user$project$Settings$runtime.posts, model.profile.id, _user$project$Domain_Core$Podcast))),
 																		_1: {
 																			ctor: '::',
 																			_0: A2(
@@ -10229,7 +10229,7 @@ var _user$project$Domain_Contributor$view = function (model) {
 																					_elm_lang$html$Html$div,
 																					{ctor: '[]'},
 																					_user$project$Domain_Contributor$contentUI(
-																						A2(_user$project$Settings$runtime.getContent, model.profile.id, _user$project$Domain_Core$Article))),
+																						A2(_user$project$Settings$runtime.posts, model.profile.id, _user$project$Domain_Core$Article))),
 																				_1: {ctor: '[]'}
 																			}
 																		}

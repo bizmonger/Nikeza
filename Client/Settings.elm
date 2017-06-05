@@ -22,7 +22,7 @@ type alias Dependencies =
     , latestPosts : LatestPostsfunction
     , recentContributors : Contributorsfunction
     , getContributor : GetContributorfunction
-    , getContent : ContentTypefunction
+    , posts : ContentTypefunction
     }
 
 
@@ -37,7 +37,7 @@ runtime =
                 Services.latestPosts
                 Services.recentContributors
                 Services.getContributor
-                Services.getContent
+                Services.posts
 
         Isolation ->
             Dependencies
@@ -47,4 +47,4 @@ runtime =
                 TestAPI.latestPosts
                 TestAPI.recentContributors
                 TestAPI.getContributor
-                TestAPI.getContent
+                TestAPI.posts
