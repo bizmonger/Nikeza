@@ -77,6 +77,11 @@ getTopic topic =
         value
 
 
+getTopics : List Topic -> List String
+getTopics topics =
+    topics |> List.map (\t -> getTopic t)
+
+
 type alias Post =
     { contributor : Profile, title : Title, url : Url, topics : List Topic }
 
@@ -115,6 +120,7 @@ type ContentType
     = Article
     | Video
     | Podcast
+    | All
 
 
 type alias LatestPostsfunction =
@@ -122,7 +128,7 @@ type alias LatestPostsfunction =
 
 
 type alias ContentTypefunction =
-    Id -> ContentType -> List Post
+    ContentType -> Id -> List Post
 
 
 latestPosts : LatestPostsfunction -> Id -> ContentType -> List Post
@@ -132,7 +138,7 @@ latestPosts f profileId contentType =
 
 getContent : ContentTypefunction -> Id -> ContentType -> List Post
 getContent f profileId contentType =
-    f profileId contentType
+    profileId |> f contentType
 
 
 undefined : String

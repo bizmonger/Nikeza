@@ -2,6 +2,7 @@ module Tests.TestAPI exposing (..)
 
 import Controls.Login as Login exposing (Model)
 import Domain.Core exposing (..)
+import List.Extra as ListHelper exposing (..)
 
 
 profileId1 : Id
@@ -54,24 +55,19 @@ someDescrtiption =
     "some description..."
 
 
-someTopics : List Topic
-someTopics =
-    [ Topic "F#", Topic "Elm", Topic "Xamarin", Topic "WPF" ]
-
-
 profile1 : Profile
 profile1 =
-    Profile profileId1 (Contributor "Contributor 1") someImageUrl someDescrtiption someTopics
+    Profile profileId1 (Contributor "Contributor 1") someImageUrl someDescrtiption [ someTopic1, someTopic2, someTopic3 ]
 
 
 profile2 : Profile
 profile2 =
-    Profile profileId2 (Contributor "Contributor 2") someImageUrl someDescrtiption someTopics
+    Profile profileId2 (Contributor "Contributor 2") someImageUrl someDescrtiption [ someTopic1, someTopic2, someTopic3 ]
 
 
 profile3 : Profile
 profile3 =
-    Profile profileId3 (Contributor "Contributor 3") someImageUrl someDescrtiption someTopics
+    Profile profileId3 (Contributor "Contributor 3") someImageUrl someDescrtiption [ someTopic1, someTopic2, someTopic3 ]
 
 
 tryLogin : Login.Model -> Login.Model
@@ -123,8 +119,8 @@ recentVideos =
     ]
 
 
-posts : Id -> ContentType -> List Post
-posts profileId contentType =
+posts : ContentType -> Id -> List Post
+posts contentType profileId =
     case contentType of
         Article ->
             [ Post profile1 someTitle someUrl [ someTopic1 ]
@@ -143,6 +139,20 @@ posts profileId contentType =
             , Post profile2 someTitle someUrl [ someTopic2 ]
             , Post profile3 someTitle someUrl [ someTopic3 ]
             ]
+
+        All ->
+            [ Post profile1 someTitle someUrl [ someTopic1 ]
+            , Post profile2 someTitle someUrl [ someTopic2 ]
+            , Post profile3 someTitle someUrl [ someTopic3 ]
+            ]
+
+
+topics : Id -> List Topic
+topics profileId =
+    profileId
+        |> posts All
+        |> List.map (\p -> p.topics)
+        |> List.concat
 
 
 latestPosts : Id -> ContentType -> List Post

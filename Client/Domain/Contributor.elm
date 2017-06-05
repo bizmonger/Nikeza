@@ -81,11 +81,11 @@ view model =
                             [ topicsUI model.profile.topics ]
                         , table []
                             [ tr [] [ td [] [ b [] [ text "Videos" ] ] ]
-                            , div [] (contentUI (runtime.posts model.profile.id Video))
+                            , div [] <| contentUI (model.profile.id |> runtime.posts Video)
                             , tr [] [ td [] [ b [] [ text "Podcasts" ] ] ]
-                            , div [] (contentUI (runtime.posts model.profile.id Podcast))
+                            , div [] <| contentUI (model.profile.id |> runtime.posts Podcast)
                             , tr [] [ td [] [ b [] [ text "Articles" ] ] ]
-                            , div [] (contentUI (runtime.posts model.profile.id Article))
+                            , div [] <| contentUI (model.profile.id |> runtime.posts Article)
                             ]
                         ]
                     , tr [] [ td [] [ text <| getName model.profile.name ] ]
@@ -105,6 +105,6 @@ topicsUI : List Topic -> Html Msg
 topicsUI topics =
     let
         formattedTopics =
-            topics |> List.map (\t -> div [] [ input [ type_ "submit", value <| getTopic t ] [] ])
+            topics |> List.map (\t -> div [] [ input [ type_ "checkbox", name "topic", value <| getTopic t ] [], label [] [ text <| getTopic t ] ])
     in
-        div [] formattedTopics
+        Html.form [ action "" ] formattedTopics
