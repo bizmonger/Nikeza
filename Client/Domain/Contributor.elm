@@ -81,8 +81,11 @@ view model =
                             [ topicsUI model.profile.topics ]
                         , table []
                             [ tr [] [ td [] [ b [] [ text "Videos" ] ] ]
+                            , div [] (videosUI (runtime.videos model.profile.id))
                             , tr [] [ td [] [ b [] [ text "Podcasts" ] ] ]
+                            , div [] (podcastsUI (runtime.podcasts model.profile.id))
                             , tr [] [ td [] [ b [] [ text "Articles" ] ] ]
+                            , div [] (articlesUI (runtime.articles model.profile.id))
                             ]
                         ]
                     , tr [] [ td [] [ text <| getName model.profile.name ] ]
@@ -91,6 +94,39 @@ view model =
                 ]
             ]
         ]
+
+
+
+---------------------------------------------------------------
+-- TODO: Refactor the UI functions below to something more generic.
+---------------------------------------------------------------
+
+
+videosUI : List Video -> List (Html Msg)
+videosUI videos =
+    let
+        posts =
+            videos |> List.map (\v -> (getVideo v))
+    in
+        posts |> List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ])
+
+
+podcastsUI : List Podcast -> List (Html Msg)
+podcastsUI podcasts =
+    let
+        posts =
+            podcasts |> List.map (\v -> (getPodcast v))
+    in
+        posts |> List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ])
+
+
+articlesUI : List Article -> List (Html Msg)
+articlesUI podcasts =
+    let
+        posts =
+            podcasts |> List.map (\v -> (getArticle v))
+    in
+        posts |> List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ])
 
 
 topicsUI : List Topic -> Html Msg

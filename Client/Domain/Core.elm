@@ -42,6 +42,15 @@ type Title
     = Title String
 
 
+getTitle : Title -> String
+getTitle title =
+    let
+        (Title value) =
+            title
+    in
+        value
+
+
 type Url
     = Url String
 
@@ -70,6 +79,39 @@ getTopic topic =
 
 type Video
     = Video Post
+
+
+
+---------------------------------------------------------------
+-- TODO: Refactor the get functions below to something more generic.
+---------------------------------------------------------------
+
+
+getVideo : Video -> Post
+getVideo video =
+    let
+        (Video post) =
+            video
+    in
+        post
+
+
+getPodcast : Podcast -> Post
+getPodcast podcast =
+    let
+        (Podcast post) =
+            podcast
+    in
+        post
+
+
+getArticle : Article -> Post
+getArticle article =
+    let
+        (Article post) =
+            article
+    in
+        post
 
 
 type Article

@@ -9408,24 +9408,44 @@ var _user$project$Domain_Core$tryLogin = F3(
 		return loginf(
 			A3(_user$project$Controls_Login$Model, username, password, false));
 	});
+var _user$project$Domain_Core$getArticle = function (article) {
+	var _p0 = article;
+	var post = _p0._0;
+	return post;
+};
+var _user$project$Domain_Core$getPodcast = function (podcast) {
+	var _p1 = podcast;
+	var post = _p1._0;
+	return post;
+};
+var _user$project$Domain_Core$getVideo = function (video) {
+	var _p2 = video;
+	var post = _p2._0;
+	return post;
+};
 var _user$project$Domain_Core$getTopic = function (topic) {
-	var _p0 = topic;
-	var value = _p0._0;
+	var _p3 = topic;
+	var value = _p3._0;
 	return value;
 };
 var _user$project$Domain_Core$getUrl = function (url) {
-	var _p1 = url;
-	var value = _p1._0;
+	var _p4 = url;
+	var value = _p4._0;
+	return value;
+};
+var _user$project$Domain_Core$getTitle = function (title) {
+	var _p5 = title;
+	var value = _p5._0;
 	return value;
 };
 var _user$project$Domain_Core$getName = function (contributor) {
-	var _p2 = contributor;
-	var value = _p2._0;
+	var _p6 = contributor;
+	var value = _p6._0;
 	return value;
 };
 var _user$project$Domain_Core$getId = function (id) {
-	var _p3 = id;
-	var value = _p3._0;
+	var _p7 = id;
+	var value = _p7._0;
 	return value;
 };
 var _user$project$Domain_Core$Profile = F5(
@@ -9911,6 +9931,108 @@ var _user$project$Domain_Contributor$topicsUI = function (topics) {
 		{ctor: '[]'},
 		formattedTopics);
 };
+var _user$project$Domain_Contributor$articlesUI = function (podcasts) {
+	var posts = A2(
+		_elm_lang$core$List$map,
+		function (v) {
+			return _user$project$Domain_Core$getArticle(v);
+		},
+		podcasts);
+	return A2(
+		_elm_lang$core$List$map,
+		function (post) {
+			return A2(
+				_elm_lang$html$Html$a,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$href(
+						_user$project$Domain_Core$getUrl(post.url)),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_user$project$Domain_Core$getTitle(post.title)),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
+				});
+		},
+		posts);
+};
+var _user$project$Domain_Contributor$podcastsUI = function (podcasts) {
+	var posts = A2(
+		_elm_lang$core$List$map,
+		function (v) {
+			return _user$project$Domain_Core$getPodcast(v);
+		},
+		podcasts);
+	return A2(
+		_elm_lang$core$List$map,
+		function (post) {
+			return A2(
+				_elm_lang$html$Html$a,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$href(
+						_user$project$Domain_Core$getUrl(post.url)),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_user$project$Domain_Core$getTitle(post.title)),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
+				});
+		},
+		posts);
+};
+var _user$project$Domain_Contributor$videosUI = function (videos) {
+	var posts = A2(
+		_elm_lang$core$List$map,
+		function (v) {
+			return _user$project$Domain_Core$getVideo(v);
+		},
+		videos);
+	return A2(
+		_elm_lang$core$List$map,
+		function (post) {
+			return A2(
+				_elm_lang$html$Html$a,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$href(
+						_user$project$Domain_Core$getUrl(post.url)),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_user$project$Domain_Core$getTitle(post.title)),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
+				});
+		},
+		posts);
+};
 var _user$project$Domain_Contributor$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -10003,27 +10125,10 @@ var _user$project$Domain_Contributor$view = function (model) {
 															_1: {
 																ctor: '::',
 																_0: A2(
-																	_elm_lang$html$Html$tr,
+																	_elm_lang$html$Html$div,
 																	{ctor: '[]'},
-																	{
-																		ctor: '::',
-																		_0: A2(
-																			_elm_lang$html$Html$td,
-																			{ctor: '[]'},
-																			{
-																				ctor: '::',
-																				_0: A2(
-																					_elm_lang$html$Html$b,
-																					{ctor: '[]'},
-																					{
-																						ctor: '::',
-																						_0: _elm_lang$html$Html$text('Podcasts'),
-																						_1: {ctor: '[]'}
-																					}),
-																				_1: {ctor: '[]'}
-																			}),
-																		_1: {ctor: '[]'}
-																	}),
+																	_user$project$Domain_Contributor$videosUI(
+																		_user$project$Settings$runtime.videos(model.profile.id))),
 																_1: {
 																	ctor: '::',
 																	_0: A2(
@@ -10041,14 +10146,55 @@ var _user$project$Domain_Contributor$view = function (model) {
 																						{ctor: '[]'},
 																						{
 																							ctor: '::',
-																							_0: _elm_lang$html$Html$text('Articles'),
+																							_0: _elm_lang$html$Html$text('Podcasts'),
 																							_1: {ctor: '[]'}
 																						}),
 																					_1: {ctor: '[]'}
 																				}),
 																			_1: {ctor: '[]'}
 																		}),
-																	_1: {ctor: '[]'}
+																	_1: {
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$div,
+																			{ctor: '[]'},
+																			_user$project$Domain_Contributor$podcastsUI(
+																				_user$project$Settings$runtime.podcasts(model.profile.id))),
+																		_1: {
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$tr,
+																				{ctor: '[]'},
+																				{
+																					ctor: '::',
+																					_0: A2(
+																						_elm_lang$html$Html$td,
+																						{ctor: '[]'},
+																						{
+																							ctor: '::',
+																							_0: A2(
+																								_elm_lang$html$Html$b,
+																								{ctor: '[]'},
+																								{
+																									ctor: '::',
+																									_0: _elm_lang$html$Html$text('Articles'),
+																									_1: {ctor: '[]'}
+																								}),
+																							_1: {ctor: '[]'}
+																						}),
+																					_1: {ctor: '[]'}
+																				}),
+																			_1: {
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html$div,
+																					{ctor: '[]'},
+																					_user$project$Domain_Contributor$articlesUI(
+																						_user$project$Settings$runtime.articles(model.profile.id))),
+																				_1: {ctor: '[]'}
+																			}
+																		}
+																	}
 																}
 															}
 														}),
