@@ -105,6 +105,13 @@ topicsUI : List Topic -> Html Msg
 topicsUI topics =
     let
         formattedTopics =
-            topics |> List.map (\t -> div [] [ input [ type_ "checkbox", name "topic", value <| getTopic t ] [], label [] [ text <| getTopic t ] ])
+            topics
+                |> List.map
+                    (\t ->
+                        div []
+                            [ input [ type_ "checkbox", name "topic", value <| getTopic t ] []
+                            , label [] [ text <| getTopic t ]
+                            ]
+                    )
     in
         Html.form [ action "" ] formattedTopics
