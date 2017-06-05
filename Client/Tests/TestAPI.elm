@@ -86,49 +86,49 @@ recentContributors =
 
 recentPodcasts : List Podcast
 recentPodcasts =
-    [ Podcast <| Post profile1 someTitle someImageUrl
-    , Podcast <| Post profile2 someTitle someImageUrl
-    , Podcast <| Post profile3 someTitle someImageUrl
+    [ Podcast <| Post profile1 someTitle someUrl
+    , Podcast <| Post profile2 someTitle someUrl
+    , Podcast <| Post profile3 someTitle someUrl
     ]
 
 
 recentArticles : List Article
 recentArticles =
-    [ Article <| Post profile1 someTitle someImageUrl
-    , Article <| Post profile2 someTitle someImageUrl
-    , Article <| Post profile3 someTitle someImageUrl
+    [ Article <| Post profile1 someTitle someUrl
+    , Article <| Post profile2 someTitle someUrl
+    , Article <| Post profile3 someTitle someUrl
     ]
 
 
 recentVideos : List Video
 recentVideos =
-    [ Video <| Post profile1 someTitle someImageUrl
-    , Video <| Post profile2 someTitle someImageUrl
-    , Video <| Post profile3 someTitle someImageUrl
+    [ Video <| Post profile1 someTitle someUrl
+    , Video <| Post profile2 someTitle someUrl
+    , Video <| Post profile3 someTitle someUrl
     ]
 
 
 articles : Id -> List Article
 articles profileId =
-    [ Article <| Post profile1 someTitle someImageUrl
-    , Article <| Post profile2 someTitle someImageUrl
-    , Article <| Post profile3 someTitle someImageUrl
+    [ Article <| Post profile1 someTitle someUrl
+    , Article <| Post profile2 someTitle someUrl
+    , Article <| Post profile3 someTitle someUrl
     ]
 
 
 videos : Id -> List Video
 videos profileId =
-    [ Video <| Post profile1 someTitle someImageUrl
-    , Video <| Post profile2 someTitle someImageUrl
-    , Video <| Post profile3 someTitle someImageUrl
+    [ Video <| Post profile1 someTitle someUrl
+    , Video <| Post profile2 someTitle someUrl
+    , Video <| Post profile3 someTitle someUrl
     ]
 
 
 podcasts : Id -> List Podcast
 podcasts profileId =
-    [ Podcast <| Post profile1 someTitle someImageUrl
-    , Podcast <| Post profile2 someTitle someImageUrl
-    , Podcast <| Post profile3 someTitle someImageUrl
+    [ Podcast <| Post profile1 someTitle someUrl
+    , Podcast <| Post profile2 someTitle someUrl
+    , Podcast <| Post profile3 someTitle someUrl
     ]
 
 
