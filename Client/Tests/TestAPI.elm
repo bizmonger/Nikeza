@@ -19,6 +19,21 @@ profileId3 =
     Id "profile_3"
 
 
+someTopic1 : Topic
+someTopic1 =
+    Topic "Topic 1"
+
+
+someTopic2 : Topic
+someTopic2 =
+    Topic "Topic 2"
+
+
+someTopic3 : Topic
+someTopic3 =
+    Topic "Topic 3"
+
+
 someUrl : Url
 someUrl =
     Url "http://some_url.com"
@@ -86,49 +101,49 @@ recentContributors =
 
 recentPodcasts : List Podcast
 recentPodcasts =
-    [ Podcast <| Post profile1 someTitle someUrl
-    , Podcast <| Post profile2 someTitle someUrl
-    , Podcast <| Post profile3 someTitle someUrl
+    [ Podcast <| Post profile1 someTitle someUrl [ someTopic1 ]
+    , Podcast <| Post profile2 someTitle someUrl [ someTopic2 ]
+    , Podcast <| Post profile3 someTitle someUrl [ someTopic3 ]
     ]
 
 
 recentArticles : List Article
 recentArticles =
-    [ Article <| Post profile1 someTitle someUrl
-    , Article <| Post profile2 someTitle someUrl
-    , Article <| Post profile3 someTitle someUrl
+    [ Article <| Post profile1 someTitle someUrl [ someTopic1 ]
+    , Article <| Post profile2 someTitle someUrl [ someTopic2 ]
+    , Article <| Post profile3 someTitle someUrl [ someTopic3 ]
     ]
 
 
 recentVideos : List Video
 recentVideos =
-    [ Video <| Post profile1 someTitle someUrl
-    , Video <| Post profile2 someTitle someUrl
-    , Video <| Post profile3 someTitle someUrl
+    [ Video <| Post profile1 someTitle someUrl [ someTopic1 ]
+    , Video <| Post profile2 someTitle someUrl [ someTopic2 ]
+    , Video <| Post profile3 someTitle someUrl [ someTopic3 ]
     ]
 
 
 articles : Id -> List Article
 articles profileId =
-    [ Article <| Post profile1 someTitle someUrl
-    , Article <| Post profile2 someTitle someUrl
-    , Article <| Post profile3 someTitle someUrl
+    [ Article <| Post profile1 someTitle someUrl [ someTopic1 ]
+    , Article <| Post profile2 someTitle someUrl [ someTopic2 ]
+    , Article <| Post profile3 someTitle someUrl [ someTopic3 ]
     ]
 
 
 videos : Id -> List Video
 videos profileId =
-    [ Video <| Post profile1 someTitle someUrl
-    , Video <| Post profile2 someTitle someUrl
-    , Video <| Post profile3 someTitle someUrl
+    [ Video <| Post profile1 someTitle someUrl [ someTopic1 ]
+    , Video <| Post profile2 someTitle someUrl [ someTopic2 ]
+    , Video <| Post profile3 someTitle someUrl [ someTopic3 ]
     ]
 
 
 podcasts : Id -> List Podcast
 podcasts profileId =
-    [ Podcast <| Post profile1 someTitle someUrl
-    , Podcast <| Post profile2 someTitle someUrl
-    , Podcast <| Post profile3 someTitle someUrl
+    [ Podcast <| Post profile1 someTitle someUrl [ someTopic1 ]
+    , Podcast <| Post profile2 someTitle someUrl [ someTopic2 ]
+    , Podcast <| Post profile3 someTitle someUrl [ someTopic3 ]
     ]
 
 

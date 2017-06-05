@@ -123,7 +123,7 @@ type Podcast
 
 
 type alias Post =
-    { contributor : Profile, title : Title, url : Url }
+    { contributor : Profile, title : Title, url : Url, topics : List Topic }
 
 
 type alias ContributorUrlfunction =
