@@ -22,17 +22,17 @@ profileId3 =
 
 someTopic1 : Topic
 someTopic1 =
-    Topic "Topic 1"
+    Topic "Topic-1"
 
 
 someTopic2 : Topic
 someTopic2 =
-    Topic "Topic 2"
+    Topic "Topic-2"
 
 
 someTopic3 : Topic
 someTopic3 =
-    Topic "Topic 3"
+    Topic "Topic-3"
 
 
 someUrl : Url

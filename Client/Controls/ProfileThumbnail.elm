@@ -32,9 +32,9 @@ thumbnail profile =
 
         topicsAndBio =
             div []
-                [ topics
+                [ label [] [ text (profile.name |> getName) ]
                 , br [] []
-                , label [] [ text profile.bio ]
+                , topics
                 ]
     in
         div []
@@ -47,5 +47,6 @@ thumbnail profile =
                     , td [] [ topicsAndBio ]
                     ]
                 ]
-            , label [] [ text (profile.name |> getName) ]
+
+            --, label [] [ text (profile.name |> getName) ]
             ]

@@ -10827,9 +10827,9 @@ var _user$project$Tests_TestAPI$topicUrl = F2(
 	function (id, topic) {
 		return _user$project$Tests_TestAPI$someUrl;
 	});
-var _user$project$Tests_TestAPI$someTopic3 = _user$project$Domain_Core$Topic('Topic 3');
-var _user$project$Tests_TestAPI$someTopic2 = _user$project$Domain_Core$Topic('Topic 2');
-var _user$project$Tests_TestAPI$someTopic1 = _user$project$Domain_Core$Topic('Topic 1');
+var _user$project$Tests_TestAPI$someTopic3 = _user$project$Domain_Core$Topic('Topic-3');
+var _user$project$Tests_TestAPI$someTopic2 = _user$project$Domain_Core$Topic('Topic-2');
+var _user$project$Tests_TestAPI$someTopic1 = _user$project$Domain_Core$Topic('Topic-1');
 var _user$project$Tests_TestAPI$profileId3 = _user$project$Domain_Core$Id('profile_3');
 var _user$project$Tests_TestAPI$profile3 = A5(
 	_user$project$Domain_Core$Profile,
@@ -11325,7 +11325,15 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (profile) {
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: topics,
+			_0: A2(
+				_elm_lang$html$Html$label,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_user$project$Domain_Core$getName(profile.name)),
+					_1: {ctor: '[]'}
+				}),
 			_1: {
 				ctor: '::',
 				_0: A2(
@@ -11334,14 +11342,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (profile) {
 					{ctor: '[]'}),
 				_1: {
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$label,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(profile.bio),
-							_1: {ctor: '[]'}
-						}),
+					_0: topics,
 					_1: {ctor: '[]'}
 				}
 			}
@@ -11413,19 +11414,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (profile) {
 						}),
 					_1: {ctor: '[]'}
 				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$label,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							_user$project$Domain_Core$getName(profile.name)),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			}
+			_1: {ctor: '[]'}
 		});
 };
 var _user$project$Controls_ProfileThumbnail$None = {ctor: 'None'};
