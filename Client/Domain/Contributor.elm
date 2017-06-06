@@ -1,20 +1,10 @@
 module Domain.Contributor exposing (..)
 
 import Domain.Core exposing (..)
-import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
 import Settings exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-
-
-main =
-    Html.beginnerProgram
-        { model = model
-        , update = update
-        , view = view
-        }
-
 
 
 -- MODEL
@@ -29,41 +19,19 @@ type alias Model =
     }
 
 
-model : Model
-model =
-    { profile = Profile (Id undefined) (Contributor undefined) (Url undefined) undefined []
-    , topics = []
-    , articles = []
-    , videos = []
-    , podcasts = []
-    }
-
-
 type Msg
-    = TopicSelected
-    | ArticlesSelected
-    | VideosSelected
-    | PodcastsSelected
-    | None ProfileThumbnail.Msg
+    = TopicSelected Topic
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        TopicSelected ->
-            model
-
-        ArticlesSelected ->
-            { model | articles = runtime.latestPosts model.profile.id Article }
-
-        VideosSelected ->
-            { model | videos = runtime.latestPosts model.profile.id Video }
-
-        PodcastsSelected ->
-            { model | podcasts = runtime.latestPosts model.profile.id Podcast }
-
-        None subMsg ->
-            model
+        TopicSelected topic ->
+            { model
+                | articles = model.profile.id |> runtime.posts Article
+                , podcasts = model.profile.id |> runtime.posts Podcast
+                , videos = model.profile.id |> runtime.posts Video
+            }
 
 
 
@@ -82,11 +50,11 @@ view model =
                             [ topicsUI model.profile.topics ]
                         , table []
                             [ tr [] [ td [] [ b [] [ text "Videos" ] ] ]
-                            , div [] <| contentUI (model.profile.id |> runtime.posts Video)
+                            , div [] <| contentUI model.videos
                             , tr [] [ td [] [ b [] [ text "Podcasts" ] ] ]
-                            , div [] <| contentUI (model.profile.id |> runtime.posts Podcast)
+                            , div [] <| contentUI model.podcasts
                             , tr [] [ td [] [ b [] [ text "Articles" ] ] ]
-                            , div [] <| contentUI (model.profile.id |> runtime.posts Article)
+                            , div [] <| contentUI model.articles
                             ]
                         ]
                     , tr [] [ td [] [ text <| getName model.profile.name ] ]
@@ -105,7 +73,7 @@ contentUI videos =
 topicTocheckbox : Topic -> Html Msg
 topicTocheckbox topic =
     div []
-        [ input [ type_ "checkbox", name "topic", onClick TopicSelected, value <| getTopic topic ] []
+        [ input [ type_ "checkbox", name "topic", onClick <| TopicSelected topic, value <| getTopic topic ] []
         , label [] [ text <| getTopic topic ]
         ]
 

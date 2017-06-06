@@ -1,6 +1,6 @@
 module Home exposing (..)
 
-import Domain.Core exposing (..)
+import Domain.Core as Domain exposing (..)
 import Domain.Contributor as Contributor exposing (..)
 import Controls.Login as Login exposing (..)
 import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
@@ -130,7 +130,14 @@ view model =
         [ "contributor", id ] ->
             case runtime.getContributor <| Id id of
                 Just p ->
-                    Html.map Contributor <| Contributor.view <| Contributor.Model p [] [] [] []
+                    let
+                        ( articles, podcasts, videos ) =
+                            ( p.id |> runtime.posts Domain.Article
+                            , p.id |> runtime.posts Domain.Podcast
+                            , p.id |> runtime.posts Domain.Video
+                            )
+                    in
+                        Html.map Contributor <| Contributor.view <| Contributor.Model p [] articles podcasts videos
 
                 Nothing ->
                     notFoundPage

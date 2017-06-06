@@ -11450,55 +11450,21 @@ var _user$project$Domain_Contributor$contentUI = function (videos) {
 var _user$project$Domain_Contributor$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
-		switch (_p0.ctor) {
-			case 'TopicSelected':
-				return model;
-			case 'ArticlesSelected':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						articles: A2(_user$project$Settings$runtime.latestPosts, model.profile.id, _user$project$Domain_Core$Article)
-					});
-			case 'VideosSelected':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						videos: A2(_user$project$Settings$runtime.latestPosts, model.profile.id, _user$project$Domain_Core$Video)
-					});
-			case 'PodcastsSelected':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						podcasts: A2(_user$project$Settings$runtime.latestPosts, model.profile.id, _user$project$Domain_Core$Podcast)
-					});
-			default:
-				return model;
-		}
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				articles: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Article, model.profile.id),
+				podcasts: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Podcast, model.profile.id),
+				videos: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Video, model.profile.id)
+			});
 	});
-var _user$project$Domain_Contributor$model = {
-	profile: A5(
-		_user$project$Domain_Core$Profile,
-		_user$project$Domain_Core$Id(_user$project$Domain_Core$undefined),
-		_user$project$Domain_Core$Contributor(_user$project$Domain_Core$undefined),
-		_user$project$Domain_Core$Url(_user$project$Domain_Core$undefined),
-		_user$project$Domain_Core$undefined,
-		{ctor: '[]'}),
-	topics: {ctor: '[]'},
-	articles: {ctor: '[]'},
-	videos: {ctor: '[]'},
-	podcasts: {ctor: '[]'}
-};
 var _user$project$Domain_Contributor$Model = F5(
 	function (a, b, c, d, e) {
 		return {profile: a, topics: b, articles: c, videos: d, podcasts: e};
 	});
-var _user$project$Domain_Contributor$None = function (a) {
-	return {ctor: 'None', _0: a};
+var _user$project$Domain_Contributor$TopicSelected = function (a) {
+	return {ctor: 'TopicSelected', _0: a};
 };
-var _user$project$Domain_Contributor$PodcastsSelected = {ctor: 'PodcastsSelected'};
-var _user$project$Domain_Contributor$VideosSelected = {ctor: 'VideosSelected'};
-var _user$project$Domain_Contributor$ArticlesSelected = {ctor: 'ArticlesSelected'};
-var _user$project$Domain_Contributor$TopicSelected = {ctor: 'TopicSelected'};
 var _user$project$Domain_Contributor$topicTocheckbox = function (topic) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -11515,7 +11481,8 @@ var _user$project$Domain_Contributor$topicTocheckbox = function (topic) {
 						_0: _elm_lang$html$Html_Attributes$name('topic'),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onClick(_user$project$Domain_Contributor$TopicSelected),
+							_0: _elm_lang$html$Html_Events$onClick(
+								_user$project$Domain_Contributor$TopicSelected(topic)),
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Attributes$value(
@@ -11646,8 +11613,7 @@ var _user$project$Domain_Contributor$view = function (model) {
 																_0: A2(
 																	_elm_lang$html$Html$div,
 																	{ctor: '[]'},
-																	_user$project$Domain_Contributor$contentUI(
-																		A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Video, model.profile.id))),
+																	_user$project$Domain_Contributor$contentUI(model.videos)),
 																_1: {
 																	ctor: '::',
 																	_0: A2(
@@ -11677,8 +11643,7 @@ var _user$project$Domain_Contributor$view = function (model) {
 																		_0: A2(
 																			_elm_lang$html$Html$div,
 																			{ctor: '[]'},
-																			_user$project$Domain_Contributor$contentUI(
-																				A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Podcast, model.profile.id))),
+																			_user$project$Domain_Contributor$contentUI(model.podcasts)),
 																		_1: {
 																			ctor: '::',
 																			_0: A2(
@@ -11708,8 +11673,7 @@ var _user$project$Domain_Contributor$view = function (model) {
 																				_0: A2(
 																					_elm_lang$html$Html$div,
 																					{ctor: '[]'},
-																					_user$project$Domain_Contributor$contentUI(
-																						A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Article, model.profile.id))),
+																					_user$project$Domain_Contributor$contentUI(model.articles)),
 																				_1: {ctor: '[]'}
 																			}
 																		}
@@ -11774,8 +11738,6 @@ var _user$project$Domain_Contributor$view = function (model) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Domain_Contributor$main = _elm_lang$html$Html$beginnerProgram(
-	{model: _user$project$Domain_Contributor$model, update: _user$project$Domain_Contributor$update, view: _user$project$Domain_Contributor$view})();
 
 var _user$project$Home$tokenizeUrl = function (urlHash) {
 	return A2(
@@ -12059,17 +12021,27 @@ var _user$project$Home$view = function (model) {
 					var _p4 = _user$project$Settings$runtime.getContributor(
 						_user$project$Domain_Core$Id(_p3._1._0));
 					if (_p4.ctor === 'Just') {
+						var _p6 = _p4._0;
+						var _p5 = {
+							ctor: '_Tuple3',
+							_0: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Article, _p6.id),
+							_1: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Podcast, _p6.id),
+							_2: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Video, _p6.id)
+						};
+						var articles = _p5._0;
+						var podcasts = _p5._1;
+						var videos = _p5._2;
 						return A2(
 							_elm_lang$html$Html$map,
 							_user$project$Home$Contributor,
 							_user$project$Domain_Contributor$view(
 								A5(
 									_user$project$Domain_Contributor$Model,
-									_p4._0,
+									_p6,
 									{ctor: '[]'},
-									{ctor: '[]'},
-									{ctor: '[]'},
-									{ctor: '[]'})));
+									articles,
+									podcasts,
+									videos)));
 					} else {
 						return _user$project$Home$notFoundPage;
 					}
@@ -12091,7 +12063,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$model,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p5) {
+		subscriptions: function (_p7) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();
