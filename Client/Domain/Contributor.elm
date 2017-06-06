@@ -1,7 +1,6 @@
 module Domain.Contributor exposing (..)
 
 import Domain.Core exposing (..)
-import Settings exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -11,7 +10,8 @@ import Html.Events exposing (..)
 
 
 type alias Model =
-    { profile : Profile
+    { topicSelected : Bool
+    , profile : Profile
     , topics : List Topic
     , articles : List Post
     , videos : List Post
@@ -20,17 +20,22 @@ type alias Model =
 
 
 type Msg
-    = TopicSelected Topic
+    = TopicSelected
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        TopicSelected topic ->
+        TopicSelected ->
             { model
-                | articles = model.profile.id |> runtime.posts Article
-                , podcasts = model.profile.id |> runtime.posts Podcast
-                , videos = model.profile.id |> runtime.posts Video
+                | topicSelected = True
+                , articles = []
+
+                -- model.profile.id
+                --     |> runtime.posts Article
+                --     |> List.filter (\p -> False)
+                , podcasts = [] -- model.profile.id |> runtime.posts Podcast
+                , videos = [] -- model.profile.id |> runtime.posts Video
             }
 
 
@@ -46,8 +51,7 @@ view model =
                 [ table []
                     [ tr []
                         [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
-                        , td []
-                            [ topicsUI model.profile.topics ]
+                        , td [] [ topicsUI model.profile.topics ]
                         , table []
                             [ tr [] [ td [] [ b [] [ text "Videos" ] ] ]
                             , div [] <| contentUI model.videos
@@ -59,6 +63,7 @@ view model =
                         ]
                     , tr [] [ td [] [ text <| getName model.profile.name ] ]
                     , tr [] [ td [] [ p [] [ text model.profile.bio ] ] ]
+                    , tr [] [ td [] [ p [] [ text <| toString model ] ] ]
                     ]
                 ]
             ]
@@ -66,14 +71,15 @@ view model =
 
 
 contentUI : List Post -> List (Html Msg)
-contentUI videos =
-    videos |> List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ])
+contentUI posts =
+    posts |> List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ])
 
 
 topicTocheckbox : Topic -> Html Msg
 topicTocheckbox topic =
     div []
-        [ input [ type_ "checkbox", name "topic", onClick <| TopicSelected topic, value <| getTopic topic ] []
+        -- [ input [ type_ "checkbox", name "topic", onClick <| TopicSelected topic, value <| getTopic topic ] []
+        [ input [ type_ "submit", onClick TopicSelected, value (getTopic topic) ] []
         , label [] [ text <| getTopic topic ]
         ]
 
@@ -84,4 +90,4 @@ topicsUI topics =
         formattedTopics =
             topics |> List.map topicTocheckbox
     in
-        Html.form [ action "" ] formattedTopics
+        div [] formattedTopics

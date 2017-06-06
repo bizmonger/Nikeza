@@ -11419,7 +11419,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (profile) {
 };
 var _user$project$Controls_ProfileThumbnail$None = {ctor: 'None'};
 
-var _user$project$Domain_Contributor$contentUI = function (videos) {
+var _user$project$Domain_Contributor$contentUI = function (posts) {
 	return A2(
 		_elm_lang$core$List$map,
 		function (post) {
@@ -11445,7 +11445,7 @@ var _user$project$Domain_Contributor$contentUI = function (videos) {
 					}
 				});
 		},
-		videos);
+		posts);
 };
 var _user$project$Domain_Contributor$update = F2(
 	function (msg, model) {
@@ -11453,18 +11453,17 @@ var _user$project$Domain_Contributor$update = F2(
 		return _elm_lang$core$Native_Utils.update(
 			model,
 			{
-				articles: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Article, model.profile.id),
-				podcasts: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Podcast, model.profile.id),
-				videos: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Video, model.profile.id)
+				topicSelected: true,
+				articles: {ctor: '[]'},
+				podcasts: {ctor: '[]'},
+				videos: {ctor: '[]'}
 			});
 	});
-var _user$project$Domain_Contributor$Model = F5(
-	function (a, b, c, d, e) {
-		return {profile: a, topics: b, articles: c, videos: d, podcasts: e};
+var _user$project$Domain_Contributor$Model = F6(
+	function (a, b, c, d, e, f) {
+		return {topicSelected: a, profile: b, topics: c, articles: d, videos: e, podcasts: f};
 	});
-var _user$project$Domain_Contributor$TopicSelected = function (a) {
-	return {ctor: 'TopicSelected', _0: a};
-};
+var _user$project$Domain_Contributor$TopicSelected = {ctor: 'TopicSelected'};
 var _user$project$Domain_Contributor$topicTocheckbox = function (topic) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -11475,20 +11474,15 @@ var _user$project$Domain_Contributor$topicTocheckbox = function (topic) {
 				_elm_lang$html$Html$input,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
+					_0: _elm_lang$html$Html_Attributes$type_('submit'),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$name('topic'),
+						_0: _elm_lang$html$Html_Events$onClick(_user$project$Domain_Contributor$TopicSelected),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onClick(
-								_user$project$Domain_Contributor$TopicSelected(topic)),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$value(
-									_user$project$Domain_Core$getTopic(topic)),
-								_1: {ctor: '[]'}
-							}
+							_0: _elm_lang$html$Html_Attributes$value(
+								_user$project$Domain_Core$getTopic(topic)),
+							_1: {ctor: '[]'}
 						}
 					}
 				},
@@ -11511,12 +11505,8 @@ var _user$project$Domain_Contributor$topicTocheckbox = function (topic) {
 var _user$project$Domain_Contributor$topicsUI = function (topics) {
 	var formattedTopics = A2(_elm_lang$core$List$map, _user$project$Domain_Contributor$topicTocheckbox, topics);
 	return A2(
-		_elm_lang$html$Html$form,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$action(''),
-			_1: {ctor: '[]'}
-		},
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
 		formattedTopics);
 };
 var _user$project$Domain_Contributor$view = function (model) {
@@ -11727,7 +11717,33 @@ var _user$project$Domain_Contributor$view = function (model) {
 														}),
 													_1: {ctor: '[]'}
 												}),
-											_1: {ctor: '[]'}
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$tr,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$td,
+															{ctor: '[]'},
+															{
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$p,
+																	{ctor: '[]'},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text(
+																			_elm_lang$core$Basics$toString(model)),
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {ctor: '[]'}
+															}),
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}
 										}
 									}
 								}),
@@ -12035,8 +12051,9 @@ var _user$project$Home$view = function (model) {
 							_elm_lang$html$Html$map,
 							_user$project$Home$Contributor,
 							_user$project$Domain_Contributor$view(
-								A5(
+								A6(
 									_user$project$Domain_Contributor$Model,
+									false,
 									_p6,
 									{ctor: '[]'},
 									articles,

@@ -137,7 +137,7 @@ view model =
                             , p.id |> runtime.posts Domain.Video
                             )
                     in
-                        Html.map Contributor <| Contributor.view <| Contributor.Model p [] articles podcasts videos
+                        Html.map Contributor <| Contributor.view <| Contributor.Model False p [] articles podcasts videos
 
                 Nothing ->
                     notFoundPage
