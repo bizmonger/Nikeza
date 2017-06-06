@@ -5,6 +5,7 @@ import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
 import Settings exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 
 
 main =
@@ -39,7 +40,7 @@ model =
 
 
 type Msg
-    = TopicsSelected
+    = TopicSelected
     | ArticlesSelected
     | VideosSelected
     | PodcastsSelected
@@ -49,8 +50,8 @@ type Msg
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        TopicsSelected ->
-            { model | topics = [] }
+        TopicSelected ->
+            model
 
         ArticlesSelected ->
             { model | articles = runtime.latestPosts model.profile.id Article }
@@ -101,17 +102,18 @@ contentUI videos =
     videos |> List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ])
 
 
+topicTocheckbox : Topic -> Html Msg
+topicTocheckbox topic =
+    div []
+        [ input [ type_ "checkbox", name "topic", onClick TopicSelected, value <| getTopic topic ] []
+        , label [] [ text <| getTopic topic ]
+        ]
+
+
 topicsUI : List Topic -> Html Msg
 topicsUI topics =
     let
         formattedTopics =
-            topics
-                |> List.map
-                    (\t ->
-                        div []
-                            [ input [ type_ "checkbox", name "topic", value <| getTopic t ] []
-                            , label [] [ text <| getTopic t ]
-                            ]
-                    )
+            topics |> List.map topicTocheckbox
     in
         Html.form [ action "" ] formattedTopics

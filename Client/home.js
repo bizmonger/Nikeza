@@ -11419,57 +11419,6 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (profile) {
 };
 var _user$project$Controls_ProfileThumbnail$None = {ctor: 'None'};
 
-var _user$project$Domain_Contributor$topicsUI = function (topics) {
-	var formattedTopics = A2(
-		_elm_lang$core$List$map,
-		function (t) {
-			return A2(
-				_elm_lang$html$Html$div,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$input,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$name('topic'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$value(
-										_user$project$Domain_Core$getTopic(t)),
-									_1: {ctor: '[]'}
-								}
-							}
-						},
-						{ctor: '[]'}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$label,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(
-									_user$project$Domain_Core$getTopic(t)),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}
-				});
-		},
-		topics);
-	return A2(
-		_elm_lang$html$Html$form,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$action(''),
-			_1: {ctor: '[]'}
-		},
-		formattedTopics);
-};
 var _user$project$Domain_Contributor$contentUI = function (videos) {
 	return A2(
 		_elm_lang$core$List$map,
@@ -11497,6 +11446,111 @@ var _user$project$Domain_Contributor$contentUI = function (videos) {
 				});
 		},
 		videos);
+};
+var _user$project$Domain_Contributor$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'TopicSelected':
+				return model;
+			case 'ArticlesSelected':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						articles: A2(_user$project$Settings$runtime.latestPosts, model.profile.id, _user$project$Domain_Core$Article)
+					});
+			case 'VideosSelected':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						videos: A2(_user$project$Settings$runtime.latestPosts, model.profile.id, _user$project$Domain_Core$Video)
+					});
+			case 'PodcastsSelected':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						podcasts: A2(_user$project$Settings$runtime.latestPosts, model.profile.id, _user$project$Domain_Core$Podcast)
+					});
+			default:
+				return model;
+		}
+	});
+var _user$project$Domain_Contributor$model = {
+	profile: A5(
+		_user$project$Domain_Core$Profile,
+		_user$project$Domain_Core$Id(_user$project$Domain_Core$undefined),
+		_user$project$Domain_Core$Contributor(_user$project$Domain_Core$undefined),
+		_user$project$Domain_Core$Url(_user$project$Domain_Core$undefined),
+		_user$project$Domain_Core$undefined,
+		{ctor: '[]'}),
+	topics: {ctor: '[]'},
+	articles: {ctor: '[]'},
+	videos: {ctor: '[]'},
+	podcasts: {ctor: '[]'}
+};
+var _user$project$Domain_Contributor$Model = F5(
+	function (a, b, c, d, e) {
+		return {profile: a, topics: b, articles: c, videos: d, podcasts: e};
+	});
+var _user$project$Domain_Contributor$None = function (a) {
+	return {ctor: 'None', _0: a};
+};
+var _user$project$Domain_Contributor$PodcastsSelected = {ctor: 'PodcastsSelected'};
+var _user$project$Domain_Contributor$VideosSelected = {ctor: 'VideosSelected'};
+var _user$project$Domain_Contributor$ArticlesSelected = {ctor: 'ArticlesSelected'};
+var _user$project$Domain_Contributor$TopicSelected = {ctor: 'TopicSelected'};
+var _user$project$Domain_Contributor$topicTocheckbox = function (topic) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$input,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$name('topic'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(_user$project$Domain_Contributor$TopicSelected),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$value(
+									_user$project$Domain_Core$getTopic(topic)),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$label,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							_user$project$Domain_Core$getTopic(topic)),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _user$project$Domain_Contributor$topicsUI = function (topics) {
+	var formattedTopics = A2(_elm_lang$core$List$map, _user$project$Domain_Contributor$topicTocheckbox, topics);
+	return A2(
+		_elm_lang$html$Html$form,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$action(''),
+			_1: {ctor: '[]'}
+		},
+		formattedTopics);
 };
 var _user$project$Domain_Contributor$view = function (model) {
 	return A2(
@@ -11720,64 +11774,8 @@ var _user$project$Domain_Contributor$view = function (model) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Domain_Contributor$update = F2(
-	function (msg, model) {
-		var _p0 = msg;
-		switch (_p0.ctor) {
-			case 'TopicsSelected':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						topics: {ctor: '[]'}
-					});
-			case 'ArticlesSelected':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						articles: A2(_user$project$Settings$runtime.latestPosts, model.profile.id, _user$project$Domain_Core$Article)
-					});
-			case 'VideosSelected':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						videos: A2(_user$project$Settings$runtime.latestPosts, model.profile.id, _user$project$Domain_Core$Video)
-					});
-			case 'PodcastsSelected':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						podcasts: A2(_user$project$Settings$runtime.latestPosts, model.profile.id, _user$project$Domain_Core$Podcast)
-					});
-			default:
-				return model;
-		}
-	});
-var _user$project$Domain_Contributor$model = {
-	profile: A5(
-		_user$project$Domain_Core$Profile,
-		_user$project$Domain_Core$Id(_user$project$Domain_Core$undefined),
-		_user$project$Domain_Core$Contributor(_user$project$Domain_Core$undefined),
-		_user$project$Domain_Core$Url(_user$project$Domain_Core$undefined),
-		_user$project$Domain_Core$undefined,
-		{ctor: '[]'}),
-	topics: {ctor: '[]'},
-	articles: {ctor: '[]'},
-	videos: {ctor: '[]'},
-	podcasts: {ctor: '[]'}
-};
 var _user$project$Domain_Contributor$main = _elm_lang$html$Html$beginnerProgram(
 	{model: _user$project$Domain_Contributor$model, update: _user$project$Domain_Contributor$update, view: _user$project$Domain_Contributor$view})();
-var _user$project$Domain_Contributor$Model = F5(
-	function (a, b, c, d, e) {
-		return {profile: a, topics: b, articles: c, videos: d, podcasts: e};
-	});
-var _user$project$Domain_Contributor$None = function (a) {
-	return {ctor: 'None', _0: a};
-};
-var _user$project$Domain_Contributor$PodcastsSelected = {ctor: 'PodcastsSelected'};
-var _user$project$Domain_Contributor$VideosSelected = {ctor: 'VideosSelected'};
-var _user$project$Domain_Contributor$ArticlesSelected = {ctor: 'ArticlesSelected'};
-var _user$project$Domain_Contributor$TopicsSelected = {ctor: 'TopicsSelected'};
 
 var _user$project$Home$tokenizeUrl = function (urlHash) {
 	return A2(
