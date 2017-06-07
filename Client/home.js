@@ -11491,13 +11491,25 @@ var _user$project$Home$onLogin = F2(
 				};
 		}
 	});
-var _user$project$Home$contributorModel = function (p) {
+var _user$project$Home$getContributor = function (p) {
 	return {
 		profile: p,
 		topics: {ctor: '[]'},
 		articles: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Article, p.id),
 		videos: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Video, p.id),
 		podcasts: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Podcast, p.id)
+	};
+};
+var _user$project$Home$init = function (location) {
+	return {
+		ctor: '_Tuple2',
+		_0: {
+			currentRoute: location,
+			contributors: {ctor: '[]'},
+			login: _user$project$Controls_Login$model,
+			contributor: _user$project$Domain_Contributor$init
+		},
+		_1: _elm_lang$core$Platform_Cmd$none
 	};
 };
 var _user$project$Home$update = F2(
@@ -11515,7 +11527,7 @@ var _user$project$Home$update = F2(
 							_0: _elm_lang$core$Native_Utils.update(
 								model,
 								{
-									contributor: _user$project$Home$contributorModel(_p3._0)
+									contributor: _user$project$Home$getContributor(_p3._0)
 								}),
 							_1: _elm_lang$core$Platform_Cmd$none
 						};
@@ -11534,23 +11546,11 @@ var _user$project$Home$update = F2(
 			case 'Contributor':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'TopicSelected':
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				return _user$project$Home$init(model.currentRoute);
 			default:
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 		}
 	});
-var _user$project$Home$model = function (location) {
-	return {
-		ctor: '_Tuple2',
-		_0: {
-			currentRoute: location,
-			contributors: {ctor: '[]'},
-			login: _user$project$Controls_Login$model,
-			contributor: _user$project$Domain_Contributor$init
-		},
-		_1: _elm_lang$core$Platform_Cmd$none
-	};
-};
 var _user$project$Home$Model = F4(
 	function (a, b, c, d) {
 		return {currentRoute: a, contributors: b, login: c, contributor: d};
@@ -12041,8 +12041,9 @@ var _user$project$Home$view = function (model) {
 					var _p6 = _user$project$Settings$runtime.getContributor(
 						_user$project$Domain_Core$Id(_p5._1._0));
 					if (_p6.ctor === 'Just') {
-						return _user$project$Home$contributorPage(
-							_user$project$Home$contributorModel(_p6._0));
+						var loadedBefore = !_elm_lang$core$Native_Utils.eq(model.contributor, _user$project$Domain_Contributor$init);
+						return (!loadedBefore) ? _user$project$Home$contributorPage(
+							_user$project$Home$getContributor(_p6._0)) : _user$project$Home$contributorPage(model.contributor);
 					} else {
 						return _user$project$Home$notFoundPage;
 					}
@@ -12061,7 +12062,7 @@ var _user$project$Home$main = A2(
 	_elm_lang$navigation$Navigation$program,
 	_user$project$Home$UrlChange,
 	{
-		init: _user$project$Home$model,
+		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
 		subscriptions: function (_p7) {

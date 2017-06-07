@@ -18,7 +18,7 @@ import Navigation exposing (..)
 
 main =
     Navigation.program UrlChange
-        { init = model
+        { init = init
         , view = view
         , update = update
         , subscriptions = (\_ -> Sub.none)
@@ -37,8 +37,8 @@ type alias Model =
     }
 
 
-model : Navigation.Location -> ( Model, Cmd Msg )
-model location =
+init : Navigation.Location -> ( Model, Cmd Msg )
+init location =
     ( { currentRoute = location
       , contributors = []
       , login = Login.model
@@ -70,7 +70,7 @@ update msg model =
                 [ "contributor", id ] ->
                     case runtime.getContributor <| Id id of
                         Just p ->
-                            ( { model | contributor = contributorModel p }, Cmd.none )
+                            ( { model | contributor = getContributor p }, Cmd.none )
 
                         Nothing ->
                             ( model, Cmd.none )
@@ -91,14 +91,14 @@ update msg model =
             ( model, Cmd.none )
 
         TopicSelected ->
-            ( model, Cmd.none )
+            init model.currentRoute
 
         ProfileThumbnail subMsg ->
             ( model, Cmd.none )
 
 
-contributorModel : Profile -> Contributor.Model
-contributorModel p =
+getContributor : Profile -> Contributor.Model
+getContributor p =
     { profile = p
     , topics = []
     , articles = p.id |> runtime.posts Article
@@ -140,7 +140,14 @@ view model =
         [ "contributor", id ] ->
             case runtime.getContributor <| Id id of
                 Just p ->
-                    contributorPage (contributorModel p)
+                    let
+                        loadedBefore =
+                            model.contributor /= Contributor.init
+                    in
+                        if not loadedBefore then
+                            contributorPage <| getContributor p
+                        else
+                            contributorPage model.contributor
 
                 Nothing ->
                     notFoundPage
