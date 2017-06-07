@@ -10820,7 +10820,9 @@ var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
 var _user$project$Tests_TestAPI$someDescrtiption = 'some description...';
-var _user$project$Tests_TestAPI$someTitle = _user$project$Domain_Core$Title('Some Title');
+var _user$project$Tests_TestAPI$somePodcastTitle = _user$project$Domain_Core$Title('Some Podcast Title');
+var _user$project$Tests_TestAPI$someVideoTitle = _user$project$Domain_Core$Title('Some Video Title');
+var _user$project$Tests_TestAPI$someArticleTitle = _user$project$Domain_Core$Title('Some Article Title');
 var _user$project$Tests_TestAPI$someImageUrl = _user$project$Domain_Core$Url('http://www.ngu.edu/myimages/silhouette2230.jpg');
 var _user$project$Tests_TestAPI$someUrl = _user$project$Domain_Core$Url('http://some_url.com');
 var _user$project$Tests_TestAPI$topicUrl = F2(
@@ -10903,126 +10905,6 @@ var _user$project$Tests_TestAPI$recentContributors = {
 		}
 	}
 };
-var _user$project$Tests_TestAPI$recentPodcasts = {
-	ctor: '::',
-	_0: A4(
-		_user$project$Domain_Core$Post,
-		_user$project$Tests_TestAPI$profile1,
-		_user$project$Tests_TestAPI$someTitle,
-		_user$project$Tests_TestAPI$someUrl,
-		{
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$someTopic1,
-			_1: {ctor: '[]'}
-		}),
-	_1: {
-		ctor: '::',
-		_0: A4(
-			_user$project$Domain_Core$Post,
-			_user$project$Tests_TestAPI$profile2,
-			_user$project$Tests_TestAPI$someTitle,
-			_user$project$Tests_TestAPI$someUrl,
-			{
-				ctor: '::',
-				_0: _user$project$Tests_TestAPI$someTopic2,
-				_1: {ctor: '[]'}
-			}),
-		_1: {
-			ctor: '::',
-			_0: A4(
-				_user$project$Domain_Core$Post,
-				_user$project$Tests_TestAPI$profile3,
-				_user$project$Tests_TestAPI$someTitle,
-				_user$project$Tests_TestAPI$someUrl,
-				{
-					ctor: '::',
-					_0: _user$project$Tests_TestAPI$someTopic3,
-					_1: {ctor: '[]'}
-				}),
-			_1: {ctor: '[]'}
-		}
-	}
-};
-var _user$project$Tests_TestAPI$recentArticles = {
-	ctor: '::',
-	_0: A4(
-		_user$project$Domain_Core$Post,
-		_user$project$Tests_TestAPI$profile1,
-		_user$project$Tests_TestAPI$someTitle,
-		_user$project$Tests_TestAPI$someUrl,
-		{
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$someTopic1,
-			_1: {ctor: '[]'}
-		}),
-	_1: {
-		ctor: '::',
-		_0: A4(
-			_user$project$Domain_Core$Post,
-			_user$project$Tests_TestAPI$profile2,
-			_user$project$Tests_TestAPI$someTitle,
-			_user$project$Tests_TestAPI$someUrl,
-			{
-				ctor: '::',
-				_0: _user$project$Tests_TestAPI$someTopic2,
-				_1: {ctor: '[]'}
-			}),
-		_1: {
-			ctor: '::',
-			_0: A4(
-				_user$project$Domain_Core$Post,
-				_user$project$Tests_TestAPI$profile3,
-				_user$project$Tests_TestAPI$someTitle,
-				_user$project$Tests_TestAPI$someUrl,
-				{
-					ctor: '::',
-					_0: _user$project$Tests_TestAPI$someTopic3,
-					_1: {ctor: '[]'}
-				}),
-			_1: {ctor: '[]'}
-		}
-	}
-};
-var _user$project$Tests_TestAPI$recentVideos = {
-	ctor: '::',
-	_0: A4(
-		_user$project$Domain_Core$Post,
-		_user$project$Tests_TestAPI$profile1,
-		_user$project$Tests_TestAPI$someTitle,
-		_user$project$Tests_TestAPI$someUrl,
-		{
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$someTopic1,
-			_1: {ctor: '[]'}
-		}),
-	_1: {
-		ctor: '::',
-		_0: A4(
-			_user$project$Domain_Core$Post,
-			_user$project$Tests_TestAPI$profile2,
-			_user$project$Tests_TestAPI$someTitle,
-			_user$project$Tests_TestAPI$someUrl,
-			{
-				ctor: '::',
-				_0: _user$project$Tests_TestAPI$someTopic2,
-				_1: {ctor: '[]'}
-			}),
-		_1: {
-			ctor: '::',
-			_0: A4(
-				_user$project$Domain_Core$Post,
-				_user$project$Tests_TestAPI$profile3,
-				_user$project$Tests_TestAPI$someTitle,
-				_user$project$Tests_TestAPI$someUrl,
-				{
-					ctor: '::',
-					_0: _user$project$Tests_TestAPI$someTopic3,
-					_1: {ctor: '[]'}
-				}),
-			_1: {ctor: '[]'}
-		}
-	}
-};
 var _user$project$Tests_TestAPI$posts = F2(
 	function (contentType, profileId) {
 		var _p0 = contentType;
@@ -11033,7 +10915,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 					_0: A4(
 						_user$project$Domain_Core$Post,
 						_user$project$Tests_TestAPI$profile1,
-						_user$project$Tests_TestAPI$someTitle,
+						_user$project$Tests_TestAPI$someArticleTitle,
 						_user$project$Tests_TestAPI$someUrl,
 						{
 							ctor: '::',
@@ -11045,7 +10927,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 						_0: A4(
 							_user$project$Domain_Core$Post,
 							_user$project$Tests_TestAPI$profile2,
-							_user$project$Tests_TestAPI$someTitle,
+							_user$project$Tests_TestAPI$someArticleTitle,
 							_user$project$Tests_TestAPI$someUrl,
 							{
 								ctor: '::',
@@ -11057,7 +10939,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 							_0: A4(
 								_user$project$Domain_Core$Post,
 								_user$project$Tests_TestAPI$profile3,
-								_user$project$Tests_TestAPI$someTitle,
+								_user$project$Tests_TestAPI$someArticleTitle,
 								_user$project$Tests_TestAPI$someUrl,
 								{
 									ctor: '::',
@@ -11074,7 +10956,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 					_0: A4(
 						_user$project$Domain_Core$Post,
 						_user$project$Tests_TestAPI$profile1,
-						_user$project$Tests_TestAPI$someTitle,
+						_user$project$Tests_TestAPI$someVideoTitle,
 						_user$project$Tests_TestAPI$someUrl,
 						{
 							ctor: '::',
@@ -11086,7 +10968,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 						_0: A4(
 							_user$project$Domain_Core$Post,
 							_user$project$Tests_TestAPI$profile2,
-							_user$project$Tests_TestAPI$someTitle,
+							_user$project$Tests_TestAPI$someVideoTitle,
 							_user$project$Tests_TestAPI$someUrl,
 							{
 								ctor: '::',
@@ -11098,7 +10980,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 							_0: A4(
 								_user$project$Domain_Core$Post,
 								_user$project$Tests_TestAPI$profile3,
-								_user$project$Tests_TestAPI$someTitle,
+								_user$project$Tests_TestAPI$someVideoTitle,
 								_user$project$Tests_TestAPI$someUrl,
 								{
 									ctor: '::',
@@ -11115,7 +10997,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 					_0: A4(
 						_user$project$Domain_Core$Post,
 						_user$project$Tests_TestAPI$profile1,
-						_user$project$Tests_TestAPI$someTitle,
+						_user$project$Tests_TestAPI$somePodcastTitle,
 						_user$project$Tests_TestAPI$someUrl,
 						{
 							ctor: '::',
@@ -11127,7 +11009,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 						_0: A4(
 							_user$project$Domain_Core$Post,
 							_user$project$Tests_TestAPI$profile2,
-							_user$project$Tests_TestAPI$someTitle,
+							_user$project$Tests_TestAPI$somePodcastTitle,
 							_user$project$Tests_TestAPI$someUrl,
 							{
 								ctor: '::',
@@ -11139,7 +11021,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 							_0: A4(
 								_user$project$Domain_Core$Post,
 								_user$project$Tests_TestAPI$profile3,
-								_user$project$Tests_TestAPI$someTitle,
+								_user$project$Tests_TestAPI$somePodcastTitle,
 								_user$project$Tests_TestAPI$someUrl,
 								{
 									ctor: '::',
@@ -11156,7 +11038,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 					_0: A4(
 						_user$project$Domain_Core$Post,
 						_user$project$Tests_TestAPI$profile1,
-						_user$project$Tests_TestAPI$someTitle,
+						_user$project$Tests_TestAPI$someArticleTitle,
 						_user$project$Tests_TestAPI$someUrl,
 						{
 							ctor: '::',
@@ -11168,7 +11050,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 						_0: A4(
 							_user$project$Domain_Core$Post,
 							_user$project$Tests_TestAPI$profile2,
-							_user$project$Tests_TestAPI$someTitle,
+							_user$project$Tests_TestAPI$someArticleTitle,
 							_user$project$Tests_TestAPI$someUrl,
 							{
 								ctor: '::',
@@ -11180,7 +11062,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 							_0: A4(
 								_user$project$Domain_Core$Post,
 								_user$project$Tests_TestAPI$profile3,
-								_user$project$Tests_TestAPI$someTitle,
+								_user$project$Tests_TestAPI$someArticleTitle,
 								_user$project$Tests_TestAPI$someUrl,
 								{
 									ctor: '::',
@@ -11541,18 +11423,30 @@ var _user$project$Home$update = F2(
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Contributor':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			case 'TopicSelected':
-				var _p5 = _p1._0;
-				var removeTopic = F2(
-					function (t, posts) {
+			case 'Toggle':
+				var _p5 = _p1._0._0;
+				var contributor = model.contributor;
+				var getPosts = F2(
+					function (topic, contentType) {
 						return A2(
+							_elm_lang$core$List$filter,
+							function (a) {
+								return A2(_elm_lang$core$List$member, topic, a.topics);
+							},
+							A2(_user$project$Settings$runtime.posts, contentType, contributor.profile.id));
+					});
+				var toggleTopic = F3(
+					function (t, contentType, posts) {
+						return _p1._0._1 ? A2(
+							_elm_lang$core$List$append,
+							A2(getPosts, _p5, contentType),
+							posts) : A2(
 							_elm_lang$core$List$filter,
 							function (a) {
 								return !A2(_elm_lang$core$List$member, _p5, a.topics);
 							},
 							posts);
 					});
-				var contributor = model.contributor;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
@@ -11561,9 +11455,9 @@ var _user$project$Home$update = F2(
 							contributor: _elm_lang$core$Native_Utils.update(
 								contributor,
 								{
-									articles: A2(removeTopic, _p5, model.contributor.articles),
-									videos: A2(removeTopic, _p5, model.contributor.videos),
-									podcasts: A2(removeTopic, _p5, model.contributor.podcasts)
+									articles: A3(toggleTopic, _p5, _user$project$Domain_Core$Article, model.contributor.articles),
+									videos: A3(toggleTopic, _p5, _user$project$Domain_Core$Video, model.contributor.videos),
+									podcasts: A3(toggleTopic, _p5, _user$project$Domain_Core$Podcast, model.contributor.podcasts)
 								})
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
@@ -11605,8 +11499,8 @@ var _user$project$Home$Register = {ctor: 'Register'};
 var _user$project$Home$Search = function (a) {
 	return {ctor: 'Search', _0: a};
 };
-var _user$project$Home$TopicSelected = function (a) {
-	return {ctor: 'TopicSelected', _0: a};
+var _user$project$Home$Toggle = function (a) {
+	return {ctor: 'Toggle', _0: a};
 };
 var _user$project$Home$contributorPage = function (model) {
 	var topicTocheckbox = function (topic) {
@@ -11625,8 +11519,11 @@ var _user$project$Home$contributorPage = function (model) {
 							_0: _elm_lang$html$Html_Attributes$checked(true),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(
-									_user$project$Home$TopicSelected(topic)),
+								_0: _elm_lang$html$Html_Events$onCheck(
+									function (b) {
+										return _user$project$Home$Toggle(
+											{ctor: '_Tuple2', _0: topic, _1: b});
+									}),
 								_1: {ctor: '[]'}
 							}
 						}

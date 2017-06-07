@@ -83,7 +83,11 @@ getTopics topics =
 
 
 type alias Post =
-    { contributor : Profile, title : Title, url : Url, topics : List Topic }
+    { contributor : Profile
+    , title : Title
+    , url : Url
+    , topics : List Topic
+    }
 
 
 type alias ContributorUrlfunction =

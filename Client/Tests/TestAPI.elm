@@ -45,9 +45,19 @@ someImageUrl =
     Url "http://www.ngu.edu/myimages/silhouette2230.jpg"
 
 
-someTitle : Title
-someTitle =
-    Title "Some Title"
+someArticleTitle : Title
+someArticleTitle =
+    Title "Some Article Title"
+
+
+someVideoTitle : Title
+someVideoTitle =
+    Title "Some Video Title"
+
+
+somePodcastTitle : Title
+somePodcastTitle =
+    Title "Some Podcast Title"
 
 
 someDescrtiption : String
@@ -95,55 +105,31 @@ recentContributors =
     ]
 
 
-recentPodcasts : List Post
-recentPodcasts =
-    [ Post profile1 someTitle someUrl [ someTopic1 ]
-    , Post profile2 someTitle someUrl [ someTopic2 ]
-    , Post profile3 someTitle someUrl [ someTopic3 ]
-    ]
-
-
-recentArticles : List Post
-recentArticles =
-    [ Post profile1 someTitle someUrl [ someTopic1 ]
-    , Post profile2 someTitle someUrl [ someTopic2 ]
-    , Post profile3 someTitle someUrl [ someTopic3 ]
-    ]
-
-
-recentVideos : List Post
-recentVideos =
-    [ Post profile1 someTitle someUrl [ someTopic1 ]
-    , Post profile2 someTitle someUrl [ someTopic2 ]
-    , Post profile3 someTitle someUrl [ someTopic3 ]
-    ]
-
-
 posts : ContentType -> Id -> List Post
 posts contentType profileId =
     case contentType of
         Article ->
-            [ Post profile1 someTitle someUrl [ someTopic1 ]
-            , Post profile2 someTitle someUrl [ someTopic2 ]
-            , Post profile3 someTitle someUrl [ someTopic3 ]
+            [ Post profile1 someArticleTitle someUrl [ someTopic1 ]
+            , Post profile2 someArticleTitle someUrl [ someTopic2 ]
+            , Post profile3 someArticleTitle someUrl [ someTopic3 ]
             ]
 
         Video ->
-            [ Post profile1 someTitle someUrl [ someTopic1 ]
-            , Post profile2 someTitle someUrl [ someTopic2 ]
-            , Post profile3 someTitle someUrl [ someTopic3 ]
+            [ Post profile1 someVideoTitle someUrl [ someTopic1 ]
+            , Post profile2 someVideoTitle someUrl [ someTopic2 ]
+            , Post profile3 someVideoTitle someUrl [ someTopic3 ]
             ]
 
         Podcast ->
-            [ Post profile1 someTitle someUrl [ someTopic1 ]
-            , Post profile2 someTitle someUrl [ someTopic2 ]
-            , Post profile3 someTitle someUrl [ someTopic3 ]
+            [ Post profile1 somePodcastTitle someUrl [ someTopic1 ]
+            , Post profile2 somePodcastTitle someUrl [ someTopic2 ]
+            , Post profile3 somePodcastTitle someUrl [ someTopic3 ]
             ]
 
         All ->
-            [ Post profile1 someTitle someUrl [ someTopic1 ]
-            , Post profile2 someTitle someUrl [ someTopic2 ]
-            , Post profile3 someTitle someUrl [ someTopic3 ]
+            [ Post profile1 someArticleTitle someUrl [ someTopic1 ]
+            , Post profile2 someArticleTitle someUrl [ someTopic2 ]
+            , Post profile3 someArticleTitle someUrl [ someTopic3 ]
             ]
 
 

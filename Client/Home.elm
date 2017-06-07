@@ -7,7 +7,7 @@ import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
 import Settings exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onClick)
+import Html.Events exposing (onClick, onCheck)
 import Navigation exposing (..)
 
 
@@ -68,7 +68,7 @@ type Msg
     | OnLogin Login.Msg
     | ProfileThumbnail ProfileThumbnail.Msg
     | Contributor
-    | TopicSelected Topic
+    | Toggle ( Topic, Bool )
     | Search String
     | Register
 
@@ -101,20 +101,28 @@ update msg model =
         Contributor ->
             ( model, Cmd.none )
 
-        TopicSelected topic ->
+        Toggle ( topic, include ) ->
             let
                 contributor =
                     model.contributor
 
-                removeTopic t posts =
-                    posts |> List.filter (\a -> not (a.topics |> List.member topic))
+                getPosts topic contentType =
+                    contributor.profile.id
+                        |> runtime.posts contentType
+                        |> List.filter (\a -> a.topics |> List.member topic)
+
+                toggleTopic t contentType posts =
+                    if include then
+                        posts |> List.append (getPosts topic contentType)
+                    else
+                        posts |> List.filter (\a -> not (a.topics |> List.member topic))
             in
                 ( { model
                     | contributor =
                         { contributor
-                            | articles = model.contributor.articles |> removeTopic topic
-                            , videos = model.contributor.videos |> removeTopic topic
-                            , podcasts = model.contributor.podcasts |> removeTopic topic
+                            | articles = model.contributor.articles |> toggleTopic topic Article
+                            , videos = model.contributor.videos |> toggleTopic topic Video
+                            , podcasts = model.contributor.podcasts |> toggleTopic topic Podcast
                         }
                   }
                 , Cmd.none
@@ -220,7 +228,7 @@ contributorPage model =
         topicTocheckbox : Topic -> Html Msg
         topicTocheckbox topic =
             div []
-                [ input [ type_ "checkbox", checked True, onClick <| TopicSelected topic ] [ text <| getTopic topic ]
+                [ input [ type_ "checkbox", checked True, onCheck (\b -> Toggle ( topic, b )) ] [ text <| getTopic topic ]
                 , label [] [ text <| getTopic topic ]
                 ]
 
