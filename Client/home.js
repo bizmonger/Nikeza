@@ -11622,9 +11622,13 @@ var _user$project$Home$contributorPage = function (model) {
 						_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onClick(
-								_user$project$Home$TopicSelected(topic)),
-							_1: {ctor: '[]'}
+							_0: _elm_lang$html$Html_Attributes$checked(true),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(
+									_user$project$Home$TopicSelected(topic)),
+								_1: {ctor: '[]'}
+							}
 						}
 					},
 					{
