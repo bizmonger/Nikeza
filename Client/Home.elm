@@ -106,15 +106,15 @@ update msg model =
                 contributor =
                     model.contributor
 
-                filterPost t posts =
+                removeTopic t posts =
                     posts |> List.filter (\a -> not (a.topics |> List.member topic))
             in
                 ( { model
                     | contributor =
                         { contributor
-                            | articles = model.contributor.articles |> filterPost topic
-                            , videos = model.contributor.videos |> filterPost topic
-                            , podcasts = model.contributor.podcasts |> filterPost topic
+                            | articles = model.contributor.articles |> removeTopic topic
+                            , videos = model.contributor.videos |> removeTopic topic
+                            , podcasts = model.contributor.podcasts |> removeTopic topic
                         }
                   }
                 , Cmd.none

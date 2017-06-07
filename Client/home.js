@@ -11543,7 +11543,7 @@ var _user$project$Home$update = F2(
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'TopicSelected':
 				var _p5 = _p1._0;
-				var filterPost = F2(
+				var removeTopic = F2(
 					function (t, posts) {
 						return A2(
 							_elm_lang$core$List$filter,
@@ -11561,9 +11561,9 @@ var _user$project$Home$update = F2(
 							contributor: _elm_lang$core$Native_Utils.update(
 								contributor,
 								{
-									articles: A2(filterPost, _p5, model.contributor.articles),
-									videos: A2(filterPost, _p5, model.contributor.videos),
-									podcasts: A2(filterPost, _p5, model.contributor.podcasts)
+									articles: A2(removeTopic, _p5, model.contributor.articles),
+									videos: A2(removeTopic, _p5, model.contributor.videos),
+									podcasts: A2(removeTopic, _p5, model.contributor.podcasts)
 								})
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
