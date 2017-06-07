@@ -11419,9 +11419,9 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (profile) {
 };
 var _user$project$Controls_ProfileThumbnail$None = {ctor: 'None'};
 
-var _user$project$Domain_Contributor$Model = F6(
-	function (a, b, c, d, e, f) {
-		return {topicSelected: a, profile: b, topics: c, articles: d, videos: e, podcasts: f};
+var _user$project$Domain_Contributor$Model = F5(
+	function (a, b, c, d, e) {
+		return {profile: a, topics: b, articles: c, videos: d, podcasts: e};
 	});
 var _user$project$Domain_Contributor$init = function () {
 	var profile = {
@@ -11431,9 +11431,8 @@ var _user$project$Domain_Contributor$init = function () {
 		bio: _user$project$Domain_Core$undefined,
 		topics: {ctor: '[]'}
 	};
-	return A6(
+	return A5(
 		_user$project$Domain_Contributor$Model,
-		false,
 		profile,
 		{ctor: '[]'},
 		{ctor: '[]'},
@@ -11494,7 +11493,6 @@ var _user$project$Home$onLogin = F2(
 	});
 var _user$project$Home$getContributor = function (p) {
 	return {
-		topicSelected: false,
 		profile: p,
 		topics: {ctor: '[]'},
 		articles: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Article, p.id),
@@ -11563,7 +11561,6 @@ var _user$project$Home$update = F2(
 							contributor: _elm_lang$core$Native_Utils.update(
 								contributor,
 								{
-									topicSelected: true,
 									articles: A2(filterPost, _p5, model.contributor.articles),
 									videos: A2(filterPost, _p5, model.contributor.videos),
 									podcasts: A2(filterPost, _p5, model.contributor.podcasts)

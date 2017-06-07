@@ -14,12 +14,11 @@ init =
             , topics = []
             }
     in
-        Model False profile [] [] [] []
+        Model profile [] [] [] []
 
 
 type alias Model =
-    { topicSelected : Bool
-    , profile : Profile
+    { profile : Profile
     , topics : List Topic
     , articles : List Post
     , videos : List Post

@@ -112,8 +112,7 @@ update msg model =
                 ( { model
                     | contributor =
                         { contributor
-                            | topicSelected = True
-                            , articles = model.contributor.articles |> filterPost topic
+                            | articles = model.contributor.articles |> filterPost topic
                             , videos = model.contributor.videos |> filterPost topic
                             , podcasts = model.contributor.podcasts |> filterPost topic
                         }
@@ -127,8 +126,7 @@ update msg model =
 
 getContributor : Profile -> Contributor.Model
 getContributor p =
-    { topicSelected = False
-    , profile = p
+    { profile = p
     , topics = []
     , articles = p.id |> runtime.posts Article
     , videos = p.id |> runtime.posts Video
