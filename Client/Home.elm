@@ -167,19 +167,11 @@ view model =
         [ "contributor", id ] ->
             case runtime.getContributor <| Id id of
                 Just p ->
-                    let
-                        loadedBefore =
-                            model.contributor /= Contributor.init
-                    in
-                        -- if not loadedBefore then
-                        --     contributorPage <| getContributor p
-                        -- else
-                        contributorPage model.contributor
+                    contributorPage model.contributor
 
                 Nothing ->
                     notFoundPage
 
-        --notFoundPage
         _ ->
             notFoundPage
 

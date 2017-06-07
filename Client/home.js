@@ -12072,7 +12072,6 @@ var _user$project$Home$view = function (model) {
 					var _p10 = _user$project$Settings$runtime.getContributor(
 						_user$project$Domain_Core$Id(_p9._1._0));
 					if (_p10.ctor === 'Just') {
-						var loadedBefore = !_elm_lang$core$Native_Utils.eq(model.contributor, _user$project$Domain_Contributor$init);
 						return _user$project$Home$contributorPage(model.contributor);
 					} else {
 						return _user$project$Home$notFoundPage;
