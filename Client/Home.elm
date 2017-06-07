@@ -1,12 +1,13 @@
 module Home exposing (..)
 
-import Domain.Core as Domain exposing (..)
+import Domain.Core exposing (..)
 import Domain.Contributor as Contributor exposing (..)
 import Controls.Login as Login exposing (..)
 import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
 import Settings exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (onClick)
 import Navigation exposing (..)
 
 
@@ -30,25 +31,18 @@ main =
 
 type alias Model =
     { currentRoute : Navigation.Location
-    , content : Content
     , contributors : List Contributor
     , login : Login.Model
-    }
-
-
-type alias Content =
-    { videos : List Post
-    , articles : List Post
-    , podcasts : List Post
+    , contributor : Contributor.Model
     }
 
 
 model : Navigation.Location -> ( Model, Cmd Msg )
 model location =
     ( { currentRoute = location
-      , content = Content [] [] []
       , contributors = []
       , login = Login.model
+      , contributor = Contributor.model
       }
     , Cmd.none
     )
@@ -62,9 +56,8 @@ type Msg
     = UrlChange Navigation.Location
     | OnLogin Login.Msg
     | ProfileThumbnail ProfileThumbnail.Msg
-    | Contributor Contributor.Msg
-    | Video Post
-    | Article Post
+    | Contributor
+    | TopicSelected
     | Search String
     | Register
 
@@ -78,20 +71,24 @@ update msg model =
         OnLogin subMsg ->
             onLogin model subMsg
 
-        Video v ->
-            ( model, Cmd.none )
-
-        Article v ->
-            ( model, Cmd.none )
-
         Search v ->
             ( model, Cmd.none )
 
         Register ->
             ( model, Cmd.none )
 
-        Contributor subMsg ->
+        Contributor ->
             ( model, Cmd.none )
+
+        TopicSelected ->
+            let
+                contributor =
+                    model.contributor
+
+                newState =
+                    { model | contributor = { contributor | topicSelected = True } }
+            in
+                ( newState, Cmd.none )
 
         ProfileThumbnail subMsg ->
             ( model, Cmd.none )
@@ -128,19 +125,29 @@ view model =
             homePage model
 
         [ "contributor", id ] ->
-            case runtime.getContributor <| Id id of
-                Just p ->
-                    let
-                        ( articles, podcasts, videos ) =
-                            ( p.id |> runtime.posts Domain.Article
-                            , p.id |> runtime.posts Domain.Podcast
-                            , p.id |> runtime.posts Domain.Video
-                            )
-                    in
-                        Html.map Contributor <| Contributor.view <| Contributor.Model False p [] articles podcasts videos
+            if model.contributor /= Contributor.model then
+                contributorPage model.contributor
+            else
+                case runtime.getContributor <| Id id of
+                    Just p ->
+                        let
+                            ( articles, podcasts, videos ) =
+                                ( p.id |> runtime.posts Article
+                                , p.id |> runtime.posts Podcast
+                                , p.id |> runtime.posts Video
+                                )
+                        in
+                            contributorPage
+                                { topicSelected = False
+                                , profile = p
+                                , topics = []
+                                , articles = articles
+                                , videos = videos
+                                , podcasts = podcasts
+                                }
 
-                Nothing ->
-                    notFoundPage
+                    Nothing ->
+                        notFoundPage
 
         _ ->
             notFoundPage
@@ -148,42 +155,88 @@ view model =
 
 homePage : Model -> Html Msg
 homePage model =
-    div []
-        [ header []
-            [ label [] [ text "Nikeza" ]
-            , model |> loginUI
+    let
+        loginUI : Model -> Html Msg
+        loginUI model =
+            let
+                ( loggedIn, welcome, signout ) =
+                    ( model.login.loggedIn
+                    , p [] [ text <| "Welcome " ++ model.login.username ++ "!" ]
+                    , a [ href "" ] [ label [] [ text "Signout" ] ]
+                    )
+            in
+                if (not loggedIn) then
+                    Html.map OnLogin <| Login.view model.login
+                else
+                    div [ class "signin" ] [ welcome, signout ]
+
+        contributorsUI : Html Msg
+        contributorsUI =
+            Html.map ProfileThumbnail (div [] (runtime.recentContributors |> List.map thumbnail))
+    in
+        div []
+            [ header []
+                [ label [] [ text "Nikeza" ]
+                , model |> loginUI
+                ]
+            , div [] [ contributorsUI ]
+            , footer [ class "copyright" ]
+                [ label [] [ text "(c)2017" ]
+                , a [ href "" ] [ text "GitHub" ]
+                ]
             ]
-        , div [] [ contributorsUI ]
-        , footer [ class "copyright" ]
-            [ label [] [ text "(c)2017" ]
-            , a [ href "" ] [ text "GitHub" ]
+
+
+contributorPage : Contributor.Model -> Html Msg
+contributorPage model =
+    let
+        contentUI : List Post -> List (Html Msg)
+        contentUI posts =
+            posts |> List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ])
+
+        topicTocheckbox : Topic -> Html Msg
+        topicTocheckbox topic =
+            div []
+                [ button [ onClick TopicSelected ] [ text (getTopic topic) ]
+                , label [] [ text <| getTopic topic ]
+                ]
+
+        topicsUI : List Topic -> Html Msg
+        topicsUI topics =
+            let
+                formattedTopics =
+                    topics |> List.map topicTocheckbox
+            in
+                div [] formattedTopics
+    in
+        div []
+            [ table []
+                [ tr []
+                    [ table []
+                        [ tr []
+                            [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
+                            , td [] [ topicsUI model.profile.topics ]
+                            , table []
+                                [ tr [] [ td [] [ b [] [ text "Videos" ] ] ]
+                                , div [] <| contentUI model.videos
+                                , tr [] [ td [] [ b [] [ text "Podcasts" ] ] ]
+                                , div [] <| contentUI model.podcasts
+                                , tr [] [ td [] [ b [] [ text "Articles" ] ] ]
+                                , div [] <| contentUI model.articles
+                                ]
+                            ]
+                        , tr [] [ td [] [ text <| getName model.profile.name ] ]
+                        , tr [] [ td [] [ p [] [ text model.profile.bio ] ] ]
+                        , tr [] [ td [] [ p [] [ text <| toString model ] ] ]
+                        ]
+                    ]
+                ]
             ]
-        ]
 
 
 notFoundPage : Html Msg
 notFoundPage =
     div [] [ text "Not Found" ]
-
-
-contributorsUI : Html Msg
-contributorsUI =
-    Html.map ProfileThumbnail (div [] (runtime.recentContributors |> List.map thumbnail))
-
-
-loginUI : Model -> Html Msg
-loginUI model =
-    let
-        ( loggedIn, welcome, signout ) =
-            ( model.login.loggedIn
-            , p [] [ text <| "Welcome " ++ model.login.username ++ "!" ]
-            , a [ href "" ] [ label [] [ text "Signout" ] ]
-            )
-    in
-        if (not loggedIn) then
-            Html.map OnLogin <| Login.view model.login
-        else
-            div [ class "signin" ] [ welcome, signout ]
 
 
 
