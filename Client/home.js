@@ -10820,9 +10820,15 @@ var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
 var _user$project$Tests_TestAPI$someDescrtiption = 'some description...';
-var _user$project$Tests_TestAPI$somePodcastTitle = _user$project$Domain_Core$Title('Some Podcast Title');
-var _user$project$Tests_TestAPI$someVideoTitle = _user$project$Domain_Core$Title('Some Video Title');
-var _user$project$Tests_TestAPI$someArticleTitle = _user$project$Domain_Core$Title('Some Article Title');
+var _user$project$Tests_TestAPI$somePodcastTitle3 = _user$project$Domain_Core$Title('Some Podcast Title 3');
+var _user$project$Tests_TestAPI$somePodcastTitle2 = _user$project$Domain_Core$Title('Some Podcast Title 2');
+var _user$project$Tests_TestAPI$somePodcastTitle1 = _user$project$Domain_Core$Title('Some Podcast Title 1');
+var _user$project$Tests_TestAPI$someVideoTitle3 = _user$project$Domain_Core$Title('Some Video Title 3');
+var _user$project$Tests_TestAPI$someVideoTitle2 = _user$project$Domain_Core$Title('Some Video Title 2');
+var _user$project$Tests_TestAPI$someVideoTitle1 = _user$project$Domain_Core$Title('Some Video Title 1');
+var _user$project$Tests_TestAPI$someArticleTitle3 = _user$project$Domain_Core$Title('Some Article Title 3');
+var _user$project$Tests_TestAPI$someArticleTitle2 = _user$project$Domain_Core$Title('Some Article Title 2');
+var _user$project$Tests_TestAPI$someArticleTitle1 = _user$project$Domain_Core$Title('Some Article Title 1');
 var _user$project$Tests_TestAPI$someImageUrl = _user$project$Domain_Core$Url('http://www.ngu.edu/myimages/silhouette2230.jpg');
 var _user$project$Tests_TestAPI$someUrl = _user$project$Domain_Core$Url('http://some_url.com');
 var _user$project$Tests_TestAPI$topicUrl = F2(
@@ -10915,7 +10921,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 					_0: A4(
 						_user$project$Domain_Core$Post,
 						_user$project$Tests_TestAPI$profile1,
-						_user$project$Tests_TestAPI$someArticleTitle,
+						_user$project$Tests_TestAPI$someArticleTitle1,
 						_user$project$Tests_TestAPI$someUrl,
 						{
 							ctor: '::',
@@ -10927,7 +10933,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 						_0: A4(
 							_user$project$Domain_Core$Post,
 							_user$project$Tests_TestAPI$profile2,
-							_user$project$Tests_TestAPI$someArticleTitle,
+							_user$project$Tests_TestAPI$someArticleTitle2,
 							_user$project$Tests_TestAPI$someUrl,
 							{
 								ctor: '::',
@@ -10939,7 +10945,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 							_0: A4(
 								_user$project$Domain_Core$Post,
 								_user$project$Tests_TestAPI$profile3,
-								_user$project$Tests_TestAPI$someArticleTitle,
+								_user$project$Tests_TestAPI$someArticleTitle3,
 								_user$project$Tests_TestAPI$someUrl,
 								{
 									ctor: '::',
@@ -10956,7 +10962,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 					_0: A4(
 						_user$project$Domain_Core$Post,
 						_user$project$Tests_TestAPI$profile1,
-						_user$project$Tests_TestAPI$someVideoTitle,
+						_user$project$Tests_TestAPI$someVideoTitle1,
 						_user$project$Tests_TestAPI$someUrl,
 						{
 							ctor: '::',
@@ -10968,7 +10974,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 						_0: A4(
 							_user$project$Domain_Core$Post,
 							_user$project$Tests_TestAPI$profile2,
-							_user$project$Tests_TestAPI$someVideoTitle,
+							_user$project$Tests_TestAPI$someVideoTitle2,
 							_user$project$Tests_TestAPI$someUrl,
 							{
 								ctor: '::',
@@ -10980,7 +10986,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 							_0: A4(
 								_user$project$Domain_Core$Post,
 								_user$project$Tests_TestAPI$profile3,
-								_user$project$Tests_TestAPI$someVideoTitle,
+								_user$project$Tests_TestAPI$someVideoTitle3,
 								_user$project$Tests_TestAPI$someUrl,
 								{
 									ctor: '::',
@@ -10997,7 +11003,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 					_0: A4(
 						_user$project$Domain_Core$Post,
 						_user$project$Tests_TestAPI$profile1,
-						_user$project$Tests_TestAPI$somePodcastTitle,
+						_user$project$Tests_TestAPI$somePodcastTitle1,
 						_user$project$Tests_TestAPI$someUrl,
 						{
 							ctor: '::',
@@ -11009,7 +11015,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 						_0: A4(
 							_user$project$Domain_Core$Post,
 							_user$project$Tests_TestAPI$profile2,
-							_user$project$Tests_TestAPI$somePodcastTitle,
+							_user$project$Tests_TestAPI$somePodcastTitle2,
 							_user$project$Tests_TestAPI$someUrl,
 							{
 								ctor: '::',
@@ -11021,7 +11027,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 							_0: A4(
 								_user$project$Domain_Core$Post,
 								_user$project$Tests_TestAPI$profile3,
-								_user$project$Tests_TestAPI$somePodcastTitle,
+								_user$project$Tests_TestAPI$somePodcastTitle3,
 								_user$project$Tests_TestAPI$someUrl,
 								{
 									ctor: '::',
@@ -11038,7 +11044,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 					_0: A4(
 						_user$project$Domain_Core$Post,
 						_user$project$Tests_TestAPI$profile1,
-						_user$project$Tests_TestAPI$someArticleTitle,
+						_user$project$Tests_TestAPI$someArticleTitle1,
 						_user$project$Tests_TestAPI$someUrl,
 						{
 							ctor: '::',
@@ -11050,7 +11056,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 						_0: A4(
 							_user$project$Domain_Core$Post,
 							_user$project$Tests_TestAPI$profile2,
-							_user$project$Tests_TestAPI$someArticleTitle,
+							_user$project$Tests_TestAPI$someArticleTitle2,
 							_user$project$Tests_TestAPI$someUrl,
 							{
 								ctor: '::',
@@ -11062,7 +11068,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 							_0: A4(
 								_user$project$Domain_Core$Post,
 								_user$project$Tests_TestAPI$profile3,
-								_user$project$Tests_TestAPI$someArticleTitle,
+								_user$project$Tests_TestAPI$someArticleTitle3,
 								_user$project$Tests_TestAPI$someUrl,
 								{
 									ctor: '::',
