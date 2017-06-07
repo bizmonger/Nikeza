@@ -68,7 +68,7 @@ type Msg
     | OnLogin Login.Msg
     | ProfileThumbnail ProfileThumbnail.Msg
     | Contributor
-    | TopicSelected
+    | TopicSelected Topic
     | Search String
     | Register
 
@@ -80,8 +80,8 @@ update msg model =
             case tokenizeUrl location.hash of
                 [ "contributor", id ] ->
                     case runtime.getContributor <| Id id of
-                        Just p ->
-                            ( { model | contributor = getContributor p, currentRoute = location }, Cmd.none )
+                        Just profile ->
+                            ( { model | contributor = getContributor profile, currentRoute = location }, Cmd.none )
 
                         Nothing ->
                             ( { model | currentRoute = location }, Cmd.none )
@@ -101,12 +101,25 @@ update msg model =
         Contributor ->
             ( model, Cmd.none )
 
-        TopicSelected ->
+        TopicSelected topic ->
             let
                 contributor =
                     model.contributor
+
+                filterPost t posts =
+                    posts |> List.filter (\a -> not (a.topics |> List.member topic))
             in
-                ( { model | contributor = { contributor | topicSelected = True, articles = [], videos = [], podcasts = [] } }, Cmd.none )
+                ( { model
+                    | contributor =
+                        { contributor
+                            | topicSelected = True
+                            , articles = model.contributor.articles |> filterPost topic
+                            , videos = model.contributor.videos |> filterPost topic
+                            , podcasts = model.contributor.podcasts |> filterPost topic
+                        }
+                  }
+                , Cmd.none
+                )
 
         ProfileThumbnail subMsg ->
             ( model, Cmd.none )
@@ -217,7 +230,7 @@ contributorPage model =
         topicTocheckbox : Topic -> Html Msg
         topicTocheckbox topic =
             div []
-                [ button [ onClick TopicSelected ] [ text (getTopic topic) ]
+                [ button [ onClick <| TopicSelected topic ] [ text <| getTopic topic ]
                 , label [] [ text <| getTopic topic ]
                 ]
 
