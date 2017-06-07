@@ -42,7 +42,7 @@ model location =
     ( { currentRoute = location
       , contributors = []
       , login = Login.model
-      , contributor = Contributor.model
+      , contributor = Contributor.init
       }
     , Cmd.none
     )
@@ -66,7 +66,17 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         UrlChange location ->
-            ( { model | currentRoute = location }, Cmd.none )
+            case tokenizeUrl location.hash of
+                [ "contributor", id ] ->
+                    case runtime.getContributor <| Id id of
+                        Just p ->
+                            ( { model | contributor = contributorModel p }, Cmd.none )
+
+                        Nothing ->
+                            ( model, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
 
         OnLogin subMsg ->
             onLogin model subMsg
@@ -81,17 +91,20 @@ update msg model =
             ( model, Cmd.none )
 
         TopicSelected ->
-            let
-                contributor =
-                    model.contributor
-
-                newState =
-                    { model | contributor = { contributor | topicSelected = True } }
-            in
-                ( newState, Cmd.none )
+            ( model, Cmd.none )
 
         ProfileThumbnail subMsg ->
             ( model, Cmd.none )
+
+
+contributorModel : Profile -> Contributor.Model
+contributorModel p =
+    { profile = p
+    , topics = []
+    , articles = p.id |> runtime.posts Article
+    , videos = p.id |> runtime.posts Video
+    , podcasts = p.id |> runtime.posts Podcast
+    }
 
 
 onLogin : Model -> Login.Msg -> ( Model, Cmd Msg )
@@ -125,29 +138,12 @@ view model =
             homePage model
 
         [ "contributor", id ] ->
-            if model.contributor /= Contributor.model then
-                contributorPage model.contributor
-            else
-                case runtime.getContributor <| Id id of
-                    Just p ->
-                        let
-                            ( articles, podcasts, videos ) =
-                                ( p.id |> runtime.posts Article
-                                , p.id |> runtime.posts Podcast
-                                , p.id |> runtime.posts Video
-                                )
-                        in
-                            contributorPage
-                                { topicSelected = False
-                                , profile = p
-                                , topics = []
-                                , articles = articles
-                                , videos = videos
-                                , podcasts = podcasts
-                                }
+            case runtime.getContributor <| Id id of
+                Just p ->
+                    contributorPage (contributorModel p)
 
-                    Nothing ->
-                        notFoundPage
+                Nothing ->
+                    notFoundPage
 
         _ ->
             notFoundPage

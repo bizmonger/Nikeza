@@ -3,8 +3,8 @@ module Domain.Contributor exposing (..)
 import Domain.Core exposing (..)
 
 
-model : Model
-model =
+init : Model
+init =
     let
         profile =
             { id = Id undefined
@@ -14,12 +14,11 @@ model =
             , topics = []
             }
     in
-        Model False profile [] [] [] []
+        Model profile [] [] [] []
 
 
 type alias Model =
-    { topicSelected : Bool
-    , profile : Profile
+    { profile : Profile
     , topics : List Topic
     , articles : List Post
     , videos : List Post
