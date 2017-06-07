@@ -42,7 +42,18 @@ init location =
     ( { currentRoute = location
       , contributors = []
       , login = Login.model
-      , contributor = Contributor.init
+      , contributor =
+            case tokenizeUrl location.hash of
+                [ "contributor", id ] ->
+                    case runtime.getContributor <| Id id of
+                        Just p ->
+                            getContributor p
+
+                        Nothing ->
+                            Contributor.init
+
+                _ ->
+                    Contributor.init
       }
     , Cmd.none
     )
@@ -91,7 +102,11 @@ update msg model =
             ( model, Cmd.none )
 
         TopicSelected ->
-            init model.currentRoute
+            let
+                contributor =
+                    model.contributor
+            in
+                ( { model | contributor = { contributor | topicSelected = True, articles = [], videos = [], podcasts = [] } }, Cmd.none )
 
         ProfileThumbnail subMsg ->
             ( model, Cmd.none )
@@ -99,7 +114,8 @@ update msg model =
 
 getContributor : Profile -> Contributor.Model
 getContributor p =
-    { profile = p
+    { topicSelected = False
+    , profile = p
     , topics = []
     , articles = p.id |> runtime.posts Article
     , videos = p.id |> runtime.posts Video
@@ -144,10 +160,10 @@ view model =
                         loadedBefore =
                             model.contributor /= Contributor.init
                     in
-                        if not loadedBefore then
-                            contributorPage <| getContributor p
-                        else
-                            contributorPage model.contributor
+                        -- if not loadedBefore then
+                        --     contributorPage <| getContributor p
+                        -- else
+                        contributorPage model.contributor
 
                 Nothing ->
                     notFoundPage

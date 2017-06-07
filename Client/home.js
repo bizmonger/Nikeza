@@ -11419,9 +11419,9 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (profile) {
 };
 var _user$project$Controls_ProfileThumbnail$None = {ctor: 'None'};
 
-var _user$project$Domain_Contributor$Model = F5(
-	function (a, b, c, d, e) {
-		return {profile: a, topics: b, articles: c, videos: d, podcasts: e};
+var _user$project$Domain_Contributor$Model = F6(
+	function (a, b, c, d, e, f) {
+		return {topicSelected: a, profile: b, topics: c, articles: d, videos: e, podcasts: f};
 	});
 var _user$project$Domain_Contributor$init = function () {
 	var profile = {
@@ -11431,8 +11431,9 @@ var _user$project$Domain_Contributor$init = function () {
 		bio: _user$project$Domain_Core$undefined,
 		topics: {ctor: '[]'}
 	};
-	return A5(
+	return A6(
 		_user$project$Domain_Contributor$Model,
+		false,
 		profile,
 		{ctor: '[]'},
 		{ctor: '[]'},
@@ -11493,23 +11494,12 @@ var _user$project$Home$onLogin = F2(
 	});
 var _user$project$Home$getContributor = function (p) {
 	return {
+		topicSelected: false,
 		profile: p,
 		topics: {ctor: '[]'},
 		articles: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Article, p.id),
 		videos: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Video, p.id),
 		podcasts: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Podcast, p.id)
-	};
-};
-var _user$project$Home$init = function (location) {
-	return {
-		ctor: '_Tuple2',
-		_0: {
-			currentRoute: location,
-			contributors: {ctor: '[]'},
-			login: _user$project$Controls_Login$model,
-			contributor: _user$project$Domain_Contributor$init
-		},
-		_1: _elm_lang$core$Platform_Cmd$none
 	};
 };
 var _user$project$Home$update = F2(
@@ -11554,11 +11544,52 @@ var _user$project$Home$update = F2(
 			case 'Contributor':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'TopicSelected':
-				return _user$project$Home$init(model.currentRoute);
+				var contributor = model.contributor;
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							contributor: _elm_lang$core$Native_Utils.update(
+								contributor,
+								{
+									topicSelected: true,
+									articles: {ctor: '[]'},
+									videos: {ctor: '[]'},
+									podcasts: {ctor: '[]'}
+								})
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 			default:
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 		}
 	});
+var _user$project$Home$init = function (location) {
+	return {
+		ctor: '_Tuple2',
+		_0: {
+			currentRoute: location,
+			contributors: {ctor: '[]'},
+			login: _user$project$Controls_Login$model,
+			contributor: function () {
+				var _p5 = _user$project$Home$tokenizeUrl(location.hash);
+				if ((((_p5.ctor === '::') && (_p5._0 === 'contributor')) && (_p5._1.ctor === '::')) && (_p5._1._1.ctor === '[]')) {
+					var _p6 = _user$project$Settings$runtime.getContributor(
+						_user$project$Domain_Core$Id(_p5._1._0));
+					if (_p6.ctor === 'Just') {
+						return _user$project$Home$getContributor(_p6._0);
+					} else {
+						return _user$project$Domain_Contributor$init;
+					}
+				} else {
+					return _user$project$Domain_Contributor$init;
+				}
+			}()
+		},
+		_1: _elm_lang$core$Platform_Cmd$none
+	};
+};
 var _user$project$Home$Model = F4(
 	function (a, b, c, d) {
 		return {currentRoute: a, contributors: b, login: c, contributor: d};
@@ -11898,7 +11929,7 @@ var _user$project$Home$homePage = function (model) {
 			{ctor: '[]'},
 			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, _user$project$Settings$runtime.recentContributors)));
 	var loginUI = function (model) {
-		var _p5 = {
+		var _p7 = {
 			ctor: '_Tuple3',
 			_0: model.login.loggedIn,
 			_1: A2(
@@ -11933,9 +11964,9 @@ var _user$project$Home$homePage = function (model) {
 					_1: {ctor: '[]'}
 				})
 		};
-		var loggedIn = _p5._0;
-		var welcome = _p5._1;
-		var signout = _p5._2;
+		var loggedIn = _p7._0;
+		var welcome = _p7._1;
+		var signout = _p7._2;
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$OnLogin,
@@ -12032,31 +12063,30 @@ var _user$project$Home$homePage = function (model) {
 		});
 };
 var _user$project$Home$view = function (model) {
-	var _p6 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
-	_v4_3:
+	var _p8 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+	_v6_3:
 	do {
-		if (_p6.ctor === '[]') {
+		if (_p8.ctor === '[]') {
 			return _user$project$Home$homePage(model);
 		} else {
-			if (_p6._1.ctor === '[]') {
-				if (_p6._0 === 'home') {
+			if (_p8._1.ctor === '[]') {
+				if (_p8._0 === 'home') {
 					return _user$project$Home$homePage(model);
 				} else {
-					break _v4_3;
+					break _v6_3;
 				}
 			} else {
-				if ((_p6._0 === 'contributor') && (_p6._1._1.ctor === '[]')) {
-					var _p7 = _user$project$Settings$runtime.getContributor(
-						_user$project$Domain_Core$Id(_p6._1._0));
-					if (_p7.ctor === 'Just') {
+				if ((_p8._0 === 'contributor') && (_p8._1._1.ctor === '[]')) {
+					var _p9 = _user$project$Settings$runtime.getContributor(
+						_user$project$Domain_Core$Id(_p8._1._0));
+					if (_p9.ctor === 'Just') {
 						var loadedBefore = !_elm_lang$core$Native_Utils.eq(model.contributor, _user$project$Domain_Contributor$init);
-						return (!loadedBefore) ? _user$project$Home$contributorPage(
-							_user$project$Home$getContributor(_p7._0)) : _user$project$Home$contributorPage(model.contributor);
+						return _user$project$Home$contributorPage(model.contributor);
 					} else {
 						return _user$project$Home$notFoundPage;
 					}
 				} else {
-					break _v4_3;
+					break _v6_3;
 				}
 			}
 		}
@@ -12073,7 +12103,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p8) {
+		subscriptions: function (_p10) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();
