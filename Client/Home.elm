@@ -228,7 +228,7 @@ contributorPage model =
         topicTocheckbox : Topic -> Html Msg
         topicTocheckbox topic =
             div []
-                [ button [ onClick <| TopicSelected topic ] [ text <| getTopic topic ]
+                [ input [ type_ "checkbox", onClick <| TopicSelected topic ] [ text <| getTopic topic ]
                 , label [] [ text <| getTopic topic ]
                 ]
 
