@@ -258,7 +258,8 @@ contributorPage model =
                             ]
                         , tr [] [ td [] [ text <| getName model.profile.name ] ]
                         , tr [] [ td [] [ p [] [ text model.profile.bio ] ] ]
-                        , tr [] [ td [] [ p [] [ text <| toString model ] ] ]
+
+                        --, tr [] [ td [] [ p [] [ text <| toString model ] ] ]
                         ]
                     ]
                 ]
