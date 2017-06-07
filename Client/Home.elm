@@ -70,10 +70,10 @@ update msg model =
                 [ "contributor", id ] ->
                     case runtime.getContributor <| Id id of
                         Just p ->
-                            ( { model | contributor = getContributor p }, Cmd.none )
+                            ( { model | contributor = getContributor p, currentRoute = location }, Cmd.none )
 
                         Nothing ->
-                            ( model, Cmd.none )
+                            ( { model | currentRoute = location }, Cmd.none )
 
                 _ ->
                     ( model, Cmd.none )
@@ -152,6 +152,7 @@ view model =
                 Nothing ->
                     notFoundPage
 
+        --notFoundPage
         _ ->
             notFoundPage
 

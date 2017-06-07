@@ -11517,7 +11517,8 @@ var _user$project$Home$update = F2(
 		var _p1 = msg;
 		switch (_p1.ctor) {
 			case 'UrlChange':
-				var _p2 = _user$project$Home$tokenizeUrl(_p1._0.hash);
+				var _p4 = _p1._0;
+				var _p2 = _user$project$Home$tokenizeUrl(_p4.hash);
 				if ((((_p2.ctor === '::') && (_p2._0 === 'contributor')) && (_p2._1.ctor === '::')) && (_p2._1._1.ctor === '[]')) {
 					var _p3 = _user$project$Settings$runtime.getContributor(
 						_user$project$Domain_Core$Id(_p2._1._0));
@@ -11527,12 +11528,19 @@ var _user$project$Home$update = F2(
 							_0: _elm_lang$core$Native_Utils.update(
 								model,
 								{
-									contributor: _user$project$Home$getContributor(_p3._0)
+									contributor: _user$project$Home$getContributor(_p3._0),
+									currentRoute: _p4
 								}),
 							_1: _elm_lang$core$Platform_Cmd$none
 						};
 					} else {
-						return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{currentRoute: _p4}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
 					}
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -11890,7 +11898,7 @@ var _user$project$Home$homePage = function (model) {
 			{ctor: '[]'},
 			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, _user$project$Settings$runtime.recentContributors)));
 	var loginUI = function (model) {
-		var _p4 = {
+		var _p5 = {
 			ctor: '_Tuple3',
 			_0: model.login.loggedIn,
 			_1: A2(
@@ -11925,9 +11933,9 @@ var _user$project$Home$homePage = function (model) {
 					_1: {ctor: '[]'}
 				})
 		};
-		var loggedIn = _p4._0;
-		var welcome = _p4._1;
-		var signout = _p4._2;
+		var loggedIn = _p5._0;
+		var welcome = _p5._1;
+		var signout = _p5._2;
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$OnLogin,
@@ -12024,26 +12032,26 @@ var _user$project$Home$homePage = function (model) {
 		});
 };
 var _user$project$Home$view = function (model) {
-	var _p5 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+	var _p6 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
 	_v4_3:
 	do {
-		if (_p5.ctor === '[]') {
+		if (_p6.ctor === '[]') {
 			return _user$project$Home$homePage(model);
 		} else {
-			if (_p5._1.ctor === '[]') {
-				if (_p5._0 === 'home') {
+			if (_p6._1.ctor === '[]') {
+				if (_p6._0 === 'home') {
 					return _user$project$Home$homePage(model);
 				} else {
 					break _v4_3;
 				}
 			} else {
-				if ((_p5._0 === 'contributor') && (_p5._1._1.ctor === '[]')) {
-					var _p6 = _user$project$Settings$runtime.getContributor(
-						_user$project$Domain_Core$Id(_p5._1._0));
-					if (_p6.ctor === 'Just') {
+				if ((_p6._0 === 'contributor') && (_p6._1._1.ctor === '[]')) {
+					var _p7 = _user$project$Settings$runtime.getContributor(
+						_user$project$Domain_Core$Id(_p6._1._0));
+					if (_p7.ctor === 'Just') {
 						var loadedBefore = !_elm_lang$core$Native_Utils.eq(model.contributor, _user$project$Domain_Contributor$init);
 						return (!loadedBefore) ? _user$project$Home$contributorPage(
-							_user$project$Home$getContributor(_p6._0)) : _user$project$Home$contributorPage(model.contributor);
+							_user$project$Home$getContributor(_p7._0)) : _user$project$Home$contributorPage(model.contributor);
 					} else {
 						return _user$project$Home$notFoundPage;
 					}
@@ -12065,7 +12073,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p7) {
+		subscriptions: function (_p8) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();
