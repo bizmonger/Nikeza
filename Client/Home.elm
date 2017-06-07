@@ -127,7 +127,7 @@ update msg model =
 getContributor : Profile -> Contributor.Model
 getContributor p =
     { profile = p
-    , topics = []
+    , topics = p.topics
     , articles = p.id |> runtime.posts Article
     , videos = p.id |> runtime.posts Video
     , podcasts = p.id |> runtime.posts Podcast

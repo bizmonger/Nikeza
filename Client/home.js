@@ -11494,7 +11494,7 @@ var _user$project$Home$onLogin = F2(
 var _user$project$Home$getContributor = function (p) {
 	return {
 		profile: p,
-		topics: {ctor: '[]'},
+		topics: p.topics,
 		articles: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Article, p.id),
 		videos: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Video, p.id),
 		podcasts: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Podcast, p.id)
