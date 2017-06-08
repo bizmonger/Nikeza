@@ -130,44 +130,44 @@ recentContributors =
     ]
 
 
-posts : ContentType -> Id -> List Post
-posts contentType profileId =
+links : ContentType -> Id -> List Link
+links contentType profileId =
     case contentType of
         Article ->
-            [ Post profile1 someArticleTitle1 someUrl [ someTopic1 ]
-            , Post profile2 someArticleTitle2 someUrl [ someTopic2 ]
-            , Post profile3 someArticleTitle3 someUrl [ someTopic3 ]
+            [ Link profile1 someArticleTitle1 someUrl [ someTopic1 ]
+            , Link profile2 someArticleTitle2 someUrl [ someTopic2 ]
+            , Link profile3 someArticleTitle3 someUrl [ someTopic3 ]
             ]
 
         Video ->
-            [ Post profile1 someVideoTitle1 someUrl [ someTopic1 ]
-            , Post profile2 someVideoTitle2 someUrl [ someTopic2 ]
-            , Post profile3 someVideoTitle3 someUrl [ someTopic3 ]
+            [ Link profile1 someVideoTitle1 someUrl [ someTopic1 ]
+            , Link profile2 someVideoTitle2 someUrl [ someTopic2 ]
+            , Link profile3 someVideoTitle3 someUrl [ someTopic3 ]
             ]
 
         Podcast ->
-            [ Post profile1 somePodcastTitle1 someUrl [ someTopic1 ]
-            , Post profile2 somePodcastTitle2 someUrl [ someTopic2 ]
-            , Post profile3 somePodcastTitle3 someUrl [ someTopic3 ]
+            [ Link profile1 somePodcastTitle1 someUrl [ someTopic1 ]
+            , Link profile2 somePodcastTitle2 someUrl [ someTopic2 ]
+            , Link profile3 somePodcastTitle3 someUrl [ someTopic3 ]
             ]
 
         All ->
-            [ Post profile1 someArticleTitle1 someUrl [ someTopic1 ]
-            , Post profile2 someArticleTitle2 someUrl [ someTopic2 ]
-            , Post profile3 someArticleTitle3 someUrl [ someTopic3 ]
+            [ Link profile1 someArticleTitle1 someUrl [ someTopic1 ]
+            , Link profile2 someArticleTitle2 someUrl [ someTopic2 ]
+            , Link profile3 someArticleTitle3 someUrl [ someTopic3 ]
             ]
 
 
 topics : Id -> List Topic
 topics profileId =
     profileId
-        |> posts All
+        |> links All
         |> List.map (\p -> p.topics)
         |> List.concat
 
 
-latestPosts : Id -> ContentType -> List Post
-latestPosts id contentType =
+latestLinks : Id -> ContentType -> List Link
+latestLinks id contentType =
     []
 
 
@@ -183,8 +183,8 @@ contributor id =
         Nothing
 
 
-topicPosts : Topic -> ContentType -> Id -> List Post
-topicPosts topic contentType id =
+topicLinks : Topic -> ContentType -> Id -> List Link
+topicLinks topic contentType id =
     id
-        |> posts contentType
+        |> links contentType
         |> List.filter (\a -> a.topics |> List.member topic)

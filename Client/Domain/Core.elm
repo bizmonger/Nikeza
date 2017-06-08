@@ -3,6 +3,9 @@ module Domain.Core exposing (..)
 import Controls.Login as Login exposing (Model)
 
 
+-- Types
+
+
 type alias Profile =
     { id : Id
     , name : Contributor
@@ -82,7 +85,7 @@ getTopics topics =
     topics |> List.map (\t -> getTopic t)
 
 
-type alias Post =
+type alias Link =
     { contributor : Profile
     , title : Title
     , url : Url
@@ -102,9 +105,16 @@ type alias Contributorfunction =
     Id -> Maybe Profile
 
 
-tryLogin : Loginfunction -> String -> String -> Login.Model
-tryLogin loginf username password =
-    loginf <| Login.Model username password False
+type alias LatestLinksfunction =
+    Id -> ContentType -> List Link
+
+
+type alias ContentTypefunction =
+    ContentType -> Id -> List Link
+
+
+type alias TopicLinksfunction =
+    Topic -> ContentType -> Id -> List Link
 
 
 type ContentType
@@ -114,31 +124,28 @@ type ContentType
     | All
 
 
-type alias LatestPostsfunction =
-    Id -> ContentType -> List Post
+
+-- Functions
 
 
-type alias ContentTypefunction =
-    ContentType -> Id -> List Post
+tryLogin : Loginfunction -> String -> String -> Login.Model
+tryLogin loginf username password =
+    loginf <| Login.Model username password False
 
 
-type alias TopicPostsfunction =
-    Topic -> ContentType -> Id -> List Post
-
-
-latestPosts : LatestPostsfunction -> Id -> ContentType -> List Post
-latestPosts f profileId contentType =
+latestLinks : LatestLinksfunction -> Id -> ContentType -> List Link
+latestLinks f profileId contentType =
     f profileId contentType
 
 
-getContent : ContentTypefunction -> Id -> ContentType -> List Post
+getContent : ContentTypefunction -> Id -> ContentType -> List Link
 getContent f profileId contentType =
     profileId |> f contentType
 
 
-getPosts : TopicPostsfunction -> Topic -> ContentType -> Id -> List Post
-getPosts topicPostsfunction topic contentType id =
-    id |> topicPostsfunction topic contentType
+getLinks : TopicLinksfunction -> Topic -> ContentType -> Id -> List Link
+getLinks topicLinksfunction topic contentType id =
+    id |> topicLinksfunction topic contentType
 
 
 undefined : String

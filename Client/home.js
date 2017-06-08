@@ -10735,15 +10735,15 @@ var _user$project$Domain_Core$contentTypeToText = function (contentType) {
 	}
 };
 var _user$project$Domain_Core$undefined = 'undefined';
-var _user$project$Domain_Core$getPosts = F4(
-	function (topicPostsfunction, topic, contentType, id) {
-		return A3(topicPostsfunction, topic, contentType, id);
+var _user$project$Domain_Core$getLinks = F4(
+	function (topicLinksfunction, topic, contentType, id) {
+		return A3(topicLinksfunction, topic, contentType, id);
 	});
 var _user$project$Domain_Core$getContent = F3(
 	function (f, profileId, contentType) {
 		return A2(f, contentType, profileId);
 	});
-var _user$project$Domain_Core$latestPosts = F3(
+var _user$project$Domain_Core$latestLinks = F3(
 	function (f, profileId, contentType) {
 		return A2(f, profileId, contentType);
 	});
@@ -10789,7 +10789,7 @@ var _user$project$Domain_Core$Profile = F5(
 	function (a, b, c, d, e) {
 		return {id: a, name: b, imageUrl: c, bio: d, topics: e};
 	});
-var _user$project$Domain_Core$Post = F4(
+var _user$project$Domain_Core$Link = F4(
 	function (a, b, c, d) {
 		return {contributor: a, title: b, url: c, topics: d};
 	});
@@ -10885,7 +10885,7 @@ var _user$project$Domain_Core$toContentType = function (contentType) {
 	}
 };
 
-var _user$project$Tests_TestAPI$latestPosts = F2(
+var _user$project$Tests_TestAPI$latestLinks = F2(
 	function (id, contentType) {
 		return {ctor: '[]'};
 	});
@@ -10985,7 +10985,7 @@ var _user$project$Tests_TestAPI$recentContributors = {
 		}
 	}
 };
-var _user$project$Tests_TestAPI$posts = F2(
+var _user$project$Tests_TestAPI$links = F2(
 	function (contentType, profileId) {
 		var _p0 = contentType;
 		switch (_p0.ctor) {
@@ -10993,7 +10993,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 				return {
 					ctor: '::',
 					_0: A4(
-						_user$project$Domain_Core$Post,
+						_user$project$Domain_Core$Link,
 						_user$project$Tests_TestAPI$profile1,
 						_user$project$Tests_TestAPI$someArticleTitle1,
 						_user$project$Tests_TestAPI$someUrl,
@@ -11005,7 +11005,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 					_1: {
 						ctor: '::',
 						_0: A4(
-							_user$project$Domain_Core$Post,
+							_user$project$Domain_Core$Link,
 							_user$project$Tests_TestAPI$profile2,
 							_user$project$Tests_TestAPI$someArticleTitle2,
 							_user$project$Tests_TestAPI$someUrl,
@@ -11017,7 +11017,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 						_1: {
 							ctor: '::',
 							_0: A4(
-								_user$project$Domain_Core$Post,
+								_user$project$Domain_Core$Link,
 								_user$project$Tests_TestAPI$profile3,
 								_user$project$Tests_TestAPI$someArticleTitle3,
 								_user$project$Tests_TestAPI$someUrl,
@@ -11034,7 +11034,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 				return {
 					ctor: '::',
 					_0: A4(
-						_user$project$Domain_Core$Post,
+						_user$project$Domain_Core$Link,
 						_user$project$Tests_TestAPI$profile1,
 						_user$project$Tests_TestAPI$someVideoTitle1,
 						_user$project$Tests_TestAPI$someUrl,
@@ -11046,7 +11046,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 					_1: {
 						ctor: '::',
 						_0: A4(
-							_user$project$Domain_Core$Post,
+							_user$project$Domain_Core$Link,
 							_user$project$Tests_TestAPI$profile2,
 							_user$project$Tests_TestAPI$someVideoTitle2,
 							_user$project$Tests_TestAPI$someUrl,
@@ -11058,7 +11058,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 						_1: {
 							ctor: '::',
 							_0: A4(
-								_user$project$Domain_Core$Post,
+								_user$project$Domain_Core$Link,
 								_user$project$Tests_TestAPI$profile3,
 								_user$project$Tests_TestAPI$someVideoTitle3,
 								_user$project$Tests_TestAPI$someUrl,
@@ -11075,7 +11075,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 				return {
 					ctor: '::',
 					_0: A4(
-						_user$project$Domain_Core$Post,
+						_user$project$Domain_Core$Link,
 						_user$project$Tests_TestAPI$profile1,
 						_user$project$Tests_TestAPI$somePodcastTitle1,
 						_user$project$Tests_TestAPI$someUrl,
@@ -11087,7 +11087,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 					_1: {
 						ctor: '::',
 						_0: A4(
-							_user$project$Domain_Core$Post,
+							_user$project$Domain_Core$Link,
 							_user$project$Tests_TestAPI$profile2,
 							_user$project$Tests_TestAPI$somePodcastTitle2,
 							_user$project$Tests_TestAPI$someUrl,
@@ -11099,7 +11099,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 						_1: {
 							ctor: '::',
 							_0: A4(
-								_user$project$Domain_Core$Post,
+								_user$project$Domain_Core$Link,
 								_user$project$Tests_TestAPI$profile3,
 								_user$project$Tests_TestAPI$somePodcastTitle3,
 								_user$project$Tests_TestAPI$someUrl,
@@ -11116,7 +11116,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 				return {
 					ctor: '::',
 					_0: A4(
-						_user$project$Domain_Core$Post,
+						_user$project$Domain_Core$Link,
 						_user$project$Tests_TestAPI$profile1,
 						_user$project$Tests_TestAPI$someArticleTitle1,
 						_user$project$Tests_TestAPI$someUrl,
@@ -11128,7 +11128,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 					_1: {
 						ctor: '::',
 						_0: A4(
-							_user$project$Domain_Core$Post,
+							_user$project$Domain_Core$Link,
 							_user$project$Tests_TestAPI$profile2,
 							_user$project$Tests_TestAPI$someArticleTitle2,
 							_user$project$Tests_TestAPI$someUrl,
@@ -11140,7 +11140,7 @@ var _user$project$Tests_TestAPI$posts = F2(
 						_1: {
 							ctor: '::',
 							_0: A4(
-								_user$project$Domain_Core$Post,
+								_user$project$Domain_Core$Link,
 								_user$project$Tests_TestAPI$profile3,
 								_user$project$Tests_TestAPI$someArticleTitle3,
 								_user$project$Tests_TestAPI$someUrl,
@@ -11162,26 +11162,26 @@ var _user$project$Tests_TestAPI$topics = function (profileId) {
 			function (p) {
 				return p.topics;
 			},
-			A2(_user$project$Tests_TestAPI$posts, _user$project$Domain_Core$All, profileId)));
+			A2(_user$project$Tests_TestAPI$links, _user$project$Domain_Core$All, profileId)));
 };
-var _user$project$Tests_TestAPI$topicPosts = F3(
+var _user$project$Tests_TestAPI$topicLinks = F3(
 	function (topic, contentType, id) {
 		return A2(
 			_elm_lang$core$List$filter,
 			function (a) {
 				return A2(_elm_lang$core$List$member, topic, a.topics);
 			},
-			A2(_user$project$Tests_TestAPI$posts, contentType, id));
+			A2(_user$project$Tests_TestAPI$links, contentType, id));
 	});
 var _user$project$Tests_TestAPI$contributor = function (id) {
 	return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile3) : _elm_lang$core$Maybe$Nothing));
 };
 
-var _user$project$Services_Server$topicPosts = F3(
+var _user$project$Services_Server$topicLinks = F3(
 	function (topic, contentType, id) {
 		return {ctor: '[]'};
 	});
-var _user$project$Services_Server$posts = F2(
+var _user$project$Services_Server$links = F2(
 	function (profileId, contentType) {
 		return {ctor: '[]'};
 	});
@@ -11189,7 +11189,7 @@ var _user$project$Services_Server$contributor = function (id) {
 	return _elm_lang$core$Maybe$Nothing;
 };
 var _user$project$Services_Server$recentContributors = {ctor: '[]'};
-var _user$project$Services_Server$latestPosts = F2(
+var _user$project$Services_Server$latestLinks = F2(
 	function (id, contentType) {
 		return {ctor: '[]'};
 	});
@@ -11204,16 +11204,16 @@ var _user$project$Services_Server$tryLogin = function (credentials) {
 
 var _user$project$Settings$Dependencies = F6(
 	function (a, b, c, d, e, f) {
-		return {tryLogin: a, latestPosts: b, recentContributors: c, contributor: d, posts: e, topicPosts: f};
+		return {tryLogin: a, latestLinks: b, recentContributors: c, contributor: d, links: e, topicLinks: f};
 	});
 var _user$project$Settings$Isolation = {ctor: 'Isolation'};
 var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return A6(_user$project$Settings$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$latestPosts, _user$project$Services_Server$recentContributors, _user$project$Services_Server$contributor, _user$project$Services_Server$posts, _user$project$Services_Server$topicPosts);
+		return A6(_user$project$Settings$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$latestLinks, _user$project$Services_Server$recentContributors, _user$project$Services_Server$contributor, _user$project$Services_Server$links, _user$project$Services_Server$topicLinks);
 	} else {
-		return A6(_user$project$Settings$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$latestPosts, _user$project$Tests_TestAPI$recentContributors, _user$project$Tests_TestAPI$contributor, _user$project$Tests_TestAPI$posts, _user$project$Tests_TestAPI$topicPosts);
+		return A6(_user$project$Settings$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$latestLinks, _user$project$Tests_TestAPI$recentContributors, _user$project$Tests_TestAPI$contributor, _user$project$Tests_TestAPI$links, _user$project$Tests_TestAPI$topicLinks);
 	}
 }();
 var _user$project$Settings$Integration = {ctor: 'Integration'};
@@ -11425,7 +11425,7 @@ var _user$project$Home$notFoundPage = A2(
 var _user$project$Home$contributorTopicContentTypePage = F3(
 	function (topic, contentType, model) {
 		var profileId = model.profile.id;
-		var posts = A3(_user$project$Settings$runtime.topicPosts, topic, _user$project$Domain_Core$Video, profileId);
+		var links = A3(_user$project$Settings$runtime.topicLinks, topic, _user$project$Domain_Core$Video, profileId);
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
@@ -11509,19 +11509,19 @@ var _user$project$Home$contributorTopicContentTypePage = F3(
 														{ctor: '[]'},
 														A2(
 															_elm_lang$core$List$map,
-															function (post) {
+															function (link) {
 																return A2(
 																	_elm_lang$html$Html$a,
 																	{
 																		ctor: '::',
 																		_0: _elm_lang$html$Html_Attributes$href(
-																			_user$project$Domain_Core$getUrl(post.url)),
+																			_user$project$Domain_Core$getUrl(link.url)),
 																		_1: {ctor: '[]'}
 																	},
 																	{
 																		ctor: '::',
 																		_0: _elm_lang$html$Html$text(
-																			_user$project$Domain_Core$getTitle(post.title)),
+																			_user$project$Domain_Core$getTitle(link.title)),
 																		_1: {
 																			ctor: '::',
 																			_0: A2(
@@ -11532,7 +11532,7 @@ var _user$project$Home$contributorTopicContentTypePage = F3(
 																		}
 																	});
 															},
-															posts)),
+															links)),
 													_1: {ctor: '[]'}
 												}),
 											_1: {ctor: '[]'}
@@ -11545,23 +11545,53 @@ var _user$project$Home$contributorTopicContentTypePage = F3(
 				}
 			});
 	});
-var _user$project$Home$contentUI2 = F4(
-	function (profileId, contentType, topic, posts) {
-		var links = A2(
-			_elm_lang$core$List$map,
-			function (post) {
-				return A2(
+var _user$project$Home$linkSet = function (links) {
+	return A2(
+		_elm_lang$core$List$map,
+		function (link) {
+			return A2(
+				_elm_lang$html$Html$a,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$href(
+						_user$project$Domain_Core$getUrl(link.url)),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_user$project$Domain_Core$getTitle(link.title)),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
+				});
+		},
+		A2(_elm_lang$core$List$take, 5, links));
+};
+var _user$project$Home$contentUI = F3(
+	function (profileId, contentType, links) {
+		return A2(
+			_elm_lang$core$List$append,
+			_user$project$Home$linkSet(links),
+			{
+				ctor: '::',
+				_0: A2(
 					_elm_lang$html$Html$a,
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$href(
-							_user$project$Domain_Core$getUrl(post.url)),
+							_user$project$Domain_Core$getUrl(
+								A2(_user$project$Domain_Core$moreContributorContentUrl, profileId, contentType))),
 						_1: {ctor: '[]'}
 					},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							_user$project$Domain_Core$getTitle(post.title)),
+						_0: _elm_lang$html$Html$text('more...'),
 						_1: {
 							ctor: '::',
 							_0: A2(
@@ -11570,12 +11600,15 @@ var _user$project$Home$contentUI2 = F4(
 								{ctor: '[]'}),
 							_1: {ctor: '[]'}
 						}
-					});
-			},
-			A2(_elm_lang$core$List$take, 5, posts));
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$Home$contentUI2 = F4(
+	function (profileId, contentType, topic, links) {
 		return A2(
 			_elm_lang$core$List$append,
-			links,
+			_user$project$Home$linkSet(links),
 			{
 				ctor: '::',
 				_0: A2(
@@ -11713,7 +11746,7 @@ var _user$project$Home$contributorTopicPage = function (model) {
 																			profileId,
 																			_user$project$Domain_Core$Video,
 																			_p1,
-																			A3(_user$project$Settings$runtime.topicPosts, _p1, _user$project$Domain_Core$Video, profileId))),
+																			A3(_user$project$Settings$runtime.topicLinks, _p1, _user$project$Domain_Core$Video, profileId))),
 																	_1: {
 																		ctor: '::',
 																		_0: A2(
@@ -11748,7 +11781,7 @@ var _user$project$Home$contributorTopicPage = function (model) {
 																					profileId,
 																					_user$project$Domain_Core$Podcast,
 																					_p1,
-																					A3(_user$project$Settings$runtime.topicPosts, _p1, _user$project$Domain_Core$Podcast, profileId))),
+																					A3(_user$project$Settings$runtime.topicLinks, _p1, _user$project$Domain_Core$Podcast, profileId))),
 																			_1: {
 																				ctor: '::',
 																				_0: A2(
@@ -11783,7 +11816,7 @@ var _user$project$Home$contributorTopicPage = function (model) {
 																							profileId,
 																							_user$project$Domain_Core$Article,
 																							_p1,
-																							A3(_user$project$Settings$runtime.topicPosts, _p1, _user$project$Domain_Core$Article, profileId))),
+																							A3(_user$project$Settings$runtime.topicLinks, _p1, _user$project$Domain_Core$Article, profileId))),
 																					_1: {ctor: '[]'}
 																				}
 																			}
@@ -11851,63 +11884,6 @@ var _user$project$Home$contributorTopicPage = function (model) {
 		return _user$project$Home$notFoundPage;
 	}
 };
-var _user$project$Home$contentUI = F3(
-	function (profileId, contentType, posts) {
-		var links = A2(
-			_elm_lang$core$List$map,
-			function (post) {
-				return A2(
-					_elm_lang$html$Html$a,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$href(
-							_user$project$Domain_Core$getUrl(post.url)),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							_user$project$Domain_Core$getTitle(post.title)),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$br,
-								{ctor: '[]'},
-								{ctor: '[]'}),
-							_1: {ctor: '[]'}
-						}
-					});
-			},
-			A2(_elm_lang$core$List$take, 5, posts));
-		return A2(
-			_elm_lang$core$List$append,
-			links,
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$a,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$href(
-							_user$project$Domain_Core$getUrl(
-								A2(_user$project$Domain_Core$moreContributorContentUrl, profileId, contentType))),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text('more...'),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$br,
-								{ctor: '[]'},
-								{ctor: '[]'}),
-							_1: {ctor: '[]'}
-						}
-					}),
-				_1: {ctor: '[]'}
-			});
-	});
 var _user$project$Home$onLogin = F2(
 	function (model, subMsg) {
 		var _p2 = subMsg;
@@ -11949,9 +11925,9 @@ var _user$project$Home$getContributor = function (p) {
 	return {
 		profile: p,
 		topics: p.topics,
-		articles: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Article, p.id),
-		videos: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Video, p.id),
-		podcasts: A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Podcast, p.id)
+		articles: A2(_user$project$Settings$runtime.links, _user$project$Domain_Core$Article, p.id),
+		videos: A2(_user$project$Settings$runtime.links, _user$project$Domain_Core$Video, p.id),
+		podcasts: A2(_user$project$Settings$runtime.links, _user$project$Domain_Core$Podcast, p.id)
 	};
 };
 var _user$project$Home$update = F2(
@@ -12043,16 +12019,16 @@ var _user$project$Home$update = F2(
 				var _p8 = _p3._0._0;
 				var contributor = model.contributor;
 				var toggleTopic = F2(
-					function (contentType, posts) {
+					function (contentType, links) {
 						return _p3._0._1 ? A2(
 							_elm_lang$core$List$append,
-							A3(_user$project$Settings$runtime.topicPosts, _p8, contentType, contributor.profile.id),
-							posts) : A2(
+							A3(_user$project$Settings$runtime.topicLinks, _p8, contentType, contributor.profile.id),
+							links) : A2(
 							_elm_lang$core$List$filter,
 							function (a) {
 								return !A2(_elm_lang$core$List$member, _p8, a.topics);
 							},
-							posts);
+							links);
 					});
 				var newState = _elm_lang$core$Native_Utils.update(
 					model,
@@ -12382,7 +12358,7 @@ var _user$project$Home$contributorPage = function (model) {
 var _user$project$Home$contributorContentTypePage = F2(
 	function (contentType, model) {
 		var profileId = model.profile.id;
-		var posts = A2(_user$project$Settings$runtime.posts, _user$project$Domain_Core$Video, profileId);
+		var links = A2(_user$project$Settings$runtime.links, _user$project$Domain_Core$Video, profileId);
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
@@ -12455,19 +12431,19 @@ var _user$project$Home$contributorContentTypePage = F2(
 														{ctor: '[]'},
 														A2(
 															_elm_lang$core$List$map,
-															function (post) {
+															function (link) {
 																return A2(
 																	_elm_lang$html$Html$a,
 																	{
 																		ctor: '::',
 																		_0: _elm_lang$html$Html_Attributes$href(
-																			_user$project$Domain_Core$getUrl(post.url)),
+																			_user$project$Domain_Core$getUrl(link.url)),
 																		_1: {ctor: '[]'}
 																	},
 																	{
 																		ctor: '::',
 																		_0: _elm_lang$html$Html$text(
-																			_user$project$Domain_Core$getTitle(post.title)),
+																			_user$project$Domain_Core$getTitle(link.title)),
 																		_1: {
 																			ctor: '::',
 																			_0: A2(
@@ -12478,7 +12454,7 @@ var _user$project$Home$contributorContentTypePage = F2(
 																		}
 																	});
 															},
-															posts)),
+															links)),
 													_1: {ctor: '[]'}
 												}),
 											_1: {ctor: '[]'}

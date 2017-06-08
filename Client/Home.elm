@@ -117,11 +117,11 @@ update msg model =
                 contributor =
                     model.contributor
 
-                toggleTopic contentType posts =
+                toggleTopic contentType links =
                     if include then
-                        List.append (contributor.profile.id |> runtime.topicPosts topic contentType) posts
+                        List.append (contributor.profile.id |> runtime.topicLinks topic contentType) links
                     else
-                        posts |> List.filter (\a -> not (a.topics |> List.member topic))
+                        links |> List.filter (\a -> not (a.topics |> List.member topic))
 
                 newState =
                     { model
@@ -143,9 +143,9 @@ getContributor : Profile -> Contributor.Model
 getContributor p =
     { profile = p
     , topics = p.topics
-    , articles = p.id |> runtime.posts Article
-    , videos = p.id |> runtime.posts Video
-    , podcasts = p.id |> runtime.posts Podcast
+    , articles = p.id |> runtime.links Article
+    , videos = p.id |> runtime.links Video
+    , podcasts = p.id |> runtime.links Podcast
     }
 
 
@@ -232,26 +232,21 @@ topicsUI topics =
         div [] formattedTopics
 
 
-contentUI : Id -> ContentType -> List Post -> List (Html Msg)
-contentUI profileId contentType posts =
-    let
-        links =
-            posts
-                |> List.take 5
-                |> List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ])
-    in
-        List.append links [ a [ href <| getUrl <| moreContributorContentUrl profileId contentType ] [ text <| "more...", br [] [] ] ]
+linkSet : List Link -> List (Html Msg)
+linkSet links =
+    links
+        |> List.take 5
+        |> List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ])
 
 
-contentUI2 : Id -> ContentType -> Topic -> List Post -> List (Html Msg)
-contentUI2 profileId contentType topic posts =
-    let
-        links =
-            posts
-                |> List.take 5
-                |> List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ])
-    in
-        List.append links [ a [ href <| getUrl <| moreContributorContentOnTopicUrl profileId contentType topic ] [ text <| "more...", br [] [] ] ]
+contentUI : Id -> ContentType -> List Link -> List (Html Msg)
+contentUI profileId contentType links =
+    List.append (linkSet links) [ a [ href <| getUrl <| moreContributorContentUrl profileId contentType ] [ text <| "more...", br [] [] ] ]
+
+
+contentUI2 : Id -> ContentType -> Topic -> List Link -> List (Html Msg)
+contentUI2 profileId contentType topic links =
+    List.append (linkSet links) [ a [ href <| getUrl <| moreContributorContentOnTopicUrl profileId contentType topic ] [ text <| "more...", br [] [] ] ]
 
 
 homePage : Model -> Html Msg
@@ -324,8 +319,8 @@ contributorContentTypePage contentType model =
         profileId =
             model.profile.id
 
-        posts =
-            runtime.posts Video profileId
+        links =
+            runtime.links Video profileId
     in
         div []
             [ h2 [] [ text <| "All " ++ contentType ]
@@ -333,7 +328,7 @@ contributorContentTypePage contentType model =
                 [ tr []
                     [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
                     , td [] [ topicsUI model.profile.topics ]
-                    , td [] [ div [] <| List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ]) posts ]
+                    , td [] [ div [] <| List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ]) links ]
                     ]
                 ]
             ]
@@ -345,8 +340,8 @@ contributorTopicContentTypePage topic contentType model =
         profileId =
             model.profile.id
 
-        posts =
-            runtime.topicPosts topic Video profileId
+        links =
+            runtime.topicLinks topic Video profileId
     in
         div []
             [ h2 [] [ text <| "All " ++ contentTypeToText contentType ]
@@ -354,7 +349,7 @@ contributorTopicContentTypePage topic contentType model =
                 [ tr []
                     [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
                     , td [] [ h2 [] [ text <| getTopic topic ] ]
-                    , td [] [ div [] <| List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ]) posts ]
+                    , td [] [ div [] <| List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ]) links ]
                     ]
                 ]
             ]
@@ -377,11 +372,11 @@ contributorTopicPage model =
                                     , table []
                                         [ tr [] [ h2 [] [ text <| getTopic topic ] ]
                                         , tr [] [ td [] [ b [] [ text "Videos" ] ] ]
-                                        , div [] <| contentUI2 profileId Video topic (runtime.topicPosts topic Video profileId)
+                                        , div [] <| contentUI2 profileId Video topic (runtime.topicLinks topic Video profileId)
                                         , tr [] [ td [] [ b [] [ text "Podcasts" ] ] ]
-                                        , div [] <| contentUI2 profileId Podcast topic (runtime.topicPosts topic Podcast profileId)
+                                        , div [] <| contentUI2 profileId Podcast topic (runtime.topicLinks topic Podcast profileId)
                                         , tr [] [ td [] [ b [] [ text "Articles" ] ] ]
-                                        , div [] <| contentUI2 profileId Article topic (runtime.topicPosts topic Article profileId)
+                                        , div [] <| contentUI2 profileId Article topic (runtime.topicLinks topic Article profileId)
                                         ]
                                     ]
                                 , tr [] [ td [] [ text <| getName model.profile.name ] ]

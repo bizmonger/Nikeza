@@ -20,7 +20,7 @@ init =
 type alias Model =
     { profile : Profile
     , topics : List Topic
-    , articles : List Post
-    , videos : List Post
-    , podcasts : List Post
+    , articles : List Link
+    , videos : List Link
+    , podcasts : List Link
     }

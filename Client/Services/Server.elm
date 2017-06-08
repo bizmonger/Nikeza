@@ -17,8 +17,8 @@ tryLogin credentials =
             { username = credentials.username, password = credentials.password, loggedIn = False }
 
 
-latestPosts : Id -> ContentType -> List Post
-latestPosts id contentType =
+latestLinks : Id -> ContentType -> List Link
+latestLinks id contentType =
     []
 
 
@@ -32,11 +32,11 @@ contributor id =
     Nothing
 
 
-posts : ContentType -> Id -> List Post
-posts profileId contentType =
+links : ContentType -> Id -> List Link
+links profileId contentType =
     []
 
 
-topicPosts : Topic -> ContentType -> Id -> List Post
-topicPosts topic contentType id =
+topicLinks : Topic -> ContentType -> Id -> List Link
+topicLinks topic contentType id =
     []
