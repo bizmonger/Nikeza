@@ -10722,6 +10722,10 @@ var _user$project$Controls_Login$view = function (model) {
 };
 
 var _user$project$Domain_Core$undefined = 'undefined';
+var _user$project$Domain_Core$getPosts = F4(
+	function (topicPostsfunction, topic, contentType, id) {
+		return A3(topicPostsfunction, topic, contentType, id);
+	});
 var _user$project$Domain_Core$getContent = F3(
 	function (f, profileId, contentType) {
 		return A2(f, contentType, profileId);
@@ -11090,10 +11094,23 @@ var _user$project$Tests_TestAPI$topics = function (profileId) {
 			},
 			A2(_user$project$Tests_TestAPI$posts, _user$project$Domain_Core$All, profileId)));
 };
+var _user$project$Tests_TestAPI$topicPosts = F3(
+	function (topic, contentType, id) {
+		return A2(
+			_elm_lang$core$List$filter,
+			function (a) {
+				return A2(_elm_lang$core$List$member, topic, a.topics);
+			},
+			A2(_user$project$Tests_TestAPI$posts, contentType, id));
+	});
 var _user$project$Tests_TestAPI$getContributor = function (id) {
 	return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile3) : _elm_lang$core$Maybe$Nothing));
 };
 
+var _user$project$Services_Server$topicPosts = F3(
+	function (topic, contentType, id) {
+		return {ctor: '[]'};
+	});
 var _user$project$Services_Server$posts = F2(
 	function (profileId, contentType) {
 		return {ctor: '[]'};
@@ -11122,18 +11139,18 @@ var _user$project$Services_Server$tryLogin = function (credentials) {
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
 
-var _user$project$Settings$Dependencies = F7(
-	function (a, b, c, d, e, f, g) {
-		return {tryLogin: a, topicUrl: b, contributorUrl: c, latestPosts: d, recentContributors: e, getContributor: f, posts: g};
+var _user$project$Settings$Dependencies = F8(
+	function (a, b, c, d, e, f, g, h) {
+		return {tryLogin: a, topicUrl: b, contributorUrl: c, latestPosts: d, recentContributors: e, getContributor: f, posts: g, topicPosts: h};
 	});
 var _user$project$Settings$Isolation = {ctor: 'Isolation'};
 var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return A7(_user$project$Settings$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl, _user$project$Services_Server$contributorUrl, _user$project$Services_Server$latestPosts, _user$project$Services_Server$recentContributors, _user$project$Services_Server$getContributor, _user$project$Services_Server$posts);
+		return A8(_user$project$Settings$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl, _user$project$Services_Server$contributorUrl, _user$project$Services_Server$latestPosts, _user$project$Services_Server$recentContributors, _user$project$Services_Server$getContributor, _user$project$Services_Server$posts, _user$project$Services_Server$topicPosts);
 	} else {
-		return A7(_user$project$Settings$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$topicUrl, _user$project$Tests_TestAPI$contributorUrl, _user$project$Tests_TestAPI$latestPosts, _user$project$Tests_TestAPI$recentContributors, _user$project$Tests_TestAPI$getContributor, _user$project$Tests_TestAPI$posts);
+		return A8(_user$project$Settings$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$topicUrl, _user$project$Tests_TestAPI$contributorUrl, _user$project$Tests_TestAPI$latestPosts, _user$project$Tests_TestAPI$recentContributors, _user$project$Tests_TestAPI$getContributor, _user$project$Tests_TestAPI$posts, _user$project$Tests_TestAPI$topicPosts);
 	}
 }();
 var _user$project$Settings$Integration = {ctor: 'Integration'};
@@ -11432,20 +11449,11 @@ var _user$project$Home$update = F2(
 			case 'Toggle':
 				var _p5 = _p1._0._0;
 				var contributor = model.contributor;
-				var getPosts = F2(
-					function (topic, contentType) {
-						return A2(
-							_elm_lang$core$List$filter,
-							function (a) {
-								return A2(_elm_lang$core$List$member, topic, a.topics);
-							},
-							A2(_user$project$Settings$runtime.posts, contentType, contributor.profile.id));
-					});
-				var toggleTopic = F3(
-					function (t, contentType, posts) {
+				var toggleTopic = F2(
+					function (contentType, posts) {
 						return _p1._0._1 ? A2(
 							_elm_lang$core$List$append,
-							A2(getPosts, _p5, contentType),
+							A3(_user$project$Settings$runtime.topicPosts, _p5, contentType, contributor.profile.id),
 							posts) : A2(
 							_elm_lang$core$List$filter,
 							function (a) {
@@ -11461,9 +11469,9 @@ var _user$project$Home$update = F2(
 							contributor: _elm_lang$core$Native_Utils.update(
 								contributor,
 								{
-									articles: A3(toggleTopic, _p5, _user$project$Domain_Core$Article, contributor.articles),
-									videos: A3(toggleTopic, _p5, _user$project$Domain_Core$Video, contributor.videos),
-									podcasts: A3(toggleTopic, _p5, _user$project$Domain_Core$Podcast, contributor.podcasts)
+									articles: A2(toggleTopic, _user$project$Domain_Core$Article, contributor.articles),
+									videos: A2(toggleTopic, _user$project$Domain_Core$Video, contributor.videos),
+									podcasts: A2(toggleTopic, _user$project$Domain_Core$Podcast, contributor.podcasts)
 								})
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none

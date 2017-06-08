@@ -135,6 +135,10 @@ type alias ContentTypefunction =
     ContentType -> Id -> List Post
 
 
+type alias TopicPostsfunction =
+    Topic -> ContentType -> Id -> List Post
+
+
 latestPosts : LatestPostsfunction -> Id -> ContentType -> List Post
 latestPosts f profileId contentType =
     f profileId contentType
@@ -143,6 +147,11 @@ latestPosts f profileId contentType =
 getContent : ContentTypefunction -> Id -> ContentType -> List Post
 getContent f profileId contentType =
     profileId |> f contentType
+
+
+getPosts : TopicPostsfunction -> Topic -> ContentType -> Id -> List Post
+getPosts topicPostsfunction topic contentType id =
+    id |> topicPostsfunction topic contentType
 
 
 undefined : String

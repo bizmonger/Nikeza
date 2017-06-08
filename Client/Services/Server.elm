@@ -45,3 +45,8 @@ getContributor id =
 posts : ContentType -> Id -> List Post
 posts profileId contentType =
     []
+
+
+topicPosts : Topic -> ContentType -> Id -> List Post
+topicPosts topic contentType id =
+    []

@@ -191,3 +191,10 @@ getContributor id =
         Just profile3
     else
         Nothing
+
+
+topicPosts : Topic -> ContentType -> Id -> List Post
+topicPosts topic contentType id =
+    id
+        |> posts contentType
+        |> List.filter (\a -> a.topics |> List.member topic)

@@ -106,23 +106,18 @@ update msg model =
                 contributor =
                     model.contributor
 
-                getPosts topic contentType =
-                    contributor.profile.id
-                        |> runtime.posts contentType
-                        |> List.filter (\a -> a.topics |> List.member topic)
-
-                toggleTopic t contentType posts =
+                toggleTopic contentType posts =
                     if include then
-                        posts |> List.append (getPosts topic contentType)
+                        List.append (contributor.profile.id |> runtime.topicPosts topic contentType) posts
                     else
                         posts |> List.filter (\a -> not (a.topics |> List.member topic))
             in
                 ( { model
                     | contributor =
                         { contributor
-                            | articles = contributor.articles |> toggleTopic topic Article
-                            , videos = contributor.videos |> toggleTopic topic Video
-                            , podcasts = contributor.podcasts |> toggleTopic topic Podcast
+                            | articles = contributor.articles |> toggleTopic Article
+                            , videos = contributor.videos |> toggleTopic Video
+                            , podcasts = contributor.podcasts |> toggleTopic Podcast
                         }
                   }
                 , Cmd.none
