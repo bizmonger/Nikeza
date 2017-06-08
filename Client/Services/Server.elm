@@ -17,19 +17,9 @@ tryLogin credentials =
             { username = credentials.username, password = credentials.password, loggedIn = False }
 
 
-topicUrl : Id -> Topic -> Url
-topicUrl id topic =
-    Url "http://google.com"
-
-
 latestPosts : Id -> ContentType -> List Post
 latestPosts id contentType =
     []
-
-
-contributorUrl : Id -> Url
-contributorUrl id =
-    Url "../Domain/Contributor.elm"
 
 
 recentContributors : List Profile

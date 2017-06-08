@@ -124,7 +124,7 @@ tryLogin credentials =
 
 topicUrl : Id -> Topic -> Url
 topicUrl id topic =
-    someUrl
+    Url undefined
 
 
 recentContributors : List Profile
@@ -174,11 +174,6 @@ topics profileId =
 latestPosts : Id -> ContentType -> List Post
 latestPosts id contentType =
     []
-
-
-contributorUrl : Id -> Url
-contributorUrl id =
-    Url <| "/#/contributor/" ++ getId id
 
 
 getContributor : Id -> Maybe Profile

@@ -17,7 +17,7 @@ thumbnail : Profile -> Html Msg
 thumbnail profile =
     let
         formatTopic topic =
-            a [ href <| getUrl <| topicUrl runtime.topicUrl profile.id topic ] [ i [] [ text <| getTopic topic ] ]
+            a [ href <| getUrl <| topicUrl profile.id topic ] [ i [] [ text <| getTopic topic ] ]
 
         concatTopics topic1 topic2 =
             span []
@@ -41,7 +41,7 @@ thumbnail profile =
             [ table []
                 [ tr []
                     [ td []
-                        [ a [ href <| getUrl <| runtime.contributorUrl profile.id ]
+                        [ a [ href <| getUrl <| contributorUrl profile.id ]
                             [ img [ src <| getUrl profile.imageUrl, width 50, height 50 ] [] ]
                         ]
                     , td [] [ topicsAndBio ]

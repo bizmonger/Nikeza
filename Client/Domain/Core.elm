@@ -90,10 +90,6 @@ type alias Post =
     }
 
 
-type alias ContributorUrlfunction =
-    Id -> Url
-
-
 type alias Contributorsfunction =
     List Profile
 
@@ -109,15 +105,6 @@ type alias GetContributorfunction =
 tryLogin : Loginfunction -> String -> String -> Login.Model
 tryLogin loginf username password =
     loginf <| Login.Model username password False
-
-
-type alias TopicUrlfunction =
-    Id -> Topic -> Url
-
-
-topicUrl : TopicUrlfunction -> Id -> Topic -> Url
-topicUrl f id topic =
-    f id topic
 
 
 type ContentType
@@ -157,3 +144,18 @@ getPosts topicPostsfunction topic contentType id =
 undefined : String
 undefined =
     "undefined"
+
+
+topicUrl : Id -> Topic -> Url
+topicUrl id topic =
+    Url undefined
+
+
+contributorTopicUrl : Id -> Topic -> Url
+contributorTopicUrl id topic =
+    Url <| "/#/contributor/" ++ getId id ++ "/" ++ getTopic topic
+
+
+contributorUrl : Id -> Url
+contributorUrl id =
+    Url <| "/#/contributor/" ++ getId id

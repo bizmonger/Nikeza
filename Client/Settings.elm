@@ -17,8 +17,6 @@ type Configuration
 
 type alias Dependencies =
     { tryLogin : Loginfunction
-    , topicUrl : TopicUrlfunction
-    , contributorUrl : ContributorUrlfunction
     , latestPosts : LatestPostsfunction
     , recentContributors : Contributorsfunction
     , getContributor : GetContributorfunction
@@ -33,8 +31,6 @@ runtime =
         Integration ->
             Dependencies
                 Services.tryLogin
-                Services.topicUrl
-                Services.contributorUrl
                 Services.latestPosts
                 Services.recentContributors
                 Services.getContributor
@@ -44,8 +40,6 @@ runtime =
         Isolation ->
             Dependencies
                 TestAPI.tryLogin
-                TestAPI.topicUrl
-                TestAPI.contributorUrl
                 TestAPI.latestPosts
                 TestAPI.recentContributors
                 TestAPI.getContributor

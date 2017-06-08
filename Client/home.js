@@ -10734,10 +10734,6 @@ var _user$project$Domain_Core$latestPosts = F3(
 	function (f, profileId, contentType) {
 		return A2(f, profileId, contentType);
 	});
-var _user$project$Domain_Core$topicUrl = F3(
-	function (f, id, topic) {
-		return A2(f, id, topic);
-	});
 var _user$project$Domain_Core$tryLogin = F3(
 	function (loginf, username, password) {
 		return loginf(
@@ -10796,6 +10792,31 @@ var _user$project$Domain_Core$Title = function (a) {
 var _user$project$Domain_Core$Url = function (a) {
 	return {ctor: 'Url', _0: a};
 };
+var _user$project$Domain_Core$topicUrl = F2(
+	function (id, topic) {
+		return _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined);
+	});
+var _user$project$Domain_Core$contributorTopicUrl = F2(
+	function (id, topic) {
+		return _user$project$Domain_Core$Url(
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				'/#/contributor/',
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					_user$project$Domain_Core$getId(id),
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						'/',
+						_user$project$Domain_Core$getTopic(topic)))));
+	});
+var _user$project$Domain_Core$contributorUrl = function (id) {
+	return _user$project$Domain_Core$Url(
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			'/#/contributor/',
+			_user$project$Domain_Core$getId(id)));
+};
 var _user$project$Domain_Core$Topic = function (a) {
 	return {ctor: 'Topic', _0: a};
 };
@@ -10804,16 +10825,13 @@ var _user$project$Domain_Core$Podcast = {ctor: 'Podcast'};
 var _user$project$Domain_Core$Video = {ctor: 'Video'};
 var _user$project$Domain_Core$Article = {ctor: 'Article'};
 
-var _user$project$Tests_TestAPI$contributorUrl = function (id) {
-	return _user$project$Domain_Core$Url(
-		A2(
-			_elm_lang$core$Basics_ops['++'],
-			'/#/contributor/',
-			_user$project$Domain_Core$getId(id)));
-};
 var _user$project$Tests_TestAPI$latestPosts = F2(
 	function (id, contentType) {
 		return {ctor: '[]'};
+	});
+var _user$project$Tests_TestAPI$topicUrl = F2(
+	function (id, topic) {
+		return _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined);
 	});
 var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 	var successful = _elm_lang$core$Native_Utils.eq(
@@ -10835,10 +10853,6 @@ var _user$project$Tests_TestAPI$someArticleTitle2 = _user$project$Domain_Core$Ti
 var _user$project$Tests_TestAPI$someArticleTitle1 = _user$project$Domain_Core$Title('Some Article Title 1');
 var _user$project$Tests_TestAPI$someImageUrl = _user$project$Domain_Core$Url('http://www.ngu.edu/myimages/silhouette2230.jpg');
 var _user$project$Tests_TestAPI$someUrl = _user$project$Domain_Core$Url('http://some_url.com');
-var _user$project$Tests_TestAPI$topicUrl = F2(
-	function (id, topic) {
-		return _user$project$Tests_TestAPI$someUrl;
-	});
 var _user$project$Tests_TestAPI$someTopic3 = _user$project$Domain_Core$Topic('Topic-3');
 var _user$project$Tests_TestAPI$someTopic2 = _user$project$Domain_Core$Topic('Topic-2');
 var _user$project$Tests_TestAPI$someTopic1 = _user$project$Domain_Core$Topic('Topic-1');
@@ -11119,16 +11133,9 @@ var _user$project$Services_Server$getContributor = function (id) {
 	return _elm_lang$core$Maybe$Nothing;
 };
 var _user$project$Services_Server$recentContributors = {ctor: '[]'};
-var _user$project$Services_Server$contributorUrl = function (id) {
-	return _user$project$Domain_Core$Url('../Domain/Contributor.elm');
-};
 var _user$project$Services_Server$latestPosts = F2(
 	function (id, contentType) {
 		return {ctor: '[]'};
-	});
-var _user$project$Services_Server$topicUrl = F2(
-	function (id, topic) {
-		return _user$project$Domain_Core$Url('http://google.com');
 	});
 var _user$project$Services_Server$tryLogin = function (credentials) {
 	var successful = _elm_lang$core$Native_Utils.eq(
@@ -11139,18 +11146,18 @@ var _user$project$Services_Server$tryLogin = function (credentials) {
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
 
-var _user$project$Settings$Dependencies = F8(
-	function (a, b, c, d, e, f, g, h) {
-		return {tryLogin: a, topicUrl: b, contributorUrl: c, latestPosts: d, recentContributors: e, getContributor: f, posts: g, topicPosts: h};
+var _user$project$Settings$Dependencies = F6(
+	function (a, b, c, d, e, f) {
+		return {tryLogin: a, latestPosts: b, recentContributors: c, getContributor: d, posts: e, topicPosts: f};
 	});
 var _user$project$Settings$Isolation = {ctor: 'Isolation'};
 var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return A8(_user$project$Settings$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$topicUrl, _user$project$Services_Server$contributorUrl, _user$project$Services_Server$latestPosts, _user$project$Services_Server$recentContributors, _user$project$Services_Server$getContributor, _user$project$Services_Server$posts, _user$project$Services_Server$topicPosts);
+		return A6(_user$project$Settings$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$latestPosts, _user$project$Services_Server$recentContributors, _user$project$Services_Server$getContributor, _user$project$Services_Server$posts, _user$project$Services_Server$topicPosts);
 	} else {
-		return A8(_user$project$Settings$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$topicUrl, _user$project$Tests_TestAPI$contributorUrl, _user$project$Tests_TestAPI$latestPosts, _user$project$Tests_TestAPI$recentContributors, _user$project$Tests_TestAPI$getContributor, _user$project$Tests_TestAPI$posts, _user$project$Tests_TestAPI$topicPosts);
+		return A6(_user$project$Settings$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$latestPosts, _user$project$Tests_TestAPI$recentContributors, _user$project$Tests_TestAPI$getContributor, _user$project$Tests_TestAPI$posts, _user$project$Tests_TestAPI$topicPosts);
 	}
 }();
 var _user$project$Settings$Integration = {ctor: 'Integration'};
@@ -11200,7 +11207,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (profile) {
 				ctor: '::',
 				_0: _elm_lang$html$Html_Attributes$href(
 					_user$project$Domain_Core$getUrl(
-						A3(_user$project$Domain_Core$topicUrl, _user$project$Settings$runtime.topicUrl, profile.id, topic))),
+						A2(_user$project$Domain_Core$topicUrl, profile.id, topic))),
 				_1: {ctor: '[]'}
 			},
 			{
@@ -11278,7 +11285,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (profile) {
 											ctor: '::',
 											_0: _elm_lang$html$Html_Attributes$href(
 												_user$project$Domain_Core$getUrl(
-													_user$project$Settings$runtime.contributorUrl(profile.id))),
+													_user$project$Domain_Core$contributorUrl(profile.id))),
 											_1: {ctor: '[]'}
 										},
 										{
