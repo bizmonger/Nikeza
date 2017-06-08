@@ -11436,7 +11436,13 @@ var _user$project$Home$update = F2(
 						};
 					}
 				} else {
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{currentRoute: _p4}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
 				}
 			case 'OnLogin':
 				return A2(_user$project$Home$onLogin, model, _p1._0);

@@ -87,7 +87,7 @@ update msg model =
                             ( { model | currentRoute = location }, Cmd.none )
 
                 _ ->
-                    ( model, Cmd.none )
+                    ( { model | currentRoute = location }, Cmd.none )
 
         OnLogin subMsg ->
             onLogin model subMsg
