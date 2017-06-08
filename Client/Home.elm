@@ -207,15 +207,32 @@ view model =
             notFoundPage
 
 
-contentUI : Id -> ContentType -> List Post -> List (Html Msg)
-contentUI profileId contentType posts =
+topicTocheckbox : Topic -> Html Msg
+topicTocheckbox topic =
+    div []
+        [ input [ type_ "checkbox", checked True, onCheck (\b -> Toggle ( topic, b )) ] [ text <| getTopic topic ]
+        , label [] [ text <| getTopic topic ]
+        ]
+
+
+topicsUI : List Topic -> Html Msg
+topicsUI topics =
     let
-        recentLinks =
+        formattedTopics =
+            topics |> List.map topicTocheckbox
+    in
+        div [] formattedTopics
+
+
+contentConstrainedUI : Id -> ContentType -> List Post -> List (Html Msg)
+contentConstrainedUI profileId contentType posts =
+    let
+        links =
             posts
                 |> List.take 5
                 |> List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ])
     in
-        List.append recentLinks [ a [ href <| getUrl <| moreContributorContentUrl profileId contentType ] [ text <| "more...", br [] [] ] ]
+        List.append links [ a [ href <| getUrl <| moreContributorContentUrl profileId contentType ] [ text <| "more...", br [] [] ] ]
 
 
 homePage : Model -> Html Msg
@@ -257,21 +274,6 @@ contributorPage model =
     let
         profileId =
             model.profile.id
-
-        topicTocheckbox : Topic -> Html Msg
-        topicTocheckbox topic =
-            div []
-                [ input [ type_ "checkbox", checked True, onCheck (\b -> Toggle ( topic, b )) ] [ text <| getTopic topic ]
-                , label [] [ text <| getTopic topic ]
-                ]
-
-        topicsUI : List Topic -> Html Msg
-        topicsUI topics =
-            let
-                formattedTopics =
-                    topics |> List.map topicTocheckbox
-            in
-                div [] formattedTopics
     in
         div []
             [ table []
@@ -282,11 +284,11 @@ contributorPage model =
                             , td [] [ topicsUI model.profile.topics ]
                             , table []
                                 [ tr [] [ td [] [ b [] [ text "Videos" ] ] ]
-                                , div [] <| contentUI profileId Video model.videos
+                                , div [] <| contentConstrainedUI profileId Video model.videos
                                 , tr [] [ td [] [ b [] [ text "Podcasts" ] ] ]
-                                , div [] <| contentUI profileId Podcast model.podcasts
+                                , div [] <| contentConstrainedUI profileId Podcast model.podcasts
                                 , tr [] [ td [] [ b [] [ text "Articles" ] ] ]
-                                , div [] <| contentUI profileId Article model.articles
+                                , div [] <| contentConstrainedUI profileId Article model.articles
                                 ]
                             ]
                         , tr [] [ td [] [ text <| getName model.profile.name ] ]
@@ -299,7 +301,23 @@ contributorPage model =
 
 contributorContentTypePage : String -> Contributor.Model -> Html Msg
 contributorContentTypePage contentType model =
-    h2 [] [ text <| "All " ++ contentType ]
+    let
+        profileId =
+            model.profile.id
+
+        posts =
+            runtime.posts Video profileId
+    in
+        div []
+            [ h2 [] [ text <| "All " ++ contentType ]
+            , table []
+                [ tr []
+                    [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
+                    , td [] [ topicsUI model.profile.topics ]
+                    , td [] [ div [] <| List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ]) posts ]
+                    ]
+                ]
+            ]
 
 
 contributorTopicPage : Contributor.Model -> Html Msg
@@ -319,11 +337,11 @@ contributorTopicPage model =
                                     , table []
                                         [ tr [] [ h2 [] [ text <| getTopic topic ] ]
                                         , tr [] [ td [] [ b [] [ text "Videos" ] ] ]
-                                        , div [] <| contentUI profileId Video (runtime.topicPosts topic Video profileId)
+                                        , div [] <| contentConstrainedUI profileId Video (runtime.topicPosts topic Video profileId)
                                         , tr [] [ td [] [ b [] [ text "Podcasts" ] ] ]
-                                        , div [] <| contentUI profileId Podcast (runtime.topicPosts topic Podcast profileId)
+                                        , div [] <| contentConstrainedUI profileId Podcast (runtime.topicPosts topic Podcast profileId)
                                         , tr [] [ td [] [ b [] [ text "Articles" ] ] ]
-                                        , div [] <| contentUI profileId Article (runtime.topicPosts topic Article profileId)
+                                        , div [] <| contentConstrainedUI profileId Article (runtime.topicPosts topic Article profileId)
                                         ]
                                     ]
                                 , tr [] [ td [] [ text <| getName model.profile.name ] ]

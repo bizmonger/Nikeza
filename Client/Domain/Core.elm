@@ -178,4 +178,4 @@ moreContributorContentUrl id contentType =
                 All ->
                     ""
     in
-        Url <| "/#/contributor/" ++ getId id ++ "/all" ++ "/" ++ (contentType |> toText)
+        Url <| "/#/contributor/" ++ getId id ++ "/all/" ++ (contentType |> toText)
