@@ -161,21 +161,43 @@ contributorUrl id =
     Url <| "/#/contributor/" ++ getId id
 
 
+toContentType : String -> ContentType
+toContentType contentType =
+    case contentType of
+        "articles" ->
+            Article
+
+        "videos" ->
+            Video
+
+        "podcasts" ->
+            Podcast
+
+        _ ->
+            All
+
+
+contentTypeToText : ContentType -> String
+contentTypeToText contentType =
+    case contentType of
+        Article ->
+            "articles"
+
+        Video ->
+            "videos"
+
+        Podcast ->
+            "podcasts"
+
+        All ->
+            ""
+
+
 moreContributorContentUrl : Id -> ContentType -> Url
 moreContributorContentUrl id contentType =
-    let
-        toText contentType =
-            case contentType of
-                Article ->
-                    "articles"
+    Url <| "/#/contributor/" ++ getId id ++ "/all/" ++ (contentType |> contentTypeToText)
 
-                Video ->
-                    "videos"
 
-                Podcast ->
-                    "podcasts"
-
-                All ->
-                    ""
-    in
-        Url <| "/#/contributor/" ++ getId id ++ "/all/" ++ (contentType |> toText)
+moreContributorContentOnTopicUrl : Id -> ContentType -> Topic -> Url
+moreContributorContentOnTopicUrl id contentType topic =
+    Url <| "/#/contributor/" ++ getId id ++ "/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)
