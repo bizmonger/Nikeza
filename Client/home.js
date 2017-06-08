@@ -11842,8 +11842,6 @@ var _user$project$Home$update = F2(
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Register':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			case 'Contributor':
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Toggle':
 				var _p8 = _p3._0._0;
 				var contributor = model.contributor;
@@ -12184,7 +12182,6 @@ var _user$project$Home$contributorPage = function (model) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Home$Contributor = {ctor: 'Contributor'};
 var _user$project$Home$ProfileThumbnail = function (a) {
 	return {ctor: 'ProfileThumbnail', _0: a};
 };

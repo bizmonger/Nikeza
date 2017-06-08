@@ -67,7 +67,6 @@ type Msg
     = UrlChange Navigation.Location
     | OnLogin Login.Msg
     | ProfileThumbnail ProfileThumbnail.Msg
-    | Contributor
     | Toggle ( Topic, Bool )
     | Search String
     | Register
@@ -111,9 +110,6 @@ update msg model =
             ( model, Cmd.none )
 
         Register ->
-            ( model, Cmd.none )
-
-        Contributor ->
             ( model, Cmd.none )
 
         Toggle ( topic, include ) ->
