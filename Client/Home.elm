@@ -111,17 +111,18 @@ update msg model =
                         List.append (contributor.profile.id |> runtime.topicPosts topic contentType) posts
                     else
                         posts |> List.filter (\a -> not (a.topics |> List.member topic))
+
+                newState =
+                    { model
+                        | contributor =
+                            { contributor
+                                | articles = contributor.articles |> toggleTopic Article
+                                , videos = contributor.videos |> toggleTopic Video
+                                , podcasts = contributor.podcasts |> toggleTopic Podcast
+                            }
+                    }
             in
-                ( { model
-                    | contributor =
-                        { contributor
-                            | articles = contributor.articles |> toggleTopic Article
-                            , videos = contributor.videos |> toggleTopic Video
-                            , podcasts = contributor.podcasts |> toggleTopic Podcast
-                        }
-                  }
-                , Cmd.none
-                )
+                ( newState, Cmd.none )
 
         ProfileThumbnail subMsg ->
             ( model, Cmd.none )

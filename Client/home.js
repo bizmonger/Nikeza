@@ -11461,21 +11461,18 @@ var _user$project$Home$update = F2(
 							},
 							posts);
 					});
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							contributor: _elm_lang$core$Native_Utils.update(
-								contributor,
-								{
-									articles: A2(toggleTopic, _user$project$Domain_Core$Article, contributor.articles),
-									videos: A2(toggleTopic, _user$project$Domain_Core$Video, contributor.videos),
-									podcasts: A2(toggleTopic, _user$project$Domain_Core$Podcast, contributor.podcasts)
-								})
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
+				var newState = _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						contributor: _elm_lang$core$Native_Utils.update(
+							contributor,
+							{
+								articles: A2(toggleTopic, _user$project$Domain_Core$Article, contributor.articles),
+								videos: A2(toggleTopic, _user$project$Domain_Core$Video, contributor.videos),
+								podcasts: A2(toggleTopic, _user$project$Domain_Core$Podcast, contributor.podcasts)
+							})
+					});
+				return {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
 			default:
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 		}
