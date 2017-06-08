@@ -45,7 +45,7 @@ init location =
       , contributor =
             case tokenizeUrl location.hash of
                 [ "contributor", id ] ->
-                    case runtime.getContributor <| Id id of
+                    case runtime.contributor <| Id id of
                         Just p ->
                             getContributor p
 
@@ -78,7 +78,7 @@ update msg model =
         UrlChange location ->
             case tokenizeUrl location.hash of
                 [ "contributor", id ] ->
-                    case runtime.getContributor <| Id id of
+                    case runtime.contributor <| Id id of
                         Just profile ->
                             ( { model | contributor = getContributor profile, currentRoute = location }, Cmd.none )
 
@@ -86,7 +86,7 @@ update msg model =
                             ( { model | currentRoute = location }, Cmd.none )
 
                 [ "contributor", id, topic ] ->
-                    case runtime.getContributor <| Id id of
+                    case runtime.contributor <| Id id of
                         Just profile ->
                             let
                                 contributor =
@@ -180,7 +180,7 @@ view model =
             homePage model
 
         [ "contributor", id ] ->
-            case runtime.getContributor <| Id id of
+            case runtime.contributor <| Id id of
                 Just _ ->
                     contributorPage model.contributor
 
@@ -188,7 +188,7 @@ view model =
                     notFoundPage
 
         [ "contributor", id, topic ] ->
-            case runtime.getContributor <| Id id of
+            case runtime.contributor <| Id id of
                 Just _ ->
                     contributorTopicPage model.contributor
 
@@ -196,7 +196,7 @@ view model =
                     notFoundPage
 
         [ "contributor", id, "all", contentType ] ->
-            case runtime.getContributor <| Id id of
+            case runtime.contributor <| Id id of
                 Just _ ->
                     contributorContentTypePage contentType model.contributor
 

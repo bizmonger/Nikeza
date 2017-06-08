@@ -98,7 +98,7 @@ type alias Loginfunction =
     Login.Model -> Login.Model
 
 
-type alias GetContributorfunction =
+type alias Contributorfunction =
     Id -> Maybe Profile
 
 

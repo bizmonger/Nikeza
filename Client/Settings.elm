@@ -19,7 +19,7 @@ type alias Dependencies =
     { tryLogin : Loginfunction
     , latestPosts : LatestPostsfunction
     , recentContributors : Contributorsfunction
-    , getContributor : GetContributorfunction
+    , contributor : Contributorfunction
     , posts : ContentTypefunction
     , topicPosts : TopicPostsfunction
     }
@@ -33,7 +33,7 @@ runtime =
                 Services.tryLogin
                 Services.latestPosts
                 Services.recentContributors
-                Services.getContributor
+                Services.contributor
                 Services.posts
                 Services.topicPosts
 
@@ -42,6 +42,6 @@ runtime =
                 TestAPI.tryLogin
                 TestAPI.latestPosts
                 TestAPI.recentContributors
-                TestAPI.getContributor
+                TestAPI.contributor
                 TestAPI.posts
                 TestAPI.topicPosts

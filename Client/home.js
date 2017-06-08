@@ -10859,10 +10859,6 @@ var _user$project$Tests_TestAPI$latestPosts = F2(
 	function (id, contentType) {
 		return {ctor: '[]'};
 	});
-var _user$project$Tests_TestAPI$topicUrl = F2(
-	function (id, topic) {
-		return _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined);
-	});
 var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 	var successful = _elm_lang$core$Native_Utils.eq(
 		_elm_lang$core$String$toLower(credentials.username),
@@ -11147,7 +11143,7 @@ var _user$project$Tests_TestAPI$topicPosts = F3(
 			},
 			A2(_user$project$Tests_TestAPI$posts, contentType, id));
 	});
-var _user$project$Tests_TestAPI$getContributor = function (id) {
+var _user$project$Tests_TestAPI$contributor = function (id) {
 	return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$profile3) : _elm_lang$core$Maybe$Nothing));
 };
 
@@ -11159,7 +11155,7 @@ var _user$project$Services_Server$posts = F2(
 	function (profileId, contentType) {
 		return {ctor: '[]'};
 	});
-var _user$project$Services_Server$getContributor = function (id) {
+var _user$project$Services_Server$contributor = function (id) {
 	return _elm_lang$core$Maybe$Nothing;
 };
 var _user$project$Services_Server$recentContributors = {ctor: '[]'};
@@ -11178,16 +11174,16 @@ var _user$project$Services_Server$tryLogin = function (credentials) {
 
 var _user$project$Settings$Dependencies = F6(
 	function (a, b, c, d, e, f) {
-		return {tryLogin: a, latestPosts: b, recentContributors: c, getContributor: d, posts: e, topicPosts: f};
+		return {tryLogin: a, latestPosts: b, recentContributors: c, contributor: d, posts: e, topicPosts: f};
 	});
 var _user$project$Settings$Isolation = {ctor: 'Isolation'};
 var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return A6(_user$project$Settings$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$latestPosts, _user$project$Services_Server$recentContributors, _user$project$Services_Server$getContributor, _user$project$Services_Server$posts, _user$project$Services_Server$topicPosts);
+		return A6(_user$project$Settings$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$latestPosts, _user$project$Services_Server$recentContributors, _user$project$Services_Server$contributor, _user$project$Services_Server$posts, _user$project$Services_Server$topicPosts);
 	} else {
-		return A6(_user$project$Settings$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$latestPosts, _user$project$Tests_TestAPI$recentContributors, _user$project$Tests_TestAPI$getContributor, _user$project$Tests_TestAPI$posts, _user$project$Tests_TestAPI$topicPosts);
+		return A6(_user$project$Settings$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$latestPosts, _user$project$Tests_TestAPI$recentContributors, _user$project$Tests_TestAPI$contributor, _user$project$Tests_TestAPI$posts, _user$project$Tests_TestAPI$topicPosts);
 	}
 }();
 var _user$project$Settings$Integration = {ctor: 'Integration'};
@@ -11768,7 +11764,7 @@ var _user$project$Home$update = F2(
 				do {
 					if (((_p4.ctor === '::') && (_p4._0 === 'contributor')) && (_p4._1.ctor === '::')) {
 						if (_p4._1._1.ctor === '[]') {
-							var _p5 = _user$project$Settings$runtime.getContributor(
+							var _p5 = _user$project$Settings$runtime.contributor(
 								_user$project$Domain_Core$Id(_p4._1._0));
 							if (_p5.ctor === 'Just') {
 								return {
@@ -11792,7 +11788,7 @@ var _user$project$Home$update = F2(
 							}
 						} else {
 							if (_p4._1._1._1.ctor === '[]') {
-								var _p6 = _user$project$Settings$runtime.getContributor(
+								var _p6 = _user$project$Settings$runtime.contributor(
 									_user$project$Domain_Core$Id(_p4._1._0));
 								if (_p6.ctor === 'Just') {
 									var contributor = _user$project$Home$getContributor(_p6._0);
@@ -11883,7 +11879,7 @@ var _user$project$Home$init = function (location) {
 			contributor: function () {
 				var _p9 = _user$project$Home$tokenizeUrl(location.hash);
 				if ((((_p9.ctor === '::') && (_p9._0 === 'contributor')) && (_p9._1.ctor === '::')) && (_p9._1._1.ctor === '[]')) {
-					var _p10 = _user$project$Settings$runtime.getContributor(
+					var _p10 = _user$project$Settings$runtime.contributor(
 						_user$project$Domain_Core$Id(_p9._1._0));
 					if (_p10.ctor === 'Just') {
 						return _user$project$Home$getContributor(_p10._0);
@@ -12346,7 +12342,7 @@ var _user$project$Home$view = function (model) {
 			} else {
 				if (_p12._0 === 'contributor') {
 					if (_p12._1._1.ctor === '[]') {
-						var _p13 = _user$project$Settings$runtime.getContributor(
+						var _p13 = _user$project$Settings$runtime.contributor(
 							_user$project$Domain_Core$Id(_p12._1._0));
 						if (_p13.ctor === 'Just') {
 							return _user$project$Home$contributorPage(model.contributor);
@@ -12355,7 +12351,7 @@ var _user$project$Home$view = function (model) {
 						}
 					} else {
 						if (_p12._1._1._1.ctor === '[]') {
-							var _p14 = _user$project$Settings$runtime.getContributor(
+							var _p14 = _user$project$Settings$runtime.contributor(
 								_user$project$Domain_Core$Id(_p12._1._0));
 							if (_p14.ctor === 'Just') {
 								return _user$project$Home$contributorTopicPage(model.contributor);
@@ -12364,7 +12360,7 @@ var _user$project$Home$view = function (model) {
 							}
 						} else {
 							if ((_p12._1._1._0 === 'all') && (_p12._1._1._1._1.ctor === '[]')) {
-								var _p15 = _user$project$Settings$runtime.getContributor(
+								var _p15 = _user$project$Settings$runtime.contributor(
 									_user$project$Domain_Core$Id(_p12._1._0));
 								if (_p15.ctor === 'Just') {
 									return A2(_user$project$Home$contributorContentTypePage, _p12._1._1._1._0, model.contributor);

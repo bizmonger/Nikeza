@@ -122,11 +122,6 @@ tryLogin credentials =
             { username = credentials.username, password = credentials.password, loggedIn = False }
 
 
-topicUrl : Id -> Topic -> Url
-topicUrl id topic =
-    Url undefined
-
-
 recentContributors : List Profile
 recentContributors =
     [ profile1
@@ -176,8 +171,8 @@ latestPosts id contentType =
     []
 
 
-getContributor : Id -> Maybe Profile
-getContributor id =
+contributor : Id -> Maybe Profile
+contributor id =
     if id == profileId1 then
         Just profile1
     else if id == profileId2 then

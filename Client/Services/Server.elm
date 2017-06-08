@@ -27,8 +27,8 @@ recentContributors =
     []
 
 
-getContributor : Id -> Maybe Profile
-getContributor id =
+contributor : Id -> Maybe Profile
+contributor id =
     Nothing
 
 
