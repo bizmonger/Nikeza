@@ -86,6 +86,21 @@ update msg model =
                         Nothing ->
                             ( { model | currentRoute = location }, Cmd.none )
 
+                [ "contributor", id, topic ] ->
+                    case runtime.getContributor <| Id id of
+                        Just profile ->
+                            let
+                                contributor =
+                                    getContributor profile
+
+                                topicContributor =
+                                    { contributor | topics = [ Topic topic ] }
+                            in
+                                ( { model | contributor = topicContributor, currentRoute = location }, Cmd.none )
+
+                        Nothing ->
+                            ( { model | currentRoute = location }, Cmd.none )
+
                 _ ->
                     ( { model | currentRoute = location }, Cmd.none )
 
@@ -176,8 +191,21 @@ view model =
                 Nothing ->
                     notFoundPage
 
+        [ "contributor", id, topic ] ->
+            case runtime.getContributor <| Id id of
+                Just _ ->
+                    contributorTopicPage model.contributor
+
+                Nothing ->
+                    notFoundPage
+
         _ ->
             notFoundPage
+
+
+contentUI : List Post -> List (Html Msg)
+contentUI posts =
+    posts |> List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ])
 
 
 homePage : Model -> Html Msg
@@ -217,10 +245,6 @@ homePage model =
 contributorPage : Contributor.Model -> Html Msg
 contributorPage model =
     let
-        contentUI : List Post -> List (Html Msg)
-        contentUI posts =
-            posts |> List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ])
-
         topicTocheckbox : Topic -> Html Msg
         topicTocheckbox topic =
             div []
@@ -260,9 +284,44 @@ contributorPage model =
             ]
 
 
+contributorTopicPage : Contributor.Model -> Html Msg
+contributorTopicPage model =
+    let
+        profileId =
+            model.profile.id
+    in
+        case List.head model.topics of
+            Just topic ->
+                div []
+                    [ table []
+                        [ tr []
+                            [ table []
+                                [ tr []
+                                    [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
+                                    , table []
+                                        [ tr [] [ h2 [] [ text <| getTopic topic ] ]
+                                        , tr [] [ td [] [ b [] [ text "Videos" ] ] ]
+                                        , div [] <| contentUI (runtime.topicPosts topic Video profileId)
+                                        , tr [] [ td [] [ b [] [ text "Podcasts" ] ] ]
+                                        , div [] <| contentUI (runtime.topicPosts topic Podcast profileId)
+                                        , tr [] [ td [] [ b [] [ text "Articles" ] ] ]
+                                        , div [] <| contentUI (runtime.topicPosts topic Article profileId)
+                                        ]
+                                    ]
+                                , tr [] [ td [] [ text <| getName model.profile.name ] ]
+                                , tr [] [ td [] [ p [] [ text model.profile.bio ] ] ]
+                                ]
+                            ]
+                        ]
+                    ]
+
+            Nothing ->
+                notFoundPage
+
+
 notFoundPage : Html Msg
 notFoundPage =
-    div [] [ text "Not Found" ]
+    div [] [ text "Page not found" ]
 
 
 

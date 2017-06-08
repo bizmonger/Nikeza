@@ -11207,7 +11207,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (profile) {
 				ctor: '::',
 				_0: _elm_lang$html$Html_Attributes$href(
 					_user$project$Domain_Core$getUrl(
-						A2(_user$project$Domain_Core$topicUrl, profile.id, topic))),
+						A2(_user$project$Domain_Core$contributorTopicUrl, profile.id, topic))),
 				_1: {ctor: '[]'}
 			},
 			{
@@ -11363,13 +11363,278 @@ var _user$project$Home$notFoundPage = A2(
 	{ctor: '[]'},
 	{
 		ctor: '::',
-		_0: _elm_lang$html$Html$text('Not Found'),
+		_0: _elm_lang$html$Html$text('Page not found'),
 		_1: {ctor: '[]'}
 	});
+var _user$project$Home$contentUI = function (posts) {
+	return A2(
+		_elm_lang$core$List$map,
+		function (post) {
+			return A2(
+				_elm_lang$html$Html$a,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$href(
+						_user$project$Domain_Core$getUrl(post.url)),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_user$project$Domain_Core$getTitle(post.title)),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
+				});
+		},
+		posts);
+};
+var _user$project$Home$contributorTopicPage = function (model) {
+	var profileId = model.profile.id;
+	var _p0 = _elm_lang$core$List$head(model.topics);
+	if (_p0.ctor === 'Just') {
+		var _p1 = _p0._0;
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$table,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$tr,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$table,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$tr,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$td,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$img,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$src(
+																	_user$project$Domain_Core$getUrl(model.profile.imageUrl)),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$width(100),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$height(100),
+																		_1: {ctor: '[]'}
+																	}
+																}
+															},
+															{ctor: '[]'}),
+														_1: {ctor: '[]'}
+													}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$table,
+														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$tr,
+																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$h2,
+																		{ctor: '[]'},
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html$text(
+																				_user$project$Domain_Core$getTopic(_p1)),
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$tr,
+																	{ctor: '[]'},
+																	{
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$td,
+																			{ctor: '[]'},
+																			{
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html$b,
+																					{ctor: '[]'},
+																					{
+																						ctor: '::',
+																						_0: _elm_lang$html$Html$text('Videos'),
+																						_1: {ctor: '[]'}
+																					}),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$div,
+																		{ctor: '[]'},
+																		_user$project$Home$contentUI(
+																			A3(_user$project$Settings$runtime.topicPosts, _p1, _user$project$Domain_Core$Video, profileId))),
+																	_1: {
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$tr,
+																			{ctor: '[]'},
+																			{
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html$td,
+																					{ctor: '[]'},
+																					{
+																						ctor: '::',
+																						_0: A2(
+																							_elm_lang$html$Html$b,
+																							{ctor: '[]'},
+																							{
+																								ctor: '::',
+																								_0: _elm_lang$html$Html$text('Podcasts'),
+																								_1: {ctor: '[]'}
+																							}),
+																						_1: {ctor: '[]'}
+																					}),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$div,
+																				{ctor: '[]'},
+																				_user$project$Home$contentUI(
+																					A3(_user$project$Settings$runtime.topicPosts, _p1, _user$project$Domain_Core$Podcast, profileId))),
+																			_1: {
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html$tr,
+																					{ctor: '[]'},
+																					{
+																						ctor: '::',
+																						_0: A2(
+																							_elm_lang$html$Html$td,
+																							{ctor: '[]'},
+																							{
+																								ctor: '::',
+																								_0: A2(
+																									_elm_lang$html$Html$b,
+																									{ctor: '[]'},
+																									{
+																										ctor: '::',
+																										_0: _elm_lang$html$Html$text('Articles'),
+																										_1: {ctor: '[]'}
+																									}),
+																								_1: {ctor: '[]'}
+																							}),
+																						_1: {ctor: '[]'}
+																					}),
+																				_1: {
+																					ctor: '::',
+																					_0: A2(
+																						_elm_lang$html$Html$div,
+																						{ctor: '[]'},
+																						_user$project$Home$contentUI(
+																							A3(_user$project$Settings$runtime.topicPosts, _p1, _user$project$Domain_Core$Article, profileId))),
+																					_1: {ctor: '[]'}
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}),
+													_1: {ctor: '[]'}
+												}
+											}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$tr,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$td,
+														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html$text(
+																_user$project$Domain_Core$getName(model.profile.name)),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$tr,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$td,
+															{ctor: '[]'},
+															{
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$p,
+																	{ctor: '[]'},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text(model.profile.bio),
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {ctor: '[]'}
+															}),
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}
+										}
+									}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			});
+	} else {
+		return _user$project$Home$notFoundPage;
+	}
+};
 var _user$project$Home$onLogin = F2(
 	function (model, subMsg) {
-		var _p0 = subMsg;
-		switch (_p0.ctor) {
+		var _p2 = subMsg;
+		switch (_p2.ctor) {
 			case 'Attempt':
 				var latest = A2(_user$project$Controls_Login$update, subMsg, model.login);
 				return {
@@ -11414,45 +11679,85 @@ var _user$project$Home$getContributor = function (p) {
 };
 var _user$project$Home$update = F2(
 	function (msg, model) {
-		var _p1 = msg;
-		switch (_p1.ctor) {
+		var _p3 = msg;
+		switch (_p3.ctor) {
 			case 'UrlChange':
-				var _p4 = _p1._0;
-				var _p2 = _user$project$Home$tokenizeUrl(_p4.hash);
-				if ((((_p2.ctor === '::') && (_p2._0 === 'contributor')) && (_p2._1.ctor === '::')) && (_p2._1._1.ctor === '[]')) {
-					var _p3 = _user$project$Settings$runtime.getContributor(
-						_user$project$Domain_Core$Id(_p2._1._0));
-					if (_p3.ctor === 'Just') {
-						return {
-							ctor: '_Tuple2',
-							_0: _elm_lang$core$Native_Utils.update(
-								model,
-								{
-									contributor: _user$project$Home$getContributor(_p3._0),
-									currentRoute: _p4
-								}),
-							_1: _elm_lang$core$Platform_Cmd$none
-						};
+				var _p7 = _p3._0;
+				var _p4 = _user$project$Home$tokenizeUrl(_p7.hash);
+				_v3_2:
+				do {
+					if (((_p4.ctor === '::') && (_p4._0 === 'contributor')) && (_p4._1.ctor === '::')) {
+						if (_p4._1._1.ctor === '[]') {
+							var _p5 = _user$project$Settings$runtime.getContributor(
+								_user$project$Domain_Core$Id(_p4._1._0));
+							if (_p5.ctor === 'Just') {
+								return {
+									ctor: '_Tuple2',
+									_0: _elm_lang$core$Native_Utils.update(
+										model,
+										{
+											contributor: _user$project$Home$getContributor(_p5._0),
+											currentRoute: _p7
+										}),
+									_1: _elm_lang$core$Platform_Cmd$none
+								};
+							} else {
+								return {
+									ctor: '_Tuple2',
+									_0: _elm_lang$core$Native_Utils.update(
+										model,
+										{currentRoute: _p7}),
+									_1: _elm_lang$core$Platform_Cmd$none
+								};
+							}
+						} else {
+							if (_p4._1._1._1.ctor === '[]') {
+								var _p6 = _user$project$Settings$runtime.getContributor(
+									_user$project$Domain_Core$Id(_p4._1._0));
+								if (_p6.ctor === 'Just') {
+									var contributor = _user$project$Home$getContributor(_p6._0);
+									var topicContributor = _elm_lang$core$Native_Utils.update(
+										contributor,
+										{
+											topics: {
+												ctor: '::',
+												_0: _user$project$Domain_Core$Topic(_p4._1._1._0),
+												_1: {ctor: '[]'}
+											}
+										});
+									return {
+										ctor: '_Tuple2',
+										_0: _elm_lang$core$Native_Utils.update(
+											model,
+											{contributor: topicContributor, currentRoute: _p7}),
+										_1: _elm_lang$core$Platform_Cmd$none
+									};
+								} else {
+									return {
+										ctor: '_Tuple2',
+										_0: _elm_lang$core$Native_Utils.update(
+											model,
+											{currentRoute: _p7}),
+										_1: _elm_lang$core$Platform_Cmd$none
+									};
+								}
+							} else {
+								break _v3_2;
+							}
+						}
 					} else {
-						return {
-							ctor: '_Tuple2',
-							_0: _elm_lang$core$Native_Utils.update(
-								model,
-								{currentRoute: _p4}),
-							_1: _elm_lang$core$Platform_Cmd$none
-						};
+						break _v3_2;
 					}
-				} else {
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{currentRoute: _p4}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
-				}
+				} while(false);
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{currentRoute: _p7}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 			case 'OnLogin':
-				return A2(_user$project$Home$onLogin, model, _p1._0);
+				return A2(_user$project$Home$onLogin, model, _p3._0);
 			case 'Search':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Register':
@@ -11460,17 +11765,17 @@ var _user$project$Home$update = F2(
 			case 'Contributor':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Toggle':
-				var _p5 = _p1._0._0;
+				var _p8 = _p3._0._0;
 				var contributor = model.contributor;
 				var toggleTopic = F2(
 					function (contentType, posts) {
-						return _p1._0._1 ? A2(
+						return _p3._0._1 ? A2(
 							_elm_lang$core$List$append,
-							A3(_user$project$Settings$runtime.topicPosts, _p5, contentType, contributor.profile.id),
+							A3(_user$project$Settings$runtime.topicPosts, _p8, contentType, contributor.profile.id),
 							posts) : A2(
 							_elm_lang$core$List$filter,
 							function (a) {
-								return !A2(_elm_lang$core$List$member, _p5, a.topics);
+								return !A2(_elm_lang$core$List$member, _p8, a.topics);
 							},
 							posts);
 					});
@@ -11498,12 +11803,12 @@ var _user$project$Home$init = function (location) {
 			contributors: {ctor: '[]'},
 			login: _user$project$Controls_Login$model,
 			contributor: function () {
-				var _p6 = _user$project$Home$tokenizeUrl(location.hash);
-				if ((((_p6.ctor === '::') && (_p6._0 === 'contributor')) && (_p6._1.ctor === '::')) && (_p6._1._1.ctor === '[]')) {
-					var _p7 = _user$project$Settings$runtime.getContributor(
-						_user$project$Domain_Core$Id(_p6._1._0));
-					if (_p7.ctor === 'Just') {
-						return _user$project$Home$getContributor(_p7._0);
+				var _p9 = _user$project$Home$tokenizeUrl(location.hash);
+				if ((((_p9.ctor === '::') && (_p9._0 === 'contributor')) && (_p9._1.ctor === '::')) && (_p9._1._1.ctor === '[]')) {
+					var _p10 = _user$project$Settings$runtime.getContributor(
+						_user$project$Domain_Core$Id(_p9._1._0));
+					if (_p10.ctor === 'Just') {
+						return _user$project$Home$getContributor(_p10._0);
 					} else {
 						return _user$project$Domain_Contributor$init;
 					}
@@ -11579,34 +11884,6 @@ var _user$project$Home$contributorPage = function (model) {
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
 			formattedTopics);
-	};
-	var contentUI = function (posts) {
-		return A2(
-			_elm_lang$core$List$map,
-			function (post) {
-				return A2(
-					_elm_lang$html$Html$a,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$href(
-							_user$project$Domain_Core$getUrl(post.url)),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							_user$project$Domain_Core$getTitle(post.title)),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$br,
-								{ctor: '[]'},
-								{ctor: '[]'}),
-							_1: {ctor: '[]'}
-						}
-					});
-			},
-			posts);
 	};
 	return A2(
 		_elm_lang$html$Html$div,
@@ -11701,7 +11978,7 @@ var _user$project$Home$contributorPage = function (model) {
 																_0: A2(
 																	_elm_lang$html$Html$div,
 																	{ctor: '[]'},
-																	contentUI(model.videos)),
+																	_user$project$Home$contentUI(model.videos)),
 																_1: {
 																	ctor: '::',
 																	_0: A2(
@@ -11731,7 +12008,7 @@ var _user$project$Home$contributorPage = function (model) {
 																		_0: A2(
 																			_elm_lang$html$Html$div,
 																			{ctor: '[]'},
-																			contentUI(model.podcasts)),
+																			_user$project$Home$contentUI(model.podcasts)),
 																		_1: {
 																			ctor: '::',
 																			_0: A2(
@@ -11761,7 +12038,7 @@ var _user$project$Home$contributorPage = function (model) {
 																				_0: A2(
 																					_elm_lang$html$Html$div,
 																					{ctor: '[]'},
-																					contentUI(model.articles)),
+																					_user$project$Home$contentUI(model.articles)),
 																				_1: {ctor: '[]'}
 																			}
 																		}
@@ -11842,7 +12119,7 @@ var _user$project$Home$homePage = function (model) {
 			{ctor: '[]'},
 			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, _user$project$Settings$runtime.recentContributors)));
 	var loginUI = function (model) {
-		var _p8 = {
+		var _p11 = {
 			ctor: '_Tuple3',
 			_0: model.login.loggedIn,
 			_1: A2(
@@ -11877,9 +12154,9 @@ var _user$project$Home$homePage = function (model) {
 					_1: {ctor: '[]'}
 				})
 		};
-		var loggedIn = _p8._0;
-		var welcome = _p8._1;
-		var signout = _p8._2;
+		var loggedIn = _p11._0;
+		var welcome = _p11._1;
+		var signout = _p11._2;
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$OnLogin,
@@ -11976,29 +12253,43 @@ var _user$project$Home$homePage = function (model) {
 		});
 };
 var _user$project$Home$view = function (model) {
-	var _p9 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
-	_v6_3:
+	var _p12 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+	_v8_4:
 	do {
-		if (_p9.ctor === '[]') {
+		if (_p12.ctor === '[]') {
 			return _user$project$Home$homePage(model);
 		} else {
-			if (_p9._1.ctor === '[]') {
-				if (_p9._0 === 'home') {
+			if (_p12._1.ctor === '[]') {
+				if (_p12._0 === 'home') {
 					return _user$project$Home$homePage(model);
 				} else {
-					break _v6_3;
+					break _v8_4;
 				}
 			} else {
-				if ((_p9._0 === 'contributor') && (_p9._1._1.ctor === '[]')) {
-					var _p10 = _user$project$Settings$runtime.getContributor(
-						_user$project$Domain_Core$Id(_p9._1._0));
-					if (_p10.ctor === 'Just') {
-						return _user$project$Home$contributorPage(model.contributor);
+				if (_p12._0 === 'contributor') {
+					if (_p12._1._1.ctor === '[]') {
+						var _p13 = _user$project$Settings$runtime.getContributor(
+							_user$project$Domain_Core$Id(_p12._1._0));
+						if (_p13.ctor === 'Just') {
+							return _user$project$Home$contributorPage(model.contributor);
+						} else {
+							return _user$project$Home$notFoundPage;
+						}
 					} else {
-						return _user$project$Home$notFoundPage;
+						if (_p12._1._1._1.ctor === '[]') {
+							var _p14 = _user$project$Settings$runtime.getContributor(
+								_user$project$Domain_Core$Id(_p12._1._0));
+							if (_p14.ctor === 'Just') {
+								return _user$project$Home$contributorTopicPage(model.contributor);
+							} else {
+								return _user$project$Home$notFoundPage;
+							}
+						} else {
+							break _v8_4;
+						}
 					}
 				} else {
-					break _v6_3;
+					break _v8_4;
 				}
 			}
 		}
@@ -12015,7 +12306,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p11) {
+		subscriptions: function (_p15) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();
