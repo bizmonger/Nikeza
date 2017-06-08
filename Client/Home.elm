@@ -120,9 +120,9 @@ update msg model =
                 ( { model
                     | contributor =
                         { contributor
-                            | articles = model.contributor.articles |> toggleTopic topic Article
-                            , videos = model.contributor.videos |> toggleTopic topic Video
-                            , podcasts = model.contributor.podcasts |> toggleTopic topic Podcast
+                            | articles = contributor.articles |> toggleTopic topic Article
+                            , videos = contributor.videos |> toggleTopic topic Video
+                            , podcasts = contributor.podcasts |> toggleTopic topic Podcast
                         }
                   }
                 , Cmd.none
@@ -174,7 +174,7 @@ view model =
 
         [ "contributor", id ] ->
             case runtime.getContributor <| Id id of
-                Just p ->
+                Just _ ->
                     contributorPage model.contributor
 
                 Nothing ->
@@ -258,8 +258,6 @@ contributorPage model =
                             ]
                         , tr [] [ td [] [ text <| getName model.profile.name ] ]
                         , tr [] [ td [] [ p [] [ text model.profile.bio ] ] ]
-
-                        --, tr [] [ td [] [ p [] [ text <| toString model ] ] ]
                         ]
                     ]
                 ]

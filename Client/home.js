@@ -11461,9 +11461,9 @@ var _user$project$Home$update = F2(
 							contributor: _elm_lang$core$Native_Utils.update(
 								contributor,
 								{
-									articles: A3(toggleTopic, _p5, _user$project$Domain_Core$Article, model.contributor.articles),
-									videos: A3(toggleTopic, _p5, _user$project$Domain_Core$Video, model.contributor.videos),
-									podcasts: A3(toggleTopic, _p5, _user$project$Domain_Core$Podcast, model.contributor.podcasts)
+									articles: A3(toggleTopic, _p5, _user$project$Domain_Core$Article, contributor.articles),
+									videos: A3(toggleTopic, _p5, _user$project$Domain_Core$Video, contributor.videos),
+									podcasts: A3(toggleTopic, _p5, _user$project$Domain_Core$Podcast, contributor.podcasts)
 								})
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
