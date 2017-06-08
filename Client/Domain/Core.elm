@@ -159,3 +159,23 @@ contributorTopicUrl id topic =
 contributorUrl : Id -> Url
 contributorUrl id =
     Url <| "/#/contributor/" ++ getId id
+
+
+moreContributorContentUrl : Id -> ContentType -> Url
+moreContributorContentUrl id contentType =
+    let
+        toText contentType =
+            case contentType of
+                Article ->
+                    "articles"
+
+                Video ->
+                    "videos"
+
+                Podcast ->
+                    "podcasts"
+
+                All ->
+                    ""
+    in
+        Url <| "/#/contributor/" ++ getId id ++ "/all" ++ "/" ++ (contentType |> toText)

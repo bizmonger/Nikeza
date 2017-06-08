@@ -10817,6 +10817,36 @@ var _user$project$Domain_Core$contributorUrl = function (id) {
 			'/#/contributor/',
 			_user$project$Domain_Core$getId(id)));
 };
+var _user$project$Domain_Core$moreContributorContentUrl = F2(
+	function (id, contentType) {
+		var toText = function (contentType) {
+			var _p5 = contentType;
+			switch (_p5.ctor) {
+				case 'Article':
+					return 'articles';
+				case 'Video':
+					return 'videos';
+				case 'Podcast':
+					return 'podcasts';
+				default:
+					return '';
+			}
+		};
+		return _user$project$Domain_Core$Url(
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				'/#/contributor/',
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					_user$project$Domain_Core$getId(id),
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						'/all',
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							'/',
+							toText(contentType))))));
+	});
 var _user$project$Domain_Core$Topic = function (a) {
 	return {ctor: 'Topic', _0: a};
 };
@@ -11366,34 +11396,75 @@ var _user$project$Home$notFoundPage = A2(
 		_0: _elm_lang$html$Html$text('Page not found'),
 		_1: {ctor: '[]'}
 	});
-var _user$project$Home$contentUI = function (posts) {
-	return A2(
-		_elm_lang$core$List$map,
-		function (post) {
-			return A2(
-				_elm_lang$html$Html$a,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$href(
-						_user$project$Domain_Core$getUrl(post.url)),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(
-						_user$project$Domain_Core$getTitle(post.title)),
-					_1: {
+var _user$project$Home$contributorContentTypePage = F2(
+	function (contentType, model) {
+		return A2(
+			_elm_lang$html$Html$h2,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(
+					A2(_elm_lang$core$Basics_ops['++'], 'All ', contentType)),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$Home$contentUI = F3(
+	function (profileId, contentType, posts) {
+		var recentLinks = A2(
+			_elm_lang$core$List$map,
+			function (post) {
+				return A2(
+					_elm_lang$html$Html$a,
+					{
 						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
+						_0: _elm_lang$html$Html_Attributes$href(
+							_user$project$Domain_Core$getUrl(post.url)),
 						_1: {ctor: '[]'}
-					}
-				});
-		},
-		posts);
-};
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							_user$project$Domain_Core$getTitle(post.title)),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
+							_1: {ctor: '[]'}
+						}
+					});
+			},
+			A2(_elm_lang$core$List$take, 5, posts));
+		return A2(
+			_elm_lang$core$List$append,
+			recentLinks,
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$a,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$href(
+							_user$project$Domain_Core$getUrl(
+								A2(_user$project$Domain_Core$moreContributorContentUrl, profileId, contentType))),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('more...'),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
+							_1: {ctor: '[]'}
+						}
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
 var _user$project$Home$contributorTopicPage = function (model) {
 	var profileId = model.profile.id;
 	var _p0 = _elm_lang$core$List$head(model.topics);
@@ -11500,7 +11571,10 @@ var _user$project$Home$contributorTopicPage = function (model) {
 																	_0: A2(
 																		_elm_lang$html$Html$div,
 																		{ctor: '[]'},
-																		_user$project$Home$contentUI(
+																		A3(
+																			_user$project$Home$contentUI,
+																			profileId,
+																			_user$project$Domain_Core$Video,
 																			A3(_user$project$Settings$runtime.topicPosts, _p1, _user$project$Domain_Core$Video, profileId))),
 																	_1: {
 																		ctor: '::',
@@ -11531,7 +11605,10 @@ var _user$project$Home$contributorTopicPage = function (model) {
 																			_0: A2(
 																				_elm_lang$html$Html$div,
 																				{ctor: '[]'},
-																				_user$project$Home$contentUI(
+																				A3(
+																					_user$project$Home$contentUI,
+																					profileId,
+																					_user$project$Domain_Core$Podcast,
 																					A3(_user$project$Settings$runtime.topicPosts, _p1, _user$project$Domain_Core$Podcast, profileId))),
 																			_1: {
 																				ctor: '::',
@@ -11562,7 +11639,10 @@ var _user$project$Home$contributorTopicPage = function (model) {
 																					_0: A2(
 																						_elm_lang$html$Html$div,
 																						{ctor: '[]'},
-																						_user$project$Home$contentUI(
+																						A3(
+																							_user$project$Home$contentUI,
+																							profileId,
+																							_user$project$Domain_Core$Article,
 																							A3(_user$project$Settings$runtime.topicPosts, _p1, _user$project$Domain_Core$Article, profileId))),
 																					_1: {ctor: '[]'}
 																				}
@@ -11885,6 +11965,7 @@ var _user$project$Home$contributorPage = function (model) {
 			{ctor: '[]'},
 			formattedTopics);
 	};
+	var profileId = model.profile.id;
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -11978,7 +12059,7 @@ var _user$project$Home$contributorPage = function (model) {
 																_0: A2(
 																	_elm_lang$html$Html$div,
 																	{ctor: '[]'},
-																	_user$project$Home$contentUI(model.videos)),
+																	A3(_user$project$Home$contentUI, profileId, _user$project$Domain_Core$Video, model.videos)),
 																_1: {
 																	ctor: '::',
 																	_0: A2(
@@ -12008,7 +12089,7 @@ var _user$project$Home$contributorPage = function (model) {
 																		_0: A2(
 																			_elm_lang$html$Html$div,
 																			{ctor: '[]'},
-																			_user$project$Home$contentUI(model.podcasts)),
+																			A3(_user$project$Home$contentUI, profileId, _user$project$Domain_Core$Podcast, model.podcasts)),
 																		_1: {
 																			ctor: '::',
 																			_0: A2(
@@ -12038,7 +12119,7 @@ var _user$project$Home$contributorPage = function (model) {
 																				_0: A2(
 																					_elm_lang$html$Html$div,
 																					{ctor: '[]'},
-																					_user$project$Home$contentUI(model.articles)),
+																					A3(_user$project$Home$contentUI, profileId, _user$project$Domain_Core$Article, model.articles)),
 																				_1: {ctor: '[]'}
 																			}
 																		}
@@ -12254,7 +12335,7 @@ var _user$project$Home$homePage = function (model) {
 };
 var _user$project$Home$view = function (model) {
 	var _p12 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
-	_v8_4:
+	_v8_5:
 	do {
 		if (_p12.ctor === '[]') {
 			return _user$project$Home$homePage(model);
@@ -12263,7 +12344,7 @@ var _user$project$Home$view = function (model) {
 				if (_p12._0 === 'home') {
 					return _user$project$Home$homePage(model);
 				} else {
-					break _v8_4;
+					break _v8_5;
 				}
 			} else {
 				if (_p12._0 === 'contributor') {
@@ -12285,11 +12366,21 @@ var _user$project$Home$view = function (model) {
 								return _user$project$Home$notFoundPage;
 							}
 						} else {
-							break _v8_4;
+							if ((_p12._1._1._0 === 'all') && (_p12._1._1._1._1.ctor === '[]')) {
+								var _p15 = _user$project$Settings$runtime.getContributor(
+									_user$project$Domain_Core$Id(_p12._1._0));
+								if (_p15.ctor === 'Just') {
+									return A2(_user$project$Home$contributorContentTypePage, _p12._1._1._1._0, model.contributor);
+								} else {
+									return _user$project$Home$notFoundPage;
+								}
+							} else {
+								break _v8_5;
+							}
 						}
 					}
 				} else {
-					break _v8_4;
+					break _v8_5;
 				}
 			}
 		}
@@ -12306,7 +12397,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p15) {
+		subscriptions: function (_p16) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();

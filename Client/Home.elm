@@ -199,13 +199,27 @@ view model =
                 Nothing ->
                     notFoundPage
 
+        [ "contributor", id, "all", contentType ] ->
+            case runtime.getContributor <| Id id of
+                Just _ ->
+                    contributorContentTypePage contentType model.contributor
+
+                Nothing ->
+                    notFoundPage
+
         _ ->
             notFoundPage
 
 
-contentUI : List Post -> List (Html Msg)
-contentUI posts =
-    posts |> List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ])
+contentUI : Id -> ContentType -> List Post -> List (Html Msg)
+contentUI profileId contentType posts =
+    let
+        recentLinks =
+            posts
+                |> List.take 5
+                |> List.map (\post -> a [ href <| getUrl post.url ] [ text <| getTitle post.title, br [] [] ])
+    in
+        List.append recentLinks [ a [ href <| getUrl <| moreContributorContentUrl profileId contentType ] [ text <| "more...", br [] [] ] ]
 
 
 homePage : Model -> Html Msg
@@ -245,6 +259,9 @@ homePage model =
 contributorPage : Contributor.Model -> Html Msg
 contributorPage model =
     let
+        profileId =
+            model.profile.id
+
         topicTocheckbox : Topic -> Html Msg
         topicTocheckbox topic =
             div []
@@ -269,11 +286,11 @@ contributorPage model =
                             , td [] [ topicsUI model.profile.topics ]
                             , table []
                                 [ tr [] [ td [] [ b [] [ text "Videos" ] ] ]
-                                , div [] <| contentUI model.videos
+                                , div [] <| contentUI profileId Video model.videos
                                 , tr [] [ td [] [ b [] [ text "Podcasts" ] ] ]
-                                , div [] <| contentUI model.podcasts
+                                , div [] <| contentUI profileId Podcast model.podcasts
                                 , tr [] [ td [] [ b [] [ text "Articles" ] ] ]
-                                , div [] <| contentUI model.articles
+                                , div [] <| contentUI profileId Article model.articles
                                 ]
                             ]
                         , tr [] [ td [] [ text <| getName model.profile.name ] ]
@@ -282,6 +299,11 @@ contributorPage model =
                     ]
                 ]
             ]
+
+
+contributorContentTypePage : String -> Contributor.Model -> Html Msg
+contributorContentTypePage contentType model =
+    h2 [] [ text <| "All " ++ contentType ]
 
 
 contributorTopicPage : Contributor.Model -> Html Msg
@@ -301,11 +323,11 @@ contributorTopicPage model =
                                     , table []
                                         [ tr [] [ h2 [] [ text <| getTopic topic ] ]
                                         , tr [] [ td [] [ b [] [ text "Videos" ] ] ]
-                                        , div [] <| contentUI (runtime.topicPosts topic Video profileId)
+                                        , div [] <| contentUI profileId Video (runtime.topicPosts topic Video profileId)
                                         , tr [] [ td [] [ b [] [ text "Podcasts" ] ] ]
-                                        , div [] <| contentUI (runtime.topicPosts topic Podcast profileId)
+                                        , div [] <| contentUI profileId Podcast (runtime.topicPosts topic Podcast profileId)
                                         , tr [] [ td [] [ b [] [ text "Articles" ] ] ]
-                                        , div [] <| contentUI (runtime.topicPosts topic Article profileId)
+                                        , div [] <| contentUI profileId Article (runtime.topicPosts topic Article profileId)
                                         ]
                                     ]
                                 , tr [] [ td [] [ text <| getName model.profile.name ] ]
