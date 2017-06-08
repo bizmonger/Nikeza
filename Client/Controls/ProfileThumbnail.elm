@@ -47,6 +47,4 @@ thumbnail profile =
                     , td [] [ topicsAndBio ]
                     ]
                 ]
-
-            --, label [] [ text (profile.name |> getName) ]
             ]
