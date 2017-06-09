@@ -7,7 +7,7 @@ import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
 import Settings exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onClick, onCheck)
+import Html.Events exposing (onClick, onCheck, onInput)
 import Navigation exposing (..)
 
 
@@ -268,6 +268,7 @@ homePage model =
                 [ label [] [ text "Nikeza" ]
                 , model |> loginUI
                 ]
+            , input [ type_ "text", autocomplete True, placeholder "contributor name", onInput Search ] []
             , div [] [ contributorsUI ]
             , footer [ class "copyright" ]
                 [ label [] [ text "(c)2017" ]
