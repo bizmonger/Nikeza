@@ -319,8 +319,8 @@ contributorPage model =
 contributorContentTypePage : String -> Contributor.Model -> Html Msg
 contributorContentTypePage contentTypeText model =
     let
-        ( profileId, topics ) =
-            ( model.profile.id, model.profile.topics )
+        topics =
+            model.profile.topics
 
         posts =
             case contentTypeText |> toContentType of
