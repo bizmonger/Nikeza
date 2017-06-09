@@ -4,8 +4,8 @@ Platform for associating content to their providers.
 
 # Compiling
 1. Bring up the termininal within your IDE.
-2. cd client
-3. elm-live Home.elm --open --output=home.js
+2. Enter the following: "cd client"
+3. Enter the following: "elm-live Home.elm --open --output=home.js"
 4. Observe a web server gets spun up.
 
 # [Client Nikeza](https://github.com/Lambda-Cartel/Nikeza/tree/master/Client)
