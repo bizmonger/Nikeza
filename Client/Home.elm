@@ -112,8 +112,11 @@ update msg model =
                 ( { model | contributors = runtime.contributors }, Cmd.none )
             else
                 let
+                    onName profile =
+                        toLower (getName profile.name) |> contains (toLower v)
+
                     filteredContributors =
-                        runtime.contributors |> List.filter (\c -> toLower (getName c.name) |> contains (toLower v))
+                        runtime.contributors |> List.filter onName
                 in
                     ( { model | contributors = filteredContributors }, Cmd.none )
 

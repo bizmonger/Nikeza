@@ -12102,16 +12102,14 @@ var _user$project$Home$update = F2(
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
-					var filteredContributors = A2(
-						_elm_lang$core$List$filter,
-						function (c) {
-							return A2(
-								_elm_lang$core$String$contains,
-								_elm_lang$core$String$toLower(_p8),
-								_elm_lang$core$String$toLower(
-									_user$project$Domain_Core$getName(c.name)));
-						},
-						_user$project$Settings$runtime.contributors);
+					var onName = function (profile) {
+						return A2(
+							_elm_lang$core$String$contains,
+							_elm_lang$core$String$toLower(_p8),
+							_elm_lang$core$String$toLower(
+								_user$project$Domain_Core$getName(profile.name)));
+					};
+					var filteredContributors = A2(_elm_lang$core$List$filter, onName, _user$project$Settings$runtime.contributors);
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
