@@ -12757,7 +12757,7 @@ var _user$project$Home$homePage = function (model) {
 							_0: _elm_lang$html$Html_Attributes$autocomplete(true),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$placeholder('contributor name'),
+								_0: _elm_lang$html$Html_Attributes$placeholder('name'),
 								_1: {
 									ctor: '::',
 									_0: _elm_lang$html$Html_Events$onInput(_user$project$Home$Search),

@@ -279,7 +279,7 @@ homePage model =
                 [ label [] [ text "Nikeza" ]
                 , model |> loginUI
                 ]
-            , input [ type_ "text", autocomplete True, placeholder "contributor name", onInput Search ] []
+            , input [ type_ "text", autocomplete True, placeholder "name", onInput Search ] []
             , div [] [ contributorsUI ]
             , footer [ class "copyright" ]
                 [ label [] [ text "(c)2017" ]
