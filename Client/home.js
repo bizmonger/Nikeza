@@ -12217,15 +12217,10 @@ var _user$project$Home$topicTocheckbox = function (topic) {
 			}
 		});
 };
-var _user$project$Home$topicsUI = function (topics) {
-	var formattedTopics = A2(_elm_lang$core$List$map, _user$project$Home$topicTocheckbox, topics);
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		formattedTopics);
-};
 var _user$project$Home$contributorPage = function (model) {
-	var profileId = model.profile.id;
+	var _p11 = {ctor: '_Tuple2', _0: model.profile.id, _1: model.profile.topics};
+	var profileId = _p11._0;
+	var topics = _p11._1;
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -12282,7 +12277,10 @@ var _user$project$Home$contributorPage = function (model) {
 													{ctor: '[]'},
 													{
 														ctor: '::',
-														_0: _user$project$Home$topicsUI(model.profile.topics),
+														_0: A2(
+															_elm_lang$html$Html$div,
+															{ctor: '[]'},
+															A2(_elm_lang$core$List$map, _user$project$Home$topicTocheckbox, topics)),
 														_1: {ctor: '[]'}
 													}),
 												_1: {
@@ -12506,7 +12504,9 @@ var _user$project$Home$contributorPage = function (model) {
 };
 var _user$project$Home$contributorContentTypePage = F2(
 	function (contentType, model) {
-		var profileId = model.profile.id;
+		var _p12 = {ctor: '_Tuple2', _0: model.profile.id, _1: model.profile.topics};
+		var profileId = _p12._0;
+		var topics = _p12._1;
 		var links = A2(_user$project$Settings$runtime.links, _user$project$Domain_Core$Video, profileId);
 		return A2(
 			_elm_lang$html$Html$div,
@@ -12565,7 +12565,10 @@ var _user$project$Home$contributorContentTypePage = F2(
 											{ctor: '[]'},
 											{
 												ctor: '::',
-												_0: _user$project$Home$topicsUI(model.profile.topics),
+												_0: A2(
+													_elm_lang$html$Html$div,
+													{ctor: '[]'},
+													A2(_elm_lang$core$List$map, _user$project$Home$topicTocheckbox, topics)),
 												_1: {ctor: '[]'}
 											}),
 										_1: {
@@ -12631,7 +12634,7 @@ var _user$project$Home$homePage = function (model) {
 			{ctor: '[]'},
 			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, _user$project$Settings$runtime.recentContributors)));
 	var loginUI = function (model) {
-		var _p11 = {
+		var _p13 = {
 			ctor: '_Tuple3',
 			_0: model.login.loggedIn,
 			_1: A2(
@@ -12666,9 +12669,9 @@ var _user$project$Home$homePage = function (model) {
 					_1: {ctor: '[]'}
 				})
 		};
-		var loggedIn = _p11._0;
-		var welcome = _p11._1;
-		var signout = _p11._2;
+		var loggedIn = _p13._0;
+		var welcome = _p13._1;
+		var signout = _p13._2;
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$OnLogin,
@@ -12765,44 +12768,44 @@ var _user$project$Home$homePage = function (model) {
 		});
 };
 var _user$project$Home$view = function (model) {
-	var _p12 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+	var _p14 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
 	_v8_6:
 	do {
-		if (_p12.ctor === '[]') {
+		if (_p14.ctor === '[]') {
 			return _user$project$Home$homePage(model);
 		} else {
-			if (_p12._1.ctor === '[]') {
-				if (_p12._0 === 'home') {
+			if (_p14._1.ctor === '[]') {
+				if (_p14._0 === 'home') {
 					return _user$project$Home$homePage(model);
 				} else {
 					break _v8_6;
 				}
 			} else {
-				if (_p12._0 === 'contributor') {
-					if (_p12._1._1.ctor === '[]') {
-						var _p13 = _user$project$Settings$runtime.contributor(
-							_user$project$Domain_Core$Id(_p12._1._0));
-						if (_p13.ctor === 'Just') {
+				if (_p14._0 === 'contributor') {
+					if (_p14._1._1.ctor === '[]') {
+						var _p15 = _user$project$Settings$runtime.contributor(
+							_user$project$Domain_Core$Id(_p14._1._0));
+						if (_p15.ctor === 'Just') {
 							return _user$project$Home$contributorPage(model.contributor);
 						} else {
 							return _user$project$Home$notFoundPage;
 						}
 					} else {
-						if (_p12._1._1._1.ctor === '[]') {
-							var _p14 = _user$project$Settings$runtime.contributor(
-								_user$project$Domain_Core$Id(_p12._1._0));
-							if (_p14.ctor === 'Just') {
+						if (_p14._1._1._1.ctor === '[]') {
+							var _p16 = _user$project$Settings$runtime.contributor(
+								_user$project$Domain_Core$Id(_p14._1._0));
+							if (_p16.ctor === 'Just') {
 								return _user$project$Home$contributorTopicPage(model.contributor);
 							} else {
 								return _user$project$Home$notFoundPage;
 							}
 						} else {
-							if (_p12._1._1._1._1.ctor === '[]') {
-								if (_p12._1._1._0 === 'all') {
-									var _p15 = _user$project$Settings$runtime.contributor(
-										_user$project$Domain_Core$Id(_p12._1._0));
-									if (_p15.ctor === 'Just') {
-										return A2(_user$project$Home$contributorContentTypePage, _p12._1._1._1._0, model.contributor);
+							if (_p14._1._1._1._1.ctor === '[]') {
+								if (_p14._1._1._0 === 'all') {
+									var _p17 = _user$project$Settings$runtime.contributor(
+										_user$project$Domain_Core$Id(_p14._1._0));
+									if (_p17.ctor === 'Just') {
+										return A2(_user$project$Home$contributorContentTypePage, _p14._1._1._1._0, model.contributor);
 									} else {
 										return _user$project$Home$notFoundPage;
 									}
@@ -12810,14 +12813,14 @@ var _user$project$Home$view = function (model) {
 									break _v8_6;
 								}
 							} else {
-								if ((_p12._1._1._1._0 === 'all') && (_p12._1._1._1._1._1.ctor === '[]')) {
-									var _p16 = _user$project$Settings$runtime.contributor(
-										_user$project$Domain_Core$Id(_p12._1._0));
-									if (_p16.ctor === 'Just') {
+								if ((_p14._1._1._1._0 === 'all') && (_p14._1._1._1._1._1.ctor === '[]')) {
+									var _p18 = _user$project$Settings$runtime.contributor(
+										_user$project$Domain_Core$Id(_p14._1._0));
+									if (_p18.ctor === 'Just') {
 										return A3(
 											_user$project$Home$contributorTopicContentTypePage,
-											_user$project$Domain_Core$Topic(_p12._1._1._0),
-											_user$project$Domain_Core$toContentType(_p12._1._1._1._1._0),
+											_user$project$Domain_Core$Topic(_p14._1._1._0),
+											_user$project$Domain_Core$toContentType(_p14._1._1._1._1._0),
 											model.contributor);
 									} else {
 										return _user$project$Home$notFoundPage;
@@ -12846,7 +12849,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p17) {
+		subscriptions: function (_p19) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();

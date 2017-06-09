@@ -225,15 +225,6 @@ topicTocheckbox topic =
         ]
 
 
-topicsUI : List Topic -> Html Msg
-topicsUI topics =
-    let
-        formattedTopics =
-            topics |> List.map topicTocheckbox
-    in
-        div [] formattedTopics
-
-
 linkSet : List Link -> List (Html Msg)
 linkSet links =
     links
@@ -288,8 +279,8 @@ homePage model =
 contributorPage : Contributor.Model -> Html Msg
 contributorPage model =
     let
-        profileId =
-            model.profile.id
+        ( profileId, topics ) =
+            ( model.profile.id, model.profile.topics )
     in
         div []
             [ table []
@@ -297,7 +288,7 @@ contributorPage model =
                     [ table []
                         [ tr []
                             [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
-                            , td [] [ topicsUI model.profile.topics ]
+                            , td [] [ div [] (topics |> List.map topicTocheckbox) ]
                             , table []
                                 [ tr []
                                     [ td [] [ b [] [ text "Answers" ] ]
@@ -328,8 +319,8 @@ contributorPage model =
 contributorContentTypePage : String -> Contributor.Model -> Html Msg
 contributorContentTypePage contentType model =
     let
-        profileId =
-            model.profile.id
+        ( profileId, topics ) =
+            ( model.profile.id, model.profile.topics )
 
         links =
             runtime.links Video profileId
@@ -339,7 +330,7 @@ contributorContentTypePage contentType model =
             , table []
                 [ tr []
                     [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
-                    , td [] [ topicsUI model.profile.topics ]
+                    , td [] [ div [] (topics |> List.map topicTocheckbox) ]
                     , td [] [ div [] <| List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ]) links ]
                     ]
                 ]
