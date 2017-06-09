@@ -18,7 +18,7 @@ type Configuration
 type alias Dependencies =
     { tryLogin : Loginfunction
     , latestLinks : LatestLinksfunction
-    , recentContributors : Contributorsfunction
+    , contributors : Contributorsfunction
     , contributor : Contributorfunction
     , links : ContentTypefunction
     , topicLinks : TopicLinksfunction
@@ -32,7 +32,7 @@ runtime =
             Dependencies
                 Services.tryLogin
                 Services.latestLinks
-                Services.recentContributors
+                Services.contributors
                 Services.contributor
                 Services.links
                 Services.topicLinks
@@ -41,7 +41,7 @@ runtime =
             Dependencies
                 TestAPI.tryLogin
                 TestAPI.latestLinks
-                TestAPI.recentContributors
+                TestAPI.contributors
                 TestAPI.contributor
                 TestAPI.links
                 TestAPI.topicLinks

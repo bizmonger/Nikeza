@@ -22,8 +22,8 @@ latestLinks id contentType =
     []
 
 
-recentContributors : List Profile
-recentContributors =
+contributors : List Profile
+contributors =
     []
 
 

@@ -9,6 +9,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
 import Navigation exposing (..)
+import String exposing (..)
 
 
 -- elm-live Home.elm --open --output=home.js
@@ -31,7 +32,7 @@ main =
 
 type alias Model =
     { currentRoute : Navigation.Location
-    , contributors : List Contributor
+    , contributors : List Profile
     , login : Login.Model
     , contributor : Contributor.Model
     }
@@ -40,7 +41,7 @@ type alias Model =
 init : Navigation.Location -> ( Model, Cmd Msg )
 init location =
     ( { currentRoute = location
-      , contributors = []
+      , contributors = runtime.contributors
       , login = Login.model
       , contributor =
             case tokenizeUrl location.hash of
@@ -107,7 +108,14 @@ update msg model =
             onLogin model subMsg
 
         Search v ->
-            ( model, Cmd.none )
+            if v == "" then
+                ( { model | contributors = runtime.contributors }, Cmd.none )
+            else
+                let
+                    filteredContributors =
+                        runtime.contributors |> List.filter (\c -> toLower (getName c.name) |> contains (toLower v))
+                in
+                    ( { model | contributors = filteredContributors }, Cmd.none )
 
         Register ->
             ( model, Cmd.none )
@@ -261,7 +269,7 @@ homePage model =
 
         contributorsUI : Html Msg
         contributorsUI =
-            Html.map ProfileThumbnail (div [] (runtime.recentContributors |> List.map thumbnail))
+            Html.map ProfileThumbnail (div [] (model.contributors |> List.map thumbnail))
     in
         div []
             [ header []

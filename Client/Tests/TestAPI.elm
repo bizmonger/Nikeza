@@ -137,8 +137,8 @@ tryLogin credentials =
             { username = credentials.username, password = credentials.password, loggedIn = False }
 
 
-recentContributors : List Profile
-recentContributors =
+contributors : List Profile
+contributors =
     [ profile1
     , profile2
     , profile3
