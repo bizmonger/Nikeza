@@ -127,7 +127,8 @@ update msg model =
                     { model
                         | contributor =
                             { contributor
-                                | articles = contributor.articles |> toggleTopic Article
+                                | answers = contributor.answers |> toggleTopic Answer
+                                , articles = contributor.articles |> toggleTopic Article
                                 , videos = contributor.videos |> toggleTopic Video
                                 , podcasts = contributor.podcasts |> toggleTopic Podcast
                             }
@@ -143,6 +144,7 @@ getContributor : Profile -> Contributor.Model
 getContributor p =
     { profile = p
     , topics = p.topics
+    , answers = p.id |> runtime.links Answer
     , articles = p.id |> runtime.links Article
     , videos = p.id |> runtime.links Video
     , podcasts = p.id |> runtime.links Podcast
@@ -297,14 +299,22 @@ contributorPage model =
                             [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
                             , td [] [ topicsUI model.profile.topics ]
                             , table []
-                                [ tr [] [ td [] [ b [] [ text "Videos" ] ] ]
-                                , div [] <| contentUI profileId Video model.videos
-                                , tr [] [ td [] [ b [] [ text "Podcasts" ] ] ]
-                                , div [] <| contentUI profileId Podcast model.podcasts
-                                , tr [] [ td [] [ b [] [ text "Articles" ] ] ]
-                                , div [] <| contentUI profileId Article model.articles
-                                , tr [] [ td [] [ b [] [ text "Answers" ] ] ]
-                                , div [] <| contentUI profileId Answer model.articles
+                                [ tr []
+                                    [ td [] [ b [] [ text "Answers" ] ]
+                                    , td [] [ b [] [ text "Articles" ] ]
+                                    ]
+                                , tr []
+                                    [ td [] [ div [] <| contentUI profileId Answer model.answers ]
+                                    , td [] [ div [] <| contentUI profileId Article model.articles ]
+                                    ]
+                                , tr []
+                                    [ td [] [ b [] [ text "Podcasts" ] ]
+                                    , td [] [ b [] [ text "Videos" ] ]
+                                    ]
+                                , tr []
+                                    [ td [] [ div [] <| contentUI profileId Podcast model.podcasts ]
+                                    , td [] [ div [] <| contentUI profileId Video model.videos ]
+                                    ]
                                 ]
                             ]
                         , tr [] [ td [] [ text <| getName model.profile.name ] ]

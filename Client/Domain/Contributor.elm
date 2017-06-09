@@ -14,12 +14,13 @@ init =
             , topics = []
             }
     in
-        Model profile [] [] [] []
+        Model profile [] [] [] [] []
 
 
 type alias Model =
     { profile : Profile
     , topics : List Topic
+    , answers : List Link
     , articles : List Link
     , videos : List Link
     , podcasts : List Link

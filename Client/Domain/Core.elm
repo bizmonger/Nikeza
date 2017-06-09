@@ -172,13 +172,16 @@ contributorUrl id =
 toContentType : String -> ContentType
 toContentType contentType =
     case contentType of
-        "articles" ->
+        "Articles" ->
             Article
 
-        "videos" ->
+        "Videos" ->
             Video
 
-        "podcasts" ->
+        "Podcasts" ->
+            Podcast
+
+        "Answers" ->
             Podcast
 
         _ ->
@@ -189,16 +192,16 @@ contentTypeToText : ContentType -> String
 contentTypeToText contentType =
     case contentType of
         Article ->
-            "articles"
+            "Articles"
 
         Video ->
-            "videos"
+            "Videos"
 
         Podcast ->
-            "podcasts"
+            "Podcasts"
 
         Answer ->
-            "answers"
+            "Answers"
 
         All ->
             ""
