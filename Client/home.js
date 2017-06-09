@@ -11633,7 +11633,7 @@ var _user$project$Home$contentUI = F3(
 					},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text('more...'),
+						_0: _elm_lang$html$Html$text('all'),
 						_1: {
 							ctor: '::',
 							_0: A2(

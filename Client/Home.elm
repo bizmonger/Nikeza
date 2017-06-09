@@ -113,7 +113,10 @@ update msg model =
             else
                 let
                     onName profile =
-                        toLower (getName profile.name) |> contains (toLower v)
+                        profile.name
+                            |> getName
+                            |> toLower
+                            |> contains (v |> toLower)
 
                     filtered =
                         runtime.contributors |> List.filter onName
@@ -245,7 +248,7 @@ linkSet links =
 
 contentUI : Id -> ContentType -> List Link -> List (Html Msg)
 contentUI profileId contentType links =
-    List.append (linkSet links) [ a [ href <| getUrl <| moreContributorContentUrl profileId contentType ] [ text <| "more...", br [] [] ] ]
+    List.append (linkSet links) [ a [ href <| getUrl <| moreContributorContentUrl profileId contentType ] [ text <| "all", br [] [] ] ]
 
 
 contentWithTopicUI : Id -> ContentType -> Topic -> List Link -> List (Html Msg)
