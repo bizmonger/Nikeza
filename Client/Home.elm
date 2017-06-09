@@ -217,8 +217,8 @@ view model =
             notFoundPage
 
 
-topicTocheckbox : Topic -> Html Msg
-topicTocheckbox topic =
+toCheckbox : Topic -> Html Msg
+toCheckbox topic =
     div []
         [ input [ type_ "checkbox", checked True, onCheck (\b -> Toggle ( topic, b )) ] [ text <| getTopic topic ]
         , label [] [ text <| getTopic topic ]
@@ -288,7 +288,7 @@ contributorPage model =
                     [ table []
                         [ tr []
                             [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
-                            , td [] [ div [] (topics |> List.map topicTocheckbox) ]
+                            , td [] [ div [] (topics |> List.map toCheckbox) ]
                             , table []
                                 [ tr []
                                     [ td [] [ b [] [ text "Answers" ] ]
@@ -317,21 +317,35 @@ contributorPage model =
 
 
 contributorContentTypePage : String -> Contributor.Model -> Html Msg
-contributorContentTypePage contentType model =
+contributorContentTypePage contentTypeText model =
     let
         ( profileId, topics ) =
             ( model.profile.id, model.profile.topics )
 
-        links =
-            runtime.links Video profileId
+        posts =
+            case contentTypeText |> toContentType of
+                Answer ->
+                    model.answers
+
+                Article ->
+                    model.articles
+
+                Podcast ->
+                    model.podcasts
+
+                Video ->
+                    model.videos
+
+                All ->
+                    []
     in
         div []
-            [ h2 [] [ text <| "All " ++ contentType ]
+            [ h2 [] [ text <| "All " ++ contentTypeText ]
             , table []
                 [ tr []
                     [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
-                    , td [] [ div [] (topics |> List.map topicTocheckbox) ]
-                    , td [] [ div [] <| List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ]) links ]
+                    , td [] [ div [] (topics |> List.map toCheckbox) ]
+                    , td [] [ div [] <| List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ]) posts ]
                     ]
                 ]
             ]
