@@ -246,8 +246,8 @@ contentUI profileId contentType links =
     List.append (linkSet links) [ a [ href <| getUrl <| moreContributorContentUrl profileId contentType ] [ text <| "more...", br [] [] ] ]
 
 
-contentUI2 : Id -> ContentType -> Topic -> List Link -> List (Html Msg)
-contentUI2 profileId contentType topic links =
+contentWithTopicUI : Id -> ContentType -> Topic -> List Link -> List (Html Msg)
+contentWithTopicUI profileId contentType topic links =
     List.append (linkSet links) [ a [ href <| getUrl <| moreContributorContentOnTopicUrl profileId contentType topic ] [ text <| "more...", br [] [] ] ]
 
 
@@ -384,13 +384,13 @@ contributorTopicPage model =
                                     , table []
                                         [ tr [] [ h2 [] [ text <| getTopic topic ] ]
                                         , tr [] [ td [] [ b [] [ text "Videos" ] ] ]
-                                        , div [] <| contentUI2 profileId Video topic (runtime.topicLinks topic Video profileId)
+                                        , div [] <| contentWithTopicUI profileId Video topic (runtime.topicLinks topic Video profileId)
                                         , tr [] [ td [] [ b [] [ text "Podcasts" ] ] ]
-                                        , div [] <| contentUI2 profileId Podcast topic (runtime.topicLinks topic Podcast profileId)
+                                        , div [] <| contentWithTopicUI profileId Podcast topic (runtime.topicLinks topic Podcast profileId)
                                         , tr [] [ td [] [ b [] [ text "Articles" ] ] ]
-                                        , div [] <| contentUI2 profileId Article topic (runtime.topicLinks topic Article profileId)
+                                        , div [] <| contentWithTopicUI profileId Article topic (runtime.topicLinks topic Article profileId)
                                         , tr [] [ td [] [ b [] [ text "Answers" ] ] ]
-                                        , div [] <| contentUI2 profileId Answer topic (runtime.topicLinks topic Answer profileId)
+                                        , div [] <| contentWithTopicUI profileId Answer topic (runtime.topicLinks topic Answer profileId)
                                         ]
                                     ]
                                 , tr [] [ td [] [ text <| getName model.profile.name ] ]

@@ -11654,7 +11654,7 @@ var _user$project$Home$contentUI = F3(
 				_1: {ctor: '[]'}
 			});
 	});
-var _user$project$Home$contentUI2 = F4(
+var _user$project$Home$contentWithTopicUI = F4(
 	function (profileId, contentType, topic, links) {
 		return A2(
 			_elm_lang$core$List$append,
@@ -11792,7 +11792,7 @@ var _user$project$Home$contributorTopicPage = function (model) {
 																		_elm_lang$html$Html$div,
 																		{ctor: '[]'},
 																		A4(
-																			_user$project$Home$contentUI2,
+																			_user$project$Home$contentWithTopicUI,
 																			profileId,
 																			_user$project$Domain_Core$Video,
 																			_p1,
@@ -11827,7 +11827,7 @@ var _user$project$Home$contributorTopicPage = function (model) {
 																				_elm_lang$html$Html$div,
 																				{ctor: '[]'},
 																				A4(
-																					_user$project$Home$contentUI2,
+																					_user$project$Home$contentWithTopicUI,
 																					profileId,
 																					_user$project$Domain_Core$Podcast,
 																					_p1,
@@ -11862,7 +11862,7 @@ var _user$project$Home$contributorTopicPage = function (model) {
 																						_elm_lang$html$Html$div,
 																						{ctor: '[]'},
 																						A4(
-																							_user$project$Home$contentUI2,
+																							_user$project$Home$contentWithTopicUI,
 																							profileId,
 																							_user$project$Domain_Core$Article,
 																							_p1,
@@ -11897,7 +11897,7 @@ var _user$project$Home$contributorTopicPage = function (model) {
 																								_elm_lang$html$Html$div,
 																								{ctor: '[]'},
 																								A4(
-																									_user$project$Home$contentUI2,
+																									_user$project$Home$contentWithTopicUI,
 																									profileId,
 																									_user$project$Domain_Core$Answer,
 																									_p1,
