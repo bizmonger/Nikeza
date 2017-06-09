@@ -115,10 +115,10 @@ update msg model =
                     onName profile =
                         toLower (getName profile.name) |> contains (toLower v)
 
-                    filteredContributors =
+                    filtered =
                         runtime.contributors |> List.filter onName
                 in
-                    ( { model | contributors = filteredContributors }, Cmd.none )
+                    ( { model | contributors = filtered }, Cmd.none )
 
         Register ->
             ( model, Cmd.none )
@@ -279,7 +279,7 @@ homePage model =
                 [ label [] [ text "Nikeza" ]
                 , model |> loginUI
                 ]
-            , input [ type_ "text", autocomplete True, placeholder "name", onInput Search ] []
+            , input [ type_ "text", placeholder "name", onInput Search ] []
             , div [] [ contributorsUI ]
             , footer [ class "copyright" ]
                 [ label [] [ text "(c)2017" ]

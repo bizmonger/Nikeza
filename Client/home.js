@@ -12109,12 +12109,12 @@ var _user$project$Home$update = F2(
 							_elm_lang$core$String$toLower(
 								_user$project$Domain_Core$getName(profile.name)));
 					};
-					var filteredContributors = A2(_elm_lang$core$List$filter, onName, _user$project$Settings$runtime.contributors);
+					var filtered = A2(_elm_lang$core$List$filter, onName, _user$project$Settings$runtime.contributors);
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{contributors: filteredContributors}),
+							{contributors: filtered}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				}
@@ -12754,15 +12754,11 @@ var _user$project$Home$homePage = function (model) {
 						_0: _elm_lang$html$Html_Attributes$type_('text'),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$autocomplete(true),
+							_0: _elm_lang$html$Html_Attributes$placeholder('name'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$placeholder('name'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onInput(_user$project$Home$Search),
-									_1: {ctor: '[]'}
-								}
+								_0: _elm_lang$html$Html_Events$onInput(_user$project$Home$Search),
+								_1: {ctor: '[]'}
 							}
 						}
 					},
