@@ -10759,14 +10759,6 @@ var _user$project$Domain_Core$getTopic = function (topic) {
 	var value = _p1._0;
 	return value;
 };
-var _user$project$Domain_Core$getTopics = function (topics) {
-	return A2(
-		_elm_lang$core$List$map,
-		function (t) {
-			return _user$project$Domain_Core$getTopic(t);
-		},
-		topics);
-};
 var _user$project$Domain_Core$getUrl = function (url) {
 	var _p2 = url;
 	var value = _p2._0;

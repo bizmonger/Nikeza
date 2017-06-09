@@ -80,11 +80,6 @@ getTopic topic =
         value
 
 
-getTopics : List Topic -> List String
-getTopics topics =
-    topics |> List.map (\t -> getTopic t)
-
-
 type alias Link =
     { contributor : Profile
     , title : Title
