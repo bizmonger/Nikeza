@@ -303,6 +303,8 @@ contributorPage model =
                                 , div [] <| contentUI profileId Podcast model.podcasts
                                 , tr [] [ td [] [ b [] [ text "Articles" ] ] ]
                                 , div [] <| contentUI profileId Article model.articles
+                                , tr [] [ td [] [ b [] [ text "Answers" ] ] ]
+                                , div [] <| contentUI profileId Answer model.articles
                                 ]
                             ]
                         , tr [] [ td [] [ text <| getName model.profile.name ] ]
@@ -377,6 +379,8 @@ contributorTopicPage model =
                                         , div [] <| contentUI2 profileId Podcast topic (runtime.topicLinks topic Podcast profileId)
                                         , tr [] [ td [] [ b [] [ text "Articles" ] ] ]
                                         , div [] <| contentUI2 profileId Article topic (runtime.topicLinks topic Article profileId)
+                                        , tr [] [ td [] [ b [] [ text "Answers" ] ] ]
+                                        , div [] <| contentUI2 profileId Answer topic (runtime.topicLinks topic Answer profileId)
                                         ]
                                     ]
                                 , tr [] [ td [] [ text <| getName model.profile.name ] ]

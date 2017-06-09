@@ -10730,6 +10730,8 @@ var _user$project$Domain_Core$contentTypeToText = function (contentType) {
 			return 'videos';
 		case 'Podcast':
 			return 'podcasts';
+		case 'Answer':
+			return 'answers';
 		default:
 			return '';
 	}
@@ -10868,6 +10870,7 @@ var _user$project$Domain_Core$Topic = function (a) {
 	return {ctor: 'Topic', _0: a};
 };
 var _user$project$Domain_Core$All = {ctor: 'All'};
+var _user$project$Domain_Core$Answer = {ctor: 'Answer'};
 var _user$project$Domain_Core$Podcast = {ctor: 'Podcast'};
 var _user$project$Domain_Core$Video = {ctor: 'Video'};
 var _user$project$Domain_Core$Article = {ctor: 'Article'};
@@ -10898,6 +10901,9 @@ var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
 var _user$project$Tests_TestAPI$someDescrtiption = 'some description...';
+var _user$project$Tests_TestAPI$someQuestionTitle3 = _user$project$Domain_Core$Title('Some Question Title 3');
+var _user$project$Tests_TestAPI$someQuestionTitle2 = _user$project$Domain_Core$Title('Some Question Title 2');
+var _user$project$Tests_TestAPI$someQuestionTitle1 = _user$project$Domain_Core$Title('Some Question Title 1');
 var _user$project$Tests_TestAPI$somePodcastTitle3 = _user$project$Domain_Core$Title('Some Podcast Title 3');
 var _user$project$Tests_TestAPI$somePodcastTitle2 = _user$project$Domain_Core$Title('Some Podcast Title 2');
 var _user$project$Tests_TestAPI$somePodcastTitle1 = _user$project$Domain_Core$Title('Some Podcast Title 1');
@@ -11102,6 +11108,47 @@ var _user$project$Tests_TestAPI$links = F2(
 								_user$project$Domain_Core$Link,
 								_user$project$Tests_TestAPI$profile3,
 								_user$project$Tests_TestAPI$somePodcastTitle3,
+								_user$project$Tests_TestAPI$someUrl,
+								{
+									ctor: '::',
+									_0: _user$project$Tests_TestAPI$someTopic3,
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				};
+			case 'Answer':
+				return {
+					ctor: '::',
+					_0: A4(
+						_user$project$Domain_Core$Link,
+						_user$project$Tests_TestAPI$profile1,
+						_user$project$Tests_TestAPI$someQuestionTitle1,
+						_user$project$Tests_TestAPI$someUrl,
+						{
+							ctor: '::',
+							_0: _user$project$Tests_TestAPI$someTopic1,
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A4(
+							_user$project$Domain_Core$Link,
+							_user$project$Tests_TestAPI$profile2,
+							_user$project$Tests_TestAPI$someQuestionTitle2,
+							_user$project$Tests_TestAPI$someUrl,
+							{
+								ctor: '::',
+								_0: _user$project$Tests_TestAPI$someTopic2,
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A4(
+								_user$project$Domain_Core$Link,
+								_user$project$Tests_TestAPI$profile3,
+								_user$project$Tests_TestAPI$someQuestionTitle3,
 								_user$project$Tests_TestAPI$someUrl,
 								{
 									ctor: '::',
@@ -11817,7 +11864,44 @@ var _user$project$Home$contributorTopicPage = function (model) {
 																							_user$project$Domain_Core$Article,
 																							_p1,
 																							A3(_user$project$Settings$runtime.topicLinks, _p1, _user$project$Domain_Core$Article, profileId))),
-																					_1: {ctor: '[]'}
+																					_1: {
+																						ctor: '::',
+																						_0: A2(
+																							_elm_lang$html$Html$tr,
+																							{ctor: '[]'},
+																							{
+																								ctor: '::',
+																								_0: A2(
+																									_elm_lang$html$Html$td,
+																									{ctor: '[]'},
+																									{
+																										ctor: '::',
+																										_0: A2(
+																											_elm_lang$html$Html$b,
+																											{ctor: '[]'},
+																											{
+																												ctor: '::',
+																												_0: _elm_lang$html$Html$text('Answers'),
+																												_1: {ctor: '[]'}
+																											}),
+																										_1: {ctor: '[]'}
+																									}),
+																								_1: {ctor: '[]'}
+																							}),
+																						_1: {
+																							ctor: '::',
+																							_0: A2(
+																								_elm_lang$html$Html$div,
+																								{ctor: '[]'},
+																								A4(
+																									_user$project$Home$contentUI2,
+																									profileId,
+																									_user$project$Domain_Core$Answer,
+																									_p1,
+																									A3(_user$project$Settings$runtime.topicLinks, _p1, _user$project$Domain_Core$Answer, profileId))),
+																							_1: {ctor: '[]'}
+																						}
+																					}
 																				}
 																			}
 																		}
@@ -12291,7 +12375,39 @@ var _user$project$Home$contributorPage = function (model) {
 																					_elm_lang$html$Html$div,
 																					{ctor: '[]'},
 																					A3(_user$project$Home$contentUI, profileId, _user$project$Domain_Core$Article, model.articles)),
-																				_1: {ctor: '[]'}
+																				_1: {
+																					ctor: '::',
+																					_0: A2(
+																						_elm_lang$html$Html$tr,
+																						{ctor: '[]'},
+																						{
+																							ctor: '::',
+																							_0: A2(
+																								_elm_lang$html$Html$td,
+																								{ctor: '[]'},
+																								{
+																									ctor: '::',
+																									_0: A2(
+																										_elm_lang$html$Html$b,
+																										{ctor: '[]'},
+																										{
+																											ctor: '::',
+																											_0: _elm_lang$html$Html$text('Answers'),
+																											_1: {ctor: '[]'}
+																										}),
+																									_1: {ctor: '[]'}
+																								}),
+																							_1: {ctor: '[]'}
+																						}),
+																					_1: {
+																						ctor: '::',
+																						_0: A2(
+																							_elm_lang$html$Html$div,
+																							{ctor: '[]'},
+																							A3(_user$project$Home$contentUI, profileId, _user$project$Domain_Core$Answer, model.articles)),
+																						_1: {ctor: '[]'}
+																					}
+																				}
 																			}
 																		}
 																	}

@@ -121,6 +121,7 @@ type ContentType
     = Article
     | Video
     | Podcast
+    | Answer
     | All
 
 
@@ -195,6 +196,9 @@ contentTypeToText contentType =
 
         Podcast ->
             "podcasts"
+
+        Answer ->
+            "answers"
 
         All ->
             ""

@@ -90,6 +90,21 @@ somePodcastTitle3 =
     Title "Some Podcast Title 3"
 
 
+someQuestionTitle1 : Title
+someQuestionTitle1 =
+    Title "Some Question Title 1"
+
+
+someQuestionTitle2 : Title
+someQuestionTitle2 =
+    Title "Some Question Title 2"
+
+
+someQuestionTitle3 : Title
+someQuestionTitle3 =
+    Title "Some Question Title 3"
+
+
 someDescrtiption : String
 someDescrtiption =
     "some description..."
@@ -149,6 +164,12 @@ links contentType profileId =
             [ Link profile1 somePodcastTitle1 someUrl [ someTopic1 ]
             , Link profile2 somePodcastTitle2 someUrl [ someTopic2 ]
             , Link profile3 somePodcastTitle3 someUrl [ someTopic3 ]
+            ]
+
+        Answer ->
+            [ Link profile1 someQuestionTitle1 someUrl [ someTopic1 ]
+            , Link profile2 someQuestionTitle2 someUrl [ someTopic2 ]
+            , Link profile3 someQuestionTitle3 someUrl [ someTopic3 ]
             ]
 
         All ->
