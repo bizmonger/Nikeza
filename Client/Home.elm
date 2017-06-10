@@ -40,10 +40,8 @@ type alias Model =
 
 init : Navigation.Location -> ( Model, Cmd Msg )
 init location =
-    ( { currentRoute = location
-      , contributors = runtime.contributors
-      , login = Login.model
-      , contributor =
+    let
+        contributor =
             case tokenizeUrl location.hash of
                 [ "contributor", id ] ->
                     case runtime.contributor <| Id id of
@@ -55,9 +53,14 @@ init location =
 
                 _ ->
                     Contributor.init
-      }
-    , Cmd.none
-    )
+    in
+        ( { currentRoute = location
+          , contributors = runtime.contributors
+          , login = Login.model
+          , contributor = contributor
+          }
+        , Cmd.none
+        )
 
 
 
