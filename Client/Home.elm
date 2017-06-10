@@ -77,32 +77,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         UrlChange location ->
-            case tokenizeUrl location.hash of
-                [ "contributor", id ] ->
-                    case runtime.contributor <| Id id of
-                        Just profile ->
-                            ( { model | contributor = getContributor profile, currentRoute = location }, Cmd.none )
-
-                        Nothing ->
-                            ( { model | currentRoute = location }, Cmd.none )
-
-                [ "contributor", id, topic ] ->
-                    case runtime.contributor <| Id id of
-                        Just profile ->
-                            let
-                                contributor =
-                                    getContributor profile
-
-                                topicContributor =
-                                    { contributor | topics = [ Topic topic ] }
-                            in
-                                ( { model | contributor = topicContributor, currentRoute = location }, Cmd.none )
-
-                        Nothing ->
-                            ( { model | currentRoute = location }, Cmd.none )
-
-                _ ->
-                    ( { model | currentRoute = location }, Cmd.none )
+            location |> navigate msg model
 
         OnLogin subMsg ->
             onLogin model subMsg
@@ -111,58 +86,57 @@ update msg model =
             ( { model | contributors = runtime.contributors }, Cmd.none )
 
         Search v ->
-            let
-                onName profile =
-                    profile.name
-                        |> getName
-                        |> toLower
-                        |> contains (v |> toLower)
-
-                filtered =
-                    runtime.contributors |> List.filter onName
-            in
-                ( { model | contributors = filtered }, Cmd.none )
+            v |> matchContributors model
 
         Register ->
             ( model, Cmd.none )
 
         Toggle ( topic, include ) ->
-            let
-                contributor =
-                    model.contributor
-
-                toggleTopic contentType links =
-                    if include then
-                        List.append (contributor.profile.id |> runtime.topicLinks topic contentType) links
-                    else
-                        links |> List.filter (\a -> not (a.topics |> List.member topic))
-
-                newState =
-                    { model
-                        | contributor =
-                            { contributor
-                                | answers = contributor.answers |> toggleTopic Answer
-                                , articles = contributor.articles |> toggleTopic Article
-                                , videos = contributor.videos |> toggleTopic Video
-                                , podcasts = contributor.podcasts |> toggleTopic Podcast
-                            }
-                    }
-            in
-                ( newState, Cmd.none )
+            ( topic, include ) |> toggleFilter model
 
         ProfileThumbnail subMsg ->
             ( model, Cmd.none )
 
 
-getContributor : Profile -> Contributor.Model
-getContributor p =
-    { profile = p
-    , topics = p.topics
-    , answers = p.id |> runtime.links Answer
-    , articles = p.id |> runtime.links Article
-    , videos = p.id |> runtime.links Video
-    , podcasts = p.id |> runtime.links Podcast
-    }
+toggleFilter : Model -> ( Topic, Bool ) -> ( Model, Cmd Msg )
+toggleFilter model ( topic, include ) =
+    let
+        contributor =
+            model.contributor
+
+        toggleTopic contentType links =
+            if include then
+                List.append (contributor.profile.id |> runtime.topicLinks topic contentType) links
+            else
+                links |> List.filter (\a -> not (a.topics |> List.member topic))
+
+        newState =
+            { model
+                | contributor =
+                    { contributor
+                        | answers = contributor.answers |> toggleTopic Answer
+                        , articles = contributor.articles |> toggleTopic Article
+                        , videos = contributor.videos |> toggleTopic Video
+                        , podcasts = contributor.podcasts |> toggleTopic Podcast
+                    }
+            }
+    in
+        ( newState, Cmd.none )
+
+
+matchContributors : Model -> String -> ( Model, Cmd Msg )
+matchContributors model matchValue =
+    let
+        onName profile =
+            profile.name
+                |> getName
+                |> toLower
+                |> contains (matchValue |> toLower)
+
+        filtered =
+            runtime.contributors |> List.filter onName
+    in
+        ( { model | contributors = filtered }, Cmd.none )
 
 
 onLogin : Model -> Login.Msg -> ( Model, Cmd Msg )
@@ -239,8 +213,8 @@ toCheckbox topic =
         ]
 
 
-linkSet : List Link -> List (Html Msg)
-linkSet links =
+linksUI : List Link -> List (Html Msg)
+linksUI links =
     links
         |> List.take 5
         |> List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ])
@@ -248,12 +222,12 @@ linkSet links =
 
 contentUI : Id -> ContentType -> List Link -> List (Html Msg)
 contentUI profileId contentType links =
-    List.append (linkSet links) [ a [ href <| getUrl <| moreContributorContentUrl profileId contentType ] [ text <| "all", br [] [] ] ]
+    List.append (linksUI links) [ a [ href <| getUrl <| moreContributorContentUrl profileId contentType ] [ text <| "all", br [] [] ] ]
 
 
 contentWithTopicUI : Id -> ContentType -> Topic -> List Link -> List (Html Msg)
 contentWithTopicUI profileId contentType topic links =
-    List.append (linkSet links) [ a [ href <| getUrl <| moreContributorContentOnTopicUrl profileId contentType topic ] [ text <| "more...", br [] [] ] ]
+    List.append (linksUI links) [ a [ href <| getUrl <| moreContributorContentOnTopicUrl profileId contentType topic ] [ text <| "more...", br [] [] ] ]
 
 
 homePage : Model -> Html Msg
@@ -440,3 +414,33 @@ type alias RoutePath =
 tokenizeUrl : String -> RoutePath
 tokenizeUrl urlHash =
     urlHash |> String.split "/" |> List.drop 1
+
+
+navigate : Msg -> Model -> Location -> ( Model, Cmd Msg )
+navigate msg model location =
+    case tokenizeUrl location.hash of
+        [ "contributor", id ] ->
+            case runtime.contributor <| Id id of
+                Just profile ->
+                    ( { model | contributor = getContributor profile, currentRoute = location }, Cmd.none )
+
+                Nothing ->
+                    ( { model | currentRoute = location }, Cmd.none )
+
+        [ "contributor", id, topic ] ->
+            case runtime.contributor <| Id id of
+                Just profile ->
+                    let
+                        contributor =
+                            getContributor profile
+
+                        topicContributor =
+                            { contributor | topics = [ Topic topic ] }
+                    in
+                        ( { model | contributor = topicContributor, currentRoute = location }, Cmd.none )
+
+                Nothing ->
+                    ( { model | currentRoute = location }, Cmd.none )
+
+        _ ->
+            ( { model | currentRoute = location }, Cmd.none )

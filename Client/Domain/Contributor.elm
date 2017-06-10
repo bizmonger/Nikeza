@@ -1,6 +1,7 @@
 module Domain.Contributor exposing (..)
 
 import Domain.Core exposing (..)
+import Settings exposing (..)
 
 
 init : Model
@@ -24,4 +25,15 @@ type alias Model =
     , articles : List Link
     , videos : List Link
     , podcasts : List Link
+    }
+
+
+getContributor : Profile -> Model
+getContributor p =
+    { profile = p
+    , topics = p.topics
+    , answers = p.id |> runtime.links Answer
+    , articles = p.id |> runtime.links Article
+    , videos = p.id |> runtime.links Video
+    , podcasts = p.id |> runtime.links Podcast
     }

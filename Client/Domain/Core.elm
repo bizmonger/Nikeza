@@ -1,6 +1,7 @@
 module Domain.Core exposing (..)
 
 import Controls.Login as Login exposing (Model)
+import String exposing (..)
 
 
 -- Types
