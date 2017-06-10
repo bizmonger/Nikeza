@@ -11640,6 +11640,16 @@ var _user$project$Home$notFoundPage = A2(
 		_0: _elm_lang$html$Html$text('Page not found'),
 		_1: {ctor: '[]'}
 	});
+var _user$project$Home$dashboardPage = function (profileId) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Dashboard'),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$Home$contributorTopicPage = function (model) {
 	var profileId = model.profile.id;
 	var _p3 = _elm_lang$core$List$head(model.topics);
@@ -12054,16 +12064,20 @@ var _user$project$Home$onLogin = F2(
 		var _p5 = subMsg;
 		switch (_p5.ctor) {
 			case 'Attempt':
-				var latest = A2(_user$project$Controls_Login$update, subMsg, model.login);
-				return {
+				var login = A2(_user$project$Controls_Login$update, subMsg, model.login);
+				var latest = _user$project$Settings$runtime.tryLogin(login);
+				var newState = _elm_lang$core$Native_Utils.update(
+					model,
+					{login: latest});
+				return latest.loggedIn ? {
 					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							login: _user$project$Settings$runtime.tryLogin(latest)
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
+					_0: newState,
+					_1: _elm_lang$navigation$Navigation$load(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							'/#/',
+							A2(_elm_lang$core$Basics_ops['++'], login.username, '/dashboard')))
+				} : {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'UserInput':
 				return {
 					ctor: '_Tuple2',
@@ -12167,27 +12181,23 @@ var _user$project$Home$update = F2(
 		}
 	});
 var _user$project$Home$init = function (location) {
+	var contributor = function () {
+		var _p10 = _user$project$Home$tokenizeUrl(location.hash);
+		if ((((_p10.ctor === '::') && (_p10._0 === 'contributor')) && (_p10._1.ctor === '::')) && (_p10._1._1.ctor === '[]')) {
+			var _p11 = _user$project$Settings$runtime.contributor(
+				_user$project$Domain_Core$Id(_p10._1._0));
+			if (_p11.ctor === 'Just') {
+				return _user$project$Domain_Contributor$getContributor(_p11._0);
+			} else {
+				return _user$project$Domain_Contributor$init;
+			}
+		} else {
+			return _user$project$Domain_Contributor$init;
+		}
+	}();
 	return {
 		ctor: '_Tuple2',
-		_0: {
-			currentRoute: location,
-			contributors: _user$project$Settings$runtime.contributors,
-			login: _user$project$Controls_Login$model,
-			contributor: function () {
-				var _p10 = _user$project$Home$tokenizeUrl(location.hash);
-				if ((((_p10.ctor === '::') && (_p10._0 === 'contributor')) && (_p10._1.ctor === '::')) && (_p10._1._1.ctor === '[]')) {
-					var _p11 = _user$project$Settings$runtime.contributor(
-						_user$project$Domain_Core$Id(_p10._1._0));
-					if (_p11.ctor === 'Just') {
-						return _user$project$Domain_Contributor$getContributor(_p11._0);
-					} else {
-						return _user$project$Domain_Contributor$init;
-					}
-				} else {
-					return _user$project$Domain_Contributor$init;
-				}
-			}()
-		},
+		_0: {currentRoute: location, contributors: _user$project$Settings$runtime.contributors, login: _user$project$Controls_Login$model, contributor: contributor},
 		_1: _elm_lang$core$Platform_Cmd$none
 	};
 };
@@ -12831,7 +12841,7 @@ var _user$project$Home$homePage = function (model) {
 };
 var _user$project$Home$view = function (model) {
 	var _p15 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
-	_v10_6:
+	_v10_7:
 	do {
 		if (_p15.ctor === '[]') {
 			return _user$project$Home$homePage(model);
@@ -12840,19 +12850,11 @@ var _user$project$Home$view = function (model) {
 				if (_p15._0 === 'home') {
 					return _user$project$Home$homePage(model);
 				} else {
-					break _v10_6;
+					break _v10_7;
 				}
 			} else {
-				if (_p15._0 === 'contributor') {
-					if (_p15._1._1.ctor === '[]') {
-						var _p16 = _user$project$Settings$runtime.contributor(
-							_user$project$Domain_Core$Id(_p15._1._0));
-						if (_p16.ctor === 'Just') {
-							return _user$project$Home$contributorPage(model.contributor);
-						} else {
-							return _user$project$Home$notFoundPage;
-						}
-					} else {
+				if (_p15._1._1.ctor === '::') {
+					if (_p15._0 === 'contributor') {
 						if (_p15._1._1._1.ctor === '[]') {
 							var _p17 = _user$project$Settings$runtime.contributor(
 								_user$project$Domain_Core$Id(_p15._1._0));
@@ -12872,7 +12874,7 @@ var _user$project$Home$view = function (model) {
 										return _user$project$Home$notFoundPage;
 									}
 								} else {
-									break _v10_6;
+									break _v10_7;
 								}
 							} else {
 								if ((_p15._1._1._1._0 === 'all') && (_p15._1._1._1._1._1.ctor === '[]')) {
@@ -12888,13 +12890,30 @@ var _user$project$Home$view = function (model) {
 										return _user$project$Home$notFoundPage;
 									}
 								} else {
-									break _v10_6;
+									break _v10_7;
 								}
 							}
 						}
+					} else {
+						break _v10_7;
 					}
 				} else {
-					break _v10_6;
+					if (_p15._0 === 'contributor') {
+						var _p16 = _user$project$Settings$runtime.contributor(
+							_user$project$Domain_Core$Id(_p15._1._0));
+						if (_p16.ctor === 'Just') {
+							return _user$project$Home$contributorPage(model.contributor);
+						} else {
+							return _user$project$Home$notFoundPage;
+						}
+					} else {
+						if (_p15._1._0 === 'dashboard') {
+							return _user$project$Home$dashboardPage(
+								_user$project$Domain_Core$Id(_p15._0));
+						} else {
+							break _v10_7;
+						}
+					}
 				}
 			}
 		}

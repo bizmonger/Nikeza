@@ -145,12 +145,21 @@ matchContributors model matchValue =
 onLogin : Model -> Login.Msg -> ( Model, Cmd Msg )
 onLogin model subMsg =
     case subMsg of
-        Login.Attempt v ->
+        Login.Attempt _ ->
             let
-                latest =
+                login =
                     Login.update subMsg model.login
+
+                latest =
+                    runtime.tryLogin login
+
+                newState =
+                    { model | login = latest }
             in
-                ( { model | login = runtime.tryLogin latest }, Cmd.none )
+                if latest.loggedIn then
+                    ( newState, Navigation.load <| "/#/" ++ login.username ++ "/dashboard" )
+                else
+                    ( newState, Cmd.none )
 
         Login.UserInput _ ->
             ( { model | login = Login.update subMsg model.login }, Cmd.none )
@@ -203,6 +212,9 @@ view model =
 
                 Nothing ->
                     notFoundPage
+
+        [ username, "dashboard" ] ->
+            dashboardPage <| Id username
 
         _ ->
             notFoundPage
@@ -374,6 +386,11 @@ contributorTopicPage model =
 
             Nothing ->
                 notFoundPage
+
+
+dashboardPage : Id -> Html Msg
+dashboardPage profileId =
+    div [] [ text "Dashboard" ]
 
 
 notFoundPage : Html Msg
