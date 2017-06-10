@@ -11542,137 +11542,6 @@ var _user$project$Home$navigate = F3(
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
-var _user$project$Home$notFoundPage = A2(
-	_elm_lang$html$Html$div,
-	{ctor: '[]'},
-	{
-		ctor: '::',
-		_0: _elm_lang$html$Html$text('Page not found'),
-		_1: {ctor: '[]'}
-	});
-var _user$project$Home$contributorTopicContentTypePage = F3(
-	function (topic, contentType, model) {
-		var profileId = model.profile.id;
-		var links = A3(_user$project$Settings$runtime.topicLinks, topic, _user$project$Domain_Core$Video, profileId);
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$h2,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								'All ',
-								_user$project$Domain_Core$contentTypeToText(contentType))),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$table,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$tr,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$td,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$img,
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$src(
-														_user$project$Domain_Core$getUrl(model.profile.imageUrl)),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$width(100),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$height(100),
-															_1: {ctor: '[]'}
-														}
-													}
-												},
-												{ctor: '[]'}),
-											_1: {ctor: '[]'}
-										}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$td,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$h2,
-													{ctor: '[]'},
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html$text(
-															_user$project$Domain_Core$getTopic(topic)),
-														_1: {ctor: '[]'}
-													}),
-												_1: {ctor: '[]'}
-											}),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$td,
-												{ctor: '[]'},
-												{
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$div,
-														{ctor: '[]'},
-														A2(
-															_elm_lang$core$List$map,
-															function (link) {
-																return A2(
-																	_elm_lang$html$Html$a,
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Attributes$href(
-																			_user$project$Domain_Core$getUrl(link.url)),
-																		_1: {ctor: '[]'}
-																	},
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html$text(
-																			_user$project$Domain_Core$getTitle(link.title)),
-																		_1: {
-																			ctor: '::',
-																			_0: A2(
-																				_elm_lang$html$Html$br,
-																				{ctor: '[]'},
-																				{ctor: '[]'}),
-																			_1: {ctor: '[]'}
-																		}
-																	});
-															},
-															links)),
-													_1: {ctor: '[]'}
-												}),
-											_1: {ctor: '[]'}
-										}
-									}
-								}),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}
-			});
-	});
 var _user$project$Home$linksUI = function (links) {
 	return A2(
 		_elm_lang$core$List$map,
@@ -11762,6 +11631,14 @@ var _user$project$Home$contentWithTopicUI = F4(
 					}),
 				_1: {ctor: '[]'}
 			});
+	});
+var _user$project$Home$notFoundPage = A2(
+	_elm_lang$html$Html$div,
+	{ctor: '[]'},
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html$text('Page not found'),
+		_1: {ctor: '[]'}
 	});
 var _user$project$Home$contributorTopicPage = function (model) {
 	var profileId = model.profile.id;
@@ -12049,6 +11926,129 @@ var _user$project$Home$contributorTopicPage = function (model) {
 		return _user$project$Home$notFoundPage;
 	}
 };
+var _user$project$Home$contributorTopicContentTypePage = F3(
+	function (topic, contentType, model) {
+		var profileId = model.profile.id;
+		var links = A3(_user$project$Settings$runtime.topicLinks, topic, _user$project$Domain_Core$Video, profileId);
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$h2,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								'All ',
+								_user$project$Domain_Core$contentTypeToText(contentType))),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$table,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$tr,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$td,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$img,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$src(
+														_user$project$Domain_Core$getUrl(model.profile.imageUrl)),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$width(100),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$height(100),
+															_1: {ctor: '[]'}
+														}
+													}
+												},
+												{ctor: '[]'}),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$td,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$h2,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text(
+															_user$project$Domain_Core$getTopic(topic)),
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$td,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$div,
+														{ctor: '[]'},
+														A2(
+															_elm_lang$core$List$map,
+															function (link) {
+																return A2(
+																	_elm_lang$html$Html$a,
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$href(
+																			_user$project$Domain_Core$getUrl(link.url)),
+																		_1: {ctor: '[]'}
+																	},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text(
+																			_user$project$Domain_Core$getTitle(link.title)),
+																		_1: {
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$br,
+																				{ctor: '[]'},
+																				{ctor: '[]'}),
+																			_1: {ctor: '[]'}
+																		}
+																	});
+															},
+															links)),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}
+									}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			});
+	});
 var _user$project$Home$onLogin = F2(
 	function (model, subMsg) {
 		var _p5 = subMsg;

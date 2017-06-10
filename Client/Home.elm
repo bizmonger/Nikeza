@@ -205,31 +205,6 @@ view model =
             notFoundPage
 
 
-toCheckbox : Topic -> Html Msg
-toCheckbox topic =
-    div []
-        [ input [ type_ "checkbox", checked True, onCheck (\b -> Toggle ( topic, b )) ] [ text <| getTopic topic ]
-        , label [] [ text <| getTopic topic ]
-        ]
-
-
-linksUI : List Link -> List (Html Msg)
-linksUI links =
-    links
-        |> List.take 5
-        |> List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ])
-
-
-contentUI : Id -> ContentType -> List Link -> List (Html Msg)
-contentUI profileId contentType links =
-    List.append (linksUI links) [ a [ href <| getUrl <| moreContributorContentUrl profileId contentType ] [ text <| "all", br [] [] ] ]
-
-
-contentWithTopicUI : Id -> ContentType -> Topic -> List Link -> List (Html Msg)
-contentWithTopicUI profileId contentType topic links =
-    List.append (linksUI links) [ a [ href <| getUrl <| moreContributorContentOnTopicUrl profileId contentType topic ] [ text <| "more...", br [] [] ] ]
-
-
 homePage : Model -> Html Msg
 homePage model =
     let
@@ -401,6 +376,31 @@ contributorTopicPage model =
 notFoundPage : Html Msg
 notFoundPage =
     div [] [ text "Page not found" ]
+
+
+toCheckbox : Topic -> Html Msg
+toCheckbox topic =
+    div []
+        [ input [ type_ "checkbox", checked True, onCheck (\b -> Toggle ( topic, b )) ] [ text <| getTopic topic ]
+        , label [] [ text <| getTopic topic ]
+        ]
+
+
+linksUI : List Link -> List (Html Msg)
+linksUI links =
+    links
+        |> List.take 5
+        |> List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ])
+
+
+contentUI : Id -> ContentType -> List Link -> List (Html Msg)
+contentUI profileId contentType links =
+    List.append (linksUI links) [ a [ href <| getUrl <| moreContributorContentUrl profileId contentType ] [ text <| "all", br [] [] ] ]
+
+
+contentWithTopicUI : Id -> ContentType -> Topic -> List Link -> List (Html Msg)
+contentWithTopicUI profileId contentType topic links =
+    List.append (linksUI links) [ a [ href <| getUrl <| moreContributorContentOnTopicUrl profileId contentType topic ] [ text <| "more...", br [] [] ] ]
 
 
 
