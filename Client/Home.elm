@@ -85,8 +85,8 @@ update msg model =
         Search "" ->
             ( { model | contributors = runtime.contributors }, Cmd.none )
 
-        Search v ->
-            v |> matchContributors model
+        Search text ->
+            text |> matchContributors model
 
         Register ->
             ( model, Cmd.none )
