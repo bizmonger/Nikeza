@@ -107,21 +107,21 @@ update msg model =
         OnLogin subMsg ->
             onLogin model subMsg
 
-        Search v ->
-            if v == "" then
-                ( { model | contributors = runtime.contributors }, Cmd.none )
-            else
-                let
-                    onName profile =
-                        profile.name
-                            |> getName
-                            |> toLower
-                            |> contains (v |> toLower)
+        Search "" ->
+            ( { model | contributors = runtime.contributors }, Cmd.none )
 
-                    filtered =
-                        runtime.contributors |> List.filter onName
-                in
-                    ( { model | contributors = filtered }, Cmd.none )
+        Search v ->
+            let
+                onName profile =
+                    profile.name
+                        |> getName
+                        |> toLower
+                        |> contains (v |> toLower)
+
+                filtered =
+                    runtime.contributors |> List.filter onName
+            in
+                ( { model | contributors = filtered }, Cmd.none )
 
         Register ->
             ( model, Cmd.none )
