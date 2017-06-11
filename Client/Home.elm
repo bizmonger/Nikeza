@@ -424,6 +424,12 @@ dashboardPage model =
             [ h2 [] [ text <| "Welcome " ++ getName model.contributor.profile.name ]
             , fieldset []
                 [ legend [] [ text "Connections" ]
+                , select []
+                    [ option [ value "WordPress" ] [ text "WordPress" ]
+                    , option [ value "YouTube" ] [ text "YouTube" ]
+                    , option [ value "StackOverflow" ] [ text "StackOverflow" ]
+                    ]
+                , button [] [ text "Add" ]
                 , connections
                 ]
             ]
