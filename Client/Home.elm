@@ -429,8 +429,15 @@ dashboardPage model =
                     , option [ value "YouTube" ] [ text "YouTube" ]
                     , option [ value "StackOverflow" ] [ text "StackOverflow" ]
                     ]
+                , input [ type_ "text", placeholder "username" ] []
                 , button [] [ text "Add" ]
                 , connections
+                ]
+            , fieldset []
+                [ legend [] [ text "Podcasts" ]
+                , input [ type_ "text", placeholder "title" ] []
+                , input [ type_ "text", placeholder "link" ] []
+                , button [] [ text "Add" ]
                 ]
             ]
 
