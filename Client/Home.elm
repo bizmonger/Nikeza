@@ -395,12 +395,34 @@ contributorTopicPage model =
 
 dashboardPage : Model -> Html Msg
 dashboardPage model =
-    if model.login.loggedIn then
-        div []
-            [ h2 [] [ text <| "Welcome " ++ getName model.contributor.profile.name ]
+    div []
+        [ h2 [] [ text <| "Welcome " ++ getName model.contributor.profile.name ]
+        , h3 [] [ text "Subsriptions" ]
+        , table []
+            [ tr []
+                [ th [] [ text "Platform" ]
+                , th [] [ text "Id" ]
+                ]
+            , tr []
+                [ td [] [ text "WordPress" ]
+                , td [] [ i [] [ text "Bizmonger" ] ]
+                ]
+            , tr []
+                [ td [] [ text "YouTube" ]
+                , td [] [ i [] [ text "Bizmonger" ] ]
+                ]
+            , tr []
+                [ td [] [ text "StackOverflow" ]
+                , td [] [ i [] [ text "scott-nimrod" ] ]
+                ]
             ]
-    else
-        label [] [ text "Not logged in" ]
+
+        -- , ul []
+        --     [ li [] [ text "WordPress: Bizmonger" ]
+        --     , li [] [ text "Youtube: Bizmonger" ]
+        --     , li [] [ text "StackOverflow: Scott Nimrod" ]
+        --     ]
+        ]
 
 
 notFoundPage : Html Msg
