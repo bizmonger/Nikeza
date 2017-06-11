@@ -11658,44 +11658,39 @@ var _user$project$Home$notFoundPage = A2(
 		_0: _elm_lang$html$Html$text('Page not found'),
 		_1: {ctor: '[]'}
 	});
-var _user$project$Home$dashboardPage = function (profileId) {
-	var _p3 = _user$project$Settings$runtime.contributor(profileId);
-	if (_p3.ctor === 'Just') {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$h2,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								'Welcome ',
-								_user$project$Domain_Core$getName(_p3._0.name))),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			});
-	} else {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text('IDK'),
-				_1: {ctor: '[]'}
-			});
-	}
+var _user$project$Home$dashboardPage = function (model) {
+	return model.login.loggedIn ? A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h2,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							'Welcome ',
+							_user$project$Domain_Core$getName(model.contributor.profile.name))),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		}) : A2(
+		_elm_lang$html$Html$label,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Not logged in'),
+			_1: {ctor: '[]'}
+		});
 };
 var _user$project$Home$contributorTopicPage = function (model) {
 	var profileId = model.profile.id;
-	var _p4 = _elm_lang$core$List$head(model.topics);
-	if (_p4.ctor === 'Just') {
-		var _p5 = _p4._0;
+	var _p3 = _elm_lang$core$List$head(model.topics);
+	if (_p3.ctor === 'Just') {
+		var _p4 = _p3._0;
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
@@ -11763,7 +11758,7 @@ var _user$project$Home$contributorTopicPage = function (model) {
 																		{
 																			ctor: '::',
 																			_0: _elm_lang$html$Html$text(
-																				_user$project$Domain_Core$getTopic(_p5)),
+																				_user$project$Domain_Core$getTopic(_p4)),
 																			_1: {ctor: '[]'}
 																		}),
 																	_1: {ctor: '[]'}
@@ -11801,8 +11796,8 @@ var _user$project$Home$contributorTopicPage = function (model) {
 																			_user$project$Home$contentWithTopicUI,
 																			profileId,
 																			_user$project$Domain_Core$Video,
-																			_p5,
-																			A3(_user$project$Settings$runtime.topicLinks, _p5, _user$project$Domain_Core$Video, profileId))),
+																			_p4,
+																			A3(_user$project$Settings$runtime.topicLinks, _p4, _user$project$Domain_Core$Video, profileId))),
 																	_1: {
 																		ctor: '::',
 																		_0: A2(
@@ -11836,8 +11831,8 @@ var _user$project$Home$contributorTopicPage = function (model) {
 																					_user$project$Home$contentWithTopicUI,
 																					profileId,
 																					_user$project$Domain_Core$Podcast,
-																					_p5,
-																					A3(_user$project$Settings$runtime.topicLinks, _p5, _user$project$Domain_Core$Podcast, profileId))),
+																					_p4,
+																					A3(_user$project$Settings$runtime.topicLinks, _p4, _user$project$Domain_Core$Podcast, profileId))),
 																			_1: {
 																				ctor: '::',
 																				_0: A2(
@@ -11871,8 +11866,8 @@ var _user$project$Home$contributorTopicPage = function (model) {
 																							_user$project$Home$contentWithTopicUI,
 																							profileId,
 																							_user$project$Domain_Core$Article,
-																							_p5,
-																							A3(_user$project$Settings$runtime.topicLinks, _p5, _user$project$Domain_Core$Article, profileId))),
+																							_p4,
+																							A3(_user$project$Settings$runtime.topicLinks, _p4, _user$project$Domain_Core$Article, profileId))),
 																					_1: {
 																						ctor: '::',
 																						_0: A2(
@@ -11906,8 +11901,8 @@ var _user$project$Home$contributorTopicPage = function (model) {
 																									_user$project$Home$contentWithTopicUI,
 																									profileId,
 																									_user$project$Domain_Core$Answer,
-																									_p5,
-																									A3(_user$project$Settings$runtime.topicLinks, _p5, _user$project$Domain_Core$Answer, profileId))),
+																									_p4,
+																									A3(_user$project$Settings$runtime.topicLinks, _p4, _user$project$Domain_Core$Answer, profileId))),
 																							_1: {ctor: '[]'}
 																						}
 																					}
@@ -12102,15 +12097,36 @@ var _user$project$Home$contributorTopicContentTypePage = F3(
 	});
 var _user$project$Home$onLogin = F2(
 	function (model, subMsg) {
-		var _p6 = subMsg;
-		switch (_p6.ctor) {
+		var _p5 = subMsg;
+		switch (_p5.ctor) {
 			case 'Attempt':
 				var login = A2(_user$project$Controls_Login$update, subMsg, model.login);
-				var latest = _user$project$Settings$runtime.tryLogin(login);
-				var newState = _elm_lang$core$Native_Utils.update(
-					model,
-					{login: latest});
-				return latest.loggedIn ? {
+				var _p6 = {
+					ctor: '_Tuple2',
+					_0: model.contributor,
+					_1: _user$project$Settings$runtime.tryLogin(login)
+				};
+				var contributor = _p6._0;
+				var latest = _p6._1;
+				var newState = function () {
+					var _p7 = _user$project$Settings$runtime.contributor(
+						_user$project$Settings$runtime.usernameToId(login.username));
+					if (_p7.ctor === 'Just') {
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								login: latest,
+								contributor: _elm_lang$core$Native_Utils.update(
+									contributor,
+									{profile: _p7._0})
+							});
+					} else {
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{login: latest});
+					}
+				}();
+				return newState.login.loggedIn ? {
 					ctor: '_Tuple2',
 					_0: newState,
 					_1: _elm_lang$navigation$Navigation$load(
@@ -12119,8 +12135,7 @@ var _user$project$Home$onLogin = F2(
 							'/#/',
 							A2(
 								_elm_lang$core$Basics_ops['++'],
-								_user$project$Domain_Core$getId(
-									_user$project$Settings$runtime.usernameToId(login.username)),
+								_user$project$Domain_Core$getId(newState.contributor.profile.id),
 								'/dashboard')))
 				} : {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'UserInput':
@@ -12164,19 +12179,19 @@ var _user$project$Home$matchContributors = F2(
 		};
 	});
 var _user$project$Home$toggleFilter = F2(
-	function (model, _p7) {
-		var _p8 = _p7;
-		var _p9 = _p8._0;
+	function (model, _p8) {
+		var _p9 = _p8;
+		var _p10 = _p9._0;
 		var contributor = model.contributor;
 		var toggleTopic = F2(
 			function (contentType, links) {
-				return _p8._1 ? A2(
+				return _p9._1 ? A2(
 					_elm_lang$core$List$append,
-					A3(_user$project$Settings$runtime.topicLinks, _p9, contentType, contributor.profile.id),
+					A3(_user$project$Settings$runtime.topicLinks, _p10, contentType, contributor.profile.id),
 					links) : A2(
 					_elm_lang$core$List$filter,
 					function (a) {
-						return !A2(_elm_lang$core$List$member, _p9, a.topics);
+						return !A2(_elm_lang$core$List$member, _p10, a.topics);
 					},
 					links);
 			});
@@ -12196,14 +12211,14 @@ var _user$project$Home$toggleFilter = F2(
 	});
 var _user$project$Home$update = F2(
 	function (msg, model) {
-		var _p10 = msg;
-		switch (_p10.ctor) {
+		var _p11 = msg;
+		switch (_p11.ctor) {
 			case 'UrlChange':
-				return A3(_user$project$Home$navigate, msg, model, _p10._0);
+				return A3(_user$project$Home$navigate, msg, model, _p11._0);
 			case 'OnLogin':
-				return A2(_user$project$Home$onLogin, model, _p10._0);
+				return A2(_user$project$Home$onLogin, model, _p11._0);
 			case 'Search':
-				if (_p10._0 === '') {
+				if (_p11._0 === '') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -12212,7 +12227,7 @@ var _user$project$Home$update = F2(
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
-					return A2(_user$project$Home$matchContributors, model, _p10._0);
+					return A2(_user$project$Home$matchContributors, model, _p11._0);
 				}
 			case 'Register':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -12220,19 +12235,19 @@ var _user$project$Home$update = F2(
 				return A2(
 					_user$project$Home$toggleFilter,
 					model,
-					{ctor: '_Tuple2', _0: _p10._0._0, _1: _p10._0._1});
+					{ctor: '_Tuple2', _0: _p11._0._0, _1: _p11._0._1});
 			default:
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 		}
 	});
 var _user$project$Home$init = function (location) {
 	var contributor = function () {
-		var _p11 = _user$project$Home$tokenizeUrl(location.hash);
-		if ((((_p11.ctor === '::') && (_p11._0 === 'contributor')) && (_p11._1.ctor === '::')) && (_p11._1._1.ctor === '[]')) {
-			var _p12 = _user$project$Settings$runtime.contributor(
-				_user$project$Domain_Core$Id(_p11._1._0));
-			if (_p12.ctor === 'Just') {
-				return _user$project$Domain_Contributor$getContributor(_p12._0);
+		var _p12 = _user$project$Home$tokenizeUrl(location.hash);
+		if ((((_p12.ctor === '::') && (_p12._0 === 'contributor')) && (_p12._1.ctor === '::')) && (_p12._1._1.ctor === '[]')) {
+			var _p13 = _user$project$Settings$runtime.contributor(
+				_user$project$Domain_Core$Id(_p12._1._0));
+			if (_p13.ctor === 'Just') {
+				return _user$project$Domain_Contributor$getContributor(_p13._0);
 			} else {
 				return _user$project$Domain_Contributor$init;
 			}
@@ -12304,9 +12319,9 @@ var _user$project$Home$toCheckbox = function (topic) {
 		});
 };
 var _user$project$Home$contributorPage = function (model) {
-	var _p13 = {ctor: '_Tuple2', _0: model.profile.id, _1: model.profile.topics};
-	var profileId = _p13._0;
-	var topics = _p13._1;
+	var _p14 = {ctor: '_Tuple2', _0: model.profile.id, _1: model.profile.topics};
+	var profileId = _p14._0;
+	var topics = _p14._1;
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -12591,8 +12606,8 @@ var _user$project$Home$contributorPage = function (model) {
 var _user$project$Home$contributorContentTypePage = F2(
 	function (contentTypeText, model) {
 		var posts = function () {
-			var _p14 = _user$project$Domain_Core$toContentType(contentTypeText);
-			switch (_p14.ctor) {
+			var _p15 = _user$project$Domain_Core$toContentType(contentTypeText);
+			switch (_p15.ctor) {
 				case 'Answer':
 					return model.answers;
 				case 'Article':
@@ -12732,7 +12747,7 @@ var _user$project$Home$homePage = function (model) {
 			{ctor: '[]'},
 			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, model.contributors)));
 	var loginUI = function (model) {
-		var _p15 = {
+		var _p16 = {
 			ctor: '_Tuple3',
 			_0: model.login.loggedIn,
 			_1: A2(
@@ -12767,9 +12782,9 @@ var _user$project$Home$homePage = function (model) {
 					_1: {ctor: '[]'}
 				})
 		};
-		var loggedIn = _p15._0;
-		var welcome = _p15._1;
-		var signout = _p15._2;
+		var loggedIn = _p16._0;
+		var welcome = _p16._1;
+		var signout = _p16._2;
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$OnLogin,
@@ -12885,36 +12900,36 @@ var _user$project$Home$homePage = function (model) {
 		});
 };
 var _user$project$Home$view = function (model) {
-	var _p16 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+	var _p17 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
 	_v11_7:
 	do {
-		if (_p16.ctor === '[]') {
+		if (_p17.ctor === '[]') {
 			return _user$project$Home$homePage(model);
 		} else {
-			if (_p16._1.ctor === '[]') {
-				if (_p16._0 === 'home') {
+			if (_p17._1.ctor === '[]') {
+				if (_p17._0 === 'home') {
 					return _user$project$Home$homePage(model);
 				} else {
 					break _v11_7;
 				}
 			} else {
-				if (_p16._1._1.ctor === '::') {
-					if (_p16._0 === 'contributor') {
-						if (_p16._1._1._1.ctor === '[]') {
-							var _p18 = _user$project$Settings$runtime.contributor(
-								_user$project$Domain_Core$Id(_p16._1._0));
-							if (_p18.ctor === 'Just') {
+				if (_p17._1._1.ctor === '::') {
+					if (_p17._0 === 'contributor') {
+						if (_p17._1._1._1.ctor === '[]') {
+							var _p19 = _user$project$Settings$runtime.contributor(
+								_user$project$Domain_Core$Id(_p17._1._0));
+							if (_p19.ctor === 'Just') {
 								return _user$project$Home$contributorTopicPage(model.contributor);
 							} else {
 								return _user$project$Home$notFoundPage;
 							}
 						} else {
-							if (_p16._1._1._1._1.ctor === '[]') {
-								if (_p16._1._1._0 === 'all') {
-									var _p19 = _user$project$Settings$runtime.contributor(
-										_user$project$Domain_Core$Id(_p16._1._0));
-									if (_p19.ctor === 'Just') {
-										return A2(_user$project$Home$contributorContentTypePage, _p16._1._1._1._0, model.contributor);
+							if (_p17._1._1._1._1.ctor === '[]') {
+								if (_p17._1._1._0 === 'all') {
+									var _p20 = _user$project$Settings$runtime.contributor(
+										_user$project$Domain_Core$Id(_p17._1._0));
+									if (_p20.ctor === 'Just') {
+										return A2(_user$project$Home$contributorContentTypePage, _p17._1._1._1._0, model.contributor);
 									} else {
 										return _user$project$Home$notFoundPage;
 									}
@@ -12922,14 +12937,14 @@ var _user$project$Home$view = function (model) {
 									break _v11_7;
 								}
 							} else {
-								if ((_p16._1._1._1._0 === 'all') && (_p16._1._1._1._1._1.ctor === '[]')) {
-									var _p20 = _user$project$Settings$runtime.contributor(
-										_user$project$Domain_Core$Id(_p16._1._0));
-									if (_p20.ctor === 'Just') {
+								if ((_p17._1._1._1._0 === 'all') && (_p17._1._1._1._1._1.ctor === '[]')) {
+									var _p21 = _user$project$Settings$runtime.contributor(
+										_user$project$Domain_Core$Id(_p17._1._0));
+									if (_p21.ctor === 'Just') {
 										return A3(
 											_user$project$Home$contributorTopicContentTypePage,
-											_user$project$Domain_Core$Topic(_p16._1._1._0),
-											_user$project$Domain_Core$toContentType(_p16._1._1._1._1._0),
+											_user$project$Domain_Core$Topic(_p17._1._1._0),
+											_user$project$Domain_Core$toContentType(_p17._1._1._1._1._0),
 											model.contributor);
 									} else {
 										return _user$project$Home$notFoundPage;
@@ -12943,18 +12958,17 @@ var _user$project$Home$view = function (model) {
 						break _v11_7;
 					}
 				} else {
-					if (_p16._0 === 'contributor') {
-						var _p17 = _user$project$Settings$runtime.contributor(
-							_user$project$Domain_Core$Id(_p16._1._0));
-						if (_p17.ctor === 'Just') {
+					if (_p17._0 === 'contributor') {
+						var _p18 = _user$project$Settings$runtime.contributor(
+							_user$project$Domain_Core$Id(_p17._1._0));
+						if (_p18.ctor === 'Just') {
 							return _user$project$Home$contributorPage(model.contributor);
 						} else {
 							return _user$project$Home$notFoundPage;
 						}
 					} else {
-						if (_p16._1._0 === 'dashboard') {
-							return _user$project$Home$dashboardPage(
-								_user$project$Domain_Core$Id(_p16._0));
+						if (_p17._1._0 === 'dashboard') {
+							return _user$project$Home$dashboardPage(model);
 						} else {
 							break _v11_7;
 						}
@@ -12975,7 +12989,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p21) {
+		subscriptions: function (_p22) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();

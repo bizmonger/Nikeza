@@ -150,14 +150,19 @@ onLogin model subMsg =
                 login =
                     Login.update subMsg model.login
 
-                latest =
-                    runtime.tryLogin login
+                ( contributor, latest ) =
+                    ( model.contributor, runtime.tryLogin login )
 
                 newState =
-                    { model | login = latest }
+                    case runtime.contributor <| runtime.usernameToId login.username of
+                        Just p ->
+                            { model | login = latest, contributor = { contributor | profile = p } }
+
+                        Nothing ->
+                            { model | login = latest }
             in
-                if latest.loggedIn then
-                    ( newState, Navigation.load <| "/#/" ++ getId (runtime.usernameToId login.username) ++ "/dashboard" )
+                if newState.login.loggedIn then
+                    ( newState, Navigation.load <| "/#/" ++ getId newState.contributor.profile.id ++ "/dashboard" )
                 else
                     ( newState, Cmd.none )
 
@@ -214,7 +219,7 @@ view model =
                     notFoundPage
 
         [ id, "dashboard" ] ->
-            dashboardPage <| Id id
+            dashboardPage model
 
         _ ->
             notFoundPage
@@ -388,16 +393,14 @@ contributorTopicPage model =
                 notFoundPage
 
 
-dashboardPage : Id -> Html Msg
-dashboardPage profileId =
-    case runtime.contributor profileId of
-        Just profile ->
-            div []
-                [ h2 [] [ text <| "Welcome " ++ (getName profile.name) ]
-                ]
-
-        Nothing ->
-            div [] [ text "IDK" ]
+dashboardPage : Model -> Html Msg
+dashboardPage model =
+    if model.login.loggedIn then
+        div []
+            [ h2 [] [ text <| "Welcome " ++ getName model.contributor.profile.name ]
+            ]
+    else
+        label [] [ text "Not logged in" ]
 
 
 notFoundPage : Html Msg
