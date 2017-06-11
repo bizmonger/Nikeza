@@ -395,34 +395,38 @@ contributorTopicPage model =
 
 dashboardPage : Model -> Html Msg
 dashboardPage model =
-    div []
-        [ h2 [] [ text <| "Welcome " ++ getName model.contributor.profile.name ]
-        , h3 [] [ text "Subsriptions" ]
-        , table []
-            [ tr []
-                [ th [] [ text "Platform" ]
-                , th [] [ text "Id" ]
+    let
+        connections =
+            table []
+                [ tr []
+                    [ th [] [ text "Platform" ]
+                    , th [] [ text "username" ]
+                    , th [] []
+                    ]
+                , tr []
+                    [ td [] [ text "WordPress" ]
+                    , td [] [ i [] [ text "Bizmonger" ] ]
+                    , td [] [ button [] [ text "Edit" ] ]
+                    ]
+                , tr []
+                    [ td [] [ text "YouTube" ]
+                    , td [] [ i [] [ text "Bizmonger" ] ]
+                    , td [] [ button [] [ text "Edit" ] ]
+                    ]
+                , tr []
+                    [ td [] [ text "StackOverflow" ]
+                    , td [] [ i [] [ text "scott-nimrod" ] ]
+                    , td [] [ button [] [ text "Edit" ] ]
+                    ]
                 ]
-            , tr []
-                [ td [] [ text "WordPress" ]
-                , td [] [ i [] [ text "Bizmonger" ] ]
-                ]
-            , tr []
-                [ td [] [ text "YouTube" ]
-                , td [] [ i [] [ text "Bizmonger" ] ]
-                ]
-            , tr []
-                [ td [] [ text "StackOverflow" ]
-                , td [] [ i [] [ text "scott-nimrod" ] ]
+    in
+        div []
+            [ h2 [] [ text <| "Welcome " ++ getName model.contributor.profile.name ]
+            , fieldset []
+                [ legend [] [ text "Connections" ]
+                , connections
                 ]
             ]
-
-        -- , ul []
-        --     [ li [] [ text "WordPress: Bizmonger" ]
-        --     , li [] [ text "Youtube: Bizmonger" ]
-        --     , li [] [ text "StackOverflow: Scott Nimrod" ]
-        --     ]
-        ]
 
 
 notFoundPage : Html Msg
@@ -433,7 +437,7 @@ notFoundPage =
 toCheckbox : Topic -> Html Msg
 toCheckbox topic =
     div []
-        [ input [ type_ "checkbox", checked True, onCheck (\b -> Toggle ( topic, b )) ] [ text <| getTopic topic ]
+        [ input [ type_ "checkbox", checked True, onCheck (\b -> Toggle ( topic, b )) ] []
         , label [] [ text <| getTopic topic ]
         ]
 
