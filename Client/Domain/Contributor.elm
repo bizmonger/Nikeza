@@ -9,7 +9,7 @@ init =
     let
         profile =
             { id = Id undefined
-            , name = Contributor undefined
+            , name = Name undefined
             , imageUrl = Url undefined
             , bio = undefined
             , topics = []

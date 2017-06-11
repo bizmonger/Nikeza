@@ -112,17 +112,17 @@ someDescrtiption =
 
 profile1 : Profile
 profile1 =
-    Profile profileId1 (Contributor "Contributor 1") someImageUrl someDescrtiption [ someTopic1, someTopic2, someTopic3 ]
+    Profile profileId1 (Name "Contributor 1") someImageUrl someDescrtiption [ someTopic1, someTopic2, someTopic3 ]
 
 
 profile2 : Profile
 profile2 =
-    Profile profileId2 (Contributor "Contributor 2") someImageUrl someDescrtiption [ someTopic1, someTopic2, someTopic3 ]
+    Profile profileId2 (Name "Contributor 2") someImageUrl someDescrtiption [ someTopic1, someTopic2, someTopic3 ]
 
 
 profile3 : Profile
 profile3 =
-    Profile profileId3 (Contributor "Contributor 3") someImageUrl someDescrtiption [ someTopic1, someTopic2, someTopic3 ]
+    Profile profileId3 (Name "Contributor 3") someImageUrl someDescrtiption [ someTopic1, someTopic2, someTopic3 ]
 
 
 tryLogin : Login.Model -> Login.Model
@@ -209,3 +209,22 @@ topicLinks topic contentType id =
     id
         |> links contentType
         |> List.filter (\a -> a.topics |> List.member topic)
+
+
+usernameToId : String -> Id
+usernameToId username =
+    case username of
+        "test" ->
+            profileId1
+
+        "profile_1" ->
+            profileId1
+
+        "profile_2" ->
+            profileId2
+
+        "profile_3" ->
+            profileId3
+
+        _ ->
+            Id undefined

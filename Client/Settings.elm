@@ -22,6 +22,7 @@ type alias Dependencies =
     , contributor : Contributorfunction
     , links : ContentTypefunction
     , topicLinks : TopicLinksfunction
+    , usernameToId : UserNameToIdfunction
     }
 
 
@@ -36,6 +37,7 @@ runtime =
                 Services.contributor
                 Services.links
                 Services.topicLinks
+                Services.usernameToId
 
         Isolation ->
             Dependencies
@@ -45,3 +47,4 @@ runtime =
                 TestAPI.contributor
                 TestAPI.links
                 TestAPI.topicLinks
+                TestAPI.usernameToId

@@ -157,7 +157,7 @@ onLogin model subMsg =
                     { model | login = latest }
             in
                 if latest.loggedIn then
-                    ( newState, Navigation.load <| "/#/" ++ login.username ++ "/dashboard" )
+                    ( newState, Navigation.load <| "/#/" ++ getId (runtime.usernameToId login.username) ++ "/dashboard" )
                 else
                     ( newState, Cmd.none )
 
@@ -213,8 +213,8 @@ view model =
                 Nothing ->
                     notFoundPage
 
-        [ username, "dashboard" ] ->
-            dashboardPage <| Id username
+        [ id, "dashboard" ] ->
+            dashboardPage <| Id id
 
         _ ->
             notFoundPage
@@ -390,7 +390,14 @@ contributorTopicPage model =
 
 dashboardPage : Id -> Html Msg
 dashboardPage profileId =
-    div [] [ text "Dashboard" ]
+    case runtime.contributor profileId of
+        Just profile ->
+            div []
+                [ h2 [] [ text <| "Welcome " ++ (getName profile.name) ]
+                ]
+
+        Nothing ->
+            div [] [ text "IDK" ]
 
 
 notFoundPage : Html Msg

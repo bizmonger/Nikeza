@@ -40,3 +40,8 @@ links profileId contentType =
 topicLinks : Topic -> ContentType -> Id -> List Link
 topicLinks topic contentType id =
     []
+
+
+usernameToId : String -> Id
+usernameToId username =
+    Id "undefined"

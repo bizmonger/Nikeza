@@ -1,7 +1,6 @@
 module Domain.Core exposing (..)
 
 import Controls.Login as Login exposing (Model)
-import String exposing (..)
 
 
 -- Types
@@ -9,7 +8,7 @@ import String exposing (..)
 
 type alias Profile =
     { id : Id
-    , name : Contributor
+    , name : Name
     , imageUrl : Url
     , bio : String
     , topics : List Topic
@@ -29,15 +28,15 @@ getId id =
         value
 
 
-type Contributor
-    = Contributor String
+type Name
+    = Name String
 
 
-getName : Contributor -> String
-getName contributor =
+getName : Name -> String
+getName name =
     let
-        (Contributor value) =
-            contributor
+        (Name value) =
+            name
     in
         value
 
@@ -82,7 +81,7 @@ getTopic topic =
 
 
 type alias Link =
-    { contributor : Profile
+    { getName : Profile
     , title : Title
     , url : Url
     , topics : List Topic
@@ -111,6 +110,10 @@ type alias ContentTypefunction =
 
 type alias TopicLinksfunction =
     Topic -> ContentType -> Id -> List Link
+
+
+type alias UserNameToIdfunction =
+    String -> Id
 
 
 type ContentType
