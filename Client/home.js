@@ -11989,7 +11989,7 @@ var _user$project$Home$dashboardPage = function (model) {
 								{ctor: '[]'},
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html$text('Podcasts'),
+									_0: _elm_lang$html$Html$text('Link to Content'),
 									_1: {ctor: '[]'}
 								}),
 							_1: {
@@ -12023,14 +12023,96 @@ var _user$project$Home$dashboardPage = function (model) {
 									_1: {
 										ctor: '::',
 										_0: A2(
-											_elm_lang$html$Html$button,
+											_elm_lang$html$Html$select,
 											{ctor: '[]'},
 											{
 												ctor: '::',
-												_0: _elm_lang$html$Html$text('Add'),
-												_1: {ctor: '[]'}
+												_0: A2(
+													_elm_lang$html$Html$option,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$value('undefined'),
+														_1: {ctor: '[]'}
+													},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text('Select Type'),
+														_1: {ctor: '[]'}
+													}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$option,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$value('Article'),
+															_1: {ctor: '[]'}
+														},
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html$text('Article'),
+															_1: {ctor: '[]'}
+														}),
+													_1: {
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$option,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$value('Video'),
+																_1: {ctor: '[]'}
+															},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text('Video'),
+																_1: {ctor: '[]'}
+															}),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$option,
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$value('Answer'),
+																	_1: {ctor: '[]'}
+																},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text('Answer'),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$option,
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$value('Podcast'),
+																		_1: {ctor: '[]'}
+																	},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text('Podcast'),
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {ctor: '[]'}
+															}
+														}
+													}
+												}
 											}),
-										_1: {ctor: '[]'}
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$button,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text('Add'),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}
 									}
 								}
 							}
