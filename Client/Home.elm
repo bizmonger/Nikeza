@@ -399,11 +399,6 @@ dashboardPage model =
         connections =
             table []
                 [ tr []
-                    [ th [] [ text "Platform" ]
-                    , th [] [ text "username" ]
-                    , th [] []
-                    ]
-                , tr []
                     [ td [] [ text "WordPress" ]
                     , td [] [ i [] [ text "Bizmonger" ] ]
                     , td [] [ button [] [ text "Edit" ] ]
