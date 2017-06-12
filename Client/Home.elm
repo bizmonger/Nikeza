@@ -422,8 +422,8 @@ dashboardPage model =
     in
         div []
             [ h2 [] [ text <| "Welcome " ++ getName model.contributor.profile.name ]
-            , fieldset []
-                [ legend [] [ text "Connections" ]
+            , div []
+                [ h2 [] [ text "Connections" ]
                 , select []
                     [ option [ value "WordPress" ] [ text "WordPress" ]
                     , option [ value "YouTube" ] [ text "YouTube" ]
@@ -433,9 +433,9 @@ dashboardPage model =
                 , button [] [ text "Add" ]
                 , connections
                 ]
-            , fieldset []
-                [ legend [] [ text "Link to Content" ]
-                , input [ type_ "text", placeholder "title" ] []
+            , h2 [] [ text "Add Link" ]
+            , div []
+                [ input [ type_ "text", placeholder "title" ] []
                 , input [ type_ "text", placeholder "link" ] []
                 , select []
                     [ option [ value "undefined" ] [ text "Select Type" ]

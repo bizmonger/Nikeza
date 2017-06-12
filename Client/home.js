@@ -11881,12 +11881,12 @@ var _user$project$Home$dashboardPage = function (model) {
 			_1: {
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$fieldset,
+					_elm_lang$html$Html$div,
 					{ctor: '[]'},
 					{
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$legend,
+							_elm_lang$html$Html$h2,
 							{ctor: '[]'},
 							{
 								ctor: '::',
@@ -11980,19 +11980,19 @@ var _user$project$Home$dashboardPage = function (model) {
 				_1: {
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$fieldset,
+						_elm_lang$html$Html$h2,
 						{ctor: '[]'},
 						{
 							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$legend,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text('Link to Content'),
-									_1: {ctor: '[]'}
-								}),
-							_1: {
+							_0: _elm_lang$html$Html$text('Add Link'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							{
 								ctor: '::',
 								_0: A2(
 									_elm_lang$html$Html$input,
@@ -12115,9 +12115,9 @@ var _user$project$Home$dashboardPage = function (model) {
 										}
 									}
 								}
-							}
-						}),
-					_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
 				}
 			}
 		});
