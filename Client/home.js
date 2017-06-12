@@ -12407,16 +12407,73 @@ var _user$project$Home$toggleFilter = F2(
 			});
 		return {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
 	});
-var _user$project$Home$update = F2(
+var _user$project$Home$onNewConnection = F2(
 	function (msg, model) {
+		var newConnection = model.contributor.newConnection;
+		var contributor = model.contributor;
+		var profile = contributor.profile;
 		var _p12 = msg;
 		switch (_p12.ctor) {
+			case 'InputUsername':
+				var pendingConnection = _elm_lang$core$Native_Utils.update(
+					newConnection,
+					{username: _p12._0});
+				var updatedContributor = _elm_lang$core$Native_Utils.update(
+					contributor,
+					{newConnection: pendingConnection});
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{contributor: updatedContributor}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'InputPlatform':
+				var pendingConnection = _elm_lang$core$Native_Utils.update(
+					newConnection,
+					{platform: _p12._0});
+				var updatedContributor = _elm_lang$core$Native_Utils.update(
+					contributor,
+					{newConnection: pendingConnection});
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{contributor: updatedContributor}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				var _p13 = _p12._0;
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							contributor: _elm_lang$core$Native_Utils.update(
+								contributor,
+								{
+									newConnection: _p13,
+									profile: _elm_lang$core$Native_Utils.update(
+										profile,
+										{
+											connections: {ctor: '::', _0: _p13, _1: profile.connections}
+										})
+								})
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+		}
+	});
+var _user$project$Home$update = F2(
+	function (msg, model) {
+		var _p14 = msg;
+		switch (_p14.ctor) {
 			case 'UrlChange':
-				return A3(_user$project$Home$navigate, msg, model, _p12._0);
+				return A3(_user$project$Home$navigate, msg, model, _p14._0);
 			case 'OnLogin':
-				return A2(_user$project$Home$onLogin, model, _p12._0);
+				return A2(_user$project$Home$onLogin, model, _p14._0);
 			case 'Search':
-				if (_p12._0 === '') {
+				if (_p14._0 === '') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -12425,7 +12482,7 @@ var _user$project$Home$update = F2(
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
-					return A2(_user$project$Home$matchContributors, model, _p12._0);
+					return A2(_user$project$Home$matchContributors, model, _p14._0);
 				}
 			case 'Register':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -12433,64 +12490,11 @@ var _user$project$Home$update = F2(
 				return A2(
 					_user$project$Home$toggleFilter,
 					model,
-					{ctor: '_Tuple2', _0: _p12._0._0, _1: _p12._0._1});
+					{ctor: '_Tuple2', _0: _p14._0._0, _1: _p14._0._1});
 			case 'ProfileThumbnail':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			default:
-				var newConnection = model.contributor.newConnection;
-				var contributor = model.contributor;
-				var profile = contributor.profile;
-				var _p13 = _p12._0;
-				switch (_p13.ctor) {
-					case 'InputUsername':
-						var pendingConnection = _elm_lang$core$Native_Utils.update(
-							newConnection,
-							{username: _p13._0});
-						var updatedContributor = _elm_lang$core$Native_Utils.update(
-							contributor,
-							{newConnection: pendingConnection});
-						return {
-							ctor: '_Tuple2',
-							_0: _elm_lang$core$Native_Utils.update(
-								model,
-								{contributor: updatedContributor}),
-							_1: _elm_lang$core$Platform_Cmd$none
-						};
-					case 'InputPlatform':
-						var pendingConnection = _elm_lang$core$Native_Utils.update(
-							newConnection,
-							{platform: _p13._0});
-						var updatedContributor = _elm_lang$core$Native_Utils.update(
-							contributor,
-							{newConnection: pendingConnection});
-						return {
-							ctor: '_Tuple2',
-							_0: _elm_lang$core$Native_Utils.update(
-								model,
-								{contributor: updatedContributor}),
-							_1: _elm_lang$core$Platform_Cmd$none
-						};
-					default:
-						var _p14 = _p13._0;
-						return {
-							ctor: '_Tuple2',
-							_0: _elm_lang$core$Native_Utils.update(
-								model,
-								{
-									contributor: _elm_lang$core$Native_Utils.update(
-										contributor,
-										{
-											newConnection: _p14,
-											profile: _elm_lang$core$Native_Utils.update(
-												profile,
-												{
-													connections: {ctor: '::', _0: _p14, _1: profile.connections}
-												})
-										})
-								}),
-							_1: _elm_lang$core$Platform_Cmd$none
-						};
-				}
+				return A2(_user$project$Home$onNewConnection, _p14._0, model);
 		}
 	});
 var _user$project$Home$init = function (location) {

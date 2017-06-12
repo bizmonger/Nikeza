@@ -103,47 +103,52 @@ update msg model =
             ( model, Cmd.none )
 
         ConnectionInput subMsg ->
-            let
-                contributor =
-                    model.contributor
+            onNewConnection subMsg model
 
-                profile =
-                    contributor.profile
 
-                newConnection =
-                    model.contributor.newConnection
-            in
-                case subMsg of
-                    AddConnection.InputUsername username ->
-                        let
-                            pendingConnection =
-                                { newConnection | username = username }
+onNewConnection : AddConnection.Msg -> Model -> ( Model, Cmd Msg )
+onNewConnection msg model =
+    let
+        contributor =
+            model.contributor
 
-                            updatedContributor =
-                                { contributor | newConnection = pendingConnection }
-                        in
-                            ( { model | contributor = updatedContributor }, Cmd.none )
+        profile =
+            contributor.profile
 
-                    AddConnection.InputPlatform platform ->
-                        let
-                            pendingConnection =
-                                { newConnection | platform = platform }
+        newConnection =
+            model.contributor.newConnection
+    in
+        case msg of
+            AddConnection.InputUsername username ->
+                let
+                    pendingConnection =
+                        { newConnection | username = username }
 
-                            updatedContributor =
-                                { contributor | newConnection = pendingConnection }
-                        in
-                            ( { model | contributor = updatedContributor }, Cmd.none )
+                    updatedContributor =
+                        { contributor | newConnection = pendingConnection }
+                in
+                    ( { model | contributor = updatedContributor }, Cmd.none )
 
-                    AddConnection.Submit connection ->
-                        ( { model
-                            | contributor =
-                                { contributor
-                                    | newConnection = connection
-                                    , profile = { profile | connections = connection :: profile.connections }
-                                }
-                          }
-                        , Cmd.none
-                        )
+            AddConnection.InputPlatform platform ->
+                let
+                    pendingConnection =
+                        { newConnection | platform = platform }
+
+                    updatedContributor =
+                        { contributor | newConnection = pendingConnection }
+                in
+                    ( { model | contributor = updatedContributor }, Cmd.none )
+
+            AddConnection.Submit connection ->
+                ( { model
+                    | contributor =
+                        { contributor
+                            | newConnection = connection
+                            , profile = { profile | connections = connection :: profile.connections }
+                        }
+                  }
+                , Cmd.none
+                )
 
 
 toggleFilter : Model -> ( Topic, Bool ) -> ( Model, Cmd Msg )
