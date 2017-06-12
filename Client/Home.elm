@@ -417,17 +417,18 @@ dashboardPage model =
 
         connectionsTable =
             table [] [ div [] (contributor.connections |> List.map connectionUI) ]
+
+        platformOption platform =
+            option [ value <| getPlatform platform ] [ text <| getPlatform platform ]
+
+        instruction =
+            (option [ value "instructions" ] [ text "Select Platform" ])
     in
         div []
             [ h2 [] [ text <| "Welcome " ++ getName model.contributor.profile.name ]
             , div []
                 [ h3 [] [ text "Connections" ]
-                , select []
-                    [ option [ value "instructions" ] [ text "Select Platform" ]
-                    , option [ value "WordPress" ] [ text "WordPress" ]
-                    , option [ value "YouTube" ] [ text "YouTube" ]
-                    , option [ value "StackOverflow" ] [ text "StackOverflow" ]
-                    ]
+                , select [] <| instruction :: (runtime.platforms |> List.map platformOption)
                 , input [ type_ "text", placeholder "username" ] []
                 , button [] [ text "Add" ]
                 , connectionsTable

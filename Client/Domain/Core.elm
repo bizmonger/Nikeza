@@ -80,6 +80,19 @@ getTopic topic =
         value
 
 
+type Platform
+    = Platform String
+
+
+getPlatform : Platform -> String
+getPlatform platform =
+    let
+        (Platform value) =
+            platform
+    in
+        value
+
+
 type alias Link =
     { getName : Profile
     , title : Title

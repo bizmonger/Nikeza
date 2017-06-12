@@ -17,11 +17,6 @@ tryLogin credentials =
             { username = credentials.username, password = credentials.password, loggedIn = False }
 
 
-latestLinks : Id -> ContentType -> List Link
-latestLinks id contentType =
-    []
-
-
 contributors : List Profile
 contributors =
     []
@@ -49,4 +44,9 @@ usernameToId username =
 
 connections : Id -> List Connection
 connections profileId =
+    []
+
+
+platforms : List Platform
+platforms =
     []

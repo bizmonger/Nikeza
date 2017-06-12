@@ -187,11 +187,6 @@ topics profileId =
         |> List.concat
 
 
-latestLinks : Id -> ContentType -> List Link
-latestLinks id contentType =
-    []
-
-
 contributor : Id -> Maybe Profile
 contributor id =
     if id == profileId1 then
@@ -236,3 +231,11 @@ usernameToId username =
 
         _ ->
             Id undefined
+
+
+platforms : List Platform
+platforms =
+    [ Platform "WordPress"
+    , Platform "YouTube"
+    , Platform "StackOverflow"
+    ]

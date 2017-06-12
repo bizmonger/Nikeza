@@ -17,13 +17,13 @@ type Configuration
 
 type alias Dependencies =
     { tryLogin : Loginfunction
-    , latestLinks : LatestLinksfunction
     , contributors : Contributorsfunction
     , contributor : Contributorfunction
     , links : ContentTypefunction
     , topicLinks : TopicLinksfunction
     , usernameToId : UserNameToIdfunction
     , connections : Connectionsfunction
+    , platforms : List Platform
     }
 
 
@@ -33,21 +33,21 @@ runtime =
         Integration ->
             Dependencies
                 Services.tryLogin
-                Services.latestLinks
                 Services.contributors
                 Services.contributor
                 Services.links
                 Services.topicLinks
                 Services.usernameToId
                 Services.connections
+                Services.platforms
 
         Isolation ->
             Dependencies
                 TestAPI.tryLogin
-                TestAPI.latestLinks
                 TestAPI.contributors
                 TestAPI.contributor
                 TestAPI.links
                 TestAPI.topicLinks
                 TestAPI.usernameToId
                 TestAPI.connections
+                TestAPI.platforms
