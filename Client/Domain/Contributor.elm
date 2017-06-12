@@ -15,11 +15,12 @@ init =
             , topics = []
             }
     in
-        Model profile [] [] [] [] []
+        Model profile [] [] [] [] [] []
 
 
 type alias Model =
     { profile : Profile
+    , connections : List Connection
     , topics : List Topic
     , answers : List Link
     , articles : List Link
@@ -32,6 +33,7 @@ getContributor : Profile -> Model
 getContributor p =
     { profile = p
     , topics = p.topics
+    , connections = p.id |> runtime.connections
     , answers = p.id |> runtime.links Answer
     , articles = p.id |> runtime.links Article
     , videos = p.id |> runtime.links Video

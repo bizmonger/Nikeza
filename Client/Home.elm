@@ -156,7 +156,14 @@ onLogin model subMsg =
                 newState =
                     case runtime.contributor <| runtime.usernameToId login.username of
                         Just p ->
-                            { model | login = latest, contributor = { contributor | profile = p } }
+                            { model
+                                | login = latest
+                                , contributor =
+                                    { contributor
+                                        | profile = p
+                                        , connections = p.id |> runtime.connections
+                                    }
+                            }
 
                         Nothing ->
                             { model | login = latest }
@@ -393,27 +400,40 @@ contributorTopicPage model =
                 notFoundPage
 
 
+connectionUI : Connection -> Html Msg
+connectionUI connection =
+    tr []
+        [ td [] [ text connection.platform ]
+        , td [] [ i [] [ text connection.username ] ]
+        , td [] [ button [] [ text "Edit" ] ]
+        ]
+
+
 dashboardPage : Model -> Html Msg
 dashboardPage model =
     let
-        connections =
-            table []
-                [ tr []
-                    [ td [] [ text "WordPress" ]
-                    , td [] [ i [] [ text "Bizmonger" ] ]
-                    , td [] [ button [] [ text "Edit" ] ]
-                    ]
-                , tr []
-                    [ td [] [ text "YouTube" ]
-                    , td [] [ i [] [ text "Bizmonger" ] ]
-                    , td [] [ button [] [ text "Edit" ] ]
-                    ]
-                , tr []
-                    [ td [] [ text "StackOverflow" ]
-                    , td [] [ i [] [ text "scott-nimrod" ] ]
-                    , td [] [ button [] [ text "Edit" ] ]
-                    ]
-                ]
+        contributor =
+            model.contributor
+
+        connectionsTable =
+            table [] [ div [] (contributor.connections |> List.map connectionUI) ]
+
+        -- [ tr []
+        --     [ td [] [ text "WordPress" ]
+        --     , td [] [ i [] [ text "Bizmonger" ] ]
+        --     , td [] [ button [] [ text "Edit" ] ]
+        --     ]
+        -- , tr []
+        --     [ td [] [ text "YouTube" ]
+        --     , td [] [ i [] [ text "Bizmonger" ] ]
+        --     , td [] [ button [] [ text "Edit" ] ]
+        --     ]
+        -- , tr []
+        --     [ td [] [ text "StackOverflow" ]
+        --     , td [] [ i [] [ text "scott-nimrod" ] ]
+        --     , td [] [ button [] [ text "Edit" ] ]
+        --     ]
+        -- ]
     in
         div []
             [ h2 [] [ text <| "Welcome " ++ getName model.contributor.profile.name ]
@@ -426,7 +446,7 @@ dashboardPage model =
                     ]
                 , input [ type_ "text", placeholder "username" ] []
                 , button [] [ text "Add" ]
-                , connections
+                , connectionsTable
                 ]
             , h2 [] [ text "Add Link" ]
             , div []

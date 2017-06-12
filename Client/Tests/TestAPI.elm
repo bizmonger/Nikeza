@@ -211,6 +211,14 @@ topicLinks topic contentType id =
         |> List.filter (\a -> a.topics |> List.member topic)
 
 
+connections : Id -> List Connection
+connections profileId =
+    [ { platform = "WordPress", username = "bizmonger" }
+    , { platform = "YouTube", username = "bizmonger" }
+    , { platform = "StackOverflow", username = "scott-nimrod" }
+    ]
+
+
 usernameToId : String -> Id
 usernameToId username =
     case username of

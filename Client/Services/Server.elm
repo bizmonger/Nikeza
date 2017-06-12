@@ -45,3 +45,8 @@ topicLinks topic contentType id =
 usernameToId : String -> Id
 usernameToId username =
     Id "undefined"
+
+
+connections : Id -> List Connection
+connections profileId =
+    []

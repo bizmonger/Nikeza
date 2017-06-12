@@ -88,6 +88,14 @@ type alias Link =
     }
 
 
+type alias Connection =
+    { platform : String, username : String }
+
+
+type alias Connectionsfunction =
+    Id -> List Connection
+
+
 type alias Contributorsfunction =
     List Profile
 
