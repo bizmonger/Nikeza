@@ -12449,13 +12449,13 @@ var _user$project$Home$init = function (location) {
 	}();
 	return {
 		ctor: '_Tuple2',
-		_0: {currentRoute: location, contributors: _user$project$Settings$runtime.contributors, login: _user$project$Controls_Login$model, contributor: contributor},
+		_0: {currentRoute: location, contributors: _user$project$Settings$runtime.contributors, login: _user$project$Controls_Login$model, contributor: contributor, newConnection: _user$project$Controls_AddConnection$init},
 		_1: _elm_lang$core$Platform_Cmd$none
 	};
 };
-var _user$project$Home$Model = F4(
-	function (a, b, c, d) {
-		return {currentRoute: a, contributors: b, login: c, contributor: d};
+var _user$project$Home$Model = F5(
+	function (a, b, c, d, e) {
+		return {currentRoute: a, contributors: b, login: c, newConnection: d, contributor: e};
 	});
 var _user$project$Home$Register = {ctor: 'Register'};
 var _user$project$Home$Search = function (a) {

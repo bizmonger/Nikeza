@@ -35,6 +35,7 @@ type alias Model =
     { currentRoute : Navigation.Location
     , contributors : List Profile
     , login : Login.Model
+    , newConnection : AddConnection.Model
     , contributor : Contributor.Model
     }
 
@@ -59,6 +60,7 @@ init location =
           , contributors = runtime.contributors
           , login = Login.model
           , contributor = contributor
+          , newConnection = AddConnection.init
           }
         , Cmd.none
         )
