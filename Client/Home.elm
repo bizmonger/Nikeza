@@ -33,10 +33,11 @@ main =
 
 type alias Model =
     { currentRoute : Navigation.Location
-    , contributors : List Profile
     , login : Login.Model
-    , newConnection : AddConnection.Model
+    , contributors : List Profile
     , contributor : Contributor.Model
+    , newConnection : AddConnection.Model
+    , connections : List Connection
     }
 
 
@@ -61,6 +62,7 @@ init location =
           , login = Login.model
           , contributor = contributor
           , newConnection = AddConnection.init
+          , connections = contributor.profile.id |> runtime.connections
           }
         , Cmd.none
         )
@@ -105,7 +107,19 @@ update msg model =
             ( model, Cmd.none )
 
         ConnectionInput subMsg ->
-            ( model, Cmd.none )
+            let
+                newConnection =
+                    model.newConnection
+            in
+                case subMsg of
+                    AddConnection.InputUsername username ->
+                        ( { model | newConnection = { newConnection | username = username } }, Cmd.none )
+
+                    AddConnection.InputPlatform platform ->
+                        ( { model | newConnection = { newConnection | platform = platform } }, Cmd.none )
+
+                    AddConnection.Submit connection ->
+                        ( { model | newConnection = connection }, Cmd.none )
 
 
 toggleFilter : Model -> ( Topic, Bool ) -> ( Model, Cmd Msg )

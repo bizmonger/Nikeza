@@ -22,7 +22,7 @@ init =
 type Msg
     = InputUsername String
     | InputPlatform String
-    | AddConnection Connection
+    | Submit Connection
 
 
 
@@ -38,7 +38,7 @@ update msg model =
         InputPlatform platform ->
             { model | platform = platform }
 
-        AddConnection connection ->
+        Submit connection ->
             model
 
 
@@ -54,5 +54,5 @@ view model =
         div []
             [ select [ onInput InputPlatform ] <| instruction :: (runtime.platforms |> List.map platformOption)
             , input [ type_ "text", placeholder "username", onInput InputUsername ] []
-            , button [ onClick <| AddConnection model ] [ text "Add" ]
+            , button [ onClick <| Submit model ] [ text "Add" ]
             ]

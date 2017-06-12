@@ -11342,8 +11342,8 @@ var _user$project$Controls_AddConnection$Model = F2(
 		return {platform: a, username: b};
 	});
 var _user$project$Controls_AddConnection$init = A2(_user$project$Controls_AddConnection$Model, '', '');
-var _user$project$Controls_AddConnection$AddConnection = function (a) {
-	return {ctor: 'AddConnection', _0: a};
+var _user$project$Controls_AddConnection$Submit = function (a) {
+	return {ctor: 'Submit', _0: a};
 };
 var _user$project$Controls_AddConnection$InputPlatform = function (a) {
 	return {ctor: 'InputPlatform', _0: a};
@@ -11422,7 +11422,7 @@ var _user$project$Controls_AddConnection$view = function (model) {
 						{
 							ctor: '::',
 							_0: _elm_lang$html$Html_Events$onClick(
-								_user$project$Controls_AddConnection$AddConnection(model)),
+								_user$project$Controls_AddConnection$Submit(model)),
 							_1: {ctor: '[]'}
 						},
 						{
@@ -12429,17 +12429,52 @@ var _user$project$Home$update = F2(
 			case 'ProfileThumbnail':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			default:
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				var newConnection = model.newConnection;
+				var _p13 = _p12._0;
+				switch (_p13.ctor) {
+					case 'InputUsername':
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{
+									newConnection: _elm_lang$core$Native_Utils.update(
+										newConnection,
+										{username: _p13._0})
+								}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					case 'InputPlatform':
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{
+									newConnection: _elm_lang$core$Native_Utils.update(
+										newConnection,
+										{platform: _p13._0})
+								}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					default:
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{newConnection: _p13._0}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+				}
 		}
 	});
 var _user$project$Home$init = function (location) {
 	var contributor = function () {
-		var _p13 = _user$project$Home$tokenizeUrl(location.hash);
-		if ((((_p13.ctor === '::') && (_p13._0 === 'contributor')) && (_p13._1.ctor === '::')) && (_p13._1._1.ctor === '[]')) {
-			var _p14 = _user$project$Settings$runtime.contributor(
-				_user$project$Domain_Core$Id(_p13._1._0));
-			if (_p14.ctor === 'Just') {
-				return _user$project$Domain_Contributor$getContributor(_p14._0);
+		var _p14 = _user$project$Home$tokenizeUrl(location.hash);
+		if ((((_p14.ctor === '::') && (_p14._0 === 'contributor')) && (_p14._1.ctor === '::')) && (_p14._1._1.ctor === '[]')) {
+			var _p15 = _user$project$Settings$runtime.contributor(
+				_user$project$Domain_Core$Id(_p14._1._0));
+			if (_p15.ctor === 'Just') {
+				return _user$project$Domain_Contributor$getContributor(_p15._0);
 			} else {
 				return _user$project$Domain_Contributor$init;
 			}
@@ -12449,13 +12484,20 @@ var _user$project$Home$init = function (location) {
 	}();
 	return {
 		ctor: '_Tuple2',
-		_0: {currentRoute: location, contributors: _user$project$Settings$runtime.contributors, login: _user$project$Controls_Login$model, contributor: contributor, newConnection: _user$project$Controls_AddConnection$init},
+		_0: {
+			currentRoute: location,
+			contributors: _user$project$Settings$runtime.contributors,
+			login: _user$project$Controls_Login$model,
+			contributor: contributor,
+			newConnection: _user$project$Controls_AddConnection$init,
+			connections: _user$project$Settings$runtime.connections(contributor.profile.id)
+		},
 		_1: _elm_lang$core$Platform_Cmd$none
 	};
 };
-var _user$project$Home$Model = F5(
-	function (a, b, c, d, e) {
-		return {currentRoute: a, contributors: b, login: c, newConnection: d, contributor: e};
+var _user$project$Home$Model = F6(
+	function (a, b, c, d, e, f) {
+		return {currentRoute: a, login: b, contributors: c, contributor: d, newConnection: e, connections: f};
 	});
 var _user$project$Home$Register = {ctor: 'Register'};
 var _user$project$Home$Search = function (a) {
@@ -12506,9 +12548,9 @@ var _user$project$Home$toCheckbox = function (topic) {
 		});
 };
 var _user$project$Home$contributorPage = function (model) {
-	var _p15 = {ctor: '_Tuple2', _0: model.profile.id, _1: model.profile.topics};
-	var profileId = _p15._0;
-	var topics = _p15._1;
+	var _p16 = {ctor: '_Tuple2', _0: model.profile.id, _1: model.profile.topics};
+	var profileId = _p16._0;
+	var topics = _p16._1;
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -12793,8 +12835,8 @@ var _user$project$Home$contributorPage = function (model) {
 var _user$project$Home$contributorContentTypePage = F2(
 	function (contentTypeText, model) {
 		var posts = function () {
-			var _p16 = _user$project$Domain_Core$toContentType(contentTypeText);
-			switch (_p16.ctor) {
+			var _p17 = _user$project$Domain_Core$toContentType(contentTypeText);
+			switch (_p17.ctor) {
 				case 'Answer':
 					return model.answers;
 				case 'Article':
@@ -13140,7 +13182,7 @@ var _user$project$Home$homePage = function (model) {
 			{ctor: '[]'},
 			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, model.contributors)));
 	var loginUI = function (model) {
-		var _p17 = {
+		var _p18 = {
 			ctor: '_Tuple3',
 			_0: model.login.loggedIn,
 			_1: A2(
@@ -13175,9 +13217,9 @@ var _user$project$Home$homePage = function (model) {
 					_1: {ctor: '[]'}
 				})
 		};
-		var loggedIn = _p17._0;
-		var welcome = _p17._1;
-		var signout = _p17._2;
+		var loggedIn = _p18._0;
+		var welcome = _p18._1;
+		var signout = _p18._2;
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$OnLogin,
@@ -13293,77 +13335,77 @@ var _user$project$Home$homePage = function (model) {
 		});
 };
 var _user$project$Home$view = function (model) {
-	var _p18 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
-	_v11_7:
+	var _p19 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+	_v12_7:
 	do {
-		if (_p18.ctor === '[]') {
+		if (_p19.ctor === '[]') {
 			return _user$project$Home$homePage(model);
 		} else {
-			if (_p18._1.ctor === '[]') {
-				if (_p18._0 === 'home') {
+			if (_p19._1.ctor === '[]') {
+				if (_p19._0 === 'home') {
 					return _user$project$Home$homePage(model);
 				} else {
-					break _v11_7;
+					break _v12_7;
 				}
 			} else {
-				if (_p18._1._1.ctor === '::') {
-					if (_p18._0 === 'contributor') {
-						if (_p18._1._1._1.ctor === '[]') {
-							var _p20 = _user$project$Settings$runtime.contributor(
-								_user$project$Domain_Core$Id(_p18._1._0));
-							if (_p20.ctor === 'Just') {
+				if (_p19._1._1.ctor === '::') {
+					if (_p19._0 === 'contributor') {
+						if (_p19._1._1._1.ctor === '[]') {
+							var _p21 = _user$project$Settings$runtime.contributor(
+								_user$project$Domain_Core$Id(_p19._1._0));
+							if (_p21.ctor === 'Just') {
 								return _user$project$Home$contributorTopicPage(model.contributor);
 							} else {
 								return _user$project$Home$notFoundPage;
 							}
 						} else {
-							if (_p18._1._1._1._1.ctor === '[]') {
-								if (_p18._1._1._0 === 'all') {
-									var _p21 = _user$project$Settings$runtime.contributor(
-										_user$project$Domain_Core$Id(_p18._1._0));
-									if (_p21.ctor === 'Just') {
-										return A2(_user$project$Home$contributorContentTypePage, _p18._1._1._1._0, model.contributor);
+							if (_p19._1._1._1._1.ctor === '[]') {
+								if (_p19._1._1._0 === 'all') {
+									var _p22 = _user$project$Settings$runtime.contributor(
+										_user$project$Domain_Core$Id(_p19._1._0));
+									if (_p22.ctor === 'Just') {
+										return A2(_user$project$Home$contributorContentTypePage, _p19._1._1._1._0, model.contributor);
 									} else {
 										return _user$project$Home$notFoundPage;
 									}
 								} else {
-									break _v11_7;
+									break _v12_7;
 								}
 							} else {
-								if ((_p18._1._1._1._0 === 'all') && (_p18._1._1._1._1._1.ctor === '[]')) {
-									var _p22 = _user$project$Settings$runtime.contributor(
-										_user$project$Domain_Core$Id(_p18._1._0));
-									if (_p22.ctor === 'Just') {
+								if ((_p19._1._1._1._0 === 'all') && (_p19._1._1._1._1._1.ctor === '[]')) {
+									var _p23 = _user$project$Settings$runtime.contributor(
+										_user$project$Domain_Core$Id(_p19._1._0));
+									if (_p23.ctor === 'Just') {
 										return A3(
 											_user$project$Home$contributorTopicContentTypePage,
-											_user$project$Domain_Core$Topic(_p18._1._1._0),
-											_user$project$Domain_Core$toContentType(_p18._1._1._1._1._0),
+											_user$project$Domain_Core$Topic(_p19._1._1._0),
+											_user$project$Domain_Core$toContentType(_p19._1._1._1._1._0),
 											model.contributor);
 									} else {
 										return _user$project$Home$notFoundPage;
 									}
 								} else {
-									break _v11_7;
+									break _v12_7;
 								}
 							}
 						}
 					} else {
-						break _v11_7;
+						break _v12_7;
 					}
 				} else {
-					if (_p18._0 === 'contributor') {
-						var _p19 = _user$project$Settings$runtime.contributor(
-							_user$project$Domain_Core$Id(_p18._1._0));
-						if (_p19.ctor === 'Just') {
+					if (_p19._0 === 'contributor') {
+						var _p20 = _user$project$Settings$runtime.contributor(
+							_user$project$Domain_Core$Id(_p19._1._0));
+						if (_p20.ctor === 'Just') {
 							return _user$project$Home$contributorPage(model.contributor);
 						} else {
 							return _user$project$Home$notFoundPage;
 						}
 					} else {
-						if (_p18._1._0 === 'dashboard') {
+						if (_p19._1._0 === 'dashboard') {
 							return _user$project$Home$dashboardPage(model);
 						} else {
-							break _v11_7;
+							break _v12_7;
 						}
 					}
 				}
@@ -13382,7 +13424,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p23) {
+		subscriptions: function (_p24) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();
