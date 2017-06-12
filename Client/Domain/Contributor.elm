@@ -1,6 +1,7 @@
 module Domain.Contributor exposing (..)
 
 import Domain.Core exposing (..)
+import Controls.AddConnection as AddConnection exposing (..)
 import Settings exposing (..)
 
 
@@ -13,14 +14,18 @@ init =
             , imageUrl = Url undefined
             , bio = undefined
             , topics = []
+            , connections = []
             }
+
+        newConnection =
+            { platform = "", username = "" }
     in
-        Model profile [] [] [] [] [] []
+        Model profile newConnection [] [] [] [] []
 
 
 type alias Model =
     { profile : Profile
-    , connections : List Connection
+    , newConnection : AddConnection.Model
     , topics : List Topic
     , answers : List Link
     , articles : List Link
@@ -33,7 +38,7 @@ getContributor : Profile -> Model
 getContributor p =
     { profile = p
     , topics = p.topics
-    , connections = p.id |> runtime.connections
+    , newConnection = AddConnection.init
     , answers = p.id |> runtime.links Answer
     , articles = p.id |> runtime.links Article
     , videos = p.id |> runtime.links Video

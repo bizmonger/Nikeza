@@ -11,6 +11,7 @@ type alias Profile =
     , name : Name
     , imageUrl : Url
     , bio : String
+    , connections : List Connection
     , topics : List Topic
     }
 

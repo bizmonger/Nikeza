@@ -36,8 +36,6 @@ type alias Model =
     , login : Login.Model
     , contributors : List Profile
     , contributor : Contributor.Model
-    , newConnection : AddConnection.Model
-    , connections : List Connection
     }
 
 
@@ -61,8 +59,6 @@ init location =
           , contributors = runtime.contributors
           , login = Login.model
           , contributor = contributor
-          , newConnection = AddConnection.init
-          , connections = contributor.profile.id |> runtime.connections
           }
         , Cmd.none
         )
@@ -108,18 +104,46 @@ update msg model =
 
         ConnectionInput subMsg ->
             let
+                contributor =
+                    model.contributor
+
+                profile =
+                    contributor.profile
+
                 newConnection =
-                    model.newConnection
+                    model.contributor.newConnection
             in
                 case subMsg of
                     AddConnection.InputUsername username ->
-                        ( { model | newConnection = { newConnection | username = username } }, Cmd.none )
+                        let
+                            pendingConnection =
+                                { newConnection | username = username }
+
+                            updatedContributor =
+                                { contributor | newConnection = pendingConnection }
+                        in
+                            ( { model | contributor = updatedContributor }, Cmd.none )
 
                     AddConnection.InputPlatform platform ->
-                        ( { model | newConnection = { newConnection | platform = platform } }, Cmd.none )
+                        let
+                            pendingConnection =
+                                { newConnection | platform = platform }
+
+                            updatedContributor =
+                                { contributor | newConnection = pendingConnection }
+                        in
+                            ( { model | contributor = updatedContributor }, Cmd.none )
 
                     AddConnection.Submit connection ->
-                        ( { model | newConnection = connection }, Cmd.none )
+                        ( { model
+                            | contributor =
+                                { contributor
+                                    | newConnection = connection
+                                    , profile = { profile | connections = connection :: profile.connections }
+                                }
+                          }
+                        , Cmd.none
+                        )
 
 
 toggleFilter : Model -> ( Topic, Bool ) -> ( Model, Cmd Msg )
@@ -181,8 +205,7 @@ onLogin model subMsg =
                                 | login = latest
                                 , contributor =
                                     { contributor
-                                        | profile = p
-                                        , connections = p.id |> runtime.connections
+                                        | profile = { p | connections = p.id |> runtime.connections }
                                     }
                             }
 
@@ -437,7 +460,7 @@ dashboardPage model =
             model.contributor
 
         connectionsTable =
-            table [] [ div [] (contributor.connections |> List.map connectionUI) ]
+            table [] [ div [] (contributor.profile.connections |> List.map connectionUI) ]
     in
         div []
             [ h2 [] [ text <| "Welcome " ++ getName model.contributor.profile.name ]
