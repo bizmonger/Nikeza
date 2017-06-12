@@ -424,21 +424,12 @@ dashboardPage model =
 
         connectionsTable =
             table [] [ div [] (contributor.connections |> List.map connectionUI) ]
-
-        -- platformOption platform =
-        --     option [ value <| getPlatform platform ] [ text <| getPlatform platform ]
-        -- instruction =
-        --     (option [ value "instructions" ] [ text "Select Platform" ])
     in
         div []
             [ h2 [] [ text <| "Welcome " ++ getName model.contributor.profile.name ]
             , div []
                 [ h3 [] [ text "Connections" ]
                 , Html.map ConnectionInput <| AddConnection.view AddConnection.init
-
-                -- , select [ name "platforms" ] <| instruction :: (runtime.platforms |> List.map platformOption)
-                -- , input [ type_ "text", placeholder "username", onInput PlatformUsername ] []
-                -- , button [ onClick <| AddConnection model ] [ text "Add" ]
                 , connectionsTable
                 ]
             , h3 [] [ text "Add Link" ]
