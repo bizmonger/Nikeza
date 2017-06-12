@@ -237,5 +237,7 @@ platforms : List Platform
 platforms =
     [ Platform "WordPress"
     , Platform "YouTube"
+    , Platform "Vimeo"
+    , Platform "Medium"
     , Platform "StackOverflow"
     ]

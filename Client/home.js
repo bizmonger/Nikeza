@@ -10902,8 +10902,16 @@ var _user$project$Tests_TestAPI$platforms = {
 		_0: _user$project$Domain_Core$Platform('YouTube'),
 		_1: {
 			ctor: '::',
-			_0: _user$project$Domain_Core$Platform('StackOverflow'),
-			_1: {ctor: '[]'}
+			_0: _user$project$Domain_Core$Platform('Vimeo'),
+			_1: {
+				ctor: '::',
+				_0: _user$project$Domain_Core$Platform('Medium'),
+				_1: {
+					ctor: '::',
+					_0: _user$project$Domain_Core$Platform('StackOverflow'),
+					_1: {ctor: '[]'}
+				}
+			}
 		}
 	}
 };
