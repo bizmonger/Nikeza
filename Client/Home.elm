@@ -417,23 +417,6 @@ dashboardPage model =
 
         connectionsTable =
             table [] [ div [] (contributor.connections |> List.map connectionUI) ]
-
-        -- [ tr []
-        --     [ td [] [ text "WordPress" ]
-        --     , td [] [ i [] [ text "Bizmonger" ] ]
-        --     , td [] [ button [] [ text "Edit" ] ]
-        --     ]
-        -- , tr []
-        --     [ td [] [ text "YouTube" ]
-        --     , td [] [ i [] [ text "Bizmonger" ] ]
-        --     , td [] [ button [] [ text "Edit" ] ]
-        --     ]
-        -- , tr []
-        --     [ td [] [ text "StackOverflow" ]
-        --     , td [] [ i [] [ text "scott-nimrod" ] ]
-        --     , td [] [ button [] [ text "Edit" ] ]
-        --     ]
-        -- ]
     in
         div []
             [ h2 [] [ text <| "Welcome " ++ getName model.contributor.profile.name ]
