@@ -4,7 +4,8 @@ import Domain.Core exposing (..)
 import Domain.Contributor as Contributor exposing (..)
 import Controls.Login as Login exposing (..)
 import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
-import Settings exposing (..)
+import Controls.AddConnection as AddConnection exposing (..)
+import Settings exposing (runtime)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
@@ -71,6 +72,7 @@ type Msg
     = UrlChange Navigation.Location
     | OnLogin Login.Msg
     | ProfileThumbnail ProfileThumbnail.Msg
+    | ConnectionInput AddConnection.Msg
     | Toggle ( Topic, Bool )
     | Search String
     | Register
@@ -98,6 +100,9 @@ update msg model =
             ( topic, include ) |> toggleFilter model
 
         ProfileThumbnail subMsg ->
+            ( model, Cmd.none )
+
+        ConnectionInput subMsg ->
             ( model, Cmd.none )
 
 
@@ -418,19 +423,20 @@ dashboardPage model =
         connectionsTable =
             table [] [ div [] (contributor.connections |> List.map connectionUI) ]
 
-        platformOption platform =
-            option [ value <| getPlatform platform ] [ text <| getPlatform platform ]
-
-        instruction =
-            (option [ value "instructions" ] [ text "Select Platform" ])
+        -- platformOption platform =
+        --     option [ value <| getPlatform platform ] [ text <| getPlatform platform ]
+        -- instruction =
+        --     (option [ value "instructions" ] [ text "Select Platform" ])
     in
         div []
             [ h2 [] [ text <| "Welcome " ++ getName model.contributor.profile.name ]
             , div []
                 [ h3 [] [ text "Connections" ]
-                , select [] <| instruction :: (runtime.platforms |> List.map platformOption)
-                , input [ type_ "text", placeholder "username" ] []
-                , button [] [ text "Add" ]
+                , Html.map ConnectionInput <| AddConnection.view AddConnection.init
+
+                -- , select [ name "platforms" ] <| instruction :: (runtime.platforms |> List.map platformOption)
+                -- , input [ type_ "text", placeholder "username", onInput PlatformUsername ] []
+                -- , button [ onClick <| AddConnection model ] [ text "Add" ]
                 , connectionsTable
                 ]
             , h3 [] [ text "Add Link" ]
