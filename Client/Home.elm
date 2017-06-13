@@ -107,48 +107,35 @@ update msg model =
 
 
 onNewConnection : AddConnection.Msg -> Model -> ( Model, Cmd Msg )
-onNewConnection msg model =
+onNewConnection subMsg model =
     let
+        connection =
+            AddConnection.update subMsg model.contributor.newConnection
+
         contributor =
             model.contributor
-
-        profile =
-            contributor.profile
-
-        newConnection =
-            model.contributor.newConnection
     in
-        case msg of
-            AddConnection.InputUsername username ->
+        case subMsg of
+            AddConnection.InputUsername _ ->
+                ( { model | contributor = { contributor | newConnection = connection } }, Cmd.none )
+
+            AddConnection.InputPlatform _ ->
+                ( { model | contributor = { contributor | newConnection = connection } }, Cmd.none )
+
+            AddConnection.Submit _ ->
                 let
-                    pendingConnection =
-                        { newConnection | username = username }
-
-                    updatedContributor =
-                        { contributor | newConnection = pendingConnection }
+                    profile =
+                        contributor.profile
                 in
-                    ( { model | contributor = updatedContributor }, Cmd.none )
-
-            AddConnection.InputPlatform platform ->
-                let
-                    pendingConnection =
-                        { newConnection | platform = platform }
-
-                    updatedContributor =
-                        { contributor | newConnection = pendingConnection }
-                in
-                    ( { model | contributor = updatedContributor }, Cmd.none )
-
-            AddConnection.Submit connection ->
-                ( { model
-                    | contributor =
-                        { contributor
-                            | newConnection = connection
-                            , profile = { profile | connections = connection :: profile.connections }
-                        }
-                  }
-                , Cmd.none
-                )
+                    ( { model
+                        | contributor =
+                            { contributor
+                                | newConnection = connection
+                                , profile = { profile | connections = connection :: profile.connections }
+                            }
+                      }
+                    , Cmd.none
+                    )
 
 
 toggleFilter : Model -> ( Topic, Bool ) -> ( Model, Cmd Msg )
@@ -471,7 +458,7 @@ dashboardPage model =
             [ h2 [] [ text <| "Welcome " ++ getName model.contributor.profile.name ]
             , div []
                 [ h3 [] [ text "Connections" ]
-                , Html.map ConnectionInput <| AddConnection.view AddConnection.init
+                , Html.map ConnectionInput <| AddConnection.view model.contributor.newConnection
                 , connectionsTable
                 ]
             , h3 [] [ text "Add Link" ]
@@ -487,6 +474,7 @@ dashboardPage model =
                     ]
                 , button [] [ text "Add" ]
                 ]
+            , div [] [ text (model.contributor |> toString) ]
             ]
 
 

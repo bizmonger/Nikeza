@@ -5,18 +5,19 @@ import Settings exposing (runtime)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Json.Decode exposing (map)
 
 
 -- MODEL
 
 
 type alias Model =
-    { platform : String, username : String }
+    Connection
 
 
-init : Model
+init : Connection
 init =
-    Model "" ""
+    Connection "" ""
 
 
 type Msg
@@ -32,14 +33,14 @@ type Msg
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        InputUsername username ->
-            { model | username = username }
+        InputUsername v ->
+            { model | username = v }
 
-        InputPlatform platform ->
-            { model | platform = platform }
+        InputPlatform v ->
+            { model | platform = v }
 
         Submit connection ->
-            model
+            connection
 
 
 view : Model -> Html Msg
@@ -52,7 +53,7 @@ view model =
             option [ value <| getPlatform platform ] [ text <| getPlatform platform ]
     in
         div []
-            [ select [ onInput InputPlatform ] <| instruction :: (runtime.platforms |> List.map platformOption)
-            , input [ type_ "text", placeholder "username", onInput InputUsername ] []
+            [ select [ Html.Events.on "change" (Json.Decode.map InputPlatform Html.Events.targetValue), value model.platform ] <| instruction :: (runtime.platforms |> List.map platformOption)
+            , input [ type_ "text", placeholder "username", onInput InputUsername, value model.username ] []
             , button [ onClick <| Submit model ] [ text "Add" ]
             ]
