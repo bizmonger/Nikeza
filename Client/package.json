@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "./node_modules/elm/binwrappers/elm-make --yes",
+    "live": "./node_modules/elm-live/bin/elm-live.js Home.elm --open --output=home.js",
     "server": "./node_modules/http-server/bin/http-server ."
   },
   "dependencies": {
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "elm": "^0.18.0",
+    "elm-live": "^2.7.4",
     "http-server": "^0.10.0"
   }
 }
