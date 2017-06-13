@@ -6,7 +6,6 @@ import Domain.Core exposing (..)
 
 tryLogin : Login.Model -> Login.Model
 tryLogin credentials =
-    -- TODO - Replace tbelow his with integration code...
     let
         successful =
             String.toLower credentials.username == "test" && String.toLower credentials.password == "test"

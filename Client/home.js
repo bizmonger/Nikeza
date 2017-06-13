@@ -11313,7 +11313,8 @@ var _user$project$Settings$Dependencies = F8(
 		return {tryLogin: a, contributors: b, contributor: c, links: d, topicLinks: e, usernameToId: f, connections: g, platforms: h};
 	});
 var _user$project$Settings$Isolation = {ctor: 'Isolation'};
-var _user$project$Settings$configuration = _user$project$Settings$Isolation;
+var _user$project$Settings$Integration = {ctor: 'Integration'};
+var _user$project$Settings$configuration = _user$project$Settings$Integration;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
@@ -11322,7 +11323,6 @@ var _user$project$Settings$runtime = function () {
 		return A8(_user$project$Settings$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$contributors, _user$project$Tests_TestAPI$contributor, _user$project$Tests_TestAPI$links, _user$project$Tests_TestAPI$topicLinks, _user$project$Tests_TestAPI$usernameToId, _user$project$Tests_TestAPI$connections, _user$project$Tests_TestAPI$platforms);
 	}
 }();
-var _user$project$Settings$Integration = {ctor: 'Integration'};
 
 var _user$project$Controls_AddConnection$update = F2(
 	function (msg, model) {
@@ -13218,19 +13218,7 @@ var _user$project$Home$dashboardPage = function (model) {
 									}
 								}
 							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$div,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text(
-										_elm_lang$core$Basics$toString(model.contributor)),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
+						_1: {ctor: '[]'}
 					}
 				}
 			}

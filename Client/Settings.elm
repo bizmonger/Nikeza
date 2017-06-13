@@ -7,7 +7,7 @@ import Services.Server as Services exposing (..)
 
 configuration : Configuration
 configuration =
-    Isolation
+    Integration
 
 
 type Configuration

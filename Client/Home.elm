@@ -505,7 +505,8 @@ dashboardPage model =
                     ]
                 , button [] [ text "Add" ]
                 ]
-            , div [] [ text (model.contributor |> toString) ]
+
+            --, div [] [ text (model.contributor |> toString) ]
             ]
 
 
