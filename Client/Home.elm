@@ -201,7 +201,8 @@ toggleFilter model ( topic, include ) =
             { model
                 | contributor =
                     { contributor
-                        | answers = contributor.answers |> toggleTopic Answer
+                        | showAll = False
+                        , answers = contributor.answers |> toggleTopic Answer
                         , articles = contributor.articles |> toggleTopic Article
                         , videos = contributor.videos |> toggleTopic Video
                         , podcasts = contributor.podcasts |> toggleTopic Podcast

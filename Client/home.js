@@ -12355,6 +12355,7 @@ var _user$project$Home$toggleFilter = F2(
 				contributor: _elm_lang$core$Native_Utils.update(
 					contributor,
 					{
+						showAll: false,
 						answers: A2(toggleTopic, _user$project$Domain_Core$Answer, contributor.answers),
 						articles: A2(toggleTopic, _user$project$Domain_Core$Article, contributor.articles),
 						videos: A2(toggleTopic, _user$project$Domain_Core$Video, contributor.videos),
