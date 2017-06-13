@@ -339,6 +339,15 @@ contributorPage model =
     let
         ( profileId, topics ) =
             ( model.profile.id, model.profile.topics )
+
+        allTopic =
+            Topic "All"
+
+        allFilter =
+            div []
+                [ input [ type_ "checkbox", checked True, onCheck (\b -> Toggle ( allTopic, b )) ] []
+                , label [] [ text <| getTopic allTopic ]
+                ]
     in
         div []
             [ table []
@@ -346,7 +355,7 @@ contributorPage model =
                     [ table []
                         [ tr []
                             [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
-                            , td [] [ div [] (topics |> List.map toCheckbox) ]
+                            , td [] [ div [] (allFilter :: (topics |> List.map toCheckbox)) ]
                             , table []
                                 [ tr []
                                     [ td [] [ b [] [ text "Answers" ] ]
