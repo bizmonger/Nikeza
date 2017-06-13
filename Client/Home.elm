@@ -441,7 +441,7 @@ connectionUI connection =
     tr []
         [ td [] [ text connection.platform ]
         , td [] [ i [] [ text connection.username ] ]
-        , td [] [ button [] [ text "Edit" ] ]
+        , td [] [ button [] [ text "Remove" ] ]
         ]
 
 
