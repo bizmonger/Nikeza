@@ -12367,14 +12367,31 @@ var _user$project$Home$toggleFilter = F2(
 var _user$project$Home$toggleAllFilter = F2(
 	function (model, include) {
 		var contributor = model.contributor;
-		var newState = _elm_lang$core$Native_Utils.update(
-			model,
+		var profile = contributor.profile;
+		var updateContributor = (!include) ? _elm_lang$core$Native_Utils.update(
+			contributor,
 			{
-				contributor: _elm_lang$core$Native_Utils.update(
-					contributor,
-					{showAll: include})
+				showAll: false,
+				answers: {ctor: '[]'},
+				articles: {ctor: '[]'},
+				videos: {ctor: '[]'},
+				podcasts: {ctor: '[]'}
+			}) : _elm_lang$core$Native_Utils.update(
+			contributor,
+			{
+				showAll: true,
+				answers: A2(_user$project$Settings$runtime.links, _user$project$Domain_Core$Answer, profile.id),
+				articles: A2(_user$project$Settings$runtime.links, _user$project$Domain_Core$Article, profile.id),
+				videos: A2(_user$project$Settings$runtime.links, _user$project$Domain_Core$Video, profile.id),
+				podcasts: A2(_user$project$Settings$runtime.links, _user$project$Domain_Core$Podcast, profile.id)
 			});
-		return {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
+		return {
+			ctor: '_Tuple2',
+			_0: _elm_lang$core$Native_Utils.update(
+				model,
+				{contributor: updateContributor}),
+			_1: _elm_lang$core$Platform_Cmd$none
+		};
 	});
 var _user$project$Home$onNewConnection = F2(
 	function (subMsg, model) {
@@ -12541,9 +12558,9 @@ var _user$project$Home$contributorPage = function (model) {
 								_1: {
 									ctor: '::',
 									_0: _elm_lang$html$Html_Events$onCheck(
-										function (b) {
+										function (isChecked) {
 											return _user$project$Home$Toggle(
-												{ctor: '_Tuple2', _0: topic, _1: b});
+												{ctor: '_Tuple2', _0: topic, _1: isChecked});
 										}),
 									_1: {ctor: '[]'}
 								}
@@ -12666,16 +12683,12 @@ var _user$project$Home$contributorPage = function (model) {
 														_0: A2(
 															_elm_lang$html$Html$div,
 															{ctor: '[]'},
-															{
-																ctor: '::',
-																_0: allFilter,
-																_1: A2(
-																	_elm_lang$core$List$map,
-																	function (t) {
-																		return A2(toCheckBoxState, model.showAll, t);
-																	},
-																	topics)
-															}),
+															A2(
+																_elm_lang$core$List$map,
+																function (t) {
+																	return A2(toCheckBoxState, true, t);
+																},
+																topics)),
 														_1: {ctor: '[]'}
 													}),
 												_1: {

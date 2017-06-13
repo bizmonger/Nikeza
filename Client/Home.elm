@@ -179,10 +179,22 @@ toggleAllFilter model include =
         contributor =
             model.contributor
 
-        newState =
-            { model | contributor = { contributor | showAll = include } }
+        profile =
+            contributor.profile
+
+        updateContributor =
+            if not include then
+                { contributor | showAll = False, answers = [], articles = [], videos = [], podcasts = [] }
+            else
+                { contributor
+                    | showAll = True
+                    , answers = profile.id |> runtime.links Answer
+                    , articles = profile.id |> runtime.links Article
+                    , videos = profile.id |> runtime.links Video
+                    , podcasts = profile.id |> runtime.links Podcast
+                }
     in
-        ( newState, Cmd.none )
+        ( { model | contributor = updateContributor }, Cmd.none )
 
 
 toggleFilter : Model -> ( Topic, Bool ) -> ( Model, Cmd Msg )
@@ -368,7 +380,7 @@ contributorPage model =
 
         toCheckBoxState include topic =
             div []
-                [ input [ type_ "checkbox", checked include, onCheck (\b -> Toggle ( topic, b )) ] []
+                [ input [ type_ "checkbox", checked include, onCheck (\isChecked -> Toggle ( topic, isChecked )) ] []
                 , label [] [ text <| getTopic topic ]
                 ]
     in
@@ -378,7 +390,9 @@ contributorPage model =
                     [ table []
                         [ tr []
                             [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
-                            , td [] [ div [] <| allFilter :: (topics |> List.map (\t -> t |> toCheckBoxState model.showAll)) ]
+
+                            -- , td [] [ div [] <| allFilter :: (topics |> List.map (\t -> t |> toCheckBoxState model.showAll)) ]
+                            , td [] [ div [] <| (topics |> List.map (\t -> t |> toCheckBoxState True)) ]
                             , table []
                                 [ tr []
                                     [ td [] [ b [] [ text "Answers" ] ]
