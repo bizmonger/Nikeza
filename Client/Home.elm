@@ -126,7 +126,13 @@ onRemove model connection =
             { profile | connections = connectionsLeft }
 
         newState =
-            { model | contributor = { contributor | profile = updatedProfile } }
+            { model
+                | contributor =
+                    { contributor
+                        | profile = updatedProfile
+                        , newConnection = AddConnection.init
+                    }
+            }
     in
         ( newState, Cmd.none )
 

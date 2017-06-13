@@ -12431,7 +12431,7 @@ var _user$project$Home$onRemove = F2(
 			{
 				contributor: _elm_lang$core$Native_Utils.update(
 					contributor,
-					{profile: updatedProfile})
+					{profile: updatedProfile, newConnection: _user$project$Controls_AddConnection$init})
 			});
 		return {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
 	});
