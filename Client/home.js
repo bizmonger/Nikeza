@@ -11831,59 +11831,6 @@ var _user$project$Home$notFoundPage = A2(
 		_0: _elm_lang$html$Html$text('Page not found'),
 		_1: {ctor: '[]'}
 	});
-var _user$project$Home$connectionUI = function (connection) {
-	return A2(
-		_elm_lang$html$Html$tr,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$td,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(connection.platform),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$td,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$i,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(connection.username),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$td,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$button,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text('Remove'),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}
-			}
-		});
-};
 var _user$project$Home$contributorTopicPage = function (model) {
 	var profileId = model.profile.id;
 	var _p3 = _elm_lang$core$List$head(model.topics);
@@ -12466,6 +12413,28 @@ var _user$project$Home$onNewConnection = F2(
 				};
 		}
 	});
+var _user$project$Home$onRemove = F2(
+	function (model, connection) {
+		var contributor = model.contributor;
+		var profile = contributor.profile;
+		var connectionsLeft = A2(
+			_elm_lang$core$List$filter,
+			function (c) {
+				return !_elm_lang$core$Native_Utils.eq(c, connection);
+			},
+			profile.connections);
+		var updatedProfile = _elm_lang$core$Native_Utils.update(
+			profile,
+			{connections: connectionsLeft});
+		var newState = _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				contributor: _elm_lang$core$Native_Utils.update(
+					contributor,
+					{profile: updatedProfile})
+			});
+		return {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
+	});
 var _user$project$Home$update = F2(
 	function (msg, model) {
 		var _p13 = msg;
@@ -12495,8 +12464,10 @@ var _user$project$Home$update = F2(
 					{ctor: '_Tuple2', _0: _p13._0._0, _1: _p13._0._1});
 			case 'ProfileThumbnail':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			default:
+			case 'NewConnection':
 				return A2(_user$project$Home$onNewConnection, _p13._0, model);
+			default:
+				return A2(_user$project$Home$onRemove, model, _p13._0);
 		}
 	});
 var _user$project$Home$init = function (location) {
@@ -12986,8 +12957,69 @@ var _user$project$Home$contributorContentTypePage = F2(
 				}
 			});
 	});
-var _user$project$Home$ConnectionInput = function (a) {
-	return {ctor: 'ConnectionInput', _0: a};
+var _user$project$Home$Remove = function (a) {
+	return {ctor: 'Remove', _0: a};
+};
+var _user$project$Home$connectionUI = function (connection) {
+	return A2(
+		_elm_lang$html$Html$tr,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$td,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(connection.platform),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$td,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$i,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(connection.username),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$td,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$button,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(
+										_user$project$Home$Remove(connection)),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('Disconnect'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
+var _user$project$Home$NewConnection = function (a) {
+	return {ctor: 'NewConnection', _0: a};
 };
 var _user$project$Home$dashboardPage = function (model) {
 	var contributor = model.contributor;
@@ -13038,7 +13070,7 @@ var _user$project$Home$dashboardPage = function (model) {
 							ctor: '::',
 							_0: A2(
 								_elm_lang$html$Html$map,
-								_user$project$Home$ConnectionInput,
+								_user$project$Home$NewConnection,
 								_user$project$Controls_AddConnection$view(model.contributor.newConnection)),
 							_1: {
 								ctor: '::',

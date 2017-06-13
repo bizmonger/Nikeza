@@ -72,7 +72,8 @@ type Msg
     = UrlChange Navigation.Location
     | OnLogin Login.Msg
     | ProfileThumbnail ProfileThumbnail.Msg
-    | ConnectionInput AddConnection.Msg
+    | NewConnection AddConnection.Msg
+    | Remove Connection
     | Toggle ( Topic, Bool )
     | Search String
     | Register
@@ -102,8 +103,32 @@ update msg model =
         ProfileThumbnail subMsg ->
             ( model, Cmd.none )
 
-        ConnectionInput subMsg ->
+        NewConnection subMsg ->
             onNewConnection subMsg model
+
+        Remove connection ->
+            onRemove model connection
+
+
+onRemove : Model -> Connection -> ( Model, Cmd Msg )
+onRemove model connection =
+    let
+        contributor =
+            model.contributor
+
+        profile =
+            contributor.profile
+
+        connectionsLeft =
+            profile.connections |> List.filter (\c -> c /= connection)
+
+        updatedProfile =
+            { profile | connections = connectionsLeft }
+
+        newState =
+            { model | contributor = { contributor | profile = updatedProfile } }
+    in
+        ( newState, Cmd.none )
 
 
 onNewConnection : AddConnection.Msg -> Model -> ( Model, Cmd Msg )
@@ -441,7 +466,7 @@ connectionUI connection =
     tr []
         [ td [] [ text connection.platform ]
         , td [] [ i [] [ text connection.username ] ]
-        , td [] [ button [] [ text "Remove" ] ]
+        , td [] [ button [ onClick <| Remove connection ] [ text "Disconnect" ] ]
         ]
 
 
@@ -458,7 +483,7 @@ dashboardPage model =
             [ h2 [] [ text <| "Welcome " ++ getName model.contributor.profile.name ]
             , div []
                 [ h3 [] [ text "Connections" ]
-                , Html.map ConnectionInput <| AddConnection.view model.contributor.newConnection
+                , Html.map NewConnection <| AddConnection.view model.contributor.newConnection
                 , connectionsTable
                 ]
             , h3 [] [ text "Add Link" ]
