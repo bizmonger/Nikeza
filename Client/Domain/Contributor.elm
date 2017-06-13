@@ -20,12 +20,13 @@ init =
         newConnection =
             { platform = "", username = "" }
     in
-        Model profile newConnection [] [] [] [] []
+        Model profile newConnection True [] [] [] [] []
 
 
 type alias Model =
     { profile : Profile
     , newConnection : AddConnection.Model
+    , showAll : Bool
     , topics : List Topic
     , answers : List Link
     , articles : List Link
@@ -37,6 +38,7 @@ type alias Model =
 getContributor : Profile -> Model
 getContributor p =
     { profile = p
+    , showAll = True
     , topics = p.topics
     , newConnection = AddConnection.init
     , answers = p.id |> runtime.links Answer

@@ -75,6 +75,7 @@ type Msg
     | NewConnection AddConnection.Msg
     | Remove Connection
     | Toggle ( Topic, Bool )
+    | ToggleAll Bool
     | Search String
     | Register
 
@@ -99,6 +100,9 @@ update msg model =
 
         Toggle ( topic, include ) ->
             ( topic, include ) |> toggleFilter model
+
+        ToggleAll include ->
+            include |> toggleAllFilter model
 
         ProfileThumbnail subMsg ->
             ( model, Cmd.none )
@@ -167,6 +171,18 @@ onNewConnection subMsg model =
                       }
                     , Cmd.none
                     )
+
+
+toggleAllFilter : Model -> Bool -> ( Model, Cmd Msg )
+toggleAllFilter model include =
+    let
+        contributor =
+            model.contributor
+
+        newState =
+            { model | contributor = { contributor | showAll = include } }
+    in
+        ( newState, Cmd.none )
 
 
 toggleFilter : Model -> ( Topic, Bool ) -> ( Model, Cmd Msg )
@@ -345,8 +361,14 @@ contributorPage model =
 
         allFilter =
             div []
-                [ input [ type_ "checkbox", checked True, onCheck (\b -> Toggle ( allTopic, b )) ] []
+                [ input [ type_ "checkbox", checked model.showAll, onCheck (\b -> ToggleAll b) ] []
                 , label [] [ text <| getTopic allTopic ]
+                ]
+
+        toCheckBoxState include topic =
+            div []
+                [ input [ type_ "checkbox", checked include, onCheck (\b -> Toggle ( topic, b )) ] []
+                , label [] [ text <| getTopic topic ]
                 ]
     in
         div []
@@ -355,7 +377,7 @@ contributorPage model =
                     [ table []
                         [ tr []
                             [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
-                            , td [] [ div [] (allFilter :: (topics |> List.map toCheckbox)) ]
+                            , td [] [ div [] <| allFilter :: (topics |> List.map (\t -> t |> toCheckBoxState model.showAll)) ]
                             , table []
                                 [ tr []
                                     [ td [] [ b [] [ text "Answers" ] ]
@@ -514,8 +536,6 @@ dashboardPage model =
                     ]
                 , button [] [ text "Add" ]
                 ]
-
-            --, div [] [ text (model.contributor |> toString) ]
             ]
 
 
