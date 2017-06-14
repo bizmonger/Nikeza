@@ -1,4 +1,4 @@
-module Controls.AddLink exposing (..)
+module Controls.NewLinks exposing (..)
 
 import Domain.Core exposing (..)
 import Html exposing (..)
@@ -9,8 +9,12 @@ import Html.Events exposing (..)
 -- MODEL
 
 
+init =
+    { current = initLink, canAdd = False, added = [] }
+
+
 type alias Model =
-    Link
+    AddedLinks
 
 
 type Msg
@@ -26,18 +30,22 @@ type Msg
 
 update : Msg -> Model -> Model
 update msg model =
-    case msg of
-        InputTitle v ->
-            { model | title = Title v }
+    let
+        link =
+            model.current
+    in
+        case msg of
+            InputTitle v ->
+                { model | current = { link | title = Title v } }
 
-        InputUrl v ->
-            { model | url = Url v }
+            InputUrl v ->
+                { model | current = { link | url = Url v } }
 
-        InputTopics v ->
-            model
+            InputTopics v ->
+                model
 
-        AddLink v ->
-            v
+            AddLink v ->
+                v
 
 
 
@@ -47,8 +55,8 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ input [ type_ "text", placeholder "title", onInput InputTitle ] []
-        , input [ type_ "text", placeholder "link", onInput InputUrl ] []
+        [ input [ type_ "text", placeholder "title", onInput InputTitle, value <| getTitle model.current.title ] []
+        , input [ type_ "text", placeholder "link", onInput InputUrl, value <| getUrl model.current.url ] []
         , select []
             [ option [ value "undefined2" ] [ text "Select Type" ]
             , option [ value "Article2" ] [ text "Article" ]

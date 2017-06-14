@@ -5,14 +5,13 @@ import Domain.Contributor as Contributor exposing (..)
 import Controls.Login as Login exposing (..)
 import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
 import Controls.AddConnection as AddConnection exposing (..)
-import Controls.AddLink as AddLink exposing (..)
+import Controls.NewLinks as NewLinks exposing (..)
 import Settings exposing (runtime)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
 import Navigation exposing (..)
 import String exposing (..)
-import Tuple exposing (first, second)
 
 
 -- elm-live Home.elm --open --output=home.js
@@ -76,7 +75,7 @@ type Msg
     | ProfileThumbnail ProfileThumbnail.Msg
     | NewConnection AddConnection.Msg
     | Remove Connection
-    | NewLink AddLink.Msg
+    | NewLink NewLinks.Msg
     | Toggle ( Topic, Bool )
     | ToggleAll Bool
     | Search String
@@ -117,7 +116,7 @@ update msg model =
             onRemove model connection
 
         NewLink subMsg ->
-            onAddLink subMsg model
+            onNewLink subMsg model
 
 
 onRemove : Model -> Connection -> ( Model, Cmd Msg )
@@ -147,27 +146,27 @@ onRemove model connection =
         ( newState, Cmd.none )
 
 
-onAddLink : AddLink.Msg -> Model -> ( Model, Cmd Msg )
-onAddLink subMsg model =
+onNewLink : NewLinks.Msg -> Model -> ( Model, Cmd Msg )
+onNewLink subMsg model =
     let
         contributor =
             model.contributor
 
-        link =
-            AddLink.update subMsg (contributor.newLink |> first)
+        newState =
+            NewLinks.update subMsg (contributor.newLinks)
     in
         case subMsg of
-            AddLink.InputTitle _ ->
-                ( { model | contributor = { contributor | newLink = ( link, False ) } }, Cmd.none )
+            NewLinks.InputTitle _ ->
+                ( { model | contributor = { contributor | newLinks = newState } }, Cmd.none )
 
-            AddLink.InputUrl _ ->
-                ( { model | contributor = { contributor | newLink = ( link, False ) } }, Cmd.none )
+            NewLinks.InputUrl _ ->
+                ( { model | contributor = { contributor | newLinks = newState } }, Cmd.none )
 
-            AddLink.InputTopics _ ->
-                ( { model | contributor = { contributor | newLink = ( link, False ) } }, Cmd.none )
+            NewLinks.InputTopics _ ->
+                ( { model | contributor = { contributor | newLinks = newState } }, Cmd.none )
 
-            AddLink _ ->
-                ( { model | contributor = { contributor | newLink = ( link, True ) } }, Cmd.none )
+            AddLink v ->
+                ( { model | contributor = { contributor | newLinks = { newState | canAdd = True, added = [ v.current ] } } }, Cmd.none )
 
 
 onNewConnection : AddConnection.Msg -> Model -> ( Model, Cmd Msg )
@@ -469,6 +468,9 @@ contributorContentTypePage contentTypeText model =
                 Video ->
                     model.videos
 
+                Unknown ->
+                    []
+
                 All ->
                     []
     in
@@ -560,12 +562,18 @@ dashboardPage model =
         connectionsTable =
             table [] [ div [] (contributor.profile.connections |> List.map connectionUI) ]
 
-        ( link, canAdd ) =
-            contributor.newLink
+        linkSummary =
+            contributor.newLinks
 
-        linkIfExists =
-            if canAdd then
-                a [ href <| getUrl link.url ] [ text <| getTitle link.title ]
+        link =
+            linkSummary.current
+
+        update =
+            if linkSummary.canAdd then
+                div []
+                    [ label [] [ text (link.contentType |> contentTypeToText) ]
+                    , a [ href <| getUrl link.url ] [ text <| getTitle link.title ]
+                    ]
             else
                 div [] []
     in
@@ -577,8 +585,8 @@ dashboardPage model =
                 , connectionsTable
                 ]
             , h3 [] [ text "Add Link" ]
-            , Html.map NewLink (AddLink.view link)
-            , linkIfExists
+            , Html.map NewLink (NewLinks.view linkSummary)
+            , update
             ]
 
 

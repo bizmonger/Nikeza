@@ -16,6 +16,17 @@ type alias Profile =
     }
 
 
+initProfile : Profile
+initProfile =
+    { id = Id undefined
+    , name = Name undefined
+    , imageUrl = Url undefined
+    , bio = undefined
+    , topics = []
+    , connections = []
+    }
+
+
 type Id
     = Id String
 
@@ -98,12 +109,35 @@ type alias Link =
     { profile : Profile
     , title : Title
     , url : Url
+    , contentType : ContentType
     , topics : List Topic
+    }
+
+
+initLink : Link
+initLink =
+    { profile = initProfile
+    , title = Title ""
+    , url = Url ""
+    , contentType = Unknown
+    , topics = []
+    }
+
+
+type alias AddedLinks =
+    { current : Link
+    , canAdd : Bool
+    , added : List Link
     }
 
 
 type alias Connection =
     { platform : String, username : String }
+
+
+initConnection : Connection
+initConnection =
+    { platform = "", username = "" }
 
 
 type alias Connectionsfunction =
@@ -144,6 +178,7 @@ type ContentType
     | Podcast
     | Answer
     | All
+    | Unknown
 
 
 
@@ -205,6 +240,9 @@ toContentType contentType =
         "Answers" ->
             Podcast
 
+        "Unknown" ->
+            Unknown
+
         _ ->
             All
 
@@ -223,6 +261,9 @@ contentTypeToText contentType =
 
         Answer ->
             "Answers"
+
+        Unknown ->
+            "Unknown"
 
         All ->
             ""

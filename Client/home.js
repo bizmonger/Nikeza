@@ -10732,6 +10732,8 @@ var _user$project$Domain_Core$contentTypeToText = function (contentType) {
 			return 'Podcasts';
 		case 'Answer':
 			return 'Answers';
+		case 'Unknown':
+			return 'Unknown';
 		default:
 			return '';
 	}
@@ -10754,6 +10756,7 @@ var _user$project$Domain_Core$tryLogin = F3(
 		return loginf(
 			A3(_user$project$Controls_Login$Model, username, password, false));
 	});
+var _user$project$Domain_Core$initConnection = {platform: '', username: ''};
 var _user$project$Domain_Core$getPlatform = function (platform) {
 	var _p1 = platform;
 	var value = _p1._0;
@@ -10788,9 +10791,13 @@ var _user$project$Domain_Core$Profile = F6(
 	function (a, b, c, d, e, f) {
 		return {id: a, name: b, imageUrl: c, bio: d, connections: e, topics: f};
 	});
-var _user$project$Domain_Core$Link = F4(
-	function (a, b, c, d) {
-		return {profile: a, title: b, url: c, topics: d};
+var _user$project$Domain_Core$Link = F5(
+	function (a, b, c, d, e) {
+		return {profile: a, title: b, url: c, contentType: d, topics: e};
+	});
+var _user$project$Domain_Core$AddedLinks = F3(
+	function (a, b, c) {
+		return {current: a, canAdd: b, added: c};
 	});
 var _user$project$Domain_Core$Connection = F2(
 	function (a, b) {
@@ -10807,6 +10814,14 @@ var _user$project$Domain_Core$Title = function (a) {
 };
 var _user$project$Domain_Core$Url = function (a) {
 	return {ctor: 'Url', _0: a};
+};
+var _user$project$Domain_Core$initProfile = {
+	id: _user$project$Domain_Core$Id(_user$project$Domain_Core$undefined),
+	name: _user$project$Domain_Core$Name(_user$project$Domain_Core$undefined),
+	imageUrl: _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined),
+	bio: _user$project$Domain_Core$undefined,
+	topics: {ctor: '[]'},
+	connections: {ctor: '[]'}
 };
 var _user$project$Domain_Core$topicUrl = F2(
 	function (id, topic) {
@@ -10873,6 +10888,14 @@ var _user$project$Domain_Core$Topic = function (a) {
 var _user$project$Domain_Core$Platform = function (a) {
 	return {ctor: 'Platform', _0: a};
 };
+var _user$project$Domain_Core$Unknown = {ctor: 'Unknown'};
+var _user$project$Domain_Core$initLink = {
+	profile: _user$project$Domain_Core$initProfile,
+	title: _user$project$Domain_Core$Title(''),
+	url: _user$project$Domain_Core$Url(''),
+	contentType: _user$project$Domain_Core$Unknown,
+	topics: {ctor: '[]'}
+};
 var _user$project$Domain_Core$All = {ctor: 'All'};
 var _user$project$Domain_Core$Answer = {ctor: 'Answer'};
 var _user$project$Domain_Core$Podcast = {ctor: 'Podcast'};
@@ -10889,6 +10912,8 @@ var _user$project$Domain_Core$toContentType = function (contentType) {
 			return _user$project$Domain_Core$Podcast;
 		case 'Answers':
 			return _user$project$Domain_Core$Podcast;
+		case 'Unknown':
+			return _user$project$Domain_Core$Unknown;
 		default:
 			return _user$project$Domain_Core$All;
 	}
@@ -11039,11 +11064,12 @@ var _user$project$Tests_TestAPI$links = F2(
 			case 'Article':
 				return {
 					ctor: '::',
-					_0: A4(
+					_0: A5(
 						_user$project$Domain_Core$Link,
 						_user$project$Tests_TestAPI$profile1,
 						_user$project$Tests_TestAPI$someArticleTitle1,
 						_user$project$Tests_TestAPI$someUrl,
+						_user$project$Domain_Core$Article,
 						{
 							ctor: '::',
 							_0: _user$project$Tests_TestAPI$someTopic1,
@@ -11051,11 +11077,12 @@ var _user$project$Tests_TestAPI$links = F2(
 						}),
 					_1: {
 						ctor: '::',
-						_0: A4(
+						_0: A5(
 							_user$project$Domain_Core$Link,
 							_user$project$Tests_TestAPI$profile2,
 							_user$project$Tests_TestAPI$someArticleTitle2,
 							_user$project$Tests_TestAPI$someUrl,
+							_user$project$Domain_Core$Article,
 							{
 								ctor: '::',
 								_0: _user$project$Tests_TestAPI$someTopic2,
@@ -11063,11 +11090,12 @@ var _user$project$Tests_TestAPI$links = F2(
 							}),
 						_1: {
 							ctor: '::',
-							_0: A4(
+							_0: A5(
 								_user$project$Domain_Core$Link,
 								_user$project$Tests_TestAPI$profile3,
 								_user$project$Tests_TestAPI$someArticleTitle3,
 								_user$project$Tests_TestAPI$someUrl,
+								_user$project$Domain_Core$Article,
 								{
 									ctor: '::',
 									_0: _user$project$Tests_TestAPI$someTopic3,
@@ -11080,11 +11108,12 @@ var _user$project$Tests_TestAPI$links = F2(
 			case 'Video':
 				return {
 					ctor: '::',
-					_0: A4(
+					_0: A5(
 						_user$project$Domain_Core$Link,
 						_user$project$Tests_TestAPI$profile1,
 						_user$project$Tests_TestAPI$someVideoTitle1,
 						_user$project$Tests_TestAPI$someUrl,
+						_user$project$Domain_Core$Video,
 						{
 							ctor: '::',
 							_0: _user$project$Tests_TestAPI$someTopic1,
@@ -11092,11 +11121,12 @@ var _user$project$Tests_TestAPI$links = F2(
 						}),
 					_1: {
 						ctor: '::',
-						_0: A4(
+						_0: A5(
 							_user$project$Domain_Core$Link,
 							_user$project$Tests_TestAPI$profile2,
 							_user$project$Tests_TestAPI$someVideoTitle2,
 							_user$project$Tests_TestAPI$someUrl,
+							_user$project$Domain_Core$Video,
 							{
 								ctor: '::',
 								_0: _user$project$Tests_TestAPI$someTopic2,
@@ -11104,11 +11134,12 @@ var _user$project$Tests_TestAPI$links = F2(
 							}),
 						_1: {
 							ctor: '::',
-							_0: A4(
+							_0: A5(
 								_user$project$Domain_Core$Link,
 								_user$project$Tests_TestAPI$profile3,
 								_user$project$Tests_TestAPI$someVideoTitle3,
 								_user$project$Tests_TestAPI$someUrl,
+								_user$project$Domain_Core$Video,
 								{
 									ctor: '::',
 									_0: _user$project$Tests_TestAPI$someTopic3,
@@ -11121,11 +11152,12 @@ var _user$project$Tests_TestAPI$links = F2(
 			case 'Podcast':
 				return {
 					ctor: '::',
-					_0: A4(
+					_0: A5(
 						_user$project$Domain_Core$Link,
 						_user$project$Tests_TestAPI$profile1,
 						_user$project$Tests_TestAPI$somePodcastTitle1,
 						_user$project$Tests_TestAPI$someUrl,
+						_user$project$Domain_Core$Podcast,
 						{
 							ctor: '::',
 							_0: _user$project$Tests_TestAPI$someTopic1,
@@ -11133,11 +11165,12 @@ var _user$project$Tests_TestAPI$links = F2(
 						}),
 					_1: {
 						ctor: '::',
-						_0: A4(
+						_0: A5(
 							_user$project$Domain_Core$Link,
 							_user$project$Tests_TestAPI$profile2,
 							_user$project$Tests_TestAPI$somePodcastTitle2,
 							_user$project$Tests_TestAPI$someUrl,
+							_user$project$Domain_Core$Podcast,
 							{
 								ctor: '::',
 								_0: _user$project$Tests_TestAPI$someTopic2,
@@ -11145,11 +11178,12 @@ var _user$project$Tests_TestAPI$links = F2(
 							}),
 						_1: {
 							ctor: '::',
-							_0: A4(
+							_0: A5(
 								_user$project$Domain_Core$Link,
 								_user$project$Tests_TestAPI$profile3,
 								_user$project$Tests_TestAPI$somePodcastTitle3,
 								_user$project$Tests_TestAPI$someUrl,
+								_user$project$Domain_Core$Podcast,
 								{
 									ctor: '::',
 									_0: _user$project$Tests_TestAPI$someTopic3,
@@ -11162,11 +11196,12 @@ var _user$project$Tests_TestAPI$links = F2(
 			case 'Answer':
 				return {
 					ctor: '::',
-					_0: A4(
+					_0: A5(
 						_user$project$Domain_Core$Link,
 						_user$project$Tests_TestAPI$profile1,
 						_user$project$Tests_TestAPI$someQuestionTitle1,
 						_user$project$Tests_TestAPI$someUrl,
+						_user$project$Domain_Core$Answer,
 						{
 							ctor: '::',
 							_0: _user$project$Tests_TestAPI$someTopic1,
@@ -11174,11 +11209,12 @@ var _user$project$Tests_TestAPI$links = F2(
 						}),
 					_1: {
 						ctor: '::',
-						_0: A4(
+						_0: A5(
 							_user$project$Domain_Core$Link,
 							_user$project$Tests_TestAPI$profile2,
 							_user$project$Tests_TestAPI$someQuestionTitle2,
 							_user$project$Tests_TestAPI$someUrl,
+							_user$project$Domain_Core$Answer,
 							{
 								ctor: '::',
 								_0: _user$project$Tests_TestAPI$someTopic2,
@@ -11186,11 +11222,56 @@ var _user$project$Tests_TestAPI$links = F2(
 							}),
 						_1: {
 							ctor: '::',
-							_0: A4(
+							_0: A5(
 								_user$project$Domain_Core$Link,
 								_user$project$Tests_TestAPI$profile3,
 								_user$project$Tests_TestAPI$someQuestionTitle3,
 								_user$project$Tests_TestAPI$someUrl,
+								_user$project$Domain_Core$Answer,
+								{
+									ctor: '::',
+									_0: _user$project$Tests_TestAPI$someTopic3,
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				};
+			case 'All':
+				return {
+					ctor: '::',
+					_0: A5(
+						_user$project$Domain_Core$Link,
+						_user$project$Tests_TestAPI$profile1,
+						_user$project$Tests_TestAPI$someArticleTitle1,
+						_user$project$Tests_TestAPI$someUrl,
+						_user$project$Domain_Core$Article,
+						{
+							ctor: '::',
+							_0: _user$project$Tests_TestAPI$someTopic1,
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A5(
+							_user$project$Domain_Core$Link,
+							_user$project$Tests_TestAPI$profile2,
+							_user$project$Tests_TestAPI$someArticleTitle2,
+							_user$project$Tests_TestAPI$someUrl,
+							_user$project$Domain_Core$Article,
+							{
+								ctor: '::',
+								_0: _user$project$Tests_TestAPI$someTopic2,
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A5(
+								_user$project$Domain_Core$Link,
+								_user$project$Tests_TestAPI$profile3,
+								_user$project$Tests_TestAPI$someArticleTitle3,
+								_user$project$Tests_TestAPI$someUrl,
+								_user$project$Domain_Core$Article,
 								{
 									ctor: '::',
 									_0: _user$project$Tests_TestAPI$someTopic3,
@@ -11201,46 +11282,7 @@ var _user$project$Tests_TestAPI$links = F2(
 					}
 				};
 			default:
-				return {
-					ctor: '::',
-					_0: A4(
-						_user$project$Domain_Core$Link,
-						_user$project$Tests_TestAPI$profile1,
-						_user$project$Tests_TestAPI$someArticleTitle1,
-						_user$project$Tests_TestAPI$someUrl,
-						{
-							ctor: '::',
-							_0: _user$project$Tests_TestAPI$someTopic1,
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A4(
-							_user$project$Domain_Core$Link,
-							_user$project$Tests_TestAPI$profile2,
-							_user$project$Tests_TestAPI$someArticleTitle2,
-							_user$project$Tests_TestAPI$someUrl,
-							{
-								ctor: '::',
-								_0: _user$project$Tests_TestAPI$someTopic2,
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: A4(
-								_user$project$Domain_Core$Link,
-								_user$project$Tests_TestAPI$profile3,
-								_user$project$Tests_TestAPI$someArticleTitle3,
-								_user$project$Tests_TestAPI$someUrl,
-								{
-									ctor: '::',
-									_0: _user$project$Tests_TestAPI$someTopic3,
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
-					}
-				};
+				return {ctor: '[]'};
 		}
 	});
 var _user$project$Tests_TestAPI$topics = function (profileId) {
@@ -11446,21 +11488,30 @@ var _user$project$Controls_AddConnection$view = function (model) {
 		});
 };
 
-var _user$project$Controls_AddLink$update = F2(
+var _user$project$Controls_NewLinks$update = F2(
 	function (msg, model) {
+		var link = model.current;
 		var _p0 = msg;
 		switch (_p0.ctor) {
 			case 'InputTitle':
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{
-						title: _user$project$Domain_Core$Title(_p0._0)
+						current: _elm_lang$core$Native_Utils.update(
+							link,
+							{
+								title: _user$project$Domain_Core$Title(_p0._0)
+							})
 					});
 			case 'InputUrl':
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{
-						url: _user$project$Domain_Core$Url(_p0._0)
+						current: _elm_lang$core$Native_Utils.update(
+							link,
+							{
+								url: _user$project$Domain_Core$Url(_p0._0)
+							})
 					});
 			case 'InputTopics':
 				return model;
@@ -11468,19 +11519,24 @@ var _user$project$Controls_AddLink$update = F2(
 				return _p0._0;
 		}
 	});
-var _user$project$Controls_AddLink$AddLink = function (a) {
+var _user$project$Controls_NewLinks$init = {
+	current: _user$project$Domain_Core$initLink,
+	canAdd: false,
+	added: {ctor: '[]'}
+};
+var _user$project$Controls_NewLinks$AddLink = function (a) {
 	return {ctor: 'AddLink', _0: a};
 };
-var _user$project$Controls_AddLink$InputTopics = function (a) {
+var _user$project$Controls_NewLinks$InputTopics = function (a) {
 	return {ctor: 'InputTopics', _0: a};
 };
-var _user$project$Controls_AddLink$InputUrl = function (a) {
+var _user$project$Controls_NewLinks$InputUrl = function (a) {
 	return {ctor: 'InputUrl', _0: a};
 };
-var _user$project$Controls_AddLink$InputTitle = function (a) {
+var _user$project$Controls_NewLinks$InputTitle = function (a) {
 	return {ctor: 'InputTitle', _0: a};
 };
-var _user$project$Controls_AddLink$view = function (model) {
+var _user$project$Controls_NewLinks$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -11496,8 +11552,13 @@ var _user$project$Controls_AddLink$view = function (model) {
 						_0: _elm_lang$html$Html_Attributes$placeholder('title'),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_AddLink$InputTitle),
-							_1: {ctor: '[]'}
+							_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_NewLinks$InputTitle),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$value(
+									_user$project$Domain_Core$getTitle(model.current.title)),
+								_1: {ctor: '[]'}
+							}
 						}
 					}
 				},
@@ -11514,8 +11575,13 @@ var _user$project$Controls_AddLink$view = function (model) {
 							_0: _elm_lang$html$Html_Attributes$placeholder('link'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_AddLink$InputUrl),
-								_1: {ctor: '[]'}
+								_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_NewLinks$InputUrl),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$value(
+										_user$project$Domain_Core$getUrl(model.current.url)),
+									_1: {ctor: '[]'}
+								}
 							}
 						}
 					},
@@ -11608,7 +11674,7 @@ var _user$project$Controls_AddLink$view = function (model) {
 							{
 								ctor: '::',
 								_0: _elm_lang$html$Html_Events$onClick(
-									_user$project$Controls_AddLink$AddLink(model)),
+									_user$project$Controls_NewLinks$AddLink(model)),
 								_1: {ctor: '[]'}
 							},
 							{
@@ -11798,16 +11864,7 @@ var _user$project$Domain_Contributor$getContributor = function (p) {
 		showAll: true,
 		topics: p.topics,
 		newConnection: _user$project$Controls_AddConnection$init,
-		newLink: {
-			ctor: '_Tuple2',
-			_0: {
-				profile: p,
-				title: _user$project$Domain_Core$Title('undefined'),
-				url: _user$project$Domain_Core$Url('undefined'),
-				topics: {ctor: '[]'}
-			},
-			_1: false
-		},
+		newLinks: _user$project$Controls_NewLinks$init,
 		answers: A2(_user$project$Settings$runtime.links, _user$project$Domain_Core$Answer, p.id),
 		articles: A2(_user$project$Settings$runtime.links, _user$project$Domain_Core$Article, p.id),
 		videos: A2(_user$project$Settings$runtime.links, _user$project$Domain_Core$Video, p.id),
@@ -11816,29 +11873,19 @@ var _user$project$Domain_Contributor$getContributor = function (p) {
 };
 var _user$project$Domain_Contributor$Model = F9(
 	function (a, b, c, d, e, f, g, h, i) {
-		return {profile: a, newConnection: b, newLink: c, showAll: d, topics: e, answers: f, articles: g, videos: h, podcasts: i};
+		return {profile: a, newConnection: b, newLinks: c, showAll: d, topics: e, answers: f, articles: g, videos: h, podcasts: i};
 	});
 var _user$project$Domain_Contributor$init = function () {
-	var newConnection = {platform: '', username: ''};
-	var profile = {
-		id: _user$project$Domain_Core$Id(_user$project$Domain_Core$undefined),
-		name: _user$project$Domain_Core$Name(_user$project$Domain_Core$undefined),
-		imageUrl: _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined),
-		bio: _user$project$Domain_Core$undefined,
-		topics: {ctor: '[]'},
-		connections: {ctor: '[]'}
-	};
-	var newLink = {
-		profile: profile,
-		title: _user$project$Domain_Core$Title(_user$project$Domain_Core$undefined),
-		url: _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined),
-		topics: {ctor: '[]'}
-	};
+	var addedLinks = A3(
+		_user$project$Domain_Core$AddedLinks,
+		_user$project$Domain_Core$initLink,
+		false,
+		{ctor: '[]'});
 	return A9(
 		_user$project$Domain_Contributor$Model,
-		profile,
-		newConnection,
-		{ctor: '_Tuple2', _0: newLink, _1: false},
+		_user$project$Domain_Core$initProfile,
+		_user$project$Domain_Core$initConnection,
+		addedLinks,
 		true,
 		{ctor: '[]'},
 		{ctor: '[]'},
@@ -12639,13 +12686,10 @@ var _user$project$Home$onNewConnection = F2(
 				};
 		}
 	});
-var _user$project$Home$onAddLink = F2(
+var _user$project$Home$onNewLink = F2(
 	function (subMsg, model) {
 		var contributor = model.contributor;
-		var link = A2(
-			_user$project$Controls_AddLink$update,
-			subMsg,
-			_elm_lang$core$Tuple$first(contributor.newLink));
+		var newState = A2(_user$project$Controls_NewLinks$update, subMsg, contributor.newLinks);
 		var _p13 = subMsg;
 		switch (_p13.ctor) {
 			case 'InputTitle':
@@ -12656,9 +12700,7 @@ var _user$project$Home$onAddLink = F2(
 						{
 							contributor: _elm_lang$core$Native_Utils.update(
 								contributor,
-								{
-									newLink: {ctor: '_Tuple2', _0: link, _1: false}
-								})
+								{newLinks: newState})
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -12670,9 +12712,7 @@ var _user$project$Home$onAddLink = F2(
 						{
 							contributor: _elm_lang$core$Native_Utils.update(
 								contributor,
-								{
-									newLink: {ctor: '_Tuple2', _0: link, _1: false}
-								})
+								{newLinks: newState})
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -12684,9 +12724,7 @@ var _user$project$Home$onAddLink = F2(
 						{
 							contributor: _elm_lang$core$Native_Utils.update(
 								contributor,
-								{
-									newLink: {ctor: '_Tuple2', _0: link, _1: false}
-								})
+								{newLinks: newState})
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -12699,7 +12737,16 @@ var _user$project$Home$onAddLink = F2(
 							contributor: _elm_lang$core$Native_Utils.update(
 								contributor,
 								{
-									newLink: {ctor: '_Tuple2', _0: link, _1: true}
+									newLinks: _elm_lang$core$Native_Utils.update(
+										newState,
+										{
+											canAdd: true,
+											added: {
+												ctor: '::',
+												_0: _p13._0.current,
+												_1: {ctor: '[]'}
+											}
+										})
 								})
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
@@ -12764,7 +12811,7 @@ var _user$project$Home$update = F2(
 			case 'Remove':
 				return A2(_user$project$Home$onRemove, model, _p14._0);
 			default:
-				return A2(_user$project$Home$onAddLink, _p14._0, model);
+				return A2(_user$project$Home$onNewLink, _p14._0, model);
 		}
 	});
 var _user$project$Home$init = function (location) {
@@ -13227,6 +13274,8 @@ var _user$project$Home$contributorContentTypePage = F2(
 					return model.podcasts;
 				case 'Video':
 					return model.videos;
+				case 'Unknown':
+					return {ctor: '[]'};
 				default:
 					return {ctor: '[]'};
 			}
@@ -13423,22 +13472,40 @@ var _user$project$Home$dashboardPage = function (model) {
 				A2(_elm_lang$core$List$map, _user$project$Home$connectionUI, contributor.profile.connections)),
 			_1: {ctor: '[]'}
 		});
-	var _p19 = contributor.newLink;
-	var link = _p19._0;
-	var canAdd = _p19._1;
-	var linkIfExists = canAdd ? A2(
-		_elm_lang$html$Html$a,
+	var linkSummary = contributor.newLinks;
+	var link = linkSummary.current;
+	var update = linkSummary.canAdd ? A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$href(
-				_user$project$Domain_Core$getUrl(link.url)),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text(
-				_user$project$Domain_Core$getTitle(link.title)),
-			_1: {ctor: '[]'}
+			_0: A2(
+				_elm_lang$html$Html$label,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_user$project$Domain_Core$contentTypeToText(link.contentType)),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$a,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$href(
+							_user$project$Domain_Core$getUrl(link.url)),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							_user$project$Domain_Core$getTitle(link.title)),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
 		}) : A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -13503,10 +13570,10 @@ var _user$project$Home$dashboardPage = function (model) {
 						_0: A2(
 							_elm_lang$html$Html$map,
 							_user$project$Home$NewLink,
-							_user$project$Controls_AddLink$view(link)),
+							_user$project$Controls_NewLinks$view(linkSummary)),
 						_1: {
 							ctor: '::',
-							_0: linkIfExists,
+							_0: update,
 							_1: {ctor: '[]'}
 						}
 					}
@@ -13529,7 +13596,7 @@ var _user$project$Home$homePage = function (model) {
 			{ctor: '[]'},
 			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, model.contributors)));
 	var loginUI = function (model) {
-		var _p20 = {
+		var _p19 = {
 			ctor: '_Tuple3',
 			_0: model.login.loggedIn,
 			_1: A2(
@@ -13564,9 +13631,9 @@ var _user$project$Home$homePage = function (model) {
 					_1: {ctor: '[]'}
 				})
 		};
-		var loggedIn = _p20._0;
-		var welcome = _p20._1;
-		var signout = _p20._2;
+		var loggedIn = _p19._0;
+		var welcome = _p19._1;
+		var signout = _p19._2;
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$OnLogin,
@@ -13682,36 +13749,36 @@ var _user$project$Home$homePage = function (model) {
 		});
 };
 var _user$project$Home$view = function (model) {
-	var _p21 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+	var _p20 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
 	_v13_7:
 	do {
-		if (_p21.ctor === '[]') {
+		if (_p20.ctor === '[]') {
 			return _user$project$Home$homePage(model);
 		} else {
-			if (_p21._1.ctor === '[]') {
-				if (_p21._0 === 'home') {
+			if (_p20._1.ctor === '[]') {
+				if (_p20._0 === 'home') {
 					return _user$project$Home$homePage(model);
 				} else {
 					break _v13_7;
 				}
 			} else {
-				if (_p21._1._1.ctor === '::') {
-					if (_p21._0 === 'contributor') {
-						if (_p21._1._1._1.ctor === '[]') {
-							var _p23 = _user$project$Settings$runtime.contributor(
-								_user$project$Domain_Core$Id(_p21._1._0));
-							if (_p23.ctor === 'Just') {
+				if (_p20._1._1.ctor === '::') {
+					if (_p20._0 === 'contributor') {
+						if (_p20._1._1._1.ctor === '[]') {
+							var _p22 = _user$project$Settings$runtime.contributor(
+								_user$project$Domain_Core$Id(_p20._1._0));
+							if (_p22.ctor === 'Just') {
 								return _user$project$Home$contributorTopicPage(model.contributor);
 							} else {
 								return _user$project$Home$notFoundPage;
 							}
 						} else {
-							if (_p21._1._1._1._1.ctor === '[]') {
-								if (_p21._1._1._0 === 'all') {
-									var _p24 = _user$project$Settings$runtime.contributor(
-										_user$project$Domain_Core$Id(_p21._1._0));
-									if (_p24.ctor === 'Just') {
-										return A2(_user$project$Home$contributorContentTypePage, _p21._1._1._1._0, model.contributor);
+							if (_p20._1._1._1._1.ctor === '[]') {
+								if (_p20._1._1._0 === 'all') {
+									var _p23 = _user$project$Settings$runtime.contributor(
+										_user$project$Domain_Core$Id(_p20._1._0));
+									if (_p23.ctor === 'Just') {
+										return A2(_user$project$Home$contributorContentTypePage, _p20._1._1._1._0, model.contributor);
 									} else {
 										return _user$project$Home$notFoundPage;
 									}
@@ -13719,14 +13786,14 @@ var _user$project$Home$view = function (model) {
 									break _v13_7;
 								}
 							} else {
-								if ((_p21._1._1._1._0 === 'all') && (_p21._1._1._1._1._1.ctor === '[]')) {
-									var _p25 = _user$project$Settings$runtime.contributor(
-										_user$project$Domain_Core$Id(_p21._1._0));
-									if (_p25.ctor === 'Just') {
+								if ((_p20._1._1._1._0 === 'all') && (_p20._1._1._1._1._1.ctor === '[]')) {
+									var _p24 = _user$project$Settings$runtime.contributor(
+										_user$project$Domain_Core$Id(_p20._1._0));
+									if (_p24.ctor === 'Just') {
 										return A3(
 											_user$project$Home$contributorTopicContentTypePage,
-											_user$project$Domain_Core$Topic(_p21._1._1._0),
-											_user$project$Domain_Core$toContentType(_p21._1._1._1._1._0),
+											_user$project$Domain_Core$Topic(_p20._1._1._0),
+											_user$project$Domain_Core$toContentType(_p20._1._1._1._1._0),
 											model.contributor);
 									} else {
 										return _user$project$Home$notFoundPage;
@@ -13740,16 +13807,16 @@ var _user$project$Home$view = function (model) {
 						break _v13_7;
 					}
 				} else {
-					if (_p21._0 === 'contributor') {
-						var _p22 = _user$project$Settings$runtime.contributor(
-							_user$project$Domain_Core$Id(_p21._1._0));
-						if (_p22.ctor === 'Just') {
+					if (_p20._0 === 'contributor') {
+						var _p21 = _user$project$Settings$runtime.contributor(
+							_user$project$Domain_Core$Id(_p20._1._0));
+						if (_p21.ctor === 'Just') {
 							return _user$project$Home$contributorPage(model.contributor);
 						} else {
 							return _user$project$Home$notFoundPage;
 						}
 					} else {
-						if (_p21._1._0 === 'dashboard') {
+						if (_p20._1._0 === 'dashboard') {
 							return _user$project$Home$dashboardPage(model);
 						} else {
 							break _v13_7;
@@ -13771,7 +13838,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p26) {
+		subscriptions: function (_p25) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();
