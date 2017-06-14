@@ -139,7 +139,7 @@ onRemove model connection =
                 | contributor =
                     { contributor
                         | profile = updatedProfile
-                        , newConnection = AddConnection.init
+                        , newConnection = initConnection
                     }
             }
     in
@@ -169,7 +169,7 @@ onNewLink subMsg model =
                 ( { model | contributor = { contributor | newLinks = newState } }, Cmd.none )
 
             AddLink v ->
-                ( { model | contributor = { contributor | newLinks = { newState | canAdd = True, added = [ v.current ] } } }, Cmd.none )
+                ( { model | contributor = { contributor | newLinks = { newState | canAdd = True, added = v.current :: v.added } } }, Cmd.none )
 
 
 onNewConnection : AddConnection.Msg -> Model -> ( Model, Cmd Msg )
@@ -568,15 +568,15 @@ dashboardPage model =
         linkSummary =
             contributor.newLinks
 
-        link =
-            linkSummary.current
+        addLink l =
+            div []
+                [ label [] [ text <| (l.contentType |> contentTypeToText |> dropRight 1) ++ ": " ]
+                , a [ href <| getUrl l.url ] [ text <| getTitle l.title ]
+                ]
 
         update =
             if linkSummary.canAdd then
-                div []
-                    [ label [] [ text (link.contentType |> contentTypeToText) ]
-                    , a [ href <| getUrl link.url ] [ text <| getTitle link.title ]
-                    ]
+                div [] (linkSummary.added |> List.map addLink)
             else
                 div [] []
     in

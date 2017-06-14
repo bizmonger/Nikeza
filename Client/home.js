@@ -10906,16 +10906,24 @@ var _user$project$Domain_Core$toContentType = function (contentType) {
 	switch (_p7) {
 		case 'Articles':
 			return _user$project$Domain_Core$Article;
+		case 'Article':
+			return _user$project$Domain_Core$Article;
 		case 'Videos':
+			return _user$project$Domain_Core$Video;
+		case 'Video':
 			return _user$project$Domain_Core$Video;
 		case 'Podcasts':
 			return _user$project$Domain_Core$Podcast;
-		case 'Answers':
+		case 'Podcast':
 			return _user$project$Domain_Core$Podcast;
+		case 'Answers':
+			return _user$project$Domain_Core$Answer;
+		case 'Answer':
+			return _user$project$Domain_Core$Answer;
 		case 'Unknown':
 			return _user$project$Domain_Core$Unknown;
 		default:
-			return _user$project$Domain_Core$All;
+			return _user$project$Domain_Core$Unknown;
 	}
 };
 
@@ -11382,7 +11390,6 @@ var _user$project$Controls_AddConnection$update = F2(
 				return _p0._0;
 		}
 	});
-var _user$project$Controls_AddConnection$init = A2(_user$project$Domain_Core$Connection, '', '');
 var _user$project$Controls_AddConnection$Submit = function (a) {
 	return {ctor: 'Submit', _0: a};
 };
@@ -11393,6 +11400,10 @@ var _user$project$Controls_AddConnection$InputUsername = function (a) {
 	return {ctor: 'InputUsername', _0: a};
 };
 var _user$project$Controls_AddConnection$view = function (model) {
+	var changeHandler = A2(
+		_elm_lang$html$Html_Events$on,
+		'change',
+		A2(_elm_lang$core$Json_Decode$map, _user$project$Controls_AddConnection$InputPlatform, _elm_lang$html$Html_Events$targetValue));
 	var platformOption = function (platform) {
 		return A2(
 			_elm_lang$html$Html$option,
@@ -11430,10 +11441,7 @@ var _user$project$Controls_AddConnection$view = function (model) {
 				_elm_lang$html$Html$select,
 				{
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html_Events$on,
-						'change',
-						A2(_elm_lang$core$Json_Decode$map, _user$project$Controls_AddConnection$InputPlatform, _elm_lang$html$Html_Events$targetValue)),
+					_0: changeHandler,
 					_1: {
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$value(model.platform),
@@ -11603,14 +11611,21 @@ var _user$project$Controls_NewLinks$view = function (model) {
 					ctor: '::',
 					_0: A2(
 						_elm_lang$html$Html$select,
-						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html_Events$on,
+								'change',
+								A2(_elm_lang$core$Json_Decode$map, _user$project$Controls_NewLinks$InputContentType, _elm_lang$html$Html_Events$targetValue)),
+							_1: {ctor: '[]'}
+						},
 						{
 							ctor: '::',
 							_0: A2(
 								_elm_lang$html$Html$option,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$value('undefined2'),
+									_0: _elm_lang$html$Html_Attributes$value('Undefined'),
 									_1: {ctor: '[]'}
 								},
 								{
@@ -11624,7 +11639,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 									_elm_lang$html$Html$option,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$value('Article2'),
+										_0: _elm_lang$html$Html_Attributes$value('Article'),
 										_1: {ctor: '[]'}
 									},
 									{
@@ -11638,7 +11653,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 										_elm_lang$html$Html$option,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$value('Video2'),
+											_0: _elm_lang$html$Html_Attributes$value('Video'),
 											_1: {ctor: '[]'}
 										},
 										{
@@ -11652,7 +11667,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 											_elm_lang$html$Html$option,
 											{
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$value('Answer2'),
+												_0: _elm_lang$html$Html_Attributes$value('Answer'),
 												_1: {ctor: '[]'}
 											},
 											{
@@ -11666,7 +11681,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 												_elm_lang$html$Html$option,
 												{
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$value('Podcast2'),
+													_0: _elm_lang$html$Html_Attributes$value('Podcast'),
 													_1: {ctor: '[]'}
 												},
 												{
@@ -11876,7 +11891,7 @@ var _user$project$Domain_Contributor$getContributor = function (p) {
 		profile: p,
 		showAll: true,
 		topics: p.topics,
-		newConnection: _user$project$Controls_AddConnection$init,
+		newConnection: _user$project$Domain_Core$initConnection,
 		newLinks: _user$project$Controls_NewLinks$init,
 		answers: A2(_user$project$Settings$runtime.links, _user$project$Domain_Core$Answer, p.id),
 		articles: A2(_user$project$Settings$runtime.links, _user$project$Domain_Core$Article, p.id),
@@ -12754,6 +12769,7 @@ var _user$project$Home$onNewLink = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
+				var _p14 = _p13._0;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
@@ -12766,11 +12782,7 @@ var _user$project$Home$onNewLink = F2(
 										newState,
 										{
 											canAdd: true,
-											added: {
-												ctor: '::',
-												_0: _p13._0.current,
-												_1: {ctor: '[]'}
-											}
+											added: {ctor: '::', _0: _p14.current, _1: _p14.added}
 										})
 								})
 						}),
@@ -12796,20 +12808,20 @@ var _user$project$Home$onRemove = F2(
 			{
 				contributor: _elm_lang$core$Native_Utils.update(
 					contributor,
-					{profile: updatedProfile, newConnection: _user$project$Controls_AddConnection$init})
+					{profile: updatedProfile, newConnection: _user$project$Domain_Core$initConnection})
 			});
 		return {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
 	});
 var _user$project$Home$update = F2(
 	function (msg, model) {
-		var _p14 = msg;
-		switch (_p14.ctor) {
+		var _p15 = msg;
+		switch (_p15.ctor) {
 			case 'UrlChange':
-				return A3(_user$project$Home$navigate, msg, model, _p14._0);
+				return A3(_user$project$Home$navigate, msg, model, _p15._0);
 			case 'OnLogin':
-				return A2(_user$project$Home$onLogin, model, _p14._0);
+				return A2(_user$project$Home$onLogin, model, _p15._0);
 			case 'Search':
-				if (_p14._0 === '') {
+				if (_p15._0 === '') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -12818,7 +12830,7 @@ var _user$project$Home$update = F2(
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
-					return A2(_user$project$Home$matchContributors, model, _p14._0);
+					return A2(_user$project$Home$matchContributors, model, _p15._0);
 				}
 			case 'Register':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -12826,27 +12838,27 @@ var _user$project$Home$update = F2(
 				return A2(
 					_user$project$Home$toggleFilter,
 					model,
-					{ctor: '_Tuple2', _0: _p14._0._0, _1: _p14._0._1});
+					{ctor: '_Tuple2', _0: _p15._0._0, _1: _p15._0._1});
 			case 'ToggleAll':
-				return A2(_user$project$Home$toggleAllFilter, model, _p14._0);
+				return A2(_user$project$Home$toggleAllFilter, model, _p15._0);
 			case 'ProfileThumbnail':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'NewConnection':
-				return A2(_user$project$Home$onNewConnection, _p14._0, model);
+				return A2(_user$project$Home$onNewConnection, _p15._0, model);
 			case 'Remove':
-				return A2(_user$project$Home$onRemove, model, _p14._0);
+				return A2(_user$project$Home$onRemove, model, _p15._0);
 			default:
-				return A2(_user$project$Home$onNewLink, _p14._0, model);
+				return A2(_user$project$Home$onNewLink, _p15._0, model);
 		}
 	});
 var _user$project$Home$init = function (location) {
 	var contributor = function () {
-		var _p15 = _user$project$Home$tokenizeUrl(location.hash);
-		if ((((_p15.ctor === '::') && (_p15._0 === 'contributor')) && (_p15._1.ctor === '::')) && (_p15._1._1.ctor === '[]')) {
-			var _p16 = _user$project$Settings$runtime.contributor(
-				_user$project$Domain_Core$Id(_p15._1._0));
-			if (_p16.ctor === 'Just') {
-				return _user$project$Domain_Contributor$getContributor(_p16._0);
+		var _p16 = _user$project$Home$tokenizeUrl(location.hash);
+		if ((((_p16.ctor === '::') && (_p16._0 === 'contributor')) && (_p16._1.ctor === '::')) && (_p16._1._1.ctor === '[]')) {
+			var _p17 = _user$project$Settings$runtime.contributor(
+				_user$project$Domain_Core$Id(_p16._1._0));
+			if (_p17.ctor === 'Just') {
+				return _user$project$Domain_Contributor$getContributor(_p17._0);
 			} else {
 				return _user$project$Domain_Contributor$init;
 			}
@@ -12956,9 +12968,9 @@ var _user$project$Home$contributorPage = function (model) {
 				_1: {ctor: '[]'}
 			}
 		});
-	var _p17 = {ctor: '_Tuple2', _0: model.profile.id, _1: model.profile.topics};
-	var profileId = _p17._0;
-	var topics = _p17._1;
+	var _p18 = {ctor: '_Tuple2', _0: model.profile.id, _1: model.profile.topics};
+	var profileId = _p18._0;
+	var topics = _p18._1;
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -13289,8 +13301,8 @@ var _user$project$Home$toCheckbox = function (topic) {
 var _user$project$Home$contributorContentTypePage = F2(
 	function (contentTypeText, model) {
 		var posts = function () {
-			var _p18 = _user$project$Domain_Core$toContentType(contentTypeText);
-			switch (_p18.ctor) {
+			var _p19 = _user$project$Domain_Core$toContentType(contentTypeText);
+			switch (_p19.ctor) {
 				case 'Answer':
 					return model.answers;
 				case 'Article':
@@ -13485,6 +13497,47 @@ var _user$project$Home$NewConnection = function (a) {
 	return {ctor: 'NewConnection', _0: a};
 };
 var _user$project$Home$dashboardPage = function (model) {
+	var addLink = function (l) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$label,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								A2(
+									_elm_lang$core$String$dropRight,
+									1,
+									_user$project$Domain_Core$contentTypeToText(l.contentType)),
+								': ')),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$a,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$href(
+								_user$project$Domain_Core$getUrl(l.url)),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								_user$project$Domain_Core$getTitle(l.title)),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			});
+	};
 	var contributor = model.contributor;
 	var connectionsTable = A2(
 		_elm_lang$html$Html$table,
@@ -13498,40 +13551,10 @@ var _user$project$Home$dashboardPage = function (model) {
 			_1: {ctor: '[]'}
 		});
 	var linkSummary = contributor.newLinks;
-	var link = linkSummary.current;
 	var update = linkSummary.canAdd ? A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$label,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(
-						_user$project$Domain_Core$contentTypeToText(link.contentType)),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$a,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$href(
-							_user$project$Domain_Core$getUrl(link.url)),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							_user$project$Domain_Core$getTitle(link.title)),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			}
-		}) : A2(
+		A2(_elm_lang$core$List$map, addLink, linkSummary.added)) : A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{ctor: '[]'});
@@ -13621,7 +13644,7 @@ var _user$project$Home$homePage = function (model) {
 			{ctor: '[]'},
 			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, model.contributors)));
 	var loginUI = function (model) {
-		var _p19 = {
+		var _p20 = {
 			ctor: '_Tuple3',
 			_0: model.login.loggedIn,
 			_1: A2(
@@ -13656,9 +13679,9 @@ var _user$project$Home$homePage = function (model) {
 					_1: {ctor: '[]'}
 				})
 		};
-		var loggedIn = _p19._0;
-		var welcome = _p19._1;
-		var signout = _p19._2;
+		var loggedIn = _p20._0;
+		var welcome = _p20._1;
+		var signout = _p20._2;
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$OnLogin,
@@ -13774,36 +13797,36 @@ var _user$project$Home$homePage = function (model) {
 		});
 };
 var _user$project$Home$view = function (model) {
-	var _p20 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+	var _p21 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
 	_v13_7:
 	do {
-		if (_p20.ctor === '[]') {
+		if (_p21.ctor === '[]') {
 			return _user$project$Home$homePage(model);
 		} else {
-			if (_p20._1.ctor === '[]') {
-				if (_p20._0 === 'home') {
+			if (_p21._1.ctor === '[]') {
+				if (_p21._0 === 'home') {
 					return _user$project$Home$homePage(model);
 				} else {
 					break _v13_7;
 				}
 			} else {
-				if (_p20._1._1.ctor === '::') {
-					if (_p20._0 === 'contributor') {
-						if (_p20._1._1._1.ctor === '[]') {
-							var _p22 = _user$project$Settings$runtime.contributor(
-								_user$project$Domain_Core$Id(_p20._1._0));
-							if (_p22.ctor === 'Just') {
+				if (_p21._1._1.ctor === '::') {
+					if (_p21._0 === 'contributor') {
+						if (_p21._1._1._1.ctor === '[]') {
+							var _p23 = _user$project$Settings$runtime.contributor(
+								_user$project$Domain_Core$Id(_p21._1._0));
+							if (_p23.ctor === 'Just') {
 								return _user$project$Home$contributorTopicPage(model.contributor);
 							} else {
 								return _user$project$Home$notFoundPage;
 							}
 						} else {
-							if (_p20._1._1._1._1.ctor === '[]') {
-								if (_p20._1._1._0 === 'all') {
-									var _p23 = _user$project$Settings$runtime.contributor(
-										_user$project$Domain_Core$Id(_p20._1._0));
-									if (_p23.ctor === 'Just') {
-										return A2(_user$project$Home$contributorContentTypePage, _p20._1._1._1._0, model.contributor);
+							if (_p21._1._1._1._1.ctor === '[]') {
+								if (_p21._1._1._0 === 'all') {
+									var _p24 = _user$project$Settings$runtime.contributor(
+										_user$project$Domain_Core$Id(_p21._1._0));
+									if (_p24.ctor === 'Just') {
+										return A2(_user$project$Home$contributorContentTypePage, _p21._1._1._1._0, model.contributor);
 									} else {
 										return _user$project$Home$notFoundPage;
 									}
@@ -13811,14 +13834,14 @@ var _user$project$Home$view = function (model) {
 									break _v13_7;
 								}
 							} else {
-								if ((_p20._1._1._1._0 === 'all') && (_p20._1._1._1._1._1.ctor === '[]')) {
-									var _p24 = _user$project$Settings$runtime.contributor(
-										_user$project$Domain_Core$Id(_p20._1._0));
-									if (_p24.ctor === 'Just') {
+								if ((_p21._1._1._1._0 === 'all') && (_p21._1._1._1._1._1.ctor === '[]')) {
+									var _p25 = _user$project$Settings$runtime.contributor(
+										_user$project$Domain_Core$Id(_p21._1._0));
+									if (_p25.ctor === 'Just') {
 										return A3(
 											_user$project$Home$contributorTopicContentTypePage,
-											_user$project$Domain_Core$Topic(_p20._1._1._0),
-											_user$project$Domain_Core$toContentType(_p20._1._1._1._1._0),
+											_user$project$Domain_Core$Topic(_p21._1._1._0),
+											_user$project$Domain_Core$toContentType(_p21._1._1._1._1._0),
 											model.contributor);
 									} else {
 										return _user$project$Home$notFoundPage;
@@ -13832,16 +13855,16 @@ var _user$project$Home$view = function (model) {
 						break _v13_7;
 					}
 				} else {
-					if (_p20._0 === 'contributor') {
-						var _p21 = _user$project$Settings$runtime.contributor(
-							_user$project$Domain_Core$Id(_p20._1._0));
-						if (_p21.ctor === 'Just') {
+					if (_p21._0 === 'contributor') {
+						var _p22 = _user$project$Settings$runtime.contributor(
+							_user$project$Domain_Core$Id(_p21._1._0));
+						if (_p22.ctor === 'Just') {
 							return _user$project$Home$contributorPage(model.contributor);
 						} else {
 							return _user$project$Home$notFoundPage;
 						}
 					} else {
-						if (_p20._1._0 === 'dashboard') {
+						if (_p21._1._0 === 'dashboard') {
 							return _user$project$Home$dashboardPage(model);
 						} else {
 							break _v13_7;
@@ -13863,7 +13886,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p25) {
+		subscriptions: function (_p26) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();

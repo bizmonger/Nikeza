@@ -15,11 +15,6 @@ type alias Model =
     Connection
 
 
-init : Connection
-init =
-    Connection "" ""
-
-
 type Msg
     = InputUsername String
     | InputPlatform String
@@ -51,9 +46,12 @@ view model =
 
         platformOption platform =
             option [ value <| getPlatform platform ] [ text <| getPlatform platform ]
+
+        changeHandler =
+            Html.Events.on "change" (Json.Decode.map InputPlatform Html.Events.targetValue)
     in
         div []
-            [ select [ Html.Events.on "change" (Json.Decode.map InputPlatform Html.Events.targetValue), value model.platform ] <| instruction :: (runtime.platforms |> List.map platformOption)
+            [ select [ changeHandler, value model.platform ] <| instruction :: (runtime.platforms |> List.map platformOption)
             , input [ type_ "text", placeholder "username", onInput InputUsername, value model.username ] []
             , button [ onClick <| Submit model ] [ text "Add" ]
             ]

@@ -231,20 +231,32 @@ toContentType contentType =
         "Articles" ->
             Article
 
+        "Article" ->
+            Article
+
         "Videos" ->
+            Video
+
+        "Video" ->
             Video
 
         "Podcasts" ->
             Podcast
 
-        "Answers" ->
+        "Podcast" ->
             Podcast
+
+        "Answers" ->
+            Answer
+
+        "Answer" ->
+            Answer
 
         "Unknown" ->
             Unknown
 
         _ ->
-            All
+            Unknown
 
 
 contentTypeToText : ContentType -> String

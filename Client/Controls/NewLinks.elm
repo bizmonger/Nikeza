@@ -4,6 +4,7 @@ import Domain.Core exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Json.Decode exposing (map)
 
 
 -- MODEL
@@ -61,12 +62,12 @@ view model =
     div []
         [ input [ type_ "text", placeholder "title", onInput InputTitle, value <| getTitle model.current.title ] []
         , input [ type_ "text", placeholder "link", onInput InputUrl, value <| getUrl model.current.url ] []
-        , select []
-            [ option [ value "undefined2" ] [ text "Select Type" ]
-            , option [ value "Article2" ] [ text "Article" ]
-            , option [ value "Video2" ] [ text "Video" ]
-            , option [ value "Answer2" ] [ text "Answer" ]
-            , option [ value "Podcast2" ] [ text "Podcast" ]
+        , select [ Html.Events.on "change" (Json.Decode.map InputContentType Html.Events.targetValue) ]
+            [ option [ value "Undefined" ] [ text "Select Type" ]
+            , option [ value "Article" ] [ text "Article" ]
+            , option [ value "Video" ] [ text "Video" ]
+            , option [ value "Answer" ] [ text "Answer" ]
+            , option [ value "Podcast" ] [ text "Podcast" ]
             ]
         , button [ onClick <| AddLink model ] [ text "Add" ]
         ]
