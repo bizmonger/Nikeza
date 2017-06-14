@@ -10790,7 +10790,7 @@ var _user$project$Domain_Core$Profile = F6(
 	});
 var _user$project$Domain_Core$Link = F4(
 	function (a, b, c, d) {
-		return {getName: a, title: b, url: c, topics: d};
+		return {profile: a, title: b, url: c, topics: d};
 	});
 var _user$project$Domain_Core$Connection = F2(
 	function (a, b) {
@@ -11446,6 +11446,158 @@ var _user$project$Controls_AddConnection$view = function (model) {
 		});
 };
 
+var _user$project$Controls_AddLink$update = F2(
+	function (msg, model) {
+		return model;
+	});
+var _user$project$Controls_AddLink$AddLink = function (a) {
+	return {ctor: 'AddLink', _0: a};
+};
+var _user$project$Controls_AddLink$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$input,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$type_('text'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$placeholder('title'),
+						_1: {ctor: '[]'}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$input,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$type_('text'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$placeholder('link'),
+							_1: {ctor: '[]'}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$select,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$option,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$value('undefined'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('Select Type'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$option,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$value('Article'),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Article'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$option,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$value('Video'),
+											_1: {ctor: '[]'}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('Video'),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$option,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$value('Answer'),
+												_1: {ctor: '[]'}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('Answer'),
+												_1: {ctor: '[]'}
+											}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$option,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$value('Podcast'),
+													_1: {ctor: '[]'}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text('Podcast'),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(
+									_user$project$Controls_AddLink$AddLink(model)),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Add'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		});
+};
+var _user$project$Controls_AddLink$TagsInput = F2(
+	function (a, b) {
+		return {ctor: 'TagsInput', _0: a, _1: b};
+	});
+var _user$project$Controls_AddLink$UrlInput = function (a) {
+	return {ctor: 'UrlInput', _0: a};
+};
+var _user$project$Controls_AddLink$TitleInput = function (a) {
+	return {ctor: 'TitleInput', _0: a};
+};
+
 var _user$project$Controls_ProfileThumbnail$thumbnail = function (profile) {
 	var concatTopics = F2(
 		function (topic1, topic2) {
@@ -11621,15 +11773,21 @@ var _user$project$Domain_Contributor$getContributor = function (p) {
 		showAll: true,
 		topics: p.topics,
 		newConnection: _user$project$Controls_AddConnection$init,
+		newLink: {
+			profile: p,
+			title: _user$project$Domain_Core$Title('undefined'),
+			url: _user$project$Domain_Core$Url('undefined'),
+			topics: {ctor: '[]'}
+		},
 		answers: A2(_user$project$Settings$runtime.links, _user$project$Domain_Core$Answer, p.id),
 		articles: A2(_user$project$Settings$runtime.links, _user$project$Domain_Core$Article, p.id),
 		videos: A2(_user$project$Settings$runtime.links, _user$project$Domain_Core$Video, p.id),
 		podcasts: A2(_user$project$Settings$runtime.links, _user$project$Domain_Core$Podcast, p.id)
 	};
 };
-var _user$project$Domain_Contributor$Model = F8(
-	function (a, b, c, d, e, f, g, h) {
-		return {profile: a, newConnection: b, showAll: c, topics: d, answers: e, articles: f, videos: g, podcasts: h};
+var _user$project$Domain_Contributor$Model = F9(
+	function (a, b, c, d, e, f, g, h, i) {
+		return {profile: a, newConnection: b, newLink: c, showAll: d, topics: e, answers: f, articles: g, videos: h, podcasts: i};
 	});
 var _user$project$Domain_Contributor$init = function () {
 	var newConnection = {platform: '', username: ''};
@@ -11641,10 +11799,17 @@ var _user$project$Domain_Contributor$init = function () {
 		topics: {ctor: '[]'},
 		connections: {ctor: '[]'}
 	};
-	return A8(
+	var newLink = {
+		profile: profile,
+		title: _user$project$Domain_Core$Title(_user$project$Domain_Core$undefined),
+		url: _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined),
+		topics: {ctor: '[]'}
+	};
+	return A9(
 		_user$project$Domain_Contributor$Model,
 		profile,
 		newConnection,
+		newLink,
 		true,
 		{ctor: '[]'},
 		{ctor: '[]'},
@@ -12467,6 +12632,10 @@ var _user$project$Home$onRemove = F2(
 			});
 		return {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
 	});
+var _user$project$Home$onAddLink = F2(
+	function (msg, model) {
+		return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+	});
 var _user$project$Home$update = F2(
 	function (msg, model) {
 		var _p13 = msg;
@@ -12500,8 +12669,10 @@ var _user$project$Home$update = F2(
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'NewConnection':
 				return A2(_user$project$Home$onNewConnection, _p13._0, model);
-			default:
+			case 'Remove':
 				return A2(_user$project$Home$onRemove, model, _p13._0);
+			default:
+				return A2(_user$project$Home$onAddLink, _p13._0, model);
 		}
 	});
 var _user$project$Home$init = function (location) {
@@ -13080,6 +13251,9 @@ var _user$project$Home$contributorContentTypePage = F2(
 				}
 			});
 	});
+var _user$project$Home$NewLink = function (a) {
+	return {ctor: 'NewLink', _0: a};
+};
 var _user$project$Home$Remove = function (a) {
 	return {ctor: 'Remove', _0: a};
 };
@@ -13215,132 +13389,9 @@ var _user$project$Home$dashboardPage = function (model) {
 					_1: {
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$div,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$input,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$type_('text'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$placeholder('title'),
-											_1: {ctor: '[]'}
-										}
-									},
-									{ctor: '[]'}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$input,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$type_('text'),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$placeholder('link'),
-												_1: {ctor: '[]'}
-											}
-										},
-										{ctor: '[]'}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$select,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$option,
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$value('undefined'),
-														_1: {ctor: '[]'}
-													},
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html$text('Select Type'),
-														_1: {ctor: '[]'}
-													}),
-												_1: {
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$option,
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$value('Article'),
-															_1: {ctor: '[]'}
-														},
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html$text('Article'),
-															_1: {ctor: '[]'}
-														}),
-													_1: {
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$option,
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$value('Video'),
-																_1: {ctor: '[]'}
-															},
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html$text('Video'),
-																_1: {ctor: '[]'}
-															}),
-														_1: {
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$option,
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$value('Answer'),
-																	_1: {ctor: '[]'}
-																},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text('Answer'),
-																	_1: {ctor: '[]'}
-																}),
-															_1: {
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$option,
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Attributes$value('Podcast'),
-																		_1: {ctor: '[]'}
-																	},
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html$text('Podcast'),
-																		_1: {ctor: '[]'}
-																	}),
-																_1: {ctor: '[]'}
-															}
-														}
-													}
-												}
-											}),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$button,
-												{ctor: '[]'},
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html$text('Add'),
-													_1: {ctor: '[]'}
-												}),
-											_1: {ctor: '[]'}
-										}
-									}
-								}
-							}),
+							_elm_lang$html$Html$map,
+							_user$project$Home$NewLink,
+							_user$project$Controls_AddLink$view(model.contributor.newLink)),
 						_1: {ctor: '[]'}
 					}
 				}

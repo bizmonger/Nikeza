@@ -5,6 +5,7 @@ import Domain.Contributor as Contributor exposing (..)
 import Controls.Login as Login exposing (..)
 import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
 import Controls.AddConnection as AddConnection exposing (..)
+import Controls.AddLink as AddLink exposing (..)
 import Settings exposing (runtime)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -74,6 +75,7 @@ type Msg
     | ProfileThumbnail ProfileThumbnail.Msg
     | NewConnection AddConnection.Msg
     | Remove Connection
+    | NewLink AddLink.Msg
     | Toggle ( Topic, Bool )
     | ToggleAll Bool
     | Search String
@@ -112,6 +114,14 @@ update msg model =
 
         Remove connection ->
             onRemove model connection
+
+        NewLink subMsg ->
+            onAddLink subMsg model
+
+
+onAddLink : AddLink.Msg -> Model -> ( Model, Cmd Msg )
+onAddLink msg model =
+    ( model, Cmd.none )
 
 
 onRemove : Model -> Connection -> ( Model, Cmd Msg )
@@ -539,18 +549,7 @@ dashboardPage model =
                 , connectionsTable
                 ]
             , h3 [] [ text "Add Link" ]
-            , div []
-                [ input [ type_ "text", placeholder "title" ] []
-                , input [ type_ "text", placeholder "link" ] []
-                , select []
-                    [ option [ value "undefined" ] [ text "Select Type" ]
-                    , option [ value "Article" ] [ text "Article" ]
-                    , option [ value "Video" ] [ text "Video" ]
-                    , option [ value "Answer" ] [ text "Answer" ]
-                    , option [ value "Podcast" ] [ text "Podcast" ]
-                    ]
-                , button [] [ text "Add" ]
-                ]
+            , Html.map NewLink (AddLink.view model.contributor.newLink)
             ]
 
 

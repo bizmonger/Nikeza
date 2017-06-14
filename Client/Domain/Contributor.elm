@@ -2,6 +2,7 @@ module Domain.Contributor exposing (..)
 
 import Domain.Core exposing (..)
 import Controls.AddConnection as AddConnection exposing (..)
+import Controls.AddLink as AddLink exposing (..)
 import Settings exposing (..)
 
 
@@ -19,13 +20,21 @@ init =
 
         newConnection =
             { platform = "", username = "" }
+
+        newLink =
+            { profile = profile
+            , title = Title undefined
+            , url = Url undefined
+            , topics = []
+            }
     in
-        Model profile newConnection True [] [] [] [] []
+        Model profile newConnection newLink True [] [] [] [] []
 
 
 type alias Model =
     { profile : Profile
     , newConnection : AddConnection.Model
+    , newLink : AddLink.Model
     , showAll : Bool
     , topics : List Topic
     , answers : List Link
@@ -41,6 +50,7 @@ getContributor p =
     , showAll = True
     , topics = p.topics
     , newConnection = AddConnection.init
+    , newLink = { profile = p, title = Title "undefined", url = Url "undefined", topics = [] }
     , answers = p.id |> runtime.links Answer
     , articles = p.id |> runtime.links Article
     , videos = p.id |> runtime.links Video

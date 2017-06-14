@@ -95,7 +95,7 @@ getPlatform platform =
 
 
 type alias Link =
-    { getName : Profile
+    { profile : Profile
     , title : Title
     , url : Url
     , topics : List Topic
