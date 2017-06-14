@@ -11515,6 +11515,16 @@ var _user$project$Controls_NewLinks$update = F2(
 					});
 			case 'InputTopics':
 				return model;
+			case 'InputContentType':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						current: _elm_lang$core$Native_Utils.update(
+							link,
+							{
+								contentType: _user$project$Domain_Core$toContentType(_p0._0)
+							})
+					});
 			default:
 				return _p0._0;
 		}
@@ -11526,6 +11536,9 @@ var _user$project$Controls_NewLinks$init = {
 };
 var _user$project$Controls_NewLinks$AddLink = function (a) {
 	return {ctor: 'AddLink', _0: a};
+};
+var _user$project$Controls_NewLinks$InputContentType = function (a) {
+	return {ctor: 'InputContentType', _0: a};
 };
 var _user$project$Controls_NewLinks$InputTopics = function (a) {
 	return {ctor: 'InputTopics', _0: a};
@@ -12717,6 +12730,18 @@ var _user$project$Home$onNewLink = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'InputTopics':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							contributor: _elm_lang$core$Native_Utils.update(
+								contributor,
+								{newLinks: newState})
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'InputContentType':
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(

@@ -21,6 +21,7 @@ type Msg
     = InputTitle String
     | InputUrl String
     | InputTopics (List String)
+    | InputContentType String
     | AddLink Model
 
 
@@ -43,6 +44,9 @@ update msg model =
 
             InputTopics v ->
                 model
+
+            InputContentType v ->
+                { model | current = { link | contentType = toContentType v } }
 
             AddLink v ->
                 v
