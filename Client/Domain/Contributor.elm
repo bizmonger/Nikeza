@@ -28,13 +28,13 @@ init =
             , topics = []
             }
     in
-        Model profile newConnection newLink True [] [] [] [] []
+        Model profile newConnection ( newLink, False ) True [] [] [] [] []
 
 
 type alias Model =
     { profile : Profile
     , newConnection : AddConnection.Model
-    , newLink : AddLink.Model
+    , newLink : ( AddLink.Model, Bool )
     , showAll : Bool
     , topics : List Topic
     , answers : List Link
@@ -50,7 +50,7 @@ getContributor p =
     , showAll = True
     , topics = p.topics
     , newConnection = AddConnection.init
-    , newLink = { profile = p, title = Title "undefined", url = Url "undefined", topics = [] }
+    , newLink = ( { profile = p, title = Title "undefined", url = Url "undefined", topics = [] }, False )
     , answers = p.id |> runtime.links Answer
     , articles = p.id |> runtime.links Article
     , videos = p.id |> runtime.links Video

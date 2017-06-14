@@ -12,6 +12,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
 import Navigation exposing (..)
 import String exposing (..)
+import Tuple exposing (first, second)
 
 
 -- elm-live Home.elm --open --output=home.js
@@ -119,11 +120,6 @@ update msg model =
             onAddLink subMsg model
 
 
-onAddLink : AddLink.Msg -> Model -> ( Model, Cmd Msg )
-onAddLink msg model =
-    ( model, Cmd.none )
-
-
 onRemove : Model -> Connection -> ( Model, Cmd Msg )
 onRemove model connection =
     let
@@ -149,6 +145,29 @@ onRemove model connection =
             }
     in
         ( newState, Cmd.none )
+
+
+onAddLink : AddLink.Msg -> Model -> ( Model, Cmd Msg )
+onAddLink subMsg model =
+    let
+        contributor =
+            model.contributor
+
+        link =
+            AddLink.update subMsg (contributor.newLink |> first)
+    in
+        case subMsg of
+            AddLink.InputTitle _ ->
+                ( { model | contributor = { contributor | newLink = ( link, False ) } }, Cmd.none )
+
+            AddLink.InputUrl _ ->
+                ( { model | contributor = { contributor | newLink = ( link, False ) } }, Cmd.none )
+
+            AddLink.InputTopics _ ->
+                ( { model | contributor = { contributor | newLink = ( link, False ) } }, Cmd.none )
+
+            AddLink _ ->
+                ( { model | contributor = { contributor | newLink = ( link, True ) } }, Cmd.none )
 
 
 onNewConnection : AddConnection.Msg -> Model -> ( Model, Cmd Msg )
@@ -540,6 +559,15 @@ dashboardPage model =
 
         connectionsTable =
             table [] [ div [] (contributor.profile.connections |> List.map connectionUI) ]
+
+        ( link, canAdd ) =
+            contributor.newLink
+
+        linkIfExists =
+            if canAdd then
+                a [ href <| getUrl link.url ] [ text <| getTitle link.title ]
+            else
+                div [] []
     in
         div []
             [ h2 [] [ text <| "Welcome " ++ getName model.contributor.profile.name ]
@@ -549,7 +577,8 @@ dashboardPage model =
                 , connectionsTable
                 ]
             , h3 [] [ text "Add Link" ]
-            , Html.map NewLink (AddLink.view model.contributor.newLink)
+            , Html.map NewLink (AddLink.view link)
+            , linkIfExists
             ]
 
 
