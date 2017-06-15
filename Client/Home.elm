@@ -172,7 +172,7 @@ onNewLink subMsg model =
                 ( { model | contributor = { contributor | newLinks = newState } }, Cmd.none )
 
             AddLink v ->
-                ( { model | contributor = { contributor | newLinks = { newState | canAdd = True, added = v.current :: v.added } } }, Cmd.none )
+                ( { model | contributor = { contributor | newLinks = { newState | canAdd = True, added = v.current.base :: v.added } } }, Cmd.none )
 
 
 onNewConnection : AddConnection.Msg -> Model -> ( Model, Cmd Msg )

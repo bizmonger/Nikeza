@@ -110,9 +110,12 @@ type alias Link =
     , title : Title
     , url : Url
     , contentType : ContentType
-    , currentTopic : Topic
     , topics : List Topic
     }
+
+
+type alias LinkToCreate =
+    { base : Link, currentTopic : Topic }
 
 
 initLink : Link
@@ -121,13 +124,19 @@ initLink =
     , title = Title ""
     , url = Url ""
     , contentType = Unknown
-    , currentTopic = Topic ""
     , topics = []
     }
 
 
+initLinkToCreate : LinkToCreate
+initLinkToCreate =
+    { base = initLink
+    , currentTopic = Topic ""
+    }
+
+
 type alias NewLinks =
-    { current : Link
+    { current : LinkToCreate
     , canAdd : Bool
     , added : List Link
     }

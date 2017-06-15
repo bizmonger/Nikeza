@@ -9452,9 +9452,13 @@ var _user$project$Domain_Core$Profile = F6(
 	function (a, b, c, d, e, f) {
 		return {id: a, name: b, imageUrl: c, bio: d, connections: e, topics: f};
 	});
-var _user$project$Domain_Core$Link = F6(
-	function (a, b, c, d, e, f) {
-		return {profile: a, title: b, url: c, contentType: d, currentTopic: e, topics: f};
+var _user$project$Domain_Core$Link = F5(
+	function (a, b, c, d, e) {
+		return {profile: a, title: b, url: c, contentType: d, topics: e};
+	});
+var _user$project$Domain_Core$LinkToCreate = F2(
+	function (a, b) {
+		return {base: a, currentTopic: b};
 	});
 var _user$project$Domain_Core$NewLinks = F3(
 	function (a, b, c) {
@@ -9555,8 +9559,11 @@ var _user$project$Domain_Core$initLink = {
 	title: _user$project$Domain_Core$Title(''),
 	url: _user$project$Domain_Core$Url(''),
 	contentType: _user$project$Domain_Core$Unknown,
-	currentTopic: _user$project$Domain_Core$Topic(''),
 	topics: {ctor: '[]'}
+};
+var _user$project$Domain_Core$initLinkToCreate = {
+	base: _user$project$Domain_Core$initLink,
+	currentTopic: _user$project$Domain_Core$Topic('')
 };
 var _user$project$Domain_Core$All = {ctor: 'All'};
 var _user$project$Domain_Core$Answer = {ctor: 'Answer'};
@@ -9747,13 +9754,12 @@ var _user$project$Tests_TestAPI$links = F2(
 			case 'Article':
 				return {
 					ctor: '::',
-					_0: A6(
+					_0: A5(
 						_user$project$Domain_Core$Link,
 						_user$project$Tests_TestAPI$profile1,
 						_user$project$Tests_TestAPI$someArticleTitle1,
 						_user$project$Tests_TestAPI$someUrl,
 						_user$project$Domain_Core$Article,
-						_user$project$Domain_Core$Topic(''),
 						{
 							ctor: '::',
 							_0: _user$project$Tests_TestAPI$someTopic1,
@@ -9761,13 +9767,12 @@ var _user$project$Tests_TestAPI$links = F2(
 						}),
 					_1: {
 						ctor: '::',
-						_0: A6(
+						_0: A5(
 							_user$project$Domain_Core$Link,
 							_user$project$Tests_TestAPI$profile2,
 							_user$project$Tests_TestAPI$someArticleTitle2,
 							_user$project$Tests_TestAPI$someUrl,
 							_user$project$Domain_Core$Article,
-							_user$project$Domain_Core$Topic(''),
 							{
 								ctor: '::',
 								_0: _user$project$Tests_TestAPI$someTopic2,
@@ -9775,13 +9780,12 @@ var _user$project$Tests_TestAPI$links = F2(
 							}),
 						_1: {
 							ctor: '::',
-							_0: A6(
+							_0: A5(
 								_user$project$Domain_Core$Link,
 								_user$project$Tests_TestAPI$profile3,
 								_user$project$Tests_TestAPI$someArticleTitle3,
 								_user$project$Tests_TestAPI$someUrl,
 								_user$project$Domain_Core$Article,
-								_user$project$Domain_Core$Topic(''),
 								{
 									ctor: '::',
 									_0: _user$project$Tests_TestAPI$someTopic3,
@@ -9794,13 +9798,12 @@ var _user$project$Tests_TestAPI$links = F2(
 			case 'Video':
 				return {
 					ctor: '::',
-					_0: A6(
+					_0: A5(
 						_user$project$Domain_Core$Link,
 						_user$project$Tests_TestAPI$profile1,
 						_user$project$Tests_TestAPI$someVideoTitle1,
 						_user$project$Tests_TestAPI$someUrl,
 						_user$project$Domain_Core$Video,
-						_user$project$Domain_Core$Topic(''),
 						{
 							ctor: '::',
 							_0: _user$project$Tests_TestAPI$someTopic1,
@@ -9808,13 +9811,12 @@ var _user$project$Tests_TestAPI$links = F2(
 						}),
 					_1: {
 						ctor: '::',
-						_0: A6(
+						_0: A5(
 							_user$project$Domain_Core$Link,
 							_user$project$Tests_TestAPI$profile2,
 							_user$project$Tests_TestAPI$someVideoTitle2,
 							_user$project$Tests_TestAPI$someUrl,
 							_user$project$Domain_Core$Video,
-							_user$project$Domain_Core$Topic(''),
 							{
 								ctor: '::',
 								_0: _user$project$Tests_TestAPI$someTopic2,
@@ -9822,13 +9824,12 @@ var _user$project$Tests_TestAPI$links = F2(
 							}),
 						_1: {
 							ctor: '::',
-							_0: A6(
+							_0: A5(
 								_user$project$Domain_Core$Link,
 								_user$project$Tests_TestAPI$profile3,
 								_user$project$Tests_TestAPI$someVideoTitle3,
 								_user$project$Tests_TestAPI$someUrl,
 								_user$project$Domain_Core$Video,
-								_user$project$Domain_Core$Topic(''),
 								{
 									ctor: '::',
 									_0: _user$project$Tests_TestAPI$someTopic3,
@@ -9841,13 +9842,12 @@ var _user$project$Tests_TestAPI$links = F2(
 			case 'Podcast':
 				return {
 					ctor: '::',
-					_0: A6(
+					_0: A5(
 						_user$project$Domain_Core$Link,
 						_user$project$Tests_TestAPI$profile1,
 						_user$project$Tests_TestAPI$somePodcastTitle1,
 						_user$project$Tests_TestAPI$someUrl,
 						_user$project$Domain_Core$Podcast,
-						_user$project$Domain_Core$Topic(''),
 						{
 							ctor: '::',
 							_0: _user$project$Tests_TestAPI$someTopic1,
@@ -9855,13 +9855,12 @@ var _user$project$Tests_TestAPI$links = F2(
 						}),
 					_1: {
 						ctor: '::',
-						_0: A6(
+						_0: A5(
 							_user$project$Domain_Core$Link,
 							_user$project$Tests_TestAPI$profile2,
 							_user$project$Tests_TestAPI$somePodcastTitle2,
 							_user$project$Tests_TestAPI$someUrl,
 							_user$project$Domain_Core$Podcast,
-							_user$project$Domain_Core$Topic(''),
 							{
 								ctor: '::',
 								_0: _user$project$Tests_TestAPI$someTopic2,
@@ -9869,13 +9868,12 @@ var _user$project$Tests_TestAPI$links = F2(
 							}),
 						_1: {
 							ctor: '::',
-							_0: A6(
+							_0: A5(
 								_user$project$Domain_Core$Link,
 								_user$project$Tests_TestAPI$profile3,
 								_user$project$Tests_TestAPI$somePodcastTitle3,
 								_user$project$Tests_TestAPI$someUrl,
 								_user$project$Domain_Core$Podcast,
-								_user$project$Domain_Core$Topic(''),
 								{
 									ctor: '::',
 									_0: _user$project$Tests_TestAPI$someTopic3,
@@ -9888,13 +9886,12 @@ var _user$project$Tests_TestAPI$links = F2(
 			case 'Answer':
 				return {
 					ctor: '::',
-					_0: A6(
+					_0: A5(
 						_user$project$Domain_Core$Link,
 						_user$project$Tests_TestAPI$profile1,
 						_user$project$Tests_TestAPI$someQuestionTitle1,
 						_user$project$Tests_TestAPI$someUrl,
 						_user$project$Domain_Core$Answer,
-						_user$project$Domain_Core$Topic(''),
 						{
 							ctor: '::',
 							_0: _user$project$Tests_TestAPI$someTopic1,
@@ -9902,13 +9899,12 @@ var _user$project$Tests_TestAPI$links = F2(
 						}),
 					_1: {
 						ctor: '::',
-						_0: A6(
+						_0: A5(
 							_user$project$Domain_Core$Link,
 							_user$project$Tests_TestAPI$profile2,
 							_user$project$Tests_TestAPI$someQuestionTitle2,
 							_user$project$Tests_TestAPI$someUrl,
 							_user$project$Domain_Core$Answer,
-							_user$project$Domain_Core$Topic(''),
 							{
 								ctor: '::',
 								_0: _user$project$Tests_TestAPI$someTopic2,
@@ -9916,13 +9912,12 @@ var _user$project$Tests_TestAPI$links = F2(
 							}),
 						_1: {
 							ctor: '::',
-							_0: A6(
+							_0: A5(
 								_user$project$Domain_Core$Link,
 								_user$project$Tests_TestAPI$profile3,
 								_user$project$Tests_TestAPI$someQuestionTitle3,
 								_user$project$Tests_TestAPI$someUrl,
 								_user$project$Domain_Core$Answer,
-								_user$project$Domain_Core$Topic(''),
 								{
 									ctor: '::',
 									_0: _user$project$Tests_TestAPI$someTopic3,
@@ -9935,13 +9930,12 @@ var _user$project$Tests_TestAPI$links = F2(
 			case 'All':
 				return {
 					ctor: '::',
-					_0: A6(
+					_0: A5(
 						_user$project$Domain_Core$Link,
 						_user$project$Tests_TestAPI$profile1,
 						_user$project$Tests_TestAPI$someArticleTitle1,
 						_user$project$Tests_TestAPI$someUrl,
 						_user$project$Domain_Core$Article,
-						_user$project$Domain_Core$Topic(''),
 						{
 							ctor: '::',
 							_0: _user$project$Tests_TestAPI$someTopic1,
@@ -9949,13 +9943,12 @@ var _user$project$Tests_TestAPI$links = F2(
 						}),
 					_1: {
 						ctor: '::',
-						_0: A6(
+						_0: A5(
 							_user$project$Domain_Core$Link,
 							_user$project$Tests_TestAPI$profile2,
 							_user$project$Tests_TestAPI$someArticleTitle2,
 							_user$project$Tests_TestAPI$someUrl,
 							_user$project$Domain_Core$Article,
-							_user$project$Domain_Core$Topic(''),
 							{
 								ctor: '::',
 								_0: _user$project$Tests_TestAPI$someTopic2,
@@ -9963,13 +9956,12 @@ var _user$project$Tests_TestAPI$links = F2(
 							}),
 						_1: {
 							ctor: '::',
-							_0: A6(
+							_0: A5(
 								_user$project$Domain_Core$Link,
 								_user$project$Tests_TestAPI$profile3,
 								_user$project$Tests_TestAPI$someArticleTitle3,
 								_user$project$Tests_TestAPI$someUrl,
 								_user$project$Domain_Core$Article,
-								_user$project$Domain_Core$Topic(''),
 								{
 									ctor: '::',
 									_0: _user$project$Tests_TestAPI$someTopic3,
@@ -10180,7 +10172,8 @@ var _user$project$Controls_AddConnection$view = function (model) {
 
 var _user$project$Controls_NewLinks$update = F2(
 	function (msg, model) {
-		var link = model.current;
+		var linkToCreateBase = model.current.base;
+		var linkToCreate = model.current;
 		var _p0 = msg;
 		switch (_p0.ctor) {
 			case 'InputTitle':
@@ -10188,9 +10181,13 @@ var _user$project$Controls_NewLinks$update = F2(
 					model,
 					{
 						current: _elm_lang$core$Native_Utils.update(
-							link,
+							linkToCreate,
 							{
-								title: _user$project$Domain_Core$Title(_p0._0)
+								base: _elm_lang$core$Native_Utils.update(
+									linkToCreateBase,
+									{
+										title: _user$project$Domain_Core$Title(_p0._0)
+									})
 							})
 					});
 			case 'InputUrl':
@@ -10198,9 +10195,13 @@ var _user$project$Controls_NewLinks$update = F2(
 					model,
 					{
 						current: _elm_lang$core$Native_Utils.update(
-							link,
+							linkToCreate,
 							{
-								url: _user$project$Domain_Core$Url(_p0._0)
+								base: _elm_lang$core$Native_Utils.update(
+									linkToCreateBase,
+									{
+										url: _user$project$Domain_Core$Url(_p0._0)
+									})
 							})
 					});
 			case 'InputTopic':
@@ -10208,7 +10209,7 @@ var _user$project$Controls_NewLinks$update = F2(
 					model,
 					{
 						current: _elm_lang$core$Native_Utils.update(
-							link,
+							linkToCreate,
 							{
 								currentTopic: _user$project$Domain_Core$Topic(_p0._0)
 							})
@@ -10218,9 +10219,13 @@ var _user$project$Controls_NewLinks$update = F2(
 					model,
 					{
 						current: _elm_lang$core$Native_Utils.update(
-							link,
+							linkToCreate,
 							{
-								topics: {ctor: '::', _0: _p0._0, _1: link.topics}
+								base: _elm_lang$core$Native_Utils.update(
+									linkToCreateBase,
+									{
+										topics: {ctor: '::', _0: _p0._0, _1: linkToCreateBase.topics}
+									})
 							})
 					});
 			case 'InputContentType':
@@ -10228,17 +10233,21 @@ var _user$project$Controls_NewLinks$update = F2(
 					model,
 					{
 						current: _elm_lang$core$Native_Utils.update(
-							link,
+							linkToCreate,
 							{
-								contentType: _user$project$Domain_Core$toContentType(_p0._0)
+								base: _elm_lang$core$Native_Utils.update(
+									linkToCreateBase,
+									{
+										contentType: _user$project$Domain_Core$toContentType(_p0._0)
+									})
 							})
 					});
 			default:
-				return _p0._0;
+				return model;
 		}
 	});
 var _user$project$Controls_NewLinks$init = {
-	current: _user$project$Domain_Core$initLink,
+	current: _user$project$Domain_Core$initLinkToCreate,
 	canAdd: false,
 	added: {ctor: '[]'}
 };
@@ -10261,6 +10270,7 @@ var _user$project$Controls_NewLinks$InputTitle = function (a) {
 	return {ctor: 'InputTitle', _0: a};
 };
 var _user$project$Controls_NewLinks$view = function (model) {
+	var current = model.current;
 	var toButton = function (topic) {
 		return A2(
 			_elm_lang$html$Html$div,
@@ -10314,7 +10324,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Attributes$value(
-									_user$project$Domain_Core$getTitle(model.current.title)),
+									_user$project$Domain_Core$getTitle(current.base.title)),
 								_1: {ctor: '[]'}
 							}
 						}
@@ -10337,7 +10347,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 								_1: {
 									ctor: '::',
 									_0: _elm_lang$html$Html_Attributes$value(
-										_user$project$Domain_Core$getUrl(model.current.url)),
+										_user$project$Domain_Core$getUrl(current.base.url)),
 									_1: {ctor: '[]'}
 								}
 							}
@@ -10366,7 +10376,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 										_1: {
 											ctor: '::',
 											_0: _elm_lang$html$Html_Attributes$value(
-												_user$project$Domain_Core$getTopic(model.current.currentTopic)),
+												_user$project$Domain_Core$getTopic(current.currentTopic)),
 											_1: {ctor: '[]'}
 										}
 									}
@@ -10685,7 +10695,7 @@ var _user$project$Domain_Contributor$Model = F9(
 var _user$project$Domain_Contributor$init = function () {
 	var addedLinks = A3(
 		_user$project$Domain_Core$NewLinks,
-		_user$project$Domain_Core$initLink,
+		_user$project$Domain_Core$initLinkToCreate,
 		false,
 		{ctor: '[]'});
 	return A9(
@@ -11573,7 +11583,7 @@ var _user$project$Home$onNewLink = F2(
 										newState,
 										{
 											canAdd: true,
-											added: {ctor: '::', _0: _p14.current, _1: _p14.added}
+											added: {ctor: '::', _0: _p14.current.base, _1: _p14.added}
 										})
 								})
 						}),
