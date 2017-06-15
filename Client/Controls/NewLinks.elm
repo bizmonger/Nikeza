@@ -59,8 +59,7 @@ update msg model =
                 { model | current = { linkToCreate | base = { linkToCreateBase | contentType = toContentType v } } }
 
             AddLink v ->
-                --v
-                model
+                v
 
 
 

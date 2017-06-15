@@ -184,7 +184,10 @@ links contentType profileId =
 
 suggestedTopics : String -> List Topic
 suggestedTopics search =
-    topics |> List.filter (\t -> (getTopic t) |> toLower |> contains (search |> toLower))
+    if not <| isEmpty search then
+        topics |> List.filter (\t -> (getTopic t) |> toLower |> contains (search |> toLower))
+    else
+        []
 
 
 contributor : Id -> Maybe Profile

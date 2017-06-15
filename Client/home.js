@@ -9672,7 +9672,7 @@ var _user$project$Tests_TestAPI$topics = {
 	}
 };
 var _user$project$Tests_TestAPI$suggestedTopics = function (search) {
-	return A2(
+	return (!_elm_lang$core$String$isEmpty(search)) ? A2(
 		_elm_lang$core$List$filter,
 		function (t) {
 			return A2(
@@ -9681,7 +9681,7 @@ var _user$project$Tests_TestAPI$suggestedTopics = function (search) {
 				_elm_lang$core$String$toLower(
 					_user$project$Domain_Core$getTopic(t)));
 		},
-		_user$project$Tests_TestAPI$topics);
+		_user$project$Tests_TestAPI$topics) : {ctor: '[]'};
 };
 var _user$project$Tests_TestAPI$profileId3 = _user$project$Domain_Core$Id('profile_3');
 var _user$project$Tests_TestAPI$profile3 = A6(
@@ -10275,7 +10275,7 @@ var _user$project$Controls_NewLinks$update = F2(
 							})
 					});
 			default:
-				return model;
+				return _p0._0;
 		}
 	});
 var _user$project$Controls_NewLinks$init = {
