@@ -46,6 +46,11 @@ connections profileId =
     []
 
 
+topics : List Topic
+topics =
+    []
+
+
 platforms : List Platform
 platforms =
     []

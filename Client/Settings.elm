@@ -24,6 +24,7 @@ type alias Dependencies =
     , usernameToId : UserNameToIdfunction
     , connections : Connectionsfunction
     , platforms : List Platform
+    , topics : List Topic
     }
 
 
@@ -40,6 +41,7 @@ runtime =
                 Services.usernameToId
                 Services.connections
                 Services.platforms
+                Services.topics
 
         Isolation ->
             Dependencies
@@ -51,3 +53,4 @@ runtime =
                 TestAPI.usernameToId
                 TestAPI.connections
                 TestAPI.platforms
+                TestAPI.topics

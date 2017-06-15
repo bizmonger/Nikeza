@@ -10,7 +10,7 @@ init : Model
 init =
     let
         addedLinks =
-            AddedLinks initLink False []
+            NewLinks initLink False []
     in
         Model initProfile initConnection addedLinks True [] [] [] [] []
 

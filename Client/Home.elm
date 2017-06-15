@@ -165,6 +165,9 @@ onNewLink subMsg model =
             NewLinks.InputTopic _ ->
                 ( { model | contributor = { contributor | newLinks = newState } }, Cmd.none )
 
+            NewLinks.AssociateTopic _ ->
+                ( { model | contributor = { contributor | newLinks = newState } }, Cmd.none )
+
             NewLinks.InputContentType _ ->
                 ( { model | contributor = { contributor | newLinks = newState } }, Cmd.none )
 

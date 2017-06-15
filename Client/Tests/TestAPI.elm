@@ -2,7 +2,9 @@ module Tests.TestAPI exposing (..)
 
 import Controls.Login as Login exposing (Model)
 import Domain.Core exposing (..)
-import List.Extra as ListHelper exposing (..)
+
+
+-- import List.Extra as ListHelper exposing (..)
 
 
 profileId1 : Id
@@ -182,12 +184,13 @@ links contentType profileId =
             []
 
 
-topics : Id -> List Topic
-topics profileId =
-    profileId
-        |> links All
-        |> List.map (\p -> p.topics)
-        |> List.concat
+
+-- contributorTopics : Id -> List Topic
+-- contributorTopics profileId =
+--     profileId
+--         |> links All
+--         |> List.map (\p -> p.topics)
+--         |> List.concat
 
 
 contributor : Id -> Maybe Profile
@@ -200,6 +203,11 @@ contributor id =
         Just profile3
     else
         Nothing
+
+
+topics : List Topic
+topics =
+    [ someTopic1, someTopic2, someTopic3 ]
 
 
 topicLinks : Topic -> ContentType -> Id -> List Link

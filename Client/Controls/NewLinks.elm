@@ -1,11 +1,11 @@
 module Controls.NewLinks exposing (..)
 
+import Settings exposing (..)
 import Domain.Core exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Json.Decode exposing (map)
-import Style exposing (listStyleType)
 
 
 -- MODEL
@@ -16,7 +16,7 @@ init =
 
 
 type alias Model =
-    AddedLinks
+    NewLinks
 
 
 type Msg
@@ -25,6 +25,7 @@ type Msg
     | InputTopic String
     | InputContentType String
     | AddLink Model
+    | AssociateTopic Topic
 
 
 
@@ -47,6 +48,9 @@ update msg model =
             InputTopic v ->
                 { model | current = { link | currentTopic = Topic v } }
 
+            AssociateTopic v ->
+                { model | current = { link | topics = v :: link.topics } }
+
             InputContentType v ->
                 { model | current = { link | contentType = toContentType v } }
 
@@ -60,18 +64,29 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ input [ type_ "text", placeholder "title", onInput InputTitle, value <| getTitle model.current.title ] []
-        , input [ type_ "text", placeholder "link", onInput InputUrl, value <| getUrl model.current.url ] []
-        , br [] []
-        , input [ type_ "text", placeholder "topic", onInput InputTopic, value (getTopic model.current.currentTopic) ] []
-        , select [ Html.Events.on "change" (Json.Decode.map InputContentType Html.Events.targetValue) ]
-            [ option [ value "Undefined" ] [ text "Select Type" ]
-            , option [ value "Article" ] [ text "Article" ]
-            , option [ value "Video" ] [ text "Video" ]
-            , option [ value "Answer" ] [ text "Answer" ]
-            , option [ value "Podcast" ] [ text "Podcast" ]
+    let
+        toButton topic =
+            div []
+                [ button [ onClick <| AssociateTopic topic ] [ text <| getTopic topic ]
+                , br [] []
+                ]
+
+        topicsSelectionUI =
+            div [] (runtime.topics |> List.map toButton)
+    in
+        div []
+            [ input [ type_ "text", placeholder "title", onInput InputTitle, value <| getTitle model.current.title ] []
+            , input [ type_ "text", placeholder "link", onInput InputUrl, value <| getUrl model.current.url ] []
+            , br [] []
+            , input [ type_ "text", placeholder "topic", onInput InputTopic, value (getTopic model.current.currentTopic) ] []
+            , select [ Html.Events.on "change" (Json.Decode.map InputContentType Html.Events.targetValue) ]
+                [ option [ value "Undefined" ] [ text "Select Type" ]
+                , option [ value "Article" ] [ text "Article" ]
+                , option [ value "Video" ] [ text "Video" ]
+                , option [ value "Answer" ] [ text "Answer" ]
+                , option [ value "Podcast" ] [ text "Podcast" ]
+                ]
+            , br [] []
+            , topicsSelectionUI
+            , button [ onClick <| AddLink model ] [ text "Add" ]
             ]
-        , br [] []
-        , button [ onClick <| AddLink model ] [ text "Add" ]
-        ]

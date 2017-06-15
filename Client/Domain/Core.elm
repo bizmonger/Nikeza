@@ -126,7 +126,7 @@ initLink =
     }
 
 
-type alias AddedLinks =
+type alias NewLinks =
     { current : Link
     , canAdd : Bool
     , added : List Link
