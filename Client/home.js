@@ -9671,6 +9671,18 @@ var _user$project$Tests_TestAPI$topics = {
 		}
 	}
 };
+var _user$project$Tests_TestAPI$suggestedTopics = function (search) {
+	return A2(
+		_elm_lang$core$List$filter,
+		function (t) {
+			return A2(
+				_elm_lang$core$String$contains,
+				_elm_lang$core$String$toLower(search),
+				_elm_lang$core$String$toLower(
+					_user$project$Domain_Core$getTopic(t)));
+		},
+		_user$project$Tests_TestAPI$topics);
+};
 var _user$project$Tests_TestAPI$profileId3 = _user$project$Domain_Core$Id('profile_3');
 var _user$project$Tests_TestAPI$profile3 = A6(
 	_user$project$Domain_Core$Profile,
@@ -10003,6 +10015,9 @@ var _user$project$Tests_TestAPI$usernameToId = function (username) {
 	}
 };
 
+var _user$project$Services_Server$suggestedTopics = function (search) {
+	return {ctor: '[]'};
+};
 var _user$project$Services_Server$platforms = {ctor: '[]'};
 var _user$project$Services_Server$topics = {ctor: '[]'};
 var _user$project$Services_Server$connections = function (profileId) {
@@ -10032,18 +10047,35 @@ var _user$project$Services_Server$tryLogin = function (credentials) {
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
 
-var _user$project$Settings$Dependencies = F9(
-	function (a, b, c, d, e, f, g, h, i) {
-		return {tryLogin: a, contributors: b, contributor: c, links: d, topicLinks: e, usernameToId: f, connections: g, platforms: h, topics: i};
-	});
+var _user$project$Settings$Dependencies = function (a) {
+	return function (b) {
+		return function (c) {
+			return function (d) {
+				return function (e) {
+					return function (f) {
+						return function (g) {
+							return function (h) {
+								return function (i) {
+									return function (j) {
+										return {tryLogin: a, contributors: b, contributor: c, links: d, topicLinks: e, usernameToId: f, connections: g, platforms: h, topics: i, suggestedTopics: j};
+									};
+								};
+							};
+						};
+					};
+				};
+			};
+		};
+	};
+};
 var _user$project$Settings$Isolation = {ctor: 'Isolation'};
 var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return A9(_user$project$Settings$Dependencies, _user$project$Services_Server$tryLogin, _user$project$Services_Server$contributors, _user$project$Services_Server$contributor, _user$project$Services_Server$links, _user$project$Services_Server$topicLinks, _user$project$Services_Server$usernameToId, _user$project$Services_Server$connections, _user$project$Services_Server$platforms, _user$project$Services_Server$topics);
+		return _user$project$Settings$Dependencies(_user$project$Services_Server$tryLogin)(_user$project$Services_Server$contributors)(_user$project$Services_Server$contributor)(_user$project$Services_Server$links)(_user$project$Services_Server$topicLinks)(_user$project$Services_Server$usernameToId)(_user$project$Services_Server$connections)(_user$project$Services_Server$platforms)(_user$project$Services_Server$topics)(_user$project$Services_Server$suggestedTopics);
 	} else {
-		return A9(_user$project$Settings$Dependencies, _user$project$Tests_TestAPI$tryLogin, _user$project$Tests_TestAPI$contributors, _user$project$Tests_TestAPI$contributor, _user$project$Tests_TestAPI$links, _user$project$Tests_TestAPI$topicLinks, _user$project$Tests_TestAPI$usernameToId, _user$project$Tests_TestAPI$connections, _user$project$Tests_TestAPI$platforms, _user$project$Tests_TestAPI$topics);
+		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$contributors)(_user$project$Tests_TestAPI$contributor)(_user$project$Tests_TestAPI$links)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$usernameToId)(_user$project$Tests_TestAPI$connections)(_user$project$Tests_TestAPI$platforms)(_user$project$Tests_TestAPI$topics)(_user$project$Tests_TestAPI$suggestedTopics);
 	}
 }();
 var _user$project$Settings$Integration = {ctor: 'Integration'};
@@ -10301,10 +10333,16 @@ var _user$project$Controls_NewLinks$view = function (model) {
 				}
 			});
 	};
-	var topicsSelectionUI = A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		A2(_elm_lang$core$List$map, toButton, _user$project$Settings$runtime.topics));
+	var topicsSelectionUI = function (search) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			A2(
+				_elm_lang$core$List$map,
+				toButton,
+				_user$project$Settings$runtime.suggestedTopics(
+					_user$project$Domain_Core$getTopic(search))));
+	};
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -10479,7 +10517,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 									{ctor: '[]'}),
 								_1: {
 									ctor: '::',
-									_0: topicsSelectionUI,
+									_0: topicsSelectionUI(current.currentTopic),
 									_1: {
 										ctor: '::',
 										_0: A2(

@@ -25,6 +25,7 @@ type alias Dependencies =
     , connections : Connectionsfunction
     , platforms : List Platform
     , topics : List Topic
+    , suggestedTopics : SuggestedTopicsfunction
     }
 
 
@@ -42,6 +43,7 @@ runtime =
                 Services.connections
                 Services.platforms
                 Services.topics
+                Services.suggestedTopics
 
         Isolation ->
             Dependencies
@@ -54,3 +56,4 @@ runtime =
                 TestAPI.connections
                 TestAPI.platforms
                 TestAPI.topics
+                TestAPI.suggestedTopics

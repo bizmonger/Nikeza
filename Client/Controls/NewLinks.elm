@@ -76,8 +76,13 @@ view model =
                 , br [] []
                 ]
 
-        topicsSelectionUI =
-            div [] (runtime.topics |> List.map toButton)
+        topicsSelectionUI search =
+            div []
+                (search
+                    |> getTopic
+                    |> runtime.suggestedTopics
+                    |> List.map toButton
+                )
 
         current =
             model.current
@@ -95,6 +100,6 @@ view model =
                 , option [ value "Podcast" ] [ text "Podcast" ]
                 ]
             , br [] []
-            , topicsSelectionUI
+            , topicsSelectionUI current.currentTopic
             , button [ onClick <| AddLink model ] [ text "Add" ]
             ]

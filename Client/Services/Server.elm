@@ -54,3 +54,8 @@ topics =
 platforms : List Platform
 platforms =
     []
+
+
+suggestedTopics : String -> List Topic
+suggestedTopics search =
+    []

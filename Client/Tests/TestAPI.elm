@@ -2,9 +2,7 @@ module Tests.TestAPI exposing (..)
 
 import Controls.Login as Login exposing (Model)
 import Domain.Core exposing (..)
-
-
--- import List.Extra as ListHelper exposing (..)
+import String exposing (..)
 
 
 profileId1 : Id
@@ -182,6 +180,11 @@ links contentType profileId =
 
         Unknown ->
             []
+
+
+suggestedTopics : String -> List Topic
+suggestedTopics search =
+    topics |> List.filter (\t -> (getTopic t) |> toLower |> contains (search |> toLower))
 
 
 contributor : Id -> Maybe Profile
