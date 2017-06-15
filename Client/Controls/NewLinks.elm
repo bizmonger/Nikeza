@@ -24,6 +24,7 @@ type Msg
     = InputTitle String
     | InputUrl String
     | InputTopic String
+    | RemoveTopic Topic
     | InputContentType String
     | AddLink Model
     | AssociateTopic Topic
@@ -52,8 +53,11 @@ update msg model =
             InputTopic v ->
                 { model | current = { linkToCreate | currentTopic = Topic v } }
 
+            RemoveTopic v ->
+                { model | current = { linkToCreate | base = { linkToCreateBase | topics = linkToCreateBase.topics |> List.filter (\t -> t /= v) } } }
+
             AssociateTopic v ->
-                { model | current = { linkToCreate | base = { linkToCreateBase | topics = v :: linkToCreateBase.topics } } }
+                { model | current = { linkToCreate | currentTopic = Topic "", base = { linkToCreateBase | topics = v :: linkToCreateBase.topics } } }
 
             InputContentType v ->
                 { model | current = { linkToCreate | base = { linkToCreateBase | contentType = toContentType v } } }
@@ -83,6 +87,9 @@ view model =
                     |> List.map toButton
                 )
 
+        selectedTopicsUI =
+            current.base.topics |> List.map (\t -> label [] [ text <| getTopic t, button [ onClick <| RemoveTopic t ] [ text "Remove" ], br [] [] ])
+
         ( current, base ) =
             ( model.current, model.current.base )
     in
@@ -100,6 +107,6 @@ view model =
                 ]
             , br [] []
             , topicsSelectionUI current.currentTopic
-            , div [] (current.base.topics |> List.map (\t -> label [] [ text <| getTopic t, br [] [] ]))
+            , div [] selectedTopicsUI
             , button [ onClick <| AddLink model ] [ text "Add" ]
             ]

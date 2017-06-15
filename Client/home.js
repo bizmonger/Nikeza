@@ -10246,6 +10246,25 @@ var _user$project$Controls_NewLinks$update = F2(
 								currentTopic: _user$project$Domain_Core$Topic(_p0._0)
 							})
 					});
+			case 'RemoveTopic':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						current: _elm_lang$core$Native_Utils.update(
+							linkToCreate,
+							{
+								base: _elm_lang$core$Native_Utils.update(
+									linkToCreateBase,
+									{
+										topics: A2(
+											_elm_lang$core$List$filter,
+											function (t) {
+												return !_elm_lang$core$Native_Utils.eq(t, _p0._0);
+											},
+											linkToCreateBase.topics)
+									})
+							})
+					});
 			case 'AssociateTopic':
 				return _elm_lang$core$Native_Utils.update(
 					model,
@@ -10253,6 +10272,7 @@ var _user$project$Controls_NewLinks$update = F2(
 						current: _elm_lang$core$Native_Utils.update(
 							linkToCreate,
 							{
+								currentTopic: _user$project$Domain_Core$Topic(''),
 								base: _elm_lang$core$Native_Utils.update(
 									linkToCreateBase,
 									{
@@ -10292,6 +10312,9 @@ var _user$project$Controls_NewLinks$AddLink = function (a) {
 var _user$project$Controls_NewLinks$InputContentType = function (a) {
 	return {ctor: 'InputContentType', _0: a};
 };
+var _user$project$Controls_NewLinks$RemoveTopic = function (a) {
+	return {ctor: 'RemoveTopic', _0: a};
+};
 var _user$project$Controls_NewLinks$InputTopic = function (a) {
 	return {ctor: 'InputTopic', _0: a};
 };
@@ -10305,6 +10328,43 @@ var _user$project$Controls_NewLinks$view = function (model) {
 	var _p1 = {ctor: '_Tuple2', _0: model.current, _1: model.current.base};
 	var current = _p1._0;
 	var base = _p1._1;
+	var selectedTopicsUI = A2(
+		_elm_lang$core$List$map,
+		function (t) {
+			return A2(
+				_elm_lang$html$Html$label,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_user$project$Domain_Core$getTopic(t)),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(
+									_user$project$Controls_NewLinks$RemoveTopic(t)),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Remove'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
+							_1: {ctor: '[]'}
+						}
+					}
+				});
+		},
+		current.base.topics);
 	var toButton = function (topic) {
 		return A2(
 			_elm_lang$html$Html$div,
@@ -10525,27 +10585,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 										_0: A2(
 											_elm_lang$html$Html$div,
 											{ctor: '[]'},
-											A2(
-												_elm_lang$core$List$map,
-												function (t) {
-													return A2(
-														_elm_lang$html$Html$label,
-														{ctor: '[]'},
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html$text(
-																_user$project$Domain_Core$getTopic(t)),
-															_1: {
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$br,
-																	{ctor: '[]'},
-																	{ctor: '[]'}),
-																_1: {ctor: '[]'}
-															}
-														});
-												},
-												current.base.topics)),
+											selectedTopicsUI),
 										_1: {
 											ctor: '::',
 											_0: A2(
@@ -11601,6 +11641,18 @@ var _user$project$Home$onNewLink = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'InputTopic':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							contributor: _elm_lang$core$Native_Utils.update(
+								contributor,
+								{newLinks: newState})
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'RemoveTopic':
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
