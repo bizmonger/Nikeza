@@ -214,7 +214,7 @@ topicLinks : Topic -> ContentType -> Id -> List Link
 topicLinks topic contentType id =
     id
         |> links contentType
-        |> List.filter (\a -> a.topics |> List.member topic)
+        |> List.filter (\a -> a.attachedTopics |> List.member topic)
 
 
 connections : Id -> List Connection

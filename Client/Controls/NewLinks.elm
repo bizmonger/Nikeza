@@ -49,7 +49,7 @@ update msg model =
                 { model | current = { link | currentTopic = Topic v } }
 
             AssociateTopic v ->
-                { model | current = { link | topics = v :: link.topics } }
+                { model | current = { link | attachedTopics = v :: link.attachedTopics } }
 
             InputContentType v ->
                 { model | current = { link | contentType = toContentType v } }
