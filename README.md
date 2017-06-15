@@ -1,6 +1,6 @@
 # Nikeza
 
-Platform for associating content to their providers.
+Streamline all links from articles, videos, podcasts, and answered questions from a content provider onto one platform for others to subscribe to.
 
 # Compiling
 1. Bring up the termininal within your IDE.
