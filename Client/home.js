@@ -10302,7 +10302,9 @@ var _user$project$Controls_NewLinks$InputTitle = function (a) {
 	return {ctor: 'InputTitle', _0: a};
 };
 var _user$project$Controls_NewLinks$view = function (model) {
-	var current = model.current;
+	var _p1 = {ctor: '_Tuple2', _0: model.current, _1: model.current.base};
+	var current = _p1._0;
+	var base = _p1._1;
 	var toButton = function (topic) {
 		return A2(
 			_elm_lang$html$Html$div,
@@ -10362,7 +10364,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Attributes$value(
-									_user$project$Domain_Core$getTitle(current.base.title)),
+									_user$project$Domain_Core$getTitle(base.title)),
 								_1: {ctor: '[]'}
 							}
 						}
@@ -10385,7 +10387,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 								_1: {
 									ctor: '::',
 									_0: _elm_lang$html$Html_Attributes$value(
-										_user$project$Domain_Core$getUrl(current.base.url)),
+										_user$project$Domain_Core$getUrl(base.url)),
 									_1: {ctor: '[]'}
 								}
 							}
@@ -10439,7 +10441,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 										_elm_lang$html$Html$option,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$value('Undefined'),
+											_0: _elm_lang$html$Html_Attributes$value('instructions'),
 											_1: {ctor: '[]'}
 										},
 										{
@@ -10521,19 +10523,39 @@ var _user$project$Controls_NewLinks$view = function (model) {
 									_1: {
 										ctor: '::',
 										_0: A2(
-											_elm_lang$html$Html$button,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onClick(
-													_user$project$Controls_NewLinks$AddLink(model)),
-												_1: {ctor: '[]'}
-											},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text('Add'),
-												_1: {ctor: '[]'}
-											}),
-										_1: {ctor: '[]'}
+											_elm_lang$html$Html$div,
+											{ctor: '[]'},
+											A2(
+												_elm_lang$core$List$map,
+												function (t) {
+													return A2(
+														_elm_lang$html$Html$label,
+														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html$text(
+																_user$project$Domain_Core$getTopic(t)),
+															_1: {ctor: '[]'}
+														});
+												},
+												current.base.topics)),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$button,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Events$onClick(
+														_user$project$Controls_NewLinks$AddLink(model)),
+													_1: {ctor: '[]'}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text('Add'),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}
 									}
 								}
 							}

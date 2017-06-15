@@ -83,16 +83,16 @@ view model =
                     |> List.map toButton
                 )
 
-        current =
-            model.current
+        ( current, base ) =
+            ( model.current, model.current.base )
     in
         div []
-            [ input [ type_ "text", placeholder "title", onInput InputTitle, value <| getTitle current.base.title ] []
-            , input [ type_ "text", placeholder "link", onInput InputUrl, value <| getUrl current.base.url ] []
+            [ input [ type_ "text", placeholder "title", onInput InputTitle, value <| getTitle base.title ] []
+            , input [ type_ "text", placeholder "link", onInput InputUrl, value <| getUrl base.url ] []
             , br [] []
             , input [ type_ "text", placeholder "topic", onInput InputTopic, value (getTopic current.currentTopic) ] []
             , select [ Html.Events.on "change" (Json.Decode.map InputContentType Html.Events.targetValue) ]
-                [ option [ value "Undefined" ] [ text "Select Type" ]
+                [ option [ value "instructions" ] [ text "Select Type" ]
                 , option [ value "Article" ] [ text "Article" ]
                 , option [ value "Video" ] [ text "Video" ]
                 , option [ value "Answer" ] [ text "Answer" ]
@@ -100,5 +100,6 @@ view model =
                 ]
             , br [] []
             , topicsSelectionUI current.currentTopic
+            , div [] (current.base.topics |> List.map (\t -> label [] [ text <| getTopic t ]))
             , button [ onClick <| AddLink model ] [ text "Add" ]
             ]
