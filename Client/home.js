@@ -10535,7 +10535,14 @@ var _user$project$Controls_NewLinks$view = function (model) {
 															ctor: '::',
 															_0: _elm_lang$html$Html$text(
 																_user$project$Domain_Core$getTopic(t)),
-															_1: {ctor: '[]'}
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$br,
+																	{ctor: '[]'},
+																	{ctor: '[]'}),
+																_1: {ctor: '[]'}
+															}
 														});
 												},
 												current.base.topics)),

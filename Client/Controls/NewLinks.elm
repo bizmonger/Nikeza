@@ -100,6 +100,6 @@ view model =
                 ]
             , br [] []
             , topicsSelectionUI current.currentTopic
-            , div [] (current.base.topics |> List.map (\t -> label [] [ text <| getTopic t ]))
+            , div [] (current.base.topics |> List.map (\t -> label [] [ text <| getTopic t, br [] [] ]))
             , button [ onClick <| AddLink model ] [ text "Add" ]
             ]
