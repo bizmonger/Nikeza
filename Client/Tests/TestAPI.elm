@@ -149,33 +149,33 @@ links : ContentType -> Id -> List Link
 links contentType profileId =
     case contentType of
         Article ->
-            [ Link profile1 someArticleTitle1 someUrl Article [ someTopic1 ]
-            , Link profile2 someArticleTitle2 someUrl Article [ someTopic2 ]
-            , Link profile3 someArticleTitle3 someUrl Article [ someTopic3 ]
+            [ Link profile1 someArticleTitle1 someUrl Article (Topic "") [ someTopic1 ]
+            , Link profile2 someArticleTitle2 someUrl Article (Topic "") [ someTopic2 ]
+            , Link profile3 someArticleTitle3 someUrl Article (Topic "") [ someTopic3 ]
             ]
 
         Video ->
-            [ Link profile1 someVideoTitle1 someUrl Video [ someTopic1 ]
-            , Link profile2 someVideoTitle2 someUrl Video [ someTopic2 ]
-            , Link profile3 someVideoTitle3 someUrl Video [ someTopic3 ]
+            [ Link profile1 someVideoTitle1 someUrl Video (Topic "") [ someTopic1 ]
+            , Link profile2 someVideoTitle2 someUrl Video (Topic "") [ someTopic2 ]
+            , Link profile3 someVideoTitle3 someUrl Video (Topic "") [ someTopic3 ]
             ]
 
         Podcast ->
-            [ Link profile1 somePodcastTitle1 someUrl Podcast [ someTopic1 ]
-            , Link profile2 somePodcastTitle2 someUrl Podcast [ someTopic2 ]
-            , Link profile3 somePodcastTitle3 someUrl Podcast [ someTopic3 ]
+            [ Link profile1 somePodcastTitle1 someUrl Podcast (Topic "") [ someTopic1 ]
+            , Link profile2 somePodcastTitle2 someUrl Podcast (Topic "") [ someTopic2 ]
+            , Link profile3 somePodcastTitle3 someUrl Podcast (Topic "") [ someTopic3 ]
             ]
 
         Answer ->
-            [ Link profile1 someQuestionTitle1 someUrl Answer [ someTopic1 ]
-            , Link profile2 someQuestionTitle2 someUrl Answer [ someTopic2 ]
-            , Link profile3 someQuestionTitle3 someUrl Answer [ someTopic3 ]
+            [ Link profile1 someQuestionTitle1 someUrl Answer (Topic "") [ someTopic1 ]
+            , Link profile2 someQuestionTitle2 someUrl Answer (Topic "") [ someTopic2 ]
+            , Link profile3 someQuestionTitle3 someUrl Answer (Topic "") [ someTopic3 ]
             ]
 
         All ->
-            [ Link profile1 someArticleTitle1 someUrl Article [ someTopic1 ]
-            , Link profile2 someArticleTitle2 someUrl Article [ someTopic2 ]
-            , Link profile3 someArticleTitle3 someUrl Article [ someTopic3 ]
+            [ Link profile1 someArticleTitle1 someUrl Article (Topic "") [ someTopic1 ]
+            , Link profile2 someArticleTitle2 someUrl Article (Topic "") [ someTopic2 ]
+            , Link profile3 someArticleTitle3 someUrl Article (Topic "") [ someTopic3 ]
             ]
 
         Unknown ->

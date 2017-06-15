@@ -5,6 +5,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Json.Decode exposing (map)
+import Style exposing (listStyleType)
 
 
 -- MODEL
@@ -21,7 +22,7 @@ type alias Model =
 type Msg
     = InputTitle String
     | InputUrl String
-    | InputTopics (List String)
+    | InputTopic String
     | InputContentType String
     | AddLink Model
 
@@ -43,8 +44,8 @@ update msg model =
             InputUrl v ->
                 { model | current = { link | url = Url v } }
 
-            InputTopics v ->
-                model
+            InputTopic v ->
+                { model | current = { link | currentTopic = Topic v } }
 
             InputContentType v ->
                 { model | current = { link | contentType = toContentType v } }
@@ -62,6 +63,8 @@ view model =
     div []
         [ input [ type_ "text", placeholder "title", onInput InputTitle, value <| getTitle model.current.title ] []
         , input [ type_ "text", placeholder "link", onInput InputUrl, value <| getUrl model.current.url ] []
+        , br [] []
+        , input [ type_ "text", placeholder "topic", onInput InputTopic, value (getTopic model.current.currentTopic) ] []
         , select [ Html.Events.on "change" (Json.Decode.map InputContentType Html.Events.targetValue) ]
             [ option [ value "Undefined" ] [ text "Select Type" ]
             , option [ value "Article" ] [ text "Article" ]
@@ -69,5 +72,6 @@ view model =
             , option [ value "Answer" ] [ text "Answer" ]
             , option [ value "Podcast" ] [ text "Podcast" ]
             ]
+        , br [] []
         , button [ onClick <| AddLink model ] [ text "Add" ]
         ]

@@ -162,7 +162,7 @@ onNewLink subMsg model =
             NewLinks.InputUrl _ ->
                 ( { model | contributor = { contributor | newLinks = newState } }, Cmd.none )
 
-            NewLinks.InputTopics _ ->
+            NewLinks.InputTopic _ ->
                 ( { model | contributor = { contributor | newLinks = newState } }, Cmd.none )
 
             NewLinks.InputContentType _ ->

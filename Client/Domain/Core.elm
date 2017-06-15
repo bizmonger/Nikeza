@@ -110,6 +110,7 @@ type alias Link =
     , title : Title
     , url : Url
     , contentType : ContentType
+    , currentTopic : Topic
     , topics : List Topic
     }
 
@@ -120,6 +121,7 @@ initLink =
     , title = Title ""
     , url = Url ""
     , contentType = Unknown
+    , currentTopic = Topic ""
     , topics = []
     }
 
