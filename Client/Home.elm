@@ -241,7 +241,7 @@ toggleFilter model ( topic, include ) =
             if include then
                 List.append (contributor.profile.id |> runtime.topicLinks topic contentType) links
             else
-                links |> List.filter (\l -> not (l.attachedTopics |> List.member topic))
+                links |> List.filter (\l -> not (l.topics |> List.member topic))
 
         newState =
             { model

@@ -9454,7 +9454,7 @@ var _user$project$Domain_Core$Profile = F6(
 	});
 var _user$project$Domain_Core$Link = F6(
 	function (a, b, c, d, e, f) {
-		return {profile: a, title: b, url: c, contentType: d, currentTopic: e, attachedTopics: f};
+		return {profile: a, title: b, url: c, contentType: d, currentTopic: e, topics: f};
 	});
 var _user$project$Domain_Core$NewLinks = F3(
 	function (a, b, c) {
@@ -9556,7 +9556,7 @@ var _user$project$Domain_Core$initLink = {
 	url: _user$project$Domain_Core$Url(''),
 	contentType: _user$project$Domain_Core$Unknown,
 	currentTopic: _user$project$Domain_Core$Topic(''),
-	attachedTopics: {ctor: '[]'}
+	topics: {ctor: '[]'}
 };
 var _user$project$Domain_Core$All = {ctor: 'All'};
 var _user$project$Domain_Core$Answer = {ctor: 'Answer'};
@@ -9988,7 +9988,7 @@ var _user$project$Tests_TestAPI$topicLinks = F3(
 		return A2(
 			_elm_lang$core$List$filter,
 			function (a) {
-				return A2(_elm_lang$core$List$member, topic, a.attachedTopics);
+				return A2(_elm_lang$core$List$member, topic, a.topics);
 			},
 			A2(_user$project$Tests_TestAPI$links, contentType, id));
 	});
@@ -10220,7 +10220,7 @@ var _user$project$Controls_NewLinks$update = F2(
 						current: _elm_lang$core$Native_Utils.update(
 							link,
 							{
-								attachedTopics: {ctor: '::', _0: _p0._0, _1: link.attachedTopics}
+								topics: {ctor: '::', _0: _p0._0, _1: link.topics}
 							})
 					});
 			case 'InputContentType':
@@ -11393,7 +11393,7 @@ var _user$project$Home$toggleFilter = F2(
 					links) : A2(
 					_elm_lang$core$List$filter,
 					function (l) {
-						return !A2(_elm_lang$core$List$member, _p11, l.attachedTopics);
+						return !A2(_elm_lang$core$List$member, _p11, l.topics);
 					},
 					links);
 			});
