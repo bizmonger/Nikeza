@@ -1,5 +1,6 @@
 module Home exposing (..)
 
+import Settings exposing (runtime)
 import Domain.Core exposing (..)
 import Domain.Contributor as Contributor exposing (..)
 import Controls.Login as Login exposing (..)
@@ -7,7 +8,6 @@ import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
 import Controls.AddConnection as AddConnection exposing (..)
 import Controls.NewLinks as NewLinks exposing (..)
 import Controls.ContributorLinks as ContributorLinks exposing (..)
-import Settings exposing (runtime)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
@@ -361,57 +361,6 @@ homePage model =
 
 
 
--- contributorPage : Contributor.Model -> Html Msg
--- contributorPage model =
---     let
---         ( profileId, topics ) =
---             ( model.profile.id, model.profile.topics )
---         allTopic =
---             Topic "All"
---         allFilter =
---             div []
---                 [ input [ type_ "checkbox", checked model.showAll, onCheck (\b -> ToggleAll b) ] []
---                 , label [] [ text <| getTopic allTopic ]
---                 ]
---         toCheckBoxState include topic =
---             div []
---                 [ input [ type_ "checkbox", checked include, onCheck (\isChecked -> Toggle ( topic, isChecked )) ] []
---                 , label [] [ text <| getTopic topic ]
---                 ]
---     in
---         div []
---             [ table []
---                 [ tr []
---                     [ table []
---                         [ tr []
---                             [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
---                             -- , td [] [ div [] <| allFilter :: (topics |> List.map (\t -> t |> toCheckBoxState model.showAll)) ]
---                             , td [] [ div [] <| (topics |> List.map (\t -> t |> toCheckBoxState True)) ]
---                             , table []
---                                 [ tr []
---                                     [ td [] [ b [] [ text "Answers" ] ]
---                                     , td [] [ b [] [ text "Articles" ] ]
---                                     ]
---                                 , tr []
---                                     [ td [] [ div [] <| contentUI profileId Answer model.answers ]
---                                     , td [] [ div [] <| contentUI profileId Article model.articles ]
---                                     ]
---                                 , tr []
---                                     [ td [] [ b [] [ text "Podcasts" ] ]
---                                     , td [] [ b [] [ text "Videos" ] ]
---                                     ]
---                                 , tr []
---                                     [ td [] [ div [] <| contentUI profileId Podcast model.podcasts ]
---                                     , td [] [ div [] <| contentUI profileId Video model.videos ]
---                                     ]
---                                 ]
---                             ]
---                         , tr [] [ td [] [ text <| getName model.profile.name ] ]
---                         , tr [] [ td [] [ p [] [ text model.profile.bio ] ] ]
---                         ]
---                     ]
---                 ]
---             ]
 -- contributorContentTypePage : String -> Contributor.Model -> Html Msg
 -- contributorContentTypePage contentTypeText model =
 --     let
@@ -537,17 +486,23 @@ dashboardPage model =
     in
         div []
             [ h2 [] [ text <| "Welcome " ++ getName model.contributor.profile.name ]
-            , div []
-                [ h3 [] [ text "Connections" ]
-                , Html.map NewConnection <| AddConnection.view model.contributor.newConnection
-                , connectionsTable
+            , table []
+                [ tr []
+                    [ th [] [ h3 [] [ text "Profile" ] ] ]
+                , tr []
+                    [ td [] [ td [] [ Html.map ContributorLinksAction <| ContributorLinks.view model.contributor ] ] ]
+                , tr []
+                    [ th [] [ h3 [] [ text "Connections" ] ] ]
+                , tr []
+                    [ td [] [ Html.map NewConnection <| AddConnection.view model.contributor.newConnection ] ]
+                , tr []
+                    [ td [] [ connectionsTable ] ]
+                , tr []
+                    [ th [] [ h3 [] [ text "Add Link" ] ] ]
+                , tr []
+                    [ Html.map NewLink (NewLinks.view linkSummary) ]
+                , tr [] [ update ]
                 ]
-            , h3 [] [ text "Add Link" ]
-            , Html.map NewLink (NewLinks.view linkSummary)
-            , update
-            , br [] []
-            , br [] []
-            , Html.map ContributorLinksAction <| ContributorLinks.view model.contributor
             ]
 
 

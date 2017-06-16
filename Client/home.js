@@ -12416,75 +12416,177 @@ var _user$project$Home$dashboardPage = function (model) {
 			_1: {
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$div,
+					_elm_lang$html$Html$table,
 					{ctor: '[]'},
 					{
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$h3,
+							_elm_lang$html$Html$tr,
 							{ctor: '[]'},
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html$text('Connections'),
+								_0: A2(
+									_elm_lang$html$Html$th,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$h3,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('Profile'),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}),
 								_1: {ctor: '[]'}
 							}),
 						_1: {
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$map,
-								_user$project$Home$NewConnection,
-								_user$project$Controls_AddConnection$view(model.contributor.newConnection)),
-							_1: {
-								ctor: '::',
-								_0: connectionsTable,
-								_1: {ctor: '[]'}
-							}
-						}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$h3,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('Add Link'),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$map,
-							_user$project$Home$NewLink,
-							_user$project$Controls_NewLinks$view(linkSummary)),
-						_1: {
-							ctor: '::',
-							_0: update,
+								_elm_lang$html$Html$tr,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$td,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$td,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$map,
+														_user$project$Home$ContributorLinksAction,
+														_user$project$Controls_ContributorLinks$view(model.contributor)),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}),
 							_1: {
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$br,
+									_elm_lang$html$Html$tr,
 									{ctor: '[]'},
-									{ctor: '[]'}),
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$th,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$h3,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text('Connections'),
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}),
 								_1: {
 									ctor: '::',
 									_0: A2(
-										_elm_lang$html$Html$br,
+										_elm_lang$html$Html$tr,
 										{ctor: '[]'},
-										{ctor: '[]'}),
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$td,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$map,
+														_user$project$Home$NewConnection,
+														_user$project$Controls_AddConnection$view(model.contributor.newConnection)),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}),
 									_1: {
 										ctor: '::',
 										_0: A2(
-											_elm_lang$html$Html$map,
-											_user$project$Home$ContributorLinksAction,
-											_user$project$Controls_ContributorLinks$view(model.contributor)),
-										_1: {ctor: '[]'}
+											_elm_lang$html$Html$tr,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$td,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: connectionsTable,
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$tr,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$th,
+														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$h3,
+																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text('Add Link'),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$tr,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$map,
+															_user$project$Home$NewLink,
+															_user$project$Controls_NewLinks$view(linkSummary)),
+														_1: {ctor: '[]'}
+													}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$tr,
+														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: update,
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}
+											}
+										}
 									}
 								}
 							}
 						}
-					}
-				}
+					}),
+				_1: {ctor: '[]'}
 			}
 		});
 };
