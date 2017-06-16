@@ -1,5 +1,6 @@
 module Controls.ContributorLinks exposing (..)
 
+import Settings exposing (..)
 import Domain.Core exposing (..)
 import Domain.Contributor as Contributor exposing (..)
 import Html exposing (..)
@@ -8,7 +9,24 @@ import Html.Events exposing (onClick, onCheck, onInput)
 
 
 -- MODEL
+
+
+type alias Model =
+    Contributor.Model
+
+
+
 -- UPDATE
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        Toggle ( topic, include ) ->
+            ( topic, include ) |> toggleFilter model
+
+        ToggleAll include ->
+            include |> toggleAllFilter model
 
 
 type Msg
@@ -20,8 +38,8 @@ type Msg
 -- VIEW
 
 
-contributorPage : Contributor.Model -> Html Msg
-contributorPage model =
+view : Contributor.Model -> Html Msg
+view model =
     let
         ( profileId, topics ) =
             ( model.profile.id, model.profile.topics )
@@ -87,3 +105,53 @@ linksUI links =
     links
         |> List.take 5
         |> List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ])
+
+
+toggleFilter : Contributor.Model -> ( Topic, Bool ) -> ( Contributor.Model, Cmd Msg )
+toggleFilter model ( topic, include ) =
+    let
+        toggleTopic contentType links =
+            if include then
+                List.append (model.profile.id |> runtime.topicLinks topic contentType) links
+            else
+                links |> List.filter (\l -> not (l.topics |> List.member topic))
+
+        newState =
+            { model
+                | showAll = False
+                , answers = model.answers |> toggleTopic Answer
+                , articles = model.articles |> toggleTopic Article
+                , videos = model.videos |> toggleTopic Video
+                , podcasts = model.podcasts |> toggleTopic Podcast
+            }
+    in
+        ( newState, Cmd.none )
+
+
+toggleAllFilter : Contributor.Model -> Bool -> ( Contributor.Model, Cmd Msg )
+toggleAllFilter model include =
+    let
+        profile =
+            model.profile
+
+        newState =
+            if not include then
+                { model | showAll = False, answers = [], articles = [], videos = [], podcasts = [] }
+            else
+                { model
+                    | showAll = True
+                    , answers = profile.id |> runtime.links Answer
+                    , articles = profile.id |> runtime.links Article
+                    , videos = profile.id |> runtime.links Video
+                    , podcasts = profile.id |> runtime.links Podcast
+                }
+    in
+        ( newState, Cmd.none )
+
+
+toCheckbox : Topic -> Html Msg
+toCheckbox topic =
+    div []
+        [ input [ type_ "checkbox", checked True, onCheck (\b -> Toggle ( topic, b )) ] []
+        , label [] [ text <| getTopic topic ]
+        ]

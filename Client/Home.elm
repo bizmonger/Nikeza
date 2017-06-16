@@ -6,6 +6,7 @@ import Controls.Login as Login exposing (..)
 import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
 import Controls.AddConnection as AddConnection exposing (..)
 import Controls.NewLinks as NewLinks exposing (..)
+import Controls.ContributorLinks as ContributorLinks exposing (..)
 import Settings exposing (runtime)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -76,8 +77,7 @@ type Msg
     | NewConnection AddConnection.Msg
     | Remove Connection
     | NewLink NewLinks.Msg
-    | Toggle ( Topic, Bool )
-    | ToggleAll Bool
+    | ContributorLinksAction ContributorLinks.Msg
     | Search String
     | Register
 
@@ -100,12 +100,6 @@ update msg model =
         Register ->
             ( model, Cmd.none )
 
-        Toggle ( topic, include ) ->
-            ( topic, include ) |> toggleFilter model
-
-        ToggleAll include ->
-            include |> toggleAllFilter model
-
         ProfileThumbnail subMsg ->
             ( model, Cmd.none )
 
@@ -117,6 +111,22 @@ update msg model =
 
         NewLink subMsg ->
             onNewLink subMsg model
+
+        ContributorLinksAction subMsg ->
+            case subMsg of
+                ContributorLinks.ToggleAll _ ->
+                    let
+                        ( contributor, _ ) =
+                            ContributorLinks.update subMsg model.contributor
+                    in
+                        ( { model | contributor = contributor }, Cmd.none )
+
+                ContributorLinks.Toggle _ ->
+                    let
+                        ( contributor, _ ) =
+                            ContributorLinks.update subMsg model.contributor
+                    in
+                        ( { model | contributor = contributor }, Cmd.none )
 
 
 onRemove : Model -> Connection -> ( Model, Cmd Msg )
@@ -210,57 +220,6 @@ onNewConnection subMsg model =
                     )
 
 
-toggleAllFilter : Model -> Bool -> ( Model, Cmd Msg )
-toggleAllFilter model include =
-    let
-        contributor =
-            model.contributor
-
-        profile =
-            contributor.profile
-
-        updateContributor =
-            if not include then
-                { contributor | showAll = False, answers = [], articles = [], videos = [], podcasts = [] }
-            else
-                { contributor
-                    | showAll = True
-                    , answers = profile.id |> runtime.links Answer
-                    , articles = profile.id |> runtime.links Article
-                    , videos = profile.id |> runtime.links Video
-                    , podcasts = profile.id |> runtime.links Podcast
-                }
-    in
-        ( { model | contributor = updateContributor }, Cmd.none )
-
-
-toggleFilter : Model -> ( Topic, Bool ) -> ( Model, Cmd Msg )
-toggleFilter model ( topic, include ) =
-    let
-        contributor =
-            model.contributor
-
-        toggleTopic contentType links =
-            if include then
-                List.append (contributor.profile.id |> runtime.topicLinks topic contentType) links
-            else
-                links |> List.filter (\l -> not (l.topics |> List.member topic))
-
-        newState =
-            { model
-                | contributor =
-                    { contributor
-                        | showAll = False
-                        , answers = contributor.answers |> toggleTopic Answer
-                        , articles = contributor.articles |> toggleTopic Article
-                        , videos = contributor.videos |> toggleTopic Video
-                        , podcasts = contributor.podcasts |> toggleTopic Podcast
-                    }
-            }
-    in
-        ( newState, Cmd.none )
-
-
 matchContributors : Model -> String -> ( Model, Cmd Msg )
 matchContributors model matchValue =
     let
@@ -329,7 +288,7 @@ view model =
         [ "contributor", id ] ->
             case runtime.contributor <| Id id of
                 Just _ ->
-                    contributorPage model.contributor
+                    Html.map ContributorLinksAction <| ContributorLinks.view model.contributor
 
                 Nothing ->
                     notFoundPage
@@ -345,8 +304,9 @@ view model =
         [ "contributor", id, "all", contentType ] ->
             case runtime.contributor <| Id id of
                 Just _ ->
-                    contributorContentTypePage contentType model.contributor
+                    notFoundPage
 
+                --contributorContentTypePage contentType model.contributor
                 Nothing ->
                     notFoundPage
 
@@ -400,99 +360,88 @@ homePage model =
             ]
 
 
-contributorPage : Contributor.Model -> Html Msg
-contributorPage model =
-    let
-        ( profileId, topics ) =
-            ( model.profile.id, model.profile.topics )
 
-        allTopic =
-            Topic "All"
-
-        allFilter =
-            div []
-                [ input [ type_ "checkbox", checked model.showAll, onCheck (\b -> ToggleAll b) ] []
-                , label [] [ text <| getTopic allTopic ]
-                ]
-
-        toCheckBoxState include topic =
-            div []
-                [ input [ type_ "checkbox", checked include, onCheck (\isChecked -> Toggle ( topic, isChecked )) ] []
-                , label [] [ text <| getTopic topic ]
-                ]
-    in
-        div []
-            [ table []
-                [ tr []
-                    [ table []
-                        [ tr []
-                            [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
-
-                            -- , td [] [ div [] <| allFilter :: (topics |> List.map (\t -> t |> toCheckBoxState model.showAll)) ]
-                            , td [] [ div [] <| (topics |> List.map (\t -> t |> toCheckBoxState True)) ]
-                            , table []
-                                [ tr []
-                                    [ td [] [ b [] [ text "Answers" ] ]
-                                    , td [] [ b [] [ text "Articles" ] ]
-                                    ]
-                                , tr []
-                                    [ td [] [ div [] <| contentUI profileId Answer model.answers ]
-                                    , td [] [ div [] <| contentUI profileId Article model.articles ]
-                                    ]
-                                , tr []
-                                    [ td [] [ b [] [ text "Podcasts" ] ]
-                                    , td [] [ b [] [ text "Videos" ] ]
-                                    ]
-                                , tr []
-                                    [ td [] [ div [] <| contentUI profileId Podcast model.podcasts ]
-                                    , td [] [ div [] <| contentUI profileId Video model.videos ]
-                                    ]
-                                ]
-                            ]
-                        , tr [] [ td [] [ text <| getName model.profile.name ] ]
-                        , tr [] [ td [] [ p [] [ text model.profile.bio ] ] ]
-                        ]
-                    ]
-                ]
-            ]
-
-
-contributorContentTypePage : String -> Contributor.Model -> Html Msg
-contributorContentTypePage contentTypeText model =
-    let
-        topics =
-            model.profile.topics
-
-        posts =
-            case contentTypeText |> toContentType of
-                Answer ->
-                    model.answers
-
-                Article ->
-                    model.articles
-
-                Podcast ->
-                    model.podcasts
-
-                Video ->
-                    model.videos
-
-                Unknown ->
-                    []
-
-                All ->
-                    []
-    in
-        div []
-            [ h2 [] [ text <| "All " ++ contentTypeText ]
-            , table []
-                [ tr []
-                    [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
-                    , td [] [ div [] (topics |> List.map toCheckbox) ]
-                    , td [] [ div [] <| List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ]) posts ]
-                    ]
-                ]
-            ]
+-- contributorPage : Contributor.Model -> Html Msg
+-- contributorPage model =
+--     let
+--         ( profileId, topics ) =
+--             ( model.profile.id, model.profile.topics )
+--         allTopic =
+--             Topic "All"
+--         allFilter =
+--             div []
+--                 [ input [ type_ "checkbox", checked model.showAll, onCheck (\b -> ToggleAll b) ] []
+--                 , label [] [ text <| getTopic allTopic ]
+--                 ]
+--         toCheckBoxState include topic =
+--             div []
+--                 [ input [ type_ "checkbox", checked include, onCheck (\isChecked -> Toggle ( topic, isChecked )) ] []
+--                 , label [] [ text <| getTopic topic ]
+--                 ]
+--     in
+--         div []
+--             [ table []
+--                 [ tr []
+--                     [ table []
+--                         [ tr []
+--                             [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
+--                             -- , td [] [ div [] <| allFilter :: (topics |> List.map (\t -> t |> toCheckBoxState model.showAll)) ]
+--                             , td [] [ div [] <| (topics |> List.map (\t -> t |> toCheckBoxState True)) ]
+--                             , table []
+--                                 [ tr []
+--                                     [ td [] [ b [] [ text "Answers" ] ]
+--                                     , td [] [ b [] [ text "Articles" ] ]
+--                                     ]
+--                                 , tr []
+--                                     [ td [] [ div [] <| contentUI profileId Answer model.answers ]
+--                                     , td [] [ div [] <| contentUI profileId Article model.articles ]
+--                                     ]
+--                                 , tr []
+--                                     [ td [] [ b [] [ text "Podcasts" ] ]
+--                                     , td [] [ b [] [ text "Videos" ] ]
+--                                     ]
+--                                 , tr []
+--                                     [ td [] [ div [] <| contentUI profileId Podcast model.podcasts ]
+--                                     , td [] [ div [] <| contentUI profileId Video model.videos ]
+--                                     ]
+--                                 ]
+--                             ]
+--                         , tr [] [ td [] [ text <| getName model.profile.name ] ]
+--                         , tr [] [ td [] [ p [] [ text model.profile.bio ] ] ]
+--                         ]
+--                     ]
+--                 ]
+--             ]
+-- contributorContentTypePage : String -> Contributor.Model -> Html Msg
+-- contributorContentTypePage contentTypeText model =
+--     let
+--         topics =
+--             model.profile.topics
+--         posts =
+--             case contentTypeText |> toContentType of
+--                 Answer ->
+--                     model.answers
+--                 Article ->
+--                     model.articles
+--                 Podcast ->
+--                     model.podcasts
+--                 Video ->
+--                     model.videos
+--                 Unknown ->
+--                     []
+--                 All ->
+--                     []
+--     in
+--         div []
+--             [ h2 [] [ text <| "All " ++ contentTypeText ]
+--             , table []
+--                 [ tr []
+--                     [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
+--                     , td [] [ div [] (topics |> List.map toCheckbox) ]
+--                     , td [] [ div [] <| List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ]) posts ]
+--                     ]
+--                 ]
+--             ]
 
 
 contributorTopicContentTypePage : Topic -> ContentType -> Contributor.Model -> Html Msg
@@ -596,6 +545,9 @@ dashboardPage model =
             , h3 [] [ text "Add Link" ]
             , Html.map NewLink (NewLinks.view linkSummary)
             , update
+            , br [] []
+            , br [] []
+            , Html.map ContributorLinksAction <| ContributorLinks.view model.contributor
             ]
 
 
@@ -604,12 +556,14 @@ notFoundPage =
     div [] [ text "Page not found" ]
 
 
-toCheckbox : Topic -> Html Msg
-toCheckbox topic =
-    div []
-        [ input [ type_ "checkbox", checked True, onCheck (\b -> Toggle ( topic, b )) ] []
-        , label [] [ text <| getTopic topic ]
-        ]
+
+-- toCheckbox : Topic -> Html Msg
+-- toCheckbox topic =
+--     div []
+--         [ input [ type_ "checkbox", checked True, onCheck (\b -> ContributorLinks.Toggle ( topic, b )) ] []
+--         , label [] [ text <| getTopic topic ]
+--         ]
+-- TODO: Move LinksUI to some UI module that needs to be created first.
 
 
 linksUI : List Link -> List (Html Msg)
@@ -619,9 +573,10 @@ linksUI links =
         |> List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ])
 
 
-contentUI : Id -> ContentType -> List Link -> List (Html Msg)
-contentUI profileId contentType links =
-    List.append (linksUI links) [ a [ href <| getUrl <| moreContributorContentUrl profileId contentType ] [ text <| "all", br [] [] ] ]
+
+-- contentUI : Id -> ContentType -> List Link -> List (Html Msg)
+-- contentUI profileId contentType links =
+--     List.append (linksUI links) [ a [ href <| getUrl <| moreContributorContentUrl profileId contentType ] [ text <| "all", br [] [] ] ]
 
 
 contentWithTopicUI : Id -> ContentType -> Topic -> List Link -> List (Html Msg)
