@@ -79,8 +79,9 @@ type Msg
     | ProfileThumbnail ProfileThumbnail.Msg
     | NewConnection AddConnection.Msg
     | Remove Connection
-    | ManageConnections
-    | ManageLinks
+    | ViewConnections
+    | AddNewLink
+    | ViewLinks
     | NewLink NewLinks.Msg
     | ContributorLinksAction ContributorLinks.Msg
     | Search String
@@ -108,19 +109,26 @@ update msg model =
         ProfileThumbnail subMsg ->
             ( model, Cmd.none )
 
-        ManageConnections ->
+        ViewConnections ->
             let
                 pendingPortal =
                     model.portal
             in
-                ( { model | portal = { pendingPortal | requested = Domain.ManageConnections } }, Cmd.none )
+                ( { model | portal = { pendingPortal | requested = Domain.Connections } }, Cmd.none )
 
-        ManageLinks ->
+        AddNewLink ->
             let
                 pendingPortal =
                     model.portal
             in
-                ( { model | portal = { pendingPortal | requested = Domain.AddLinks } }, Cmd.none )
+                ( { model | portal = { pendingPortal | requested = Domain.AddLink } }, Cmd.none )
+
+        ViewLinks ->
+            let
+                pendingPortal =
+                    model.portal
+            in
+                ( { model | portal = { pendingPortal | requested = Domain.Links } }, Cmd.none )
 
         NewConnection subMsg ->
             onNewConnection subMsg model
@@ -167,7 +175,7 @@ onRemove model connection =
             { contributor | profile = updatedProfile, newConnection = initConnection }
 
         portal =
-            { contributor = updatedContributor, requested = CurrentLinks }
+            { contributor = updatedContributor, requested = Links }
 
         newState =
             { model | portal = portal }
@@ -188,7 +196,7 @@ onNewLink subMsg model =
             { contributor | newLinks = newState }
 
         portal =
-            { contributor = updatedContributor, requested = CurrentLinks }
+            { contributor = updatedContributor, requested = Links }
     in
         case subMsg of
             NewLinks.InputTitle _ ->
@@ -209,7 +217,7 @@ onNewLink subMsg model =
             NewLinks.InputContentType _ ->
                 ( { model | portal = portal }, Cmd.none )
 
-            AddLink v ->
+            NewLinks.AddLink v ->
                 ( model, Cmd.none )
 
 
@@ -518,7 +526,7 @@ content portal =
             table [] [ div [] (contributor.profile.connections |> List.map connectionUI) ]
     in
         case portal.requested of
-            Domain.ManageConnections ->
+            Domain.Connections ->
                 table []
                     [ tr []
                         [ th [] [ h3 [] [ text "Connections" ] ] ]
@@ -528,11 +536,11 @@ content portal =
                         [ td [] [ connectionsTable ] ]
                     ]
 
-            AddLinks ->
-                label [] [ text "Add Links..." ]
+            Domain.AddLink ->
+                label [] [ text "Add Link..." ]
 
-            CurrentLinks ->
-                label [] [ text "Current Links..." ]
+            Domain.Links ->
+                label [] [ text "Links..." ]
 
 
 dashboardPage : Model -> Html Msg
@@ -568,9 +576,11 @@ dashboardPage model =
                 , td [] [ img [ src <| getUrl <| contributor.profile.imageUrl, width 100, height 100 ] [] ]
                 , td [] [ content model.portal ]
                 ]
-            , button [ onClick ManageConnections ] [ text "Manage Connections" ]
+            , button [ onClick ViewConnections ] [ text "Connections" ]
             , br [] []
-            , button [ onClick ManageLinks ] [ text "Manage Links" ]
+            , button [ onClick AddNewLink ] [ text "Link" ]
+            , br [] []
+            , button [ onClick ViewLinks ] [ text "Links" ]
             , br [] []
             ]
 

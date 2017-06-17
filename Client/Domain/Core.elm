@@ -152,9 +152,9 @@ initConnection =
 
 
 type ContributorRequest
-    = ManageConnections
-    | AddLinks
-    | CurrentLinks
+    = Connections
+    | Links
+    | AddLink
 
 
 

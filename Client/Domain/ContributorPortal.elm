@@ -14,5 +14,5 @@ type alias Model =
 init : Model
 init =
     { contributor = Contributor.init
-    , requested = CurrentLinks
+    , requested = Links
     }
