@@ -2,6 +2,7 @@ module Home exposing (..)
 
 import Settings exposing (runtime)
 import Domain.Core exposing (..)
+import Domain.ContributorPortal as ContributorPortal exposing (..)
 import Domain.Contributor as Contributor exposing (..)
 import Controls.Login as Login exposing (..)
 import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
@@ -36,8 +37,9 @@ main =
 type alias Model =
     { currentRoute : Navigation.Location
     , login : Login.Model
+    , portal : ContributorPortal.Model
     , contributors : List Profile
-    , contributor : Contributor.Model
+    , selectedContributor : Contributor.Model
     }
 
 
@@ -58,9 +60,10 @@ init location =
                     Contributor.init
     in
         ( { currentRoute = location
-          , contributors = runtime.contributors
           , login = Login.model
-          , contributor = contributor
+          , portal = ContributorPortal.init
+          , contributors = runtime.contributors
+          , selectedContributor = contributor
           }
         , Cmd.none
         )
@@ -74,8 +77,10 @@ type Msg
     = UrlChange Navigation.Location
     | OnLogin Login.Msg
     | ProfileThumbnail ProfileThumbnail.Msg
-    | NewConnection AddConnection.Msg
-    | Remove Connection
+      -- | NewConnection AddConnection.Msg
+      -- | Remove Connection
+    | ManageConnections
+    | ManageLinks
     | NewLink NewLinks.Msg
     | ContributorLinksAction ContributorLinks.Msg
     | Search String
@@ -103,12 +108,16 @@ update msg model =
         ProfileThumbnail subMsg ->
             ( model, Cmd.none )
 
-        NewConnection subMsg ->
-            onNewConnection subMsg model
+        ManageConnections ->
+            ( model, Cmd.none )
 
-        Remove connection ->
-            onRemove model connection
+        ManageLinks ->
+            ( model, Cmd.none )
 
+        -- NewConnection subMsg ->
+        --     onNewConnection subMsg model
+        -- Remove connection ->
+        --     onRemove model connection
         NewLink subMsg ->
             onNewLink subMsg model
 
@@ -117,23 +126,23 @@ update msg model =
                 ContributorLinks.ToggleAll _ ->
                     let
                         ( contributor, _ ) =
-                            ContributorLinks.update subMsg model.contributor
+                            ContributorLinks.update subMsg model.selectedContributor
                     in
-                        ( { model | contributor = contributor }, Cmd.none )
+                        ( { model | selectedContributor = contributor }, Cmd.none )
 
                 ContributorLinks.Toggle _ ->
                     let
                         ( contributor, _ ) =
-                            ContributorLinks.update subMsg model.contributor
+                            ContributorLinks.update subMsg model.selectedContributor
                     in
-                        ( { model | contributor = contributor }, Cmd.none )
+                        ( { model | selectedContributor = contributor }, Cmd.none )
 
 
 onRemove : Model -> Connection -> ( Model, Cmd Msg )
 onRemove model connection =
     let
         contributor =
-            model.contributor
+            model.portal.contributor
 
         profile =
             contributor.profile
@@ -144,14 +153,14 @@ onRemove model connection =
         updatedProfile =
             { profile | connections = connectionsLeft }
 
+        updatedContributor =
+            { contributor | profile = updatedProfile, newConnection = initConnection }
+
+        portal =
+            { contributor = updatedContributor, requested = CurrentLinks }
+
         newState =
-            { model
-                | contributor =
-                    { contributor
-                        | profile = updatedProfile
-                        , newConnection = initConnection
-                    }
-            }
+            { model | portal = portal }
     in
         ( newState, Cmd.none )
 
@@ -160,64 +169,81 @@ onNewLink : NewLinks.Msg -> Model -> ( Model, Cmd Msg )
 onNewLink subMsg model =
     let
         contributor =
-            model.contributor
+            model.portal.contributor
 
         newState =
             NewLinks.update subMsg (contributor.newLinks)
+
+        updatedContributor =
+            { contributor | newLinks = newState }
+
+        portal =
+            { contributor = updatedContributor, requested = CurrentLinks }
     in
         case subMsg of
             NewLinks.InputTitle _ ->
-                ( { model | contributor = { contributor | newLinks = newState } }, Cmd.none )
+                ( { model | portal = portal }, Cmd.none )
 
             NewLinks.InputUrl _ ->
-                ( { model | contributor = { contributor | newLinks = newState } }, Cmd.none )
+                ( { model | portal = portal }, Cmd.none )
 
             NewLinks.InputTopic _ ->
-                ( { model | contributor = { contributor | newLinks = newState } }, Cmd.none )
+                ( { model | portal = portal }, Cmd.none )
 
             NewLinks.RemoveTopic _ ->
-                ( { model | contributor = { contributor | newLinks = newState } }, Cmd.none )
+                ( { model | portal = portal }, Cmd.none )
 
             NewLinks.AssociateTopic _ ->
-                ( { model | contributor = { contributor | newLinks = newState } }, Cmd.none )
+                ( { model | portal = portal }, Cmd.none )
 
             NewLinks.InputContentType _ ->
-                ( { model | contributor = { contributor | newLinks = newState } }, Cmd.none )
+                ( { model | portal = portal }, Cmd.none )
 
             AddLink v ->
-                ( { model | contributor = { contributor | newLinks = { newState | canAdd = True, added = v.current.base :: v.added } } }, Cmd.none )
+                ( model, Cmd.none )
+
+
+
+--( { model | contributor = { contributor | newLinks = { newState | canAdd = True, added = v.current.base :: v.added } } }, Cmd.none )
 
 
 onNewConnection : AddConnection.Msg -> Model -> ( Model, Cmd Msg )
 onNewConnection subMsg model =
     let
-        connection =
-            AddConnection.update subMsg model.contributor.newConnection
-
         contributor =
-            model.contributor
+            model.portal.contributor
+
+        connection =
+            AddConnection.update subMsg contributor.newConnection
+
+        updatedContributor =
+            { contributor | newConnection = connection }
+
+        pendingPortal =
+            { contributor = updatedContributor, requested = CurrentLinks }
+
+        pendingProfile =
+            contributor.profile
+
+        updatedProfile =
+            { pendingProfile | connections = connection :: pendingProfile.connections }
+
+        portal =
+            { pendingPortal | contributor = { updatedContributor | profile = updatedProfile } }
     in
         case subMsg of
             AddConnection.InputUsername _ ->
-                ( { model | contributor = { contributor | newConnection = connection } }, Cmd.none )
+                ( { model | portal = portal }, Cmd.none )
 
             AddConnection.InputPlatform _ ->
-                ( { model | contributor = { contributor | newConnection = connection } }, Cmd.none )
+                ( { model | portal = portal }, Cmd.none )
 
             AddConnection.Submit _ ->
                 let
                     profile =
                         contributor.profile
                 in
-                    ( { model
-                        | contributor =
-                            { contributor
-                                | newConnection = connection
-                                , profile = { profile | connections = connection :: profile.connections }
-                            }
-                      }
-                    , Cmd.none
-                    )
+                    ( { model | portal = portal }, Cmd.none )
 
 
 matchContributors : Model -> String -> ( Model, Cmd Msg )
@@ -237,39 +263,44 @@ matchContributors model matchValue =
 
 onLogin : Model -> Login.Msg -> ( Model, Cmd Msg )
 onLogin model subMsg =
-    case subMsg of
-        Login.Attempt _ ->
-            let
-                login =
-                    Login.update subMsg model.login
+    let
+        pendingPortal =
+            model.portal
+    in
+        case subMsg of
+            Login.Attempt _ ->
+                let
+                    login =
+                        Login.update subMsg model.login
 
-                ( contributor, latest ) =
-                    ( model.contributor, runtime.tryLogin login )
+                    ( contributor, latest ) =
+                        ( pendingPortal.contributor, runtime.tryLogin login )
 
-                newState =
-                    case runtime.contributor <| runtime.usernameToId login.username of
-                        Just p ->
-                            { model
-                                | login = latest
-                                , contributor =
-                                    { contributor
-                                        | profile = { p | connections = p.id |> runtime.connections }
+                    newState =
+                        case runtime.contributor <| runtime.usernameToId login.username of
+                            Just p ->
+                                let
+                                    updatedProfile =
+                                        { p | connections = p.id |> runtime.connections }
+                                in
+                                    { model
+                                        | login = latest
+                                        , portal = { pendingPortal | contributor = { contributor | profile = updatedProfile } }
                                     }
-                            }
 
-                        Nothing ->
-                            { model | login = latest }
-            in
-                if newState.login.loggedIn then
-                    ( newState, Navigation.load <| "/#/" ++ getId newState.contributor.profile.id ++ "/dashboard" )
-                else
-                    ( newState, Cmd.none )
+                            Nothing ->
+                                { model | login = latest }
+                in
+                    if newState.login.loggedIn then
+                        ( newState, Navigation.load <| "/#/" ++ getId newState.portal.contributor.profile.id ++ "/dashboard" )
+                    else
+                        ( newState, Cmd.none )
 
-        Login.UserInput _ ->
-            ( { model | login = Login.update subMsg model.login }, Cmd.none )
+            Login.UserInput _ ->
+                ( { model | login = Login.update subMsg model.login }, Cmd.none )
 
-        Login.PasswordInput _ ->
-            ( { model | login = Login.update subMsg model.login }, Cmd.none )
+            Login.PasswordInput _ ->
+                ( { model | login = Login.update subMsg model.login }, Cmd.none )
 
 
 
@@ -288,7 +319,7 @@ view model =
         [ "contributor", id ] ->
             case runtime.contributor <| Id id of
                 Just _ ->
-                    Html.map ContributorLinksAction <| ContributorLinks.view model.contributor
+                    Html.map ContributorLinksAction <| ContributorLinks.view model.portal.contributor
 
                 Nothing ->
                     notFoundPage
@@ -296,7 +327,7 @@ view model =
         [ "contributor", id, topic ] ->
             case runtime.contributor <| Id id of
                 Just _ ->
-                    contributorTopicPage model.contributor
+                    contributorTopicPage model.portal.contributor
 
                 Nothing ->
                     notFoundPage
@@ -313,7 +344,7 @@ view model =
         [ "contributor", id, topic, "all", contentType ] ->
             case runtime.contributor <| Id id of
                 Just _ ->
-                    contributorTopicContentTypePage (Topic topic) (toContentType contentType) model.contributor
+                    contributorTopicContentTypePage (Topic topic) (toContentType contentType) model.portal.contributor
 
                 Nothing ->
                     notFoundPage
@@ -451,24 +482,24 @@ contributorTopicPage model =
                 notFoundPage
 
 
-connectionUI : Connection -> Html Msg
-connectionUI connection =
-    tr []
-        [ td [] [ text connection.platform ]
-        , td [] [ i [] [ text connection.username ] ]
-        , td [] [ button [ onClick <| Remove connection ] [ text "Disconnect" ] ]
-        ]
+
+-- connectionUI : Connection -> Html Msg
+-- connectionUI connection =
+--     tr []
+--         [ td [] [ text connection.platform ]
+--         , td [] [ i [] [ text connection.username ] ]
+--         , td [] [ button [ onClick <| Remove connection ] [ text "Disconnect" ] ]
+--         ]
 
 
 dashboardPage : Model -> Html Msg
 dashboardPage model =
     let
         contributor =
-            model.contributor
+            model.portal.contributor
 
-        connectionsTable =
-            table [] [ div [] (contributor.profile.connections |> List.map connectionUI) ]
-
+        -- connectionsTable =
+        --     table [] [ div [] (contributor.profile.connections |> List.map connectionUI) ]
         linkSummary =
             contributor.newLinks
 
@@ -483,27 +514,46 @@ dashboardPage model =
                 div [] (linkSummary.added |> List.map addLink)
             else
                 div [] []
+
+        header =
+            [ h2 [] [ text <| "Welcome " ++ getName model.portal.contributor.profile.name ] ]
+
+        -- content =
+        --     model.contributorPortal.requested
     in
         div []
-            [ h2 [] [ text <| "Welcome " ++ getName model.contributor.profile.name ]
-            , table []
-                [ tr []
-                    [ th [] [ h3 [] [ text "Profile" ] ] ]
-                , tr []
-                    [ td [] [ td [] [ Html.map ContributorLinksAction <| ContributorLinks.view model.contributor ] ] ]
-                , tr []
-                    [ th [] [ h3 [] [ text "Connections" ] ] ]
-                , tr []
-                    [ td [] [ Html.map NewConnection <| AddConnection.view model.contributor.newConnection ] ]
-                , tr []
-                    [ td [] [ connectionsTable ] ]
-                , tr []
-                    [ th [] [ h3 [] [ text "Add Link" ] ] ]
-                , tr []
-                    [ Html.map NewLink (NewLinks.view linkSummary) ]
-                , tr [] [ update ]
+            [ table []
+                [ tr [] [ th [] header ]
+                , td [] [ img [ src <| getUrl <| contributor.profile.imageUrl, width 100, height 100 ] [] ]
+                , td [] [ text "content goes here..." ]
                 ]
+            , button [ onClick ManageConnections ] [ text "Manage Connections" ]
+            , br [] []
+            , button [ onClick ManageLinks ] [ text "Manage Links" ]
+            , br [] []
             ]
+
+
+
+--, table []
+--[
+--tr []
+--  [ th [] [ h3 [] [ text "Profile" ] ] ]
+--   tr []
+--     [ td [] [ td [] [ Html.map ContributorLinksAction <| ContributorLinks.view model.contributor ] ] ]
+-- , tr []
+--     [ th [] [ h3 [] [ text "Connections" ] ] ]
+-- , tr []
+--     [ td [] [ Html.map NewConnection <| AddConnection.view model.contributor.newConnection ] ]
+-- , tr []
+--     [ td [] [ connectionsTable ] ]
+-- , tr []
+--     [ th [] [ h3 [] [ text "Add Link" ] ] ]
+-- , tr []
+--     [ Html.map NewLink (NewLinks.view linkSummary) ]
+-- , tr [] [ update ]
+--]
+--]
 
 
 notFoundPage : Html Msg
@@ -558,7 +608,7 @@ navigate msg model location =
         [ "contributor", id ] ->
             case runtime.contributor <| Id id of
                 Just profile ->
-                    ( { model | contributor = getContributor profile, currentRoute = location }, Cmd.none )
+                    ( { model | selectedContributor = getContributor profile, currentRoute = location }, Cmd.none )
 
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
@@ -573,7 +623,7 @@ navigate msg model location =
                         topicContributor =
                             { contributor | topics = [ Topic topic ] }
                     in
-                        ( { model | contributor = topicContributor, currentRoute = location }, Cmd.none )
+                        ( { model | selectedContributor = topicContributor, currentRoute = location }, Cmd.none )
 
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )

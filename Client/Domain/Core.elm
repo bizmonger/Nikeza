@@ -151,6 +151,16 @@ initConnection =
     { platform = "", username = "" }
 
 
+type ContributorRequest
+    = ManageConnections
+    | AddLinks
+    | CurrentLinks
+
+
+
+-- INTERFACES
+
+
 type alias Connectionsfunction =
     Id -> List Connection
 

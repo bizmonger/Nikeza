@@ -17,8 +17,8 @@ init =
 
 type alias Model =
     { profile : Profile
-    , newConnection : AddConnection.Model
-    , newLinks : NewLinks.Model
+    , newConnection : AddConnection.Model -- TODO: Move to ContributorPortal
+    , newLinks : NewLinks.Model -- TODO: Move to ContributorPortal
     , showAll : Bool
     , topics : List Topic
     , answers : List Link

@@ -9553,6 +9553,9 @@ var _user$project$Domain_Core$Topic = function (a) {
 var _user$project$Domain_Core$Platform = function (a) {
 	return {ctor: 'Platform', _0: a};
 };
+var _user$project$Domain_Core$CurrentLinks = {ctor: 'CurrentLinks'};
+var _user$project$Domain_Core$AddLinks = {ctor: 'AddLinks'};
+var _user$project$Domain_Core$ManageConnections = {ctor: 'ManageConnections'};
 var _user$project$Domain_Core$Unknown = {ctor: 'Unknown'};
 var _user$project$Domain_Core$initLink = {
 	profile: _user$project$Domain_Core$initProfile,
@@ -11357,6 +11360,12 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (profile) {
 };
 var _user$project$Controls_ProfileThumbnail$None = {ctor: 'None'};
 
+var _user$project$Domain_ContributorPortal$init = {contributor: _user$project$Domain_Contributor$init, requested: _user$project$Domain_Core$CurrentLinks};
+var _user$project$Domain_ContributorPortal$Model = F2(
+	function (a, b) {
+		return {contributor: a, requested: b};
+	});
+
 var _user$project$Home$tokenizeUrl = function (urlHash) {
 	return A2(
 		_elm_lang$core$List$drop,
@@ -11378,7 +11387,7 @@ var _user$project$Home$navigate = F3(
 							_0: _elm_lang$core$Native_Utils.update(
 								model,
 								{
-									contributor: _user$project$Domain_Contributor$getContributor(_p1._0),
+									selectedContributor: _user$project$Domain_Contributor$getContributor(_p1._0),
 									currentRoute: location
 								}),
 							_1: _elm_lang$core$Platform_Cmd$none
@@ -11411,7 +11420,7 @@ var _user$project$Home$navigate = F3(
 								ctor: '_Tuple2',
 								_0: _elm_lang$core$Native_Utils.update(
 									model,
-									{contributor: topicContributor, currentRoute: location}),
+									{selectedContributor: topicContributor, currentRoute: location}),
 								_1: _elm_lang$core$Platform_Cmd$none
 							};
 						} else {
@@ -11917,13 +11926,14 @@ var _user$project$Home$contributorTopicContentTypePage = F3(
 	});
 var _user$project$Home$onLogin = F2(
 	function (model, subMsg) {
+		var pendingPortal = model.portal;
 		var _p5 = subMsg;
 		switch (_p5.ctor) {
 			case 'Attempt':
 				var login = A2(_user$project$Controls_Login$update, subMsg, model.login);
 				var _p6 = {
 					ctor: '_Tuple2',
-					_0: model.contributor,
+					_0: pendingPortal.contributor,
 					_1: _user$project$Settings$runtime.tryLogin(login)
 				};
 				var contributor = _p6._0;
@@ -11933,18 +11943,21 @@ var _user$project$Home$onLogin = F2(
 						_user$project$Settings$runtime.usernameToId(login.username));
 					if (_p7.ctor === 'Just') {
 						var _p8 = _p7._0;
+						var updatedProfile = _elm_lang$core$Native_Utils.update(
+							_p8,
+							{
+								connections: _user$project$Settings$runtime.connections(_p8.id)
+							});
 						return _elm_lang$core$Native_Utils.update(
 							model,
 							{
 								login: latest,
-								contributor: _elm_lang$core$Native_Utils.update(
-									contributor,
+								portal: _elm_lang$core$Native_Utils.update(
+									pendingPortal,
 									{
-										profile: _elm_lang$core$Native_Utils.update(
-											_p8,
-											{
-												connections: _user$project$Settings$runtime.connections(_p8.id)
-											})
+										contributor: _elm_lang$core$Native_Utils.update(
+											contributor,
+											{profile: updatedProfile})
 									})
 							});
 					} else {
@@ -11962,7 +11975,7 @@ var _user$project$Home$onLogin = F2(
 							'/#/',
 							A2(
 								_elm_lang$core$Basics_ops['++'],
-								_user$project$Domain_Core$getId(newState.contributor.profile.id),
+								_user$project$Domain_Core$getId(newState.portal.contributor.profile.id),
 								'/dashboard')))
 				} : {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'UserInput':
@@ -12007,8 +12020,25 @@ var _user$project$Home$matchContributors = F2(
 	});
 var _user$project$Home$onNewConnection = F2(
 	function (subMsg, model) {
-		var contributor = model.contributor;
-		var connection = A2(_user$project$Controls_AddConnection$update, subMsg, model.contributor.newConnection);
+		var contributor = model.portal.contributor;
+		var connection = A2(_user$project$Controls_AddConnection$update, subMsg, contributor.newConnection);
+		var updatedContributor = _elm_lang$core$Native_Utils.update(
+			contributor,
+			{newConnection: connection});
+		var pendingPortal = {contributor: updatedContributor, requested: _user$project$Domain_Core$CurrentLinks};
+		var pendingProfile = contributor.profile;
+		var updatedProfile = _elm_lang$core$Native_Utils.update(
+			pendingProfile,
+			{
+				connections: {ctor: '::', _0: connection, _1: pendingProfile.connections}
+			});
+		var portal = _elm_lang$core$Native_Utils.update(
+			pendingPortal,
+			{
+				contributor: _elm_lang$core$Native_Utils.update(
+					updatedContributor,
+					{profile: updatedProfile})
+			});
 		var _p9 = subMsg;
 		switch (_p9.ctor) {
 			case 'InputUsername':
@@ -12016,11 +12046,7 @@ var _user$project$Home$onNewConnection = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{
-							contributor: _elm_lang$core$Native_Utils.update(
-								contributor,
-								{newConnection: connection})
-						}),
+						{portal: portal}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'InputPlatform':
@@ -12028,11 +12054,7 @@ var _user$project$Home$onNewConnection = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{
-							contributor: _elm_lang$core$Native_Utils.update(
-								contributor,
-								{newConnection: connection})
-						}),
+						{portal: portal}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
@@ -12041,26 +12063,19 @@ var _user$project$Home$onNewConnection = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{
-							contributor: _elm_lang$core$Native_Utils.update(
-								contributor,
-								{
-									newConnection: connection,
-									profile: _elm_lang$core$Native_Utils.update(
-										profile,
-										{
-											connections: {ctor: '::', _0: connection, _1: profile.connections}
-										})
-								})
-						}),
+						{portal: portal}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 		}
 	});
 var _user$project$Home$onNewLink = F2(
 	function (subMsg, model) {
-		var contributor = model.contributor;
+		var contributor = model.portal.contributor;
 		var newState = A2(_user$project$Controls_NewLinks$update, subMsg, contributor.newLinks);
+		var updatedContributor = _elm_lang$core$Native_Utils.update(
+			contributor,
+			{newLinks: newState});
+		var portal = {contributor: updatedContributor, requested: _user$project$Domain_Core$CurrentLinks};
 		var _p10 = subMsg;
 		switch (_p10.ctor) {
 			case 'InputTitle':
@@ -12068,11 +12083,7 @@ var _user$project$Home$onNewLink = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{
-							contributor: _elm_lang$core$Native_Utils.update(
-								contributor,
-								{newLinks: newState})
-						}),
+						{portal: portal}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'InputUrl':
@@ -12080,11 +12091,7 @@ var _user$project$Home$onNewLink = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{
-							contributor: _elm_lang$core$Native_Utils.update(
-								contributor,
-								{newLinks: newState})
-						}),
+						{portal: portal}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'InputTopic':
@@ -12092,11 +12099,7 @@ var _user$project$Home$onNewLink = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{
-							contributor: _elm_lang$core$Native_Utils.update(
-								contributor,
-								{newLinks: newState})
-						}),
+						{portal: portal}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'RemoveTopic':
@@ -12104,11 +12107,7 @@ var _user$project$Home$onNewLink = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{
-							contributor: _elm_lang$core$Native_Utils.update(
-								contributor,
-								{newLinks: newState})
-						}),
+						{portal: portal}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'AssociateTopic':
@@ -12116,11 +12115,7 @@ var _user$project$Home$onNewLink = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{
-							contributor: _elm_lang$core$Native_Utils.update(
-								contributor,
-								{newLinks: newState})
-						}),
+						{portal: portal}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'InputContentType':
@@ -12128,38 +12123,16 @@ var _user$project$Home$onNewLink = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{
-							contributor: _elm_lang$core$Native_Utils.update(
-								contributor,
-								{newLinks: newState})
-						}),
+						{portal: portal}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
-				var _p11 = _p10._0;
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							contributor: _elm_lang$core$Native_Utils.update(
-								contributor,
-								{
-									newLinks: _elm_lang$core$Native_Utils.update(
-										newState,
-										{
-											canAdd: true,
-											added: {ctor: '::', _0: _p11.current.base, _1: _p11.added}
-										})
-								})
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 		}
 	});
 var _user$project$Home$onRemove = F2(
 	function (model, connection) {
-		var contributor = model.contributor;
+		var contributor = model.portal.contributor;
 		var profile = contributor.profile;
 		var connectionsLeft = A2(
 			_elm_lang$core$List$filter,
@@ -12170,25 +12143,25 @@ var _user$project$Home$onRemove = F2(
 		var updatedProfile = _elm_lang$core$Native_Utils.update(
 			profile,
 			{connections: connectionsLeft});
+		var updatedContributor = _elm_lang$core$Native_Utils.update(
+			contributor,
+			{profile: updatedProfile, newConnection: _user$project$Domain_Core$initConnection});
+		var portal = {contributor: updatedContributor, requested: _user$project$Domain_Core$CurrentLinks};
 		var newState = _elm_lang$core$Native_Utils.update(
 			model,
-			{
-				contributor: _elm_lang$core$Native_Utils.update(
-					contributor,
-					{profile: updatedProfile, newConnection: _user$project$Domain_Core$initConnection})
-			});
+			{portal: portal});
 		return {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
 	});
 var _user$project$Home$update = F2(
 	function (msg, model) {
-		var _p12 = msg;
-		switch (_p12.ctor) {
+		var _p11 = msg;
+		switch (_p11.ctor) {
 			case 'UrlChange':
-				return A3(_user$project$Home$navigate, msg, model, _p12._0);
+				return A3(_user$project$Home$navigate, msg, model, _p11._0);
 			case 'OnLogin':
-				return A2(_user$project$Home$onLogin, model, _p12._0);
+				return A2(_user$project$Home$onLogin, model, _p11._0);
 			case 'Search':
-				if (_p12._0 === '') {
+				if (_p11._0 === '') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -12197,39 +12170,39 @@ var _user$project$Home$update = F2(
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
-					return A2(_user$project$Home$matchContributors, model, _p12._0);
+					return A2(_user$project$Home$matchContributors, model, _p11._0);
 				}
 			case 'Register':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'ProfileThumbnail':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			case 'NewConnection':
-				return A2(_user$project$Home$onNewConnection, _p12._0, model);
-			case 'Remove':
-				return A2(_user$project$Home$onRemove, model, _p12._0);
+			case 'ManageConnections':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'ManageLinks':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'NewLink':
-				return A2(_user$project$Home$onNewLink, _p12._0, model);
+				return A2(_user$project$Home$onNewLink, _p11._0, model);
 			default:
-				var _p16 = _p12._0;
-				var _p13 = _p16;
-				if (_p13.ctor === 'ToggleAll') {
-					var _p14 = A2(_user$project$Controls_ContributorLinks$update, _p16, model.contributor);
+				var _p15 = _p11._0;
+				var _p12 = _p15;
+				if (_p12.ctor === 'ToggleAll') {
+					var _p13 = A2(_user$project$Controls_ContributorLinks$update, _p15, model.selectedContributor);
+					var contributor = _p13._0;
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{selectedContributor: contributor}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					var _p14 = A2(_user$project$Controls_ContributorLinks$update, _p15, model.selectedContributor);
 					var contributor = _p14._0;
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{contributor: contributor}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
-				} else {
-					var _p15 = A2(_user$project$Controls_ContributorLinks$update, _p16, model.contributor);
-					var contributor = _p15._0;
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{contributor: contributor}),
+							{selectedContributor: contributor}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				}
@@ -12237,12 +12210,12 @@ var _user$project$Home$update = F2(
 	});
 var _user$project$Home$init = function (location) {
 	var contributor = function () {
-		var _p17 = _user$project$Home$tokenizeUrl(location.hash);
-		if ((((_p17.ctor === '::') && (_p17._0 === 'contributor')) && (_p17._1.ctor === '::')) && (_p17._1._1.ctor === '[]')) {
-			var _p18 = _user$project$Settings$runtime.contributor(
-				_user$project$Domain_Core$Id(_p17._1._0));
-			if (_p18.ctor === 'Just') {
-				return _user$project$Domain_Contributor$getContributor(_p18._0);
+		var _p16 = _user$project$Home$tokenizeUrl(location.hash);
+		if ((((_p16.ctor === '::') && (_p16._0 === 'contributor')) && (_p16._1.ctor === '::')) && (_p16._1._1.ctor === '[]')) {
+			var _p17 = _user$project$Settings$runtime.contributor(
+				_user$project$Domain_Core$Id(_p16._1._0));
+			if (_p17.ctor === 'Just') {
+				return _user$project$Domain_Contributor$getContributor(_p17._0);
 			} else {
 				return _user$project$Domain_Contributor$init;
 			}
@@ -12252,13 +12225,13 @@ var _user$project$Home$init = function (location) {
 	}();
 	return {
 		ctor: '_Tuple2',
-		_0: {currentRoute: location, contributors: _user$project$Settings$runtime.contributors, login: _user$project$Controls_Login$model, contributor: contributor},
+		_0: {currentRoute: location, login: _user$project$Controls_Login$model, portal: _user$project$Domain_ContributorPortal$init, contributors: _user$project$Settings$runtime.contributors, selectedContributor: contributor},
 		_1: _elm_lang$core$Platform_Cmd$none
 	};
 };
-var _user$project$Home$Model = F4(
-	function (a, b, c, d) {
-		return {currentRoute: a, login: b, contributors: c, contributor: d};
+var _user$project$Home$Model = F5(
+	function (a, b, c, d, e) {
+		return {currentRoute: a, login: b, portal: c, contributors: d, selectedContributor: e};
 	});
 var _user$project$Home$Register = {ctor: 'Register'};
 var _user$project$Home$Search = function (a) {
@@ -12270,71 +12243,25 @@ var _user$project$Home$ContributorLinksAction = function (a) {
 var _user$project$Home$NewLink = function (a) {
 	return {ctor: 'NewLink', _0: a};
 };
-var _user$project$Home$Remove = function (a) {
-	return {ctor: 'Remove', _0: a};
-};
-var _user$project$Home$connectionUI = function (connection) {
-	return A2(
-		_elm_lang$html$Html$tr,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$td,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(connection.platform),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$td,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$i,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(connection.username),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$td,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$button,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(
-										_user$project$Home$Remove(connection)),
-									_1: {ctor: '[]'}
-								},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text('Disconnect'),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}
-			}
-		});
-};
-var _user$project$Home$NewConnection = function (a) {
-	return {ctor: 'NewConnection', _0: a};
-};
+var _user$project$Home$ManageLinks = {ctor: 'ManageLinks'};
+var _user$project$Home$ManageConnections = {ctor: 'ManageConnections'};
 var _user$project$Home$dashboardPage = function (model) {
+	var header = {
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$h2,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						'Welcome ',
+						_user$project$Domain_Core$getName(model.portal.contributor.profile.name))),
+				_1: {ctor: '[]'}
+			}),
+		_1: {ctor: '[]'}
+	};
 	var addLink = function (l) {
 		return A2(
 			_elm_lang$html$Html$div,
@@ -12376,18 +12303,7 @@ var _user$project$Home$dashboardPage = function (model) {
 				}
 			});
 	};
-	var contributor = model.contributor;
-	var connectionsTable = A2(
-		_elm_lang$html$Html$table,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$div,
-				{ctor: '[]'},
-				A2(_elm_lang$core$List$map, _user$project$Home$connectionUI, contributor.profile.connections)),
-			_1: {ctor: '[]'}
-		});
+	var contributor = model.portal.contributor;
 	var linkSummary = contributor.newLinks;
 	var update = linkSummary.canAdd ? A2(
 		_elm_lang$html$Html$div,
@@ -12402,191 +12318,105 @@ var _user$project$Home$dashboardPage = function (model) {
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$h2,
+				_elm_lang$html$Html$table,
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text(
-						A2(
-							_elm_lang$core$Basics_ops['++'],
-							'Welcome ',
-							_user$project$Domain_Core$getName(model.contributor.profile.name))),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$table,
-					{ctor: '[]'},
-					{
+					_0: A2(
+						_elm_lang$html$Html$tr,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$th,
+								{ctor: '[]'},
+								header),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$tr,
+							_elm_lang$html$Html$td,
 							{ctor: '[]'},
 							{
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$th,
-									{ctor: '[]'},
+									_elm_lang$html$Html$img,
 									{
 										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$h3,
-											{ctor: '[]'},
-											{
+										_0: _elm_lang$html$Html_Attributes$src(
+											_user$project$Domain_Core$getUrl(contributor.profile.imageUrl)),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$width(100),
+											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html$text('Profile'),
+												_0: _elm_lang$html$Html_Attributes$height(100),
 												_1: {ctor: '[]'}
-											}),
-										_1: {ctor: '[]'}
-									}),
+											}
+										}
+									},
+									{ctor: '[]'}),
 								_1: {ctor: '[]'}
 							}),
 						_1: {
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$tr,
+								_elm_lang$html$Html$td,
 								{ctor: '[]'},
 								{
 									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$td,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$td,
-												{ctor: '[]'},
-												{
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$map,
-														_user$project$Home$ContributorLinksAction,
-														_user$project$Controls_ContributorLinks$view(model.contributor)),
-													_1: {ctor: '[]'}
-												}),
-											_1: {ctor: '[]'}
-										}),
+									_0: _elm_lang$html$Html$text('content goes here...'),
 									_1: {ctor: '[]'}
 								}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$tr,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$th,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$h3,
-													{ctor: '[]'},
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html$text('Connections'),
-														_1: {ctor: '[]'}
-													}),
-												_1: {ctor: '[]'}
-											}),
-										_1: {ctor: '[]'}
-									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$tr,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$td,
-												{ctor: '[]'},
-												{
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$map,
-														_user$project$Home$NewConnection,
-														_user$project$Controls_AddConnection$view(model.contributor.newConnection)),
-													_1: {ctor: '[]'}
-												}),
-											_1: {ctor: '[]'}
-										}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$tr,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$td,
-													{ctor: '[]'},
-													{
-														ctor: '::',
-														_0: connectionsTable,
-														_1: {ctor: '[]'}
-													}),
-												_1: {ctor: '[]'}
-											}),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$tr,
-												{ctor: '[]'},
-												{
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$th,
-														{ctor: '[]'},
-														{
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$h3,
-																{ctor: '[]'},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text('Add Link'),
-																	_1: {ctor: '[]'}
-																}),
-															_1: {ctor: '[]'}
-														}),
-													_1: {ctor: '[]'}
-												}),
-											_1: {
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$tr,
-													{ctor: '[]'},
-													{
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$map,
-															_user$project$Home$NewLink,
-															_user$project$Controls_NewLinks$view(linkSummary)),
-														_1: {ctor: '[]'}
-													}),
-												_1: {
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$tr,
-														{ctor: '[]'},
-														{
-															ctor: '::',
-															_0: update,
-															_1: {ctor: '[]'}
-														}),
-													_1: {ctor: '[]'}
-												}
-											}
-										}
-									}
-								}
-							}
+							_1: {ctor: '[]'}
 						}
+					}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$button,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ManageConnections),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Manage Connections'),
+						_1: {ctor: '[]'}
 					}),
-				_1: {ctor: '[]'}
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$br,
+						{ctor: '[]'},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ManageLinks),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Manage Links'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}
 			}
 		});
 };
@@ -12605,7 +12435,7 @@ var _user$project$Home$homePage = function (model) {
 			{ctor: '[]'},
 			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, model.contributors)));
 	var loginUI = function (model) {
-		var _p19 = {
+		var _p18 = {
 			ctor: '_Tuple3',
 			_0: model.login.loggedIn,
 			_1: A2(
@@ -12640,9 +12470,9 @@ var _user$project$Home$homePage = function (model) {
 					_1: {ctor: '[]'}
 				})
 		};
-		var loggedIn = _p19._0;
-		var welcome = _p19._1;
-		var signout = _p19._2;
+		var loggedIn = _p18._0;
+		var welcome = _p18._1;
+		var signout = _p18._2;
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$OnLogin,
@@ -12758,35 +12588,35 @@ var _user$project$Home$homePage = function (model) {
 		});
 };
 var _user$project$Home$view = function (model) {
-	var _p20 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+	var _p19 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
 	_v12_7:
 	do {
-		if (_p20.ctor === '[]') {
+		if (_p19.ctor === '[]') {
 			return _user$project$Home$homePage(model);
 		} else {
-			if (_p20._1.ctor === '[]') {
-				if (_p20._0 === 'home') {
+			if (_p19._1.ctor === '[]') {
+				if (_p19._0 === 'home') {
 					return _user$project$Home$homePage(model);
 				} else {
 					break _v12_7;
 				}
 			} else {
-				if (_p20._1._1.ctor === '::') {
-					if (_p20._0 === 'contributor') {
-						if (_p20._1._1._1.ctor === '[]') {
-							var _p22 = _user$project$Settings$runtime.contributor(
-								_user$project$Domain_Core$Id(_p20._1._0));
-							if (_p22.ctor === 'Just') {
-								return _user$project$Home$contributorTopicPage(model.contributor);
+				if (_p19._1._1.ctor === '::') {
+					if (_p19._0 === 'contributor') {
+						if (_p19._1._1._1.ctor === '[]') {
+							var _p21 = _user$project$Settings$runtime.contributor(
+								_user$project$Domain_Core$Id(_p19._1._0));
+							if (_p21.ctor === 'Just') {
+								return _user$project$Home$contributorTopicPage(model.portal.contributor);
 							} else {
 								return _user$project$Home$notFoundPage;
 							}
 						} else {
-							if (_p20._1._1._1._1.ctor === '[]') {
-								if (_p20._1._1._0 === 'all') {
-									var _p23 = _user$project$Settings$runtime.contributor(
-										_user$project$Domain_Core$Id(_p20._1._0));
-									if (_p23.ctor === 'Just') {
+							if (_p19._1._1._1._1.ctor === '[]') {
+								if (_p19._1._1._0 === 'all') {
+									var _p22 = _user$project$Settings$runtime.contributor(
+										_user$project$Domain_Core$Id(_p19._1._0));
+									if (_p22.ctor === 'Just') {
 										return _user$project$Home$notFoundPage;
 									} else {
 										return _user$project$Home$notFoundPage;
@@ -12795,15 +12625,15 @@ var _user$project$Home$view = function (model) {
 									break _v12_7;
 								}
 							} else {
-								if ((_p20._1._1._1._0 === 'all') && (_p20._1._1._1._1._1.ctor === '[]')) {
-									var _p24 = _user$project$Settings$runtime.contributor(
-										_user$project$Domain_Core$Id(_p20._1._0));
-									if (_p24.ctor === 'Just') {
+								if ((_p19._1._1._1._0 === 'all') && (_p19._1._1._1._1._1.ctor === '[]')) {
+									var _p23 = _user$project$Settings$runtime.contributor(
+										_user$project$Domain_Core$Id(_p19._1._0));
+									if (_p23.ctor === 'Just') {
 										return A3(
 											_user$project$Home$contributorTopicContentTypePage,
-											_user$project$Domain_Core$Topic(_p20._1._1._0),
-											_user$project$Domain_Core$toContentType(_p20._1._1._1._1._0),
-											model.contributor);
+											_user$project$Domain_Core$Topic(_p19._1._1._0),
+											_user$project$Domain_Core$toContentType(_p19._1._1._1._1._0),
+											model.portal.contributor);
 									} else {
 										return _user$project$Home$notFoundPage;
 									}
@@ -12816,19 +12646,19 @@ var _user$project$Home$view = function (model) {
 						break _v12_7;
 					}
 				} else {
-					if (_p20._0 === 'contributor') {
-						var _p21 = _user$project$Settings$runtime.contributor(
-							_user$project$Domain_Core$Id(_p20._1._0));
-						if (_p21.ctor === 'Just') {
+					if (_p19._0 === 'contributor') {
+						var _p20 = _user$project$Settings$runtime.contributor(
+							_user$project$Domain_Core$Id(_p19._1._0));
+						if (_p20.ctor === 'Just') {
 							return A2(
 								_elm_lang$html$Html$map,
 								_user$project$Home$ContributorLinksAction,
-								_user$project$Controls_ContributorLinks$view(model.contributor));
+								_user$project$Controls_ContributorLinks$view(model.portal.contributor));
 						} else {
 							return _user$project$Home$notFoundPage;
 						}
 					} else {
-						if (_p20._1._0 === 'dashboard') {
+						if (_p19._1._0 === 'dashboard') {
 							return _user$project$Home$dashboardPage(model);
 						} else {
 							break _v12_7;
@@ -12850,7 +12680,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p25) {
+		subscriptions: function (_p24) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();
