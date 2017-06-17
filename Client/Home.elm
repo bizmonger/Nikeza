@@ -344,7 +344,14 @@ view model =
         [ "contributor", id ] ->
             case runtime.contributor <| Id id of
                 Just _ ->
-                    Html.map ContributorLinksAction <| ContributorLinks.view model.selectedContributor
+                    table []
+                        [ tr []
+                            [ td [] [ img [ src <| getUrl <| model.selectedContributor.profile.imageUrl, width 100, height 100 ] [] ]
+                            , td [] [ Html.map ContributorLinksAction <| ContributorLinks.view model.selectedContributor ]
+                            ]
+                        , tr [] [ td [] [ text <| getName model.selectedContributor.profile.name ] ]
+                        , tr [] [ td [] [ p [] [ text model.selectedContributor.profile.bio ] ] ]
+                        ]
 
                 Nothing ->
                     notFoundPage
@@ -536,6 +543,9 @@ content portal =
                         [ td [] [ connectionsTable ] ]
                     ]
 
+            Domain.Links ->
+                div [] [ Html.map ContributorLinksAction <| ContributorLinks.view contributor ]
+
             Domain.AddLink ->
                 let
                     linkSummary =
@@ -565,9 +575,6 @@ content portal =
                             [ td [] [ update ] ]
                         ]
 
-            Domain.Links ->
-                label [] [ text "Links..." ]
-
 
 getLinkSummary : Contributor.Model -> NewLinks.Model
 getLinkSummary contributor =
@@ -591,39 +598,29 @@ dashboardPage model =
     in
         div []
             [ table []
-                [ tr [] [ th [] header ]
-                , td [] [ img [ src <| getUrl <| contributor.profile.imageUrl, width 100, height 100 ] [] ]
-                , td [] [ content model.portal ]
+                [ tr []
+                    [ td []
+                        [ table []
+                            [ tr [] [ th [] header ]
+                            , tr []
+                                [ td [] [ img [ src <| getUrl <| contributor.profile.imageUrl, width 100, height 100 ] [] ]
+                                , td []
+                                    [ div []
+                                        [ button [ onClick ViewConnections ] [ text "Connections" ]
+                                        , br [] []
+                                        , button [ onClick AddNewLink ] [ text "Link" ]
+                                        , br [] []
+                                        , button [ onClick ViewLinks ] [ text "Links" ]
+                                        ]
+                                    ]
+                                ]
+                            , tr [] [ td [] [ p [] [ text model.selectedContributor.profile.bio ] ] ]
+                            ]
+                        ]
+                    , td [] [ content model.portal ]
+                    ]
                 ]
-            , button [ onClick ViewConnections ] [ text "Connections" ]
-            , br [] []
-            , button [ onClick AddNewLink ] [ text "Link" ]
-            , br [] []
-            , button [ onClick ViewLinks ] [ text "Links" ]
-            , br [] []
             ]
-
-
-
---, table []
---[
---tr []
---  [ th [] [ h3 [] [ text "Profile" ] ] ]
---   tr []
---     [ td [] [ td [] [ Html.map ContributorLinksAction <| ContributorLinks.view model.contributor ] ] ]
--- , tr []
---     [ th [] [ h3 [] [ text "Connections" ] ] ]
--- , tr []
---     [ td [] [ Html.map NewConnection <| AddConnection.view model.contributor.newConnection ] ]
--- , tr []
---     [ td [] [ connectionsTable ] ]
--- , tr []
---     [ th [] [ h3 [] [ text "Add Link" ] ] ]
--- , tr []
---     [ Html.map NewLink (NewLinks.view linkSummary) ]
--- , tr [] [ update ]
---]
---]
 
 
 notFoundPage : Html Msg

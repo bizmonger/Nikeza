@@ -10935,48 +10935,64 @@ var _user$project$Controls_ContributorLinks$view = function (model) {
 												{
 													ctor: '::',
 													_0: A2(
-														_elm_lang$html$Html$img,
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$src(
-																_user$project$Domain_Core$getUrl(model.profile.imageUrl)),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$width(100),
-																_1: {
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$height(100),
-																	_1: {ctor: '[]'}
-																}
-															}
-														},
-														{ctor: '[]'}),
+														_elm_lang$html$Html$div,
+														{ctor: '[]'},
+														A2(
+															_elm_lang$core$List$map,
+															function (t) {
+																return A2(toCheckBoxState, true, t);
+															},
+															topics)),
 													_1: {ctor: '[]'}
 												}),
 											_1: {
 												ctor: '::',
 												_0: A2(
-													_elm_lang$html$Html$td,
+													_elm_lang$html$Html$table,
 													{ctor: '[]'},
 													{
 														ctor: '::',
 														_0: A2(
-															_elm_lang$html$Html$div,
+															_elm_lang$html$Html$tr,
 															{ctor: '[]'},
-															A2(
-																_elm_lang$core$List$map,
-																function (t) {
-																	return A2(toCheckBoxState, true, t);
-																},
-																topics)),
-														_1: {ctor: '[]'}
-													}),
-												_1: {
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$table,
-														{ctor: '[]'},
-														{
+															{
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$td,
+																	{ctor: '[]'},
+																	{
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$b,
+																			{ctor: '[]'},
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text('Answers'),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$td,
+																		{ctor: '[]'},
+																		{
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$b,
+																				{ctor: '[]'},
+																				{
+																					ctor: '::',
+																					_0: _elm_lang$html$Html$text('Articles'),
+																					_1: {ctor: '[]'}
+																				}),
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {ctor: '[]'}
+																}
+															}),
+														_1: {
 															ctor: '::',
 															_0: A2(
 																_elm_lang$html$Html$tr,
@@ -10989,13 +11005,9 @@ var _user$project$Controls_ContributorLinks$view = function (model) {
 																		{
 																			ctor: '::',
 																			_0: A2(
-																				_elm_lang$html$Html$b,
+																				_elm_lang$html$Html$div,
 																				{ctor: '[]'},
-																				{
-																					ctor: '::',
-																					_0: _elm_lang$html$Html$text('Answers'),
-																					_1: {ctor: '[]'}
-																				}),
+																				A3(_user$project$Controls_ContributorLinks$contentUI, profileId, _user$project$Domain_Core$Answer, model.answers)),
 																			_1: {ctor: '[]'}
 																		}),
 																	_1: {
@@ -11006,13 +11018,9 @@ var _user$project$Controls_ContributorLinks$view = function (model) {
 																			{
 																				ctor: '::',
 																				_0: A2(
-																					_elm_lang$html$Html$b,
+																					_elm_lang$html$Html$div,
 																					{ctor: '[]'},
-																					{
-																						ctor: '::',
-																						_0: _elm_lang$html$Html$text('Articles'),
-																						_1: {ctor: '[]'}
-																					}),
+																					A3(_user$project$Controls_ContributorLinks$contentUI, profileId, _user$project$Domain_Core$Article, model.articles)),
 																				_1: {ctor: '[]'}
 																			}),
 																		_1: {ctor: '[]'}
@@ -11031,9 +11039,13 @@ var _user$project$Controls_ContributorLinks$view = function (model) {
 																			{
 																				ctor: '::',
 																				_0: A2(
-																					_elm_lang$html$Html$div,
+																					_elm_lang$html$Html$b,
 																					{ctor: '[]'},
-																					A3(_user$project$Controls_ContributorLinks$contentUI, profileId, _user$project$Domain_Core$Answer, model.answers)),
+																					{
+																						ctor: '::',
+																						_0: _elm_lang$html$Html$text('Podcasts'),
+																						_1: {ctor: '[]'}
+																					}),
 																				_1: {ctor: '[]'}
 																			}),
 																		_1: {
@@ -11044,9 +11056,13 @@ var _user$project$Controls_ContributorLinks$view = function (model) {
 																				{
 																					ctor: '::',
 																					_0: A2(
-																						_elm_lang$html$Html$div,
+																						_elm_lang$html$Html$b,
 																						{ctor: '[]'},
-																						A3(_user$project$Controls_ContributorLinks$contentUI, profileId, _user$project$Domain_Core$Article, model.articles)),
+																						{
+																							ctor: '::',
+																							_0: _elm_lang$html$Html$text('Videos'),
+																							_1: {ctor: '[]'}
+																						}),
 																					_1: {ctor: '[]'}
 																				}),
 																			_1: {ctor: '[]'}
@@ -11065,13 +11081,9 @@ var _user$project$Controls_ContributorLinks$view = function (model) {
 																				{
 																					ctor: '::',
 																					_0: A2(
-																						_elm_lang$html$Html$b,
+																						_elm_lang$html$Html$div,
 																						{ctor: '[]'},
-																						{
-																							ctor: '::',
-																							_0: _elm_lang$html$Html$text('Podcasts'),
-																							_1: {ctor: '[]'}
-																						}),
+																						A3(_user$project$Controls_ContributorLinks$contentUI, profileId, _user$project$Domain_Core$Podcast, model.podcasts)),
 																					_1: {ctor: '[]'}
 																				}),
 																			_1: {
@@ -11082,106 +11094,23 @@ var _user$project$Controls_ContributorLinks$view = function (model) {
 																					{
 																						ctor: '::',
 																						_0: A2(
-																							_elm_lang$html$Html$b,
+																							_elm_lang$html$Html$div,
 																							{ctor: '[]'},
-																							{
-																								ctor: '::',
-																								_0: _elm_lang$html$Html$text('Videos'),
-																								_1: {ctor: '[]'}
-																							}),
+																							A3(_user$project$Controls_ContributorLinks$contentUI, profileId, _user$project$Domain_Core$Video, model.videos)),
 																						_1: {ctor: '[]'}
 																					}),
 																				_1: {ctor: '[]'}
 																			}
 																		}),
-																	_1: {
-																		ctor: '::',
-																		_0: A2(
-																			_elm_lang$html$Html$tr,
-																			{ctor: '[]'},
-																			{
-																				ctor: '::',
-																				_0: A2(
-																					_elm_lang$html$Html$td,
-																					{ctor: '[]'},
-																					{
-																						ctor: '::',
-																						_0: A2(
-																							_elm_lang$html$Html$div,
-																							{ctor: '[]'},
-																							A3(_user$project$Controls_ContributorLinks$contentUI, profileId, _user$project$Domain_Core$Podcast, model.podcasts)),
-																						_1: {ctor: '[]'}
-																					}),
-																				_1: {
-																					ctor: '::',
-																					_0: A2(
-																						_elm_lang$html$Html$td,
-																						{ctor: '[]'},
-																						{
-																							ctor: '::',
-																							_0: A2(
-																								_elm_lang$html$Html$div,
-																								{ctor: '[]'},
-																								A3(_user$project$Controls_ContributorLinks$contentUI, profileId, _user$project$Domain_Core$Video, model.videos)),
-																							_1: {ctor: '[]'}
-																						}),
-																					_1: {ctor: '[]'}
-																				}
-																			}),
-																		_1: {ctor: '[]'}
-																	}
+																	_1: {ctor: '[]'}
 																}
 															}
-														}),
-													_1: {ctor: '[]'}
-												}
-											}
-										}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$tr,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$td,
-													{ctor: '[]'},
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html$text(
-															_user$project$Domain_Core$getName(model.profile.name)),
-														_1: {ctor: '[]'}
+														}
 													}),
 												_1: {ctor: '[]'}
-											}),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$tr,
-												{ctor: '[]'},
-												{
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$td,
-														{ctor: '[]'},
-														{
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$p,
-																{ctor: '[]'},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(model.profile.bio),
-																	_1: {ctor: '[]'}
-																}),
-															_1: {ctor: '[]'}
-														}),
-													_1: {ctor: '[]'}
-												}),
-											_1: {ctor: '[]'}
-										}
-									}
+											}
+										}),
+									_1: {ctor: '[]'}
 								}),
 							_1: {ctor: '[]'}
 						}),
@@ -12446,7 +12375,19 @@ var _user$project$Home$content = function (portal) {
 						}
 					}
 				});
-		case 'AddLink':
+		case 'Links':
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$map,
+						_user$project$Home$ContributorLinksAction,
+						_user$project$Controls_ContributorLinks$view(contributor)),
+					_1: {ctor: '[]'}
+				});
+		default:
 			var addLink = function (l) {
 				return A2(
 					_elm_lang$html$Html$div,
@@ -12565,15 +12506,6 @@ var _user$project$Home$content = function (portal) {
 						}
 					}
 				});
-		default:
-			return A2(
-				_elm_lang$html$Html$label,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Links...'),
-					_1: {ctor: '[]'}
-				});
 	}
 };
 var _user$project$Home$dashboardPage = function (model) {
@@ -12612,118 +12544,178 @@ var _user$project$Home$dashboardPage = function (model) {
 						{
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$th,
-								{ctor: '[]'},
-								header),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$td,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$img,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$src(
-											_user$project$Domain_Core$getUrl(contributor.profile.imageUrl)),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$width(100),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$height(100),
-												_1: {ctor: '[]'}
-											}
-										}
-									},
-									{ctor: '[]'}),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
 								_elm_lang$html$Html$td,
 								{ctor: '[]'},
 								{
 									ctor: '::',
-									_0: _user$project$Home$content(model.portal),
+									_0: A2(
+										_elm_lang$html$Html$table,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$tr,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$th,
+														{ctor: '[]'},
+														header),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$tr,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$td,
+															{ctor: '[]'},
+															{
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$img,
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$src(
+																			_user$project$Domain_Core$getUrl(contributor.profile.imageUrl)),
+																		_1: {
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$width(100),
+																			_1: {
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$height(100),
+																				_1: {ctor: '[]'}
+																			}
+																		}
+																	},
+																	{ctor: '[]'}),
+																_1: {ctor: '[]'}
+															}),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$td,
+																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$div,
+																		{ctor: '[]'},
+																		{
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$button,
+																				{
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewConnections),
+																					_1: {ctor: '[]'}
+																				},
+																				{
+																					ctor: '::',
+																					_0: _elm_lang$html$Html$text('Connections'),
+																					_1: {ctor: '[]'}
+																				}),
+																			_1: {
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html$br,
+																					{ctor: '[]'},
+																					{ctor: '[]'}),
+																				_1: {
+																					ctor: '::',
+																					_0: A2(
+																						_elm_lang$html$Html$button,
+																						{
+																							ctor: '::',
+																							_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+																							_1: {ctor: '[]'}
+																						},
+																						{
+																							ctor: '::',
+																							_0: _elm_lang$html$Html$text('Link'),
+																							_1: {ctor: '[]'}
+																						}),
+																					_1: {
+																						ctor: '::',
+																						_0: A2(
+																							_elm_lang$html$Html$br,
+																							{ctor: '[]'},
+																							{ctor: '[]'}),
+																						_1: {
+																							ctor: '::',
+																							_0: A2(
+																								_elm_lang$html$Html$button,
+																								{
+																									ctor: '::',
+																									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
+																									_1: {ctor: '[]'}
+																								},
+																								{
+																									ctor: '::',
+																									_0: _elm_lang$html$Html$text('Links'),
+																									_1: {ctor: '[]'}
+																								}),
+																							_1: {ctor: '[]'}
+																						}
+																					}
+																				}
+																			}
+																		}),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {ctor: '[]'}
+														}
+													}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$tr,
+														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$td,
+																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$p,
+																		{ctor: '[]'},
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html$text(model.selectedContributor.profile.bio),
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}
+											}
+										}),
 									_1: {ctor: '[]'}
 								}),
-							_1: {ctor: '[]'}
-						}
-					}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$button,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewConnections),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text('Connections'),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$br,
-						{ctor: '[]'},
-						{ctor: '[]'}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$button,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('Link'),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$br,
-								{ctor: '[]'},
-								{ctor: '[]'}),
 							_1: {
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$button,
+									_elm_lang$html$Html$td,
+									{ctor: '[]'},
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
-										_1: {ctor: '[]'}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text('Links'),
+										_0: _user$project$Home$content(model.portal),
 										_1: {ctor: '[]'}
 									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$br,
-										{ctor: '[]'},
-										{ctor: '[]'}),
-									_1: {ctor: '[]'}
-								}
+								_1: {ctor: '[]'}
 							}
-						}
-					}
-				}
-			}
+						}),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
 		});
 };
 var _user$project$Home$ProfileThumbnail = function (a) {
@@ -12957,9 +12949,101 @@ var _user$project$Home$view = function (model) {
 							_user$project$Domain_Core$Id(_p20._1._0));
 						if (_p21.ctor === 'Just') {
 							return A2(
-								_elm_lang$html$Html$map,
-								_user$project$Home$ContributorLinksAction,
-								_user$project$Controls_ContributorLinks$view(model.selectedContributor));
+								_elm_lang$html$Html$table,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$tr,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$td,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$img,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$src(
+																_user$project$Domain_Core$getUrl(model.selectedContributor.profile.imageUrl)),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$width(100),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$height(100),
+																	_1: {ctor: '[]'}
+																}
+															}
+														},
+														{ctor: '[]'}),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$td,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$map,
+															_user$project$Home$ContributorLinksAction,
+															_user$project$Controls_ContributorLinks$view(model.selectedContributor)),
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$tr,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$td,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text(
+															_user$project$Domain_Core$getName(model.selectedContributor.profile.name)),
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$tr,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$td,
+														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$p,
+																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text(model.selectedContributor.profile.bio),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}
+									}
+								});
 						} else {
 							return _user$project$Home$notFoundPage;
 						}
