@@ -1,7 +1,7 @@
 module Home exposing (..)
 
 import Settings exposing (runtime)
-import Domain.Core exposing (..)
+import Domain.Core as Domain exposing (..)
 import Domain.ContributorPortal as ContributorPortal exposing (..)
 import Domain.Contributor as Contributor exposing (..)
 import Controls.Login as Login exposing (..)
@@ -77,8 +77,8 @@ type Msg
     = UrlChange Navigation.Location
     | OnLogin Login.Msg
     | ProfileThumbnail ProfileThumbnail.Msg
-      -- | NewConnection AddConnection.Msg
-      -- | Remove Connection
+    | NewConnection AddConnection.Msg
+    | Remove Connection
     | ManageConnections
     | ManageLinks
     | NewLink NewLinks.Msg
@@ -109,15 +109,21 @@ update msg model =
             ( model, Cmd.none )
 
         ManageConnections ->
-            ( model, Cmd.none )
+            let
+                pendingPortal =
+                    model.portal
+            in
+                ( { model | portal = { pendingPortal | requested = Domain.ManageConnections } }, Cmd.none )
 
         ManageLinks ->
             ( model, Cmd.none )
 
-        -- NewConnection subMsg ->
-        --     onNewConnection subMsg model
-        -- Remove connection ->
-        --     onRemove model connection
+        NewConnection subMsg ->
+            onNewConnection subMsg model
+
+        Remove connection ->
+            onRemove model connection
+
         NewLink subMsg ->
             onNewLink subMsg model
 
@@ -220,16 +226,19 @@ onNewConnection subMsg model =
             { contributor | newConnection = connection }
 
         pendingPortal =
-            { contributor = updatedContributor, requested = CurrentLinks }
+            model.portal
+
+        updatedPortal =
+            { pendingPortal | contributor = updatedContributor }
 
         pendingProfile =
-            contributor.profile
+            updatedContributor.profile
 
         updatedProfile =
             { pendingProfile | connections = connection :: pendingProfile.connections }
 
         portal =
-            { pendingPortal | contributor = { updatedContributor | profile = updatedProfile } }
+            { updatedPortal | contributor = { updatedContributor | profile = updatedProfile } }
     in
         case subMsg of
             AddConnection.InputUsername _ ->
@@ -241,7 +250,7 @@ onNewConnection subMsg model =
             AddConnection.Submit _ ->
                 let
                     profile =
-                        contributor.profile
+                        updatedProfile
                 in
                     ( { model | portal = portal }, Cmd.none )
 
@@ -482,14 +491,40 @@ contributorTopicPage model =
                 notFoundPage
 
 
+connectionUI : Connection -> Html Msg
+connectionUI connection =
+    tr []
+        [ td [] [ text connection.platform ]
+        , td [] [ i [] [ text connection.username ] ]
+        , td [] [ button [ onClick <| Remove connection ] [ text "Disconnect" ] ]
+        ]
 
--- connectionUI : Connection -> Html Msg
--- connectionUI connection =
---     tr []
---         [ td [] [ text connection.platform ]
---         , td [] [ i [] [ text connection.username ] ]
---         , td [] [ button [ onClick <| Remove connection ] [ text "Disconnect" ] ]
---         ]
+
+content : ContributorPortal.Model -> Html Msg
+content portal =
+    let
+        contributor =
+            portal.contributor
+
+        connectionsTable =
+            table [] [ div [] (contributor.profile.connections |> List.map connectionUI) ]
+    in
+        case portal.requested of
+            Domain.ManageConnections ->
+                table []
+                    [ tr []
+                        [ th [] [ h3 [] [ text "Connections" ] ] ]
+                    , tr []
+                        [ td [] [ Html.map NewConnection <| AddConnection.view contributor.newConnection ] ]
+                    , tr []
+                        [ td [] [ connectionsTable ] ]
+                    ]
+
+            AddLinks ->
+                label [] [ text "Add Links..." ]
+
+            CurrentLinks ->
+                label [] [ text "Current Links..." ]
 
 
 dashboardPage : Model -> Html Msg
@@ -518,14 +553,14 @@ dashboardPage model =
         header =
             [ h2 [] [ text <| "Welcome " ++ getName model.portal.contributor.profile.name ] ]
 
-        -- content =
-        --     model.contributorPortal.requested
+        portal =
+            model.portal
     in
         div []
             [ table []
                 [ tr [] [ th [] header ]
                 , td [] [ img [ src <| getUrl <| contributor.profile.imageUrl, width 100, height 100 ] [] ]
-                , td [] [ text "content goes here..." ]
+                , td [] [ content model.portal ]
                 ]
             , button [ onClick ManageConnections ] [ text "Manage Connections" ]
             , br [] []

@@ -12020,20 +12020,23 @@ var _user$project$Home$matchContributors = F2(
 	});
 var _user$project$Home$onNewConnection = F2(
 	function (subMsg, model) {
+		var pendingPortal = model.portal;
 		var contributor = model.portal.contributor;
 		var connection = A2(_user$project$Controls_AddConnection$update, subMsg, contributor.newConnection);
 		var updatedContributor = _elm_lang$core$Native_Utils.update(
 			contributor,
 			{newConnection: connection});
-		var pendingPortal = {contributor: updatedContributor, requested: _user$project$Domain_Core$CurrentLinks};
-		var pendingProfile = contributor.profile;
+		var updatedPortal = _elm_lang$core$Native_Utils.update(
+			pendingPortal,
+			{contributor: updatedContributor});
+		var pendingProfile = updatedContributor.profile;
 		var updatedProfile = _elm_lang$core$Native_Utils.update(
 			pendingProfile,
 			{
 				connections: {ctor: '::', _0: connection, _1: pendingProfile.connections}
 			});
 		var portal = _elm_lang$core$Native_Utils.update(
-			pendingPortal,
+			updatedPortal,
 			{
 				contributor: _elm_lang$core$Native_Utils.update(
 					updatedContributor,
@@ -12058,7 +12061,7 @@ var _user$project$Home$onNewConnection = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
-				var profile = contributor.profile;
+				var profile = updatedProfile;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
@@ -12177,9 +12180,24 @@ var _user$project$Home$update = F2(
 			case 'ProfileThumbnail':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'ManageConnections':
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				var pendingPortal = model.portal;
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							portal: _elm_lang$core$Native_Utils.update(
+								pendingPortal,
+								{requested: _user$project$Domain_Core$ManageConnections})
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 			case 'ManageLinks':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'NewConnection':
+				return A2(_user$project$Home$onNewConnection, _p11._0, model);
+			case 'Remove':
+				return A2(_user$project$Home$onRemove, model, _p11._0);
 			case 'NewLink':
 				return A2(_user$project$Home$onNewLink, _p11._0, model);
 			default:
@@ -12245,7 +12263,176 @@ var _user$project$Home$NewLink = function (a) {
 };
 var _user$project$Home$ManageLinks = {ctor: 'ManageLinks'};
 var _user$project$Home$ManageConnections = {ctor: 'ManageConnections'};
+var _user$project$Home$Remove = function (a) {
+	return {ctor: 'Remove', _0: a};
+};
+var _user$project$Home$connectionUI = function (connection) {
+	return A2(
+		_elm_lang$html$Html$tr,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$td,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(connection.platform),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$td,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$i,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(connection.username),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$td,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$button,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(
+										_user$project$Home$Remove(connection)),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('Disconnect'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
+var _user$project$Home$NewConnection = function (a) {
+	return {ctor: 'NewConnection', _0: a};
+};
+var _user$project$Home$content = function (portal) {
+	var contributor = portal.contributor;
+	var connectionsTable = A2(
+		_elm_lang$html$Html$table,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				A2(_elm_lang$core$List$map, _user$project$Home$connectionUI, contributor.profile.connections)),
+			_1: {ctor: '[]'}
+		});
+	var _p18 = portal.requested;
+	switch (_p18.ctor) {
+		case 'ManageConnections':
+			return A2(
+				_elm_lang$html$Html$table,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$tr,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$th,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$h3,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('Connections'),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$tr,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$td,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$map,
+											_user$project$Home$NewConnection,
+											_user$project$Controls_AddConnection$view(contributor.newConnection)),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$tr,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$td,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: connectionsTable,
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				});
+		case 'AddLinks':
+			return A2(
+				_elm_lang$html$Html$label,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Add Links...'),
+					_1: {ctor: '[]'}
+				});
+		default:
+			return A2(
+				_elm_lang$html$Html$label,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Current Links...'),
+					_1: {ctor: '[]'}
+				});
+	}
+};
 var _user$project$Home$dashboardPage = function (model) {
+	var portal = model.portal;
 	var header = {
 		ctor: '::',
 		_0: A2(
@@ -12366,7 +12553,7 @@ var _user$project$Home$dashboardPage = function (model) {
 								{ctor: '[]'},
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html$text('content goes here...'),
+									_0: _user$project$Home$content(model.portal),
 									_1: {ctor: '[]'}
 								}),
 							_1: {ctor: '[]'}
@@ -12435,7 +12622,7 @@ var _user$project$Home$homePage = function (model) {
 			{ctor: '[]'},
 			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, model.contributors)));
 	var loginUI = function (model) {
-		var _p18 = {
+		var _p19 = {
 			ctor: '_Tuple3',
 			_0: model.login.loggedIn,
 			_1: A2(
@@ -12470,9 +12657,9 @@ var _user$project$Home$homePage = function (model) {
 					_1: {ctor: '[]'}
 				})
 		};
-		var loggedIn = _p18._0;
-		var welcome = _p18._1;
-		var signout = _p18._2;
+		var loggedIn = _p19._0;
+		var welcome = _p19._1;
+		var signout = _p19._2;
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$OnLogin,
@@ -12588,68 +12775,68 @@ var _user$project$Home$homePage = function (model) {
 		});
 };
 var _user$project$Home$view = function (model) {
-	var _p19 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
-	_v12_7:
+	var _p20 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+	_v13_7:
 	do {
-		if (_p19.ctor === '[]') {
+		if (_p20.ctor === '[]') {
 			return _user$project$Home$homePage(model);
 		} else {
-			if (_p19._1.ctor === '[]') {
-				if (_p19._0 === 'home') {
+			if (_p20._1.ctor === '[]') {
+				if (_p20._0 === 'home') {
 					return _user$project$Home$homePage(model);
 				} else {
-					break _v12_7;
+					break _v13_7;
 				}
 			} else {
-				if (_p19._1._1.ctor === '::') {
-					if (_p19._0 === 'contributor') {
-						if (_p19._1._1._1.ctor === '[]') {
-							var _p21 = _user$project$Settings$runtime.contributor(
-								_user$project$Domain_Core$Id(_p19._1._0));
-							if (_p21.ctor === 'Just') {
+				if (_p20._1._1.ctor === '::') {
+					if (_p20._0 === 'contributor') {
+						if (_p20._1._1._1.ctor === '[]') {
+							var _p22 = _user$project$Settings$runtime.contributor(
+								_user$project$Domain_Core$Id(_p20._1._0));
+							if (_p22.ctor === 'Just') {
 								return _user$project$Home$contributorTopicPage(model.selectedContributor);
 							} else {
 								return _user$project$Home$notFoundPage;
 							}
 						} else {
-							if (_p19._1._1._1._1.ctor === '[]') {
-								if (_p19._1._1._0 === 'all') {
-									var _p22 = _user$project$Settings$runtime.contributor(
-										_user$project$Domain_Core$Id(_p19._1._0));
-									if (_p22.ctor === 'Just') {
+							if (_p20._1._1._1._1.ctor === '[]') {
+								if (_p20._1._1._0 === 'all') {
+									var _p23 = _user$project$Settings$runtime.contributor(
+										_user$project$Domain_Core$Id(_p20._1._0));
+									if (_p23.ctor === 'Just') {
 										return _user$project$Home$notFoundPage;
 									} else {
 										return _user$project$Home$notFoundPage;
 									}
 								} else {
-									break _v12_7;
+									break _v13_7;
 								}
 							} else {
-								if ((_p19._1._1._1._0 === 'all') && (_p19._1._1._1._1._1.ctor === '[]')) {
-									var _p23 = _user$project$Settings$runtime.contributor(
-										_user$project$Domain_Core$Id(_p19._1._0));
-									if (_p23.ctor === 'Just') {
+								if ((_p20._1._1._1._0 === 'all') && (_p20._1._1._1._1._1.ctor === '[]')) {
+									var _p24 = _user$project$Settings$runtime.contributor(
+										_user$project$Domain_Core$Id(_p20._1._0));
+									if (_p24.ctor === 'Just') {
 										return A3(
 											_user$project$Home$contributorTopicContentTypePage,
-											_user$project$Domain_Core$Topic(_p19._1._1._0),
-											_user$project$Domain_Core$toContentType(_p19._1._1._1._1._0),
+											_user$project$Domain_Core$Topic(_p20._1._1._0),
+											_user$project$Domain_Core$toContentType(_p20._1._1._1._1._0),
 											model.portal.contributor);
 									} else {
 										return _user$project$Home$notFoundPage;
 									}
 								} else {
-									break _v12_7;
+									break _v13_7;
 								}
 							}
 						}
 					} else {
-						break _v12_7;
+						break _v13_7;
 					}
 				} else {
-					if (_p19._0 === 'contributor') {
-						var _p20 = _user$project$Settings$runtime.contributor(
-							_user$project$Domain_Core$Id(_p19._1._0));
-						if (_p20.ctor === 'Just') {
+					if (_p20._0 === 'contributor') {
+						var _p21 = _user$project$Settings$runtime.contributor(
+							_user$project$Domain_Core$Id(_p20._1._0));
+						if (_p21.ctor === 'Just') {
 							return A2(
 								_elm_lang$html$Html$map,
 								_user$project$Home$ContributorLinksAction,
@@ -12658,10 +12845,10 @@ var _user$project$Home$view = function (model) {
 							return _user$project$Home$notFoundPage;
 						}
 					} else {
-						if (_p19._1._0 === 'dashboard') {
+						if (_p20._1._0 === 'dashboard') {
 							return _user$project$Home$dashboardPage(model);
 						} else {
-							break _v12_7;
+							break _v13_7;
 						}
 					}
 				}
@@ -12680,7 +12867,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p24) {
+		subscriptions: function (_p25) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();
