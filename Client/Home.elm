@@ -556,10 +556,14 @@ content portal =
                         else
                             div [] []
                 in
-                    -- [ Html.map NewLink (NewLinks.view (linkSummary))
-                    -- , update
-                    -- ]
-                    div [] [ newLinkEditor, update ]
+                    table []
+                        [ tr []
+                            [ th [] [ h3 [] [ text "Add Link" ] ] ]
+                        , tr []
+                            [ td [] [ newLinkEditor ] ]
+                        , tr []
+                            [ td [] [ update ] ]
+                        ]
 
             Domain.Links ->
                 label [] [ text "Links..." ]
