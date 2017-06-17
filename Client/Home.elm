@@ -537,10 +537,37 @@ content portal =
                     ]
 
             Domain.AddLink ->
-                label [] [ text "Add Link..." ]
+                let
+                    linkSummary =
+                        getLinkSummary contributor
+
+                    newLinkEditor =
+                        Html.map NewLink (NewLinks.view (linkSummary))
+
+                    addLink l =
+                        div []
+                            [ label [] [ text <| (l.contentType |> contentTypeToText |> dropRight 1) ++ ": " ]
+                            , a [ href <| getUrl l.url ] [ text <| getTitle l.title ]
+                            ]
+
+                    update =
+                        if linkSummary.canAdd then
+                            div [] (linkSummary.added |> List.map addLink)
+                        else
+                            div [] []
+                in
+                    -- [ Html.map NewLink (NewLinks.view (linkSummary))
+                    -- , update
+                    -- ]
+                    div [] [ newLinkEditor, update ]
 
             Domain.Links ->
                 label [] [ text "Links..." ]
+
+
+getLinkSummary : Contributor.Model -> NewLinks.Model
+getLinkSummary contributor =
+    contributor.newLinks
 
 
 dashboardPage : Model -> Html Msg
@@ -550,19 +577,7 @@ dashboardPage model =
             model.portal.contributor
 
         linkSummary =
-            contributor.newLinks
-
-        addLink l =
-            div []
-                [ label [] [ text <| (l.contentType |> contentTypeToText |> dropRight 1) ++ ": " ]
-                , a [ href <| getUrl l.url ] [ text <| getTitle l.title ]
-                ]
-
-        update =
-            if linkSummary.canAdd then
-                div [] (linkSummary.added |> List.map addLink)
-            else
-                div [] []
+            contributor |> getLinkSummary
 
         header =
             [ h2 [] [ text <| "Welcome " ++ getName model.portal.contributor.profile.name ] ]

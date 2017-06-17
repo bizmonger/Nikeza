@@ -11515,6 +11515,9 @@ var _user$project$Home$notFoundPage = A2(
 		_0: _elm_lang$html$Html$text('Page not found'),
 		_1: {ctor: '[]'}
 	});
+var _user$project$Home$getLinkSummary = function (contributor) {
+	return contributor.newLinks;
+};
 var _user$project$Home$contributorTopicPage = function (model) {
 	var profileId = model.profile.id;
 	var _p3 = _elm_lang$core$List$head(model.topics);
@@ -12444,13 +12447,70 @@ var _user$project$Home$content = function (portal) {
 					}
 				});
 		case 'AddLink':
+			var addLink = function (l) {
+				return A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$label,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										A2(
+											_elm_lang$core$String$dropRight,
+											1,
+											_user$project$Domain_Core$contentTypeToText(l.contentType)),
+										': ')),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$a,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$href(
+										_user$project$Domain_Core$getUrl(l.url)),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(
+										_user$project$Domain_Core$getTitle(l.title)),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					});
+			};
+			var linkSummary = _user$project$Home$getLinkSummary(contributor);
+			var newLinkEditor = A2(
+				_elm_lang$html$Html$map,
+				_user$project$Home$NewLink,
+				_user$project$Controls_NewLinks$view(linkSummary));
+			var update = linkSummary.canAdd ? A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				A2(_elm_lang$core$List$map, addLink, linkSummary.added)) : A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{ctor: '[]'});
 			return A2(
-				_elm_lang$html$Html$label,
+				_elm_lang$html$Html$div,
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('Add Link...'),
-					_1: {ctor: '[]'}
+					_0: newLinkEditor,
+					_1: {
+						ctor: '::',
+						_0: update,
+						_1: {ctor: '[]'}
+					}
 				});
 		default:
 			return A2(
@@ -12481,56 +12541,8 @@ var _user$project$Home$dashboardPage = function (model) {
 			}),
 		_1: {ctor: '[]'}
 	};
-	var addLink = function (l) {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$label,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								A2(
-									_elm_lang$core$String$dropRight,
-									1,
-									_user$project$Domain_Core$contentTypeToText(l.contentType)),
-								': ')),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$a,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$href(
-								_user$project$Domain_Core$getUrl(l.url)),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(
-								_user$project$Domain_Core$getTitle(l.title)),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}
-			});
-	};
 	var contributor = model.portal.contributor;
-	var linkSummary = contributor.newLinks;
-	var update = linkSummary.canAdd ? A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		A2(_elm_lang$core$List$map, addLink, linkSummary.added)) : A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{ctor: '[]'});
+	var linkSummary = _user$project$Home$getLinkSummary(contributor);
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
