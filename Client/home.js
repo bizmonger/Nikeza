@@ -12030,17 +12030,12 @@ var _user$project$Home$onNewConnection = F2(
 			pendingPortal,
 			{contributor: updatedContributor});
 		var pendingProfile = updatedContributor.profile;
-		var updatedProfile = _elm_lang$core$Native_Utils.update(
-			pendingProfile,
-			{
-				connections: {ctor: '::', _0: connection, _1: pendingProfile.connections}
-			});
 		var portal = _elm_lang$core$Native_Utils.update(
 			updatedPortal,
 			{
 				contributor: _elm_lang$core$Native_Utils.update(
 					updatedContributor,
-					{profile: updatedProfile})
+					{profile: pendingProfile})
 			});
 		var _p9 = subMsg;
 		switch (_p9.ctor) {
@@ -12061,12 +12056,24 @@ var _user$project$Home$onNewConnection = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
-				var profile = updatedProfile;
+				var updatedProfile = _elm_lang$core$Native_Utils.update(
+					pendingProfile,
+					{
+						connections: {ctor: '::', _0: connection, _1: pendingProfile.connections}
+					});
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{portal: portal}),
+						{
+							portal: _elm_lang$core$Native_Utils.update(
+								portal,
+								{
+									contributor: _elm_lang$core$Native_Utils.update(
+										updatedContributor,
+										{profile: updatedProfile})
+								})
+						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 		}
@@ -12193,7 +12200,18 @@ var _user$project$Home$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'ManageLinks':
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				var pendingPortal = model.portal;
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							portal: _elm_lang$core$Native_Utils.update(
+								pendingPortal,
+								{requested: _user$project$Domain_Core$AddLinks})
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 			case 'NewConnection':
 				return A2(_user$project$Home$onNewConnection, _p11._0, model);
 			case 'Remove':

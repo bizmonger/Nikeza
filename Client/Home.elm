@@ -116,7 +116,11 @@ update msg model =
                 ( { model | portal = { pendingPortal | requested = Domain.ManageConnections } }, Cmd.none )
 
         ManageLinks ->
-            ( model, Cmd.none )
+            let
+                pendingPortal =
+                    model.portal
+            in
+                ( { model | portal = { pendingPortal | requested = Domain.AddLinks } }, Cmd.none )
 
         NewConnection subMsg ->
             onNewConnection subMsg model
@@ -234,11 +238,8 @@ onNewConnection subMsg model =
         pendingProfile =
             updatedContributor.profile
 
-        updatedProfile =
-            { pendingProfile | connections = connection :: pendingProfile.connections }
-
         portal =
-            { updatedPortal | contributor = { updatedContributor | profile = updatedProfile } }
+            { updatedPortal | contributor = { updatedContributor | profile = pendingProfile } }
     in
         case subMsg of
             AddConnection.InputUsername _ ->
@@ -249,10 +250,17 @@ onNewConnection subMsg model =
 
             AddConnection.Submit _ ->
                 let
-                    profile =
-                        updatedProfile
+                    updatedProfile =
+                        { pendingProfile | connections = connection :: pendingProfile.connections }
                 in
-                    ( { model | portal = portal }, Cmd.none )
+                    ( { model
+                        | portal =
+                            { portal
+                                | contributor = { updatedContributor | profile = updatedProfile }
+                            }
+                      }
+                    , Cmd.none
+                    )
 
 
 matchContributors : Model -> String -> ( Model, Cmd Msg )
@@ -533,8 +541,6 @@ dashboardPage model =
         contributor =
             model.portal.contributor
 
-        -- connectionsTable =
-        --     table [] [ div [] (contributor.profile.connections |> List.map connectionUI) ]
         linkSummary =
             contributor.newLinks
 
