@@ -12607,7 +12607,7 @@ var _user$project$Home$view = function (model) {
 							var _p21 = _user$project$Settings$runtime.contributor(
 								_user$project$Domain_Core$Id(_p19._1._0));
 							if (_p21.ctor === 'Just') {
-								return _user$project$Home$contributorTopicPage(model.portal.contributor);
+								return _user$project$Home$contributorTopicPage(model.selectedContributor);
 							} else {
 								return _user$project$Home$notFoundPage;
 							}
@@ -12653,7 +12653,7 @@ var _user$project$Home$view = function (model) {
 							return A2(
 								_elm_lang$html$Html$map,
 								_user$project$Home$ContributorLinksAction,
-								_user$project$Controls_ContributorLinks$view(model.portal.contributor));
+								_user$project$Controls_ContributorLinks$view(model.selectedContributor));
 						} else {
 							return _user$project$Home$notFoundPage;
 						}

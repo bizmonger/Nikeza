@@ -319,7 +319,7 @@ view model =
         [ "contributor", id ] ->
             case runtime.contributor <| Id id of
                 Just _ ->
-                    Html.map ContributorLinksAction <| ContributorLinks.view model.portal.contributor
+                    Html.map ContributorLinksAction <| ContributorLinks.view model.selectedContributor
 
                 Nothing ->
                     notFoundPage
@@ -327,7 +327,7 @@ view model =
         [ "contributor", id, topic ] ->
             case runtime.contributor <| Id id of
                 Just _ ->
-                    contributorTopicPage model.portal.contributor
+                    contributorTopicPage model.selectedContributor
 
                 Nothing ->
                     notFoundPage
