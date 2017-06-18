@@ -19,10 +19,7 @@ let getVideos youtube kind =
             let id = Console.ReadLine()
             { id = Some(id); userName = None }
     async {
-        // Get the videos by channelId
         let! videos = uploadList youtube params
-        // Getting the videos by userName
-        // let! videos = uploadList youtube { id = None; userName = Some(channelId)}
         let out = 
             videos 
             |> Seq.map(fun video -> sprintf "Title: %s\nVideoId: %s\n" video.title video.videoId)
