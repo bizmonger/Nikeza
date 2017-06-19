@@ -10250,25 +10250,22 @@ var _user$project$Controls_ContributorContentTypeLinks$toggleAllFilter = F2(
 var _user$project$Controls_ContributorContentTypeLinks$toggleFilter = F2(
 	function (model, _p0) {
 		var _p1 = _p0;
-		var _p3 = _p1._0;
-		var _p2 = {ctor: '_Tuple2', _0: model, _1: model.profile.id};
-		var contributor = _p2._0;
-		var profileId = _p2._1;
+		var _p2 = _p1._0;
+		var links = model.links;
 		var toggleTopic = F2(
 			function (contentType, links) {
 				return _p1._1 ? A2(
 					_elm_lang$core$List$append,
-					A3(_user$project$Settings$runtime.topicLinks, _p3, contentType, profileId),
+					A3(_user$project$Settings$runtime.topicLinks, _p2, contentType, model.profile.id),
 					links) : A2(
 					_elm_lang$core$List$filter,
 					function (l) {
-						return !A2(_elm_lang$core$List$member, _p3, l.topics);
+						return !A2(_elm_lang$core$List$member, _p2, l.topics);
 					},
 					links);
 			});
-		var links = _user$project$Settings$runtime.links(profileId);
-		var updatedContributor = _elm_lang$core$Native_Utils.update(
-			contributor,
+		var newState = _elm_lang$core$Native_Utils.update(
+			model,
 			{
 				showAll: false,
 				links: {
@@ -10278,18 +10275,18 @@ var _user$project$Controls_ContributorContentTypeLinks$toggleFilter = F2(
 					podcasts: A2(toggleTopic, _user$project$Domain_Core$Podcast, links.podcasts)
 				}
 			});
-		return {ctor: '_Tuple2', _0: updatedContributor, _1: _elm_lang$core$Platform_Cmd$none};
+		return {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
 	});
 var _user$project$Controls_ContributorContentTypeLinks$update = F2(
 	function (msg, model) {
-		var _p4 = msg;
-		if (_p4.ctor === 'Toggle') {
+		var _p3 = msg;
+		if (_p3.ctor === 'Toggle') {
 			return A2(
 				_user$project$Controls_ContributorContentTypeLinks$toggleFilter,
 				model,
-				{ctor: '_Tuple2', _0: _p4._0._0, _1: _p4._0._1});
+				{ctor: '_Tuple2', _0: _p3._0._0, _1: _p3._0._1});
 		} else {
-			return A2(_user$project$Controls_ContributorContentTypeLinks$toggleAllFilter, model, _p4._0);
+			return A2(_user$project$Controls_ContributorContentTypeLinks$toggleAllFilter, model, _p3._0);
 		}
 	});
 var _user$project$Controls_ContributorContentTypeLinks$Toggle = function (a) {
@@ -10339,12 +10336,12 @@ var _user$project$Controls_ContributorContentTypeLinks$toCheckbox = function (to
 var _user$project$Controls_ContributorContentTypeLinks$view = F2(
 	function (model, contentType) {
 		var contributor = model;
-		var _p5 = {ctor: '_Tuple2', _0: contributor.topics, _1: contributor.links};
-		var topics = _p5._0;
-		var links = _p5._1;
+		var _p4 = {ctor: '_Tuple2', _0: contributor.topics, _1: contributor.links};
+		var topics = _p4._0;
+		var links = _p4._1;
 		var posts = function () {
-			var _p6 = contentType;
-			switch (_p6.ctor) {
+			var _p5 = contentType;
+			switch (_p5.ctor) {
 				case 'Answer':
 					return links.answers;
 				case 'Article':
@@ -10568,50 +10565,6 @@ var _user$project$Controls_ContributorLinks$update = F2(
 var _user$project$Controls_ContributorLinks$Toggle = function (a) {
 	return {ctor: 'Toggle', _0: a};
 };
-var _user$project$Controls_ContributorLinks$toCheckbox = function (topic) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$input,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$checked(true),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onCheck(
-								function (b) {
-									return _user$project$Controls_ContributorLinks$Toggle(
-										{ctor: '_Tuple2', _0: topic, _1: b});
-								}),
-							_1: {ctor: '[]'}
-						}
-					}
-				},
-				{ctor: '[]'}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$label,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							_user$project$Domain_Core$getTopic(topic)),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			}
-		});
-};
-var _user$project$Controls_ContributorLinks$ToggleAll = function (a) {
-	return {ctor: 'ToggleAll', _0: a};
-};
 var _user$project$Controls_ContributorLinks$view = function (model) {
 	var links = model.links;
 	var toCheckBoxState = F2(
@@ -10655,45 +10608,6 @@ var _user$project$Controls_ContributorLinks$view = function (model) {
 						_1: {ctor: '[]'}
 					}
 				});
-		});
-	var allTopic = _user$project$Domain_Core$Topic('All');
-	var allFilter = A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$input,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$checked(model.showAll),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onCheck(
-								function (b) {
-									return _user$project$Controls_ContributorLinks$ToggleAll(b);
-								}),
-							_1: {ctor: '[]'}
-						}
-					}
-				},
-				{ctor: '[]'}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$label,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							_user$project$Domain_Core$getTopic(allTopic)),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			}
 		});
 	var _p4 = {ctor: '_Tuple2', _0: model.profile.id, _1: model.topics};
 	var profileId = _p4._0;
@@ -10912,6 +10826,50 @@ var _user$project$Controls_ContributorLinks$view = function (model) {
 				}),
 			_1: {ctor: '[]'}
 		});
+};
+var _user$project$Controls_ContributorLinks$toCheckbox = function (topic) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$input,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$checked(true),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onCheck(
+								function (b) {
+									return _user$project$Controls_ContributorLinks$Toggle(
+										{ctor: '_Tuple2', _0: topic, _1: b});
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$label,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							_user$project$Domain_Core$getTopic(topic)),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _user$project$Controls_ContributorLinks$ToggleAll = function (a) {
+	return {ctor: 'ToggleAll', _0: a};
 };
 
 var _user$project$Controls_NewLinks$update = F2(

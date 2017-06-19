@@ -44,15 +44,6 @@ view model =
         ( profileId, topics ) =
             ( model.profile.id, model.topics )
 
-        allTopic =
-            Topic "All"
-
-        allFilter =
-            div []
-                [ input [ type_ "checkbox", checked model.showAll, onCheck (\b -> ToggleAll b) ] []
-                , label [] [ text <| getTopic allTopic ]
-                ]
-
         toCheckBoxState include topic =
             div []
                 [ input [ type_ "checkbox", checked include, onCheck (\isChecked -> Toggle ( topic, isChecked )) ] []
@@ -144,6 +135,10 @@ toggleAllFilter model include =
                 { model | showAll = True, links = profile.id |> runtime.links }
     in
         ( newState, Cmd.none )
+
+
+
+-- REMOVE DUPLICATED FUNCTION ! ! !
 
 
 toCheckbox : Topic -> Html Msg

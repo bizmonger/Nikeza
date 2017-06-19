@@ -89,20 +89,17 @@ toCheckbox topic =
 toggleFilter : Model -> ( Topic, Bool ) -> ( Model, Cmd Msg )
 toggleFilter model ( topic, include ) =
     let
-        ( contributor, profileId ) =
-            ( model, model.profile.id )
-
         toggleTopic contentType links =
             if include then
-                List.append (profileId |> runtime.topicLinks topic contentType) links
+                List.append (model.profile.id |> runtime.topicLinks topic contentType) links
             else
                 links |> List.filter (\l -> not (l.topics |> List.member topic))
 
         links =
-            profileId |> runtime.links
+            model.links
 
-        updatedContributor =
-            { contributor
+        newState =
+            { model
                 | showAll = False
                 , links =
                     { answers = links.answers |> toggleTopic Answer
@@ -112,7 +109,7 @@ toggleFilter model ( topic, include ) =
                     }
             }
     in
-        ( updatedContributor, Cmd.none )
+        ( newState, Cmd.none )
 
 
 toggleAllFilter : Model -> Bool -> ( Model, Cmd Msg )
