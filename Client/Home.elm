@@ -381,29 +381,23 @@ view model =
 
         [ "contributor", id, "all", contentType ] ->
             case runtime.contributor <| Id id of
-                Just c ->
-                    let
-                        contributorContentType =
-                            { contributor = c
-                            , contentType = contentType |> toContentType
-                            }
-                    in
-                        table []
-                            [ tr []
-                                [ td [] [ img [ src <| getUrl <| model.selectedContributor.profile.imageUrl, width 100, height 100 ] [] ]
-                                , td [] [ Html.map ContributorContentTypeLinksAction <| ContributorContentTypeLinks.view contributorContentType.contributor contributorContentType.contentType ]
-                                ]
-                            , tr [] [ td [] [ text <| getName model.selectedContributor.profile.name ] ]
-                            , tr [] [ td [] [ p [] [ text model.selectedContributor.profile.bio ] ] ]
+                Just contributor ->
+                    table []
+                        [ tr []
+                            [ td [] [ img [ src <| getUrl <| contributor.profile.imageUrl, width 100, height 100 ] [] ]
+                            , td [] [ Html.map ContributorContentTypeLinksAction <| ContributorContentTypeLinks.view contributor <| toContentType contentType ]
                             ]
+                        , tr [] [ td [] [ text <| getName model.selectedContributor.profile.name ] ]
+                        , tr [] [ td [] [ p [] [ text model.selectedContributor.profile.bio ] ] ]
+                        ]
 
                 Nothing ->
                     notFoundPage
 
         [ "contributor", id, topic, "all", contentType ] ->
             case runtime.contributor <| Id id of
-                Just _ ->
-                    contributorTopicContentTypePage (Topic topic) (toContentType contentType) model.portal.contributor
+                Just contributor ->
+                    contributorTopicContentTypePage (Topic topic) (toContentType contentType) contributor
 
                 Nothing ->
                     notFoundPage

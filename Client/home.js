@@ -13166,10 +13166,7 @@ var _user$project$Home$view = function (model) {
 									var _p26 = _user$project$Settings$runtime.contributor(
 										_user$project$Domain_Core$Id(_p23._1._0));
 									if (_p26.ctor === 'Just') {
-										var contributorContentType = {
-											contributor: _p26._0,
-											contentType: _user$project$Domain_Core$toContentType(_p23._1._1._1._0)
-										};
+										var _p27 = _p26._0;
 										return A2(
 											_elm_lang$html$Html$table,
 											{ctor: '[]'},
@@ -13190,7 +13187,7 @@ var _user$project$Home$view = function (model) {
 																	{
 																		ctor: '::',
 																		_0: _elm_lang$html$Html_Attributes$src(
-																			_user$project$Domain_Core$getUrl(model.selectedContributor.profile.imageUrl)),
+																			_user$project$Domain_Core$getUrl(_p27.profile.imageUrl)),
 																		_1: {
 																			ctor: '::',
 																			_0: _elm_lang$html$Html_Attributes$width(100),
@@ -13214,7 +13211,10 @@ var _user$project$Home$view = function (model) {
 																	_0: A2(
 																		_elm_lang$html$Html$map,
 																		_user$project$Home$ContributorContentTypeLinksAction,
-																		A2(_user$project$Controls_ContributorContentTypeLinks$view, contributorContentType.contributor, contributorContentType.contentType)),
+																		A2(
+																			_user$project$Controls_ContributorContentTypeLinks$view,
+																			_p27,
+																			_user$project$Domain_Core$toContentType(_p23._1._1._1._0))),
 																	_1: {ctor: '[]'}
 																}),
 															_1: {ctor: '[]'}
@@ -13274,14 +13274,14 @@ var _user$project$Home$view = function (model) {
 								}
 							} else {
 								if ((_p23._1._1._1._0 === 'all') && (_p23._1._1._1._1._1.ctor === '[]')) {
-									var _p27 = _user$project$Settings$runtime.contributor(
+									var _p28 = _user$project$Settings$runtime.contributor(
 										_user$project$Domain_Core$Id(_p23._1._0));
-									if (_p27.ctor === 'Just') {
+									if (_p28.ctor === 'Just') {
 										return A3(
 											_user$project$Home$contributorTopicContentTypePage,
 											_user$project$Domain_Core$Topic(_p23._1._1._0),
 											_user$project$Domain_Core$toContentType(_p23._1._1._1._1._0),
-											model.portal.contributor);
+											_p28._0);
 									} else {
 										return _user$project$Home$notFoundPage;
 									}
@@ -13420,7 +13420,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p28) {
+		subscriptions: function (_p29) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();
