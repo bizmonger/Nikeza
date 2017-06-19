@@ -37,11 +37,8 @@ update msg model =
 view : Model -> ContentType -> Html Msg
 view model contentType =
     let
-        contributor =
-            model
-
         ( topics, links ) =
-            ( contributor.topics, contributor.links )
+            ( model.topics, model.links )
 
         posts =
             case contentType of
@@ -93,7 +90,7 @@ toggleFilter model ( topic, include ) =
             if include then
                 List.append (model.profile.id |> runtime.topicLinks topic contentType) links
             else
-                links |> List.filter (\l -> not (l.topics |> List.member topic))
+                links |> List.filter (\link -> not (link.topics |> List.member topic))
 
         links =
             model.links

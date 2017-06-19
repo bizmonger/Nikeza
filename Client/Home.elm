@@ -84,6 +84,7 @@ type Msg
     | ViewLinks
     | NewLink NewLinks.Msg
     | ContributorLinksAction ContributorLinks.Msg
+    | PortalContributorLinksAction ContributorLinks.Msg
     | ContributorContentTypeLinksAction ContributorContentTypeLinks.Msg
     | Search String
     | Register
@@ -155,6 +156,28 @@ update msg model =
                             ContributorLinks.update subMsg model.selectedContributor
                     in
                         ( { model | selectedContributor = contributor }, Cmd.none )
+
+        PortalContributorLinksAction subMsg ->
+            case subMsg of
+                ContributorLinks.ToggleAll _ ->
+                    let
+                        ( contributor, _ ) =
+                            ContributorLinks.update subMsg model.portal.contributor
+
+                        pedndingPortal =
+                            model.portal
+                    in
+                        ( { model | portal = { pedndingPortal | contributor = contributor } }, Cmd.none )
+
+                ContributorLinks.Toggle _ ->
+                    let
+                        ( contributor, _ ) =
+                            ContributorLinks.update subMsg model.selectedContributor
+
+                        pedndingPortal =
+                            model.portal
+                    in
+                        ( { model | portal = { pedndingPortal | contributor = contributor } }, Cmd.none )
 
         ContributorContentTypeLinksAction subMsg ->
             case subMsg of
@@ -381,11 +404,11 @@ view model =
 
         [ "contributor", id, "all", contentType ] ->
             case runtime.contributor <| Id id of
-                Just contributor ->
+                Just _ ->
                     table []
                         [ tr []
-                            [ td [] [ img [ src <| getUrl <| contributor.profile.imageUrl, width 100, height 100 ] [] ]
-                            , td [] [ Html.map ContributorContentTypeLinksAction <| ContributorContentTypeLinks.view contributor <| toContentType contentType ]
+                            [ td [] [ img [ src <| getUrl <| model.selectedContributor.profile.imageUrl, width 100, height 100 ] [] ]
+                            , td [] [ Html.map ContributorContentTypeLinksAction <| ContributorContentTypeLinks.view model.selectedContributor <| toContentType contentType ]
                             ]
                         , tr [] [ td [] [ text <| getName model.selectedContributor.profile.name ] ]
                         , tr [] [ td [] [ p [] [ text model.selectedContributor.profile.bio ] ] ]
@@ -512,35 +535,36 @@ connectionUI connection =
         ]
 
 
-content : Portal -> Html Msg
-content portal =
+content : Model -> Html Msg
+content model =
     let
         contributor =
-            portal.contributor
+            model.portal.contributor
 
         connectionsTable =
             table [] [ div [] (contributor.profile.connections |> List.map connectionUI) ]
     in
-        case portal.requested of
+        case model.portal.requested of
             Domain.ViewConnections ->
                 table []
                     [ tr []
                         [ th [] [ h3 [] [ text "Connections" ] ] ]
                     , tr []
-                        [ td [] [ Html.map NewConnection <| AddConnection.view portal.newConnection ] ]
+                        [ td [] [ Html.map NewConnection <| AddConnection.view model.portal.newConnection ] ]
                     , tr []
                         [ td [] [ connectionsTable ] ]
                     ]
 
             Domain.ViewLinks ->
                 div []
-                    [ Html.map ContributorLinksAction <| ContributorLinks.view contributor
+                    [ Html.map PortalContributorLinksAction <| ContributorLinks.view model.portal.contributor
+                    , label [] [ text <| toString model.portal.contributor.links ]
                     ]
 
             Domain.AddLink ->
                 let
                     linkSummary =
-                        portal |> getLinkSummary
+                        model.portal |> getLinkSummary
 
                     newLinkEditor =
                         Html.map NewLink (NewLinks.view (linkSummary))
@@ -575,9 +599,6 @@ getLinkSummary portal =
 dashboardPage : Model -> Html Msg
 dashboardPage model =
     let
-        contributor =
-            model.portal.contributor
-
         linkSummary =
             portal |> getLinkSummary
 
@@ -594,7 +615,7 @@ dashboardPage model =
                         [ table []
                             [ tr [] [ th [] header ]
                             , tr []
-                                [ td [] [ img [ src <| getUrl <| contributor.profile.imageUrl, width 100, height 100 ] [] ]
+                                [ td [] [ img [ src <| getUrl <| model.portal.contributor.profile.imageUrl, width 100, height 100 ] [] ]
                                 , td []
                                     [ div []
                                         [ button [ onClick ViewConnections ] [ text "Connections" ]
@@ -609,10 +630,10 @@ dashboardPage model =
                                         ]
                                     ]
                                 ]
-                            , tr [] [ td [] [ p [] [ text contributor.profile.bio ] ] ]
+                            , tr [] [ td [] [ p [] [ text model.portal.contributor.profile.bio ] ] ]
                             ]
                         ]
-                    , td [] [ content portal ]
+                    , td [] [ content model ]
                     ]
                 ]
             ]
