@@ -540,7 +540,10 @@ content portal =
                     ]
 
             Domain.ViewLinks ->
-                div [] [ Html.map ContributorLinksAction <| ContributorLinks.view contributor ]
+                div []
+                    [ th [] [ h3 [] [ text "Links" ] ]
+                    , Html.map ContributorLinksAction <| ContributorLinks.view contributor
+                    ]
 
             Domain.AddLink ->
                 let
@@ -604,9 +607,13 @@ dashboardPage model =
                                     [ div []
                                         [ button [ onClick ViewConnections ] [ text "Connections" ]
                                         , br [] []
+                                        , button [ onClick ViewLinks ] [ text "Links" ]
+                                        , br [] []
                                         , button [ onClick AddNewLink ] [ text "Link" ]
                                         , br [] []
-                                        , button [ onClick ViewLinks ] [ text "Links" ]
+                                        , button [ onClick ViewLinks ] [ text "Subscribers" ]
+                                        , br [] []
+                                        , button [ onClick ViewLinks ] [ text "Subscriptions" ]
                                         ]
                                     ]
                                 ]

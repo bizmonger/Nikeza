@@ -12590,10 +12590,28 @@ var _user$project$Home$content = function (portal) {
 				{
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$map,
-						_user$project$Home$ContributorLinksAction,
-						_user$project$Controls_ContributorLinks$view(contributor)),
-					_1: {ctor: '[]'}
+						_elm_lang$html$Html$th,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$h3,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('Links'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$map,
+							_user$project$Home$ContributorLinksAction,
+							_user$project$Controls_ContributorLinks$view(contributor)),
+						_1: {ctor: '[]'}
+					}
 				});
 		default:
 			var addLink = function (l) {
@@ -12839,12 +12857,12 @@ var _user$project$Home$dashboardPage = function (model) {
 																						_elm_lang$html$Html$button,
 																						{
 																							ctor: '::',
-																							_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+																							_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
 																							_1: {ctor: '[]'}
 																						},
 																						{
 																							ctor: '::',
-																							_0: _elm_lang$html$Html$text('Link'),
+																							_0: _elm_lang$html$Html$text('Links'),
 																							_1: {ctor: '[]'}
 																						}),
 																					_1: {
@@ -12859,15 +12877,59 @@ var _user$project$Home$dashboardPage = function (model) {
 																								_elm_lang$html$Html$button,
 																								{
 																									ctor: '::',
-																									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
+																									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
 																									_1: {ctor: '[]'}
 																								},
 																								{
 																									ctor: '::',
-																									_0: _elm_lang$html$Html$text('Links'),
+																									_0: _elm_lang$html$Html$text('Link'),
 																									_1: {ctor: '[]'}
 																								}),
-																							_1: {ctor: '[]'}
+																							_1: {
+																								ctor: '::',
+																								_0: A2(
+																									_elm_lang$html$Html$br,
+																									{ctor: '[]'},
+																									{ctor: '[]'}),
+																								_1: {
+																									ctor: '::',
+																									_0: A2(
+																										_elm_lang$html$Html$button,
+																										{
+																											ctor: '::',
+																											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
+																											_1: {ctor: '[]'}
+																										},
+																										{
+																											ctor: '::',
+																											_0: _elm_lang$html$Html$text('Subscribers'),
+																											_1: {ctor: '[]'}
+																										}),
+																									_1: {
+																										ctor: '::',
+																										_0: A2(
+																											_elm_lang$html$Html$br,
+																											{ctor: '[]'},
+																											{ctor: '[]'}),
+																										_1: {
+																											ctor: '::',
+																											_0: A2(
+																												_elm_lang$html$Html$button,
+																												{
+																													ctor: '::',
+																													_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
+																													_1: {ctor: '[]'}
+																												},
+																												{
+																													ctor: '::',
+																													_0: _elm_lang$html$Html$text('Subscriptions'),
+																													_1: {ctor: '[]'}
+																												}),
+																											_1: {ctor: '[]'}
+																										}
+																									}
+																								}
+																							}
 																						}
 																					}
 																				}
