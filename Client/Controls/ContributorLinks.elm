@@ -19,6 +19,11 @@ type alias Model =
 -- UPDATE
 
 
+type Msg
+    = ToggleAll Bool
+    | Toggle ( Topic, Bool )
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -27,11 +32,6 @@ update msg model =
 
         ToggleAll include ->
             include |> toggleAllFilter model
-
-
-type Msg
-    = ToggleAll Bool
-    | Toggle ( Topic, Bool )
 
 
 

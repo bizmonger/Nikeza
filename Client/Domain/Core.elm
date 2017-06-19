@@ -36,6 +36,15 @@ type alias Contributor =
     }
 
 
+initContributor : Contributor
+initContributor =
+    let
+        addedLinks =
+            NewLinks initLinkToCreate False []
+    in
+        Contributor initProfile True initTopics initLinks
+
+
 type alias ContributorPortal =
     { contributor : Contributor
     , requested : ContributorRequest

@@ -9,6 +9,7 @@ import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
 import Controls.AddConnection as AddConnection exposing (..)
 import Controls.NewLinks as NewLinks exposing (..)
 import Controls.ContributorLinks as ContributorLinks exposing (..)
+import Controls.ContributorContentTypeLinks as ContributorContentTypeLinks exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
@@ -54,10 +55,10 @@ init location =
                             c
 
                         Nothing ->
-                            Contributor.init
+                            initContributor
 
                 _ ->
-                    Contributor.init
+                    initContributor
     in
         ( { currentRoute = location
           , login = Login.model
@@ -84,6 +85,7 @@ type Msg
     | ViewLinks
     | NewLink NewLinks.Msg
     | ContributorLinksAction ContributorLinks.Msg
+    | ContributorContentTypeLinksAction ContributorContentTypeLinks.Msg
     | Search String
     | Register
 
@@ -152,6 +154,22 @@ update msg model =
                     let
                         ( contributor, _ ) =
                             ContributorLinks.update subMsg model.selectedContributor
+                    in
+                        ( { model | selectedContributor = contributor }, Cmd.none )
+
+        ContributorContentTypeLinksAction subMsg ->
+            case subMsg of
+                ContributorContentTypeLinks.ToggleAll _ ->
+                    let
+                        ( contributor, _ ) =
+                            ContributorContentTypeLinks.update subMsg model.selectedContributor
+                    in
+                        ( { model | selectedContributor = contributor }, Cmd.none )
+
+                ContributorContentTypeLinks.Toggle _ ->
+                    let
+                        ( contributor, _ ) =
+                            ContributorContentTypeLinks.update subMsg model.selectedContributor
                     in
                         ( { model | selectedContributor = contributor }, Cmd.none )
 
@@ -364,10 +382,22 @@ view model =
 
         [ "contributor", id, "all", contentType ] ->
             case runtime.contributor <| Id id of
-                Just _ ->
-                    notFoundPage
+                Just c ->
+                    let
+                        contributorContentType =
+                            { contributor = c
+                            , contentType = contentType |> toContentType
+                            }
+                    in
+                        table []
+                            [ tr []
+                                [ td [] [ img [ src <| getUrl <| model.selectedContributor.profile.imageUrl, width 100, height 100 ] [] ]
+                                , td [] [ Html.map ContributorContentTypeLinksAction <| ContributorContentTypeLinks.view contributorContentType.contributor contributorContentType.contentType ]
+                                ]
+                            , tr [] [ td [] [ text <| getName model.selectedContributor.profile.name ] ]
+                            , tr [] [ td [] [ p [] [ text model.selectedContributor.profile.bio ] ] ]
+                            ]
 
-                --contributorContentTypePage contentType model.contributor
                 Nothing ->
                     notFoundPage
 

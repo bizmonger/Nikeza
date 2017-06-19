@@ -13,7 +13,7 @@ type alias Model =
 
 init : Model
 init =
-    { contributor = Contributor.init
+    { contributor = initContributor
     , requested = ViewLinks
     , newConnection = initConnection
     , newLinks = initNewLinks
