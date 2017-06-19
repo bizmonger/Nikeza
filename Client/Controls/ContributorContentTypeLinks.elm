@@ -8,7 +8,6 @@ import Html.Events exposing (onClick, onCheck, onInput)
 
 
 type alias Model =
-    --ContributorContentType
     Contributor
 
 
@@ -90,17 +89,17 @@ toCheckbox topic =
 toggleFilter : Model -> ( Topic, Bool ) -> ( Model, Cmd Msg )
 toggleFilter model ( topic, include ) =
     let
-        contributor =
-            model
+        ( contributor, profileId ) =
+            ( model, model.profile.id )
 
         toggleTopic contentType links =
             if include then
-                List.append (contributor.profile.id |> runtime.topicLinks topic contentType) links
+                List.append (profileId |> runtime.topicLinks topic contentType) links
             else
                 links |> List.filter (\l -> not (l.topics |> List.member topic))
 
         links =
-            contributor.links
+            profileId |> runtime.links
 
         updatedContributor =
             { contributor
@@ -112,13 +111,8 @@ toggleFilter model ( topic, include ) =
                     , podcasts = links.podcasts |> toggleTopic Podcast
                     }
             }
-
-        newState =
-            updatedContributor
-
-        --{ model | contributor = updatedContributor }
     in
-        ( newState, Cmd.none )
+        ( updatedContributor, Cmd.none )
 
 
 toggleAllFilter : Model -> Bool -> ( Model, Cmd Msg )
@@ -129,10 +123,8 @@ toggleAllFilter model include =
 
         newState =
             if not include then
-                -- { model | contributor = { contributor | showAll = False, links = initLinks } }
                 { contributor | showAll = False, links = initLinks }
             else
-                -- { model | contributor = { contributor | showAll = True, links = contributor.profile.id |> runtime.links } }
                 { contributor | showAll = True, links = contributor.profile.id |> runtime.links }
     in
         ( newState, Cmd.none )

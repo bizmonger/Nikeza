@@ -322,10 +322,10 @@ onLogin model subMsg =
 
                     newState =
                         case contributorResult of
-                            Just c ->
+                            Just contributor ->
                                 { model
                                     | login = latest
-                                    , portal = { pendingPortal | contributor = c }
+                                    , portal = { pendingPortal | contributor = contributor }
                                 }
 
                             Nothing ->

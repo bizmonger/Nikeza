@@ -10250,21 +10250,23 @@ var _user$project$Controls_ContributorContentTypeLinks$toggleAllFilter = F2(
 var _user$project$Controls_ContributorContentTypeLinks$toggleFilter = F2(
 	function (model, _p0) {
 		var _p1 = _p0;
-		var _p2 = _p1._0;
-		var contributor = model;
+		var _p3 = _p1._0;
+		var _p2 = {ctor: '_Tuple2', _0: model, _1: model.profile.id};
+		var contributor = _p2._0;
+		var profileId = _p2._1;
 		var toggleTopic = F2(
 			function (contentType, links) {
 				return _p1._1 ? A2(
 					_elm_lang$core$List$append,
-					A3(_user$project$Settings$runtime.topicLinks, _p2, contentType, contributor.profile.id),
+					A3(_user$project$Settings$runtime.topicLinks, _p3, contentType, profileId),
 					links) : A2(
 					_elm_lang$core$List$filter,
 					function (l) {
-						return !A2(_elm_lang$core$List$member, _p2, l.topics);
+						return !A2(_elm_lang$core$List$member, _p3, l.topics);
 					},
 					links);
 			});
-		var links = contributor.links;
+		var links = _user$project$Settings$runtime.links(profileId);
 		var updatedContributor = _elm_lang$core$Native_Utils.update(
 			contributor,
 			{
@@ -10276,19 +10278,18 @@ var _user$project$Controls_ContributorContentTypeLinks$toggleFilter = F2(
 					podcasts: A2(toggleTopic, _user$project$Domain_Core$Podcast, links.podcasts)
 				}
 			});
-		var newState = updatedContributor;
-		return {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
+		return {ctor: '_Tuple2', _0: updatedContributor, _1: _elm_lang$core$Platform_Cmd$none};
 	});
 var _user$project$Controls_ContributorContentTypeLinks$update = F2(
 	function (msg, model) {
-		var _p3 = msg;
-		if (_p3.ctor === 'Toggle') {
+		var _p4 = msg;
+		if (_p4.ctor === 'Toggle') {
 			return A2(
 				_user$project$Controls_ContributorContentTypeLinks$toggleFilter,
 				model,
-				{ctor: '_Tuple2', _0: _p3._0._0, _1: _p3._0._1});
+				{ctor: '_Tuple2', _0: _p4._0._0, _1: _p4._0._1});
 		} else {
-			return A2(_user$project$Controls_ContributorContentTypeLinks$toggleAllFilter, model, _p3._0);
+			return A2(_user$project$Controls_ContributorContentTypeLinks$toggleAllFilter, model, _p4._0);
 		}
 	});
 var _user$project$Controls_ContributorContentTypeLinks$Toggle = function (a) {
@@ -10338,12 +10339,12 @@ var _user$project$Controls_ContributorContentTypeLinks$toCheckbox = function (to
 var _user$project$Controls_ContributorContentTypeLinks$view = F2(
 	function (model, contentType) {
 		var contributor = model;
-		var _p4 = {ctor: '_Tuple2', _0: contributor.topics, _1: contributor.links};
-		var topics = _p4._0;
-		var links = _p4._1;
+		var _p5 = {ctor: '_Tuple2', _0: contributor.topics, _1: contributor.links};
+		var topics = _p5._0;
+		var links = _p5._1;
 		var posts = function () {
-			var _p5 = contentType;
-			switch (_p5.ctor) {
+			var _p6 = contentType;
+			switch (_p6.ctor) {
 				case 'Answer':
 					return links.answers;
 				case 'Article':
