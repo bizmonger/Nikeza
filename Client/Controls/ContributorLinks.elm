@@ -58,14 +58,15 @@ view model =
                 [ input [ type_ "checkbox", checked include, onCheck (\isChecked -> Toggle ( topic, isChecked )) ] []
                 , label [] [ text <| getTopic topic ]
                 ]
+
+        links =
+            model.links
     in
         div []
             [ table []
                 [ tr []
                     [ table []
                         [ tr []
-                            --[ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
-                            -- , td [] [ div [] <| allFilter :: (topics |> List.map (\t -> t |> toCheckBoxState model.showAll)) ]
                             [ td [] [ div [] <| (topics |> List.map (\t -> t |> toCheckBoxState True)) ]
                             , table []
                                 [ tr []
@@ -73,22 +74,19 @@ view model =
                                     , td [] [ b [] [ text "Articles" ] ]
                                     ]
                                 , tr []
-                                    [ td [] [ div [] <| contentUI profileId Answer model.answers ]
-                                    , td [] [ div [] <| contentUI profileId Article model.articles ]
+                                    [ td [] [ div [] <| contentUI profileId Answer links.answers ]
+                                    , td [] [ div [] <| contentUI profileId Article links.articles ]
                                     ]
                                 , tr []
                                     [ td [] [ b [] [ text "Podcasts" ] ]
                                     , td [] [ b [] [ text "Videos" ] ]
                                     ]
                                 , tr []
-                                    [ td [] [ div [] <| contentUI profileId Podcast model.podcasts ]
-                                    , td [] [ div [] <| contentUI profileId Video model.videos ]
+                                    [ td [] [ div [] <| contentUI profileId Podcast links.podcasts ]
+                                    , td [] [ div [] <| contentUI profileId Video links.videos ]
                                     ]
                                 ]
                             ]
-
-                        -- , tr [] [ td [] [ text <| getName model.profile.name ] ]
-                        -- , tr [] [ td [] [ p [] [ text model.profile.bio ] ] ]
                         ]
                     ]
                 ]
@@ -116,13 +114,18 @@ toggleFilter model ( topic, include ) =
             else
                 links |> List.filter (\l -> not (l.topics |> List.member topic))
 
+        links =
+            model.links
+
         newState =
             { model
                 | showAll = False
-                , answers = model.answers |> toggleTopic Answer
-                , articles = model.articles |> toggleTopic Article
-                , videos = model.videos |> toggleTopic Video
-                , podcasts = model.podcasts |> toggleTopic Podcast
+                , links =
+                    { answers = links.answers |> toggleTopic Answer
+                    , articles = links.articles |> toggleTopic Article
+                    , videos = links.videos |> toggleTopic Video
+                    , podcasts = links.podcasts |> toggleTopic Podcast
+                    }
             }
     in
         ( newState, Cmd.none )
@@ -136,15 +139,9 @@ toggleAllFilter model include =
 
         newState =
             if not include then
-                { model | showAll = False, answers = [], articles = [], videos = [], podcasts = [] }
+                { model | showAll = False, links = initLinks }
             else
-                { model
-                    | showAll = True
-                    , answers = profile.id |> runtime.links Answer
-                    , articles = profile.id |> runtime.links Article
-                    , videos = profile.id |> runtime.links Video
-                    , podcasts = profile.id |> runtime.links Podcast
-                }
+                { model | showAll = True, links = profile.id |> runtime.links }
     in
         ( newState, Cmd.none )
 

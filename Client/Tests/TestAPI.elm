@@ -1,7 +1,7 @@
 module Tests.TestAPI exposing (..)
 
 import Controls.Login as Login exposing (Model)
-import Domain.Core exposing (..)
+import Domain.Core as Domain exposing (..)
 import String exposing (..)
 
 
@@ -43,6 +43,21 @@ someUrl =
 someImageUrl : Url
 someImageUrl =
     Url "http://www.ngu.edu/myimages/silhouette2230.jpg"
+
+
+contributor1Links : Links
+contributor1Links =
+    Links (answers profileId1) (articles profileId1) (videos profileId1) (podcasts profileId1)
+
+
+contributor2Links : Links
+contributor2Links =
+    Links (answers profileId2) (articles profileId2) (videos profileId2) (podcasts profileId2)
+
+
+contributor3Links : Links
+contributor3Links =
+    Links (answers profileId3) (articles profileId3) (videos profileId3) (podcasts profileId3)
 
 
 someArticleTitle1 : Title
@@ -125,6 +140,21 @@ profile3 =
     Profile profileId3 (Name "Contributor 3") someImageUrl someDescrtiption (profileId3 |> connections) [ someTopic1, someTopic2, someTopic3 ]
 
 
+contributor1 : Contributor
+contributor1 =
+    Contributor profile1 initConnection initNewLinks True topics contributor1Links
+
+
+contributor2 : Contributor
+contributor2 =
+    Contributor profile2 initConnection initNewLinks True topics contributor2Links
+
+
+contributor3 : Contributor
+contributor3 =
+    Contributor profile3 initConnection initNewLinks True topics contributor3Links
+
+
 tryLogin : Login.Model -> Login.Model
 tryLogin credentials =
     let
@@ -137,16 +167,37 @@ tryLogin credentials =
             { username = credentials.username, password = credentials.password, loggedIn = False }
 
 
-contributors : List Profile
-contributors =
-    [ profile1
-    , profile2
-    , profile3
-    ]
+answers : Id -> List Link
+answers id =
+    id |> linksToContent Answer
 
 
-links : ContentType -> Id -> List Link
-links contentType profileId =
+articles : Id -> List Link
+articles id =
+    id |> linksToContent Article
+
+
+videos : Id -> List Link
+videos id =
+    id |> linksToContent Video
+
+
+podcasts : Id -> List Link
+podcasts id =
+    id |> linksToContent Podcast
+
+
+links : Id -> Links
+links id =
+    { answers = id |> linksToContent Answer
+    , articles = id |> linksToContent Article
+    , videos = id |> linksToContent Video
+    , podcasts = id |> linksToContent Podcast
+    }
+
+
+linksToContent : ContentType -> Id -> List Link
+linksToContent contentType profileId =
     case contentType of
         Article ->
             [ Link profile1 someArticleTitle1 someUrl Article [ someTopic1 ]
@@ -190,16 +241,24 @@ suggestedTopics search =
         []
 
 
-contributor : Id -> Maybe Profile
+contributor : Id -> Maybe Contributor
 contributor id =
     if id == profileId1 then
-        Just profile1
+        Just contributor1
     else if id == profileId2 then
-        Just profile2
+        Just contributor2
     else if id == profileId3 then
-        Just profile3
+        Just contributor3
     else
         Nothing
+
+
+contributors : List Contributor
+contributors =
+    [ contributor1
+    , contributor2
+    , contributor3
+    ]
 
 
 topics : List Topic
@@ -210,8 +269,8 @@ topics =
 topicLinks : Topic -> ContentType -> Id -> List Link
 topicLinks topic contentType id =
     id
-        |> links contentType
-        |> List.filter (\a -> a.topics |> List.member topic)
+        |> linksToContent contentType
+        |> List.filter (\l -> l.topics |> List.member topic)
 
 
 connections : Id -> List Connection

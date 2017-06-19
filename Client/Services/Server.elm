@@ -16,19 +16,19 @@ tryLogin credentials =
             { username = credentials.username, password = credentials.password, loggedIn = False }
 
 
-contributors : List Profile
+contributors : List Contributor
 contributors =
     []
 
 
-contributor : Id -> Maybe Profile
+contributor : Id -> Maybe Contributor
 contributor id =
     Nothing
 
 
-links : ContentType -> Id -> List Link
-links profileId contentType =
-    []
+links : Id -> Links
+links profileId =
+    initLinks
 
 
 topicLinks : Topic -> ContentType -> Id -> List Link

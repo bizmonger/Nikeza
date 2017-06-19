@@ -8,11 +8,17 @@ import Domain.Contributor as Contributor exposing (..)
 
 
 type alias Model =
-    { contributor : Contributor.Model, requested : ContributorRequest }
+    { contributor : Contributor
+    , requested : ContributorRequest
+    , newConnection : Connection
+    , newLinks : NewLinks
+    }
 
 
 init : Model
 init =
     { contributor = Contributor.init
-    , requested = Links
+    , requested = ViewLinks
+    , newConnection = initConnection
+    , newLinks = initNewLinks
     }

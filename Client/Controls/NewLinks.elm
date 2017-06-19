@@ -11,11 +11,6 @@ import Json.Decode exposing (map)
 -- MODEL
 
 
-init : Model
-init =
-    { current = initLinkToCreate, canAdd = False, added = [] }
-
-
 type alias Model =
     NewLinks
 

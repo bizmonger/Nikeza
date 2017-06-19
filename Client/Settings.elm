@@ -17,9 +17,9 @@ type Configuration
 
 type alias Dependencies =
     { tryLogin : Loginfunction
-    , contributors : Contributorsfunction
     , contributor : Contributorfunction
-    , links : ContentTypefunction
+    , contributors : Contributorsfunction
+    , links : Linksfunction
     , topicLinks : TopicLinksfunction
     , usernameToId : UserNameToIdfunction
     , connections : Connectionsfunction
@@ -35,8 +35,8 @@ runtime =
         Integration ->
             Dependencies
                 Services.tryLogin
-                Services.contributors
                 Services.contributor
+                Services.contributors
                 Services.links
                 Services.topicLinks
                 Services.usernameToId
@@ -48,8 +48,8 @@ runtime =
         Isolation ->
             Dependencies
                 TestAPI.tryLogin
-                TestAPI.contributors
                 TestAPI.contributor
+                TestAPI.contributors
                 TestAPI.links
                 TestAPI.topicLinks
                 TestAPI.usernameToId

@@ -1,9 +1,11 @@
 module Domain.Contributor exposing (..)
 
 import Domain.Core exposing (..)
-import Controls.AddConnection as AddConnection exposing (..)
-import Controls.NewLinks as NewLinks exposing (..)
 import Settings exposing (..)
+
+
+type alias Model =
+    Contributor
 
 
 init : Model
@@ -12,20 +14,7 @@ init =
         addedLinks =
             NewLinks initLinkToCreate False []
     in
-        Model initProfile initConnection addedLinks True [] [] [] [] []
-
-
-type alias Model =
-    { profile : Profile
-    , newConnection : AddConnection.Model -- TODO: Move to ContributorPortal
-    , newLinks : NewLinks.Model -- TODO: Move to ContributorPortal
-    , showAll : Bool
-    , topics : List Topic
-    , answers : List Link
-    , articles : List Link
-    , videos : List Link
-    , podcasts : List Link
-    }
+        Contributor initProfile initConnection addedLinks True initTopics initLinks
 
 
 getContributor : Profile -> Model
@@ -34,9 +23,6 @@ getContributor p =
     , showAll = True
     , topics = p.topics
     , newConnection = initConnection
-    , newLinks = NewLinks.init
-    , answers = p.id |> runtime.links Answer
-    , articles = p.id |> runtime.links Article
-    , videos = p.id |> runtime.links Video
-    , podcasts = p.id |> runtime.links Podcast
+    , newLinks = initNewLinks
+    , links = p.id |> runtime.links
     }

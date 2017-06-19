@@ -6,6 +6,38 @@ import Controls.Login as Login exposing (Model)
 -- Types
 
 
+initTopics : List Topic
+initTopics =
+    []
+
+
+type alias Links =
+    { answers : List Link
+    , articles : List Link
+    , videos : List Link
+    , podcasts : List Link
+    }
+
+
+initLinks : Links
+initLinks =
+    { answers = []
+    , articles = []
+    , videos = []
+    , podcasts = []
+    }
+
+
+type alias Contributor =
+    { profile : Profile
+    , newConnection : Connection -- TODO: Move to ContributorPortal
+    , newLinks : NewLinks -- TODO: Move to ContributorPortal
+    , showAll : Bool
+    , topics : List Topic
+    , links : Links
+    }
+
+
 type alias Profile =
     { id : Id
     , name : Name
@@ -142,6 +174,11 @@ type alias NewLinks =
     }
 
 
+initNewLinks : NewLinks
+initNewLinks =
+    { current = initLinkToCreate, canAdd = False, added = [] }
+
+
 type alias Connection =
     { platform : String, username : String }
 
@@ -152,8 +189,8 @@ initConnection =
 
 
 type ContributorRequest
-    = Connections
-    | Links
+    = ViewConnections
+    | ViewLinks
     | AddLink
 
 
@@ -165,24 +202,20 @@ type alias Connectionsfunction =
     Id -> List Connection
 
 
+type alias Contributorfunction =
+    Id -> Maybe Contributor
+
+
 type alias Contributorsfunction =
-    List Profile
+    List Contributor
 
 
 type alias Loginfunction =
     Login.Model -> Login.Model
 
 
-type alias Contributorfunction =
-    Id -> Maybe Profile
-
-
-type alias LatestLinksfunction =
-    Id -> ContentType -> List Link
-
-
-type alias ContentTypefunction =
-    ContentType -> Id -> List Link
+type alias Linksfunction =
+    Id -> Links
 
 
 type alias TopicLinksfunction =
@@ -215,14 +248,9 @@ tryLogin loginf username password =
     loginf <| Login.Model username password False
 
 
-latestLinks : LatestLinksfunction -> Id -> ContentType -> List Link
-latestLinks f profileId contentType =
-    f profileId contentType
-
-
-getContent : ContentTypefunction -> Id -> ContentType -> List Link
-getContent f profileId contentType =
-    profileId |> f contentType
+getContent : Linksfunction -> Id -> Links
+getContent f profileId =
+    profileId |> f
 
 
 getLinks : TopicLinksfunction -> Topic -> ContentType -> Id -> List Link

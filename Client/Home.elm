@@ -38,7 +38,7 @@ type alias Model =
     { currentRoute : Navigation.Location
     , login : Login.Model
     , portal : ContributorPortal.Model
-    , contributors : List Profile
+    , contributors : List Contributor
     , selectedContributor : Contributor.Model
     }
 
@@ -50,8 +50,8 @@ init location =
             case tokenizeUrl location.hash of
                 [ "contributor", id ] ->
                     case runtime.contributor <| Id id of
-                        Just p ->
-                            getContributor p
+                        Just c ->
+                            c
 
                         Nothing ->
                             Contributor.init
@@ -114,7 +114,7 @@ update msg model =
                 pendingPortal =
                     model.portal
             in
-                ( { model | portal = { pendingPortal | requested = Domain.Connections } }, Cmd.none )
+                ( { model | portal = { pendingPortal | requested = Domain.ViewConnections } }, Cmd.none )
 
         AddNewLink ->
             let
@@ -128,7 +128,7 @@ update msg model =
                 pendingPortal =
                     model.portal
             in
-                ( { model | portal = { pendingPortal | requested = Domain.Links } }, Cmd.none )
+                ( { model | portal = { pendingPortal | requested = Domain.ViewLinks } }, Cmd.none )
 
         NewConnection subMsg ->
             onNewConnection subMsg model
@@ -172,10 +172,14 @@ onRemove model connection =
             { profile | connections = connectionsLeft }
 
         updatedContributor =
-            { contributor | profile = updatedProfile, newConnection = initConnection }
+            { contributor | profile = updatedProfile }
 
         portal =
-            { contributor = updatedContributor, requested = Links }
+            { contributor = updatedContributor
+            , requested = Domain.ViewLinks
+            , newConnection = initConnection
+            , newLinks = model.portal.newLinks
+            }
 
         newState =
             { model | portal = portal }
@@ -196,7 +200,11 @@ onNewLink subMsg model =
             { contributor | newLinks = newState }
 
         portal =
-            { contributor = updatedContributor, requested = Links }
+            { contributor = updatedContributor
+            , requested = Domain.ViewLinks
+            , newConnection = model.portal.newConnection
+            , newLinks = model.portal.newLinks
+            }
     in
         case subMsg of
             NewLinks.InputTitle _ ->
@@ -218,11 +226,16 @@ onNewLink subMsg model =
                 ( { model | portal = portal }, Cmd.none )
 
             NewLinks.AddLink v ->
-                ( model, Cmd.none )
+                let
+                    newLinks =
+                        { newState | canAdd = True, added = v.current.base :: v.added }
 
-
-
---( { model | contributor = { contributor | newLinks = { newState | canAdd = True, added = v.current.base :: v.added } } }, Cmd.none )
+                    updatedPortal =
+                        { portal | contributor = updatedContributor, newLinks = newLinks }
+                in
+                    ( { model | portal = updatedPortal }
+                    , Cmd.none
+                    )
 
 
 onNewConnection : AddConnection.Msg -> Model -> ( Model, Cmd Msg )
@@ -274,8 +287,8 @@ onNewConnection subMsg model =
 matchContributors : Model -> String -> ( Model, Cmd Msg )
 matchContributors model matchValue =
     let
-        onName profile =
-            profile.name
+        onName contributor =
+            contributor.profile.name
                 |> getName
                 |> toLower
                 |> contains (matchValue |> toLower)
@@ -298,20 +311,19 @@ onLogin model subMsg =
                     login =
                         Login.update subMsg model.login
 
-                    ( contributor, latest ) =
-                        ( pendingPortal.contributor, runtime.tryLogin login )
+                    latest =
+                        runtime.tryLogin login
+
+                    contributorResult =
+                        runtime.contributor <| runtime.usernameToId latest.username
 
                     newState =
-                        case runtime.contributor <| runtime.usernameToId login.username of
-                            Just p ->
-                                let
-                                    updatedProfile =
-                                        { p | connections = p.id |> runtime.connections }
-                                in
-                                    { model
-                                        | login = latest
-                                        , portal = { pendingPortal | contributor = { contributor | profile = updatedProfile } }
-                                    }
+                        case contributorResult of
+                            Just c ->
+                                { model
+                                    | login = latest
+                                    , portal = { pendingPortal | contributor = c }
+                                }
 
                             Nothing ->
                                 { model | login = latest }
@@ -407,7 +419,12 @@ homePage model =
 
         contributorsUI : Html Msg
         contributorsUI =
-            Html.map ProfileThumbnail (div [] (model.contributors |> List.map thumbnail))
+            Html.map ProfileThumbnail <|
+                div []
+                    (model.contributors
+                        |> List.map (\c -> c.profile)
+                        |> List.map thumbnail
+                    )
     in
         div []
             [ header []
@@ -533,7 +550,7 @@ content portal =
             table [] [ div [] (contributor.profile.connections |> List.map connectionUI) ]
     in
         case portal.requested of
-            Domain.Connections ->
+            Domain.ViewConnections ->
                 table []
                     [ tr []
                         [ th [] [ h3 [] [ text "Connections" ] ] ]
@@ -543,7 +560,7 @@ content portal =
                         [ td [] [ connectionsTable ] ]
                     ]
 
-            Domain.Links ->
+            Domain.ViewLinks ->
                 div [] [ Html.map ContributorLinksAction <| ContributorLinks.view contributor ]
 
             Domain.AddLink ->
@@ -614,10 +631,10 @@ dashboardPage model =
                                         ]
                                     ]
                                 ]
-                            , tr [] [ td [] [ p [] [ text model.selectedContributor.profile.bio ] ] ]
+                            , tr [] [ td [] [ p [] [ text contributor.profile.bio ] ] ]
                             ]
                         ]
-                    , td [] [ content model.portal ]
+                    , td [] [ content portal ]
                     ]
                 ]
             ]
@@ -674,19 +691,16 @@ navigate msg model location =
     case tokenizeUrl location.hash of
         [ "contributor", id ] ->
             case runtime.contributor <| Id id of
-                Just profile ->
-                    ( { model | selectedContributor = getContributor profile, currentRoute = location }, Cmd.none )
+                Just c ->
+                    ( { model | selectedContributor = c, currentRoute = location }, Cmd.none )
 
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
 
         [ "contributor", id, topic ] ->
             case runtime.contributor <| Id id of
-                Just profile ->
+                Just contributor ->
                     let
-                        contributor =
-                            getContributor profile
-
                         topicContributor =
                             { contributor | topics = [ Topic topic ] }
                     in
