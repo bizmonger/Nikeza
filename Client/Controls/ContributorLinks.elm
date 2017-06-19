@@ -42,7 +42,7 @@ view : Contributor.Model -> Html Msg
 view model =
     let
         ( profileId, topics ) =
-            ( model.profile.id, model.profile.topics )
+            ( model.profile.id, model.topics )
 
         allTopic =
             Topic "All"

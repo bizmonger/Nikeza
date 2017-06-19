@@ -30,11 +30,17 @@ initLinks =
 
 type alias Contributor =
     { profile : Profile
-    , newConnection : Connection -- TODO: Move to ContributorPortal
-    , newLinks : NewLinks -- TODO: Move to ContributorPortal
     , showAll : Bool
     , topics : List Topic
     , links : Links
+    }
+
+
+type alias ContributorPortal =
+    { contributor : Contributor
+    , requested : ContributorRequest
+    , newConnection : Connection
+    , newLinks : NewLinks
     }
 
 
@@ -44,7 +50,6 @@ type alias Profile =
     , imageUrl : Url
     , bio : String
     , connections : List Connection
-    , topics : List Topic
     }
 
 
@@ -54,7 +59,6 @@ initProfile =
     , name = Name undefined
     , imageUrl = Url undefined
     , bio = undefined
-    , topics = []
     , connections = []
     }
 

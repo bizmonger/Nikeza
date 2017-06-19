@@ -13,9 +13,12 @@ type Msg
     = None
 
 
-thumbnail : Profile -> Html Msg
-thumbnail profile =
+thumbnail : Contributor -> Html Msg
+thumbnail contributor =
     let
+        profile =
+            contributor.profile
+
         formatTopic topic =
             a [ href <| getUrl <| contributorTopicUrl profile.id topic ] [ i [] [ text <| getTopic topic ] ]
 
@@ -28,7 +31,7 @@ thumbnail profile =
                 ]
 
         topics =
-            List.foldr concatTopics (div [] []) (profile.topics |> List.map formatTopic)
+            List.foldr concatTopics (div [] []) (contributor.topics |> List.map formatTopic)
 
         topicsAndBio =
             div []

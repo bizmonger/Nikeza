@@ -14,15 +14,4 @@ init =
         addedLinks =
             NewLinks initLinkToCreate False []
     in
-        Contributor initProfile initConnection addedLinks True initTopics initLinks
-
-
-getContributor : Profile -> Model
-getContributor p =
-    { profile = p
-    , showAll = True
-    , topics = p.topics
-    , newConnection = initConnection
-    , newLinks = initNewLinks
-    , links = p.id |> runtime.links
-    }
+        Contributor initProfile True initTopics initLinks

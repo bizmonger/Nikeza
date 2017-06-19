@@ -21,7 +21,7 @@ type Msg
     | InputTopic String
     | RemoveTopic Topic
     | InputContentType String
-    | AddLink Model
+    | AddLink NewLinks
     | AssociateTopic Topic
 
 

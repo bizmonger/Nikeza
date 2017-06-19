@@ -127,32 +127,32 @@ someDescrtiption =
 
 profile1 : Profile
 profile1 =
-    Profile profileId1 (Name "Contributor 1") someImageUrl someDescrtiption (profileId1 |> connections) [ someTopic1, someTopic2, someTopic3 ]
+    Profile profileId1 (Name "Contributor 1") someImageUrl someDescrtiption (profileId1 |> connections)
 
 
 profile2 : Profile
 profile2 =
-    Profile profileId2 (Name "Contributor 2") someImageUrl someDescrtiption (profileId2 |> connections) [ someTopic1, someTopic2, someTopic3 ]
+    Profile profileId2 (Name "Contributor 2") someImageUrl someDescrtiption (profileId2 |> connections)
 
 
 profile3 : Profile
 profile3 =
-    Profile profileId3 (Name "Contributor 3") someImageUrl someDescrtiption (profileId3 |> connections) [ someTopic1, someTopic2, someTopic3 ]
+    Profile profileId3 (Name "Contributor 3") someImageUrl someDescrtiption (profileId3 |> connections)
 
 
 contributor1 : Contributor
 contributor1 =
-    Contributor profile1 initConnection initNewLinks True topics contributor1Links
+    Contributor profile1 True topics contributor1Links
 
 
 contributor2 : Contributor
 contributor2 =
-    Contributor profile2 initConnection initNewLinks True topics contributor2Links
+    Contributor profile2 True topics contributor2Links
 
 
 contributor3 : Contributor
 contributor3 =
-    Contributor profile3 initConnection initNewLinks True topics contributor3Links
+    Contributor profile3 True topics contributor3Links
 
 
 tryLogin : Login.Model -> Login.Model

@@ -37,9 +37,9 @@ main =
 type alias Model =
     { currentRoute : Navigation.Location
     , login : Login.Model
-    , portal : ContributorPortal.Model
+    , portal : ContributorPortal
     , contributors : List Contributor
-    , selectedContributor : Contributor.Model
+    , selectedContributor : Contributor
     }
 
 
@@ -190,21 +190,17 @@ onRemove model connection =
 onNewLink : NewLinks.Msg -> Model -> ( Model, Cmd Msg )
 onNewLink subMsg model =
     let
+        pendingPortal =
+            model.portal
+
         contributor =
             model.portal.contributor
 
-        newState =
-            NewLinks.update subMsg (contributor.newLinks)
-
-        updatedContributor =
-            { contributor | newLinks = newState }
+        newLinks =
+            NewLinks.update subMsg pendingPortal.newLinks
 
         portal =
-            { contributor = updatedContributor
-            , requested = Domain.ViewLinks
-            , newConnection = model.portal.newConnection
-            , newLinks = model.portal.newLinks
-            }
+            { pendingPortal | newLinks = newLinks }
     in
         case subMsg of
             NewLinks.InputTitle _ ->
@@ -227,11 +223,11 @@ onNewLink subMsg model =
 
             NewLinks.AddLink v ->
                 let
-                    newLinks =
-                        { newState | canAdd = True, added = v.current.base :: v.added }
+                    updatedLinks =
+                        { newLinks | canAdd = True, added = v.current.base :: v.added }
 
                     updatedPortal =
-                        { portal | contributor = updatedContributor, newLinks = newLinks }
+                        { portal | newLinks = updatedLinks }
                 in
                     ( { model | portal = updatedPortal }
                     , Cmd.none
@@ -241,26 +237,17 @@ onNewLink subMsg model =
 onNewConnection : AddConnection.Msg -> Model -> ( Model, Cmd Msg )
 onNewConnection subMsg model =
     let
+        pendingPortal =
+            model.portal
+
         contributor =
             model.portal.contributor
 
         connection =
-            AddConnection.update subMsg contributor.newConnection
-
-        updatedContributor =
-            { contributor | newConnection = connection }
-
-        pendingPortal =
-            model.portal
-
-        updatedPortal =
-            { pendingPortal | contributor = updatedContributor }
-
-        pendingProfile =
-            updatedContributor.profile
+            AddConnection.update subMsg pendingPortal.newConnection
 
         portal =
-            { updatedPortal | contributor = { updatedContributor | profile = pendingProfile } }
+            { pendingPortal | newConnection = connection }
     in
         case subMsg of
             AddConnection.InputUsername _ ->
@@ -271,17 +258,16 @@ onNewConnection subMsg model =
 
             AddConnection.Submit _ ->
                 let
+                    pendingProfile =
+                        contributor.profile
+
                     updatedProfile =
-                        { pendingProfile | connections = connection :: pendingProfile.connections }
+                        { pendingProfile | connections = connection :: contributor.profile.connections }
+
+                    updatedPortal =
+                        { portal | contributor = { contributor | profile = updatedProfile } }
                 in
-                    ( { model
-                        | portal =
-                            { portal
-                                | contributor = { updatedContributor | profile = updatedProfile }
-                            }
-                      }
-                    , Cmd.none
-                    )
+                    ( { model | portal = updatedPortal }, Cmd.none )
 
 
 matchContributors : Model -> String -> ( Model, Cmd Msg )
@@ -420,11 +406,7 @@ homePage model =
         contributorsUI : Html Msg
         contributorsUI =
             Html.map ProfileThumbnail <|
-                div []
-                    (model.contributors
-                        |> List.map (\c -> c.profile)
-                        |> List.map thumbnail
-                    )
+                div [] (model.contributors |> List.map thumbnail)
     in
         div []
             [ header []
@@ -555,7 +537,7 @@ content portal =
                     [ tr []
                         [ th [] [ h3 [] [ text "Connections" ] ] ]
                     , tr []
-                        [ td [] [ Html.map NewConnection <| AddConnection.view contributor.newConnection ] ]
+                        [ td [] [ Html.map NewConnection <| AddConnection.view portal.newConnection ] ]
                     , tr []
                         [ td [] [ connectionsTable ] ]
                     ]
@@ -566,7 +548,7 @@ content portal =
             Domain.AddLink ->
                 let
                     linkSummary =
-                        getLinkSummary contributor
+                        portal |> getLinkSummary
 
                     newLinkEditor =
                         Html.map NewLink (NewLinks.view (linkSummary))
@@ -593,9 +575,9 @@ content portal =
                         ]
 
 
-getLinkSummary : Contributor.Model -> NewLinks.Model
-getLinkSummary contributor =
-    contributor.newLinks
+getLinkSummary : ContributorPortal -> NewLinks
+getLinkSummary portal =
+    portal.newLinks
 
 
 dashboardPage : Model -> Html Msg
@@ -605,7 +587,7 @@ dashboardPage model =
             model.portal.contributor
 
         linkSummary =
-            contributor |> getLinkSummary
+            portal |> getLinkSummary
 
         header =
             [ h2 [] [ text <| "Welcome " ++ getName model.portal.contributor.profile.name ] ]

@@ -9455,13 +9455,17 @@ var _user$project$Domain_Core$Links = F4(
 	function (a, b, c, d) {
 		return {answers: a, articles: b, videos: c, podcasts: d};
 	});
-var _user$project$Domain_Core$Contributor = F6(
-	function (a, b, c, d, e, f) {
-		return {profile: a, newConnection: b, newLinks: c, showAll: d, topics: e, links: f};
+var _user$project$Domain_Core$Contributor = F4(
+	function (a, b, c, d) {
+		return {profile: a, showAll: b, topics: c, links: d};
 	});
-var _user$project$Domain_Core$Profile = F6(
-	function (a, b, c, d, e, f) {
-		return {id: a, name: b, imageUrl: c, bio: d, connections: e, topics: f};
+var _user$project$Domain_Core$ContributorPortal = F4(
+	function (a, b, c, d) {
+		return {contributor: a, requested: b, newConnection: c, newLinks: d};
+	});
+var _user$project$Domain_Core$Profile = F5(
+	function (a, b, c, d, e) {
+		return {id: a, name: b, imageUrl: c, bio: d, connections: e};
 	});
 var _user$project$Domain_Core$Link = F5(
 	function (a, b, c, d, e) {
@@ -9496,7 +9500,6 @@ var _user$project$Domain_Core$initProfile = {
 	name: _user$project$Domain_Core$Name(_user$project$Domain_Core$undefined),
 	imageUrl: _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined),
 	bio: _user$project$Domain_Core$undefined,
-	topics: {ctor: '[]'},
 	connections: {ctor: '[]'}
 };
 var _user$project$Domain_Core$topicUrl = F2(
@@ -9703,68 +9706,29 @@ var _user$project$Tests_TestAPI$suggestedTopics = function (search) {
 		_user$project$Tests_TestAPI$topics) : {ctor: '[]'};
 };
 var _user$project$Tests_TestAPI$profileId3 = _user$project$Domain_Core$Id('profile_3');
-var _user$project$Tests_TestAPI$profile3 = A6(
+var _user$project$Tests_TestAPI$profile3 = A5(
 	_user$project$Domain_Core$Profile,
 	_user$project$Tests_TestAPI$profileId3,
 	_user$project$Domain_Core$Name('Contributor 3'),
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$connections(_user$project$Tests_TestAPI$profileId3),
-	{
-		ctor: '::',
-		_0: _user$project$Tests_TestAPI$someTopic1,
-		_1: {
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$someTopic2,
-			_1: {
-				ctor: '::',
-				_0: _user$project$Tests_TestAPI$someTopic3,
-				_1: {ctor: '[]'}
-			}
-		}
-	});
+	_user$project$Tests_TestAPI$connections(_user$project$Tests_TestAPI$profileId3));
 var _user$project$Tests_TestAPI$profileId2 = _user$project$Domain_Core$Id('profile_2');
-var _user$project$Tests_TestAPI$profile2 = A6(
+var _user$project$Tests_TestAPI$profile2 = A5(
 	_user$project$Domain_Core$Profile,
 	_user$project$Tests_TestAPI$profileId2,
 	_user$project$Domain_Core$Name('Contributor 2'),
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$connections(_user$project$Tests_TestAPI$profileId2),
-	{
-		ctor: '::',
-		_0: _user$project$Tests_TestAPI$someTopic1,
-		_1: {
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$someTopic2,
-			_1: {
-				ctor: '::',
-				_0: _user$project$Tests_TestAPI$someTopic3,
-				_1: {ctor: '[]'}
-			}
-		}
-	});
+	_user$project$Tests_TestAPI$connections(_user$project$Tests_TestAPI$profileId2));
 var _user$project$Tests_TestAPI$profileId1 = _user$project$Domain_Core$Id('profile_1');
-var _user$project$Tests_TestAPI$profile1 = A6(
+var _user$project$Tests_TestAPI$profile1 = A5(
 	_user$project$Domain_Core$Profile,
 	_user$project$Tests_TestAPI$profileId1,
 	_user$project$Domain_Core$Name('Contributor 1'),
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$connections(_user$project$Tests_TestAPI$profileId1),
-	{
-		ctor: '::',
-		_0: _user$project$Tests_TestAPI$someTopic1,
-		_1: {
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$someTopic2,
-			_1: {
-				ctor: '::',
-				_0: _user$project$Tests_TestAPI$someTopic3,
-				_1: {ctor: '[]'}
-			}
-		}
-	});
+	_user$project$Tests_TestAPI$connections(_user$project$Tests_TestAPI$profileId1));
 var _user$project$Tests_TestAPI$linksToContent = F2(
 	function (contentType, profileId) {
 		var _p0 = contentType;
@@ -10011,21 +9975,21 @@ var _user$project$Tests_TestAPI$contributor1Links = A4(
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId1),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId1),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId1));
-var _user$project$Tests_TestAPI$contributor1 = A6(_user$project$Domain_Core$Contributor, _user$project$Tests_TestAPI$profile1, _user$project$Domain_Core$initConnection, _user$project$Domain_Core$initNewLinks, true, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contributor1Links);
+var _user$project$Tests_TestAPI$contributor1 = A4(_user$project$Domain_Core$Contributor, _user$project$Tests_TestAPI$profile1, true, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contributor1Links);
 var _user$project$Tests_TestAPI$contributor2Links = A4(
 	_user$project$Domain_Core$Links,
 	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId2),
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId2),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId2),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId2));
-var _user$project$Tests_TestAPI$contributor2 = A6(_user$project$Domain_Core$Contributor, _user$project$Tests_TestAPI$profile2, _user$project$Domain_Core$initConnection, _user$project$Domain_Core$initNewLinks, true, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contributor2Links);
+var _user$project$Tests_TestAPI$contributor2 = A4(_user$project$Domain_Core$Contributor, _user$project$Tests_TestAPI$profile2, true, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contributor2Links);
 var _user$project$Tests_TestAPI$contributor3Links = A4(
 	_user$project$Domain_Core$Links,
 	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId3),
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId3),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId3),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId3));
-var _user$project$Tests_TestAPI$contributor3 = A6(_user$project$Domain_Core$Contributor, _user$project$Tests_TestAPI$profile3, _user$project$Domain_Core$initConnection, _user$project$Domain_Core$initNewLinks, true, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contributor3Links);
+var _user$project$Tests_TestAPI$contributor3 = A4(_user$project$Domain_Core$Contributor, _user$project$Tests_TestAPI$profile3, true, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contributor3Links);
 var _user$project$Tests_TestAPI$contributors = {
 	ctor: '::',
 	_0: _user$project$Tests_TestAPI$contributor1,
@@ -10261,23 +10225,13 @@ var _user$project$Controls_AddConnection$view = function (model) {
 		});
 };
 
-var _user$project$Domain_Contributor$getContributor = function (p) {
-	return {
-		profile: p,
-		showAll: true,
-		topics: p.topics,
-		newConnection: _user$project$Domain_Core$initConnection,
-		newLinks: _user$project$Domain_Core$initNewLinks,
-		links: _user$project$Settings$runtime.links(p.id)
-	};
-};
 var _user$project$Domain_Contributor$init = function () {
 	var addedLinks = A3(
 		_user$project$Domain_Core$NewLinks,
 		_user$project$Domain_Core$initLinkToCreate,
 		false,
 		{ctor: '[]'});
-	return A6(_user$project$Domain_Core$Contributor, _user$project$Domain_Core$initProfile, _user$project$Domain_Core$initConnection, addedLinks, true, _user$project$Domain_Core$initTopics, _user$project$Domain_Core$initLinks);
+	return A4(_user$project$Domain_Core$Contributor, _user$project$Domain_Core$initProfile, true, _user$project$Domain_Core$initTopics, _user$project$Domain_Core$initLinks);
 }();
 
 var _user$project$Controls_ContributorLinks$toggleAllFilter = F2(
@@ -10524,7 +10478,7 @@ var _user$project$Controls_ContributorLinks$view = function (model) {
 				_1: {ctor: '[]'}
 			}
 		});
-	var _p4 = {ctor: '_Tuple2', _0: model.profile.id, _1: model.profile.topics};
+	var _p4 = {ctor: '_Tuple2', _0: model.profile.id, _1: model.topics};
 	var profileId = _p4._0;
 	var topics = _p4._1;
 	return A2(
@@ -11149,7 +11103,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 		});
 };
 
-var _user$project$Controls_ProfileThumbnail$thumbnail = function (profile) {
+var _user$project$Controls_ProfileThumbnail$thumbnail = function (contributor) {
 	var concatTopics = F2(
 		function (topic1, topic2) {
 			return A2(
@@ -11187,6 +11141,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (profile) {
 					}
 				});
 		});
+	var profile = contributor.profile;
 	var formatTopic = function (topic) {
 		return A2(
 			_elm_lang$html$Html$a,
@@ -11218,7 +11173,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (profile) {
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
 			{ctor: '[]'}),
-		A2(_elm_lang$core$List$map, formatTopic, profile.topics));
+		A2(_elm_lang$core$List$map, formatTopic, contributor.topics));
 	var topicsAndBio = A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -11319,10 +11274,6 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (profile) {
 var _user$project$Controls_ProfileThumbnail$None = {ctor: 'None'};
 
 var _user$project$Domain_ContributorPortal$init = {contributor: _user$project$Domain_Contributor$init, requested: _user$project$Domain_Core$ViewLinks, newConnection: _user$project$Domain_Core$initConnection, newLinks: _user$project$Domain_Core$initNewLinks};
-var _user$project$Domain_ContributorPortal$Model = F4(
-	function (a, b, c, d) {
-		return {contributor: a, requested: b, newConnection: c, newLinks: d};
-	});
 
 var _user$project$Home$tokenizeUrl = function (urlHash) {
 	return A2(
@@ -11469,8 +11420,8 @@ var _user$project$Home$notFoundPage = A2(
 		_0: _elm_lang$html$Html$text('Page not found'),
 		_1: {ctor: '[]'}
 	});
-var _user$project$Home$getLinkSummary = function (contributor) {
-	return contributor.newLinks;
+var _user$project$Home$getLinkSummary = function (portal) {
+	return portal.newLinks;
 };
 var _user$project$Home$contributorTopicPage = function (model) {
 	var profileId = model.profile.id;
@@ -11962,23 +11913,12 @@ var _user$project$Home$matchContributors = F2(
 	});
 var _user$project$Home$onNewConnection = F2(
 	function (subMsg, model) {
-		var pendingPortal = model.portal;
 		var contributor = model.portal.contributor;
-		var connection = A2(_user$project$Controls_AddConnection$update, subMsg, contributor.newConnection);
-		var updatedContributor = _elm_lang$core$Native_Utils.update(
-			contributor,
-			{newConnection: connection});
-		var updatedPortal = _elm_lang$core$Native_Utils.update(
-			pendingPortal,
-			{contributor: updatedContributor});
-		var pendingProfile = updatedContributor.profile;
+		var pendingPortal = model.portal;
+		var connection = A2(_user$project$Controls_AddConnection$update, subMsg, pendingPortal.newConnection);
 		var portal = _elm_lang$core$Native_Utils.update(
-			updatedPortal,
-			{
-				contributor: _elm_lang$core$Native_Utils.update(
-					updatedContributor,
-					{profile: pendingProfile})
-			});
+			pendingPortal,
+			{newConnection: connection});
 		var _p7 = subMsg;
 		switch (_p7.ctor) {
 			case 'InputUsername':
@@ -11998,24 +11938,24 @@ var _user$project$Home$onNewConnection = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
+				var pendingProfile = contributor.profile;
 				var updatedProfile = _elm_lang$core$Native_Utils.update(
 					pendingProfile,
 					{
-						connections: {ctor: '::', _0: connection, _1: pendingProfile.connections}
+						connections: {ctor: '::', _0: connection, _1: contributor.profile.connections}
+					});
+				var updatedPortal = _elm_lang$core$Native_Utils.update(
+					portal,
+					{
+						contributor: _elm_lang$core$Native_Utils.update(
+							contributor,
+							{profile: updatedProfile})
 					});
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{
-							portal: _elm_lang$core$Native_Utils.update(
-								portal,
-								{
-									contributor: _elm_lang$core$Native_Utils.update(
-										updatedContributor,
-										{profile: updatedProfile})
-								})
-						}),
+						{portal: updatedPortal}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 		}
@@ -12023,11 +11963,11 @@ var _user$project$Home$onNewConnection = F2(
 var _user$project$Home$onNewLink = F2(
 	function (subMsg, model) {
 		var contributor = model.portal.contributor;
-		var newState = A2(_user$project$Controls_NewLinks$update, subMsg, contributor.newLinks);
-		var updatedContributor = _elm_lang$core$Native_Utils.update(
-			contributor,
-			{newLinks: newState});
-		var portal = {contributor: updatedContributor, requested: _user$project$Domain_Core$ViewLinks, newConnection: model.portal.newConnection, newLinks: model.portal.newLinks};
+		var pendingPortal = model.portal;
+		var newLinks = A2(_user$project$Controls_NewLinks$update, subMsg, pendingPortal.newLinks);
+		var portal = _elm_lang$core$Native_Utils.update(
+			pendingPortal,
+			{newLinks: newLinks});
 		var _p8 = subMsg;
 		switch (_p8.ctor) {
 			case 'InputTitle':
@@ -12080,15 +12020,15 @@ var _user$project$Home$onNewLink = F2(
 				};
 			default:
 				var _p9 = _p8._0;
-				var newLinks = _elm_lang$core$Native_Utils.update(
-					newState,
+				var updatedLinks = _elm_lang$core$Native_Utils.update(
+					newLinks,
 					{
 						canAdd: true,
 						added: {ctor: '::', _0: _p9.current.base, _1: _p9.added}
 					});
 				var updatedPortal = _elm_lang$core$Native_Utils.update(
 					portal,
-					{contributor: updatedContributor, newLinks: newLinks});
+					{newLinks: updatedLinks});
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
@@ -12375,7 +12315,7 @@ var _user$project$Home$content = function (portal) {
 										_0: A2(
 											_elm_lang$html$Html$map,
 											_user$project$Home$NewConnection,
-											_user$project$Controls_AddConnection$view(contributor.newConnection)),
+											_user$project$Controls_AddConnection$view(portal.newConnection)),
 										_1: {ctor: '[]'}
 									}),
 								_1: {ctor: '[]'}
@@ -12455,7 +12395,7 @@ var _user$project$Home$content = function (portal) {
 						}
 					});
 			};
-			var linkSummary = _user$project$Home$getLinkSummary(contributor);
+			var linkSummary = _user$project$Home$getLinkSummary(portal);
 			var newLinkEditor = A2(
 				_elm_lang$html$Html$map,
 				_user$project$Home$NewLink,
@@ -12552,8 +12492,8 @@ var _user$project$Home$dashboardPage = function (model) {
 			}),
 		_1: {ctor: '[]'}
 	};
+	var linkSummary = _user$project$Home$getLinkSummary(portal);
 	var contributor = model.portal.contributor;
-	var linkSummary = _user$project$Home$getLinkSummary(contributor);
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -12757,15 +12697,7 @@ var _user$project$Home$homePage = function (model) {
 		A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
-			A2(
-				_elm_lang$core$List$map,
-				_user$project$Controls_ProfileThumbnail$thumbnail,
-				A2(
-					_elm_lang$core$List$map,
-					function (c) {
-						return c.profile;
-					},
-					model.contributors))));
+			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, model.contributors)));
 	var loginUI = function (model) {
 		var _p18 = {
 			ctor: '_Tuple3',
