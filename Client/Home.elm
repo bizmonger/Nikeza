@@ -452,39 +452,6 @@ homePage model =
             ]
 
 
-
--- contributorContentTypePage : String -> Contributor.Model -> Html Msg
--- contributorContentTypePage contentTypeText model =
---     let
---         topics =
---             model.profile.topics
---         posts =
---             case contentTypeText |> toContentType of
---                 Answer ->
---                     model.answers
---                 Article ->
---                     model.articles
---                 Podcast ->
---                     model.podcasts
---                 Video ->
---                     model.videos
---                 Unknown ->
---                     []
---                 All ->
---                     []
---     in
---         div []
---             [ h2 [] [ text <| "All " ++ contentTypeText ]
---             , table []
---                 [ tr []
---                     [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
---                     , td [] [ div [] (topics |> List.map toCheckbox) ]
---                     , td [] [ div [] <| List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ]) posts ]
---                     ]
---                 ]
---             ]
-
-
 contributorTopicContentTypePage : Topic -> ContentType -> Contributor.Model -> Html Msg
 contributorTopicContentTypePage topic contentType model =
     let
@@ -657,27 +624,11 @@ notFoundPage =
     div [] [ text "Page not found" ]
 
 
-
--- toCheckbox : Topic -> Html Msg
--- toCheckbox topic =
---     div []
---         [ input [ type_ "checkbox", checked True, onCheck (\b -> ContributorLinks.Toggle ( topic, b )) ] []
---         , label [] [ text <| getTopic topic ]
---         ]
--- TODO: Move LinksUI to some UI module that needs to be created first.
-
-
 linksUI : List Link -> List (Html Msg)
 linksUI links =
     links
         |> List.take 5
         |> List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ])
-
-
-
--- contentUI : Id -> ContentType -> List Link -> List (Html Msg)
--- contentUI profileId contentType links =
---     List.append (linksUI links) [ a [ href <| getUrl <| moreContributorContentUrl profileId contentType ] [ text <| "all", br [] [] ] ]
 
 
 contentWithTopicUI : Id -> ContentType -> Topic -> List Link -> List (Html Msg)
