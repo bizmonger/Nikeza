@@ -2,7 +2,7 @@ module Home exposing (..)
 
 import Settings exposing (runtime)
 import Domain.Core as Domain exposing (..)
-import Domain.ContributorPortal as ContributorPortal exposing (..)
+import Domain.Portal as Portal exposing (..)
 import Domain.Contributor as Contributor exposing (..)
 import Controls.Login as Login exposing (..)
 import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
@@ -62,7 +62,7 @@ init location =
     in
         ( { currentRoute = location
           , login = Login.model
-          , portal = ContributorPortal.init
+          , portal = Portal.init
           , contributors = runtime.contributors
           , selectedContributor = contributor
           }
@@ -519,7 +519,7 @@ connectionUI connection =
         ]
 
 
-content : ContributorPortal.Model -> Html Msg
+content : Portal.Model -> Html Msg
 content portal =
     let
         contributor =

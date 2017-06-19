@@ -1,4 +1,4 @@
-module Domain.ContributorPortal exposing (..)
+module Domain.Portal exposing (..)
 
 import Domain.Core exposing (..)
 import Domain.Contributor as Contributor exposing (..)

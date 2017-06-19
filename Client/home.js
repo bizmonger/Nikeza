@@ -11488,7 +11488,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (contributor) {
 };
 var _user$project$Controls_ProfileThumbnail$None = {ctor: 'None'};
 
-var _user$project$Domain_ContributorPortal$init = {contributor: _user$project$Domain_Core$initContributor, requested: _user$project$Domain_Core$ViewLinks, newConnection: _user$project$Domain_Core$initConnection, newLinks: _user$project$Domain_Core$initNewLinks};
+var _user$project$Domain_Portal$init = {contributor: _user$project$Domain_Core$initContributor, requested: _user$project$Domain_Core$ViewLinks, newConnection: _user$project$Domain_Core$initConnection, newLinks: _user$project$Domain_Core$initNewLinks};
 
 var _user$project$Home$tokenizeUrl = function (urlHash) {
 	return A2(
@@ -12411,7 +12411,7 @@ var _user$project$Home$init = function (location) {
 	}();
 	return {
 		ctor: '_Tuple2',
-		_0: {currentRoute: location, login: _user$project$Controls_Login$model, portal: _user$project$Domain_ContributorPortal$init, contributors: _user$project$Settings$runtime.contributors, selectedContributor: contributor},
+		_0: {currentRoute: location, login: _user$project$Controls_Login$model, portal: _user$project$Domain_Portal$init, contributors: _user$project$Settings$runtime.contributors, selectedContributor: contributor},
 		_1: _elm_lang$core$Platform_Cmd$none
 	};
 };
