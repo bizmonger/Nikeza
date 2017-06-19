@@ -541,8 +541,7 @@ content portal =
 
             Domain.ViewLinks ->
                 div []
-                    [ th [] [ h3 [] [ text "Links" ] ]
-                    , Html.map ContributorLinksAction <| ContributorLinks.view contributor
+                    [ Html.map ContributorLinksAction <| ContributorLinks.view contributor
                     ]
 
             Domain.AddLink ->

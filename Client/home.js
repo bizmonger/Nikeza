@@ -12590,28 +12590,10 @@ var _user$project$Home$content = function (portal) {
 				{
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$th,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$h3,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text('Links'),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$map,
-							_user$project$Home$ContributorLinksAction,
-							_user$project$Controls_ContributorLinks$view(contributor)),
-						_1: {ctor: '[]'}
-					}
+						_elm_lang$html$Html$map,
+						_user$project$Home$ContributorLinksAction,
+						_user$project$Controls_ContributorLinks$view(contributor)),
+					_1: {ctor: '[]'}
 				});
 		default:
 			var addLink = function (l) {
