@@ -3,7 +3,7 @@ module Domain.Core exposing (..)
 import Controls.Login as Login exposing (Model)
 
 
--- Types
+-- TYPES
 
 
 initTopics : List Topic
@@ -253,7 +253,7 @@ type ContentType
 
 
 
--- Functions
+-- FUNCTIONS
 
 
 tryLogin : Loginfunction -> String -> String -> Login.Model
