@@ -2,7 +2,6 @@ module Home exposing (..)
 
 import Settings exposing (runtime)
 import Domain.Core as Domain exposing (..)
-import Domain.Portal as Portal exposing (..)
 import Domain.Contributor as Contributor exposing (..)
 import Controls.Login as Login exposing (..)
 import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
@@ -38,7 +37,7 @@ main =
 type alias Model =
     { currentRoute : Navigation.Location
     , login : Login.Model
-    , portal : ContributorPortal
+    , portal : Portal
     , contributors : List Contributor
     , selectedContributor : Contributor
     }
@@ -62,7 +61,7 @@ init location =
     in
         ( { currentRoute = location
           , login = Login.model
-          , portal = Portal.init
+          , portal = initPortal
           , contributors = runtime.contributors
           , selectedContributor = contributor
           }
@@ -519,7 +518,7 @@ connectionUI connection =
         ]
 
 
-content : Portal.Model -> Html Msg
+content : Portal -> Html Msg
 content portal =
     let
         contributor =
@@ -574,7 +573,7 @@ content portal =
                         ]
 
 
-getLinkSummary : ContributorPortal -> NewLinks
+getLinkSummary : Portal -> NewLinks
 getLinkSummary portal =
     portal.newLinks
 

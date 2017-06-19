@@ -45,11 +45,20 @@ initContributor =
         Contributor initProfile True initTopics initLinks
 
 
-type alias ContributorPortal =
+type alias Portal =
     { contributor : Contributor
     , requested : ContributorRequest
     , newConnection : Connection
     , newLinks : NewLinks
+    }
+
+
+initPortal : Portal
+initPortal =
+    { contributor = initContributor
+    , requested = ViewLinks
+    , newConnection = initConnection
+    , newLinks = initNewLinks
     }
 
 
