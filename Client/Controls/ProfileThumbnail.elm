@@ -13,14 +13,14 @@ type Msg
     = None
 
 
-thumbnail : Contributor -> Html Msg
-thumbnail contributor =
+thumbnail : ContentProvider -> Html Msg
+thumbnail contentProvider =
     let
         profile =
-            contributor.profile
+            contentProvider.profile
 
         formatTopic topic =
-            a [ href <| getUrl <| contributorTopicUrl profile.id topic ] [ i [] [ text <| getTopic topic ] ]
+            a [ href <| getUrl <| contentProviderTopicUrl profile.id topic ] [ i [] [ text <| getTopic topic ] ]
 
         concatTopics topic1 topic2 =
             span []
@@ -31,7 +31,7 @@ thumbnail contributor =
                 ]
 
         topics =
-            List.foldr concatTopics (div [] []) (contributor.topics |> List.map formatTopic)
+            List.foldr concatTopics (div [] []) (contentProvider.topics |> List.map formatTopic)
 
         topicsAndBio =
             div []
@@ -44,7 +44,7 @@ thumbnail contributor =
             [ table []
                 [ tr []
                     [ td []
-                        [ a [ href <| getUrl <| contributorUrl profile.id ]
+                        [ a [ href <| getUrl <| contentProviderUrl profile.id ]
                             [ img [ src <| getUrl profile.imageUrl, width 50, height 50 ] [] ]
                         ]
                     , td [] [ topicsAndBio ]

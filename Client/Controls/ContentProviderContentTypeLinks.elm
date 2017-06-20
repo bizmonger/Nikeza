@@ -1,4 +1,4 @@
-module Controls.ContributorContentTypeLinks exposing (..)
+module Controls.ContentProviderContentTypeLinks exposing (..)
 
 import Settings exposing (..)
 import Domain.Core exposing (..)
@@ -8,7 +8,7 @@ import Html.Events exposing (onClick, onCheck, onInput)
 
 
 type alias Model =
-    Contributor
+    ContentProvider
 
 
 
@@ -112,13 +112,13 @@ toggleFilter model ( topic, include ) =
 toggleAllFilter : Model -> Bool -> ( Model, Cmd Msg )
 toggleAllFilter model include =
     let
-        contributor =
+        contentProvider =
             model
 
         newState =
             if not include then
-                { contributor | showAll = False, links = initLinks }
+                { contentProvider | showAll = False, links = initLinks }
             else
-                { contributor | showAll = True, links = contributor.profile.id |> runtime.links }
+                { contentProvider | showAll = True, links = contentProvider.profile.id |> runtime.links }
     in
         ( newState, Cmd.none )

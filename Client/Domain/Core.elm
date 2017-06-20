@@ -28,7 +28,7 @@ initLinks =
     }
 
 
-type alias Contributor =
+type alias ContentProvider =
     { profile : Profile
     , showAll : Bool
     , topics : List Topic
@@ -36,18 +36,18 @@ type alias Contributor =
     }
 
 
-initContributor : Contributor
-initContributor =
+initContentProvider : ContentProvider
+initContentProvider =
     let
         addedLinks =
             NewLinks initLinkToCreate False []
     in
-        Contributor initProfile True initTopics initLinks
+        ContentProvider initProfile True initTopics initLinks
 
 
 type alias Portal =
-    { contributor : Contributor
-    , requested : ContributorRequest
+    { contentProvider : ContentProvider
+    , requested : ContentProviderRequest
     , newConnection : Connection
     , newLinks : NewLinks
     }
@@ -55,7 +55,7 @@ type alias Portal =
 
 initPortal : Portal
 initPortal =
-    { contributor = initContributor
+    { contentProvider = initContentProvider
     , requested = ViewLinks
     , newConnection = initConnection
     , newLinks = initNewLinks
@@ -210,7 +210,7 @@ initConnection =
     { platform = "", username = "" }
 
 
-type ContributorRequest
+type ContentProviderRequest
     = ViewConnections
     | ViewLinks
     | AddLink
@@ -240,12 +240,12 @@ type alias RemoveLinkfunction =
     Id -> Link -> Result String Links
 
 
-type alias Contributorfunction =
-    Id -> Maybe Contributor
+type alias ContentProviderfunction =
+    Id -> Maybe ContentProvider
 
 
-type alias Contributorsfunction =
-    List Contributor
+type alias ContentProvidersfunction =
+    List ContentProvider
 
 
 type alias Loginfunction =
@@ -306,14 +306,14 @@ topicUrl id topic =
     Url undefined
 
 
-contributorTopicUrl : Id -> Topic -> Url
-contributorTopicUrl id topic =
-    Url <| "/#/contributor/" ++ getId id ++ "/" ++ getTopic topic
+contentProviderTopicUrl : Id -> Topic -> Url
+contentProviderTopicUrl id topic =
+    Url <| "/#/contentProvider/" ++ getId id ++ "/" ++ getTopic topic
 
 
-contributorUrl : Id -> Url
-contributorUrl id =
-    Url <| "/#/contributor/" ++ getId id
+contentProviderUrl : Id -> Url
+contentProviderUrl id =
+    Url <| "/#/contentProvider/" ++ getId id
 
 
 toContentType : String -> ContentType
@@ -372,11 +372,11 @@ contentTypeToText contentType =
             ""
 
 
-moreContributorContentUrl : Id -> ContentType -> Url
-moreContributorContentUrl id contentType =
-    Url <| "/#/contributor/" ++ getId id ++ "/all/" ++ (contentType |> contentTypeToText)
+moreContentProviderContentUrl : Id -> ContentType -> Url
+moreContentProviderContentUrl id contentType =
+    Url <| "/#/contentProvider/" ++ getId id ++ "/all/" ++ (contentType |> contentTypeToText)
 
 
-moreContributorContentOnTopicUrl : Id -> ContentType -> Topic -> Url
-moreContributorContentOnTopicUrl id contentType topic =
-    Url <| "/#/contributor/" ++ getId id ++ "/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)
+moreContentProviderContentOnTopicUrl : Id -> ContentType -> Topic -> Url
+moreContentProviderContentOnTopicUrl id contentType topic =
+    Url <| "/#/contentProvider/" ++ getId id ++ "/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)

@@ -16,13 +16,13 @@ tryLogin credentials =
             { username = credentials.username, password = credentials.password, loggedIn = False }
 
 
-contributors : List Contributor
-contributors =
+contentProviders : List ContentProvider
+contentProviders =
     []
 
 
-contributor : Id -> Maybe Contributor
-contributor id =
+contentProvider : Id -> Maybe ContentProvider
+contentProvider id =
     Nothing
 
 

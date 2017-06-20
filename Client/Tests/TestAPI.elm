@@ -45,18 +45,18 @@ someImageUrl =
     Url "http://www.ngu.edu/myimages/silhouette2230.jpg"
 
 
-contributor1Links : Links
-contributor1Links =
+contentProvider1Links : Links
+contentProvider1Links =
     Links (answers profileId1) (articles profileId1) (videos profileId1) (podcasts profileId1)
 
 
-contributor2Links : Links
-contributor2Links =
+contentProvider2Links : Links
+contentProvider2Links =
     Links (answers profileId2) (articles profileId2) (videos profileId2) (podcasts profileId2)
 
 
-contributor3Links : Links
-contributor3Links =
+contentProvider3Links : Links
+contentProvider3Links =
     Links (answers profileId3) (articles profileId3) (videos profileId3) (podcasts profileId3)
 
 
@@ -127,32 +127,32 @@ someDescrtiption =
 
 profile1 : Profile
 profile1 =
-    Profile profileId1 (Name "Contributor 1") someImageUrl someDescrtiption (profileId1 |> connections)
+    Profile profileId1 (Name "ContentProvider 1") someImageUrl someDescrtiption (profileId1 |> connections)
 
 
 profile2 : Profile
 profile2 =
-    Profile profileId2 (Name "Contributor 2") someImageUrl someDescrtiption (profileId2 |> connections)
+    Profile profileId2 (Name "ContentProvider 2") someImageUrl someDescrtiption (profileId2 |> connections)
 
 
 profile3 : Profile
 profile3 =
-    Profile profileId3 (Name "Contributor 3") someImageUrl someDescrtiption (profileId3 |> connections)
+    Profile profileId3 (Name "ContentProvider 3") someImageUrl someDescrtiption (profileId3 |> connections)
 
 
-contributor1 : Contributor
-contributor1 =
-    Contributor profile1 True topics contributor1Links
+contentProvider1 : ContentProvider
+contentProvider1 =
+    ContentProvider profile1 True topics contentProvider1Links
 
 
-contributor2 : Contributor
-contributor2 =
-    Contributor profile2 True topics contributor2Links
+contentProvider2 : ContentProvider
+contentProvider2 =
+    ContentProvider profile2 True topics contentProvider2Links
 
 
-contributor3 : Contributor
-contributor3 =
-    Contributor profile3 True topics contributor3Links
+contentProvider3 : ContentProvider
+contentProvider3 =
+    ContentProvider profile3 True topics contentProvider3Links
 
 
 
@@ -313,23 +313,23 @@ suggestedTopics search =
         []
 
 
-contributor : Id -> Maybe Contributor
-contributor id =
+contentProvider : Id -> Maybe ContentProvider
+contentProvider id =
     if id == profileId1 then
-        Just contributor1
+        Just contentProvider1
     else if id == profileId2 then
-        Just contributor2
+        Just contentProvider2
     else if id == profileId3 then
-        Just contributor3
+        Just contentProvider3
     else
         Nothing
 
 
-contributors : List Contributor
-contributors =
-    [ contributor1
-    , contributor2
-    , contributor3
+contentProviders : List ContentProvider
+contentProviders =
+    [ contentProvider1
+    , contentProvider2
+    , contentProvider3
     ]
 
 

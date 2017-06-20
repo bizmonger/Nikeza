@@ -1,8 +1,8 @@
-module Controls.ContributorLinks exposing (..)
+module Controls.ContentProviderLinks exposing (..)
 
 import Settings exposing (..)
 import Domain.Core exposing (..)
-import Domain.Contributor as Contributor exposing (..)
+import Domain.ContentProvider as ContentProvider exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
@@ -12,7 +12,7 @@ import Html.Events exposing (onClick, onCheck, onInput)
 
 
 type alias Model =
-    Contributor.Model
+    ContentProvider.Model
 
 
 
@@ -38,7 +38,7 @@ update msg model =
 -- VIEW
 
 
-view : Contributor.Model -> Html Msg
+view : ContentProvider.Model -> Html Msg
 view model =
     let
         ( profileId, topics ) =
@@ -86,7 +86,7 @@ view model =
 
 contentUI : Id -> ContentType -> List Link -> List (Html Msg)
 contentUI profileId contentType links =
-    List.append (linksUI links) [ a [ href <| getUrl <| moreContributorContentUrl profileId contentType ] [ text <| "all", br [] [] ] ]
+    List.append (linksUI links) [ a [ href <| getUrl <| moreContentProviderContentUrl profileId contentType ] [ text <| "all", br [] [] ] ]
 
 
 linksUI : List Link -> List (Html Msg)
@@ -96,7 +96,7 @@ linksUI links =
         |> List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ])
 
 
-toggleFilter : Contributor.Model -> ( Topic, Bool ) -> ( Contributor.Model, Cmd Msg )
+toggleFilter : ContentProvider.Model -> ( Topic, Bool ) -> ( ContentProvider.Model, Cmd Msg )
 toggleFilter model ( topic, include ) =
     let
         toggleTopic contentType links =
@@ -122,7 +122,7 @@ toggleFilter model ( topic, include ) =
         ( newState, Cmd.none )
 
 
-toggleAllFilter : Contributor.Model -> Bool -> ( Contributor.Model, Cmd Msg )
+toggleAllFilter : ContentProvider.Model -> Bool -> ( ContentProvider.Model, Cmd Msg )
 toggleAllFilter model include =
     let
         profile =

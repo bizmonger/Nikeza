@@ -17,8 +17,8 @@ type Configuration
 
 type alias Dependencies =
     { tryLogin : Loginfunction
-    , contributor : Contributorfunction
-    , contributors : Contributorsfunction
+    , contentProvider : ContentProviderfunction
+    , contentProviders : ContentProvidersfunction
     , links : Linksfunction
     , addLink : AddLinkfunction
     , removeLink : RemoveLinkfunction
@@ -39,8 +39,8 @@ runtime =
         Integration ->
             Dependencies
                 Services.tryLogin
-                Services.contributor
-                Services.contributors
+                Services.contentProvider
+                Services.contentProviders
                 Services.links
                 Services.addLink
                 Services.removeLink
@@ -56,8 +56,8 @@ runtime =
         Isolation ->
             Dependencies
                 TestAPI.tryLogin
-                TestAPI.contributor
-                TestAPI.contributors
+                TestAPI.contentProvider
+                TestAPI.contentProviders
                 TestAPI.links
                 TestAPI.addLink
                 TestAPI.removeLink

@@ -2,13 +2,13 @@ module Home exposing (..)
 
 import Settings exposing (runtime)
 import Domain.Core as Domain exposing (..)
-import Domain.Contributor as Contributor exposing (..)
+import Domain.ContentProvider as ContentProvider exposing (..)
 import Controls.Login as Login exposing (..)
 import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
 import Controls.AddConnection as AddConnection exposing (..)
 import Controls.NewLinks as NewLinks exposing (..)
-import Controls.ContributorLinks as ContributorLinks exposing (..)
-import Controls.ContributorContentTypeLinks as ContributorContentTypeLinks exposing (..)
+import Controls.ContentProviderLinks as ContentProviderLinks exposing (..)
+import Controls.ContentProviderContentTypeLinks as ContentProviderContentTypeLinks exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
@@ -38,32 +38,32 @@ type alias Model =
     { currentRoute : Navigation.Location
     , login : Login.Model
     , portal : Portal
-    , contributors : List Contributor
-    , selectedContributor : Contributor
+    , contentProviders : List ContentProvider
+    , selectedContentProvider : ContentProvider
     }
 
 
 init : Navigation.Location -> ( Model, Cmd Msg )
 init location =
     let
-        contributor =
+        contentProvider =
             case tokenizeUrl location.hash of
-                [ "contributor", id ] ->
-                    case runtime.contributor <| Id id of
+                [ "contentProvider", id ] ->
+                    case runtime.contentProvider <| Id id of
                         Just c ->
                             c
 
                         Nothing ->
-                            initContributor
+                            initContentProvider
 
                 _ ->
-                    initContributor
+                    initContentProvider
     in
         ( { currentRoute = location
           , login = Login.model
           , portal = initPortal
-          , contributors = runtime.contributors
-          , selectedContributor = contributor
+          , contentProviders = runtime.contentProviders
+          , selectedContentProvider = contentProvider
           }
         , Cmd.none
         )
@@ -83,9 +83,9 @@ type Msg
     | AddNewLink
     | ViewLinks
     | NewLink NewLinks.Msg
-    | ContributorLinksAction ContributorLinks.Msg
-    | PortalLinksAction ContributorLinks.Msg
-    | ContributorContentTypeLinksAction ContributorContentTypeLinks.Msg
+    | ContentProviderLinksAction ContentProviderLinks.Msg
+    | PortalLinksAction ContentProviderLinks.Msg
+    | ContentProviderContentTypeLinksAction ContentProviderContentTypeLinks.Msg
     | Search String
     | Register
 
@@ -100,10 +100,10 @@ update msg model =
             onLogin model subMsg
 
         Search "" ->
-            ( { model | contributors = runtime.contributors }, Cmd.none )
+            ( { model | contentProviders = runtime.contentProviders }, Cmd.none )
 
         Search text ->
-            text |> matchContributors model
+            text |> matchContentProviders model
 
         Register ->
             ( model, Cmd.none )
@@ -141,69 +141,69 @@ update msg model =
         NewLink subMsg ->
             onNewLink subMsg model
 
-        ContributorLinksAction subMsg ->
+        ContentProviderLinksAction subMsg ->
             case subMsg of
-                ContributorLinks.ToggleAll _ ->
+                ContentProviderLinks.ToggleAll _ ->
                     let
-                        ( contributor, _ ) =
-                            ContributorLinks.update subMsg model.selectedContributor
+                        ( contentProvider, _ ) =
+                            ContentProviderLinks.update subMsg model.selectedContentProvider
                     in
-                        ( { model | selectedContributor = contributor }, Cmd.none )
+                        ( { model | selectedContentProvider = contentProvider }, Cmd.none )
 
-                ContributorLinks.Toggle _ ->
+                ContentProviderLinks.Toggle _ ->
                     let
-                        ( contributor, _ ) =
-                            ContributorLinks.update subMsg model.selectedContributor
+                        ( contentProvider, _ ) =
+                            ContentProviderLinks.update subMsg model.selectedContentProvider
                     in
-                        ( { model | selectedContributor = contributor }, Cmd.none )
+                        ( { model | selectedContentProvider = contentProvider }, Cmd.none )
 
         PortalLinksAction subMsg ->
             case subMsg of
-                ContributorLinks.ToggleAll _ ->
+                ContentProviderLinks.ToggleAll _ ->
                     let
-                        ( contributor, _ ) =
-                            ContributorLinks.update subMsg model.portal.contributor
+                        ( contentProvider, _ ) =
+                            ContentProviderLinks.update subMsg model.portal.contentProvider
 
                         pendingPortal =
                             model.portal
                     in
-                        ( { model | portal = { pendingPortal | contributor = contributor } }, Cmd.none )
+                        ( { model | portal = { pendingPortal | contentProvider = contentProvider } }, Cmd.none )
 
-                ContributorLinks.Toggle _ ->
+                ContentProviderLinks.Toggle _ ->
                     let
-                        ( contributor, _ ) =
-                            ContributorLinks.update subMsg model.portal.contributor
+                        ( contentProvider, _ ) =
+                            ContentProviderLinks.update subMsg model.portal.contentProvider
 
                         pendingPortal =
                             model.portal
                     in
-                        ( { model | portal = { pendingPortal | contributor = contributor } }, Cmd.none )
+                        ( { model | portal = { pendingPortal | contentProvider = contentProvider } }, Cmd.none )
 
-        ContributorContentTypeLinksAction subMsg ->
+        ContentProviderContentTypeLinksAction subMsg ->
             case subMsg of
-                ContributorContentTypeLinks.ToggleAll _ ->
+                ContentProviderContentTypeLinks.ToggleAll _ ->
                     let
-                        ( contributor, _ ) =
-                            ContributorContentTypeLinks.update subMsg model.selectedContributor
+                        ( contentProvider, _ ) =
+                            ContentProviderContentTypeLinks.update subMsg model.selectedContentProvider
                     in
-                        ( { model | selectedContributor = contributor }, Cmd.none )
+                        ( { model | selectedContentProvider = contentProvider }, Cmd.none )
 
-                ContributorContentTypeLinks.Toggle _ ->
+                ContentProviderContentTypeLinks.Toggle _ ->
                     let
-                        ( contributor, _ ) =
-                            ContributorContentTypeLinks.update subMsg model.selectedContributor
+                        ( contentProvider, _ ) =
+                            ContentProviderContentTypeLinks.update subMsg model.selectedContentProvider
                     in
-                        ( { model | selectedContributor = contributor }, Cmd.none )
+                        ( { model | selectedContentProvider = contentProvider }, Cmd.none )
 
 
 onRemove : Model -> Connection -> ( Model, Cmd Msg )
 onRemove model connection =
     let
-        contributor =
-            model.portal.contributor
+        contentProvider =
+            model.portal.contentProvider
 
         profile =
-            contributor.profile
+            contentProvider.profile
 
         connectionsLeft =
             profile.connections |> List.filter (\c -> c /= connection)
@@ -211,11 +211,11 @@ onRemove model connection =
         updatedProfile =
             { profile | connections = connectionsLeft }
 
-        updatedContributor =
-            { contributor | profile = updatedProfile }
+        updatedContentProvider =
+            { contentProvider | profile = updatedProfile }
 
         portal =
-            { contributor = updatedContributor
+            { contentProvider = updatedContentProvider
             , requested = Domain.ViewLinks
             , newConnection = initConnection
             , newLinks = model.portal.newLinks
@@ -233,8 +233,8 @@ onNewLink subMsg model =
         pendingPortal =
             model.portal
 
-        contributor =
-            model.portal.contributor
+        contentProvider =
+            model.portal.contentProvider
 
         newLinks =
             NewLinks.update subMsg pendingPortal.newLinks
@@ -280,8 +280,8 @@ onNewConnection subMsg model =
         pendingPortal =
             model.portal
 
-        contributor =
-            model.portal.contributor
+        contentProvider =
+            model.portal.contentProvider
 
         connection =
             AddConnection.update subMsg pendingPortal.newConnection
@@ -299,30 +299,30 @@ onNewConnection subMsg model =
             AddConnection.Submit _ ->
                 let
                     pendingProfile =
-                        contributor.profile
+                        contentProvider.profile
 
                     updatedProfile =
-                        { pendingProfile | connections = connection :: contributor.profile.connections }
+                        { pendingProfile | connections = connection :: contentProvider.profile.connections }
 
                     updatedPortal =
-                        { portal | contributor = { contributor | profile = updatedProfile } }
+                        { portal | contentProvider = { contentProvider | profile = updatedProfile } }
                 in
                     ( { model | portal = updatedPortal }, Cmd.none )
 
 
-matchContributors : Model -> String -> ( Model, Cmd Msg )
-matchContributors model matchValue =
+matchContentProviders : Model -> String -> ( Model, Cmd Msg )
+matchContentProviders model matchValue =
     let
-        onName contributor =
-            contributor.profile.name
+        onName contentProvider =
+            contentProvider.profile.name
                 |> getName
                 |> toLower
                 |> contains (matchValue |> toLower)
 
         filtered =
-            runtime.contributors |> List.filter onName
+            runtime.contentProviders |> List.filter onName
     in
-        ( { model | contributors = filtered }, Cmd.none )
+        ( { model | contentProviders = filtered }, Cmd.none )
 
 
 onLogin : Model -> Login.Msg -> ( Model, Cmd Msg )
@@ -340,22 +340,22 @@ onLogin model subMsg =
                     latest =
                         runtime.tryLogin login
 
-                    contributorResult =
-                        runtime.contributor <| runtime.usernameToId latest.username
+                    contentProviderResult =
+                        runtime.contentProvider <| runtime.usernameToId latest.username
 
                     newState =
-                        case contributorResult of
-                            Just contributor ->
+                        case contentProviderResult of
+                            Just contentProvider ->
                                 { model
                                     | login = latest
-                                    , portal = { pendingPortal | contributor = contributor }
+                                    , portal = { pendingPortal | contentProvider = contentProvider }
                                 }
 
                             Nothing ->
                                 { model | login = latest }
                 in
                     if newState.login.loggedIn then
-                        ( newState, Navigation.load <| "/#/" ++ getId newState.portal.contributor.profile.id ++ "/dashboard" )
+                        ( newState, Navigation.load <| "/#/" ++ getId newState.portal.contentProvider.profile.id ++ "/dashboard" )
                     else
                         ( newState, Cmd.none )
 
@@ -379,48 +379,48 @@ view model =
         [ "home" ] ->
             homePage model
 
-        [ "contributor", id ] ->
-            case runtime.contributor <| Id id of
+        [ "contentProvider", id ] ->
+            case runtime.contentProvider <| Id id of
                 Just _ ->
                     table []
                         [ tr []
-                            [ td [] [ img [ src <| getUrl <| model.selectedContributor.profile.imageUrl, width 100, height 100 ] [] ]
-                            , td [] [ Html.map ContributorLinksAction <| ContributorLinks.view model.selectedContributor ]
+                            [ td [] [ img [ src <| getUrl <| model.selectedContentProvider.profile.imageUrl, width 100, height 100 ] [] ]
+                            , td [] [ Html.map ContentProviderLinksAction <| ContentProviderLinks.view model.selectedContentProvider ]
                             ]
-                        , tr [] [ td [] [ text <| getName model.selectedContributor.profile.name ] ]
-                        , tr [] [ td [] [ p [] [ text model.selectedContributor.profile.bio ] ] ]
+                        , tr [] [ td [] [ text <| getName model.selectedContentProvider.profile.name ] ]
+                        , tr [] [ td [] [ p [] [ text model.selectedContentProvider.profile.bio ] ] ]
                         ]
 
                 Nothing ->
                     notFoundPage
 
-        [ "contributor", id, topic ] ->
-            case runtime.contributor <| Id id of
+        [ "contentProvider", id, topic ] ->
+            case runtime.contentProvider <| Id id of
                 Just _ ->
-                    contributorTopicPage model.selectedContributor
+                    contentProviderTopicPage model.selectedContentProvider
 
                 Nothing ->
                     notFoundPage
 
-        [ "contributor", id, "all", contentType ] ->
-            case runtime.contributor <| Id id of
+        [ "contentProvider", id, "all", contentType ] ->
+            case runtime.contentProvider <| Id id of
                 Just _ ->
                     table []
                         [ tr []
-                            [ td [] [ img [ src <| getUrl <| model.selectedContributor.profile.imageUrl, width 100, height 100 ] [] ]
-                            , td [] [ Html.map ContributorContentTypeLinksAction <| ContributorContentTypeLinks.view model.selectedContributor <| toContentType contentType ]
+                            [ td [] [ img [ src <| getUrl <| model.selectedContentProvider.profile.imageUrl, width 100, height 100 ] [] ]
+                            , td [] [ Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.selectedContentProvider <| toContentType contentType ]
                             ]
-                        , tr [] [ td [] [ text <| getName model.selectedContributor.profile.name ] ]
-                        , tr [] [ td [] [ p [] [ text model.selectedContributor.profile.bio ] ] ]
+                        , tr [] [ td [] [ text <| getName model.selectedContentProvider.profile.name ] ]
+                        , tr [] [ td [] [ p [] [ text model.selectedContentProvider.profile.bio ] ] ]
                         ]
 
                 Nothing ->
                     notFoundPage
 
-        [ "contributor", id, topic, "all", contentType ] ->
-            case runtime.contributor <| Id id of
-                Just contributor ->
-                    contributorTopicContentTypePage (Topic topic) (toContentType contentType) contributor
+        [ "contentProvider", id, topic, "all", contentType ] ->
+            case runtime.contentProvider <| Id id of
+                Just contentProvider ->
+                    contentProviderTopicContentTypePage (Topic topic) (toContentType contentType) contentProvider
 
                 Nothing ->
                     notFoundPage
@@ -449,10 +449,10 @@ homePage model =
                 else
                     div [ class "signin" ] [ welcome, signout ]
 
-        contributorsUI : Html Msg
-        contributorsUI =
+        contentProvidersUI : Html Msg
+        contentProvidersUI =
             Html.map ProfileThumbnail <|
-                div [] (model.contributors |> List.map thumbnail)
+                div [] (model.contentProviders |> List.map thumbnail)
     in
         div []
             [ header []
@@ -460,7 +460,7 @@ homePage model =
                 , model |> loginUI
                 ]
             , input [ type_ "text", placeholder "name", onInput Search ] []
-            , div [] [ contributorsUI ]
+            , div [] [ contentProvidersUI ]
             , footer [ class "copyright" ]
                 [ label [] [ text "(c)2017" ]
                 , a [ href "" ] [ text "GitHub" ]
@@ -468,8 +468,8 @@ homePage model =
             ]
 
 
-contributorTopicContentTypePage : Topic -> ContentType -> Contributor.Model -> Html Msg
-contributorTopicContentTypePage topic contentType model =
+contentProviderTopicContentTypePage : Topic -> ContentType -> ContentProvider.Model -> Html Msg
+contentProviderTopicContentTypePage topic contentType model =
     let
         profileId =
             model.profile.id
@@ -489,8 +489,8 @@ contributorTopicContentTypePage topic contentType model =
             ]
 
 
-contributorTopicPage : Contributor.Model -> Html Msg
-contributorTopicPage model =
+contentProviderTopicPage : ContentProvider.Model -> Html Msg
+contentProviderTopicPage model =
     let
         profileId =
             model.profile.id
@@ -538,11 +538,11 @@ connectionUI connection =
 content : Model -> Html Msg
 content model =
     let
-        contributor =
-            model.portal.contributor
+        contentProvider =
+            model.portal.contentProvider
 
         connectionsTable =
-            table [] [ div [] (contributor.profile.connections |> List.map connectionUI) ]
+            table [] [ div [] (contentProvider.profile.connections |> List.map connectionUI) ]
     in
         case model.portal.requested of
             Domain.ViewConnections ->
@@ -557,7 +557,7 @@ content model =
 
             Domain.ViewLinks ->
                 div []
-                    [ Html.map PortalLinksAction <| ContributorLinks.view model.portal.contributor ]
+                    [ Html.map PortalLinksAction <| ContentProviderLinks.view model.portal.contentProvider ]
 
             Domain.AddLink ->
                 let
@@ -601,7 +601,7 @@ dashboardPage model =
             portal |> getLinkSummary
 
         header =
-            [ h2 [] [ text <| "Welcome " ++ getName model.portal.contributor.profile.name ] ]
+            [ h2 [] [ text <| "Welcome " ++ getName model.portal.contentProvider.profile.name ] ]
 
         portal =
             model.portal
@@ -613,7 +613,7 @@ dashboardPage model =
                         [ table []
                             [ tr [] [ th [] header ]
                             , tr []
-                                [ td [] [ img [ src <| getUrl <| model.portal.contributor.profile.imageUrl, width 100, height 100 ] [] ]
+                                [ td [] [ img [ src <| getUrl <| model.portal.contentProvider.profile.imageUrl, width 100, height 100 ] [] ]
                                 , td []
                                     [ div []
                                         [ button [ onClick ViewConnections ] [ text "Connections" ]
@@ -629,7 +629,7 @@ dashboardPage model =
                                         ]
                                     ]
                                 ]
-                            , tr [] [ td [] [ p [] [ text model.portal.contributor.profile.bio ] ] ]
+                            , tr [] [ td [] [ p [] [ text model.portal.contentProvider.profile.bio ] ] ]
                             ]
                         ]
                     , td [] [ content model ]
@@ -652,7 +652,7 @@ linksUI links =
 
 contentWithTopicUI : Id -> ContentType -> Topic -> List Link -> List (Html Msg)
 contentWithTopicUI profileId contentType topic links =
-    List.append (linksUI links) [ a [ href <| getUrl <| moreContributorContentOnTopicUrl profileId contentType topic ] [ text <| "all", br [] [] ] ]
+    List.append (linksUI links) [ a [ href <| getUrl <| moreContentProviderContentOnTopicUrl profileId contentType topic ] [ text <| "all", br [] [] ] ]
 
 
 
@@ -671,22 +671,22 @@ tokenizeUrl urlHash =
 navigate : Msg -> Model -> Location -> ( Model, Cmd Msg )
 navigate msg model location =
     case tokenizeUrl location.hash of
-        [ "contributor", id ] ->
-            case runtime.contributor <| Id id of
+        [ "contentProvider", id ] ->
+            case runtime.contentProvider <| Id id of
                 Just c ->
-                    ( { model | selectedContributor = c, currentRoute = location }, Cmd.none )
+                    ( { model | selectedContentProvider = c, currentRoute = location }, Cmd.none )
 
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
 
-        [ "contributor", id, topic ] ->
-            case runtime.contributor <| Id id of
-                Just contributor ->
+        [ "contentProvider", id, topic ] ->
+            case runtime.contentProvider <| Id id of
+                Just contentProvider ->
                     let
-                        topicContributor =
-                            { contributor | topics = [ Topic topic ] }
+                        topicContentProvider =
+                            { contentProvider | topics = [ Topic topic ] }
                     in
-                        ( { model | selectedContributor = topicContributor, currentRoute = location }, Cmd.none )
+                        ( { model | selectedContentProvider = topicContentProvider, currentRoute = location }, Cmd.none )
 
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
