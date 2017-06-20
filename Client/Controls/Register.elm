@@ -9,7 +9,8 @@ import Html.Events exposing (..)
 
 
 type alias Model =
-    { username : String
+    { email : String
+    , username : String
     , password : String
     , confirm : String
     }
@@ -17,7 +18,7 @@ type alias Model =
 
 model : Model
 model =
-    Model "" "" ""
+    Model "" "" "" ""
 
 
 
@@ -25,15 +26,19 @@ model =
 
 
 type Msg
-    = UserInput String
+    = EmailInput String
+    | UserInput String
     | PasswordInput String
     | ConfirmInput String
-    | Submit ( String, String, String )
+    | Submit ( String, String, String, String )
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
+        EmailInput v ->
+            { model | email = v }
+
         UserInput v ->
             { model | username = v }
 
@@ -43,9 +48,10 @@ update msg model =
         ConfirmInput v ->
             { model | confirm = v }
 
-        Submit ( username, password, confirm ) ->
+        Submit ( email, username, password, confirm ) ->
             { model
-                | username = username
+                | email = email
+                , username = username
                 , password = password
                 , confirm = confirm
             }
@@ -58,7 +64,7 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ input [ class "signin", type_ "submit", value "Signin", onClick <| Submit ( model.username, model.password, model.confirm ) ] []
+        [ input [ class "signin", type_ "submit", value "Signin", onClick <| Submit ( model.email, model.username, model.password, model.confirm ) ] []
         , input [ class "signin", type_ "confirm", placeholder "confirm password", onInput ConfirmInput, value model.confirm ] []
         , input [ class "signin", type_ "password", placeholder "password", onInput PasswordInput, value model.password ] []
         , input [ class "signin", type_ "text", placeholder "username", onInput UserInput, value model.username ] []

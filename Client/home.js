@@ -12172,6 +12172,16 @@ var _user$project$Home$contentProviderTopicContentTypePage = F3(
 				}
 			});
 	});
+var _user$project$Home$registerPage = function (model) {
+	return A2(
+		_elm_lang$html$Html$h3,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Need some details...'),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$Home$onLogin = F2(
 	function (model, subMsg) {
 		var pendingPortal = model.portal;
@@ -12424,7 +12434,11 @@ var _user$project$Home$update = F2(
 					return A2(_user$project$Home$matchContentProviders, model, _p10._0);
 				}
 			case 'Register':
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _elm_lang$navigation$Navigation$load('/#/register')
+				};
 			case 'ProfileThumbnail':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'ViewSources':
@@ -13208,11 +13222,54 @@ var _user$project$Home$homePage = function (model) {
 				_1: {
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$div,
+						_elm_lang$html$Html$table,
 						{ctor: '[]'},
 						{
 							ctor: '::',
-							_0: contentProvidersUI,
+							_0: A2(
+								_elm_lang$html$Html$tr,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$td,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$div,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: contentProvidersUI,
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$td,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$button,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$Register),
+														_1: {ctor: '[]'}
+													},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text('Join!'),
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}
+								}),
 							_1: {ctor: '[]'}
 						}),
 					_1: {
@@ -13259,16 +13316,19 @@ var _user$project$Home$homePage = function (model) {
 };
 var _user$project$Home$view = function (model) {
 	var _p27 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
-	_v15_7:
+	_v15_8:
 	do {
 		if (_p27.ctor === '[]') {
 			return _user$project$Home$homePage(model);
 		} else {
 			if (_p27._1.ctor === '[]') {
-				if (_p27._0 === 'home') {
-					return _user$project$Home$homePage(model);
-				} else {
-					break _v15_7;
+				switch (_p27._0) {
+					case 'home':
+						return _user$project$Home$homePage(model);
+					case 'register':
+						return _user$project$Home$registerPage(model);
+					default:
+						break _v15_8;
 				}
 			} else {
 				if (_p27._1._1.ctor === '::') {
@@ -13390,7 +13450,7 @@ var _user$project$Home$view = function (model) {
 										return _user$project$Home$notFoundPage;
 									}
 								} else {
-									break _v15_7;
+									break _v15_8;
 								}
 							} else {
 								if ((_p27._1._1._1._0 === 'all') && (_p27._1._1._1._1._1.ctor === '[]')) {
@@ -13406,12 +13466,12 @@ var _user$project$Home$view = function (model) {
 										return _user$project$Home$notFoundPage;
 									}
 								} else {
-									break _v15_7;
+									break _v15_8;
 								}
 							}
 						}
 					} else {
-						break _v15_7;
+						break _v15_8;
 					}
 				} else {
 					if (_p27._0 === 'contentProvider') {
@@ -13521,7 +13581,7 @@ var _user$project$Home$view = function (model) {
 						if (_p27._1._0 === 'dashboard') {
 							return _user$project$Home$dashboardPage(model);
 						} else {
-							break _v15_7;
+							break _v15_8;
 						}
 					}
 				}

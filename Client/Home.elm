@@ -50,8 +50,8 @@ init location =
             case tokenizeUrl location.hash of
                 [ "contentProvider", id ] ->
                     case runtime.contentProvider <| Id id of
-                        Just c ->
-                            c
+                        Just contentProvider ->
+                            contentProvider
 
                         Nothing ->
                             initContentProvider
@@ -106,7 +106,7 @@ update msg model =
             text |> matchContentProviders model
 
         Register ->
-            ( model, Cmd.none )
+            ( model, Navigation.load <| "/#/register" )
 
         ProfileThumbnail subMsg ->
             ( model, Cmd.none )
@@ -381,6 +381,9 @@ view model =
         [ "home" ] ->
             homePage model
 
+        [ "register" ] ->
+            registerPage model
+
         [ "contentProvider", id ] ->
             case runtime.contentProvider <| Id id of
                 Just _ ->
@@ -462,12 +465,22 @@ homePage model =
                 , model |> loginUI
                 ]
             , input [ type_ "text", placeholder "name", onInput Search ] []
-            , div [] [ contentProvidersUI ]
+            , table []
+                [ tr []
+                    [ td [] [ div [] [ contentProvidersUI ] ]
+                    , td [] [ button [ onClick Register ] [ text "Join!" ] ]
+                    ]
+                ]
             , footer [ class "copyright" ]
                 [ label [] [ text "(c)2017" ]
                 , a [ href "" ] [ text "GitHub" ]
                 ]
             ]
+
+
+registerPage : Model -> Html Msg
+registerPage model =
+    h3 [] [ text "Need some details..." ]
 
 
 contentProviderTopicContentTypePage : Topic -> ContentType -> ContentProvider.Model -> Html Msg
