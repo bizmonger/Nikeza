@@ -11829,24 +11829,75 @@ var _user$project$Home$contentProviderTopicPage = function (model) {
 																					{ctor: '[]'},
 																					{
 																						ctor: '::',
-																						_0: _elm_lang$html$Html$text('Videos'),
+																						_0: _elm_lang$html$Html$text('Answers'),
 																						_1: {ctor: '[]'}
 																					}),
 																				_1: {ctor: '[]'}
 																			}),
-																		_1: {ctor: '[]'}
+																		_1: {
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$td,
+																				{ctor: '[]'},
+																				{
+																					ctor: '::',
+																					_0: A2(
+																						_elm_lang$html$Html$b,
+																						{ctor: '[]'},
+																						{
+																							ctor: '::',
+																							_0: _elm_lang$html$Html$text('Articles'),
+																							_1: {ctor: '[]'}
+																						}),
+																					_1: {ctor: '[]'}
+																				}),
+																			_1: {ctor: '[]'}
+																		}
 																	}),
 																_1: {
 																	ctor: '::',
 																	_0: A2(
-																		_elm_lang$html$Html$div,
+																		_elm_lang$html$Html$tr,
 																		{ctor: '[]'},
-																		A4(
-																			_user$project$Home$contentWithTopicUI,
-																			profileId,
-																			_user$project$Domain_Core$Video,
-																			_p4,
-																			A3(_user$project$Settings$runtime.topicLinks, _p4, _user$project$Domain_Core$Video, profileId))),
+																		{
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$td,
+																				{ctor: '[]'},
+																				{
+																					ctor: '::',
+																					_0: A2(
+																						_elm_lang$html$Html$div,
+																						{ctor: '[]'},
+																						A4(
+																							_user$project$Home$contentWithTopicUI,
+																							profileId,
+																							_user$project$Domain_Core$Answer,
+																							_p4,
+																							A3(_user$project$Settings$runtime.topicLinks, _p4, _user$project$Domain_Core$Answer, profileId))),
+																					_1: {ctor: '[]'}
+																				}),
+																			_1: {
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html$td,
+																					{ctor: '[]'},
+																					{
+																						ctor: '::',
+																						_0: A2(
+																							_elm_lang$html$Html$div,
+																							{ctor: '[]'},
+																							A4(
+																								_user$project$Home$contentWithTopicUI,
+																								profileId,
+																								_user$project$Domain_Core$Article,
+																								_p4,
+																								A3(_user$project$Settings$runtime.topicLinks, _p4, _user$project$Domain_Core$Article, profileId))),
+																						_1: {ctor: '[]'}
+																					}),
+																				_1: {ctor: '[]'}
+																			}
+																		}),
 																	_1: {
 																		ctor: '::',
 																		_0: A2(
@@ -11869,79 +11920,37 @@ var _user$project$Home$contentProviderTopicPage = function (model) {
 																							}),
 																						_1: {ctor: '[]'}
 																					}),
-																				_1: {ctor: '[]'}
+																				_1: {
+																					ctor: '::',
+																					_0: A2(
+																						_elm_lang$html$Html$td,
+																						{ctor: '[]'},
+																						{
+																							ctor: '::',
+																							_0: A2(
+																								_elm_lang$html$Html$b,
+																								{ctor: '[]'},
+																								{
+																									ctor: '::',
+																									_0: _elm_lang$html$Html$text('Videos'),
+																									_1: {ctor: '[]'}
+																								}),
+																							_1: {ctor: '[]'}
+																						}),
+																					_1: {ctor: '[]'}
+																				}
 																			}),
 																		_1: {
 																			ctor: '::',
 																			_0: A2(
-																				_elm_lang$html$Html$div,
+																				_elm_lang$html$Html$tr,
 																				{ctor: '[]'},
-																				A4(
-																					_user$project$Home$contentWithTopicUI,
-																					profileId,
-																					_user$project$Domain_Core$Podcast,
-																					_p4,
-																					A3(_user$project$Settings$runtime.topicLinks, _p4, _user$project$Domain_Core$Podcast, profileId))),
-																			_1: {
-																				ctor: '::',
-																				_0: A2(
-																					_elm_lang$html$Html$tr,
-																					{ctor: '[]'},
-																					{
-																						ctor: '::',
-																						_0: A2(
-																							_elm_lang$html$Html$td,
-																							{ctor: '[]'},
-																							{
-																								ctor: '::',
-																								_0: A2(
-																									_elm_lang$html$Html$b,
-																									{ctor: '[]'},
-																									{
-																										ctor: '::',
-																										_0: _elm_lang$html$Html$text('Articles'),
-																										_1: {ctor: '[]'}
-																									}),
-																								_1: {ctor: '[]'}
-																							}),
-																						_1: {ctor: '[]'}
-																					}),
-																				_1: {
+																				{
 																					ctor: '::',
 																					_0: A2(
-																						_elm_lang$html$Html$div,
+																						_elm_lang$html$Html$td,
 																						{ctor: '[]'},
-																						A4(
-																							_user$project$Home$contentWithTopicUI,
-																							profileId,
-																							_user$project$Domain_Core$Article,
-																							_p4,
-																							A3(_user$project$Settings$runtime.topicLinks, _p4, _user$project$Domain_Core$Article, profileId))),
-																					_1: {
-																						ctor: '::',
-																						_0: A2(
-																							_elm_lang$html$Html$tr,
-																							{ctor: '[]'},
-																							{
-																								ctor: '::',
-																								_0: A2(
-																									_elm_lang$html$Html$td,
-																									{ctor: '[]'},
-																									{
-																										ctor: '::',
-																										_0: A2(
-																											_elm_lang$html$Html$b,
-																											{ctor: '[]'},
-																											{
-																												ctor: '::',
-																												_0: _elm_lang$html$Html$text('Answers'),
-																												_1: {ctor: '[]'}
-																											}),
-																										_1: {ctor: '[]'}
-																									}),
-																								_1: {ctor: '[]'}
-																							}),
-																						_1: {
+																						{
 																							ctor: '::',
 																							_0: A2(
 																								_elm_lang$html$Html$div,
@@ -11949,14 +11958,33 @@ var _user$project$Home$contentProviderTopicPage = function (model) {
 																								A4(
 																									_user$project$Home$contentWithTopicUI,
 																									profileId,
-																									_user$project$Domain_Core$Answer,
+																									_user$project$Domain_Core$Podcast,
 																									_p4,
-																									A3(_user$project$Settings$runtime.topicLinks, _p4, _user$project$Domain_Core$Answer, profileId))),
+																									A3(_user$project$Settings$runtime.topicLinks, _p4, _user$project$Domain_Core$Podcast, profileId))),
 																							_1: {ctor: '[]'}
-																						}
+																						}),
+																					_1: {
+																						ctor: '::',
+																						_0: A2(
+																							_elm_lang$html$Html$td,
+																							{ctor: '[]'},
+																							{
+																								ctor: '::',
+																								_0: A2(
+																									_elm_lang$html$Html$div,
+																									{ctor: '[]'},
+																									A4(
+																										_user$project$Home$contentWithTopicUI,
+																										profileId,
+																										_user$project$Domain_Core$Video,
+																										_p4,
+																										A3(_user$project$Settings$runtime.topicLinks, _p4, _user$project$Domain_Core$Video, profileId))),
+																								_1: {ctor: '[]'}
+																							}),
+																						_1: {ctor: '[]'}
 																					}
-																				}
-																			}
+																				}),
+																			_1: {ctor: '[]'}
 																		}
 																	}
 																}
