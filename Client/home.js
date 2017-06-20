@@ -13111,7 +13111,7 @@ var _user$project$Home$homePage = function (model) {
 									{ctor: '[]'},
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html$text('(c)2017'),
+										_0: _elm_lang$html$Html$text('(c)2017 '),
 										_1: {ctor: '[]'}
 									}),
 								_1: {
@@ -13120,12 +13120,12 @@ var _user$project$Home$homePage = function (model) {
 										_elm_lang$html$Html$a,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$href(''),
+											_0: _elm_lang$html$Html_Attributes$href('https://lambda-cartel.io/website'),
 											_1: {ctor: '[]'}
 										},
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html$text('GitHub'),
+											_0: _elm_lang$html$Html$text('Lambda Cartel'),
 											_1: {ctor: '[]'}
 										}),
 									_1: {ctor: '[]'}

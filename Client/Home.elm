@@ -446,8 +446,8 @@ homePage model =
             , input [ type_ "text", placeholder "name", onInput Search ] []
             , div [] [ contributorsUI ]
             , footer [ class "copyright" ]
-                [ label [] [ text "(c)2017" ]
-                , a [ href "" ] [ text "GitHub" ]
+                [ label [] [ text "(c)2017 " ]
+                , a [ href "https://lambda-cartel.io/website" ] [ text "Lambda Cartel" ]
                 ]
             ]
 
