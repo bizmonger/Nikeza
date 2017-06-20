@@ -345,7 +345,7 @@ topicLinks topic contentType id =
         |> List.filter (\l -> l.topics |> List.member topic)
 
 
-connections : Id -> List Connection
+connections : Id -> List Source
 connections profileId =
     [ { platform = "WordPress", username = "bizmonger" }
     , { platform = "YouTube", username = "bizmonger" }
@@ -353,13 +353,13 @@ connections profileId =
     ]
 
 
-addConnection : Id -> Connection -> Result String (List Connection)
-addConnection profileId connection =
+addSource : Id -> Source -> Result String (List Source)
+addSource profileId connection =
     Ok <| connection :: (profileId |> connections)
 
 
-removeConnection : Id -> Connection -> Result String (List Connection)
-removeConnection profileId connection =
+removeSource : Id -> Source -> Result String (List Source)
+removeSource profileId connection =
     Ok (profileId |> connections |> List.filter (\c -> profileId |> connections |> List.member connection))
 
 

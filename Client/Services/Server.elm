@@ -51,18 +51,18 @@ usernameToId username =
     Id "undefined"
 
 
-connections : Id -> List Connection
+connections : Id -> List Source
 connections profileId =
     []
 
 
-addConnection : Id -> Connection -> Result String (List Connection)
-addConnection profileId connection =
+addSource : Id -> Source -> Result String (List Source)
+addSource profileId connection =
     Err "Not implemented"
 
 
-removeConnection : Id -> Connection -> Result String (List Connection)
-removeConnection profileId connection =
+removeSource : Id -> Source -> Result String (List Source)
+removeSource profileId connection =
     Err "Not implemented"
 
 

@@ -24,9 +24,9 @@ type alias Dependencies =
     , removeLink : RemoveLinkfunction
     , topicLinks : TopicLinksfunction
     , usernameToId : UserNameToIdfunction
-    , connections : Connectionsfunction
-    , addConnection : AddConnectionfunction
-    , removeConnection : RemoveConnectionfunction
+    , connections : Sourcesfunction
+    , addSource : AddSourcefunction
+    , removeSource : RemoveSourcefunction
     , platforms : List Platform
     , topics : List Topic
     , suggestedTopics : SuggestedTopicsfunction
@@ -47,8 +47,8 @@ runtime =
                 Services.topicLinks
                 Services.usernameToId
                 Services.connections
-                Services.addConnection
-                Services.removeConnection
+                Services.addSource
+                Services.removeSource
                 Services.platforms
                 Services.topics
                 Services.suggestedTopics
@@ -64,8 +64,8 @@ runtime =
                 TestAPI.topicLinks
                 TestAPI.usernameToId
                 TestAPI.connections
-                TestAPI.addConnection
-                TestAPI.removeConnection
+                TestAPI.addSource
+                TestAPI.removeSource
                 TestAPI.platforms
                 TestAPI.topics
                 TestAPI.suggestedTopics

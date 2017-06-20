@@ -5,7 +5,7 @@ import Domain.Core as Domain exposing (..)
 import Domain.ContentProvider as ContentProvider exposing (..)
 import Controls.Login as Login exposing (..)
 import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
-import Controls.AddConnection as AddConnection exposing (..)
+import Controls.AddSource as AddSource exposing (..)
 import Controls.NewLinks as NewLinks exposing (..)
 import Controls.ContentProviderLinks as ContentProviderLinks exposing (..)
 import Controls.ContentProviderContentTypeLinks as ContentProviderContentTypeLinks exposing (..)
@@ -77,9 +77,9 @@ type Msg
     = UrlChange Navigation.Location
     | OnLogin Login.Msg
     | ProfileThumbnail ProfileThumbnail.Msg
-    | NewConnection AddConnection.Msg
-    | Remove Connection
-    | ViewConnections
+    | NewSource AddSource.Msg
+    | Remove Source
+    | ViewSources
     | AddNewLink
     | ViewLinks
     | NewLink NewLinks.Msg
@@ -111,12 +111,12 @@ update msg model =
         ProfileThumbnail subMsg ->
             ( model, Cmd.none )
 
-        ViewConnections ->
+        ViewSources ->
             let
                 pendingPortal =
                     model.portal
             in
-                ( { model | portal = { pendingPortal | requested = Domain.ViewConnections } }, Cmd.none )
+                ( { model | portal = { pendingPortal | requested = Domain.ViewSources } }, Cmd.none )
 
         AddNewLink ->
             let
@@ -132,8 +132,8 @@ update msg model =
             in
                 ( { model | portal = { pendingPortal | requested = Domain.ViewLinks } }, Cmd.none )
 
-        NewConnection subMsg ->
-            onNewConnection subMsg model
+        NewSource subMsg ->
+            onNewSource subMsg model
 
         Remove connection ->
             onRemove model connection
@@ -196,7 +196,7 @@ update msg model =
                         ( { model | selectedContentProvider = contentProvider }, Cmd.none )
 
 
-onRemove : Model -> Connection -> ( Model, Cmd Msg )
+onRemove : Model -> Source -> ( Model, Cmd Msg )
 onRemove model connection =
     let
         contentProvider =
@@ -220,7 +220,7 @@ onRemove model connection =
         portal =
             { pendingPortal
                 | contentProvider = updatedContentProvider
-                , newConnection = initConnection
+                , newSource = initSource
             }
 
         newState =
@@ -276,8 +276,8 @@ onNewLink subMsg model =
                     )
 
 
-onNewConnection : AddConnection.Msg -> Model -> ( Model, Cmd Msg )
-onNewConnection subMsg model =
+onNewSource : AddSource.Msg -> Model -> ( Model, Cmd Msg )
+onNewSource subMsg model =
     let
         pendingPortal =
             model.portal
@@ -286,19 +286,19 @@ onNewConnection subMsg model =
             model.portal.contentProvider
 
         connection =
-            AddConnection.update subMsg pendingPortal.newConnection
+            AddSource.update subMsg pendingPortal.newSource
 
         portal =
-            { pendingPortal | newConnection = connection }
+            { pendingPortal | newSource = connection }
     in
         case subMsg of
-            AddConnection.InputUsername _ ->
+            AddSource.InputUsername _ ->
                 ( { model | portal = portal }, Cmd.none )
 
-            AddConnection.InputPlatform _ ->
+            AddSource.InputPlatform _ ->
                 ( { model | portal = portal }, Cmd.none )
 
-            AddConnection.Submit _ ->
+            AddSource.Submit _ ->
                 let
                     pendingProfile =
                         contentProvider.profile
@@ -536,7 +536,7 @@ contentProviderTopicPage model =
                 notFoundPage
 
 
-connectionUI : Connection -> Html Msg
+connectionUI : Source -> Html Msg
 connectionUI connection =
     tr []
         [ td [] [ text connection.platform ]
@@ -555,12 +555,12 @@ content model =
             table [] [ div [] (contentProvider.profile.connections |> List.map connectionUI) ]
     in
         case model.portal.requested of
-            Domain.ViewConnections ->
+            Domain.ViewSources ->
                 table []
                     [ tr []
-                        [ th [] [ h3 [] [ text "Connections" ] ] ]
+                        [ th [] [ h3 [] [ text "Sources" ] ] ]
                     , tr []
-                        [ td [] [ Html.map NewConnection <| AddConnection.view model.portal.newConnection ] ]
+                        [ td [] [ Html.map NewSource <| AddSource.view model.portal.newSource ] ]
                     , tr []
                         [ td [] [ connectionsTable ] ]
                     ]
@@ -626,7 +626,7 @@ dashboardPage model =
                                 [ td [] [ img [ src <| getUrl <| model.portal.contentProvider.profile.imageUrl, width 100, height 100 ] [] ]
                                 , td []
                                     [ div []
-                                        [ button [ onClick ViewConnections ] [ text "Connections" ]
+                                        [ button [ onClick ViewSources ] [ text "Sources" ]
                                         , br [] []
                                         , button [ onClick ViewLinks ] [ text "Links" ]
                                         , br [] []

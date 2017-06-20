@@ -9413,7 +9413,7 @@ var _user$project$Domain_Core$tryLogin = F3(
 		return loginf(
 			A3(_user$project$Controls_Login$Model, username, password, false));
 	});
-var _user$project$Domain_Core$initConnection = {platform: '', username: ''};
+var _user$project$Domain_Core$initSource = {platform: '', username: ''};
 var _user$project$Domain_Core$getPlatform = function (platform) {
 	var _p1 = platform;
 	var value = _p1._0;
@@ -9461,7 +9461,7 @@ var _user$project$Domain_Core$ContentProvider = F4(
 	});
 var _user$project$Domain_Core$Portal = F4(
 	function (a, b, c, d) {
-		return {contentProvider: a, requested: b, newConnection: c, newLinks: d};
+		return {contentProvider: a, requested: b, newSource: c, newLinks: d};
 	});
 var _user$project$Domain_Core$Profile = F5(
 	function (a, b, c, d, e) {
@@ -9479,7 +9479,7 @@ var _user$project$Domain_Core$NewLinks = F3(
 	function (a, b, c) {
 		return {current: a, canAdd: b, added: c};
 	});
-var _user$project$Domain_Core$Connection = F2(
+var _user$project$Domain_Core$Source = F2(
 	function (a, b) {
 		return {platform: a, username: b};
 	});
@@ -9569,7 +9569,7 @@ var _user$project$Domain_Core$Platform = function (a) {
 };
 var _user$project$Domain_Core$AddLink = {ctor: 'AddLink'};
 var _user$project$Domain_Core$ViewLinks = {ctor: 'ViewLinks'};
-var _user$project$Domain_Core$ViewConnections = {ctor: 'ViewConnections'};
+var _user$project$Domain_Core$ViewSources = {ctor: 'ViewSources'};
 var _user$project$Domain_Core$Unknown = {ctor: 'Unknown'};
 var _user$project$Domain_Core$initLink = {
 	profile: _user$project$Domain_Core$initProfile,
@@ -9595,7 +9595,7 @@ var _user$project$Domain_Core$initNewLinks = {
 	canAdd: false,
 	added: {ctor: '[]'}
 };
-var _user$project$Domain_Core$initPortal = {contentProvider: _user$project$Domain_Core$initContentProvider, requested: _user$project$Domain_Core$ViewLinks, newConnection: _user$project$Domain_Core$initConnection, newLinks: _user$project$Domain_Core$initNewLinks};
+var _user$project$Domain_Core$initPortal = {contentProvider: _user$project$Domain_Core$initContentProvider, requested: _user$project$Domain_Core$ViewLinks, newSource: _user$project$Domain_Core$initSource, newLinks: _user$project$Domain_Core$initNewLinks};
 var _user$project$Domain_Core$All = {ctor: 'All'};
 var _user$project$Domain_Core$Answer = {ctor: 'Answer'};
 var _user$project$Domain_Core$Podcast = {ctor: 'Podcast'};
@@ -9663,7 +9663,7 @@ var _user$project$Tests_TestAPI$connections = function (profileId) {
 		}
 	};
 };
-var _user$project$Tests_TestAPI$addConnection = F2(
+var _user$project$Tests_TestAPI$addSource = F2(
 	function (profileId, connection) {
 		return _elm_lang$core$Result$Ok(
 			{
@@ -9672,7 +9672,7 @@ var _user$project$Tests_TestAPI$addConnection = F2(
 				_1: _user$project$Tests_TestAPI$connections(profileId)
 			});
 	});
-var _user$project$Tests_TestAPI$removeConnection = F2(
+var _user$project$Tests_TestAPI$removeSource = F2(
 	function (profileId, connection) {
 		return _elm_lang$core$Result$Ok(
 			A2(
@@ -10169,11 +10169,11 @@ var _user$project$Services_Server$suggestedTopics = function (search) {
 };
 var _user$project$Services_Server$platforms = {ctor: '[]'};
 var _user$project$Services_Server$topics = {ctor: '[]'};
-var _user$project$Services_Server$removeConnection = F2(
+var _user$project$Services_Server$removeSource = F2(
 	function (profileId, connection) {
 		return _elm_lang$core$Result$Err('Not implemented');
 	});
-var _user$project$Services_Server$addConnection = F2(
+var _user$project$Services_Server$addSource = F2(
 	function (profileId, connection) {
 		return _elm_lang$core$Result$Err('Not implemented');
 	});
@@ -10225,7 +10225,7 @@ var _user$project$Settings$Dependencies = function (a) {
 											return function (l) {
 												return function (m) {
 													return function (n) {
-														return {tryLogin: a, contentProvider: b, contentProviders: c, links: d, addLink: e, removeLink: f, topicLinks: g, usernameToId: h, connections: i, addConnection: j, removeConnection: k, platforms: l, topics: m, suggestedTopics: n};
+														return {tryLogin: a, contentProvider: b, contentProviders: c, links: d, addLink: e, removeLink: f, topicLinks: g, usernameToId: h, connections: i, addSource: j, removeSource: k, platforms: l, topics: m, suggestedTopics: n};
 													};
 												};
 											};
@@ -10245,14 +10245,14 @@ var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return _user$project$Settings$Dependencies(_user$project$Services_Server$tryLogin)(_user$project$Services_Server$contentProvider)(_user$project$Services_Server$contentProviders)(_user$project$Services_Server$links)(_user$project$Services_Server$addLink)(_user$project$Services_Server$removeLink)(_user$project$Services_Server$topicLinks)(_user$project$Services_Server$usernameToId)(_user$project$Services_Server$connections)(_user$project$Services_Server$addConnection)(_user$project$Services_Server$removeConnection)(_user$project$Services_Server$platforms)(_user$project$Services_Server$topics)(_user$project$Services_Server$suggestedTopics);
+		return _user$project$Settings$Dependencies(_user$project$Services_Server$tryLogin)(_user$project$Services_Server$contentProvider)(_user$project$Services_Server$contentProviders)(_user$project$Services_Server$links)(_user$project$Services_Server$addLink)(_user$project$Services_Server$removeLink)(_user$project$Services_Server$topicLinks)(_user$project$Services_Server$usernameToId)(_user$project$Services_Server$connections)(_user$project$Services_Server$addSource)(_user$project$Services_Server$removeSource)(_user$project$Services_Server$platforms)(_user$project$Services_Server$topics)(_user$project$Services_Server$suggestedTopics);
 	} else {
-		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$contentProvider)(_user$project$Tests_TestAPI$contentProviders)(_user$project$Tests_TestAPI$links)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$usernameToId)(_user$project$Tests_TestAPI$connections)(_user$project$Tests_TestAPI$addConnection)(_user$project$Tests_TestAPI$removeConnection)(_user$project$Tests_TestAPI$platforms)(_user$project$Tests_TestAPI$topics)(_user$project$Tests_TestAPI$suggestedTopics);
+		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$contentProvider)(_user$project$Tests_TestAPI$contentProviders)(_user$project$Tests_TestAPI$links)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$usernameToId)(_user$project$Tests_TestAPI$connections)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$platforms)(_user$project$Tests_TestAPI$topics)(_user$project$Tests_TestAPI$suggestedTopics);
 	}
 }();
 var _user$project$Settings$Integration = {ctor: 'Integration'};
 
-var _user$project$Controls_AddConnection$update = F2(
+var _user$project$Controls_AddSource$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		switch (_p0.ctor) {
@@ -10268,20 +10268,20 @@ var _user$project$Controls_AddConnection$update = F2(
 				return _p0._0;
 		}
 	});
-var _user$project$Controls_AddConnection$Submit = function (a) {
+var _user$project$Controls_AddSource$Submit = function (a) {
 	return {ctor: 'Submit', _0: a};
 };
-var _user$project$Controls_AddConnection$InputPlatform = function (a) {
+var _user$project$Controls_AddSource$InputPlatform = function (a) {
 	return {ctor: 'InputPlatform', _0: a};
 };
-var _user$project$Controls_AddConnection$InputUsername = function (a) {
+var _user$project$Controls_AddSource$InputUsername = function (a) {
 	return {ctor: 'InputUsername', _0: a};
 };
-var _user$project$Controls_AddConnection$view = function (model) {
+var _user$project$Controls_AddSource$view = function (model) {
 	var changeHandler = A2(
 		_elm_lang$html$Html_Events$on,
 		'change',
-		A2(_elm_lang$core$Json_Decode$map, _user$project$Controls_AddConnection$InputPlatform, _elm_lang$html$Html_Events$targetValue));
+		A2(_elm_lang$core$Json_Decode$map, _user$project$Controls_AddSource$InputPlatform, _elm_lang$html$Html_Events$targetValue));
 	var platformOption = function (platform) {
 		return A2(
 			_elm_lang$html$Html$option,
@@ -10343,7 +10343,7 @@ var _user$project$Controls_AddConnection$view = function (model) {
 							_0: _elm_lang$html$Html_Attributes$placeholder('username'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_AddConnection$InputUsername),
+								_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_AddSource$InputUsername),
 								_1: {
 									ctor: '::',
 									_0: _elm_lang$html$Html_Attributes$value(model.username),
@@ -10360,7 +10360,7 @@ var _user$project$Controls_AddConnection$view = function (model) {
 						{
 							ctor: '::',
 							_0: _elm_lang$html$Html_Events$onClick(
-								_user$project$Controls_AddConnection$Submit(model)),
+								_user$project$Controls_AddSource$Submit(model)),
 							_1: {ctor: '[]'}
 						},
 						{
@@ -12251,14 +12251,14 @@ var _user$project$Home$matchContentProviders = F2(
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
-var _user$project$Home$onNewConnection = F2(
+var _user$project$Home$onNewSource = F2(
 	function (subMsg, model) {
 		var contentProvider = model.portal.contentProvider;
 		var pendingPortal = model.portal;
-		var connection = A2(_user$project$Controls_AddConnection$update, subMsg, pendingPortal.newConnection);
+		var connection = A2(_user$project$Controls_AddSource$update, subMsg, pendingPortal.newSource);
 		var portal = _elm_lang$core$Native_Utils.update(
 			pendingPortal,
-			{newConnection: connection});
+			{newSource: connection});
 		var _p7 = subMsg;
 		switch (_p7.ctor) {
 			case 'InputUsername':
@@ -12397,7 +12397,7 @@ var _user$project$Home$onRemove = F2(
 			{profile: updatedProfile});
 		var portal = _elm_lang$core$Native_Utils.update(
 			pendingPortal,
-			{contentProvider: updatedContentProvider, newConnection: _user$project$Domain_Core$initConnection});
+			{contentProvider: updatedContentProvider, newSource: _user$project$Domain_Core$initSource});
 		var newState = _elm_lang$core$Native_Utils.update(
 			model,
 			{portal: portal});
@@ -12427,7 +12427,7 @@ var _user$project$Home$update = F2(
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'ProfileThumbnail':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			case 'ViewConnections':
+			case 'ViewSources':
 				var pendingPortal = model.portal;
 				return {
 					ctor: '_Tuple2',
@@ -12436,7 +12436,7 @@ var _user$project$Home$update = F2(
 						{
 							portal: _elm_lang$core$Native_Utils.update(
 								pendingPortal,
-								{requested: _user$project$Domain_Core$ViewConnections})
+								{requested: _user$project$Domain_Core$ViewSources})
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -12466,8 +12466,8 @@ var _user$project$Home$update = F2(
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
-			case 'NewConnection':
-				return A2(_user$project$Home$onNewConnection, _p10._0, model);
+			case 'NewSource':
+				return A2(_user$project$Home$onNewSource, _p10._0, model);
 			case 'Remove':
 				return A2(_user$project$Home$onRemove, model, _p10._0);
 			case 'NewLink':
@@ -12599,7 +12599,7 @@ var _user$project$Home$NewLink = function (a) {
 };
 var _user$project$Home$ViewLinks = {ctor: 'ViewLinks'};
 var _user$project$Home$AddNewLink = {ctor: 'AddNewLink'};
-var _user$project$Home$ViewConnections = {ctor: 'ViewConnections'};
+var _user$project$Home$ViewSources = {ctor: 'ViewSources'};
 var _user$project$Home$Remove = function (a) {
 	return {ctor: 'Remove', _0: a};
 };
@@ -12661,8 +12661,8 @@ var _user$project$Home$connectionUI = function (connection) {
 			}
 		});
 };
-var _user$project$Home$NewConnection = function (a) {
-	return {ctor: 'NewConnection', _0: a};
+var _user$project$Home$NewSource = function (a) {
+	return {ctor: 'NewSource', _0: a};
 };
 var _user$project$Home$content = function (model) {
 	var contentProvider = model.portal.contentProvider;
@@ -12679,7 +12679,7 @@ var _user$project$Home$content = function (model) {
 		});
 	var _p25 = model.portal.requested;
 	switch (_p25.ctor) {
-		case 'ViewConnections':
+		case 'ViewSources':
 			return A2(
 				_elm_lang$html$Html$table,
 				{ctor: '[]'},
@@ -12700,7 +12700,7 @@ var _user$project$Home$content = function (model) {
 										{ctor: '[]'},
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html$text('Connections'),
+											_0: _elm_lang$html$Html$text('Sources'),
 											_1: {ctor: '[]'}
 										}),
 									_1: {ctor: '[]'}
@@ -12721,8 +12721,8 @@ var _user$project$Home$content = function (model) {
 										ctor: '::',
 										_0: A2(
 											_elm_lang$html$Html$map,
-											_user$project$Home$NewConnection,
-											_user$project$Controls_AddConnection$view(model.portal.newConnection)),
+											_user$project$Home$NewSource,
+											_user$project$Controls_AddSource$view(model.portal.newSource)),
 										_1: {ctor: '[]'}
 									}),
 								_1: {ctor: '[]'}
@@ -12983,12 +12983,12 @@ var _user$project$Home$dashboardPage = function (model) {
 																				_elm_lang$html$Html$button,
 																				{
 																					ctor: '::',
-																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewConnections),
+																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
 																					_1: {ctor: '[]'}
 																				},
 																				{
 																					ctor: '::',
-																					_0: _elm_lang$html$Html$text('Connections'),
+																					_0: _elm_lang$html$Html$text('Sources'),
 																					_1: {ctor: '[]'}
 																				}),
 																			_1: {

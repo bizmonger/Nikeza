@@ -48,7 +48,7 @@ initContentProvider =
 type alias Portal =
     { contentProvider : ContentProvider
     , requested : ContentProviderRequest
-    , newConnection : Connection
+    , newSource : Source
     , newLinks : NewLinks
     }
 
@@ -57,7 +57,7 @@ initPortal : Portal
 initPortal =
     { contentProvider = initContentProvider
     , requested = ViewLinks
-    , newConnection = initConnection
+    , newSource = initSource
     , newLinks = initNewLinks
     }
 
@@ -67,7 +67,7 @@ type alias Profile =
     , name : Name
     , imageUrl : Url
     , bio : String
-    , connections : List Connection
+    , connections : List Source
     }
 
 
@@ -201,17 +201,17 @@ initNewLinks =
     { current = initLinkToCreate, canAdd = False, added = [] }
 
 
-type alias Connection =
+type alias Source =
     { platform : String, username : String }
 
 
-initConnection : Connection
-initConnection =
+initSource : Source
+initSource =
     { platform = "", username = "" }
 
 
 type ContentProviderRequest
-    = ViewConnections
+    = ViewSources
     | ViewLinks
     | AddLink
 
@@ -220,16 +220,16 @@ type ContentProviderRequest
 -- INTERFACES
 
 
-type alias Connectionsfunction =
-    Id -> List Connection
+type alias Sourcesfunction =
+    Id -> List Source
 
 
-type alias AddConnectionfunction =
-    Id -> Connection -> Result String (List Connection)
+type alias AddSourcefunction =
+    Id -> Source -> Result String (List Source)
 
 
-type alias RemoveConnectionfunction =
-    Id -> Connection -> Result String (List Connection)
+type alias RemoveSourcefunction =
+    Id -> Source -> Result String (List Source)
 
 
 type alias AddLinkfunction =

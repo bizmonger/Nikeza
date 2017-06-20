@@ -1,4 +1,4 @@
-module Controls.AddConnection exposing (..)
+module Controls.AddSource exposing (..)
 
 import Domain.Core exposing (..)
 import Settings exposing (runtime)
@@ -12,13 +12,13 @@ import Json.Decode exposing (map)
 
 
 type alias Model =
-    Connection
+    Source
 
 
 type Msg
     = InputUsername String
     | InputPlatform String
-    | Submit Connection
+    | Submit Source
 
 
 
