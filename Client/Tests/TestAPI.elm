@@ -226,6 +226,48 @@ addLink profileId link =
                 Ok { currentLinks | podcasts = link :: currentLinks.podcasts }
 
 
+removeLink : Id -> Link -> Result String Links
+removeLink profileId link =
+    let
+        currentLinks =
+            profileId |> links
+    in
+        case link.contentType of
+            All ->
+                Err "Failed to add link: Cannot add link to 'ALL'"
+
+            Unknown ->
+                Err "Failed to add link: Contenttype of link is unknown"
+
+            Answer ->
+                let
+                    updated =
+                        currentLinks.answers |> List.filter (\link -> currentLinks.answers |> List.member link)
+                in
+                    Ok { currentLinks | answers = updated }
+
+            Article ->
+                let
+                    updated =
+                        currentLinks.articles |> List.filter (\link -> currentLinks.articles |> List.member link)
+                in
+                    Ok { currentLinks | articles = updated }
+
+            Video ->
+                let
+                    updated =
+                        currentLinks.videos |> List.filter (\link -> currentLinks.videos |> List.member link)
+                in
+                    Ok { currentLinks | videos = updated }
+
+            podcast ->
+                let
+                    updated =
+                        currentLinks.podcasts |> List.filter (\link -> currentLinks.podcasts |> List.member link)
+                in
+                    Ok { currentLinks | podcasts = updated }
+
+
 linksToContent : ContentType -> Id -> List Link
 linksToContent contentType profileId =
     case contentType of
@@ -314,6 +356,11 @@ connections profileId =
 addConnection : Id -> Connection -> Result String (List Connection)
 addConnection profileId connection =
     Ok <| connection :: (profileId |> connections)
+
+
+removeConnection : Id -> Connection -> Result String (List Connection)
+removeConnection profileId connection =
+    Ok (profileId |> connections |> List.filter (\c -> profileId |> connections |> List.member connection))
 
 
 usernameToId : String -> Id

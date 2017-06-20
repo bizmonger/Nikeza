@@ -21,10 +21,12 @@ type alias Dependencies =
     , contributors : Contributorsfunction
     , links : Linksfunction
     , addLink : AddLinkfunction
+    , removeLink : RemoveLinkfunction
     , topicLinks : TopicLinksfunction
     , usernameToId : UserNameToIdfunction
     , connections : Connectionsfunction
     , addConnection : AddConnectionfunction
+    , removeConnection : RemoveConnectionfunction
     , platforms : List Platform
     , topics : List Topic
     , suggestedTopics : SuggestedTopicsfunction
@@ -41,10 +43,12 @@ runtime =
                 Services.contributors
                 Services.links
                 Services.addLink
+                Services.removeLink
                 Services.topicLinks
                 Services.usernameToId
                 Services.connections
                 Services.addConnection
+                Services.removeConnection
                 Services.platforms
                 Services.topics
                 Services.suggestedTopics
@@ -56,10 +60,12 @@ runtime =
                 TestAPI.contributors
                 TestAPI.links
                 TestAPI.addLink
+                TestAPI.removeLink
                 TestAPI.topicLinks
                 TestAPI.usernameToId
                 TestAPI.connections
                 TestAPI.addConnection
+                TestAPI.removeConnection
                 TestAPI.platforms
                 TestAPI.topics
                 TestAPI.suggestedTopics

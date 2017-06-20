@@ -228,7 +228,15 @@ type alias AddConnectionfunction =
     Id -> Connection -> Result String (List Connection)
 
 
+type alias RemoveConnectionfunction =
+    Id -> Connection -> Result String (List Connection)
+
+
 type alias AddLinkfunction =
+    Id -> Link -> Result String Links
+
+
+type alias RemoveLinkfunction =
     Id -> Link -> Result String Links
 
 

@@ -36,6 +36,11 @@ addLink profileId link =
     Err "Not implemented"
 
 
+removeLink : Id -> Link -> Result String Links
+removeLink profileId link =
+    Err "Not implemented"
+
+
 topicLinks : Topic -> ContentType -> Id -> List Link
 topicLinks topic contentType id =
     []
@@ -53,7 +58,12 @@ connections profileId =
 
 addConnection : Id -> Connection -> Result String (List Connection)
 addConnection profileId connection =
-    Err "Failed to add connection"
+    Err "Not implemented"
+
+
+removeConnection : Id -> Connection -> Result String (List Connection)
+removeConnection profileId connection =
+    Err "Not implemented"
 
 
 topics : List Topic

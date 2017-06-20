@@ -9672,6 +9672,19 @@ var _user$project$Tests_TestAPI$addConnection = F2(
 				_1: _user$project$Tests_TestAPI$connections(profileId)
 			});
 	});
+var _user$project$Tests_TestAPI$removeConnection = F2(
+	function (profileId, connection) {
+		return _elm_lang$core$Result$Ok(
+			A2(
+				_elm_lang$core$List$filter,
+				function (c) {
+					return A2(
+						_elm_lang$core$List$member,
+						connection,
+						_user$project$Tests_TestAPI$connections(profileId));
+				},
+				_user$project$Tests_TestAPI$connections(profileId)));
+	});
 var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 	var successful = _elm_lang$core$Native_Utils.eq(
 		_elm_lang$core$String$toLower(credentials.username),
@@ -10068,6 +10081,61 @@ var _user$project$Tests_TestAPI$addLink = F2(
 						}));
 		}
 	});
+var _user$project$Tests_TestAPI$removeLink = F2(
+	function (profileId, link) {
+		var currentLinks = _user$project$Tests_TestAPI$links(profileId);
+		var _p2 = link.contentType;
+		switch (_p2.ctor) {
+			case 'All':
+				return _elm_lang$core$Result$Err('Failed to add link: Cannot add link to \'ALL\'');
+			case 'Unknown':
+				return _elm_lang$core$Result$Err('Failed to add link: Contenttype of link is unknown');
+			case 'Answer':
+				var updated = A2(
+					_elm_lang$core$List$filter,
+					function (link) {
+						return A2(_elm_lang$core$List$member, link, currentLinks.answers);
+					},
+					currentLinks.answers);
+				return _elm_lang$core$Result$Ok(
+					_elm_lang$core$Native_Utils.update(
+						currentLinks,
+						{answers: updated}));
+			case 'Article':
+				var updated = A2(
+					_elm_lang$core$List$filter,
+					function (link) {
+						return A2(_elm_lang$core$List$member, link, currentLinks.articles);
+					},
+					currentLinks.articles);
+				return _elm_lang$core$Result$Ok(
+					_elm_lang$core$Native_Utils.update(
+						currentLinks,
+						{articles: updated}));
+			case 'Video':
+				var updated = A2(
+					_elm_lang$core$List$filter,
+					function (link) {
+						return A2(_elm_lang$core$List$member, link, currentLinks.videos);
+					},
+					currentLinks.videos);
+				return _elm_lang$core$Result$Ok(
+					_elm_lang$core$Native_Utils.update(
+						currentLinks,
+						{videos: updated}));
+			default:
+				var updated = A2(
+					_elm_lang$core$List$filter,
+					function (link) {
+						return A2(_elm_lang$core$List$member, link, currentLinks.podcasts);
+					},
+					currentLinks.podcasts);
+				return _elm_lang$core$Result$Ok(
+					_elm_lang$core$Native_Utils.update(
+						currentLinks,
+						{podcasts: updated}));
+		}
+	});
 var _user$project$Tests_TestAPI$topicLinks = F3(
 	function (topic, contentType, id) {
 		return A2(
@@ -10081,8 +10149,8 @@ var _user$project$Tests_TestAPI$contributor = function (id) {
 	return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contributor1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contributor2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contributor3) : _elm_lang$core$Maybe$Nothing));
 };
 var _user$project$Tests_TestAPI$usernameToId = function (username) {
-	var _p2 = username;
-	switch (_p2) {
+	var _p3 = username;
+	switch (_p3) {
 		case 'test':
 			return _user$project$Tests_TestAPI$profileId1;
 		case 'profile_1':
@@ -10101,9 +10169,13 @@ var _user$project$Services_Server$suggestedTopics = function (search) {
 };
 var _user$project$Services_Server$platforms = {ctor: '[]'};
 var _user$project$Services_Server$topics = {ctor: '[]'};
+var _user$project$Services_Server$removeConnection = F2(
+	function (profileId, connection) {
+		return _elm_lang$core$Result$Err('Not implemented');
+	});
 var _user$project$Services_Server$addConnection = F2(
 	function (profileId, connection) {
-		return _elm_lang$core$Result$Err('Failed to add connection');
+		return _elm_lang$core$Result$Err('Not implemented');
 	});
 var _user$project$Services_Server$connections = function (profileId) {
 	return {ctor: '[]'};
@@ -10114,6 +10186,10 @@ var _user$project$Services_Server$usernameToId = function (username) {
 var _user$project$Services_Server$topicLinks = F3(
 	function (topic, contentType, id) {
 		return {ctor: '[]'};
+	});
+var _user$project$Services_Server$removeLink = F2(
+	function (profileId, link) {
+		return _elm_lang$core$Result$Err('Not implemented');
 	});
 var _user$project$Services_Server$addLink = F2(
 	function (profileId, link) {
@@ -10147,7 +10223,11 @@ var _user$project$Settings$Dependencies = function (a) {
 									return function (j) {
 										return function (k) {
 											return function (l) {
-												return {tryLogin: a, contributor: b, contributors: c, links: d, addLink: e, topicLinks: f, usernameToId: g, connections: h, addConnection: i, platforms: j, topics: k, suggestedTopics: l};
+												return function (m) {
+													return function (n) {
+														return {tryLogin: a, contributor: b, contributors: c, links: d, addLink: e, removeLink: f, topicLinks: g, usernameToId: h, connections: i, addConnection: j, removeConnection: k, platforms: l, topics: m, suggestedTopics: n};
+													};
+												};
 											};
 										};
 									};
@@ -10165,9 +10245,9 @@ var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return _user$project$Settings$Dependencies(_user$project$Services_Server$tryLogin)(_user$project$Services_Server$contributor)(_user$project$Services_Server$contributors)(_user$project$Services_Server$links)(_user$project$Services_Server$addLink)(_user$project$Services_Server$topicLinks)(_user$project$Services_Server$usernameToId)(_user$project$Services_Server$connections)(_user$project$Services_Server$addConnection)(_user$project$Services_Server$platforms)(_user$project$Services_Server$topics)(_user$project$Services_Server$suggestedTopics);
+		return _user$project$Settings$Dependencies(_user$project$Services_Server$tryLogin)(_user$project$Services_Server$contributor)(_user$project$Services_Server$contributors)(_user$project$Services_Server$links)(_user$project$Services_Server$addLink)(_user$project$Services_Server$removeLink)(_user$project$Services_Server$topicLinks)(_user$project$Services_Server$usernameToId)(_user$project$Services_Server$connections)(_user$project$Services_Server$addConnection)(_user$project$Services_Server$removeConnection)(_user$project$Services_Server$platforms)(_user$project$Services_Server$topics)(_user$project$Services_Server$suggestedTopics);
 	} else {
-		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$contributor)(_user$project$Tests_TestAPI$contributors)(_user$project$Tests_TestAPI$links)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$usernameToId)(_user$project$Tests_TestAPI$connections)(_user$project$Tests_TestAPI$addConnection)(_user$project$Tests_TestAPI$platforms)(_user$project$Tests_TestAPI$topics)(_user$project$Tests_TestAPI$suggestedTopics);
+		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$contributor)(_user$project$Tests_TestAPI$contributors)(_user$project$Tests_TestAPI$links)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$usernameToId)(_user$project$Tests_TestAPI$connections)(_user$project$Tests_TestAPI$addConnection)(_user$project$Tests_TestAPI$removeConnection)(_user$project$Tests_TestAPI$platforms)(_user$project$Tests_TestAPI$topics)(_user$project$Tests_TestAPI$suggestedTopics);
 	}
 }();
 var _user$project$Settings$Integration = {ctor: 'Integration'};
