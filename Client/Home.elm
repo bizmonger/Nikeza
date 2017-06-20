@@ -9,6 +9,7 @@ import Controls.AddSource as AddSource exposing (..)
 import Controls.NewLinks as NewLinks exposing (..)
 import Controls.ContentProviderLinks as ContentProviderLinks exposing (..)
 import Controls.ContentProviderContentTypeLinks as ContentProviderContentTypeLinks exposing (..)
+import Controls.Register as Registration exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
@@ -37,6 +38,7 @@ main =
 type alias Model =
     { currentRoute : Navigation.Location
     , login : Login.Model
+    , registration : Registration.Model
     , portal : Portal
     , contentProviders : List ContentProvider
     , selectedContentProvider : ContentProvider
@@ -60,7 +62,8 @@ init location =
                     initContentProvider
     in
         ( { currentRoute = location
-          , login = Login.model
+          , login = Login.init
+          , registration = Registration.model
           , portal = initPortal
           , contentProviders = runtime.contentProviders
           , selectedContentProvider = contentProvider
@@ -88,6 +91,7 @@ type Msg
     | ContentProviderContentTypeLinksAction ContentProviderContentTypeLinks.Msg
     | Search String
     | Register
+    | OnRegistration Registration.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -97,7 +101,7 @@ update msg model =
             location |> navigate msg model
 
         OnLogin subMsg ->
-            onLogin model subMsg
+            onLogin subMsg model
 
         Search "" ->
             ( { model | contentProviders = runtime.contentProviders }, Cmd.none )
@@ -107,6 +111,9 @@ update msg model =
 
         Register ->
             ( model, Navigation.load <| "/#/register" )
+
+        OnRegistration subMsg ->
+            onRegistration subMsg model
 
         ProfileThumbnail subMsg ->
             ( model, Cmd.none )
@@ -194,6 +201,11 @@ update msg model =
                             ContentProviderContentTypeLinks.update subMsg model.selectedContentProvider
                     in
                         ( { model | selectedContentProvider = contentProvider }, Cmd.none )
+
+
+onRegistration : Registration.Msg -> Model -> ( Model, Cmd Msg )
+onRegistration subMsg model =
+    ( model, Cmd.none )
 
 
 onRemove : Model -> Source -> ( Model, Cmd Msg )
@@ -327,8 +339,8 @@ matchContentProviders model matchValue =
         ( { model | contentProviders = filtered }, Cmd.none )
 
 
-onLogin : Model -> Login.Msg -> ( Model, Cmd Msg )
-onLogin model subMsg =
+onLogin : Login.Msg -> Model -> ( Model, Cmd Msg )
+onLogin subMsg model =
     let
         pendingPortal =
             model.portal
@@ -480,7 +492,10 @@ homePage model =
 
 registerPage : Model -> Html Msg
 registerPage model =
-    h3 [] [ text "Need some details..." ]
+    div []
+        [ h3 [] [ text "Need some details..." ]
+        , Html.map OnRegistration <| Registration.view model.registration
+        ]
 
 
 contentProviderTopicContentTypePage : Topic -> ContentType -> ContentProvider.Model -> Html Msg

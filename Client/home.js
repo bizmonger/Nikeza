@@ -9286,7 +9286,7 @@ var _user$project$Controls_Login$Model = F3(
 	function (a, b, c) {
 		return {username: a, password: b, loggedIn: c};
 	});
-var _user$project$Controls_Login$model = A3(_user$project$Controls_Login$Model, '', '', false);
+var _user$project$Controls_Login$init = A3(_user$project$Controls_Login$Model, '', '', false);
 var _user$project$Controls_Login$Attempt = function (a) {
 	return {ctor: 'Attempt', _0: a};
 };
@@ -11587,6 +11587,165 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (contentProvide
 };
 var _user$project$Controls_ProfileThumbnail$None = {ctor: 'None'};
 
+var _user$project$Controls_Register$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'EmailInput':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{email: _p0._0});
+			case 'UserInput':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{username: _p0._0});
+			case 'PasswordInput':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{password: _p0._0});
+			case 'ConfirmInput':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{confirm: _p0._0});
+			default:
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{email: _p0._0._0, username: _p0._0._1, password: _p0._0._2, confirm: _p0._0._3});
+		}
+	});
+var _user$project$Controls_Register$Model = F4(
+	function (a, b, c, d) {
+		return {email: a, username: b, password: c, confirm: d};
+	});
+var _user$project$Controls_Register$model = A4(_user$project$Controls_Register$Model, '', '', '', '');
+var _user$project$Controls_Register$Submit = function (a) {
+	return {ctor: 'Submit', _0: a};
+};
+var _user$project$Controls_Register$ConfirmInput = function (a) {
+	return {ctor: 'ConfirmInput', _0: a};
+};
+var _user$project$Controls_Register$PasswordInput = function (a) {
+	return {ctor: 'PasswordInput', _0: a};
+};
+var _user$project$Controls_Register$UserInput = function (a) {
+	return {ctor: 'UserInput', _0: a};
+};
+var _user$project$Controls_Register$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$input,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('signin'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$type_('submit'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$value('Signin'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(
+									_user$project$Controls_Register$Submit(
+										{ctor: '_Tuple4', _0: model.email, _1: model.username, _2: model.password, _3: model.confirm})),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$input,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('signin'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$type_('confirm'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$placeholder('confirm password'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$ConfirmInput),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$value(model.confirm),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$input,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('signin'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$type_('password'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$placeholder('password'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$PasswordInput),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$value(model.password),
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							}
+						},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$input,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('signin'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$type_('text'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$placeholder('username'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$UserInput),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$value(model.username),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		});
+};
+var _user$project$Controls_Register$EmailInput = function (a) {
+	return {ctor: 'EmailInput', _0: a};
+};
+
 var _user$project$Home$tokenizeUrl = function (urlHash) {
 	return A2(
 		_elm_lang$core$List$drop,
@@ -12172,18 +12331,8 @@ var _user$project$Home$contentProviderTopicContentTypePage = F3(
 				}
 			});
 	});
-var _user$project$Home$registerPage = function (model) {
-	return A2(
-		_elm_lang$html$Html$h3,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text('Need some details...'),
-			_1: {ctor: '[]'}
-		});
-};
 var _user$project$Home$onLogin = F2(
-	function (model, subMsg) {
+	function (subMsg, model) {
 		var pendingPortal = model.portal;
 		var _p5 = subMsg;
 		switch (_p5.ctor) {
@@ -12413,6 +12562,10 @@ var _user$project$Home$onRemove = F2(
 			{portal: portal});
 		return {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
 	});
+var _user$project$Home$onRegistration = F2(
+	function (subMsg, model) {
+		return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+	});
 var _user$project$Home$update = F2(
 	function (msg, model) {
 		var _p10 = msg;
@@ -12420,7 +12573,7 @@ var _user$project$Home$update = F2(
 			case 'UrlChange':
 				return A3(_user$project$Home$navigate, msg, model, _p10._0);
 			case 'OnLogin':
-				return A2(_user$project$Home$onLogin, model, _p10._0);
+				return A2(_user$project$Home$onLogin, _p10._0, model);
 			case 'Search':
 				if (_p10._0 === '') {
 					return {
@@ -12439,6 +12592,8 @@ var _user$project$Home$update = F2(
 					_0: model,
 					_1: _elm_lang$navigation$Navigation$load('/#/register')
 				};
+			case 'OnRegistration':
+				return A2(_user$project$Home$onRegistration, _p10._0, model);
 			case 'ProfileThumbnail':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'ViewSources':
@@ -12587,14 +12742,41 @@ var _user$project$Home$init = function (location) {
 	}();
 	return {
 		ctor: '_Tuple2',
-		_0: {currentRoute: location, login: _user$project$Controls_Login$model, portal: _user$project$Domain_Core$initPortal, contentProviders: _user$project$Settings$runtime.contentProviders, selectedContentProvider: contentProvider},
+		_0: {currentRoute: location, login: _user$project$Controls_Login$init, registration: _user$project$Controls_Register$model, portal: _user$project$Domain_Core$initPortal, contentProviders: _user$project$Settings$runtime.contentProviders, selectedContentProvider: contentProvider},
 		_1: _elm_lang$core$Platform_Cmd$none
 	};
 };
-var _user$project$Home$Model = F5(
-	function (a, b, c, d, e) {
-		return {currentRoute: a, login: b, portal: c, contentProviders: d, selectedContentProvider: e};
+var _user$project$Home$Model = F6(
+	function (a, b, c, d, e, f) {
+		return {currentRoute: a, login: b, registration: c, portal: d, contentProviders: e, selectedContentProvider: f};
 	});
+var _user$project$Home$OnRegistration = function (a) {
+	return {ctor: 'OnRegistration', _0: a};
+};
+var _user$project$Home$registerPage = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h3,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Need some details...'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$map,
+					_user$project$Home$OnRegistration,
+					_user$project$Controls_Register$view(model.registration)),
+				_1: {ctor: '[]'}
+			}
+		});
+};
 var _user$project$Home$Register = {ctor: 'Register'};
 var _user$project$Home$Search = function (a) {
 	return {ctor: 'Search', _0: a};
