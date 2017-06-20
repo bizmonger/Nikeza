@@ -557,9 +557,7 @@ content model =
 
             Domain.ViewLinks ->
                 div []
-                    [ Html.map PortalLinksAction <| ContributorLinks.view model.portal.contributor
-                    , label [] [ text <| toString model.portal.contributor.links ]
-                    ]
+                    [ Html.map PortalLinksAction <| ContributorLinks.view model.portal.contributor ]
 
             Domain.AddLink ->
                 let
@@ -623,10 +621,11 @@ dashboardPage model =
                                         , button [ onClick ViewLinks ] [ text "Links" ]
                                         , br [] []
                                         , button [ onClick AddNewLink ] [ text "Link" ]
-                                        , br [] []
-                                        , button [ onClick ViewLinks ] [ text "Subscribers" ]
-                                        , br [] []
-                                        , button [ onClick ViewLinks ] [ text "Subscriptions" ]
+
+                                        -- , br [] []
+                                        -- , button [ onClick ViewLinks ] [ text "Subscribers" ]
+                                        -- , br [] []
+                                        -- , button [ onClick ViewLinks ] [ text "Subscriptions" ]
                                         ]
                                     ]
                                 ]

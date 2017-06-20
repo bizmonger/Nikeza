@@ -31,6 +31,11 @@ links profileId =
     initLinks
 
 
+addLink : Id -> Link -> Result String Links
+addLink profileId link =
+    Err "Not implemented"
+
+
 topicLinks : Topic -> ContentType -> Id -> List Link
 topicLinks topic contentType id =
     []
@@ -44,6 +49,11 @@ usernameToId username =
 connections : Id -> List Connection
 connections profileId =
     []
+
+
+addConnection : Id -> Connection -> Result String (List Connection)
+addConnection profileId connection =
+    Err "Failed to add connection"
 
 
 topics : List Topic

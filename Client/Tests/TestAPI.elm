@@ -155,6 +155,10 @@ contributor3 =
     Contributor profile3 True topics contributor3Links
 
 
+
+-- FUNCTIONS
+
+
 tryLogin : Login.Model -> Login.Model
 tryLogin credentials =
     let
@@ -194,6 +198,32 @@ links id =
     , videos = id |> linksToContent Video
     , podcasts = id |> linksToContent Podcast
     }
+
+
+addLink : Id -> Link -> Result String Links
+addLink profileId link =
+    let
+        currentLinks =
+            profileId |> links
+    in
+        case link.contentType of
+            All ->
+                Err "Failed to add link: Cannot add link to 'ALL'"
+
+            Unknown ->
+                Err "Failed to add link: Contenttype of link is unknown"
+
+            Answer ->
+                Ok { currentLinks | answers = link :: currentLinks.answers }
+
+            Article ->
+                Ok { currentLinks | articles = link :: currentLinks.articles }
+
+            Video ->
+                Ok { currentLinks | videos = link :: currentLinks.videos }
+
+            podcast ->
+                Ok { currentLinks | podcasts = link :: currentLinks.podcasts }
 
 
 linksToContent : ContentType -> Id -> List Link
@@ -279,6 +309,11 @@ connections profileId =
     , { platform = "YouTube", username = "bizmonger" }
     , { platform = "StackOverflow", username = "scott-nimrod" }
     ]
+
+
+addConnection : Id -> Connection -> Result String (List Connection)
+addConnection profileId connection =
+    Ok <| connection :: (profileId |> connections)
 
 
 usernameToId : String -> Id

@@ -224,6 +224,14 @@ type alias Connectionsfunction =
     Id -> List Connection
 
 
+type alias AddConnectionfunction =
+    Id -> Connection -> Result String (List Connection)
+
+
+type alias AddLinkfunction =
+    Id -> Link -> Result String Links
+
+
 type alias Contributorfunction =
     Id -> Maybe Contributor
 
