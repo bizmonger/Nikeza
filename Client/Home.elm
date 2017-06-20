@@ -214,11 +214,13 @@ onRemove model connection =
         updatedContentProvider =
             { contentProvider | profile = updatedProfile }
 
+        pendingPortal =
+            model.portal
+
         portal =
-            { contentProvider = updatedContentProvider
-            , requested = Domain.ViewLinks
-            , newConnection = initConnection
-            , newLinks = model.portal.newLinks
+            { pendingPortal
+                | contentProvider = updatedContentProvider
+                , newConnection = initConnection
             }
 
         newState =

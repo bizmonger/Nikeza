@@ -12380,6 +12380,7 @@ var _user$project$Home$onNewLink = F2(
 	});
 var _user$project$Home$onRemove = F2(
 	function (model, connection) {
+		var pendingPortal = model.portal;
 		var contentProvider = model.portal.contentProvider;
 		var profile = contentProvider.profile;
 		var connectionsLeft = A2(
@@ -12394,7 +12395,9 @@ var _user$project$Home$onRemove = F2(
 		var updatedContentProvider = _elm_lang$core$Native_Utils.update(
 			contentProvider,
 			{profile: updatedProfile});
-		var portal = {contentProvider: updatedContentProvider, requested: _user$project$Domain_Core$ViewLinks, newConnection: _user$project$Domain_Core$initConnection, newLinks: model.portal.newLinks};
+		var portal = _elm_lang$core$Native_Utils.update(
+			pendingPortal,
+			{contentProvider: updatedContentProvider, newConnection: _user$project$Domain_Core$initConnection});
 		var newState = _elm_lang$core$Native_Utils.update(
 			model,
 			{portal: portal});
