@@ -84,7 +84,7 @@ type Msg
     | ViewLinks
     | NewLink NewLinks.Msg
     | ContributorLinksAction ContributorLinks.Msg
-    | PortalContributorLinksAction ContributorLinks.Msg
+    | PortalLinksAction ContributorLinks.Msg
     | ContributorContentTypeLinksAction ContributorContentTypeLinks.Msg
     | Search String
     | Register
@@ -157,27 +157,27 @@ update msg model =
                     in
                         ( { model | selectedContributor = contributor }, Cmd.none )
 
-        PortalContributorLinksAction subMsg ->
+        PortalLinksAction subMsg ->
             case subMsg of
                 ContributorLinks.ToggleAll _ ->
                     let
                         ( contributor, _ ) =
                             ContributorLinks.update subMsg model.portal.contributor
 
-                        pedndingPortal =
+                        pendingPortal =
                             model.portal
                     in
-                        ( { model | portal = { pedndingPortal | contributor = contributor } }, Cmd.none )
+                        ( { model | portal = { pendingPortal | contributor = contributor } }, Cmd.none )
 
                 ContributorLinks.Toggle _ ->
                     let
                         ( contributor, _ ) =
-                            ContributorLinks.update subMsg model.selectedContributor
+                            ContributorLinks.update subMsg model.portal.contributor
 
-                        pedndingPortal =
+                        pendingPortal =
                             model.portal
                     in
-                        ( { model | portal = { pedndingPortal | contributor = contributor } }, Cmd.none )
+                        ( { model | portal = { pendingPortal | contributor = contributor } }, Cmd.none )
 
         ContributorContentTypeLinksAction subMsg ->
             case subMsg of
@@ -557,7 +557,7 @@ content model =
 
             Domain.ViewLinks ->
                 div []
-                    [ Html.map PortalContributorLinksAction <| ContributorLinks.view model.portal.contributor
+                    [ Html.map PortalLinksAction <| ContributorLinks.view model.portal.contributor
                     , label [] [ text <| toString model.portal.contributor.links ]
                     ]
 

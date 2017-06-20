@@ -12325,11 +12325,11 @@ var _user$project$Home$update = F2(
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				}
-			case 'PortalContributorLinksAction':
+			case 'PortalLinksAction':
 				var _p18 = _p10._0;
 				var _p15 = _p18;
 				if (_p15.ctor === 'ToggleAll') {
-					var pedndingPortal = model.portal;
+					var pendingPortal = model.portal;
 					var _p16 = A2(_user$project$Controls_ContributorLinks$update, _p18, model.portal.contributor);
 					var contributor = _p16._0;
 					return {
@@ -12338,14 +12338,14 @@ var _user$project$Home$update = F2(
 							model,
 							{
 								portal: _elm_lang$core$Native_Utils.update(
-									pedndingPortal,
+									pendingPortal,
 									{contributor: contributor})
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
-					var pedndingPortal = model.portal;
-					var _p17 = A2(_user$project$Controls_ContributorLinks$update, _p18, model.selectedContributor);
+					var pendingPortal = model.portal;
+					var _p17 = A2(_user$project$Controls_ContributorLinks$update, _p18, model.portal.contributor);
 					var contributor = _p17._0;
 					return {
 						ctor: '_Tuple2',
@@ -12353,7 +12353,7 @@ var _user$project$Home$update = F2(
 							model,
 							{
 								portal: _elm_lang$core$Native_Utils.update(
-									pedndingPortal,
+									pendingPortal,
 									{contributor: contributor})
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
@@ -12417,8 +12417,8 @@ var _user$project$Home$Search = function (a) {
 var _user$project$Home$ContributorContentTypeLinksAction = function (a) {
 	return {ctor: 'ContributorContentTypeLinksAction', _0: a};
 };
-var _user$project$Home$PortalContributorLinksAction = function (a) {
-	return {ctor: 'PortalContributorLinksAction', _0: a};
+var _user$project$Home$PortalLinksAction = function (a) {
+	return {ctor: 'PortalLinksAction', _0: a};
 };
 var _user$project$Home$ContributorLinksAction = function (a) {
 	return {ctor: 'ContributorLinksAction', _0: a};
@@ -12585,7 +12585,7 @@ var _user$project$Home$content = function (model) {
 					ctor: '::',
 					_0: A2(
 						_elm_lang$html$Html$map,
-						_user$project$Home$PortalContributorLinksAction,
+						_user$project$Home$PortalLinksAction,
 						_user$project$Controls_ContributorLinks$view(model.portal.contributor)),
 					_1: {
 						ctor: '::',
