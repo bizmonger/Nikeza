@@ -10,6 +10,7 @@ import Controls.NewLinks as NewLinks exposing (..)
 import Controls.ContentProviderLinks as ContentProviderLinks exposing (..)
 import Controls.ContentProviderContentTypeLinks as ContentProviderContentTypeLinks exposing (..)
 import Controls.Register as Registration exposing (..)
+import Controls.EditProfile as EditProfile exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
@@ -89,6 +90,7 @@ type Msg
     | NewLink NewLinks.Msg
     | ContentProviderLinksAction ContentProviderLinks.Msg
     | PortalLinksAction ContentProviderLinks.Msg
+    | EditProfileAction EditProfile.Msg
     | ContentProviderContentTypeLinksAction ContentProviderContentTypeLinks.Msg
     | Search String
     | Register
@@ -155,6 +157,9 @@ update msg model =
 
         NewLink subMsg ->
             onNewLink subMsg model
+
+        EditProfileAction subMsg ->
+            ( model, Cmd.none )
 
         ContentProviderLinksAction subMsg ->
             case subMsg of
@@ -632,11 +637,10 @@ content model =
                     ]
 
             Domain.ViewLinks ->
-                div []
-                    [ Html.map PortalLinksAction <| ContentProviderLinks.view model.portal.contentProvider ]
+                div [] [ Html.map PortalLinksAction <| ContentProviderLinks.view model.portal.contentProvider ]
 
             Domain.EditProfile ->
-                div [] [ h3 [] [ text "Edit Profile" ] ]
+                div [] [ Html.map EditProfileAction <| EditProfile.view model.portal.contentProvider.profile ]
 
             Domain.AddLink ->
                 let

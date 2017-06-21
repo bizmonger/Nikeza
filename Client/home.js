@@ -11246,6 +11246,89 @@ var _user$project$Controls_ContentProviderLinks$ToggleAll = function (a) {
 	return {ctor: 'ToggleAll', _0: a};
 };
 
+var _user$project$Controls_EditProfile$update = F2(
+	function (msg, model) {
+		return model;
+	});
+var _user$project$Controls_EditProfile$BioInput = function (a) {
+	return {ctor: 'BioInput', _0: a};
+};
+var _user$project$Controls_EditProfile$NameInput = function (a) {
+	return {ctor: 'NameInput', _0: a};
+};
+var _user$project$Controls_EditProfile$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h3,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Edit Profile'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$input,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$type_('text'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$placeholder('name'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$NameInput),
+								_1: {ctor: '[]'}
+							}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$br,
+						{ctor: '[]'},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$textarea,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$placeholder('bio...'),
+								_1: {ctor: '[]'}
+							},
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$button,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Save'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			}
+		});
+};
+
 var _user$project$Controls_NewLinks$update = F2(
 	function (msg, model) {
 		var linkToCreateBase = model.current.base;
@@ -12792,6 +12875,8 @@ var _user$project$Home$update = F2(
 				return A2(_user$project$Home$onRemove, model, _p13._0);
 			case 'NewLink':
 				return A2(_user$project$Home$onNewLink, _p13._0, model);
+			case 'EditProfileAction':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'ContentProviderLinksAction':
 				var _p17 = _p13._0;
 				var _p14 = _p17;
@@ -12934,6 +13019,9 @@ var _user$project$Home$Search = function (a) {
 };
 var _user$project$Home$ContentProviderContentTypeLinksAction = function (a) {
 	return {ctor: 'ContentProviderContentTypeLinksAction', _0: a};
+};
+var _user$project$Home$EditProfileAction = function (a) {
+	return {ctor: 'EditProfileAction', _0: a};
 };
 var _user$project$Home$PortalLinksAction = function (a) {
 	return {ctor: 'PortalLinksAction', _0: a};
@@ -13115,13 +13203,9 @@ var _user$project$Home$content = function (model) {
 				{
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$h3,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('Edit Profile'),
-							_1: {ctor: '[]'}
-						}),
+						_elm_lang$html$Html$map,
+						_user$project$Home$EditProfileAction,
+						_user$project$Controls_EditProfile$view(model.portal.contentProvider.profile)),
 					_1: {ctor: '[]'}
 				});
 		default:
