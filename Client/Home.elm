@@ -210,6 +210,9 @@ onRegistration subMsg model =
             Registration.update subMsg model.registration
     in
         case subMsg of
+            Registration.NameInput _ ->
+                ( { model | registration = form }, Cmd.none )
+
             Registration.EmailInput _ ->
                 ( { model | registration = form }, Cmd.none )
 
@@ -389,7 +392,7 @@ onLogin subMsg model =
                             Just contentProvider ->
                                 { model
                                     | login = latest
-                                    , portal = { pendingPortal | contentProvider = contentProvider }
+                                    , portal = { pendingPortal | contentProvider = contentProvider, requested = Domain.ViewLinks }
                                 }
 
                             Nothing ->

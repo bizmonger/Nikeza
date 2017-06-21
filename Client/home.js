@@ -9386,6 +9386,10 @@ var _user$project$Controls_Register$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		switch (_p0.ctor) {
+			case 'NameInput':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{name: _p0._0});
 			case 'EmailInput':
 				return _elm_lang$core$Native_Utils.update(
 					model,
@@ -9404,11 +9408,11 @@ var _user$project$Controls_Register$update = F2(
 					{email: _p0._0._0, password: _p0._0._1, confirm: _p0._0._2});
 		}
 	});
-var _user$project$Controls_Register$Model = F3(
-	function (a, b, c) {
-		return {email: a, password: b, confirm: c};
+var _user$project$Controls_Register$Model = F4(
+	function (a, b, c, d) {
+		return {name: a, email: b, password: c, confirm: d};
 	});
-var _user$project$Controls_Register$model = A3(_user$project$Controls_Register$Model, '', '', '');
+var _user$project$Controls_Register$model = A4(_user$project$Controls_Register$Model, '', '', '', '');
 var _user$project$Controls_Register$Submit = function (a) {
 	return {ctor: 'Submit', _0: a};
 };
@@ -9434,7 +9438,7 @@ var _user$project$Controls_Register$view = function (model) {
 					_0: _elm_lang$html$Html_Attributes$type_('text'),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$placeholder('email'),
+						_0: _elm_lang$html$Html_Attributes$placeholder('name'),
 						_1: {
 							ctor: '::',
 							_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$EmailInput),
@@ -9459,16 +9463,16 @@ var _user$project$Controls_Register$view = function (model) {
 						_elm_lang$html$Html$input,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$type_('password'),
+							_0: _elm_lang$html$Html_Attributes$type_('email'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$placeholder('password'),
+								_0: _elm_lang$html$Html_Attributes$placeholder('email'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$PasswordInput),
+									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$EmailInput),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$value(model.password),
+										_0: _elm_lang$html$Html_Attributes$value(model.email),
 										_1: {ctor: '[]'}
 									}
 								}
@@ -9490,13 +9494,13 @@ var _user$project$Controls_Register$view = function (model) {
 									_0: _elm_lang$html$Html_Attributes$type_('password'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$placeholder('confirm'),
+										_0: _elm_lang$html$Html_Attributes$placeholder('password'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$ConfirmInput),
+											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$PasswordInput),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$value(model.confirm),
+												_0: _elm_lang$html$Html_Attributes$value(model.password),
 												_1: {ctor: '[]'}
 											}
 										}
@@ -9515,21 +9519,51 @@ var _user$project$Controls_Register$view = function (model) {
 										_elm_lang$html$Html$input,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$type_('submit'),
+											_0: _elm_lang$html$Html_Attributes$type_('password'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$value('Create Account'),
+												_0: _elm_lang$html$Html_Attributes$placeholder('confirm'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onClick(
-														_user$project$Controls_Register$Submit(
-															{ctor: '_Tuple3', _0: model.email, _1: model.password, _2: model.confirm})),
-													_1: {ctor: '[]'}
+													_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$ConfirmInput),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$value(model.confirm),
+														_1: {ctor: '[]'}
+													}
 												}
 											}
 										},
 										{ctor: '[]'}),
-									_1: {ctor: '[]'}
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$br,
+											{ctor: '[]'},
+											{ctor: '[]'}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$input,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$type_('submit'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$value('Create Account'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Events$onClick(
+																_user$project$Controls_Register$Submit(
+																	{ctor: '_Tuple3', _0: model.email, _1: model.password, _2: model.confirm})),
+															_1: {ctor: '[]'}
+														}
+													}
+												},
+												{ctor: '[]'}),
+											_1: {ctor: '[]'}
+										}
+									}
 								}
 							}
 						}
@@ -9537,6 +9571,9 @@ var _user$project$Controls_Register$view = function (model) {
 				}
 			}
 		});
+};
+var _user$project$Controls_Register$NameInput = function (a) {
+	return {ctor: 'NameInput', _0: a};
 };
 
 var _user$project$Domain_Core$contentTypeToText = function (contentType) {
@@ -12357,7 +12394,7 @@ var _user$project$Home$onLogin = F2(
 								login: latest,
 								portal: _elm_lang$core$Native_Utils.update(
 									pendingPortal,
-									{contentProvider: _p6._0})
+									{contentProvider: _p6._0, requested: _user$project$Domain_Core$ViewLinks})
 							});
 					} else {
 						return _elm_lang$core$Native_Utils.update(
@@ -12574,6 +12611,14 @@ var _user$project$Home$onRegistration = F2(
 		var form = A2(_user$project$Controls_Register$update, subMsg, model.registration);
 		var _p10 = subMsg;
 		switch (_p10.ctor) {
+			case 'NameInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{registration: form}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 			case 'EmailInput':
 				return {
 					ctor: '_Tuple2',
