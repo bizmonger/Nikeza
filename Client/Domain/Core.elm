@@ -1,6 +1,7 @@
 module Domain.Core exposing (..)
 
 import Controls.Login as Login exposing (Model)
+import Controls.Register as Register exposing (Model)
 
 
 -- TYPES
@@ -250,6 +251,10 @@ type alias ContentProvidersfunction =
 
 type alias Loginfunction =
     Login.Model -> Login.Model
+
+
+type alias Registerfunction =
+    Register.Model -> Result String ContentProvider
 
 
 type alias Linksfunction =

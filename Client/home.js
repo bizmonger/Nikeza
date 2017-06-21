@@ -9382,6 +9382,163 @@ var _user$project$Controls_Login$view = function (model) {
 		});
 };
 
+var _user$project$Controls_Register$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'EmailInput':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{email: _p0._0});
+			case 'PasswordInput':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{password: _p0._0});
+			case 'ConfirmInput':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{confirm: _p0._0});
+			default:
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{email: _p0._0._0, password: _p0._0._1, confirm: _p0._0._2});
+		}
+	});
+var _user$project$Controls_Register$Model = F3(
+	function (a, b, c) {
+		return {email: a, password: b, confirm: c};
+	});
+var _user$project$Controls_Register$model = A3(_user$project$Controls_Register$Model, '', '', '');
+var _user$project$Controls_Register$Submit = function (a) {
+	return {ctor: 'Submit', _0: a};
+};
+var _user$project$Controls_Register$ConfirmInput = function (a) {
+	return {ctor: 'ConfirmInput', _0: a};
+};
+var _user$project$Controls_Register$PasswordInput = function (a) {
+	return {ctor: 'PasswordInput', _0: a};
+};
+var _user$project$Controls_Register$EmailInput = function (a) {
+	return {ctor: 'EmailInput', _0: a};
+};
+var _user$project$Controls_Register$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$input,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$type_('text'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$placeholder('email'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$EmailInput),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$value(model.email),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$br,
+					{ctor: '[]'},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$input,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$type_('password'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$placeholder('password'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$PasswordInput),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$value(model.password),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$input,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$type_('confirm'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$placeholder('confirm'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$ConfirmInput),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$value(model.confirm),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$br,
+									{ctor: '[]'},
+									{ctor: '[]'}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$input,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$type_('submit'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$value('Create Account'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Events$onClick(
+														_user$project$Controls_Register$Submit(
+															{ctor: '_Tuple3', _0: model.email, _1: model.password, _2: model.confirm})),
+													_1: {ctor: '[]'}
+												}
+											}
+										},
+										{ctor: '[]'}),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				}
+			}
+		});
+};
+
 var _user$project$Domain_Core$contentTypeToText = function (contentType) {
 	var _p0 = contentType;
 	switch (_p0.ctor) {
@@ -10007,6 +10164,10 @@ var _user$project$Tests_TestAPI$contentProvider1Links = A4(
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId1),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId1));
 var _user$project$Tests_TestAPI$contentProvider1 = A4(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile1, true, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider1Links);
+var _user$project$Tests_TestAPI$tryRegister = function (form) {
+	var successful = _elm_lang$core$Native_Utils.eq(form.password, form.confirm);
+	return successful ? _elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$contentProvider1) : _elm_lang$core$Result$Err('Registration failed');
+};
 var _user$project$Tests_TestAPI$contentProvider2Links = A4(
 	_user$project$Domain_Core$Links,
 	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId2),
@@ -10202,6 +10363,9 @@ var _user$project$Services_Server$contentProvider = function (id) {
 	return _elm_lang$core$Maybe$Nothing;
 };
 var _user$project$Services_Server$contentProviders = {ctor: '[]'};
+var _user$project$Services_Server$tryRegister = function (form) {
+	return _elm_lang$core$Result$Err('Registration failed');
+};
 var _user$project$Services_Server$tryLogin = function (credentials) {
 	var successful = _elm_lang$core$Native_Utils.eq(
 		_elm_lang$core$String$toLower(credentials.username),
@@ -10225,7 +10389,9 @@ var _user$project$Settings$Dependencies = function (a) {
 											return function (l) {
 												return function (m) {
 													return function (n) {
-														return {tryLogin: a, contentProvider: b, contentProviders: c, links: d, addLink: e, removeLink: f, topicLinks: g, usernameToId: h, connections: i, addSource: j, removeSource: k, platforms: l, topics: m, suggestedTopics: n};
+														return function (o) {
+															return {tryLogin: a, tryRegister: b, contentProvider: c, contentProviders: d, links: e, addLink: f, removeLink: g, topicLinks: h, usernameToId: i, connections: j, addSource: k, removeSource: l, platforms: m, topics: n, suggestedTopics: o};
+														};
 													};
 												};
 											};
@@ -10245,9 +10411,9 @@ var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return _user$project$Settings$Dependencies(_user$project$Services_Server$tryLogin)(_user$project$Services_Server$contentProvider)(_user$project$Services_Server$contentProviders)(_user$project$Services_Server$links)(_user$project$Services_Server$addLink)(_user$project$Services_Server$removeLink)(_user$project$Services_Server$topicLinks)(_user$project$Services_Server$usernameToId)(_user$project$Services_Server$connections)(_user$project$Services_Server$addSource)(_user$project$Services_Server$removeSource)(_user$project$Services_Server$platforms)(_user$project$Services_Server$topics)(_user$project$Services_Server$suggestedTopics);
+		return _user$project$Settings$Dependencies(_user$project$Services_Server$tryLogin)(_user$project$Services_Server$tryRegister)(_user$project$Services_Server$contentProvider)(_user$project$Services_Server$contentProviders)(_user$project$Services_Server$links)(_user$project$Services_Server$addLink)(_user$project$Services_Server$removeLink)(_user$project$Services_Server$topicLinks)(_user$project$Services_Server$usernameToId)(_user$project$Services_Server$connections)(_user$project$Services_Server$addSource)(_user$project$Services_Server$removeSource)(_user$project$Services_Server$platforms)(_user$project$Services_Server$topics)(_user$project$Services_Server$suggestedTopics);
 	} else {
-		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$contentProvider)(_user$project$Tests_TestAPI$contentProviders)(_user$project$Tests_TestAPI$links)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$usernameToId)(_user$project$Tests_TestAPI$connections)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$platforms)(_user$project$Tests_TestAPI$topics)(_user$project$Tests_TestAPI$suggestedTopics);
+		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$contentProvider)(_user$project$Tests_TestAPI$contentProviders)(_user$project$Tests_TestAPI$links)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$usernameToId)(_user$project$Tests_TestAPI$connections)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$platforms)(_user$project$Tests_TestAPI$topics)(_user$project$Tests_TestAPI$suggestedTopics);
 	}
 }();
 var _user$project$Settings$Integration = {ctor: 'Integration'};
@@ -11587,163 +11753,6 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (contentProvide
 };
 var _user$project$Controls_ProfileThumbnail$None = {ctor: 'None'};
 
-var _user$project$Controls_Register$update = F2(
-	function (msg, model) {
-		var _p0 = msg;
-		switch (_p0.ctor) {
-			case 'EmailInput':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{email: _p0._0});
-			case 'PasswordInput':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{password: _p0._0});
-			case 'ConfirmInput':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{confirm: _p0._0});
-			default:
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{email: _p0._0._0, password: _p0._0._1, confirm: _p0._0._2});
-		}
-	});
-var _user$project$Controls_Register$Model = F3(
-	function (a, b, c) {
-		return {email: a, password: b, confirm: c};
-	});
-var _user$project$Controls_Register$model = A3(_user$project$Controls_Register$Model, '', '', '');
-var _user$project$Controls_Register$Submit = function (a) {
-	return {ctor: 'Submit', _0: a};
-};
-var _user$project$Controls_Register$ConfirmInput = function (a) {
-	return {ctor: 'ConfirmInput', _0: a};
-};
-var _user$project$Controls_Register$PasswordInput = function (a) {
-	return {ctor: 'PasswordInput', _0: a};
-};
-var _user$project$Controls_Register$EmailInput = function (a) {
-	return {ctor: 'EmailInput', _0: a};
-};
-var _user$project$Controls_Register$view = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$input,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$type_('text'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$placeholder('email'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$EmailInput),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$value(model.email),
-								_1: {ctor: '[]'}
-							}
-						}
-					}
-				},
-				{ctor: '[]'}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$br,
-					{ctor: '[]'},
-					{ctor: '[]'}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$input,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$type_('password'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$placeholder('password'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$PasswordInput),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$value(model.password),
-										_1: {ctor: '[]'}
-									}
-								}
-							}
-						},
-						{ctor: '[]'}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$input,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$type_('confirm'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$placeholder('confirm'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$ConfirmInput),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$value(model.confirm),
-												_1: {ctor: '[]'}
-											}
-										}
-									}
-								},
-								{ctor: '[]'}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$br,
-									{ctor: '[]'},
-									{ctor: '[]'}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$input,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$type_('submit'),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$value('Create Account'),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onClick(
-														_user$project$Controls_Register$Submit(
-															{ctor: '_Tuple3', _0: model.email, _1: model.password, _2: model.confirm})),
-													_1: {ctor: '[]'}
-												}
-											}
-										},
-										{ctor: '[]'}),
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					}
-				}
-			}
-		});
-};
-
 var _user$project$Home$tokenizeUrl = function (urlHash) {
 	return A2(
 		_elm_lang$core$List$drop,
@@ -12562,18 +12571,72 @@ var _user$project$Home$onRemove = F2(
 	});
 var _user$project$Home$onRegistration = F2(
 	function (subMsg, model) {
-		return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+		var form = A2(_user$project$Controls_Register$update, subMsg, model.registration);
+		var _p10 = subMsg;
+		switch (_p10.ctor) {
+			case 'EmailInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{registration: form}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'PasswordInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{registration: form}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'ConfirmInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{registration: form}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				var _p11 = _user$project$Settings$runtime.tryRegister(form);
+				if (_p11.ctor === 'Ok') {
+					var _p12 = _p11._0;
+					var newState = _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							registration: form,
+							portal: _elm_lang$core$Native_Utils.update(
+								_user$project$Domain_Core$initPortal,
+								{contentProvider: _p12})
+						});
+					return {
+						ctor: '_Tuple2',
+						_0: newState,
+						_1: _elm_lang$navigation$Navigation$load(
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								'/#/',
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									_user$project$Domain_Core$getId(_p12.profile.id),
+									'/dashboard')))
+					};
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+		}
 	});
 var _user$project$Home$update = F2(
 	function (msg, model) {
-		var _p10 = msg;
-		switch (_p10.ctor) {
+		var _p13 = msg;
+		switch (_p13.ctor) {
 			case 'UrlChange':
-				return A3(_user$project$Home$navigate, msg, model, _p10._0);
+				return A3(_user$project$Home$navigate, msg, model, _p13._0);
 			case 'OnLogin':
-				return A2(_user$project$Home$onLogin, _p10._0, model);
+				return A2(_user$project$Home$onLogin, _p13._0, model);
 			case 'Search':
-				if (_p10._0 === '') {
+				if (_p13._0 === '') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -12582,7 +12645,7 @@ var _user$project$Home$update = F2(
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
-					return A2(_user$project$Home$matchContentProviders, model, _p10._0);
+					return A2(_user$project$Home$matchContentProviders, model, _p13._0);
 				}
 			case 'Register':
 				return {
@@ -12591,7 +12654,7 @@ var _user$project$Home$update = F2(
 					_1: _elm_lang$navigation$Navigation$load('/#/register')
 				};
 			case 'OnRegistration':
-				return A2(_user$project$Home$onRegistration, _p10._0, model);
+				return A2(_user$project$Home$onRegistration, _p13._0, model);
 			case 'ProfileThumbnail':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'ViewSources':
@@ -12634,17 +12697,17 @@ var _user$project$Home$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'NewSource':
-				return A2(_user$project$Home$onNewSource, _p10._0, model);
+				return A2(_user$project$Home$onNewSource, _p13._0, model);
 			case 'Remove':
-				return A2(_user$project$Home$onRemove, model, _p10._0);
+				return A2(_user$project$Home$onRemove, model, _p13._0);
 			case 'NewLink':
-				return A2(_user$project$Home$onNewLink, _p10._0, model);
+				return A2(_user$project$Home$onNewLink, _p13._0, model);
 			case 'ContentProviderLinksAction':
-				var _p14 = _p10._0;
-				var _p11 = _p14;
-				if (_p11.ctor === 'ToggleAll') {
-					var _p12 = A2(_user$project$Controls_ContentProviderLinks$update, _p14, model.selectedContentProvider);
-					var contentProvider = _p12._0;
+				var _p17 = _p13._0;
+				var _p14 = _p17;
+				if (_p14.ctor === 'ToggleAll') {
+					var _p15 = A2(_user$project$Controls_ContentProviderLinks$update, _p17, model.selectedContentProvider);
+					var contentProvider = _p15._0;
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -12653,8 +12716,8 @@ var _user$project$Home$update = F2(
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
-					var _p13 = A2(_user$project$Controls_ContentProviderLinks$update, _p14, model.selectedContentProvider);
-					var contentProvider = _p13._0;
+					var _p16 = A2(_user$project$Controls_ContentProviderLinks$update, _p17, model.selectedContentProvider);
+					var contentProvider = _p16._0;
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -12664,12 +12727,12 @@ var _user$project$Home$update = F2(
 					};
 				}
 			case 'PortalLinksAction':
-				var _p18 = _p10._0;
-				var _p15 = _p18;
-				if (_p15.ctor === 'ToggleAll') {
+				var _p21 = _p13._0;
+				var _p18 = _p21;
+				if (_p18.ctor === 'ToggleAll') {
 					var pendingPortal = model.portal;
-					var _p16 = A2(_user$project$Controls_ContentProviderLinks$update, _p18, model.portal.contentProvider);
-					var contentProvider = _p16._0;
+					var _p19 = A2(_user$project$Controls_ContentProviderLinks$update, _p21, model.portal.contentProvider);
+					var contentProvider = _p19._0;
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -12683,8 +12746,8 @@ var _user$project$Home$update = F2(
 					};
 				} else {
 					var pendingPortal = model.portal;
-					var _p17 = A2(_user$project$Controls_ContentProviderLinks$update, _p18, model.portal.contentProvider);
-					var contentProvider = _p17._0;
+					var _p20 = A2(_user$project$Controls_ContentProviderLinks$update, _p21, model.portal.contentProvider);
+					var contentProvider = _p20._0;
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -12698,11 +12761,11 @@ var _user$project$Home$update = F2(
 					};
 				}
 			default:
-				var _p22 = _p10._0;
-				var _p19 = _p22;
-				if (_p19.ctor === 'ToggleAll') {
-					var _p20 = A2(_user$project$Controls_ContentProviderContentTypeLinks$update, _p22, model.selectedContentProvider);
-					var contentProvider = _p20._0;
+				var _p25 = _p13._0;
+				var _p22 = _p25;
+				if (_p22.ctor === 'ToggleAll') {
+					var _p23 = A2(_user$project$Controls_ContentProviderContentTypeLinks$update, _p25, model.selectedContentProvider);
+					var contentProvider = _p23._0;
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -12711,8 +12774,8 @@ var _user$project$Home$update = F2(
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
-					var _p21 = A2(_user$project$Controls_ContentProviderContentTypeLinks$update, _p22, model.selectedContentProvider);
-					var contentProvider = _p21._0;
+					var _p24 = A2(_user$project$Controls_ContentProviderContentTypeLinks$update, _p25, model.selectedContentProvider);
+					var contentProvider = _p24._0;
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -12725,12 +12788,12 @@ var _user$project$Home$update = F2(
 	});
 var _user$project$Home$init = function (location) {
 	var contentProvider = function () {
-		var _p23 = _user$project$Home$tokenizeUrl(location.hash);
-		if ((((_p23.ctor === '::') && (_p23._0 === 'contentProvider')) && (_p23._1.ctor === '::')) && (_p23._1._1.ctor === '[]')) {
-			var _p24 = _user$project$Settings$runtime.contentProvider(
-				_user$project$Domain_Core$Id(_p23._1._0));
-			if (_p24.ctor === 'Just') {
-				return _p24._0;
+		var _p26 = _user$project$Home$tokenizeUrl(location.hash);
+		if ((((_p26.ctor === '::') && (_p26._0 === 'contentProvider')) && (_p26._1.ctor === '::')) && (_p26._1._1.ctor === '[]')) {
+			var _p27 = _user$project$Settings$runtime.contentProvider(
+				_user$project$Domain_Core$Id(_p26._1._0));
+			if (_p27.ctor === 'Just') {
+				return _p27._0;
 			} else {
 				return _user$project$Domain_Core$initContentProvider;
 			}
@@ -12871,8 +12934,8 @@ var _user$project$Home$content = function (model) {
 				A2(_elm_lang$core$List$map, _user$project$Home$connectionUI, contentProvider.profile.connections)),
 			_1: {ctor: '[]'}
 		});
-	var _p25 = model.portal.requested;
-	switch (_p25.ctor) {
+	var _p28 = model.portal.requested;
+	switch (_p28.ctor) {
 		case 'ViewSources':
 			return A2(
 				_elm_lang$html$Html$table,
@@ -13299,7 +13362,7 @@ var _user$project$Home$homePage = function (model) {
 			{ctor: '[]'},
 			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, model.contentProviders)));
 	var loginUI = function (model) {
-		var _p26 = {
+		var _p29 = {
 			ctor: '_Tuple3',
 			_0: model.login.loggedIn,
 			_1: A2(
@@ -13334,9 +13397,9 @@ var _user$project$Home$homePage = function (model) {
 					_1: {ctor: '[]'}
 				})
 		};
-		var loggedIn = _p26._0;
-		var welcome = _p26._1;
-		var signout = _p26._2;
+		var loggedIn = _p29._0;
+		var welcome = _p29._1;
+		var signout = _p29._2;
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$OnLogin,
@@ -13495,38 +13558,38 @@ var _user$project$Home$homePage = function (model) {
 		});
 };
 var _user$project$Home$view = function (model) {
-	var _p27 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
-	_v15_8:
+	var _p30 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+	_v17_8:
 	do {
-		if (_p27.ctor === '[]') {
+		if (_p30.ctor === '[]') {
 			return _user$project$Home$homePage(model);
 		} else {
-			if (_p27._1.ctor === '[]') {
-				switch (_p27._0) {
+			if (_p30._1.ctor === '[]') {
+				switch (_p30._0) {
 					case 'home':
 						return _user$project$Home$homePage(model);
 					case 'register':
 						return _user$project$Home$registerPage(model);
 					default:
-						break _v15_8;
+						break _v17_8;
 				}
 			} else {
-				if (_p27._1._1.ctor === '::') {
-					if (_p27._0 === 'contentProvider') {
-						if (_p27._1._1._1.ctor === '[]') {
-							var _p29 = _user$project$Settings$runtime.contentProvider(
-								_user$project$Domain_Core$Id(_p27._1._0));
-							if (_p29.ctor === 'Just') {
+				if (_p30._1._1.ctor === '::') {
+					if (_p30._0 === 'contentProvider') {
+						if (_p30._1._1._1.ctor === '[]') {
+							var _p32 = _user$project$Settings$runtime.contentProvider(
+								_user$project$Domain_Core$Id(_p30._1._0));
+							if (_p32.ctor === 'Just') {
 								return _user$project$Home$contentProviderTopicPage(model.selectedContentProvider);
 							} else {
 								return _user$project$Home$notFoundPage;
 							}
 						} else {
-							if (_p27._1._1._1._1.ctor === '[]') {
-								if (_p27._1._1._0 === 'all') {
-									var _p30 = _user$project$Settings$runtime.contentProvider(
-										_user$project$Domain_Core$Id(_p27._1._0));
-									if (_p30.ctor === 'Just') {
+							if (_p30._1._1._1._1.ctor === '[]') {
+								if (_p30._1._1._0 === 'all') {
+									var _p33 = _user$project$Settings$runtime.contentProvider(
+										_user$project$Domain_Core$Id(_p30._1._0));
+									if (_p33.ctor === 'Just') {
 										return A2(
 											_elm_lang$html$Html$table,
 											{ctor: '[]'},
@@ -13574,7 +13637,7 @@ var _user$project$Home$view = function (model) {
 																		A2(
 																			_user$project$Controls_ContentProviderContentTypeLinks$view,
 																			model.selectedContentProvider,
-																			_user$project$Domain_Core$toContentType(_p27._1._1._1._0))),
+																			_user$project$Domain_Core$toContentType(_p30._1._1._1._0))),
 																	_1: {ctor: '[]'}
 																}),
 															_1: {ctor: '[]'}
@@ -13630,34 +13693,34 @@ var _user$project$Home$view = function (model) {
 										return _user$project$Home$notFoundPage;
 									}
 								} else {
-									break _v15_8;
+									break _v17_8;
 								}
 							} else {
-								if ((_p27._1._1._1._0 === 'all') && (_p27._1._1._1._1._1.ctor === '[]')) {
-									var _p31 = _user$project$Settings$runtime.contentProvider(
-										_user$project$Domain_Core$Id(_p27._1._0));
-									if (_p31.ctor === 'Just') {
+								if ((_p30._1._1._1._0 === 'all') && (_p30._1._1._1._1._1.ctor === '[]')) {
+									var _p34 = _user$project$Settings$runtime.contentProvider(
+										_user$project$Domain_Core$Id(_p30._1._0));
+									if (_p34.ctor === 'Just') {
 										return A3(
 											_user$project$Home$contentProviderTopicContentTypePage,
-											_user$project$Domain_Core$Topic(_p27._1._1._0),
-											_user$project$Domain_Core$toContentType(_p27._1._1._1._1._0),
-											_p31._0);
+											_user$project$Domain_Core$Topic(_p30._1._1._0),
+											_user$project$Domain_Core$toContentType(_p30._1._1._1._1._0),
+											_p34._0);
 									} else {
 										return _user$project$Home$notFoundPage;
 									}
 								} else {
-									break _v15_8;
+									break _v17_8;
 								}
 							}
 						}
 					} else {
-						break _v15_8;
+						break _v17_8;
 					}
 				} else {
-					if (_p27._0 === 'contentProvider') {
-						var _p28 = _user$project$Settings$runtime.contentProvider(
-							_user$project$Domain_Core$Id(_p27._1._0));
-						if (_p28.ctor === 'Just') {
+					if (_p30._0 === 'contentProvider') {
+						var _p31 = _user$project$Settings$runtime.contentProvider(
+							_user$project$Domain_Core$Id(_p30._1._0));
+						if (_p31.ctor === 'Just') {
 							return A2(
 								_elm_lang$html$Html$table,
 								{ctor: '[]'},
@@ -13758,10 +13821,10 @@ var _user$project$Home$view = function (model) {
 							return _user$project$Home$notFoundPage;
 						}
 					} else {
-						if (_p27._1._0 === 'dashboard') {
+						if (_p30._1._0 === 'dashboard') {
 							return _user$project$Home$dashboardPage(model);
 						} else {
-							break _v15_8;
+							break _v17_8;
 						}
 					}
 				}
@@ -13780,7 +13843,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p32) {
+		subscriptions: function (_p35) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();

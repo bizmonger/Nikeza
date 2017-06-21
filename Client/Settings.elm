@@ -17,6 +17,7 @@ type Configuration
 
 type alias Dependencies =
     { tryLogin : Loginfunction
+    , tryRegister : Registerfunction
     , contentProvider : ContentProviderfunction
     , contentProviders : ContentProvidersfunction
     , links : Linksfunction
@@ -39,6 +40,7 @@ runtime =
         Integration ->
             Dependencies
                 Services.tryLogin
+                Services.tryRegister
                 Services.contentProvider
                 Services.contentProviders
                 Services.links
@@ -56,6 +58,7 @@ runtime =
         Isolation ->
             Dependencies
                 TestAPI.tryLogin
+                TestAPI.tryRegister
                 TestAPI.contentProvider
                 TestAPI.contentProviders
                 TestAPI.links

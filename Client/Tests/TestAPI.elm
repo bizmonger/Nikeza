@@ -1,6 +1,7 @@
 module Tests.TestAPI exposing (..)
 
 import Controls.Login as Login exposing (Model)
+import Controls.Register as Register exposing (Model)
 import Domain.Core as Domain exposing (..)
 import String exposing (..)
 
@@ -169,6 +170,18 @@ tryLogin credentials =
             { username = credentials.username, password = credentials.password, loggedIn = True }
         else
             { username = credentials.username, password = credentials.password, loggedIn = False }
+
+
+tryRegister : Register.Model -> Result String ContentProvider
+tryRegister form =
+    let
+        successful =
+            form.password == form.confirm
+    in
+        if successful then
+            Ok contentProvider1
+        else
+            Err "Registration failed"
 
 
 answers : Id -> List Link

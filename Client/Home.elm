@@ -205,7 +205,34 @@ update msg model =
 
 onRegistration : Registration.Msg -> Model -> ( Model, Cmd Msg )
 onRegistration subMsg model =
-    ( model, Cmd.none )
+    let
+        form =
+            Registration.update subMsg model.registration
+    in
+        case subMsg of
+            Registration.EmailInput _ ->
+                ( { model | registration = form }, Cmd.none )
+
+            Registration.PasswordInput _ ->
+                ( { model | registration = form }, Cmd.none )
+
+            Registration.ConfirmInput _ ->
+                ( { model | registration = form }, Cmd.none )
+
+            Registration.Submit _ ->
+                case form |> runtime.tryRegister of
+                    Ok user ->
+                        let
+                            newState =
+                                { model
+                                    | registration = form
+                                    , portal = { initPortal | contentProvider = user }
+                                }
+                        in
+                            ( newState, Navigation.load <| "/#/" ++ getId user.profile.id ++ "/dashboard" )
+
+                    Err v ->
+                        ( model, Cmd.none )
 
 
 onRemove : Model -> Source -> ( Model, Cmd Msg )
