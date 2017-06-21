@@ -226,7 +226,7 @@ onRegistration subMsg model =
                             newState =
                                 { model
                                     | registration = form
-                                    , portal = { initPortal | contentProvider = user }
+                                    , portal = { initPortal | contentProvider = user, requested = Domain.ViewSources }
                                 }
                         in
                             ( newState, Navigation.load <| "/#/" ++ getId user.profile.id ++ "/dashboard" )
@@ -613,7 +613,7 @@ content model =
             Domain.ViewSources ->
                 table []
                     [ tr []
-                        [ th [] [ h3 [] [ text "Sources" ] ] ]
+                        [ th [] [ h3 [] [ text "Data Sources" ] ] ]
                     , tr []
                         [ td [] [ Html.map NewSource <| AddSource.view model.portal.newSource ] ]
                     , tr []

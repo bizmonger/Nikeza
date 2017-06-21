@@ -12608,7 +12608,7 @@ var _user$project$Home$onRegistration = F2(
 							registration: form,
 							portal: _elm_lang$core$Native_Utils.update(
 								_user$project$Domain_Core$initPortal,
-								{contentProvider: _p12})
+								{contentProvider: _p12, requested: _user$project$Domain_Core$ViewSources})
 						});
 					return {
 						ctor: '_Tuple2',
@@ -12957,7 +12957,7 @@ var _user$project$Home$content = function (model) {
 										{ctor: '[]'},
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html$text('Sources'),
+											_0: _elm_lang$html$Html$text('Data Sources'),
 											_1: {ctor: '[]'}
 										}),
 									_1: {ctor: '[]'}
