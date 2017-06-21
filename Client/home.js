@@ -11595,10 +11595,6 @@ var _user$project$Controls_Register$update = F2(
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{email: _p0._0});
-			case 'UserInput':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{username: _p0._0});
 			case 'PasswordInput':
 				return _elm_lang$core$Native_Utils.update(
 					model,
@@ -11610,14 +11606,14 @@ var _user$project$Controls_Register$update = F2(
 			default:
 				return _elm_lang$core$Native_Utils.update(
 					model,
-					{email: _p0._0._0, username: _p0._0._1, password: _p0._0._2, confirm: _p0._0._3});
+					{email: _p0._0._0, password: _p0._0._1, confirm: _p0._0._2});
 		}
 	});
-var _user$project$Controls_Register$Model = F4(
-	function (a, b, c, d) {
-		return {email: a, username: b, password: c, confirm: d};
+var _user$project$Controls_Register$Model = F3(
+	function (a, b, c) {
+		return {email: a, password: b, confirm: c};
 	});
-var _user$project$Controls_Register$model = A4(_user$project$Controls_Register$Model, '', '', '', '');
+var _user$project$Controls_Register$model = A3(_user$project$Controls_Register$Model, '', '', '');
 var _user$project$Controls_Register$Submit = function (a) {
 	return {ctor: 'Submit', _0: a};
 };
@@ -11627,8 +11623,8 @@ var _user$project$Controls_Register$ConfirmInput = function (a) {
 var _user$project$Controls_Register$PasswordInput = function (a) {
 	return {ctor: 'PasswordInput', _0: a};
 };
-var _user$project$Controls_Register$UserInput = function (a) {
-	return {ctor: 'UserInput', _0: a};
+var _user$project$Controls_Register$EmailInput = function (a) {
+	return {ctor: 'EmailInput', _0: a};
 };
 var _user$project$Controls_Register$view = function (model) {
 	return A2(
@@ -11640,18 +11636,16 @@ var _user$project$Controls_Register$view = function (model) {
 				_elm_lang$html$Html$input,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('signin'),
+					_0: _elm_lang$html$Html_Attributes$type_('text'),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$type_('submit'),
+						_0: _elm_lang$html$Html_Attributes$placeholder('email'),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$value('Signin'),
+							_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$EmailInput),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(
-									_user$project$Controls_Register$Submit(
-										{ctor: '_Tuple4', _0: model.email, _1: model.username, _2: model.password, _3: model.confirm})),
+								_0: _elm_lang$html$Html_Attributes$value(model.email),
 								_1: {ctor: '[]'}
 							}
 						}
@@ -11661,28 +11655,8 @@ var _user$project$Controls_Register$view = function (model) {
 			_1: {
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$input,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('signin'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$type_('confirm'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$placeholder('confirm password'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$ConfirmInput),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$value(model.confirm),
-										_1: {ctor: '[]'}
-									}
-								}
-							}
-						}
-					},
+					_elm_lang$html$Html$br,
+					{ctor: '[]'},
 					{ctor: '[]'}),
 				_1: {
 					ctor: '::',
@@ -11690,21 +11664,17 @@ var _user$project$Controls_Register$view = function (model) {
 						_elm_lang$html$Html$input,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('signin'),
+							_0: _elm_lang$html$Html_Attributes$type_('password'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$type_('password'),
+								_0: _elm_lang$html$Html_Attributes$placeholder('password'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$placeholder('password'),
+									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$PasswordInput),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$PasswordInput),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$value(model.password),
-											_1: {ctor: '[]'}
-										}
+										_0: _elm_lang$html$Html_Attributes$value(model.password),
+										_1: {ctor: '[]'}
 									}
 								}
 							}
@@ -11713,37 +11683,65 @@ var _user$project$Controls_Register$view = function (model) {
 					_1: {
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$input,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('signin'),
-								_1: {
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$input,
+								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$type_('text'),
+									_0: _elm_lang$html$Html_Attributes$type_('confirm'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$placeholder('username'),
+										_0: _elm_lang$html$Html_Attributes$placeholder('confirm'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$UserInput),
+											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$ConfirmInput),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$value(model.username),
+												_0: _elm_lang$html$Html_Attributes$value(model.confirm),
 												_1: {ctor: '[]'}
 											}
 										}
 									}
+								},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$br,
+									{ctor: '[]'},
+									{ctor: '[]'}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$input,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$type_('submit'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$value('Create Account'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Events$onClick(
+														_user$project$Controls_Register$Submit(
+															{ctor: '_Tuple3', _0: model.email, _1: model.password, _2: model.confirm})),
+													_1: {ctor: '[]'}
+												}
+											}
+										},
+										{ctor: '[]'}),
+									_1: {ctor: '[]'}
 								}
-							},
-							{ctor: '[]'}),
-						_1: {ctor: '[]'}
+							}
+						}
 					}
 				}
 			}
 		});
-};
-var _user$project$Controls_Register$EmailInput = function (a) {
-	return {ctor: 'EmailInput', _0: a};
 };
 
 var _user$project$Home$tokenizeUrl = function (urlHash) {
@@ -12764,7 +12762,7 @@ var _user$project$Home$registerPage = function (model) {
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('Need some details...'),
+					_0: _elm_lang$html$Html$text('Join'),
 					_1: {ctor: '[]'}
 				}),
 			_1: {

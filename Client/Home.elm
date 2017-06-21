@@ -493,7 +493,7 @@ homePage model =
 registerPage : Model -> Html Msg
 registerPage model =
     div []
-        [ h3 [] [ text "Need some details..." ]
+        [ h3 [] [ text "Join" ]
         , Html.map OnRegistration <| Registration.view model.registration
         ]
 
