@@ -85,6 +85,7 @@ type Msg
     | ViewSources
     | AddNewLink
     | ViewLinks
+    | EditProfile
     | NewLink NewLinks.Msg
     | ContentProviderLinksAction ContentProviderLinks.Msg
     | PortalLinksAction ContentProviderLinks.Msg
@@ -138,6 +139,13 @@ update msg model =
                     model.portal
             in
                 ( { model | portal = { pendingPortal | requested = Domain.ViewLinks } }, Cmd.none )
+
+        EditProfile ->
+            let
+                pendingPortal =
+                    model.portal
+            in
+                ( { model | portal = { pendingPortal | requested = Domain.EditProfile } }, Cmd.none )
 
         NewSource subMsg ->
             onNewSource subMsg model
@@ -627,6 +635,9 @@ content model =
                 div []
                     [ Html.map PortalLinksAction <| ContentProviderLinks.view model.portal.contentProvider ]
 
+            Domain.EditProfile ->
+                div [] [ h3 [] [ text "Edit Profile" ] ]
+
             Domain.AddLink ->
                 let
                     linkSummary =
@@ -689,6 +700,8 @@ dashboardPage model =
                                         , button [ onClick AddNewLink ] [ text "Link" ]
                                         , br [] []
                                         , button [ onClick ViewSources ] [ text "Sources" ]
+                                        , br [] []
+                                        , button [ onClick EditProfile ] [ text "Profile" ]
                                         , br [] []
 
                                         -- , button [ onClick ViewSubscribers ] [ text "Subscribers" ]

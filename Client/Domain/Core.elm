@@ -230,6 +230,7 @@ type ContentProviderRequest
     = ViewSources
     | ViewLinks
     | AddLink
+    | EditProfile
 
 
 

@@ -9770,6 +9770,7 @@ var _user$project$Domain_Core$Topic = function (a) {
 var _user$project$Domain_Core$Platform = function (a) {
 	return {ctor: 'Platform', _0: a};
 };
+var _user$project$Domain_Core$EditProfile = {ctor: 'EditProfile'};
 var _user$project$Domain_Core$AddLink = {ctor: 'AddLink'};
 var _user$project$Domain_Core$ViewLinks = {ctor: 'ViewLinks'};
 var _user$project$Domain_Core$ViewSources = {ctor: 'ViewSources'};
@@ -12772,6 +12773,19 @@ var _user$project$Home$update = F2(
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
+			case 'EditProfile':
+				var pendingPortal = model.portal;
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							portal: _elm_lang$core$Native_Utils.update(
+								pendingPortal,
+								{requested: _user$project$Domain_Core$EditProfile})
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 			case 'NewSource':
 				return A2(_user$project$Home$onNewSource, _p13._0, model);
 			case 'Remove':
@@ -12930,6 +12944,7 @@ var _user$project$Home$ContentProviderLinksAction = function (a) {
 var _user$project$Home$NewLink = function (a) {
 	return {ctor: 'NewLink', _0: a};
 };
+var _user$project$Home$EditProfile = {ctor: 'EditProfile'};
 var _user$project$Home$ViewLinks = {ctor: 'ViewLinks'};
 var _user$project$Home$AddNewLink = {ctor: 'AddNewLink'};
 var _user$project$Home$ViewSources = {ctor: 'ViewSources'};
@@ -13091,6 +13106,22 @@ var _user$project$Home$content = function (model) {
 						_elm_lang$html$Html$map,
 						_user$project$Home$PortalLinksAction,
 						_user$project$Controls_ContentProviderLinks$view(model.portal.contentProvider)),
+					_1: {ctor: '[]'}
+				});
+		case 'EditProfile':
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$h3,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Edit Profile'),
+							_1: {ctor: '[]'}
+						}),
 					_1: {ctor: '[]'}
 				});
 		default:
@@ -13370,7 +13401,29 @@ var _user$project$Home$dashboardPage = function (model) {
 																									_elm_lang$html$Html$br,
 																									{ctor: '[]'},
 																									{ctor: '[]'}),
-																								_1: {ctor: '[]'}
+																								_1: {
+																									ctor: '::',
+																									_0: A2(
+																										_elm_lang$html$Html$button,
+																										{
+																											ctor: '::',
+																											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
+																											_1: {ctor: '[]'}
+																										},
+																										{
+																											ctor: '::',
+																											_0: _elm_lang$html$Html$text('Profile'),
+																											_1: {ctor: '[]'}
+																										}),
+																									_1: {
+																										ctor: '::',
+																										_0: A2(
+																											_elm_lang$html$Html$br,
+																											{ctor: '[]'},
+																											{ctor: '[]'}),
+																										_1: {ctor: '[]'}
+																									}
+																								}
 																							}
 																						}
 																					}
