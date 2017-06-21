@@ -9403,9 +9403,7 @@ var _user$project$Controls_Register$update = F2(
 					model,
 					{confirm: _p0._0});
 			default:
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{name: _p0._0._0, email: _p0._0._1, password: _p0._0._2, confirm: _p0._0._3});
+				return _p0._0;
 		}
 	});
 var _user$project$Controls_Register$Model = F4(
@@ -9558,7 +9556,7 @@ var _user$project$Controls_Register$view = function (model) {
 															ctor: '::',
 															_0: _elm_lang$html$Html_Events$onClick(
 																_user$project$Controls_Register$Submit(
-																	{ctor: '_Tuple4', _0: model.name, _1: model.email, _2: model.password, _3: model.confirm})),
+																	{name: model.name, email: model.email, password: model.password, confirm: model.confirm})),
 															_1: {ctor: '[]'}
 														}
 													}
@@ -11253,6 +11251,9 @@ var _user$project$Controls_EditProfile$update = F2(
 	function (msg, model) {
 		return model;
 	});
+var _user$project$Controls_EditProfile$Save = function (a) {
+	return {ctor: 'Save', _0: a};
+};
 var _user$project$Controls_EditProfile$BioInput = function (a) {
 	return {ctor: 'BioInput', _0: a};
 };
@@ -11288,8 +11289,13 @@ var _user$project$Controls_EditProfile$view = function (model) {
 							_0: _elm_lang$html$Html_Attributes$placeholder('name'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$NameInput),
-								_1: {ctor: '[]'}
+								_0: _elm_lang$html$Html_Attributes$value(
+									_user$project$Domain_Core$getName(model.name)),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$NameInput),
+									_1: {ctor: '[]'}
+								}
 							}
 						}
 					},
@@ -11312,8 +11318,13 @@ var _user$project$Controls_EditProfile$view = function (model) {
 									_0: _elm_lang$html$Html_Attributes$placeholder('email'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$EmailInput),
-										_1: {ctor: '[]'}
+										_0: _elm_lang$html$Html_Attributes$value(
+											_user$project$Domain_Core$getEmail(model.email)),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$EmailInput),
+											_1: {ctor: '[]'}
+										}
 									}
 								}
 							},
@@ -11331,7 +11342,11 @@ var _user$project$Controls_EditProfile$view = function (model) {
 									{
 										ctor: '::',
 										_0: _elm_lang$html$Html_Attributes$placeholder('bio...'),
-										_1: {ctor: '[]'}
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$value(model.bio),
+											_1: {ctor: '[]'}
+										}
 									},
 									{ctor: '[]'}),
 								_1: {
@@ -11344,7 +11359,13 @@ var _user$project$Controls_EditProfile$view = function (model) {
 										ctor: '::',
 										_0: A2(
 											_elm_lang$html$Html$button,
-											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onClick(
+													_user$project$Controls_EditProfile$Save(
+														{ctor: '_Tuple3', _0: model.name, _1: model.email, _2: model.bio})),
+												_1: {ctor: '[]'}
+											},
 											{
 												ctor: '::',
 												_0: _elm_lang$html$Html$text('Save'),
@@ -12819,6 +12840,26 @@ var _user$project$Home$onRegistration = F2(
 				}
 		}
 	});
+var _user$project$Home$onEditProfile = F2(
+	function (subMsg, model) {
+		var pendingPortal = model.portal;
+		var contentProvider = model.portal.contentProvider;
+		var updatedProfile = A2(_user$project$Controls_EditProfile$update, subMsg, contentProvider.profile);
+		var updatedPortal = _elm_lang$core$Native_Utils.update(
+			pendingPortal,
+			{
+				contentProvider: _elm_lang$core$Native_Utils.update(
+					contentProvider,
+					{profile: updatedProfile})
+			});
+		return {
+			ctor: '_Tuple2',
+			_0: _elm_lang$core$Native_Utils.update(
+				model,
+				{portal: updatedPortal}),
+			_1: _elm_lang$core$Platform_Cmd$none
+		};
+	});
 var _user$project$Home$update = F2(
 	function (msg, model) {
 		var _p13 = msg;
@@ -12908,7 +12949,7 @@ var _user$project$Home$update = F2(
 			case 'NewLink':
 				return A2(_user$project$Home$onNewLink, _p13._0, model);
 			case 'EditProfileAction':
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				return A2(_user$project$Home$onEditProfile, _p13._0, model);
 			case 'ContentProviderLinksAction':
 				var _p17 = _p13._0;
 				var _p14 = _p17;
@@ -13836,8 +13877,33 @@ var _user$project$Home$homePage = function (model) {
 						}),
 					_1: {
 						ctor: '::',
-						_0: loginUI(model),
-						_1: {ctor: '[]'}
+						_0: A2(
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$label,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$i,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('Linking Your Expertise'),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: loginUI(model),
+								_1: {ctor: '[]'}
+							}
+						}
 					}
 				}),
 			_1: {

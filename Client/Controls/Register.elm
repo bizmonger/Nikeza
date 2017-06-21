@@ -30,7 +30,7 @@ type Msg
     | EmailInput String
     | PasswordInput String
     | ConfirmInput String
-    | Submit ( String, String, String, String )
+    | Submit Model
 
 
 update : Msg -> Model -> Model
@@ -48,13 +48,8 @@ update msg model =
         ConfirmInput v ->
             { model | confirm = v }
 
-        Submit ( name, email, password, confirm ) ->
-            { model
-                | name = name
-                , email = email
-                , password = password
-                , confirm = confirm
-            }
+        Submit v ->
+            v
 
 
 
@@ -72,5 +67,16 @@ view model =
         , br [] []
         , input [ type_ "password", placeholder "confirm", onInput ConfirmInput, value model.confirm ] []
         , br [] []
-        , input [ type_ "submit", value "Create Account", onClick <| Submit ( model.name, model.email, model.password, model.confirm ) ] []
+        , input
+            [ type_ "submit"
+            , value "Create Account"
+            , onClick <|
+                Submit
+                    { name = model.name
+                    , email = model.email
+                    , password = model.password
+                    , confirm = model.confirm
+                    }
+            ]
+            []
         ]

@@ -17,6 +17,7 @@ type Msg
     = NameInput String
     | EmailInput String
     | BioInput String
+    | Save ( Name, Email, String )
 
 
 
@@ -36,11 +37,11 @@ view : Model -> Html Msg
 view model =
     div []
         [ h3 [] [ text "Profile" ]
-        , input [ type_ "text", placeholder "name", onInput NameInput ] []
+        , input [ type_ "text", placeholder "name", value <| getName model.name, onInput NameInput ] []
         , br [] []
-        , input [ type_ "text", placeholder "email", onInput EmailInput ] []
+        , input [ type_ "text", placeholder "email", value <| getEmail model.email, onInput EmailInput ] []
         , br [] []
-        , textarea [ placeholder "bio..." ] []
+        , textarea [ placeholder "bio...", value model.bio ] []
         , br [] []
-        , button [] [ text "Save" ]
+        , button [ onClick <| Save ( model.name, model.email, model.bio ) ] [ text "Save" ]
         ]

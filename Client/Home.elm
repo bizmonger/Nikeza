@@ -159,7 +159,7 @@ update msg model =
             onNewLink subMsg model
 
         EditProfileAction subMsg ->
-            ( model, Cmd.none )
+            onEditProfile subMsg model
 
         ContentProviderLinksAction subMsg ->
             case subMsg of
@@ -214,6 +214,24 @@ update msg model =
                             ContentProviderContentTypeLinks.update subMsg model.selectedContentProvider
                     in
                         ( { model | selectedContentProvider = contentProvider }, Cmd.none )
+
+
+onEditProfile : EditProfile.Msg -> Model -> ( Model, Cmd Msg )
+onEditProfile subMsg model =
+    let
+        contentProvider =
+            model.portal.contentProvider
+
+        updatedProfile =
+            EditProfile.update subMsg contentProvider.profile
+
+        pendingPortal =
+            model.portal
+
+        updatedPortal =
+            { pendingPortal | contentProvider = { contentProvider | profile = updatedProfile } }
+    in
+        ( { model | portal = updatedPortal }, Cmd.none )
 
 
 onRegistration : Registration.Msg -> Model -> ( Model, Cmd Msg )
@@ -522,6 +540,8 @@ homePage model =
         div []
             [ header []
                 [ label [] [ text "Nikeza" ]
+                , br [] []
+                , label [] [ i [] [ text "Linking Your Expertise" ] ]
                 , model |> loginUI
                 ]
             , input [ type_ "text", placeholder "name", onInput Search ] []
