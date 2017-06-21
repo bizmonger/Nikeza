@@ -11253,6 +11253,9 @@ var _user$project$Controls_EditProfile$update = F2(
 var _user$project$Controls_EditProfile$BioInput = function (a) {
 	return {ctor: 'BioInput', _0: a};
 };
+var _user$project$Controls_EditProfile$EmailInput = function (a) {
+	return {ctor: 'EmailInput', _0: a};
+};
 var _user$project$Controls_EditProfile$NameInput = function (a) {
 	return {ctor: 'NameInput', _0: a};
 };
@@ -11267,7 +11270,7 @@ var _user$project$Controls_EditProfile$view = function (model) {
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('Edit Profile'),
+					_0: _elm_lang$html$Html$text('Profile'),
 					_1: {ctor: '[]'}
 				}),
 			_1: {
@@ -11297,11 +11300,19 @@ var _user$project$Controls_EditProfile$view = function (model) {
 					_1: {
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$textarea,
+							_elm_lang$html$Html$input,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$placeholder('bio...'),
-								_1: {ctor: '[]'}
+								_0: _elm_lang$html$Html_Attributes$type_('text'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$placeholder('email'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$EmailInput),
+										_1: {ctor: '[]'}
+									}
+								}
 							},
 							{ctor: '[]'}),
 						_1: {
@@ -11313,14 +11324,32 @@ var _user$project$Controls_EditProfile$view = function (model) {
 							_1: {
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$button,
-									{ctor: '[]'},
+									_elm_lang$html$Html$textarea,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html$text('Save'),
+										_0: _elm_lang$html$Html_Attributes$placeholder('bio...'),
 										_1: {ctor: '[]'}
-									}),
-								_1: {ctor: '[]'}
+									},
+									{ctor: '[]'}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$br,
+										{ctor: '[]'},
+										{ctor: '[]'}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$button,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('Save'),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}
+								}
 							}
 						}
 					}
@@ -12768,7 +12797,7 @@ var _user$project$Home$onRegistration = F2(
 							registration: form,
 							portal: _elm_lang$core$Native_Utils.update(
 								_user$project$Domain_Core$initPortal,
-								{contentProvider: _p12, requested: _user$project$Domain_Core$ViewSources})
+								{contentProvider: _p12, requested: _user$project$Domain_Core$EditProfile})
 						});
 					return {
 						ctor: '_Tuple2',

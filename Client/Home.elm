@@ -242,7 +242,7 @@ onRegistration subMsg model =
                             newState =
                                 { model
                                     | registration = form
-                                    , portal = { initPortal | contentProvider = user, requested = Domain.ViewSources }
+                                    , portal = { initPortal | contentProvider = user, requested = Domain.EditProfile }
                                 }
                         in
                             ( newState, Navigation.load <| "/#/" ++ getId user.profile.id ++ "/dashboard" )

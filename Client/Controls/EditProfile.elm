@@ -15,6 +15,7 @@ type alias Model =
 
 type Msg
     = NameInput String
+    | EmailInput String
     | BioInput String
 
 
@@ -34,8 +35,10 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ h3 [] [ text "Edit Profile" ]
+        [ h3 [] [ text "Profile" ]
         , input [ type_ "text", placeholder "name", onInput NameInput ] []
+        , br [] []
+        , input [ type_ "text", placeholder "email", onInput EmailInput ] []
         , br [] []
         , textarea [ placeholder "bio..." ] []
         , br [] []
