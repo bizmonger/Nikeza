@@ -11361,7 +11361,7 @@ var _user$project$Controls_EditProfile$view = function (model) {
 									_elm_lang$html$Html$textarea,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$placeholder('bio...'),
+										_0: _elm_lang$html$Html_Attributes$placeholder('bio'),
 										_1: {
 											ctor: '::',
 											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$BioInput),
@@ -12645,7 +12645,7 @@ var _user$project$Home$matchContentProviders = F2(
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
-var _user$project$Home$onNewSource = F2(
+var _user$project$Home$onAddedSource = F2(
 	function (subMsg, model) {
 		var contentProvider = model.portal.contentProvider;
 		var pendingPortal = model.portal;
@@ -12689,7 +12689,11 @@ var _user$project$Home$onNewSource = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{portal: updatedPortal}),
+						{
+							portal: _elm_lang$core$Native_Utils.update(
+								updatedPortal,
+								{profileState: _user$project$Domain_Core$BioAndSourcesCompleted})
+						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 		}
@@ -12945,8 +12949,8 @@ var _user$project$Home$update = F2(
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
-			case 'NewSource':
-				return A2(_user$project$Home$onNewSource, _p13._0, model);
+			case 'SourceAdded':
+				return A2(_user$project$Home$onAddedSource, _p13._0, model);
 			case 'Remove':
 				return A2(_user$project$Home$onRemove, model, _p13._0);
 			case 'NewLink':
@@ -13214,8 +13218,8 @@ var _user$project$Home$connectionUI = function (connection) {
 			}
 		});
 };
-var _user$project$Home$NewSource = function (a) {
-	return {ctor: 'NewSource', _0: a};
+var _user$project$Home$SourceAdded = function (a) {
+	return {ctor: 'SourceAdded', _0: a};
 };
 var _user$project$Home$content = function (model) {
 	var contentProvider = model.portal.contentProvider;
@@ -13274,7 +13278,7 @@ var _user$project$Home$content = function (model) {
 										ctor: '::',
 										_0: A2(
 											_elm_lang$html$Html$map,
-											_user$project$Home$NewSource,
+											_user$project$Home$SourceAdded,
 											_user$project$Controls_AddSource$view(model.portal.newSource)),
 										_1: {ctor: '[]'}
 									}),
@@ -13820,19 +13824,7 @@ var _user$project$Home$dashboardPage = function (model) {
 										_0: _user$project$Home$content(model),
 										_1: {ctor: '[]'}
 									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$td,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text(
-												_elm_lang$core$Basics$toString(model.portal.contentProvider)),
-											_1: {ctor: '[]'}
-										}),
-									_1: {ctor: '[]'}
-								}
+								_1: {ctor: '[]'}
 							}
 						}),
 					_1: {ctor: '[]'}

@@ -81,7 +81,7 @@ type Msg
     = UrlChange Navigation.Location
     | OnLogin Login.Msg
     | ProfileThumbnail ProfileThumbnail.Msg
-    | NewSource AddSource.Msg
+    | SourceAdded AddSource.Msg
     | Remove Source
     | ViewSources
     | AddNewLink
@@ -149,8 +149,8 @@ update msg model =
             in
                 ( { model | portal = { pendingPortal | requested = Domain.EditProfile } }, Cmd.none )
 
-        NewSource subMsg ->
-            onNewSource subMsg model
+        SourceAdded subMsg ->
+            onAddedSource subMsg model
 
         Remove connection ->
             onRemove model connection
@@ -170,9 +170,7 @@ update msg model =
                     model.portal.contentProvider
 
                 newState =
-                    { model
-                        | portal = { portal | contentProvider = { contentProvider | profile = updatedProfile } }
-                    }
+                    { model | portal = { portal | contentProvider = { contentProvider | profile = updatedProfile } } }
             in
                 case subMsg of
                     EditProfile.NameInput _ ->
@@ -249,24 +247,6 @@ update msg model =
                             ContentProviderContentTypeLinks.update subMsg model.selectedContentProvider
                     in
                         ( { model | selectedContentProvider = contentProvider }, Cmd.none )
-
-
-
--- editProfile : EditProfile.Msg -> Profile -> Profile
--- editProfile subMsg profile =
---     let
---         newState =
---             EditProfile.update subMsg profile
---     in
---         case subMsg of
---             EditProfile.NameInput _ ->
---                 newState
---             EditProfile.EmailInput _ ->
---                 newState
---             EditProfile.BioInput _ ->
---                 newState
---             EditProfile.Save v ->
---                 newState
 
 
 onRegistration : Registration.Msg -> Model -> ( Model, Cmd Msg )
@@ -389,8 +369,8 @@ onNewLink subMsg model =
                     )
 
 
-onNewSource : AddSource.Msg -> Model -> ( Model, Cmd Msg )
-onNewSource subMsg model =
+onAddedSource : AddSource.Msg -> Model -> ( Model, Cmd Msg )
+onAddedSource subMsg model =
     let
         pendingPortal =
             model.portal
@@ -422,7 +402,7 @@ onNewSource subMsg model =
                     updatedPortal =
                         { portal | contentProvider = { contentProvider | profile = updatedProfile } }
                 in
-                    ( { model | portal = updatedPortal }, Cmd.none )
+                    ( { model | portal = { updatedPortal | profileState = BioAndSourcesCompleted } }, Cmd.none )
 
 
 matchContentProviders : Model -> String -> ( Model, Cmd Msg )
@@ -691,7 +671,7 @@ content model =
                     [ tr []
                         [ th [] [ h3 [] [ text "Data Sources" ] ] ]
                     , tr []
-                        [ td [] [ Html.map NewSource <| AddSource.view model.portal.newSource ] ]
+                        [ td [] [ Html.map SourceAdded <| AddSource.view model.portal.newSource ] ]
                     , tr []
                         [ td [] [ connectionsTable ] ]
                     ]
@@ -797,7 +777,6 @@ dashboardPage model =
                             ]
                         ]
                     , td [] [ content model ]
-                    , td [] [ text <| toString model.portal.contentProvider ]
                     ]
                 ]
             ]
