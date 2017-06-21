@@ -62,7 +62,7 @@ view model =
         , br [] []
         , input [ type_ "password", placeholder "password", onInput PasswordInput, value model.password ] []
         , br [] []
-        , input [ type_ "confirm", placeholder "confirm", onInput ConfirmInput, value model.confirm ] []
+        , input [ type_ "password", placeholder "confirm", onInput ConfirmInput, value model.confirm ] []
         , br [] []
         , input [ type_ "submit", value "Create Account", onClick <| Submit ( model.email, model.password, model.confirm ) ] []
         ]

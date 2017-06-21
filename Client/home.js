@@ -9487,7 +9487,7 @@ var _user$project$Controls_Register$view = function (model) {
 								_elm_lang$html$Html$input,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$type_('confirm'),
+									_0: _elm_lang$html$Html_Attributes$type_('password'),
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Attributes$placeholder('confirm'),
@@ -13240,12 +13240,12 @@ var _user$project$Home$dashboardPage = function (model) {
 																				_elm_lang$html$Html$button,
 																				{
 																					ctor: '::',
-																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
+																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
 																					_1: {ctor: '[]'}
 																				},
 																				{
 																					ctor: '::',
-																					_0: _elm_lang$html$Html$text('Sources'),
+																					_0: _elm_lang$html$Html$text('Links'),
 																					_1: {ctor: '[]'}
 																				}),
 																			_1: {
@@ -13260,12 +13260,12 @@ var _user$project$Home$dashboardPage = function (model) {
 																						_elm_lang$html$Html$button,
 																						{
 																							ctor: '::',
-																							_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
+																							_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
 																							_1: {ctor: '[]'}
 																						},
 																						{
 																							ctor: '::',
-																							_0: _elm_lang$html$Html$text('Links'),
+																							_0: _elm_lang$html$Html$text('Link'),
 																							_1: {ctor: '[]'}
 																						}),
 																					_1: {
@@ -13280,15 +13280,22 @@ var _user$project$Home$dashboardPage = function (model) {
 																								_elm_lang$html$Html$button,
 																								{
 																									ctor: '::',
-																									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+																									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
 																									_1: {ctor: '[]'}
 																								},
 																								{
 																									ctor: '::',
-																									_0: _elm_lang$html$Html$text('Link'),
+																									_0: _elm_lang$html$Html$text('Sources'),
 																									_1: {ctor: '[]'}
 																								}),
-																							_1: {ctor: '[]'}
+																							_1: {
+																								ctor: '::',
+																								_0: A2(
+																									_elm_lang$html$Html$br,
+																									{ctor: '[]'},
+																									{ctor: '[]'}),
+																								_1: {ctor: '[]'}
+																							}
 																						}
 																					}
 																				}
