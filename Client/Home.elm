@@ -82,7 +82,6 @@ type Msg
     | OnLogin Login.Msg
     | ProfileThumbnail ProfileThumbnail.Msg
     | SourceAdded AddSource.Msg
-    | Remove Source
     | ViewSources
     | AddNewLink
     | ViewLinks
@@ -151,9 +150,6 @@ update msg model =
 
         SourceAdded subMsg ->
             onAddedSource subMsg model
-
-        Remove connection ->
-            onRemove model connection
 
         NewLink subMsg ->
             onNewLink subMsg model
@@ -290,7 +286,7 @@ onRegistration subMsg model =
 
 
 onRemove : Model -> Source -> ( Model, Cmd Msg )
-onRemove model connection =
+onRemove model sources =
     let
         contentProvider =
             model.portal.contentProvider
@@ -298,11 +294,11 @@ onRemove model connection =
         profile =
             contentProvider.profile
 
-        connectionsLeft =
-            profile.connections |> List.filter (\c -> c /= connection)
+        sourcesLeft =
+            profile.sources |> List.filter (\c -> c /= sources)
 
         updatedProfile =
-            { profile | connections = connectionsLeft }
+            { profile | sources = sourcesLeft }
 
         updatedContentProvider =
             { contentProvider | profile = updatedProfile }
@@ -378,11 +374,20 @@ onAddedSource subMsg model =
         contentProvider =
             model.portal.contentProvider
 
-        connection =
-            AddSource.update subMsg pendingPortal.newSource
+        updatedProfile =
+            contentProvider.profile
+
+        addSourceModel =
+            AddSource.update subMsg { source = pendingPortal.newSource, sources = contentProvider.profile.sources }
+
+        updatedContentProvider =
+            { contentProvider | profile = { updatedProfile | sources = addSourceModel.sources } }
 
         portal =
-            { pendingPortal | newSource = connection }
+            { pendingPortal
+                | newSource = addSourceModel.source
+                , contentProvider = updatedContentProvider
+            }
     in
         case subMsg of
             AddSource.InputUsername _ ->
@@ -391,18 +396,11 @@ onAddedSource subMsg model =
             AddSource.InputPlatform _ ->
                 ( { model | portal = portal }, Cmd.none )
 
-            AddSource.Submit _ ->
-                let
-                    pendingProfile =
-                        contentProvider.profile
+            AddSource.Add _ ->
+                ( { model | portal = portal }, Cmd.none )
 
-                    updatedProfile =
-                        { pendingProfile | connections = connection :: contentProvider.profile.connections }
-
-                    updatedPortal =
-                        { portal | contentProvider = { contentProvider | profile = updatedProfile } }
-                in
-                    ( { model | portal = { updatedPortal | profileState = BioAndSourcesCompleted } }, Cmd.none )
+            AddSource.Remove _ ->
+                ( { model | portal = portal }, Cmd.none )
 
 
 matchContentProviders : Model -> String -> ( Model, Cmd Msg )
@@ -647,33 +645,20 @@ contentProviderTopicPage model =
                 notFoundPage
 
 
-connectionUI : Source -> Html Msg
-connectionUI connection =
-    tr []
-        [ td [] [ text connection.platform ]
-        , td [] [ i [] [ text connection.username ] ]
-        , td [] [ button [ onClick <| Remove connection ] [ text "Disconnect" ] ]
-        ]
-
-
 content : Model -> Html Msg
 content model =
     let
         contentProvider =
             model.portal.contentProvider
-
-        connectionsTable =
-            table [] [ div [] (contentProvider.profile.connections |> List.map connectionUI) ]
     in
         case model.portal.requested of
             Domain.ViewSources ->
-                table []
-                    [ tr []
-                        [ th [] [ h3 [] [ text "Data Sources" ] ] ]
-                    , tr []
-                        [ td [] [ Html.map SourceAdded <| AddSource.view model.portal.newSource ] ]
-                    , tr []
-                        [ td [] [ connectionsTable ] ]
+                div []
+                    [ Html.map SourceAdded <|
+                        AddSource.view
+                            { source = model.portal.newSource
+                            , sources = model.portal.contentProvider.profile.sources
+                            }
                     ]
 
             Domain.ViewLinks ->

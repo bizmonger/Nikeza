@@ -77,7 +77,7 @@ type alias Profile =
     , email : Email
     , imageUrl : Url
     , bio : String
-    , connections : List Source
+    , sources : List Source
     }
 
 
@@ -88,7 +88,7 @@ initProfile =
     , email = Email undefined
     , imageUrl = Url undefined
     , bio = undefined
-    , connections = []
+    , sources = []
     }
 
 

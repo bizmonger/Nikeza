@@ -12,13 +12,14 @@ import Json.Decode exposing (map)
 
 
 type alias Model =
-    Source
+    { source : Source, sources : List Source }
 
 
 type Msg
     = InputUsername String
     | InputPlatform String
-    | Submit Source
+    | Add Source
+    | Remove Source
 
 
 
@@ -27,15 +28,22 @@ type Msg
 
 update : Msg -> Model -> Model
 update msg model =
-    case msg of
-        InputUsername v ->
-            { model | username = v }
+    let
+        source =
+            model.source
+    in
+        case msg of
+            InputUsername v ->
+                { model | source = { source | username = v } }
 
-        InputPlatform v ->
-            { model | platform = v }
+            InputPlatform v ->
+                { model | source = { source | platform = v } }
 
-        Submit connection ->
-            connection
+            Add source ->
+                { model | sources = source :: model.sources }
+
+            Remove v ->
+                { model | sources = model.sources |> List.filter (\s -> s /= v) }
 
 
 view : Model -> Html Msg
@@ -49,9 +57,26 @@ view model =
 
         changeHandler =
             Html.Events.on "change" (Json.Decode.map InputPlatform Html.Events.targetValue)
-    in
-        div []
-            [ select [ changeHandler, value model.platform ] <| instruction :: (runtime.platforms |> List.map platformOption)
-            , input [ type_ "text", placeholder "username", onInput InputUsername, value model.username ] []
-            , button [ onClick <| Submit model ] [ text "Add" ]
+
+        records =
+            [ tr [] [ th [] [ h3 [] [ text "Data Sources" ] ] ]
+            , tr []
+                [ td [] [ select [ changeHandler, value model.source.platform ] <| instruction :: (runtime.platforms |> List.map platformOption) ]
+                , td [] [ input [ type_ "text", placeholder "username", onInput InputUsername, value model.source.username ] [] ]
+                ]
+            , tr [] [ td [] [ button [ onClick <| Add model.source ] [ text "Add" ] ] ]
             ]
+
+        tableRecords =
+            List.append records (model.sources |> List.map sourceUI)
+    in
+        div [] [ table [] tableRecords ]
+
+
+sourceUI : Source -> Html Msg
+sourceUI source =
+    tr []
+        [ td [] [ text source.platform ]
+        , td [] [ i [] [ text source.username ] ]
+        , td [] [ button [ onClick <| Remove source ] [ text "Disconnect" ] ]
+        ]
