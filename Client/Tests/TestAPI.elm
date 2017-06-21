@@ -179,7 +179,11 @@ tryRegister form =
             form.password == form.confirm
     in
         if successful then
-            Ok contentProvider1
+            let
+                profile =
+                    Profile (Id undefined) (Name form.name) someImageUrl "" []
+            in
+                Ok <| ContentProvider profile True [] initLinks
         else
             Err "Registration failed"
 

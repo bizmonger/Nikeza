@@ -691,9 +691,9 @@ dashboardPage model =
                                         , button [ onClick ViewSources ] [ text "Sources" ]
                                         , br [] []
 
-                                        -- , button [ onClick ViewLinks ] [ text "Subscribers" ]
+                                        -- , button [ onClick ViewSubscribers ] [ text "Subscribers" ]
                                         -- , br [] []
-                                        -- , button [ onClick ViewLinks ] [ text "Subscriptions" ]
+                                        -- , button [ onClick ViewSubscriptions ] [ text "Subscriptions" ]
                                         ]
                                     ]
                                 ]

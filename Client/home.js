@@ -9901,6 +9901,27 @@ var _user$project$Tests_TestAPI$someArticleTitle3 = _user$project$Domain_Core$Ti
 var _user$project$Tests_TestAPI$someArticleTitle2 = _user$project$Domain_Core$Title('Some Article Title 2');
 var _user$project$Tests_TestAPI$someArticleTitle1 = _user$project$Domain_Core$Title('Some Article Title 1');
 var _user$project$Tests_TestAPI$someImageUrl = _user$project$Domain_Core$Url('http://www.ngu.edu/myimages/silhouette2230.jpg');
+var _user$project$Tests_TestAPI$tryRegister = function (form) {
+	var successful = _elm_lang$core$Native_Utils.eq(form.password, form.confirm);
+	if (successful) {
+		var profile = A5(
+			_user$project$Domain_Core$Profile,
+			_user$project$Domain_Core$Id(_user$project$Domain_Core$undefined),
+			_user$project$Domain_Core$Name(form.name),
+			_user$project$Tests_TestAPI$someImageUrl,
+			'',
+			{ctor: '[]'});
+		return _elm_lang$core$Result$Ok(
+			A4(
+				_user$project$Domain_Core$ContentProvider,
+				profile,
+				true,
+				{ctor: '[]'},
+				_user$project$Domain_Core$initLinks));
+	} else {
+		return _elm_lang$core$Result$Err('Registration failed');
+	}
+};
 var _user$project$Tests_TestAPI$someUrl = _user$project$Domain_Core$Url('http://some_url.com');
 var _user$project$Tests_TestAPI$someTopic3 = _user$project$Domain_Core$Topic('Topic-3');
 var _user$project$Tests_TestAPI$someTopic2 = _user$project$Domain_Core$Topic('Topic-2');
@@ -10201,10 +10222,6 @@ var _user$project$Tests_TestAPI$contentProvider1Links = A4(
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId1),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId1));
 var _user$project$Tests_TestAPI$contentProvider1 = A4(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile1, true, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider1Links);
-var _user$project$Tests_TestAPI$tryRegister = function (form) {
-	var successful = _elm_lang$core$Native_Utils.eq(form.password, form.confirm);
-	return successful ? _elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$contentProvider1) : _elm_lang$core$Result$Err('Registration failed');
-};
 var _user$project$Tests_TestAPI$contentProvider2Links = A4(
 	_user$project$Domain_Core$Links,
 	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId2),
