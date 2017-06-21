@@ -9658,9 +9658,9 @@ var _user$project$Domain_Core$ContentProvider = F4(
 	function (a, b, c, d) {
 		return {profile: a, showAll: b, topics: c, links: d};
 	});
-var _user$project$Domain_Core$Portal = F4(
-	function (a, b, c, d) {
-		return {contentProvider: a, requested: b, newSource: c, newLinks: d};
+var _user$project$Domain_Core$Portal = F5(
+	function (a, b, c, d, e) {
+		return {contentProvider: a, profileCompleted: b, requested: c, newSource: d, newLinks: e};
 	});
 var _user$project$Domain_Core$Profile = F6(
 	function (a, b, c, d, e, f) {
@@ -9799,7 +9799,7 @@ var _user$project$Domain_Core$initNewLinks = {
 	canAdd: false,
 	added: {ctor: '[]'}
 };
-var _user$project$Domain_Core$initPortal = {contentProvider: _user$project$Domain_Core$initContentProvider, requested: _user$project$Domain_Core$ViewLinks, newSource: _user$project$Domain_Core$initSource, newLinks: _user$project$Domain_Core$initNewLinks};
+var _user$project$Domain_Core$initPortal = {contentProvider: _user$project$Domain_Core$initContentProvider, profileCompleted: false, requested: _user$project$Domain_Core$EditProfile, newSource: _user$project$Domain_Core$initSource, newLinks: _user$project$Domain_Core$initNewLinks};
 var _user$project$Domain_Core$All = {ctor: 'All'};
 var _user$project$Domain_Core$Answer = {ctor: 'Answer'};
 var _user$project$Domain_Core$Podcast = {ctor: 'Podcast'};

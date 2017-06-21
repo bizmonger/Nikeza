@@ -48,6 +48,7 @@ initContentProvider =
 
 type alias Portal =
     { contentProvider : ContentProvider
+    , profileCompleted : Bool
     , requested : ContentProviderRequest
     , newSource : Source
     , newLinks : NewLinks
@@ -57,7 +58,8 @@ type alias Portal =
 initPortal : Portal
 initPortal =
     { contentProvider = initContentProvider
-    , requested = ViewLinks
+    , profileCompleted = False
+    , requested = EditProfile
     , newSource = initSource
     , newLinks = initNewLinks
     }
