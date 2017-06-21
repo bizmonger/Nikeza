@@ -103,6 +103,12 @@ update msg model =
         UrlChange location ->
             location |> navigate msg model
 
+        Register ->
+            ( model, Navigation.load <| "/#/register" )
+
+        OnRegistration subMsg ->
+            onRegistration subMsg model
+
         OnLogin subMsg ->
             onLogin subMsg model
 
@@ -111,12 +117,6 @@ update msg model =
 
         Search text ->
             text |> matchContentProviders model
-
-        Register ->
-            ( model, Navigation.load <| "/#/register" )
-
-        OnRegistration subMsg ->
-            onRegistration subMsg model
 
         ProfileThumbnail subMsg ->
             ( model, Cmd.none )
@@ -242,7 +242,12 @@ onRegistration subMsg model =
                             newState =
                                 { model
                                     | registration = form
-                                    , portal = { initPortal | contentProvider = user, requested = Domain.EditProfile }
+                                    , portal =
+                                        { initPortal
+                                            | contentProvider = user
+                                            , requested = Domain.EditProfile
+                                            , profileState = BioNeeded
+                                        }
                                 }
                         in
                             ( newState, Navigation.load <| "/#/" ++ getId user.profile.id ++ "/dashboard" )
@@ -688,6 +693,40 @@ dashboardPage model =
 
         portal =
             model.portal
+
+        renderNavigation =
+            case portal.profileState of
+                BioNeeded ->
+                    [ div []
+                        [ button [ onClick EditProfile ] [ text "Profile" ]
+                        , br [] []
+                        , button [ onClick ViewSources, disabled True ] [ text "Sources" ]
+                        , br [] []
+                        , button [ onClick AddNewLink, disabled True ] [ text "Link" ]
+                        ]
+                    ]
+
+                SourcesNeeded ->
+                    [ div []
+                        [ button [ onClick ViewSources ] [ text "Sources" ]
+                        , br [] []
+                        , button [ onClick AddNewLink ] [ text "Link" ]
+                        , br [] []
+                        , button [ onClick EditProfile ] [ text "Profile" ]
+                        ]
+                    ]
+
+                BioAndSourcesCompleted ->
+                    [ div []
+                        [ button [ onClick ViewLinks ] [ text "Links" ]
+                        , br [] []
+                        , button [ onClick AddNewLink ] [ text "Link" ]
+                        , br [] []
+                        , button [ onClick ViewSources ] [ text "Sources" ]
+                        , br [] []
+                        , button [ onClick EditProfile ] [ text "Profile" ]
+                        ]
+                    ]
     in
         div []
             [ table []
@@ -697,22 +736,7 @@ dashboardPage model =
                             [ tr [] [ th [] header ]
                             , tr []
                                 [ td [] [ img [ src <| getUrl <| model.portal.contentProvider.profile.imageUrl, width 100, height 100 ] [] ]
-                                , td []
-                                    [ div []
-                                        [ button [ onClick ViewLinks ] [ text "Links" ]
-                                        , br [] []
-                                        , button [ onClick AddNewLink ] [ text "Link" ]
-                                        , br [] []
-                                        , button [ onClick ViewSources ] [ text "Sources" ]
-                                        , br [] []
-                                        , button [ onClick EditProfile ] [ text "Profile" ]
-                                        , br [] []
-
-                                        -- , button [ onClick ViewSubscribers ] [ text "Subscribers" ]
-                                        -- , br [] []
-                                        -- , button [ onClick ViewSubscriptions ] [ text "Subscriptions" ]
-                                        ]
-                                    ]
+                                , td [] renderNavigation
                                 ]
                             , tr [] [ td [] [ p [] [ text model.portal.contentProvider.profile.bio ] ] ]
                             ]
