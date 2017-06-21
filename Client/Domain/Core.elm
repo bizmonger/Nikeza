@@ -66,6 +66,7 @@ initPortal =
 type alias Profile =
     { id : Id
     , name : Name
+    , email : Email
     , imageUrl : Url
     , bio : String
     , connections : List Source
@@ -76,6 +77,7 @@ initProfile : Profile
 initProfile =
     { id = Id undefined
     , name = Name undefined
+    , email = Email undefined
     , imageUrl = Url undefined
     , bio = undefined
     , connections = []
@@ -104,6 +106,19 @@ getName name =
     let
         (Name value) =
             name
+    in
+        value
+
+
+type Email
+    = Email String
+
+
+getEmail : Email -> String
+getEmail email =
+    let
+        (Email value) =
+            email
     in
         value
 

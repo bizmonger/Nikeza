@@ -9628,14 +9628,19 @@ var _user$project$Domain_Core$getTitle = function (title) {
 	var value = _p4._0;
 	return value;
 };
-var _user$project$Domain_Core$getName = function (name) {
-	var _p5 = name;
+var _user$project$Domain_Core$getEmail = function (email) {
+	var _p5 = email;
 	var value = _p5._0;
 	return value;
 };
-var _user$project$Domain_Core$getId = function (id) {
-	var _p6 = id;
+var _user$project$Domain_Core$getName = function (name) {
+	var _p6 = name;
 	var value = _p6._0;
+	return value;
+};
+var _user$project$Domain_Core$getId = function (id) {
+	var _p7 = id;
+	var value = _p7._0;
 	return value;
 };
 var _user$project$Domain_Core$initLinks = {
@@ -9657,9 +9662,9 @@ var _user$project$Domain_Core$Portal = F4(
 	function (a, b, c, d) {
 		return {contentProvider: a, requested: b, newSource: c, newLinks: d};
 	});
-var _user$project$Domain_Core$Profile = F5(
-	function (a, b, c, d, e) {
-		return {id: a, name: b, imageUrl: c, bio: d, connections: e};
+var _user$project$Domain_Core$Profile = F6(
+	function (a, b, c, d, e, f) {
+		return {id: a, name: b, email: c, imageUrl: d, bio: e, connections: f};
 	});
 var _user$project$Domain_Core$Link = F5(
 	function (a, b, c, d, e) {
@@ -9683,6 +9688,9 @@ var _user$project$Domain_Core$Id = function (a) {
 var _user$project$Domain_Core$Name = function (a) {
 	return {ctor: 'Name', _0: a};
 };
+var _user$project$Domain_Core$Email = function (a) {
+	return {ctor: 'Email', _0: a};
+};
 var _user$project$Domain_Core$Title = function (a) {
 	return {ctor: 'Title', _0: a};
 };
@@ -9692,6 +9700,7 @@ var _user$project$Domain_Core$Url = function (a) {
 var _user$project$Domain_Core$initProfile = {
 	id: _user$project$Domain_Core$Id(_user$project$Domain_Core$undefined),
 	name: _user$project$Domain_Core$Name(_user$project$Domain_Core$undefined),
+	email: _user$project$Domain_Core$Email(_user$project$Domain_Core$undefined),
 	imageUrl: _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined),
 	bio: _user$project$Domain_Core$undefined,
 	connections: {ctor: '[]'}
@@ -9796,8 +9805,8 @@ var _user$project$Domain_Core$Podcast = {ctor: 'Podcast'};
 var _user$project$Domain_Core$Video = {ctor: 'Video'};
 var _user$project$Domain_Core$Article = {ctor: 'Article'};
 var _user$project$Domain_Core$toContentType = function (contentType) {
-	var _p7 = contentType;
-	switch (_p7) {
+	var _p8 = contentType;
+	switch (_p8) {
 		case 'Articles':
 			return _user$project$Domain_Core$Article;
 		case 'Article':
@@ -9887,6 +9896,7 @@ var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 		'test');
 	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
 };
+var _user$project$Tests_TestAPI$someEmail = _user$project$Domain_Core$Email('abc@abc.com');
 var _user$project$Tests_TestAPI$someDescrtiption = 'some description...';
 var _user$project$Tests_TestAPI$someQuestionTitle3 = _user$project$Domain_Core$Title('Some Question Title 3');
 var _user$project$Tests_TestAPI$someQuestionTitle2 = _user$project$Domain_Core$Title('Some Question Title 2');
@@ -9904,10 +9914,11 @@ var _user$project$Tests_TestAPI$someImageUrl = _user$project$Domain_Core$Url('ht
 var _user$project$Tests_TestAPI$tryRegister = function (form) {
 	var successful = _elm_lang$core$Native_Utils.eq(form.password, form.confirm);
 	if (successful) {
-		var profile = A5(
+		var profile = A6(
 			_user$project$Domain_Core$Profile,
 			_user$project$Domain_Core$Id(_user$project$Domain_Core$undefined),
 			_user$project$Domain_Core$Name(form.name),
+			_user$project$Domain_Core$Email(form.email),
 			_user$project$Tests_TestAPI$someImageUrl,
 			'',
 			{ctor: '[]'});
@@ -9952,26 +9963,29 @@ var _user$project$Tests_TestAPI$suggestedTopics = function (search) {
 		_user$project$Tests_TestAPI$topics) : {ctor: '[]'};
 };
 var _user$project$Tests_TestAPI$profileId3 = _user$project$Domain_Core$Id('profile_3');
-var _user$project$Tests_TestAPI$profile3 = A5(
+var _user$project$Tests_TestAPI$profile3 = A6(
 	_user$project$Domain_Core$Profile,
 	_user$project$Tests_TestAPI$profileId3,
 	_user$project$Domain_Core$Name('ContentProvider 3'),
+	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$connections(_user$project$Tests_TestAPI$profileId3));
 var _user$project$Tests_TestAPI$profileId2 = _user$project$Domain_Core$Id('profile_2');
-var _user$project$Tests_TestAPI$profile2 = A5(
+var _user$project$Tests_TestAPI$profile2 = A6(
 	_user$project$Domain_Core$Profile,
 	_user$project$Tests_TestAPI$profileId2,
 	_user$project$Domain_Core$Name('ContentProvider 2'),
+	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$connections(_user$project$Tests_TestAPI$profileId2));
 var _user$project$Tests_TestAPI$profileId1 = _user$project$Domain_Core$Id('profile_1');
-var _user$project$Tests_TestAPI$profile1 = A5(
+var _user$project$Tests_TestAPI$profile1 = A6(
 	_user$project$Domain_Core$Profile,
 	_user$project$Tests_TestAPI$profileId1,
 	_user$project$Domain_Core$Name('ContentProvider 1'),
+	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$connections(_user$project$Tests_TestAPI$profileId1));
