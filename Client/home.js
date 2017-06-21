@@ -9405,7 +9405,7 @@ var _user$project$Controls_Register$update = F2(
 			default:
 				return _elm_lang$core$Native_Utils.update(
 					model,
-					{email: _p0._0._0, password: _p0._0._1, confirm: _p0._0._2});
+					{name: _p0._0._0, email: _p0._0._1, password: _p0._0._2, confirm: _p0._0._3});
 		}
 	});
 var _user$project$Controls_Register$Model = F4(
@@ -9425,6 +9425,9 @@ var _user$project$Controls_Register$PasswordInput = function (a) {
 var _user$project$Controls_Register$EmailInput = function (a) {
 	return {ctor: 'EmailInput', _0: a};
 };
+var _user$project$Controls_Register$NameInput = function (a) {
+	return {ctor: 'NameInput', _0: a};
+};
 var _user$project$Controls_Register$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -9441,10 +9444,10 @@ var _user$project$Controls_Register$view = function (model) {
 						_0: _elm_lang$html$Html_Attributes$placeholder('name'),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$EmailInput),
+							_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$NameInput),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$value(model.email),
+								_0: _elm_lang$html$Html_Attributes$value(model.name),
 								_1: {ctor: '[]'}
 							}
 						}
@@ -9555,7 +9558,7 @@ var _user$project$Controls_Register$view = function (model) {
 															ctor: '::',
 															_0: _elm_lang$html$Html_Events$onClick(
 																_user$project$Controls_Register$Submit(
-																	{ctor: '_Tuple3', _0: model.email, _1: model.password, _2: model.confirm})),
+																	{ctor: '_Tuple4', _0: model.name, _1: model.email, _2: model.password, _3: model.confirm})),
 															_1: {ctor: '[]'}
 														}
 													}
@@ -9571,9 +9574,6 @@ var _user$project$Controls_Register$view = function (model) {
 				}
 			}
 		});
-};
-var _user$project$Controls_Register$NameInput = function (a) {
-	return {ctor: 'NameInput', _0: a};
 };
 
 var _user$project$Domain_Core$contentTypeToText = function (contentType) {
