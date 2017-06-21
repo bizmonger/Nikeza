@@ -17,7 +17,7 @@ type Msg
     = NameInput String
     | EmailInput String
     | BioInput String
-    | Save ( Name, Email, String )
+    | Save Model
 
 
 
@@ -26,7 +26,18 @@ type Msg
 
 update : Msg -> Model -> Model
 update msg model =
-    model
+    case msg of
+        NameInput v ->
+            { model | name = Name v }
+
+        EmailInput v ->
+            { model | email = Email v }
+
+        BioInput v ->
+            { model | bio = v }
+
+        Save v ->
+            v
 
 
 
@@ -37,11 +48,11 @@ view : Model -> Html Msg
 view model =
     div []
         [ h3 [] [ text "Profile" ]
-        , input [ type_ "text", placeholder "name", value <| getName model.name, onInput NameInput ] []
+        , input [ type_ "text", placeholder "name", onInput NameInput, value <| getName model.name ] []
         , br [] []
-        , input [ type_ "text", placeholder "email", value <| getEmail model.email, onInput EmailInput ] []
+        , input [ type_ "text", placeholder "email", onInput EmailInput, value <| getEmail model.email ] []
         , br [] []
-        , textarea [ placeholder "bio...", value model.bio ] []
+        , textarea [ placeholder "bio...", onInput BioInput, value model.bio ] []
         , br [] []
-        , button [ onClick <| Save ( model.name, model.email, model.bio ) ] [ text "Save" ]
+        , button [ onClick <| Save model ] [ text "Save" ]
         ]

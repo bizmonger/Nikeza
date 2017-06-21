@@ -159,7 +159,42 @@ update msg model =
             onNewLink subMsg model
 
         EditProfileAction subMsg ->
-            onEditProfile subMsg model
+            let
+                updatedProfile =
+                    EditProfile.update subMsg model.portal.contentProvider.profile
+
+                portal =
+                    model.portal
+
+                contentProvider =
+                    model.portal.contentProvider
+
+                newState =
+                    { model
+                        | portal = { portal | contentProvider = { contentProvider | profile = updatedProfile } }
+                    }
+            in
+                case subMsg of
+                    EditProfile.NameInput _ ->
+                        ( newState, Cmd.none )
+
+                    EditProfile.EmailInput _ ->
+                        ( newState, Cmd.none )
+
+                    EditProfile.BioInput _ ->
+                        ( newState, Cmd.none )
+
+                    EditProfile.Save v ->
+                        ( { model
+                            | portal =
+                                { portal
+                                    | contentProvider = { contentProvider | profile = v }
+                                    , profileState = SourcesNeeded
+                                    , requested = Domain.ViewSources
+                                }
+                          }
+                        , Cmd.none
+                        )
 
         ContentProviderLinksAction subMsg ->
             case subMsg of
@@ -216,22 +251,22 @@ update msg model =
                         ( { model | selectedContentProvider = contentProvider }, Cmd.none )
 
 
-onEditProfile : EditProfile.Msg -> Model -> ( Model, Cmd Msg )
-onEditProfile subMsg model =
-    let
-        contentProvider =
-            model.portal.contentProvider
 
-        updatedProfile =
-            EditProfile.update subMsg contentProvider.profile
-
-        pendingPortal =
-            model.portal
-
-        updatedPortal =
-            { pendingPortal | contentProvider = { contentProvider | profile = updatedProfile } }
-    in
-        ( { model | portal = updatedPortal }, Cmd.none )
+-- editProfile : EditProfile.Msg -> Profile -> Profile
+-- editProfile subMsg profile =
+--     let
+--         newState =
+--             EditProfile.update subMsg profile
+--     in
+--         case subMsg of
+--             EditProfile.NameInput _ ->
+--                 newState
+--             EditProfile.EmailInput _ ->
+--                 newState
+--             EditProfile.BioInput _ ->
+--                 newState
+--             EditProfile.Save v ->
+--                 newState
 
 
 onRegistration : Registration.Msg -> Model -> ( Model, Cmd Msg )
@@ -762,6 +797,7 @@ dashboardPage model =
                             ]
                         ]
                     , td [] [ content model ]
+                    , td [] [ text <| toString model.portal.contentProvider ]
                     ]
                 ]
             ]
