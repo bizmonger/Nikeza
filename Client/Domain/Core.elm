@@ -220,12 +220,12 @@ initNewLinks =
 
 
 type alias Source =
-    { platform : String, username : String }
+    { platform : String, username : String, linksFound : Int }
 
 
 initSource : Source
 initSource =
-    { platform = "", username = "" }
+    Source "" "" 0
 
 
 type ContentProviderRequest

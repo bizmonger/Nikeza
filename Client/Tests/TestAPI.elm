@@ -425,9 +425,9 @@ topicLinks topic contentType id =
 
 connections : Id -> List Source
 connections profileId =
-    [ { platform = "WordPress", username = "bizmonger" }
-    , { platform = "YouTube", username = "bizmonger" }
-    , { platform = "StackOverflow", username = "scott-nimrod" }
+    [ { platform = "WordPress", username = "bizmonger", linksFound = 0 }
+    , { platform = "YouTube", username = "bizmonger", linksFound = 0 }
+    , { platform = "StackOverflow", username = "scott-nimrod", linksFound = 0 }
     ]
 
 

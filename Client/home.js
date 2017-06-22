@@ -9605,7 +9605,6 @@ var _user$project$Domain_Core$tryLogin = F3(
 		return loginf(
 			A3(_user$project$Controls_Login$Model, username, password, false));
 	});
-var _user$project$Domain_Core$initSource = {platform: '', username: ''};
 var _user$project$Domain_Core$getPlatform = function (platform) {
 	var _p1 = platform;
 	var value = _p1._0;
@@ -9678,10 +9677,11 @@ var _user$project$Domain_Core$NewLinks = F3(
 	function (a, b, c) {
 		return {current: a, canAdd: b, added: c};
 	});
-var _user$project$Domain_Core$Source = F2(
-	function (a, b) {
-		return {platform: a, username: b};
+var _user$project$Domain_Core$Source = F3(
+	function (a, b, c) {
+		return {platform: a, username: b, linksFound: c};
 	});
+var _user$project$Domain_Core$initSource = A3(_user$project$Domain_Core$Source, '', '', 0);
 var _user$project$Domain_Core$Id = function (a) {
 	return {ctor: 'Id', _0: a};
 };
@@ -9852,13 +9852,13 @@ var _user$project$Tests_TestAPI$platforms = {
 var _user$project$Tests_TestAPI$connections = function (profileId) {
 	return {
 		ctor: '::',
-		_0: {platform: 'WordPress', username: 'bizmonger'},
+		_0: {platform: 'WordPress', username: 'bizmonger', linksFound: 0},
 		_1: {
 			ctor: '::',
-			_0: {platform: 'YouTube', username: 'bizmonger'},
+			_0: {platform: 'YouTube', username: 'bizmonger', linksFound: 0},
 			_1: {
 				ctor: '::',
-				_0: {platform: 'StackOverflow', username: 'scott-nimrod'},
+				_0: {platform: 'StackOverflow', username: 'scott-nimrod', linksFound: 0},
 				_1: {ctor: '[]'}
 			}
 		}
@@ -10662,22 +10662,40 @@ var _user$project$Controls_AddSource$sourceUI = function (source) {
 						{ctor: '[]'},
 						{
 							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$button,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(
-										_user$project$Controls_AddSource$Remove(source)),
-									_1: {ctor: '[]'}
-								},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text('Disconnect'),
-									_1: {ctor: '[]'}
-								}),
+							_0: _elm_lang$html$Html$text(
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									'(',
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										_elm_lang$core$Basics$toString(source.linksFound),
+										') links'))),
 							_1: {ctor: '[]'}
 						}),
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$td,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$button,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(
+											_user$project$Controls_AddSource$Remove(source)),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Disconnect'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
 				}
 			}
 		});
