@@ -155,40 +155,7 @@ update msg model =
             onNewLink subMsg model
 
         EditProfileAction subMsg ->
-            let
-                updatedProfile =
-                    EditProfile.update subMsg model.portal.contentProvider.profile
-
-                portal =
-                    model.portal
-
-                contentProvider =
-                    model.portal.contentProvider
-
-                newState =
-                    { model | portal = { portal | contentProvider = { contentProvider | profile = updatedProfile } } }
-            in
-                case subMsg of
-                    EditProfile.NameInput _ ->
-                        ( newState, Cmd.none )
-
-                    EditProfile.EmailInput _ ->
-                        ( newState, Cmd.none )
-
-                    EditProfile.BioInput _ ->
-                        ( newState, Cmd.none )
-
-                    EditProfile.Save v ->
-                        ( { model
-                            | portal =
-                                { portal
-                                    | contentProvider = { contentProvider | profile = v }
-                                    , profileState = SourcesNeeded
-                                    , requested = Domain.ViewSources
-                                }
-                          }
-                        , Cmd.none
-                        )
+            onEditProfile subMsg model
 
         ContentProviderLinksAction subMsg ->
             case subMsg of
@@ -207,26 +174,7 @@ update msg model =
                         ( { model | selectedContentProvider = contentProvider }, Cmd.none )
 
         PortalLinksAction subMsg ->
-            case subMsg of
-                ContentProviderLinks.ToggleAll _ ->
-                    let
-                        ( contentProvider, _ ) =
-                            ContentProviderLinks.update subMsg model.portal.contentProvider
-
-                        pendingPortal =
-                            model.portal
-                    in
-                        ( { model | portal = { pendingPortal | contentProvider = contentProvider } }, Cmd.none )
-
-                ContentProviderLinks.Toggle _ ->
-                    let
-                        ( contentProvider, _ ) =
-                            ContentProviderLinks.update subMsg model.portal.contentProvider
-
-                        pendingPortal =
-                            model.portal
-                    in
-                        ( { model | portal = { pendingPortal | contentProvider = contentProvider } }, Cmd.none )
+            onPortalLinksAction subMsg model
 
         ContentProviderContentTypeLinksAction subMsg ->
             case subMsg of
@@ -243,6 +191,68 @@ update msg model =
                             ContentProviderContentTypeLinks.update subMsg model.selectedContentProvider
                     in
                         ( { model | selectedContentProvider = contentProvider }, Cmd.none )
+
+
+onPortalLinksAction : ContentProviderLinks.Msg -> Model -> ( Model, Cmd Msg )
+onPortalLinksAction subMsg model =
+    case subMsg of
+        ContentProviderLinks.ToggleAll _ ->
+            let
+                ( contentProvider, _ ) =
+                    ContentProviderLinks.update subMsg model.portal.contentProvider
+
+                pendingPortal =
+                    model.portal
+            in
+                ( { model | portal = { pendingPortal | contentProvider = contentProvider } }, Cmd.none )
+
+        ContentProviderLinks.Toggle _ ->
+            let
+                ( contentProvider, _ ) =
+                    ContentProviderLinks.update subMsg model.portal.contentProvider
+
+                pendingPortal =
+                    model.portal
+            in
+                ( { model | portal = { pendingPortal | contentProvider = contentProvider } }, Cmd.none )
+
+
+onEditProfile : EditProfile.Msg -> Model -> ( Model, Cmd Msg )
+onEditProfile subMsg model =
+    let
+        updatedProfile =
+            EditProfile.update subMsg model.portal.contentProvider.profile
+
+        portal =
+            model.portal
+
+        contentProvider =
+            model.portal.contentProvider
+
+        newState =
+            { model | portal = { portal | contentProvider = { contentProvider | profile = updatedProfile } } }
+    in
+        case subMsg of
+            EditProfile.NameInput _ ->
+                ( newState, Cmd.none )
+
+            EditProfile.EmailInput _ ->
+                ( newState, Cmd.none )
+
+            EditProfile.BioInput _ ->
+                ( newState, Cmd.none )
+
+            EditProfile.Save v ->
+                ( { model
+                    | portal =
+                        { portal
+                            | contentProvider = { contentProvider | profile = v }
+                            , profileState = SourcesNeeded
+                            , requested = Domain.ViewSources
+                        }
+                  }
+                , Cmd.none
+                )
 
 
 onRegistration : Registration.Msg -> Model -> ( Model, Cmd Msg )
