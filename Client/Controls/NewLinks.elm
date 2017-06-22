@@ -87,21 +87,31 @@ view model =
 
         ( current, base ) =
             ( model.current, model.current.base )
-    in
-        div []
-            [ input [ type_ "text", placeholder "title", onInput InputTitle, value <| getTitle base.title ] []
-            , input [ type_ "text", placeholder "link", onInput InputUrl, value <| getUrl base.url ] []
-            , br [] []
-            , input [ type_ "text", placeholder "topic", onInput InputTopic, value (getTopic current.currentTopic) ] []
-            , select [ Html.Events.on "change" (Json.Decode.map InputContentType Html.Events.targetValue) ]
+
+        listbox =
+            select [ Html.Events.on "change" (Json.Decode.map InputContentType Html.Events.targetValue) ]
                 [ option [ value "instructions" ] [ text "Select Type" ]
                 , option [ value "Article" ] [ text "Article" ]
                 , option [ value "Video" ] [ text "Video" ]
                 , option [ value "Answer" ] [ text "Answer" ]
                 , option [ value "Podcast" ] [ text "Podcast" ]
                 ]
-            , br [] []
-            , topicsSelectionUI current.currentTopic
-            , div [] selectedTopicsUI
-            , button [ onClick <| AddLink model ] [ text "Add" ]
+    in
+        div []
+            [ table []
+                [ tr []
+                    [ td [] [ input [ type_ "text", placeholder "title", onInput InputTitle, value <| getTitle base.title ] [] ]
+                    , td [] [ input [ type_ "text", placeholder "link", onInput InputUrl, value <| getUrl base.url ] [] ]
+                    ]
+                , tr []
+                    [ td [] [ input [ type_ "text", placeholder "topic", onInput InputTopic, value (getTopic current.currentTopic) ] [] ]
+                    , td [] [ listbox ]
+                    ]
+                , tr [] [ td [] [ topicsSelectionUI current.currentTopic ] ]
+                , tr [] [ td [] [ div [] selectedTopicsUI ] ]
+                , tr []
+                    [ td [] []
+                    , td [] [ button [ onClick <| AddLink model ] [ text "Add" ] ]
+                    ]
+                ]
             ]
