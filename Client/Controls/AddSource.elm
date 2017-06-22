@@ -59,8 +59,7 @@ view model =
             Html.Events.on "change" (Json.Decode.map InputPlatform Html.Events.targetValue)
 
         records =
-            [ tr [] [ th [] [ h3 [] [ text "Data Sources" ] ] ]
-            , tr []
+            [ tr []
                 [ td [] [ select [ changeHandler, value model.source.platform ] <| instruction :: (runtime.platforms |> List.map platformOption) ]
                 , td [] [ input [ type_ "text", placeholder "username", onInput InputUsername, value model.source.username ] [] ]
                 , td [] [ button [ onClick <| Add model.source ] [ text "Add" ] ]

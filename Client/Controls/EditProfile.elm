@@ -14,7 +14,8 @@ type alias Model =
 
 
 type Msg
-    = NameInput String
+    = FirstNameInput String
+    | LastNameInput String
     | EmailInput String
     | BioInput String
     | Save Model
@@ -27,8 +28,11 @@ type Msg
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        NameInput v ->
-            { model | name = Name v }
+        FirstNameInput v ->
+            { model | firstName = Name v }
+
+        LastNameInput v ->
+            { model | lastName = Name v }
 
         EmailInput v ->
             { model | email = Email v }
@@ -47,8 +51,9 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ h3 [] [ text "Profile" ]
-        , input [ type_ "text", placeholder "name", onInput NameInput, value <| getName model.name ] []
+        [ input [ type_ "text", placeholder "first name", onInput FirstNameInput, value <| getName model.firstName ] []
+        , br [] []
+        , input [ type_ "text", placeholder "last name", onInput LastNameInput, value <| getName model.lastName ] []
         , br [] []
         , input [ type_ "text", placeholder "email", onInput EmailInput, value <| getEmail model.email ] []
         , br [] []

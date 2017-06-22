@@ -233,7 +233,10 @@ onEditProfile subMsg model =
             { model | portal = { portal | contentProvider = { contentProvider | profile = updatedProfile } } }
     in
         case subMsg of
-            EditProfile.NameInput _ ->
+            EditProfile.FirstNameInput _ ->
+                ( newState, Cmd.none )
+
+            EditProfile.LastNameInput _ ->
                 ( newState, Cmd.none )
 
             EditProfile.EmailInput _ ->
@@ -263,7 +266,10 @@ onRegistration subMsg model =
             Registration.update subMsg model.registration
     in
         case subMsg of
-            Registration.NameInput _ ->
+            Registration.FirstNameInput _ ->
+                ( { model | registration = form }, Cmd.none )
+
+            Registration.LastNameInput _ ->
                 ( { model | registration = form }, Cmd.none )
 
             Registration.EmailInput _ ->
@@ -439,11 +445,17 @@ onAddedSource subMsg model =
 matchContentProviders : Model -> String -> ( Model, Cmd Msg )
 matchContentProviders model matchValue =
     let
+        isMatch name =
+            name |> toLower |> contains (matchValue |> toLower)
+
+        onFirstName contentProvider =
+            contentProvider.profile.firstName |> getName |> isMatch
+
+        onLastName contentProvider =
+            contentProvider.profile.lastName |> getName |> isMatch
+
         onName contentProvider =
-            contentProvider.profile.name
-                |> getName
-                |> toLower
-                |> contains (matchValue |> toLower)
+            onFirstName contentProvider || onLastName contentProvider
 
         filtered =
             runtime.contentProviders |> List.filter onName
@@ -516,7 +528,7 @@ view model =
                             [ td [] [ img [ src <| getUrl <| model.selectedContentProvider.profile.imageUrl, width 100, height 100 ] [] ]
                             , td [] [ Html.map ContentProviderLinksAction <| ContentProviderLinks.view model.selectedContentProvider ]
                             ]
-                        , tr [] [ td [] [ text <| getName model.selectedContentProvider.profile.name ] ]
+                        , tr [] [ td [] [ text <| getName model.selectedContentProvider.profile.firstName ++ " " ++ getName model.selectedContentProvider.profile.lastName ] ]
                         , tr [] [ td [] [ p [] [ text model.selectedContentProvider.profile.bio ] ] ]
                         ]
 
@@ -539,7 +551,7 @@ view model =
                             [ td [] [ img [ src <| getUrl <| model.selectedContentProvider.profile.imageUrl, width 100, height 100 ] [] ]
                             , td [] [ Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.selectedContentProvider <| toContentType contentType ]
                             ]
-                        , tr [] [ td [] [ text <| getName model.selectedContentProvider.profile.name ] ]
+                        , tr [] [ td [] [ text <| getName model.selectedContentProvider.profile.firstName ++ " " ++ getName model.selectedContentProvider.profile.lastName ] ]
                         , tr [] [ td [] [ p [] [ text model.selectedContentProvider.profile.bio ] ] ]
                         ]
 
@@ -667,7 +679,7 @@ contentProviderTopicPage model =
                                             ]
                                         ]
                                     ]
-                                , tr [] [ td [] [ text <| getName model.profile.name ] ]
+                                , tr [] [ td [] [ text <| getName model.profile.firstName ++ " " ++ getName model.profile.lastName ] ]
                                 , tr [] [ td [] [ p [] [ text model.profile.bio ] ] ]
                                 ]
                             ]
@@ -722,8 +734,6 @@ content model =
                 in
                     table []
                         [ tr []
-                            [ th [] [ h3 [] [ text "Add Link" ] ] ]
-                        , tr []
                             [ td [] [ newLinkEditor ] ]
                         , tr []
                             [ td [] [ update ] ]
@@ -742,7 +752,7 @@ dashboardPage model =
             portal |> getLinkSummary
 
         header =
-            [ h2 [] [ text <| "Welcome " ++ getName model.portal.contentProvider.profile.name ] ]
+            h2 [] [ text <| "Welcome " ++ getName model.portal.contentProvider.profile.firstName ]
 
         portal =
             model.portal
@@ -779,12 +789,12 @@ dashboardPage model =
                 ]
     in
         div []
-            [ table []
+            [ header
+            , table []
                 [ tr []
                     [ td []
                         [ table []
-                            [ tr [] [ th [] header ]
-                            , tr []
+                            [ tr []
                                 [ td [] [ img [ src <| getUrl <| model.portal.contentProvider.profile.imageUrl, width 100, height 100 ] [] ]
                                 , td [] renderNavigation
                                 ]

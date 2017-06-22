@@ -183,17 +183,17 @@ someEmail =
 
 profile1 : Profile
 profile1 =
-    Profile profileId1 (Name "ContentProvider 1") someEmail someImageUrl someDescrtiption (profileId1 |> connections)
+    Profile profileId1 (Name "Content") (Name "Provider 1") someEmail someImageUrl someDescrtiption (profileId1 |> connections)
 
 
 profile2 : Profile
 profile2 =
-    Profile profileId2 (Name "ContentProvider 2") someEmail someImageUrl someDescrtiption (profileId2 |> connections)
+    Profile profileId2 (Name "Content") (Name "Provider 2") someEmail someImageUrl someDescrtiption (profileId2 |> connections)
 
 
 profile3 : Profile
 profile3 =
-    Profile profileId3 (Name "ContentProvider 3") someEmail someImageUrl someDescrtiption (profileId3 |> connections)
+    Profile profileId3 (Name "Content") (Name "Provider 3") someEmail someImageUrl someDescrtiption (profileId3 |> connections)
 
 
 contentProvider1 : ContentProvider
@@ -236,7 +236,7 @@ tryRegister form =
         if successful then
             let
                 profile =
-                    Profile (Id undefined) (Name form.name) (Email form.email) someImageUrl "" []
+                    Profile (Id undefined) (Name form.firstName) (Name form.lastName) (Email form.email) someImageUrl "" []
             in
                 Ok <| ContentProvider profile True [] initLinks
         else

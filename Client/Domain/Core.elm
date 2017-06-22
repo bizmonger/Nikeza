@@ -71,7 +71,8 @@ initPortal =
 
 type alias Profile =
     { id : Id
-    , name : Name
+    , firstName : Name
+    , lastName : Name
     , email : Email
     , imageUrl : Url
     , bio : String
@@ -82,7 +83,8 @@ type alias Profile =
 initProfile : Profile
 initProfile =
     { id = Id undefined
-    , name = Name undefined
+    , firstName = Name undefined
+    , lastName = Name undefined
     , email = Email undefined
     , imageUrl = Url undefined
     , bio = undefined

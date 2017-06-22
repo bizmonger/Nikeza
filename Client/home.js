@@ -9386,10 +9386,14 @@ var _user$project$Controls_Register$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		switch (_p0.ctor) {
-			case 'NameInput':
+			case 'FirstNameInput':
 				return _elm_lang$core$Native_Utils.update(
 					model,
-					{name: _p0._0});
+					{firstName: _p0._0});
+			case 'LastNameInput':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{lastName: _p0._0});
 			case 'EmailInput':
 				return _elm_lang$core$Native_Utils.update(
 					model,
@@ -9406,11 +9410,11 @@ var _user$project$Controls_Register$update = F2(
 				return _p0._0;
 		}
 	});
-var _user$project$Controls_Register$Model = F4(
-	function (a, b, c, d) {
-		return {name: a, email: b, password: c, confirm: d};
+var _user$project$Controls_Register$Model = F5(
+	function (a, b, c, d, e) {
+		return {firstName: a, lastName: b, email: c, password: d, confirm: e};
 	});
-var _user$project$Controls_Register$model = A4(_user$project$Controls_Register$Model, '', '', '', '');
+var _user$project$Controls_Register$model = A5(_user$project$Controls_Register$Model, '', '', '', '', '');
 var _user$project$Controls_Register$Submit = function (a) {
 	return {ctor: 'Submit', _0: a};
 };
@@ -9423,8 +9427,11 @@ var _user$project$Controls_Register$PasswordInput = function (a) {
 var _user$project$Controls_Register$EmailInput = function (a) {
 	return {ctor: 'EmailInput', _0: a};
 };
-var _user$project$Controls_Register$NameInput = function (a) {
-	return {ctor: 'NameInput', _0: a};
+var _user$project$Controls_Register$LastNameInput = function (a) {
+	return {ctor: 'LastNameInput', _0: a};
+};
+var _user$project$Controls_Register$FirstNameInput = function (a) {
+	return {ctor: 'FirstNameInput', _0: a};
 };
 var _user$project$Controls_Register$view = function (model) {
 	return A2(
@@ -9439,13 +9446,13 @@ var _user$project$Controls_Register$view = function (model) {
 					_0: _elm_lang$html$Html_Attributes$type_('text'),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$placeholder('name'),
+						_0: _elm_lang$html$Html_Attributes$placeholder('first name'),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$NameInput),
+							_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$FirstNameInput),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$value(model.name),
+								_0: _elm_lang$html$Html_Attributes$value(model.firstName),
 								_1: {ctor: '[]'}
 							}
 						}
@@ -9464,16 +9471,16 @@ var _user$project$Controls_Register$view = function (model) {
 						_elm_lang$html$Html$input,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$type_('email'),
+							_0: _elm_lang$html$Html_Attributes$type_('text'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$placeholder('email'),
+								_0: _elm_lang$html$Html_Attributes$placeholder('last name'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$EmailInput),
+									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$LastNameInput),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$value(model.email),
+										_0: _elm_lang$html$Html_Attributes$value(model.lastName),
 										_1: {ctor: '[]'}
 									}
 								}
@@ -9492,16 +9499,16 @@ var _user$project$Controls_Register$view = function (model) {
 								_elm_lang$html$Html$input,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$type_('password'),
+									_0: _elm_lang$html$Html_Attributes$type_('email'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$placeholder('password'),
+										_0: _elm_lang$html$Html_Attributes$placeholder('email'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$PasswordInput),
+											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$EmailInput),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$value(model.password),
+												_0: _elm_lang$html$Html_Attributes$value(model.email),
 												_1: {ctor: '[]'}
 											}
 										}
@@ -9523,13 +9530,13 @@ var _user$project$Controls_Register$view = function (model) {
 											_0: _elm_lang$html$Html_Attributes$type_('password'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$placeholder('confirm'),
+												_0: _elm_lang$html$Html_Attributes$placeholder('password'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$ConfirmInput),
+													_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$PasswordInput),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$value(model.confirm),
+														_0: _elm_lang$html$Html_Attributes$value(model.password),
 														_1: {ctor: '[]'}
 													}
 												}
@@ -9548,21 +9555,51 @@ var _user$project$Controls_Register$view = function (model) {
 												_elm_lang$html$Html$input,
 												{
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$type_('submit'),
+													_0: _elm_lang$html$Html_Attributes$type_('password'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$value('Create Account'),
+														_0: _elm_lang$html$Html_Attributes$placeholder('confirm'),
 														_1: {
 															ctor: '::',
-															_0: _elm_lang$html$Html_Events$onClick(
-																_user$project$Controls_Register$Submit(
-																	{name: model.name, email: model.email, password: model.password, confirm: model.confirm})),
-															_1: {ctor: '[]'}
+															_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$ConfirmInput),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$value(model.confirm),
+																_1: {ctor: '[]'}
+															}
 														}
 													}
 												},
 												{ctor: '[]'}),
-											_1: {ctor: '[]'}
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$br,
+													{ctor: '[]'},
+													{ctor: '[]'}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$input,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$type_('submit'),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$value('Create Account'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Events$onClick(
+																		_user$project$Controls_Register$Submit(
+																			{firstName: model.firstName, lastName: model.lastName, email: model.email, password: model.password, confirm: model.confirm})),
+																	_1: {ctor: '[]'}
+																}
+															}
+														},
+														{ctor: '[]'}),
+													_1: {ctor: '[]'}
+												}
+											}
 										}
 									}
 								}
@@ -9657,9 +9694,9 @@ var _user$project$Domain_Core$Portal = F7(
 	function (a, b, c, d, e, f, g) {
 		return {contentProvider: a, sourcesNavigation: b, addLinkNavigation: c, linksNavigation: d, requested: e, newSource: f, newLinks: g};
 	});
-var _user$project$Domain_Core$Profile = F6(
-	function (a, b, c, d, e, f) {
-		return {id: a, name: b, email: c, imageUrl: d, bio: e, sources: f};
+var _user$project$Domain_Core$Profile = F7(
+	function (a, b, c, d, e, f, g) {
+		return {id: a, firstName: b, lastName: c, email: d, imageUrl: e, bio: f, sources: g};
 	});
 var _user$project$Domain_Core$Topic = F2(
 	function (a, b) {
@@ -9699,7 +9736,8 @@ var _user$project$Domain_Core$Url = function (a) {
 };
 var _user$project$Domain_Core$initProfile = {
 	id: _user$project$Domain_Core$Id(_user$project$Domain_Core$undefined),
-	name: _user$project$Domain_Core$Name(_user$project$Domain_Core$undefined),
+	firstName: _user$project$Domain_Core$Name(_user$project$Domain_Core$undefined),
+	lastName: _user$project$Domain_Core$Name(_user$project$Domain_Core$undefined),
 	email: _user$project$Domain_Core$Email(_user$project$Domain_Core$undefined),
 	imageUrl: _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined),
 	bio: _user$project$Domain_Core$undefined,
@@ -9920,10 +9958,11 @@ var _user$project$Tests_TestAPI$someImageUrl = _user$project$Domain_Core$Url('ht
 var _user$project$Tests_TestAPI$tryRegister = function (form) {
 	var successful = _elm_lang$core$Native_Utils.eq(form.password, form.confirm);
 	if (successful) {
-		var profile = A6(
+		var profile = A7(
 			_user$project$Domain_Core$Profile,
 			_user$project$Domain_Core$Id(_user$project$Domain_Core$undefined),
-			_user$project$Domain_Core$Name(form.name),
+			_user$project$Domain_Core$Name(form.firstName),
+			_user$project$Domain_Core$Name(form.lastName),
 			_user$project$Domain_Core$Email(form.email),
 			_user$project$Tests_TestAPI$someImageUrl,
 			'',
@@ -9979,28 +10018,31 @@ var _user$project$Tests_TestAPI$suggestedTopics = function (search) {
 		_user$project$Tests_TestAPI$topics) : {ctor: '[]'};
 };
 var _user$project$Tests_TestAPI$profileId3 = _user$project$Domain_Core$Id('profile_3');
-var _user$project$Tests_TestAPI$profile3 = A6(
+var _user$project$Tests_TestAPI$profile3 = A7(
 	_user$project$Domain_Core$Profile,
 	_user$project$Tests_TestAPI$profileId3,
-	_user$project$Domain_Core$Name('ContentProvider 3'),
+	_user$project$Domain_Core$Name('Content'),
+	_user$project$Domain_Core$Name('Provider 3'),
 	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$connections(_user$project$Tests_TestAPI$profileId3));
 var _user$project$Tests_TestAPI$profileId2 = _user$project$Domain_Core$Id('profile_2');
-var _user$project$Tests_TestAPI$profile2 = A6(
+var _user$project$Tests_TestAPI$profile2 = A7(
 	_user$project$Domain_Core$Profile,
 	_user$project$Tests_TestAPI$profileId2,
-	_user$project$Domain_Core$Name('ContentProvider 2'),
+	_user$project$Domain_Core$Name('Content'),
+	_user$project$Domain_Core$Name('Provider 2'),
 	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$connections(_user$project$Tests_TestAPI$profileId2));
 var _user$project$Tests_TestAPI$profileId1 = _user$project$Domain_Core$Id('profile_1');
-var _user$project$Tests_TestAPI$profile1 = A6(
+var _user$project$Tests_TestAPI$profile1 = A7(
 	_user$project$Domain_Core$Profile,
 	_user$project$Tests_TestAPI$profileId1,
-	_user$project$Domain_Core$Name('ContentProvider 1'),
+	_user$project$Domain_Core$Name('Content'),
+	_user$project$Domain_Core$Name('Provider 1'),
 	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
@@ -10750,28 +10792,29 @@ var _user$project$Controls_AddSource$view = function (model) {
 			{
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$th,
+					_elm_lang$html$Html$td,
 					{ctor: '[]'},
 					{
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$h3,
-							{ctor: '[]'},
+							_elm_lang$html$Html$select,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html$text('Data Sources'),
-								_1: {ctor: '[]'}
+								_0: changeHandler,
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$value(model.source.platform),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: instruction,
+								_1: A2(_elm_lang$core$List$map, platformOption, _user$project$Settings$runtime.platforms)
 							}),
 						_1: {ctor: '[]'}
 					}),
-				_1: {ctor: '[]'}
-			}),
-		_1: {
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$tr,
-				{ctor: '[]'},
-				{
+				_1: {
 					ctor: '::',
 					_0: A2(
 						_elm_lang$html$Html$td,
@@ -10779,21 +10822,25 @@ var _user$project$Controls_AddSource$view = function (model) {
 						{
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$select,
+								_elm_lang$html$Html$input,
 								{
 									ctor: '::',
-									_0: changeHandler,
+									_0: _elm_lang$html$Html_Attributes$type_('text'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$value(model.source.platform),
-										_1: {ctor: '[]'}
+										_0: _elm_lang$html$Html_Attributes$placeholder('username'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_AddSource$InputUsername),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$value(model.source.username),
+												_1: {ctor: '[]'}
+											}
+										}
 									}
 								},
-								{
-									ctor: '::',
-									_0: instruction,
-									_1: A2(_elm_lang$core$List$map, platformOption, _user$project$Settings$runtime.platforms)
-								}),
+								{ctor: '[]'}),
 							_1: {ctor: '[]'}
 						}),
 					_1: {
@@ -10804,55 +10851,25 @@ var _user$project$Controls_AddSource$view = function (model) {
 							{
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$input,
+									_elm_lang$html$Html$button,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$type_('text'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$placeholder('username'),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_AddSource$InputUsername),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$value(model.source.username),
-													_1: {ctor: '[]'}
-												}
-											}
-										}
+										_0: _elm_lang$html$Html_Events$onClick(
+											_user$project$Controls_AddSource$Add(model.source)),
+										_1: {ctor: '[]'}
 									},
-									{ctor: '[]'}),
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Add'),
+										_1: {ctor: '[]'}
+									}),
 								_1: {ctor: '[]'}
 							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$td,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$button,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(
-												_user$project$Controls_AddSource$Add(model.source)),
-											_1: {ctor: '[]'}
-										},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text('Add'),
-											_1: {ctor: '[]'}
-										}),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
+						_1: {ctor: '[]'}
 					}
-				}),
-			_1: {ctor: '[]'}
-		}
+				}
+			}),
+		_1: {ctor: '[]'}
 	};
 	var tableRecords = A2(
 		_elm_lang$core$List$append,
@@ -11512,11 +11529,17 @@ var _user$project$Controls_EditProfile$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		switch (_p0.ctor) {
-			case 'NameInput':
+			case 'FirstNameInput':
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{
-						name: _user$project$Domain_Core$Name(_p0._0)
+						firstName: _user$project$Domain_Core$Name(_p0._0)
+					});
+			case 'LastNameInput':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						lastName: _user$project$Domain_Core$Name(_p0._0)
 					});
 			case 'EmailInput':
 				return _elm_lang$core$Native_Utils.update(
@@ -11541,8 +11564,11 @@ var _user$project$Controls_EditProfile$BioInput = function (a) {
 var _user$project$Controls_EditProfile$EmailInput = function (a) {
 	return {ctor: 'EmailInput', _0: a};
 };
-var _user$project$Controls_EditProfile$NameInput = function (a) {
-	return {ctor: 'NameInput', _0: a};
+var _user$project$Controls_EditProfile$LastNameInput = function (a) {
+	return {ctor: 'LastNameInput', _0: a};
+};
+var _user$project$Controls_EditProfile$FirstNameInput = function (a) {
+	return {ctor: 'FirstNameInput', _0: a};
 };
 var _user$project$Controls_EditProfile$view = function (model) {
 	return A2(
@@ -11551,111 +11577,131 @@ var _user$project$Controls_EditProfile$view = function (model) {
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$h3,
-				{ctor: '[]'},
+				_elm_lang$html$Html$input,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('Profile'),
-					_1: {ctor: '[]'}
-				}),
+					_0: _elm_lang$html$Html_Attributes$type_('text'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$placeholder('first name'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$FirstNameInput),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$value(
+									_user$project$Domain_Core$getName(model.firstName)),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				},
+				{ctor: '[]'}),
 			_1: {
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$input,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$type_('text'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$placeholder('name'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$NameInput),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$value(
-										_user$project$Domain_Core$getName(model.name)),
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					},
+					_elm_lang$html$Html$br,
+					{ctor: '[]'},
 					{ctor: '[]'}),
 				_1: {
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$br,
-						{ctor: '[]'},
+						_elm_lang$html$Html$input,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$type_('text'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$placeholder('last name'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$LastNameInput),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$value(
+											_user$project$Domain_Core$getName(model.lastName)),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						},
 						{ctor: '[]'}),
 					_1: {
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$input,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$type_('text'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$placeholder('email'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$EmailInput),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$value(
-												_user$project$Domain_Core$getEmail(model.email)),
-											_1: {ctor: '[]'}
-										}
-									}
-								}
-							},
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
 							{ctor: '[]'}),
 						_1: {
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$br,
-								{ctor: '[]'},
+								_elm_lang$html$Html$input,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$type_('text'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$placeholder('email'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$EmailInput),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$value(
+													_user$project$Domain_Core$getEmail(model.email)),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								},
 								{ctor: '[]'}),
 							_1: {
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$textarea,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$placeholder('bio description'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$BioInput),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$value(model.bio),
-												_1: {ctor: '[]'}
-											}
-										}
-									},
+									_elm_lang$html$Html$br,
+									{ctor: '[]'},
 									{ctor: '[]'}),
 								_1: {
 									ctor: '::',
 									_0: A2(
-										_elm_lang$html$Html$br,
-										{ctor: '[]'},
+										_elm_lang$html$Html$textarea,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$placeholder('bio description'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$BioInput),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$value(model.bio),
+													_1: {ctor: '[]'}
+												}
+											}
+										},
 										{ctor: '[]'}),
 									_1: {
 										ctor: '::',
 										_0: A2(
-											_elm_lang$html$Html$button,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onClick(
-													_user$project$Controls_EditProfile$Save(model)),
-												_1: {ctor: '[]'}
-											},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text('Save'),
-												_1: {ctor: '[]'}
-											}),
-										_1: {ctor: '[]'}
+											_elm_lang$html$Html$br,
+											{ctor: '[]'},
+											{ctor: '[]'}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$button,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Events$onClick(
+														_user$project$Controls_EditProfile$Save(model)),
+													_1: {ctor: '[]'}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text('Save'),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}
 									}
 								}
 							}
@@ -12236,7 +12282,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (contentProvide
 					return t.isFeatured;
 				},
 				contentProvider.topics)));
-	var topicsAndBio = A2(
+	var nameAndTopics = A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{
@@ -12247,7 +12293,13 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (contentProvide
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html$text(
-						_user$project$Domain_Core$getName(profile.name)),
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							_user$project$Domain_Core$getName(profile.firstName),
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								' ',
+								_user$project$Domain_Core$getName(profile.lastName)))),
 					_1: {ctor: '[]'}
 				}),
 			_1: {
@@ -12322,7 +12374,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (contentProvide
 									{ctor: '[]'},
 									{
 										ctor: '::',
-										_0: topicsAndBio,
+										_0: nameAndTopics,
 										_1: {ctor: '[]'}
 									}),
 								_1: {ctor: '[]'}
@@ -12754,7 +12806,13 @@ var _user$project$Home$contentProviderTopicPage = function (model) {
 														{
 															ctor: '::',
 															_0: _elm_lang$html$Html$text(
-																_user$project$Domain_Core$getName(model.profile.name)),
+																A2(
+																	_elm_lang$core$Basics_ops['++'],
+																	_user$project$Domain_Core$getName(model.profile.firstName),
+																	A2(
+																		_elm_lang$core$Basics_ops['++'],
+																		' ',
+																		_user$project$Domain_Core$getName(model.profile.lastName)))),
 															_1: {ctor: '[]'}
 														}),
 													_1: {ctor: '[]'}
@@ -12983,12 +13041,22 @@ var _user$project$Home$onLogin = F2(
 	});
 var _user$project$Home$matchContentProviders = F2(
 	function (model, matchValue) {
-		var onName = function (contentProvider) {
+		var isMatch = function (name) {
 			return A2(
 				_elm_lang$core$String$contains,
 				_elm_lang$core$String$toLower(matchValue),
-				_elm_lang$core$String$toLower(
-					_user$project$Domain_Core$getName(contentProvider.profile.name)));
+				_elm_lang$core$String$toLower(name));
+		};
+		var onFirstName = function (contentProvider) {
+			return isMatch(
+				_user$project$Domain_Core$getName(contentProvider.profile.firstName));
+		};
+		var onLastName = function (contentProvider) {
+			return isMatch(
+				_user$project$Domain_Core$getName(contentProvider.profile.lastName));
+		};
+		var onName = function (contentProvider) {
+			return onFirstName(contentProvider) || onLastName(contentProvider);
 		};
 		var filtered = A2(_elm_lang$core$List$filter, onName, _user$project$Settings$runtime.contentProviders);
 		return {
@@ -13184,7 +13252,15 @@ var _user$project$Home$onRegistration = F2(
 		var form = A2(_user$project$Controls_Register$update, subMsg, model.registration);
 		var _p10 = subMsg;
 		switch (_p10.ctor) {
-			case 'NameInput':
+			case 'FirstNameInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{registration: form}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'LastNameInput':
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
@@ -13263,7 +13339,9 @@ var _user$project$Home$onEditProfile = F2(
 			});
 		var _p13 = subMsg;
 		switch (_p13.ctor) {
-			case 'NameInput':
+			case 'FirstNameInput':
+				return {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'LastNameInput':
 				return {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'EmailInput':
 				return {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
@@ -13649,18 +13727,11 @@ var _user$project$Home$content = function (model) {
 						{
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$th,
+								_elm_lang$html$Html$td,
 								{ctor: '[]'},
 								{
 									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$h3,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text('Add Link'),
-											_1: {ctor: '[]'}
-										}),
+									_0: newLinkEditor,
 									_1: {ctor: '[]'}
 								}),
 							_1: {ctor: '[]'}
@@ -13677,30 +13748,12 @@ var _user$project$Home$content = function (model) {
 									{ctor: '[]'},
 									{
 										ctor: '::',
-										_0: newLinkEditor,
+										_0: update,
 										_1: {ctor: '[]'}
 									}),
 								_1: {ctor: '[]'}
 							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$tr,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$td,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: update,
-											_1: {ctor: '[]'}
-										}),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
+						_1: {ctor: '[]'}
 					}
 				});
 	}
@@ -13936,60 +13989,46 @@ var _user$project$Home$dashboardPage = function (model) {
 			}),
 		_1: {ctor: '[]'}
 	});
-	var header = {
-		ctor: '::',
-		_0: A2(
-			_elm_lang$html$Html$h2,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text(
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						'Welcome ',
-						_user$project$Domain_Core$getName(model.portal.contentProvider.profile.name))),
-				_1: {ctor: '[]'}
-			}),
-		_1: {ctor: '[]'}
-	};
+	var header = A2(
+		_elm_lang$html$Html$h2,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'Welcome ',
+					_user$project$Domain_Core$getName(model.portal.contentProvider.profile.firstName))),
+			_1: {ctor: '[]'}
+		});
 	var linkSummary = _user$project$Home$getLinkSummary(portal);
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$table,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$tr,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$td,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$table,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$tr,
-												{ctor: '[]'},
-												{
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$th,
-														{ctor: '[]'},
-														header),
-													_1: {ctor: '[]'}
-												}),
-											_1: {
+			_0: header,
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$table,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$tr,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$td,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$table,
+											{ctor: '[]'},
+											{
 												ctor: '::',
 												_0: A2(
 													_elm_lang$html$Html$tr,
@@ -14055,26 +14094,26 @@ var _user$project$Home$dashboardPage = function (model) {
 														}),
 													_1: {ctor: '[]'}
 												}
-											}
-										}),
-									_1: {ctor: '[]'}
-								}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$td,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: _user$project$Home$content(model),
+											}),
 										_1: {ctor: '[]'}
 									}),
-								_1: {ctor: '[]'}
-							}
-						}),
-					_1: {ctor: '[]'}
-				}),
-			_1: {ctor: '[]'}
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$td,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _user$project$Home$content(model),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
 		});
 };
 var _user$project$Home$ProfileThumbnail = function (a) {
@@ -14411,7 +14450,13 @@ var _user$project$Home$view = function (model) {
 																{
 																	ctor: '::',
 																	_0: _elm_lang$html$Html$text(
-																		_user$project$Domain_Core$getName(model.selectedContentProvider.profile.name)),
+																		A2(
+																			_elm_lang$core$Basics_ops['++'],
+																			_user$project$Domain_Core$getName(model.selectedContentProvider.profile.firstName),
+																			A2(
+																				_elm_lang$core$Basics_ops['++'],
+																				' ',
+																				_user$project$Domain_Core$getName(model.selectedContentProvider.profile.lastName)))),
 																	_1: {ctor: '[]'}
 																}),
 															_1: {ctor: '[]'}
@@ -14539,7 +14584,13 @@ var _user$project$Home$view = function (model) {
 													{
 														ctor: '::',
 														_0: _elm_lang$html$Html$text(
-															_user$project$Domain_Core$getName(model.selectedContentProvider.profile.name)),
+															A2(
+																_elm_lang$core$Basics_ops['++'],
+																_user$project$Domain_Core$getName(model.selectedContentProvider.profile.firstName),
+																A2(
+																	_elm_lang$core$Basics_ops['++'],
+																	' ',
+																	_user$project$Domain_Core$getName(model.selectedContentProvider.profile.lastName)))),
 														_1: {ctor: '[]'}
 													}),
 												_1: {ctor: '[]'}

@@ -9,7 +9,8 @@ import Html.Events exposing (..)
 
 
 type alias Model =
-    { name : String
+    { firstName : String
+    , lastName : String
     , email : String
     , password : String
     , confirm : String
@@ -18,7 +19,7 @@ type alias Model =
 
 model : Model
 model =
-    Model "" "" "" ""
+    Model "" "" "" "" ""
 
 
 
@@ -26,7 +27,8 @@ model =
 
 
 type Msg
-    = NameInput String
+    = FirstNameInput String
+    | LastNameInput String
     | EmailInput String
     | PasswordInput String
     | ConfirmInput String
@@ -36,8 +38,11 @@ type Msg
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        NameInput v ->
-            { model | name = v }
+        FirstNameInput v ->
+            { model | firstName = v }
+
+        LastNameInput v ->
+            { model | lastName = v }
 
         EmailInput v ->
             { model | email = v }
@@ -59,7 +64,9 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ input [ type_ "text", placeholder "name", onInput NameInput, value model.name ] []
+        [ input [ type_ "text", placeholder "first name", onInput FirstNameInput, value model.firstName ] []
+        , br [] []
+        , input [ type_ "text", placeholder "last name", onInput LastNameInput, value model.lastName ] []
         , br [] []
         , input [ type_ "email", placeholder "email", onInput EmailInput, value model.email ] []
         , br [] []
@@ -72,7 +79,8 @@ view model =
             , value "Create Account"
             , onClick <|
                 Submit
-                    { name = model.name
+                    { firstName = model.firstName
+                    , lastName = model.lastName
                     , email = model.email
                     , password = model.password
                     , confirm = model.confirm
