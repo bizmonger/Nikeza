@@ -248,7 +248,7 @@ onEditProfile subMsg model =
                         { portal
                             | contentProvider = { contentProvider | profile = v }
                             , sourcesNavigation = True
-                            , linksNavigation = not <| List.isEmpty v.sources
+                            , linksNavigation = not <| contentProvider.links == initLinks
                             , requested = Domain.ViewSources
                         }
                   }
@@ -412,7 +412,7 @@ onAddedSource subMsg model =
                 ( { model
                     | portal =
                         { portal
-                            | linksNavigation = True
+                            | linksNavigation = not <| updatedContentProvider.links == initLinks
                             , addLinkNavigation = True
                             , sourcesNavigation = True
                         }
@@ -794,7 +794,6 @@ dashboardPage model =
                     , td [] [ content model ]
                     ]
                 ]
-            , label [] [ text <| toString model.portal ]
             ]
 
 
