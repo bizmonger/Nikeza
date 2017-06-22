@@ -52,7 +52,7 @@ view model =
         , br [] []
         , input [ type_ "text", placeholder "email", onInput EmailInput, value <| getEmail model.email ] []
         , br [] []
-        , textarea [ placeholder "bio", onInput BioInput, value model.bio ] []
+        , textarea [ placeholder "bio description", onInput BioInput, value model.bio ] []
         , br [] []
         , button [ onClick <| Save model ] [ text "Save" ]
         ]

@@ -247,7 +247,7 @@ onEditProfile subMsg model =
                     | portal =
                         { portal
                             | contentProvider = { contentProvider | profile = v }
-                            , profileState = SourcesNeeded
+                            , profileState = LinksNeeded
                             , requested = Domain.ViewSources
                         }
                   }
@@ -407,10 +407,13 @@ onAddedSource subMsg model =
                 ( { model | portal = portal }, Cmd.none )
 
             AddSource.Add _ ->
-                ( { model | portal = portal }, Cmd.none )
+                ( { model | portal = { portal | profileState = ProfileCompleted } }, Cmd.none )
 
             AddSource.Remove _ ->
-                ( { model | portal = portal }, Cmd.none )
+                if portal.contentProvider.links == initLinks then
+                    ( { model | portal = { portal | profileState = LinksNeeded } }, Cmd.none )
+                else
+                    ( { model | portal = { portal | profileState = ProfileCompleted } }, Cmd.none )
 
 
 matchContentProviders : Model -> String -> ( Model, Cmd Msg )
@@ -736,7 +739,7 @@ dashboardPage model =
                         ]
                     ]
 
-                SourcesNeeded ->
+                LinksNeeded ->
                     [ div []
                         [ button [ onClick ViewSources ] [ text "Sources" ]
                         , br [] []
@@ -746,7 +749,7 @@ dashboardPage model =
                         ]
                     ]
 
-                BioAndSourcesCompleted ->
+                ProfileCompleted ->
                     [ div []
                         [ button [ onClick ViewLinks ] [ text "Links" ]
                         , br [] []

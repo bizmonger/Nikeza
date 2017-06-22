@@ -67,8 +67,8 @@ initPortal =
 
 type ProfileState
     = BioNeeded
-    | SourcesNeeded
-    | BioAndSourcesCompleted
+    | LinksNeeded
+    | ProfileCompleted
 
 
 type alias Profile =

@@ -9680,8 +9680,8 @@ var _user$project$Domain_Core$Source = F2(
 	function (a, b) {
 		return {platform: a, username: b};
 	});
-var _user$project$Domain_Core$BioAndSourcesCompleted = {ctor: 'BioAndSourcesCompleted'};
-var _user$project$Domain_Core$SourcesNeeded = {ctor: 'SourcesNeeded'};
+var _user$project$Domain_Core$ProfileCompleted = {ctor: 'ProfileCompleted'};
+var _user$project$Domain_Core$LinksNeeded = {ctor: 'LinksNeeded'};
 var _user$project$Domain_Core$BioNeeded = {ctor: 'BioNeeded'};
 var _user$project$Domain_Core$Id = function (a) {
 	return {ctor: 'Id', _0: a};
@@ -11515,7 +11515,7 @@ var _user$project$Controls_EditProfile$view = function (model) {
 									_elm_lang$html$Html$textarea,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$placeholder('bio'),
+										_0: _elm_lang$html$Html_Attributes$placeholder('bio description'),
 										_1: {
 											ctor: '::',
 											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$BioInput),
@@ -12841,15 +12841,33 @@ var _user$project$Home$onAddedSource = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{portal: portal}),
+						{
+							portal: _elm_lang$core$Native_Utils.update(
+								portal,
+								{profileState: _user$project$Domain_Core$ProfileCompleted})
+						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
-				return {
+				return _elm_lang$core$Native_Utils.eq(portal.contentProvider.links, _user$project$Domain_Core$initLinks) ? {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{portal: portal}),
+						{
+							portal: _elm_lang$core$Native_Utils.update(
+								portal,
+								{profileState: _user$project$Domain_Core$LinksNeeded})
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				} : {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							portal: _elm_lang$core$Native_Utils.update(
+								portal,
+								{profileState: _user$project$Domain_Core$ProfileCompleted})
+						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 		}
@@ -13059,7 +13077,7 @@ var _user$project$Home$onEditProfile = F2(
 									contentProvider: _elm_lang$core$Native_Utils.update(
 										contentProvider,
 										{profile: _p13._0}),
-									profileState: _user$project$Domain_Core$SourcesNeeded,
+									profileState: _user$project$Domain_Core$LinksNeeded,
 									requested: _user$project$Domain_Core$ViewSources
 								})
 						}),
@@ -13563,7 +13581,7 @@ var _user$project$Home$dashboardPage = function (model) {
 						}),
 					_1: {ctor: '[]'}
 				};
-			case 'SourcesNeeded':
+			case 'LinksNeeded':
 				return {
 					ctor: '::',
 					_0: A2(
