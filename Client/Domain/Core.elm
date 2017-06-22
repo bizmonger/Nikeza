@@ -48,7 +48,9 @@ initContentProvider =
 
 type alias Portal =
     { contentProvider : ContentProvider
-    , profileState : ProfileState
+    , sourcesNavigation : Bool
+    , addLinkNavigation : Bool
+    , linksNavigation : Bool
     , requested : ContentProviderRequest
     , newSource : Source
     , newLinks : NewLinks
@@ -58,17 +60,13 @@ type alias Portal =
 initPortal : Portal
 initPortal =
     { contentProvider = initContentProvider
-    , profileState = BioNeeded
+    , sourcesNavigation = False
+    , addLinkNavigation = False
+    , linksNavigation = False
     , requested = EditProfile
     , newSource = initSource
     , newLinks = initNewLinks
     }
-
-
-type ProfileState
-    = BioNeeded
-    | LinksNeeded
-    | ProfileCompleted
 
 
 type alias Profile =

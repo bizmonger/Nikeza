@@ -247,7 +247,8 @@ onEditProfile subMsg model =
                     | portal =
                         { portal
                             | contentProvider = { contentProvider | profile = v }
-                            , profileState = LinksNeeded
+                            , sourcesNavigation = True
+                            , linksNavigation = not <| List.isEmpty v.sources
                             , requested = Domain.ViewSources
                         }
                   }
@@ -285,7 +286,8 @@ onRegistration subMsg model =
                                         { initPortal
                                             | contentProvider = user
                                             , requested = Domain.EditProfile
-                                            , profileState = BioNeeded
+                                            , linksNavigation = False
+                                            , sourcesNavigation = False
                                         }
                                 }
                         in
@@ -368,7 +370,7 @@ onNewLink subMsg model =
                         { newLinks | canAdd = True, added = v.current.base :: v.added }
 
                     updatedPortal =
-                        { portal | newLinks = updatedLinks }
+                        { portal | newLinks = updatedLinks, linksNavigation = True }
                 in
                     ( { model | portal = updatedPortal }
                     , Cmd.none
@@ -407,13 +409,31 @@ onAddedSource subMsg model =
                 ( { model | portal = portal }, Cmd.none )
 
             AddSource.Add _ ->
-                ( { model | portal = { portal | profileState = ProfileCompleted } }, Cmd.none )
+                ( { model
+                    | portal =
+                        { portal
+                            | linksNavigation = True
+                            , addLinkNavigation = True
+                            , sourcesNavigation = True
+                        }
+                  }
+                , Cmd.none
+                )
 
             AddSource.Remove _ ->
                 if portal.contentProvider.links == initLinks then
-                    ( { model | portal = { portal | profileState = LinksNeeded } }, Cmd.none )
+                    ( { model
+                        | portal =
+                            { portal
+                                | linksNavigation = False
+                                , addLinkNavigation = True
+                                , sourcesNavigation = True
+                            }
+                      }
+                    , Cmd.none
+                    )
                 else
-                    ( { model | portal = { portal | profileState = ProfileCompleted } }, Cmd.none )
+                    ( { model | portal = { portal | linksNavigation = True, sourcesNavigation = True } }, Cmd.none )
 
 
 matchContentProviders : Model -> String -> ( Model, Cmd Msg )
@@ -728,38 +748,35 @@ dashboardPage model =
             model.portal
 
         renderNavigation =
-            case portal.profileState of
-                BioNeeded ->
-                    [ div []
-                        [ button [ onClick EditProfile ] [ text "Profile" ]
-                        , br [] []
-                        , button [ onClick ViewSources, disabled True ] [ text "Sources" ]
-                        , br [] []
-                        , button [ onClick AddNewLink, disabled True ] [ text "Link" ]
-                        ]
+            if not portal.sourcesNavigation && not portal.linksNavigation then
+                [ div []
+                    [ button [ onClick EditProfile ] [ text "Profile" ]
+                    , br [] []
+                    , button [ onClick ViewSources, disabled True ] [ text "Sources" ]
+                    , br [] []
+                    , button [ onClick AddNewLink, disabled True ] [ text "Link" ]
                     ]
-
-                LinksNeeded ->
-                    [ div []
-                        [ button [ onClick ViewSources ] [ text "Sources" ]
-                        , br [] []
-                        , button [ onClick AddNewLink ] [ text "Link" ]
-                        , br [] []
-                        , button [ onClick EditProfile ] [ text "Profile" ]
-                        ]
+                ]
+            else if portal.sourcesNavigation && not portal.linksNavigation then
+                [ div []
+                    [ button [ onClick ViewSources ] [ text "Sources" ]
+                    , br [] []
+                    , button [ onClick AddNewLink ] [ text "Link" ]
+                    , br [] []
+                    , button [ onClick EditProfile ] [ text "Profile" ]
                     ]
-
-                ProfileCompleted ->
-                    [ div []
-                        [ button [ onClick ViewLinks ] [ text "Links" ]
-                        , br [] []
-                        , button [ onClick AddNewLink ] [ text "Link" ]
-                        , br [] []
-                        , button [ onClick ViewSources ] [ text "Sources" ]
-                        , br [] []
-                        , button [ onClick EditProfile ] [ text "Profile" ]
-                        ]
+                ]
+            else
+                [ div []
+                    [ button [ onClick ViewLinks ] [ text "Links" ]
+                    , br [] []
+                    , button [ onClick AddNewLink ] [ text "Link" ]
+                    , br [] []
+                    , button [ onClick ViewSources ] [ text "Sources" ]
+                    , br [] []
+                    , button [ onClick EditProfile ] [ text "Profile" ]
                     ]
+                ]
     in
         div []
             [ table []
@@ -777,6 +794,7 @@ dashboardPage model =
                     , td [] [ content model ]
                     ]
                 ]
+            , label [] [ text <| toString model.portal ]
             ]
 
 
