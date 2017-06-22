@@ -23,17 +23,27 @@ profileId3 =
 
 someTopic1 : Topic
 someTopic1 =
-    Topic "Topic-1"
+    Topic "WPF" True
 
 
 someTopic2 : Topic
 someTopic2 =
-    Topic "Topic-2"
+    Topic "Xamarin.Forms" True
 
 
 someTopic3 : Topic
 someTopic3 =
-    Topic "Topic-3"
+    Topic "F#" True
+
+
+someTopic4 : Topic
+someTopic4 =
+    Topic "Elm" True
+
+
+someTopic5 : Topic
+someTopic5 =
+    Topic "unit-tests" False
 
 
 someUrl : Url
@@ -63,62 +73,102 @@ contentProvider3Links =
 
 someArticleTitle1 : Title
 someArticleTitle1 =
-    Title "Some Article Title 1"
+    Title "Some WPF Article"
 
 
 someArticleTitle2 : Title
 someArticleTitle2 =
-    Title "Some Article Title 2"
+    Title "Some Xamarin.Forms Article"
 
 
 someArticleTitle3 : Title
 someArticleTitle3 =
-    Title "Some Article Title 3"
+    Title "Some F# Article"
+
+
+someArticleTitle4 : Title
+someArticleTitle4 =
+    Title "Some Elm Article"
+
+
+someArticleTitle5 : Title
+someArticleTitle5 =
+    Title "Some Unit Test Article"
 
 
 someVideoTitle1 : Title
 someVideoTitle1 =
-    Title "Some Video Title 1"
+    Title "Some WPF Video"
 
 
 someVideoTitle2 : Title
 someVideoTitle2 =
-    Title "Some Video Title 2"
+    Title "Some Xaarin.Forms Video"
 
 
 someVideoTitle3 : Title
 someVideoTitle3 =
-    Title "Some Video Title 3"
+    Title "Some F# Video"
+
+
+someVideoTitle4 : Title
+someVideoTitle4 =
+    Title "Some Elm Video"
+
+
+someVideoTitle5 : Title
+someVideoTitle5 =
+    Title "Some Unit Test Video"
 
 
 somePodcastTitle1 : Title
 somePodcastTitle1 =
-    Title "Some Podcast Title 1"
+    Title "Some WPF Podcast"
 
 
 somePodcastTitle2 : Title
 somePodcastTitle2 =
-    Title "Some Podcast Title 2"
+    Title "Some Xamarin.Forms Podcast"
 
 
 somePodcastTitle3 : Title
 somePodcastTitle3 =
-    Title "Some Podcast Title 3"
+    Title "Some F# Podcast"
+
+
+somePodcastTitle4 : Title
+somePodcastTitle4 =
+    Title "Some Elm Podcast"
+
+
+somePodcastTitle5 : Title
+somePodcastTitle5 =
+    Title "Some Unit Test Podcast"
 
 
 someQuestionTitle1 : Title
 someQuestionTitle1 =
-    Title "Some Question Title 1"
+    Title "Some WPF Question"
 
 
 someQuestionTitle2 : Title
 someQuestionTitle2 =
-    Title "Some Question Title 2"
+    Title "Some Xamarin.Forms Question"
 
 
 someQuestionTitle3 : Title
 someQuestionTitle3 =
-    Title "Some Question Title 3"
+    Title "Some F# Question"
+
+
+someQuestionTitle4 : Title
+someQuestionTitle4 =
+    Title "Some Elm Question"
+
+
+someQuestionTitle5 : Title
+someQuestionTitle5 =
+    Title "Some Unit Test Question"
 
 
 someDescrtiption : String
@@ -292,36 +342,42 @@ removeLink profileId link =
 
 linksToContent : ContentType -> Id -> List Link
 linksToContent contentType profileId =
+    -- NOTE !!! We're hardcoding a profile here due to some unresolved bug
     case contentType of
         Article ->
             [ Link profile1 someArticleTitle1 someUrl Article [ someTopic1 ]
-            , Link profile2 someArticleTitle2 someUrl Article [ someTopic2 ]
-            , Link profile3 someArticleTitle3 someUrl Article [ someTopic3 ]
+            , Link profile1 someArticleTitle2 someUrl Article [ someTopic2 ]
+            , Link profile1 someArticleTitle3 someUrl Article [ someTopic3 ]
+            , Link profile1 someArticleTitle4 someUrl Article [ someTopic4 ]
+            , Link profile1 someArticleTitle5 someUrl Article [ someTopic5 ]
             ]
 
         Video ->
             [ Link profile1 someVideoTitle1 someUrl Video [ someTopic1 ]
-            , Link profile2 someVideoTitle2 someUrl Video [ someTopic2 ]
-            , Link profile3 someVideoTitle3 someUrl Video [ someTopic3 ]
+            , Link profile1 someVideoTitle2 someUrl Video [ someTopic2 ]
+            , Link profile1 someVideoTitle3 someUrl Video [ someTopic3 ]
+            , Link profile1 someVideoTitle4 someUrl Video [ someTopic4 ]
+            , Link profile1 someVideoTitle5 someUrl Video [ someTopic5 ]
             ]
 
         Podcast ->
             [ Link profile1 somePodcastTitle1 someUrl Podcast [ someTopic1 ]
-            , Link profile2 somePodcastTitle2 someUrl Podcast [ someTopic2 ]
-            , Link profile3 somePodcastTitle3 someUrl Podcast [ someTopic3 ]
+            , Link profile1 somePodcastTitle2 someUrl Podcast [ someTopic2 ]
+            , Link profile1 somePodcastTitle3 someUrl Podcast [ someTopic3 ]
+            , Link profile1 somePodcastTitle4 someUrl Podcast [ someTopic4 ]
+            , Link profile1 somePodcastTitle5 someUrl Podcast [ someTopic5 ]
             ]
 
         Answer ->
             [ Link profile1 someQuestionTitle1 someUrl Answer [ someTopic1 ]
-            , Link profile2 someQuestionTitle2 someUrl Answer [ someTopic2 ]
-            , Link profile3 someQuestionTitle3 someUrl Answer [ someTopic3 ]
+            , Link profile1 someQuestionTitle2 someUrl Answer [ someTopic2 ]
+            , Link profile1 someQuestionTitle3 someUrl Answer [ someTopic3 ]
+            , Link profile1 someQuestionTitle4 someUrl Answer [ someTopic4 ]
+            , Link profile1 someQuestionTitle5 someUrl Answer [ someTopic5 ]
             ]
 
         All ->
-            [ Link profile1 someArticleTitle1 someUrl Article [ someTopic1 ]
-            , Link profile2 someArticleTitle2 someUrl Article [ someTopic2 ]
-            , Link profile3 someArticleTitle3 someUrl Article [ someTopic3 ]
-            ]
+            []
 
         Unknown ->
             []
@@ -357,7 +413,7 @@ contentProviders =
 
 topics : List Topic
 topics =
-    [ someTopic1, someTopic2, someTopic3 ]
+    [ someTopic1, someTopic2, someTopic3, someTopic4, someTopic5 ]
 
 
 topicLinks : Topic -> ContentType -> Id -> List Link

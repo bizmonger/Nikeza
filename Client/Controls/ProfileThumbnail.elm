@@ -31,7 +31,12 @@ thumbnail contentProvider =
                 ]
 
         topics =
-            List.foldr concatTopics (div [] []) (contentProvider.topics |> List.map formatTopic)
+            List.foldr concatTopics
+                (div [] [])
+                (contentProvider.topics
+                    |> List.filter (\t -> t.isFeatured)
+                    |> List.map formatTopic
+                )
 
         topicsAndBio =
             div []

@@ -549,7 +549,7 @@ view model =
         [ "contentProvider", id, topic, "all", contentType ] ->
             case runtime.contentProvider <| Id id of
                 Just contentProvider ->
-                    contentProviderTopicContentTypePage (Topic topic) (toContentType contentType) contentProvider
+                    contentProviderTopicContentTypePage (Topic topic False) (toContentType contentType) contentProvider
 
                 Nothing ->
                     notFoundPage
@@ -843,7 +843,7 @@ navigate msg model location =
                 Just contentProvider ->
                     let
                         topicContentProvider =
-                            { contentProvider | topics = [ Topic topic ] }
+                            { contentProvider | topics = [ Topic topic False ] }
                     in
                         ( { model | selectedContentProvider = topicContentProvider, currentRoute = location }, Cmd.none )
 

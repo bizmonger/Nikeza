@@ -155,17 +155,13 @@ getUrl url =
         value
 
 
-type Topic
-    = Topic String
+type alias Topic =
+    { name : String, isFeatured : Bool }
 
 
 getTopic : Topic -> String
 getTopic topic =
-    let
-        (Topic value) =
-            topic
-    in
-        value
+    topic.name
 
 
 type Platform
@@ -207,7 +203,7 @@ initLink =
 initLinkToCreate : LinkToCreate
 initLinkToCreate =
     { base = initLink
-    , currentTopic = Topic ""
+    , currentTopic = Topic "" False
     }
 
 

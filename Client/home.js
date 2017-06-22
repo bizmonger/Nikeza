@@ -9612,33 +9612,31 @@ var _user$project$Domain_Core$getPlatform = function (platform) {
 	return value;
 };
 var _user$project$Domain_Core$getTopic = function (topic) {
-	var _p2 = topic;
+	return topic.name;
+};
+var _user$project$Domain_Core$getUrl = function (url) {
+	var _p2 = url;
 	var value = _p2._0;
 	return value;
 };
-var _user$project$Domain_Core$getUrl = function (url) {
-	var _p3 = url;
+var _user$project$Domain_Core$getTitle = function (title) {
+	var _p3 = title;
 	var value = _p3._0;
 	return value;
 };
-var _user$project$Domain_Core$getTitle = function (title) {
-	var _p4 = title;
+var _user$project$Domain_Core$getEmail = function (email) {
+	var _p4 = email;
 	var value = _p4._0;
 	return value;
 };
-var _user$project$Domain_Core$getEmail = function (email) {
-	var _p5 = email;
+var _user$project$Domain_Core$getName = function (name) {
+	var _p5 = name;
 	var value = _p5._0;
 	return value;
 };
-var _user$project$Domain_Core$getName = function (name) {
-	var _p6 = name;
-	var value = _p6._0;
-	return value;
-};
 var _user$project$Domain_Core$getId = function (id) {
-	var _p7 = id;
-	var value = _p7._0;
+	var _p6 = id;
+	var value = _p6._0;
 	return value;
 };
 var _user$project$Domain_Core$initLinks = {
@@ -9663,6 +9661,10 @@ var _user$project$Domain_Core$Portal = F7(
 var _user$project$Domain_Core$Profile = F6(
 	function (a, b, c, d, e, f) {
 		return {id: a, name: b, email: c, imageUrl: d, bio: e, sources: f};
+	});
+var _user$project$Domain_Core$Topic = F2(
+	function (a, b) {
+		return {name: a, isFeatured: b};
 	});
 var _user$project$Domain_Core$Link = F5(
 	function (a, b, c, d, e) {
@@ -9762,9 +9764,6 @@ var _user$project$Domain_Core$moreContentProviderContentOnTopicUrl = F3(
 								'/all/',
 								_user$project$Domain_Core$contentTypeToText(contentType)))))));
 	});
-var _user$project$Domain_Core$Topic = function (a) {
-	return {ctor: 'Topic', _0: a};
-};
 var _user$project$Domain_Core$Platform = function (a) {
 	return {ctor: 'Platform', _0: a};
 };
@@ -9782,7 +9781,7 @@ var _user$project$Domain_Core$initLink = {
 };
 var _user$project$Domain_Core$initLinkToCreate = {
 	base: _user$project$Domain_Core$initLink,
-	currentTopic: _user$project$Domain_Core$Topic('')
+	currentTopic: A2(_user$project$Domain_Core$Topic, '', false)
 };
 var _user$project$Domain_Core$initContentProvider = function () {
 	var addedLinks = A3(
@@ -9804,8 +9803,8 @@ var _user$project$Domain_Core$Podcast = {ctor: 'Podcast'};
 var _user$project$Domain_Core$Video = {ctor: 'Video'};
 var _user$project$Domain_Core$Article = {ctor: 'Article'};
 var _user$project$Domain_Core$toContentType = function (contentType) {
-	var _p8 = contentType;
-	switch (_p8) {
+	var _p7 = contentType;
+	switch (_p7) {
 		case 'Articles':
 			return _user$project$Domain_Core$Article;
 		case 'Article':
@@ -9897,18 +9896,26 @@ var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 };
 var _user$project$Tests_TestAPI$someEmail = _user$project$Domain_Core$Email('abc@abc.com');
 var _user$project$Tests_TestAPI$someDescrtiption = 'some description...';
-var _user$project$Tests_TestAPI$someQuestionTitle3 = _user$project$Domain_Core$Title('Some Question Title 3');
-var _user$project$Tests_TestAPI$someQuestionTitle2 = _user$project$Domain_Core$Title('Some Question Title 2');
-var _user$project$Tests_TestAPI$someQuestionTitle1 = _user$project$Domain_Core$Title('Some Question Title 1');
-var _user$project$Tests_TestAPI$somePodcastTitle3 = _user$project$Domain_Core$Title('Some Podcast Title 3');
-var _user$project$Tests_TestAPI$somePodcastTitle2 = _user$project$Domain_Core$Title('Some Podcast Title 2');
-var _user$project$Tests_TestAPI$somePodcastTitle1 = _user$project$Domain_Core$Title('Some Podcast Title 1');
-var _user$project$Tests_TestAPI$someVideoTitle3 = _user$project$Domain_Core$Title('Some Video Title 3');
-var _user$project$Tests_TestAPI$someVideoTitle2 = _user$project$Domain_Core$Title('Some Video Title 2');
-var _user$project$Tests_TestAPI$someVideoTitle1 = _user$project$Domain_Core$Title('Some Video Title 1');
-var _user$project$Tests_TestAPI$someArticleTitle3 = _user$project$Domain_Core$Title('Some Article Title 3');
-var _user$project$Tests_TestAPI$someArticleTitle2 = _user$project$Domain_Core$Title('Some Article Title 2');
-var _user$project$Tests_TestAPI$someArticleTitle1 = _user$project$Domain_Core$Title('Some Article Title 1');
+var _user$project$Tests_TestAPI$someQuestionTitle5 = _user$project$Domain_Core$Title('Some Unit Test Question');
+var _user$project$Tests_TestAPI$someQuestionTitle4 = _user$project$Domain_Core$Title('Some Elm Question');
+var _user$project$Tests_TestAPI$someQuestionTitle3 = _user$project$Domain_Core$Title('Some F# Question');
+var _user$project$Tests_TestAPI$someQuestionTitle2 = _user$project$Domain_Core$Title('Some Xamarin.Forms Question');
+var _user$project$Tests_TestAPI$someQuestionTitle1 = _user$project$Domain_Core$Title('Some WPF Question');
+var _user$project$Tests_TestAPI$somePodcastTitle5 = _user$project$Domain_Core$Title('Some Unit Test Podcast');
+var _user$project$Tests_TestAPI$somePodcastTitle4 = _user$project$Domain_Core$Title('Some Elm Podcast');
+var _user$project$Tests_TestAPI$somePodcastTitle3 = _user$project$Domain_Core$Title('Some F# Podcast');
+var _user$project$Tests_TestAPI$somePodcastTitle2 = _user$project$Domain_Core$Title('Some Xamarin.Forms Podcast');
+var _user$project$Tests_TestAPI$somePodcastTitle1 = _user$project$Domain_Core$Title('Some WPF Podcast');
+var _user$project$Tests_TestAPI$someVideoTitle5 = _user$project$Domain_Core$Title('Some Unit Test Video');
+var _user$project$Tests_TestAPI$someVideoTitle4 = _user$project$Domain_Core$Title('Some Elm Video');
+var _user$project$Tests_TestAPI$someVideoTitle3 = _user$project$Domain_Core$Title('Some F# Video');
+var _user$project$Tests_TestAPI$someVideoTitle2 = _user$project$Domain_Core$Title('Some Xaarin.Forms Video');
+var _user$project$Tests_TestAPI$someVideoTitle1 = _user$project$Domain_Core$Title('Some WPF Video');
+var _user$project$Tests_TestAPI$someArticleTitle5 = _user$project$Domain_Core$Title('Some Unit Test Article');
+var _user$project$Tests_TestAPI$someArticleTitle4 = _user$project$Domain_Core$Title('Some Elm Article');
+var _user$project$Tests_TestAPI$someArticleTitle3 = _user$project$Domain_Core$Title('Some F# Article');
+var _user$project$Tests_TestAPI$someArticleTitle2 = _user$project$Domain_Core$Title('Some Xamarin.Forms Article');
+var _user$project$Tests_TestAPI$someArticleTitle1 = _user$project$Domain_Core$Title('Some WPF Article');
 var _user$project$Tests_TestAPI$someImageUrl = _user$project$Domain_Core$Url('http://www.ngu.edu/myimages/silhouette2230.jpg');
 var _user$project$Tests_TestAPI$tryRegister = function (form) {
 	var successful = _elm_lang$core$Native_Utils.eq(form.password, form.confirm);
@@ -9933,9 +9940,11 @@ var _user$project$Tests_TestAPI$tryRegister = function (form) {
 	}
 };
 var _user$project$Tests_TestAPI$someUrl = _user$project$Domain_Core$Url('http://some_url.com');
-var _user$project$Tests_TestAPI$someTopic3 = _user$project$Domain_Core$Topic('Topic-3');
-var _user$project$Tests_TestAPI$someTopic2 = _user$project$Domain_Core$Topic('Topic-2');
-var _user$project$Tests_TestAPI$someTopic1 = _user$project$Domain_Core$Topic('Topic-1');
+var _user$project$Tests_TestAPI$someTopic5 = A2(_user$project$Domain_Core$Topic, 'unit-tests', false);
+var _user$project$Tests_TestAPI$someTopic4 = A2(_user$project$Domain_Core$Topic, 'Elm', true);
+var _user$project$Tests_TestAPI$someTopic3 = A2(_user$project$Domain_Core$Topic, 'F#', true);
+var _user$project$Tests_TestAPI$someTopic2 = A2(_user$project$Domain_Core$Topic, 'Xamarin.Forms', true);
+var _user$project$Tests_TestAPI$someTopic1 = A2(_user$project$Domain_Core$Topic, 'WPF', true);
 var _user$project$Tests_TestAPI$topics = {
 	ctor: '::',
 	_0: _user$project$Tests_TestAPI$someTopic1,
@@ -9945,7 +9954,15 @@ var _user$project$Tests_TestAPI$topics = {
 		_1: {
 			ctor: '::',
 			_0: _user$project$Tests_TestAPI$someTopic3,
-			_1: {ctor: '[]'}
+			_1: {
+				ctor: '::',
+				_0: _user$project$Tests_TestAPI$someTopic4,
+				_1: {
+					ctor: '::',
+					_0: _user$project$Tests_TestAPI$someTopic5,
+					_1: {ctor: '[]'}
+				}
+			}
 		}
 	}
 };
@@ -10010,7 +10027,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 						ctor: '::',
 						_0: A5(
 							_user$project$Domain_Core$Link,
-							_user$project$Tests_TestAPI$profile2,
+							_user$project$Tests_TestAPI$profile1,
 							_user$project$Tests_TestAPI$someArticleTitle2,
 							_user$project$Tests_TestAPI$someUrl,
 							_user$project$Domain_Core$Article,
@@ -10023,7 +10040,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 							ctor: '::',
 							_0: A5(
 								_user$project$Domain_Core$Link,
-								_user$project$Tests_TestAPI$profile3,
+								_user$project$Tests_TestAPI$profile1,
 								_user$project$Tests_TestAPI$someArticleTitle3,
 								_user$project$Tests_TestAPI$someUrl,
 								_user$project$Domain_Core$Article,
@@ -10032,7 +10049,35 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 									_0: _user$project$Tests_TestAPI$someTopic3,
 									_1: {ctor: '[]'}
 								}),
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: A5(
+									_user$project$Domain_Core$Link,
+									_user$project$Tests_TestAPI$profile1,
+									_user$project$Tests_TestAPI$someArticleTitle4,
+									_user$project$Tests_TestAPI$someUrl,
+									_user$project$Domain_Core$Article,
+									{
+										ctor: '::',
+										_0: _user$project$Tests_TestAPI$someTopic4,
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A5(
+										_user$project$Domain_Core$Link,
+										_user$project$Tests_TestAPI$profile1,
+										_user$project$Tests_TestAPI$someArticleTitle5,
+										_user$project$Tests_TestAPI$someUrl,
+										_user$project$Domain_Core$Article,
+										{
+											ctor: '::',
+											_0: _user$project$Tests_TestAPI$someTopic5,
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}
 						}
 					}
 				};
@@ -10054,7 +10099,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 						ctor: '::',
 						_0: A5(
 							_user$project$Domain_Core$Link,
-							_user$project$Tests_TestAPI$profile2,
+							_user$project$Tests_TestAPI$profile1,
 							_user$project$Tests_TestAPI$someVideoTitle2,
 							_user$project$Tests_TestAPI$someUrl,
 							_user$project$Domain_Core$Video,
@@ -10067,7 +10112,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 							ctor: '::',
 							_0: A5(
 								_user$project$Domain_Core$Link,
-								_user$project$Tests_TestAPI$profile3,
+								_user$project$Tests_TestAPI$profile1,
 								_user$project$Tests_TestAPI$someVideoTitle3,
 								_user$project$Tests_TestAPI$someUrl,
 								_user$project$Domain_Core$Video,
@@ -10076,7 +10121,35 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 									_0: _user$project$Tests_TestAPI$someTopic3,
 									_1: {ctor: '[]'}
 								}),
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: A5(
+									_user$project$Domain_Core$Link,
+									_user$project$Tests_TestAPI$profile1,
+									_user$project$Tests_TestAPI$someVideoTitle4,
+									_user$project$Tests_TestAPI$someUrl,
+									_user$project$Domain_Core$Video,
+									{
+										ctor: '::',
+										_0: _user$project$Tests_TestAPI$someTopic4,
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A5(
+										_user$project$Domain_Core$Link,
+										_user$project$Tests_TestAPI$profile1,
+										_user$project$Tests_TestAPI$someVideoTitle5,
+										_user$project$Tests_TestAPI$someUrl,
+										_user$project$Domain_Core$Video,
+										{
+											ctor: '::',
+											_0: _user$project$Tests_TestAPI$someTopic5,
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}
 						}
 					}
 				};
@@ -10098,7 +10171,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 						ctor: '::',
 						_0: A5(
 							_user$project$Domain_Core$Link,
-							_user$project$Tests_TestAPI$profile2,
+							_user$project$Tests_TestAPI$profile1,
 							_user$project$Tests_TestAPI$somePodcastTitle2,
 							_user$project$Tests_TestAPI$someUrl,
 							_user$project$Domain_Core$Podcast,
@@ -10111,7 +10184,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 							ctor: '::',
 							_0: A5(
 								_user$project$Domain_Core$Link,
-								_user$project$Tests_TestAPI$profile3,
+								_user$project$Tests_TestAPI$profile1,
 								_user$project$Tests_TestAPI$somePodcastTitle3,
 								_user$project$Tests_TestAPI$someUrl,
 								_user$project$Domain_Core$Podcast,
@@ -10120,7 +10193,35 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 									_0: _user$project$Tests_TestAPI$someTopic3,
 									_1: {ctor: '[]'}
 								}),
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: A5(
+									_user$project$Domain_Core$Link,
+									_user$project$Tests_TestAPI$profile1,
+									_user$project$Tests_TestAPI$somePodcastTitle4,
+									_user$project$Tests_TestAPI$someUrl,
+									_user$project$Domain_Core$Podcast,
+									{
+										ctor: '::',
+										_0: _user$project$Tests_TestAPI$someTopic4,
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A5(
+										_user$project$Domain_Core$Link,
+										_user$project$Tests_TestAPI$profile1,
+										_user$project$Tests_TestAPI$somePodcastTitle5,
+										_user$project$Tests_TestAPI$someUrl,
+										_user$project$Domain_Core$Podcast,
+										{
+											ctor: '::',
+											_0: _user$project$Tests_TestAPI$someTopic5,
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}
 						}
 					}
 				};
@@ -10142,7 +10243,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 						ctor: '::',
 						_0: A5(
 							_user$project$Domain_Core$Link,
-							_user$project$Tests_TestAPI$profile2,
+							_user$project$Tests_TestAPI$profile1,
 							_user$project$Tests_TestAPI$someQuestionTitle2,
 							_user$project$Tests_TestAPI$someUrl,
 							_user$project$Domain_Core$Answer,
@@ -10155,7 +10256,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 							ctor: '::',
 							_0: A5(
 								_user$project$Domain_Core$Link,
-								_user$project$Tests_TestAPI$profile3,
+								_user$project$Tests_TestAPI$profile1,
 								_user$project$Tests_TestAPI$someQuestionTitle3,
 								_user$project$Tests_TestAPI$someUrl,
 								_user$project$Domain_Core$Answer,
@@ -10164,54 +10265,40 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 									_0: _user$project$Tests_TestAPI$someTopic3,
 									_1: {ctor: '[]'}
 								}),
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: A5(
+									_user$project$Domain_Core$Link,
+									_user$project$Tests_TestAPI$profile1,
+									_user$project$Tests_TestAPI$someQuestionTitle4,
+									_user$project$Tests_TestAPI$someUrl,
+									_user$project$Domain_Core$Answer,
+									{
+										ctor: '::',
+										_0: _user$project$Tests_TestAPI$someTopic4,
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A5(
+										_user$project$Domain_Core$Link,
+										_user$project$Tests_TestAPI$profile1,
+										_user$project$Tests_TestAPI$someQuestionTitle5,
+										_user$project$Tests_TestAPI$someUrl,
+										_user$project$Domain_Core$Answer,
+										{
+											ctor: '::',
+											_0: _user$project$Tests_TestAPI$someTopic5,
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}
 						}
 					}
 				};
 			case 'All':
-				return {
-					ctor: '::',
-					_0: A5(
-						_user$project$Domain_Core$Link,
-						_user$project$Tests_TestAPI$profile1,
-						_user$project$Tests_TestAPI$someArticleTitle1,
-						_user$project$Tests_TestAPI$someUrl,
-						_user$project$Domain_Core$Article,
-						{
-							ctor: '::',
-							_0: _user$project$Tests_TestAPI$someTopic1,
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A5(
-							_user$project$Domain_Core$Link,
-							_user$project$Tests_TestAPI$profile2,
-							_user$project$Tests_TestAPI$someArticleTitle2,
-							_user$project$Tests_TestAPI$someUrl,
-							_user$project$Domain_Core$Article,
-							{
-								ctor: '::',
-								_0: _user$project$Tests_TestAPI$someTopic2,
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: A5(
-								_user$project$Domain_Core$Link,
-								_user$project$Tests_TestAPI$profile3,
-								_user$project$Tests_TestAPI$someArticleTitle3,
-								_user$project$Tests_TestAPI$someUrl,
-								_user$project$Domain_Core$Article,
-								{
-									ctor: '::',
-									_0: _user$project$Tests_TestAPI$someTopic3,
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
-					}
-				};
+				return {ctor: '[]'};
 			default:
 				return {ctor: '[]'};
 		}
@@ -11597,7 +11684,7 @@ var _user$project$Controls_NewLinks$update = F2(
 						current: _elm_lang$core$Native_Utils.update(
 							linkToCreate,
 							{
-								currentTopic: _user$project$Domain_Core$Topic(_p0._0)
+								currentTopic: A2(_user$project$Domain_Core$Topic, _p0._0, false)
 							})
 					});
 			case 'RemoveTopic':
@@ -11626,7 +11713,7 @@ var _user$project$Controls_NewLinks$update = F2(
 						current: _elm_lang$core$Native_Utils.update(
 							linkToCreate,
 							{
-								currentTopic: _user$project$Domain_Core$Topic(''),
+								currentTopic: A2(_user$project$Domain_Core$Topic, '', false),
 								base: _elm_lang$core$Native_Utils.update(
 									linkToCreateBase,
 									{
@@ -12032,7 +12119,15 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (contentProvide
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
 			{ctor: '[]'}),
-		A2(_elm_lang$core$List$map, formatTopic, contentProvider.topics));
+		A2(
+			_elm_lang$core$List$map,
+			formatTopic,
+			A2(
+				_elm_lang$core$List$filter,
+				function (t) {
+					return t.isFeatured;
+				},
+				contentProvider.topics)));
 	var topicsAndBio = A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -12174,7 +12269,7 @@ var _user$project$Home$navigate = F3(
 								{
 									topics: {
 										ctor: '::',
-										_0: _user$project$Domain_Core$Topic(_p0._1._1._0),
+										_0: A2(_user$project$Domain_Core$Topic, _p0._1._1._0, false),
 										_1: {ctor: '[]'}
 									}
 								});
@@ -14254,7 +14349,7 @@ var _user$project$Home$view = function (model) {
 									if (_p34.ctor === 'Just') {
 										return A3(
 											_user$project$Home$contentProviderTopicContentTypePage,
-											_user$project$Domain_Core$Topic(_p30._1._1._0),
+											A2(_user$project$Domain_Core$Topic, _p30._1._1._0, false),
 											_user$project$Domain_Core$toContentType(_p30._1._1._1._1._0),
 											_p34._0);
 									} else {

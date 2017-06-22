@@ -46,13 +46,13 @@ update msg model =
                 { model | current = { linkToCreate | base = { linkToCreateBase | url = Url v } } }
 
             InputTopic v ->
-                { model | current = { linkToCreate | currentTopic = Topic v } }
+                { model | current = { linkToCreate | currentTopic = Topic v False } }
 
             RemoveTopic v ->
                 { model | current = { linkToCreate | base = { linkToCreateBase | topics = linkToCreateBase.topics |> List.filter (\t -> t /= v) } } }
 
             AssociateTopic v ->
-                { model | current = { linkToCreate | currentTopic = Topic "", base = { linkToCreateBase | topics = v :: linkToCreateBase.topics } } }
+                { model | current = { linkToCreate | currentTopic = Topic "" False, base = { linkToCreateBase | topics = v :: linkToCreateBase.topics } } }
 
             InputContentType v ->
                 { model | current = { linkToCreate | base = { linkToCreateBase | contentType = toContentType v } } }
