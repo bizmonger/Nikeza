@@ -13760,6 +13760,30 @@ var _user$project$Home$content = function (model) {
 };
 var _user$project$Home$dashboardPage = function (model) {
 	var portal = model.portal;
+	var links = portal.contentProvider.links;
+	var totalLinks = ((_elm_lang$core$List$length(links.answers) + _elm_lang$core$List$length(links.articles)) + _elm_lang$core$List$length(links.videos)) + _elm_lang$core$List$length(links.podcasts);
+	var linksText = A2(
+		_elm_lang$core$Basics_ops['++'],
+		'Links ',
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			'(',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_elm_lang$core$Basics$toString(totalLinks),
+				')')));
+	var profile = portal.contentProvider.profile;
+	var sourcesText = A2(
+		_elm_lang$core$Basics_ops['++'],
+		'Sources ',
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			'(',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_elm_lang$core$Basics$toString(
+					_elm_lang$core$List$length(profile.sources)),
+				')')));
 	var renderNavigation = ((!portal.sourcesNavigation) && (!portal.linksNavigation)) ? {
 		ctor: '::',
 		_0: A2(
@@ -13800,7 +13824,7 @@ var _user$project$Home$dashboardPage = function (model) {
 							},
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html$text('Sources'),
+								_0: _elm_lang$html$Html$text(sourcesText),
 								_1: {ctor: '[]'}
 							}),
 						_1: {
@@ -13850,7 +13874,7 @@ var _user$project$Home$dashboardPage = function (model) {
 					},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text('Sources'),
+						_0: _elm_lang$html$Html$text(sourcesText),
 						_1: {ctor: '[]'}
 					}),
 				_1: {
@@ -13916,7 +13940,7 @@ var _user$project$Home$dashboardPage = function (model) {
 					},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text('Links'),
+						_0: _elm_lang$html$Html$text(linksText),
 						_1: {ctor: '[]'}
 					}),
 				_1: {
@@ -13956,7 +13980,7 @@ var _user$project$Home$dashboardPage = function (model) {
 									},
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html$text('Sources'),
+										_0: _elm_lang$html$Html$text(sourcesText),
 										_1: {ctor: '[]'}
 									}),
 								_1: {

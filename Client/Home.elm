@@ -757,19 +757,37 @@ dashboardPage model =
         portal =
             model.portal
 
+        links =
+            portal.contentProvider.links
+
+        totalLinks =
+            (List.length links.answers)
+                + (List.length links.articles)
+                + (List.length links.videos)
+                + (List.length links.podcasts)
+
+        profile =
+            portal.contentProvider.profile
+
+        sourcesText =
+            "Sources " ++ "(" ++ (toString <| List.length profile.sources) ++ ")"
+
+        linksText =
+            "Links " ++ "(" ++ (toString totalLinks) ++ ")"
+
         renderNavigation =
             if not portal.sourcesNavigation && not portal.linksNavigation then
                 [ div []
                     [ button [ onClick EditProfile ] [ text "Profile" ]
                     , br [] []
-                    , button [ onClick ViewSources, disabled True ] [ text "Sources" ]
+                    , button [ onClick ViewSources, disabled True ] [ text sourcesText ]
                     , br [] []
                     , button [ onClick AddNewLink, disabled True ] [ text "Link" ]
                     ]
                 ]
             else if portal.sourcesNavigation && not portal.linksNavigation then
                 [ div []
-                    [ button [ onClick ViewSources ] [ text "Sources" ]
+                    [ button [ onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ onClick AddNewLink ] [ text "Link" ]
                     , br [] []
@@ -778,11 +796,11 @@ dashboardPage model =
                 ]
             else
                 [ div []
-                    [ button [ onClick ViewLinks ] [ text "Links" ]
+                    [ button [ onClick ViewLinks ] [ text linksText ]
                     , br [] []
                     , button [ onClick AddNewLink ] [ text "Link" ]
                     , br [] []
-                    , button [ onClick ViewSources ] [ text "Sources" ]
+                    , button [ onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ onClick EditProfile ] [ text "Profile" ]
                     ]
