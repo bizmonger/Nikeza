@@ -550,11 +550,11 @@ view model =
 
         [ "contentProvider", id, "all", contentType ] ->
             case runtime.contentProvider <| Id id of
-                Just _ ->
+                Just c ->
                     table []
                         [ tr []
                             [ td [] [ img [ src <| getUrl <| model.selectedContentProvider.profile.imageUrl, width 100, height 100 ] [] ]
-                            , td [] [ Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.selectedContentProvider <| toContentType contentType ]
+                            , td [] [ Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view c <| toContentType contentType ]
                             ]
                         , tr [] [ td [] [ text <| getName model.selectedContentProvider.profile.firstName ++ " " ++ getName model.selectedContentProvider.profile.lastName ] ]
                         , tr [] [ td [] [ p [] [ text model.selectedContentProvider.profile.bio ] ] ]

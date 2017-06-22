@@ -10025,8 +10025,8 @@ var _user$project$Tests_TestAPI$profileId3 = _user$project$Domain_Core$Id('profi
 var _user$project$Tests_TestAPI$profile3 = A7(
 	_user$project$Domain_Core$Profile,
 	_user$project$Tests_TestAPI$profileId3,
-	_user$project$Domain_Core$Name('Content'),
-	_user$project$Domain_Core$Name('Provider 3'),
+	_user$project$Domain_Core$Name('Adam'),
+	_user$project$Domain_Core$Name('Wright'),
 	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
@@ -10035,8 +10035,8 @@ var _user$project$Tests_TestAPI$profileId2 = _user$project$Domain_Core$Id('profi
 var _user$project$Tests_TestAPI$profile2 = A7(
 	_user$project$Domain_Core$Profile,
 	_user$project$Tests_TestAPI$profileId2,
-	_user$project$Domain_Core$Name('Content'),
-	_user$project$Domain_Core$Name('Provider 2'),
+	_user$project$Domain_Core$Name('Pablo'),
+	_user$project$Domain_Core$Name('Rivera'),
 	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
@@ -10045,8 +10045,8 @@ var _user$project$Tests_TestAPI$profileId1 = _user$project$Domain_Core$Id('profi
 var _user$project$Tests_TestAPI$profile1 = A7(
 	_user$project$Domain_Core$Profile,
 	_user$project$Tests_TestAPI$profileId1,
-	_user$project$Domain_Core$Name('Content'),
-	_user$project$Domain_Core$Name('Provider 1'),
+	_user$project$Domain_Core$Name('Scott'),
+	_user$project$Domain_Core$Name('Nimrod'),
 	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
@@ -14527,7 +14527,7 @@ var _user$project$Home$view = function (model) {
 																		_user$project$Home$ContentProviderContentTypeLinksAction,
 																		A2(
 																			_user$project$Controls_ContentProviderContentTypeLinks$view,
-																			model.selectedContentProvider,
+																			_p34._0,
 																			_user$project$Domain_Core$toContentType(_p31._1._1._1._0))),
 																	_1: {ctor: '[]'}
 																}),
