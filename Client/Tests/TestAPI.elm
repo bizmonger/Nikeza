@@ -420,7 +420,7 @@ topicLinks : Topic -> ContentType -> Id -> List Link
 topicLinks topic contentType id =
     id
         |> linksToContent contentType
-        |> List.filter (\l -> l.topics |> List.member topic)
+        |> List.filter (\link -> link.topics |> List.any (\t -> t.name == topic.name))
 
 
 connections : Id -> List Source

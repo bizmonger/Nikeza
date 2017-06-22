@@ -10455,8 +10455,13 @@ var _user$project$Tests_TestAPI$topicLinks = F3(
 	function (topic, contentType, id) {
 		return A2(
 			_elm_lang$core$List$filter,
-			function (l) {
-				return A2(_elm_lang$core$List$member, topic, l.topics);
+			function (link) {
+				return A2(
+					_elm_lang$core$List$any,
+					function (t) {
+						return _elm_lang$core$Native_Utils.eq(t.name, topic.name);
+					},
+					link.topics);
 			},
 			A2(_user$project$Tests_TestAPI$linksToContent, contentType, id));
 	});
