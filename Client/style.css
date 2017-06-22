@@ -5,6 +5,38 @@ header {
     height:40px;
 }
 
+input[type="text"].search{
+    width:250px;
+}
+
+div.navigationpane{
+    vertical-align: text-top;
+}
+
+button.navigation {
+    vertical-align: text-top;
+    width:100px
+}
+
+button.register {
+    margin-left: 2px; 
+    width: 150px;
+}
+
+table.sources {
+    vertical-align: text-top;
+}
+
+
+
+
+button.join {
+    width:100px;
+    height:50px;
+    font-size: 20px;
+    background-color:lightblue;
+}
+
 label.title {
     text-align: center;
 }

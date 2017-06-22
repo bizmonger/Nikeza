@@ -74,8 +74,8 @@ view model =
         , br [] []
         , input [ type_ "password", placeholder "confirm", onInput ConfirmInput, value model.confirm ] []
         , br [] []
-        , input
-            [ type_ "submit"
+        , button
+            [ class "register"
             , value "Create Account"
             , onClick <|
                 Submit
@@ -86,5 +86,5 @@ view model =
                     , confirm = model.confirm
                     }
             ]
-            []
+            [ text "Submit" ]
         ]

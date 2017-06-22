@@ -486,7 +486,12 @@ onLogin subMsg model =
                             Just contentProvider ->
                                 { model
                                     | login = latest
-                                    , portal = { pendingPortal | contentProvider = contentProvider, requested = Domain.ViewLinks }
+                                    , portal =
+                                        { pendingPortal
+                                            | contentProvider = contentProvider
+                                            , requested = Domain.ViewLinks
+                                            , sourcesNavigation = not <| List.isEmpty contentProvider.profile.sources
+                                        }
                                 }
 
                             Nothing ->
@@ -602,11 +607,11 @@ homePage model =
                 , label [] [ i [] [ text "Linking Your Expertise" ] ]
                 , model |> loginUI
                 ]
-            , input [ type_ "text", placeholder "name", onInput Search ] []
+            , input [ class "search", type_ "text", placeholder "name", onInput Search ] []
             , table []
                 [ tr []
                     [ td [] [ div [] [ contentProvidersUI ] ]
-                    , td [] [ button [ onClick Register ] [ text "Join!" ] ]
+                    , td [] [ button [ class "join", onClick Register ] [ text "Join!" ] ]
                     ]
                 ]
             , footer [ class "copyright" ]
@@ -777,32 +782,32 @@ dashboardPage model =
 
         renderNavigation =
             if not portal.sourcesNavigation && not portal.linksNavigation then
-                [ div []
-                    [ button [ onClick EditProfile ] [ text "Profile" ]
+                [ div [ class "navigationpane" ]
+                    [ button [ class "navigation", onClick EditProfile ] [ text "Profile" ]
                     , br [] []
-                    , button [ onClick ViewSources, disabled True ] [ text sourcesText ]
+                    , button [ class "navigation", onClick ViewSources, disabled True ] [ text sourcesText ]
                     , br [] []
-                    , button [ onClick AddNewLink, disabled True ] [ text "Link" ]
+                    , button [ class "navigation", onClick AddNewLink, disabled True ] [ text "Link" ]
                     ]
                 ]
             else if portal.sourcesNavigation && not portal.linksNavigation then
-                [ div []
-                    [ button [ onClick ViewSources ] [ text sourcesText ]
+                [ div [ class "navigationpane" ]
+                    [ button [ class "navigation", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
-                    , button [ onClick AddNewLink ] [ text "Link" ]
+                    , button [ class "navigation", onClick AddNewLink ] [ text "Link" ]
                     , br [] []
-                    , button [ onClick EditProfile ] [ text "Profile" ]
+                    , button [ class "navigation", onClick EditProfile ] [ text "Profile" ]
                     ]
                 ]
             else
-                [ div []
-                    [ button [ onClick ViewLinks ] [ text linksText ]
+                [ div [ class "navigationpane" ]
+                    [ button [ class "navigation", onClick ViewLinks ] [ text linksText ]
                     , br [] []
-                    , button [ onClick AddNewLink ] [ text "Link" ]
+                    , button [ class "navigation", onClick AddNewLink ] [ text "Link" ]
                     , br [] []
-                    , button [ onClick ViewSources ] [ text sourcesText ]
+                    , button [ class "navigation", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
-                    , button [ onClick EditProfile ] [ text "Profile" ]
+                    , button [ class "navigation", onClick EditProfile ] [ text "Profile" ]
                     ]
                 ]
     in

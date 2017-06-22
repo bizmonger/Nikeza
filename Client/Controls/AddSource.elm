@@ -74,7 +74,7 @@ view model =
 
 sourceUI : Source -> Html Msg
 sourceUI source =
-    tr []
+    tr [ class "sources" ]
         [ td [] [ text source.platform ]
         , td [] [ i [] [ text source.username ] ]
         , td [] [ text <| "(" ++ (source.linksFound |> toString) ++ ") links" ]
