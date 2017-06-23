@@ -12770,7 +12770,11 @@ var _user$project$Home$contentProviderTopicPage = function (model) {
 										ctor: '::',
 										_0: A2(
 											_elm_lang$html$Html$tr,
-											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('bio'),
+												_1: {ctor: '[]'}
+											},
 											{
 												ctor: '::',
 												_0: A2(
@@ -12803,7 +12807,11 @@ var _user$project$Home$contentProviderTopicPage = function (model) {
 											ctor: '::',
 											_0: A2(
 												_elm_lang$html$Html$tr,
-												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('bio'),
+													_1: {ctor: '[]'}
+												},
 												{
 													ctor: '::',
 													_0: A2(
@@ -12827,7 +12835,11 @@ var _user$project$Home$contentProviderTopicPage = function (model) {
 												ctor: '::',
 												_0: A2(
 													_elm_lang$html$Html$tr,
-													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$class('bio'),
+														_1: {ctor: '[]'}
+													},
 													{
 														ctor: '::',
 														_0: A2(
@@ -14170,7 +14182,11 @@ var _user$project$Home$dashboardPage = function (model) {
 													ctor: '::',
 													_0: A2(
 														_elm_lang$html$Html$tr,
-														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$class('bio'),
+															_1: {ctor: '[]'}
+														},
 														{
 															ctor: '::',
 															_0: A2(
@@ -14507,7 +14523,11 @@ var _user$project$Home$view = function (model) {
 																ctor: '::',
 																_0: A2(
 																	_elm_lang$html$Html$tr,
-																	{ctor: '[]'},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$class('bio'),
+																		_1: {ctor: '[]'}
+																	},
 																	{
 																		ctor: '::',
 																		_0: A2(
@@ -14540,7 +14560,11 @@ var _user$project$Home$view = function (model) {
 																	ctor: '::',
 																	_0: A2(
 																		_elm_lang$html$Html$tr,
-																		{ctor: '[]'},
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$class('bio'),
+																			_1: {ctor: '[]'}
+																		},
 																		{
 																			ctor: '::',
 																			_0: A2(
@@ -14564,7 +14588,11 @@ var _user$project$Home$view = function (model) {
 																		ctor: '::',
 																		_0: A2(
 																			_elm_lang$html$Html$tr,
-																			{ctor: '[]'},
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$class('bio'),
+																				_1: {ctor: '[]'}
+																			},
 																			{
 																				ctor: '::',
 																				_0: A2(
@@ -14658,7 +14686,11 @@ var _user$project$Home$view = function (model) {
 													ctor: '::',
 													_0: A2(
 														_elm_lang$html$Html$tr,
-														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$class('bio'),
+															_1: {ctor: '[]'}
+														},
 														{
 															ctor: '::',
 															_0: A2(
@@ -14691,7 +14723,11 @@ var _user$project$Home$view = function (model) {
 														ctor: '::',
 														_0: A2(
 															_elm_lang$html$Html$tr,
-															{ctor: '[]'},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$class('bio'),
+																_1: {ctor: '[]'}
+															},
 															{
 																ctor: '::',
 																_0: A2(
@@ -14715,7 +14751,11 @@ var _user$project$Home$view = function (model) {
 															ctor: '::',
 															_0: A2(
 																_elm_lang$html$Html$tr,
-																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$class('bio'),
+																	_1: {ctor: '[]'}
+																},
 																{
 																	ctor: '::',
 																	_0: A2(

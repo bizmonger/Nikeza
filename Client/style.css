@@ -27,6 +27,11 @@ table td, table td * {
     vertical-align: top;
 }
 
+
+tr.bio {
+    text-align: center;
+}
+
 button.join {
     width:100px;
     height:50px;
