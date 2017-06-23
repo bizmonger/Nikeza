@@ -552,13 +552,13 @@ view model =
 
         [ "contentProvider", id, "all", contentType ] ->
             case runtime.contentProvider <| Id id of
-                Just c ->
+                Just _ ->
                     table []
                         [ tr []
                             [ table []
-                                [ tr [] [ td [] [ img [ src <| getUrl <| c.profile.imageUrl, width 100, height 100 ] [] ] ]
-                                , tr [] [ td [] [ text <| getName c.profile.firstName ++ " " ++ getName c.profile.lastName ] ]
-                                , tr [] [ td [] [ p [] [ text c.profile.bio ] ] ]
+                                [ tr [] [ td [] [ img [ src <| getUrl <| model.selectedContentProvider.profile.imageUrl, width 100, height 100 ] [] ] ]
+                                , tr [] [ td [] [ text <| getName model.selectedContentProvider.profile.firstName ++ " " ++ getName model.selectedContentProvider.profile.lastName ] ]
+                                , tr [] [ td [] [ p [] [ text model.selectedContentProvider.profile.bio ] ] ]
                                 ]
                             , td [] [ Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.selectedContentProvider <| toContentType contentType ]
                             ]
