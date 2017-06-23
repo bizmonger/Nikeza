@@ -527,7 +527,7 @@ view model =
 
         [ "contentProvider", id ] ->
             case runtime.contentProvider <| Id id of
-                Just _ ->
+                Just c ->
                     table []
                         [ tr []
                             [ table []
@@ -552,15 +552,15 @@ view model =
 
         [ "contentProvider", id, "all", contentType ] ->
             case runtime.contentProvider <| Id id of
-                Just _ ->
+                Just c ->
                     table []
                         [ tr []
                             [ table []
-                                [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| model.selectedContentProvider.profile.imageUrl, width 100, height 100 ] [] ] ]
-                                , tr [ class "bio" ] [ td [] [ text <| getName model.selectedContentProvider.profile.firstName ++ " " ++ getName model.selectedContentProvider.profile.lastName ] ]
-                                , tr [ class "bio" ] [ td [] [ p [] [ text model.selectedContentProvider.profile.bio ] ] ]
+                                [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| c.profile.imageUrl, width 100, height 100 ] [] ] ]
+                                , tr [ class "bio" ] [ td [] [ text <| getName c.profile.firstName ++ " " ++ getName c.profile.lastName ] ]
+                                , tr [ class "bio" ] [ td [] [ p [] [ text c.profile.bio ] ] ]
                                 ]
-                            , td [] [ Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.selectedContentProvider <| toContentType contentType ]
+                            , td [] [ Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.portal.contentProvider <| toContentType contentType ]
                             ]
                         ]
 
@@ -651,6 +651,7 @@ contentProviderTopicContentTypePage topic contentType model =
                     , td [] [ div [] <| List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ]) links ]
                     ]
                 ]
+            , label [] [ text <| toString model.profile ]
             ]
 
 
