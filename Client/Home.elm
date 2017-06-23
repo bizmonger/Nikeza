@@ -836,8 +836,9 @@ dashboardPage model =
         --         Domain.EditProfile ->
         --             buttons |> List.map (\b -> b |> decorateOn profileText)
         displayNavigation buttons =
-            [ div [ class "navigationpane" ] (decorate buttons) ]
+            [ div [ class "navigationpane" ] buttons ]
 
+        --(decorate buttons) ]
         renderNavigation =
             if not portal.sourcesNavigation && not portal.linksNavigation then
                 displayNavigation noSourcesNoLinks
