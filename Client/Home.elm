@@ -610,8 +610,8 @@ homePage model =
                     ]
                 ]
             , footer [ class "copyright" ]
-                [ label [] [ text "(c)2017" ]
-                , a [ href "" ] [ text "GitHub" ]
+                [ label [] [ text "(c)2017 " ]
+                , a [ href "https://lambda-cartel.io/website" ] [ text "Lambda Cartel" ]
                 ]
             ]
 

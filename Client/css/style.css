@@ -1,0 +1,20 @@
+/*
+ * Globals
+ */
+
+body {
+  background: #f5f5f5;
+  color: #111;
+  padding: .9em .8em 3em .8em;
+}
+
+
+
+/* 
+* Media Queries 
+*/
+
+/* Small devices (tablets, up to 768px) */
+@media (max-width: 768px) {
+
+}
