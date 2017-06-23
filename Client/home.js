@@ -11859,7 +11859,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 				},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('Select Type'),
+					_0: _elm_lang$html$Html$text('Content Type'),
 					_1: {ctor: '[]'}
 				}),
 			_1: {
@@ -11943,9 +11943,13 @@ var _user$project$Controls_NewLinks$view = function (model) {
 							_elm_lang$html$Html$button,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(
-									_user$project$Controls_NewLinks$RemoveTopic(t)),
-								_1: {ctor: '[]'}
+								_0: _elm_lang$html$Html_Attributes$class('remove'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(
+										_user$project$Controls_NewLinks$RemoveTopic(t)),
+									_1: {ctor: '[]'}
+								}
 							},
 							{
 								ctor: '::',
@@ -12028,18 +12032,22 @@ var _user$project$Controls_NewLinks$view = function (model) {
 										_elm_lang$html$Html$input,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$type_('text'),
+											_0: _elm_lang$html$Html_Attributes$class('addLinkText'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$placeholder('title'),
+												_0: _elm_lang$html$Html_Attributes$type_('text'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_NewLinks$InputTitle),
+													_0: _elm_lang$html$Html_Attributes$placeholder('title'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$value(
-															_user$project$Domain_Core$getTitle(base.title)),
-														_1: {ctor: '[]'}
+														_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_NewLinks$InputTitle),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$value(
+																_user$project$Domain_Core$getTitle(base.title)),
+															_1: {ctor: '[]'}
+														}
 													}
 												}
 											}
@@ -12047,38 +12055,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 										{ctor: '[]'}),
 									_1: {ctor: '[]'}
 								}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$td,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$input,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$type_('text'),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$placeholder('link'),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_NewLinks$InputUrl),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$value(
-																_user$project$Domain_Core$getUrl(base.url)),
-															_1: {ctor: '[]'}
-														}
-													}
-												}
-											},
-											{ctor: '[]'}),
-										_1: {ctor: '[]'}
-									}),
-								_1: {ctor: '[]'}
-							}
+							_1: {ctor: '[]'}
 						}),
 					_1: {
 						ctor: '::',
@@ -12096,18 +12073,22 @@ var _user$project$Controls_NewLinks$view = function (model) {
 											_elm_lang$html$Html$input,
 											{
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$type_('text'),
+												_0: _elm_lang$html$Html_Attributes$class('addLinkText'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$placeholder('topic'),
+													_0: _elm_lang$html$Html_Attributes$type_('text'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_NewLinks$InputTopic),
+														_0: _elm_lang$html$Html_Attributes$placeholder('link'),
 														_1: {
 															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$value(
-																_user$project$Domain_Core$getTopic(current.currentTopic)),
-															_1: {ctor: '[]'}
+															_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_NewLinks$InputUrl),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$value(
+																	_user$project$Domain_Core$getUrl(base.url)),
+																_1: {ctor: '[]'}
+															}
 														}
 													}
 												}
@@ -12115,18 +12096,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 											{ctor: '[]'}),
 										_1: {ctor: '[]'}
 									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$td,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: listbox,
-											_1: {ctor: '[]'}
-										}),
-									_1: {ctor: '[]'}
-								}
+								_1: {ctor: '[]'}
 							}),
 						_1: {
 							ctor: '::',
@@ -12140,7 +12110,59 @@ var _user$project$Controls_NewLinks$view = function (model) {
 										{ctor: '[]'},
 										{
 											ctor: '::',
-											_0: topicsSelectionUI(current.currentTopic),
+											_0: A2(
+												_elm_lang$html$Html$table,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$tr,
+														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$td,
+																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$input,
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$type_('text'),
+																			_1: {
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$placeholder('topic'),
+																				_1: {
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_NewLinks$InputTopic),
+																					_1: {
+																						ctor: '::',
+																						_0: _elm_lang$html$Html_Attributes$value(
+																							_user$project$Domain_Core$getTopic(current.currentTopic)),
+																						_1: {ctor: '[]'}
+																					}
+																				}
+																			}
+																		},
+																		{ctor: '[]'}),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$td,
+																	{ctor: '[]'},
+																	{
+																		ctor: '::',
+																		_0: listbox,
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {ctor: '[]'}
+															}
+														}),
+													_1: {ctor: '[]'}
+												}),
 											_1: {ctor: '[]'}
 										}),
 									_1: {ctor: '[]'}
@@ -12157,10 +12179,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 											{ctor: '[]'},
 											{
 												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$div,
-													{ctor: '[]'},
-													selectedTopicsUI),
+												_0: topicsSelectionUI(current.currentTopic),
 												_1: {ctor: '[]'}
 											}),
 										_1: {ctor: '[]'}
@@ -12175,33 +12194,54 @@ var _user$project$Controls_NewLinks$view = function (model) {
 											_0: A2(
 												_elm_lang$html$Html$td,
 												{ctor: '[]'},
-												{ctor: '[]'}),
-											_1: {
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$div,
+														{ctor: '[]'},
+														selectedTopicsUI),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$tr,
+											{ctor: '[]'},
+											{
 												ctor: '::',
 												_0: A2(
 													_elm_lang$html$Html$td,
 													{ctor: '[]'},
-													{
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$button,
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html_Events$onClick(
-																	_user$project$Controls_NewLinks$AddLink(model)),
-																_1: {ctor: '[]'}
-															},
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html$text('Add'),
-																_1: {ctor: '[]'}
-															}),
-														_1: {ctor: '[]'}
-													}),
-												_1: {ctor: '[]'}
-											}
-										}),
-									_1: {ctor: '[]'}
+													{ctor: '[]'}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$td,
+														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$button,
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Events$onClick(
+																		_user$project$Controls_NewLinks$AddLink(model)),
+																	_1: {ctor: '[]'}
+																},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text('Add Link'),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}
+											}),
+										_1: {ctor: '[]'}
+									}
 								}
 							}
 						}
@@ -13833,7 +13873,7 @@ var _user$project$Home$dashboardPage = function (model) {
 					_elm_lang$html$Html$button,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('navigation'),
+						_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
 						_1: {
 							ctor: '::',
 							_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
@@ -13857,7 +13897,7 @@ var _user$project$Home$dashboardPage = function (model) {
 							_elm_lang$html$Html$button,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('navigation'),
+								_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
 								_1: {
 									ctor: '::',
 									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
@@ -13885,7 +13925,7 @@ var _user$project$Home$dashboardPage = function (model) {
 									_elm_lang$html$Html$button,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('navigation'),
+										_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
 										_1: {
 											ctor: '::',
 											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
@@ -13923,7 +13963,7 @@ var _user$project$Home$dashboardPage = function (model) {
 					_elm_lang$html$Html$button,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('navigation'),
+						_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
 						_1: {
 							ctor: '::',
 							_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
@@ -13947,7 +13987,7 @@ var _user$project$Home$dashboardPage = function (model) {
 							_elm_lang$html$Html$button,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('navigation'),
+								_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
 								_1: {
 									ctor: '::',
 									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
@@ -13971,7 +14011,7 @@ var _user$project$Home$dashboardPage = function (model) {
 									_elm_lang$html$Html$button,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('navigation'),
+										_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
 										_1: {
 											ctor: '::',
 											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
@@ -14005,7 +14045,7 @@ var _user$project$Home$dashboardPage = function (model) {
 					_elm_lang$html$Html$button,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('navigation'),
+						_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
 						_1: {
 							ctor: '::',
 							_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
@@ -14029,7 +14069,7 @@ var _user$project$Home$dashboardPage = function (model) {
 							_elm_lang$html$Html$button,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('navigation'),
+								_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
 								_1: {
 									ctor: '::',
 									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
@@ -14053,7 +14093,7 @@ var _user$project$Home$dashboardPage = function (model) {
 									_elm_lang$html$Html$button,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('navigation'),
+										_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
 										_1: {
 											ctor: '::',
 											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
@@ -14077,7 +14117,7 @@ var _user$project$Home$dashboardPage = function (model) {
 											_elm_lang$html$Html$button,
 											{
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('navigation'),
+												_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
 												_1: {
 													ctor: '::',
 													_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),

@@ -83,14 +83,14 @@ view model =
                 )
 
         selectedTopicsUI =
-            current.base.topics |> List.map (\t -> label [] [ text <| getTopic t, button [ onClick <| RemoveTopic t ] [ text "Remove" ], br [] [] ])
+            current.base.topics |> List.map (\t -> label [] [ text <| getTopic t, button [ class "remove", onClick <| RemoveTopic t ] [ text "Remove" ], br [] [] ])
 
         ( current, base ) =
             ( model.current, model.current.base )
 
         listbox =
             select [ Html.Events.on "change" (Json.Decode.map InputContentType Html.Events.targetValue) ]
-                [ option [ value "instructions" ] [ text "Select Type" ]
+                [ option [ value "instructions" ] [ text "Content Type" ]
                 , option [ value "Article" ] [ text "Article" ]
                 , option [ value "Video" ] [ text "Video" ]
                 , option [ value "Answer" ] [ text "Answer" ]
@@ -100,18 +100,24 @@ view model =
         div []
             [ table []
                 [ tr []
-                    [ td [] [ input [ type_ "text", placeholder "title", onInput InputTitle, value <| getTitle base.title ] [] ]
-                    , td [] [ input [ type_ "text", placeholder "link", onInput InputUrl, value <| getUrl base.url ] [] ]
+                    [ td [] [ input [ class "addLinkText", type_ "text", placeholder "title", onInput InputTitle, value <| getTitle base.title ] [] ]
                     ]
+                , tr [] [ td [] [ input [ class "addLinkText", type_ "text", placeholder "link", onInput InputUrl, value <| getUrl base.url ] [] ] ]
                 , tr []
-                    [ td [] [ input [ type_ "text", placeholder "topic", onInput InputTopic, value (getTopic current.currentTopic) ] [] ]
-                    , td [] [ listbox ]
+                    [ td []
+                        [ table []
+                            [ tr []
+                                [ td [] [ input [ type_ "text", placeholder "topic", onInput InputTopic, value (getTopic current.currentTopic) ] [] ]
+                                , td [] [ listbox ]
+                                ]
+                            ]
+                        ]
                     ]
                 , tr [] [ td [] [ topicsSelectionUI current.currentTopic ] ]
                 , tr [] [ td [] [ div [] selectedTopicsUI ] ]
                 , tr []
                     [ td [] []
-                    , td [] [ button [ onClick <| AddLink model ] [ text "Add" ] ]
+                    , td [] [ button [ onClick <| AddLink model ] [ text "Add Link" ] ]
                     ]
                 ]
             ]

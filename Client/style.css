@@ -9,27 +9,17 @@ input[type="text"].search{
     width:250px;
 }
 
+input[type="text"].addLinkText{
+    width:260px;
+}
+
 div.navigationpane{
     vertical-align: text-top;
 }
 
-button.navigation {
+button.navigationButton {
     vertical-align: text-top;
     width:100px
-}
-
-button.register {
-    margin-left: 2px; 
-    width: 150px;
-}
-
-table td, table td * {
-    vertical-align: top;
-}
-
-
-tr.bio {
-    text-align: center;
 }
 
 button.join {
@@ -38,6 +28,23 @@ button.join {
     margin-left: 50px;
     font-size: 20px;
     background-color:lightblue;
+}
+
+button.register {
+    margin-left: 2px; 
+    width: 150px;
+}
+
+button.remove {
+    margin-left: 50px;
+}
+
+table td, table td * {
+    vertical-align: top;
+}
+
+tr.bio {
+    text-align: center;
 }
 
 label.title {
