@@ -306,6 +306,11 @@ type ContentType
 -- FUNCTIONS
 
 
+linksExist : Links -> Bool
+linksExist links =
+    not <| links == initLinks
+
+
 tryLogin : Loginfunction -> String -> String -> Login.Model
 tryLogin loginf username password =
     loginf <| Login.Model username password False

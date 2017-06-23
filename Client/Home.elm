@@ -418,7 +418,7 @@ onAddedSource subMsg model =
                 ( { model
                     | portal =
                         { portal
-                            | linksNavigation = not <| updatedContentProvider.links == initLinks
+                            | linksNavigation = linksExist contentProvider.links
                             , addLinkNavigation = True
                             , sourcesNavigation = True
                         }
@@ -427,19 +427,16 @@ onAddedSource subMsg model =
                 )
 
             AddSource.Remove _ ->
-                if portal.contentProvider.links == initLinks then
-                    ( { model
-                        | portal =
-                            { portal
-                                | linksNavigation = False
-                                , addLinkNavigation = True
-                                , sourcesNavigation = True
-                            }
-                      }
-                    , Cmd.none
-                    )
-                else
-                    ( { model | portal = { portal | linksNavigation = True, sourcesNavigation = True } }, Cmd.none )
+                ( { model
+                    | portal =
+                        { portal
+                            | linksNavigation = linksExist portal.contentProvider.links
+                            , sourcesNavigation = True
+                            , addLinkNavigation = True
+                        }
+                  }
+                , Cmd.none
+                )
 
 
 matchContentProviders : Model -> String -> ( Model, Cmd Msg )
@@ -490,6 +487,7 @@ onLogin subMsg model =
                                         { pendingPortal
                                             | contentProvider = contentProvider
                                             , requested = Domain.ViewLinks
+                                            , linksNavigation = linksExist contentProvider.links
                                             , sourcesNavigation = not <| List.isEmpty contentProvider.profile.sources
                                         }
                                 }
@@ -756,6 +754,15 @@ getLinkSummary portal =
     portal.newLinks
 
 
+
+-- decorateOn : String -> Html Msg -> Html Msg
+-- decorateOn selectedCaption button =
+--     if button.text == selectedCaption then
+--         button [ class "selectedNavigationButton" ] []
+--     else
+--         button [ class "navigationButton" ] []
+
+
 dashboardPage : Model -> Html Msg
 dashboardPage model =
     let
@@ -786,36 +793,58 @@ dashboardPage model =
         linksText =
             "Links " ++ "(" ++ (toString totalLinks) ++ ")"
 
+        linkText =
+            "Link"
+
+        profileText =
+            "Profile"
+
+        allNavigation =
+            [ button [ onClick ViewLinks ] [ text linksText ]
+            , br [] []
+            , button [ onClick AddNewLink ] [ text linkText ]
+            , br [] []
+            , button [ onClick ViewSources ] [ text sourcesText ]
+            , br [] []
+            , button [ onClick EditProfile ] [ text profileText ]
+            ]
+
+        sourcesButNoLinks =
+            [ button [ onClick ViewSources ] [ text sourcesText ]
+            , br [] []
+            , button [ onClick AddNewLink ] [ text linkText ]
+            , br [] []
+            , button [ onClick EditProfile ] [ text profileText ]
+            ]
+
+        noSourcesNoLinks =
+            [ button [ onClick EditProfile ] [ text profileText ]
+            , br [] []
+            , button [ onClick ViewSources, disabled True ] [ text sourcesText ]
+            , br [] []
+            , button [ onClick AddNewLink, disabled True ] [ text linkText ]
+            ]
+
+        -- decorate buttons =
+        --     case portal.requested of
+        --         Domain.ViewSources ->
+        --             buttons |> List.map (\b -> b |> decorateOn sourcesText)
+        --         Domain.ViewLinks ->
+        --             buttons |> List.map (\b -> b |> decorateOn linksText)
+        --         Domain.AddLink ->
+        --             buttons |> List.map (\b -> b |> decorateOn linkText)
+        --         Domain.EditProfile ->
+        --             buttons |> List.map (\b -> b |> decorateOn profileText)
+        displayNavigation buttons =
+            [ div [ class "navigationpane" ] (decorate buttons) ]
+
         renderNavigation =
             if not portal.sourcesNavigation && not portal.linksNavigation then
-                [ div [ class "navigationpane" ]
-                    [ button [ class "navigationButton", onClick EditProfile ] [ text "Profile" ]
-                    , br [] []
-                    , button [ class "navigationButton", onClick ViewSources, disabled True ] [ text sourcesText ]
-                    , br [] []
-                    , button [ class "navigationButton", onClick AddNewLink, disabled True ] [ text "Link" ]
-                    ]
-                ]
+                displayNavigation noSourcesNoLinks
             else if portal.sourcesNavigation && not portal.linksNavigation then
-                [ div [ class "navigationpane" ]
-                    [ button [ class "navigationButton", onClick ViewSources ] [ text sourcesText ]
-                    , br [] []
-                    , button [ class "navigationButton", onClick AddNewLink ] [ text "Link" ]
-                    , br [] []
-                    , button [ class "navigationButton", onClick EditProfile ] [ text "Profile" ]
-                    ]
-                ]
+                displayNavigation sourcesButNoLinks
             else
-                [ div [ class "navigationpane" ]
-                    [ button [ class "navigationButton", onClick ViewLinks ] [ text linksText ]
-                    , br [] []
-                    , button [ class "navigationButton", onClick AddNewLink ] [ text "Link" ]
-                    , br [] []
-                    , button [ class "navigationButton", onClick ViewSources ] [ text sourcesText ]
-                    , br [] []
-                    , button [ class "navigationButton", onClick EditProfile ] [ text "Profile" ]
-                    ]
-                ]
+                displayNavigation allNavigation
     in
         div []
             [ header
