@@ -14630,28 +14630,92 @@ var _user$project$Home$view = function (model) {
 										{
 											ctor: '::',
 											_0: A2(
-												_elm_lang$html$Html$td,
+												_elm_lang$html$Html$table,
 												{ctor: '[]'},
 												{
 													ctor: '::',
 													_0: A2(
-														_elm_lang$html$Html$img,
+														_elm_lang$html$Html$tr,
+														{ctor: '[]'},
 														{
 															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$src(
-																_user$project$Domain_Core$getUrl(model.selectedContentProvider.profile.imageUrl)),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$width(100),
-																_1: {
+															_0: A2(
+																_elm_lang$html$Html$td,
+																{ctor: '[]'},
+																{
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$height(100),
+																	_0: A2(
+																		_elm_lang$html$Html$img,
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$src(
+																				_user$project$Domain_Core$getUrl(model.selectedContentProvider.profile.imageUrl)),
+																			_1: {
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$width(100),
+																				_1: {
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Attributes$height(100),
+																					_1: {ctor: '[]'}
+																				}
+																			}
+																		},
+																		{ctor: '[]'}),
 																	_1: {ctor: '[]'}
-																}
-															}
-														},
-														{ctor: '[]'}),
-													_1: {ctor: '[]'}
+																}),
+															_1: {ctor: '[]'}
+														}),
+													_1: {
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$tr,
+															{ctor: '[]'},
+															{
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$td,
+																	{ctor: '[]'},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text(
+																			A2(
+																				_elm_lang$core$Basics_ops['++'],
+																				_user$project$Domain_Core$getName(model.selectedContentProvider.profile.firstName),
+																				A2(
+																					_elm_lang$core$Basics_ops['++'],
+																					' ',
+																					_user$project$Domain_Core$getName(model.selectedContentProvider.profile.lastName)))),
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {ctor: '[]'}
+															}),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$tr,
+																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$td,
+																		{ctor: '[]'},
+																		{
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$p,
+																				{ctor: '[]'},
+																				{
+																					ctor: '::',
+																					_0: _elm_lang$html$Html$text(model.selectedContentProvider.profile.bio),
+																					_1: {ctor: '[]'}
+																				}),
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {ctor: '[]'}
+														}
+													}
 												}),
 											_1: {
 												ctor: '::',
@@ -14669,57 +14733,7 @@ var _user$project$Home$view = function (model) {
 												_1: {ctor: '[]'}
 											}
 										}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$tr,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$td,
-													{ctor: '[]'},
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html$text(
-															A2(
-																_elm_lang$core$Basics_ops['++'],
-																_user$project$Domain_Core$getName(model.selectedContentProvider.profile.firstName),
-																A2(
-																	_elm_lang$core$Basics_ops['++'],
-																	' ',
-																	_user$project$Domain_Core$getName(model.selectedContentProvider.profile.lastName)))),
-														_1: {ctor: '[]'}
-													}),
-												_1: {ctor: '[]'}
-											}),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$tr,
-												{ctor: '[]'},
-												{
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$td,
-														{ctor: '[]'},
-														{
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$p,
-																{ctor: '[]'},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(model.selectedContentProvider.profile.bio),
-																	_1: {ctor: '[]'}
-																}),
-															_1: {ctor: '[]'}
-														}),
-													_1: {ctor: '[]'}
-												}),
-											_1: {ctor: '[]'}
-										}
-									}
+									_1: {ctor: '[]'}
 								});
 						} else {
 							return _user$project$Home$notFoundPage;
