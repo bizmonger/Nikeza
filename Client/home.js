@@ -14601,7 +14601,7 @@ var _user$project$Home$view = function (model) {
 																		_user$project$Home$ContentProviderContentTypeLinksAction,
 																		A2(
 																			_user$project$Controls_ContentProviderContentTypeLinks$view,
-																			_p34,
+																			model.selectedContentProvider,
 																			_user$project$Domain_Core$toContentType(_p30._1._1._1._0))),
 																	_1: {ctor: '[]'}
 																}),

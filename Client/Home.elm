@@ -560,7 +560,7 @@ view model =
                                 , tr [] [ td [] [ text <| getName c.profile.firstName ++ " " ++ getName c.profile.lastName ] ]
                                 , tr [] [ td [] [ p [] [ text c.profile.bio ] ] ]
                                 ]
-                            , td [] [ Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view c <| toContentType contentType ]
+                            , td [] [ Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.selectedContentProvider <| toContentType contentType ]
                             ]
                         ]
 
