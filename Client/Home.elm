@@ -754,15 +754,6 @@ getLinkSummary portal =
     portal.newLinks
 
 
-
--- decorateOn : String -> Html Msg -> Html Msg
--- decorateOn selectedCaption button =
---     if button.text == selectedCaption then
---         button [ class "selectedNavigationButton" ] []
---     else
---         button [ class "navigationButton" ] []
-
-
 dashboardPage : Model -> Html Msg
 dashboardPage model =
     let
@@ -800,45 +791,110 @@ dashboardPage model =
             "Profile"
 
         allNavigation =
-            [ button [ onClick ViewLinks ] [ text linksText ]
-            , br [] []
-            , button [ onClick AddNewLink ] [ text linkText ]
-            , br [] []
-            , button [ onClick ViewSources ] [ text sourcesText ]
-            , br [] []
-            , button [ onClick EditProfile ] [ text profileText ]
-            ]
+            case portal.requested of
+                Domain.ViewSources ->
+                    [ button [ class "navigationButton", onClick ViewLinks ] [ text linksText ]
+                    , br [] []
+                    , button [ class "navigationButton", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , button [ class "selectedNavigationButton", onClick ViewSources ] [ text sourcesText ]
+                    , br [] []
+                    , button [ class "navigationButton", onClick EditProfile ] [ text profileText ]
+                    ]
+
+                Domain.ViewLinks ->
+                    [ button [ class "selectedNavigationButton", onClick ViewLinks ] [ text linksText ]
+                    , br [] []
+                    , button [ class "navigationButton", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , button [ class "navigationButton", onClick ViewSources ] [ text sourcesText ]
+                    , br [] []
+                    , button [ class "navigationButton", onClick EditProfile ] [ text profileText ]
+                    ]
+
+                Domain.AddLink ->
+                    [ button [ class "navigationButton", onClick ViewLinks ] [ text linksText ]
+                    , br [] []
+                    , button [ class "selectedNavigationButton", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , button [ class "navigationButton", onClick ViewSources ] [ text sourcesText ]
+                    , br [] []
+                    , button [ class "navigationButton", onClick EditProfile ] [ text profileText ]
+                    ]
+
+                Domain.EditProfile ->
+                    [ button [ class "navigationButton", onClick ViewLinks ] [ text linksText ]
+                    , br [] []
+                    , button [ class "navigationButton", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , button [ class "navigationButton", onClick ViewSources ] [ text sourcesText ]
+                    , br [] []
+                    , button [ class "selectedNavigationButton", onClick EditProfile ] [ text profileText ]
+                    ]
 
         sourcesButNoLinks =
-            [ button [ onClick ViewSources ] [ text sourcesText ]
-            , br [] []
-            , button [ onClick AddNewLink ] [ text linkText ]
-            , br [] []
-            , button [ onClick EditProfile ] [ text profileText ]
-            ]
+            case portal.requested of
+                Domain.ViewSources ->
+                    [ button [ class "selectedNavigationButton", onClick ViewSources ] [ text sourcesText ]
+                    , br [] []
+                    , button [ class "navigationButton", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , button [ class "navigationButton", onClick EditProfile ] [ text profileText ]
+                    ]
+
+                Domain.ViewLinks ->
+                    [ button [ class "navigationButton", onClick ViewSources ] [ text sourcesText ]
+                    , br [] []
+                    , button [ class "navigationButton", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , button [ class "navigationButton", onClick EditProfile ] [ text profileText ]
+                    ]
+
+                Domain.AddLink ->
+                    [ button [ class "navigationButton", onClick ViewSources ] [ text sourcesText ]
+                    , br [] []
+                    , button [ class "selectedNavigationButton", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , button [ class "navigationButton", onClick EditProfile ] [ text profileText ]
+                    ]
+
+                Domain.EditProfile ->
+                    [ button [ class "navigationButton", onClick ViewSources ] [ text sourcesText ]
+                    , br [] []
+                    , button [ class "navigationButton", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , button [ class "selectedNavigationButton", onClick EditProfile ] [ text profileText ]
+                    ]
 
         noSourcesNoLinks =
-            [ button [ onClick EditProfile ] [ text profileText ]
-            , br [] []
-            , button [ onClick ViewSources, disabled True ] [ text sourcesText ]
-            , br [] []
-            , button [ onClick AddNewLink, disabled True ] [ text linkText ]
-            ]
+            case portal.requested of
+                Domain.AddLink ->
+                    [ button [ class "navigationButton", onClick EditProfile ] [ text profileText ]
+                    , br [] []
+                    , button [ class "navigationButton", onClick ViewSources, disabled True ] [ text sourcesText ]
+                    , br [] []
+                    , button [ class "selectedNavigationButton", onClick AddNewLink, disabled True ] [ text linkText ]
+                    ]
 
-        -- decorate buttons =
-        --     case portal.requested of
-        --         Domain.ViewSources ->
-        --             buttons |> List.map (\b -> b |> decorateOn sourcesText)
-        --         Domain.ViewLinks ->
-        --             buttons |> List.map (\b -> b |> decorateOn linksText)
-        --         Domain.AddLink ->
-        --             buttons |> List.map (\b -> b |> decorateOn linkText)
-        --         Domain.EditProfile ->
-        --             buttons |> List.map (\b -> b |> decorateOn profileText)
+                Domain.EditProfile ->
+                    [ button [ class "selectedNavigationButton", onClick EditProfile ] [ text profileText ]
+                    , br [] []
+                    , button [ class "navigationButton", onClick ViewSources, disabled True ] [ text sourcesText ]
+                    , br [] []
+                    , button [ class "navigationButton", onClick AddNewLink, disabled True ] [ text linkText ]
+                    ]
+
+                _ ->
+                    [ button [ class "navigationButton", onClick EditProfile ] [ text profileText ]
+                    , br [] []
+                    , button [ class "navigationButton", onClick ViewSources, disabled True ] [ text sourcesText ]
+                    , br [] []
+                    , button [ class "navigationButton", onClick AddNewLink, disabled True ] [ text linkText ]
+                    ]
+
         displayNavigation buttons =
             [ div [ class "navigationpane" ] buttons ]
 
-        --(decorate buttons) ]
         renderNavigation =
             if not portal.sourcesNavigation && not portal.linksNavigation then
                 displayNavigation noSourcesNoLinks
