@@ -1,7 +1,7 @@
 module HelloTest exposing (..)
 
 import Controls.Login as Login exposing (Model)
-import Home exposing (..)
+import Settings exposing (..)
 import Test exposing (..)
 import Expect
 
@@ -12,8 +12,8 @@ suite =
         [ test "runtime.tryLogin succeeds with valid credentials" <|
             \_ ->
                 let
-                    ( login, runtime ) =
-                        ( Login.Model "test" "test" False, Home.runtime )
+                    login =
+                        Login.Model "test" "test" False
 
                     result =
                         runtime.tryLogin login
@@ -22,8 +22,8 @@ suite =
         , test "runtime.tryLogin fails with invalid credentials" <|
             \_ ->
                 let
-                    ( login, runtime ) =
-                        ( Login.Model "test" "invalid_password" False, Home.runtime )
+                    login =
+                        Login.Model "test" "invalid_password" False
 
                     result =
                         runtime.tryLogin login

@@ -20,13 +20,13 @@ div.navigationpane{
 button.navigationButton {
     vertical-align: text-top;
     width:100px;
-    background-color: darkgray;
+    background-color: lightgray;
 }
 
 button.selectedNavigationButton {
     vertical-align: text-top;
     width:100px;
-    background-color: lightgray;
+    background-color: lightblue;
 }
 
 button.join {
