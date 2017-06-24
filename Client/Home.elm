@@ -649,7 +649,6 @@ contentProviderTopicContentTypePage topic contentType model =
                     , td [] [ div [] <| List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ]) links ]
                     ]
                 ]
-            , label [] [ text <| toString model.profile ]
             ]
 
 
