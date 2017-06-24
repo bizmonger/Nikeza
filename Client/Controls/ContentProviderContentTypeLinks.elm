@@ -90,7 +90,7 @@ toggleFilter model ( topic, include ) =
             if include then
                 List.append (model.profile.id |> runtime.topicLinks topic contentType) links
             else
-                links |> List.filter (\link -> not (link.topics |> List.member topic))
+                links |> List.filter (\link -> not (link.topics |> topicNames |> List.member (getTopic topic)))
 
         links =
             model.links

@@ -336,6 +336,16 @@ topicUrl id topic =
     Url undefined
 
 
+toUrl : Link -> String
+toUrl link =
+    getUrl link.url
+
+
+topicNames : List Topic -> List String
+topicNames topics =
+    topics |> List.map (\topic -> topic.name)
+
+
 contentProviderTopicUrl : Id -> Topic -> Url
 contentProviderTopicUrl id topic =
     Url <| "/#/contentProvider/" ++ getId id ++ "/" ++ getTopic topic

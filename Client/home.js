@@ -9632,6 +9632,14 @@ var _user$project$Domain_Core$contentTypeToText = function (contentType) {
 			return '';
 	}
 };
+var _user$project$Domain_Core$topicNames = function (topics) {
+	return A2(
+		_elm_lang$core$List$map,
+		function (topic) {
+			return topic.name;
+		},
+		topics);
+};
 var _user$project$Domain_Core$undefined = 'undefined';
 var _user$project$Domain_Core$getLinks = F4(
 	function (topicLinksfunction, topic, contentType, id) {
@@ -9658,6 +9666,9 @@ var _user$project$Domain_Core$getUrl = function (url) {
 	var _p2 = url;
 	var value = _p2._0;
 	return value;
+};
+var _user$project$Domain_Core$toUrl = function (link) {
+	return _user$project$Domain_Core$getUrl(link.url);
 };
 var _user$project$Domain_Core$getTitle = function (title) {
 	var _p3 = title;
@@ -10925,7 +10936,10 @@ var _user$project$Controls_ContentProviderContentTypeLinks$toggleFilter = F2(
 					links) : A2(
 					_elm_lang$core$List$filter,
 					function (link) {
-						return !A2(_elm_lang$core$List$member, _p2, link.topics);
+						return !A2(
+							_elm_lang$core$List$member,
+							_user$project$Domain_Core$getTopic(_p2),
+							_user$project$Domain_Core$topicNames(link.topics));
 					},
 					links);
 			});
@@ -11137,8 +11151,11 @@ var _user$project$Controls_ContentProviderLinks$toggleFilter = F2(
 					A3(_user$project$Settings$runtime.topicLinks, _p2, contentType, model.profile.id),
 					links) : A2(
 					_elm_lang$core$List$filter,
-					function (l) {
-						return !A2(_elm_lang$core$List$member, _p2, l.topics);
+					function (link) {
+						return !A2(
+							_elm_lang$core$List$member,
+							_user$project$Domain_Core$getTopic(_p2),
+							_user$project$Domain_Core$topicNames(link.topics));
 					},
 					links);
 			});
