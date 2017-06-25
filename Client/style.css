@@ -45,18 +45,16 @@ button.selectedNavigationButton3 {
     background-color: lightblue;
 }
 
-
-
-
-
-
-
 button.join {
     width:100px;
     height:80px;
     margin-left:40px;
     font-size: 20px;
     background-color:lightblue;
+}
+
+button.addSource {
+    width:60px;
 }
 
 button.register {

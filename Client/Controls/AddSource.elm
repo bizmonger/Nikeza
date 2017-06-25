@@ -62,7 +62,7 @@ view model =
             [ tr []
                 [ td [] [ select [ changeHandler, value model.source.platform ] <| instruction :: (runtime.platforms |> List.map platformOption) ]
                 , td [] [ input [ type_ "text", placeholder "username", onInput InputUsername, value model.source.username ] [] ]
-                , td [] [ button [ onClick <| Add model.source ] [ text "Add" ] ]
+                , td [] [ button [ class "addSource", onClick <| Add model.source ] [ text "Add" ] ]
                 ]
             ]
 

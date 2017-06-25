@@ -10876,9 +10876,13 @@ var _user$project$Controls_AddSource$view = function (model) {
 									_elm_lang$html$Html$button,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onClick(
-											_user$project$Controls_AddSource$Add(model.source)),
-										_1: {ctor: '[]'}
+										_0: _elm_lang$html$Html_Attributes$class('addSource'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(
+												_user$project$Controls_AddSource$Add(model.source)),
+											_1: {ctor: '[]'}
+										}
 									},
 									{
 										ctor: '::',
