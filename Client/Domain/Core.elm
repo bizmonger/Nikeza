@@ -306,6 +306,33 @@ type ContentType
 -- FUNCTIONS
 
 
+getPosts : ContentType -> Links -> List Link
+getPosts contentType links =
+    case contentType of
+        Answer ->
+            links.answers
+
+        Article ->
+            links.articles
+
+        Podcast ->
+            links.podcasts
+
+        Video ->
+            links.videos
+
+        Unknown ->
+            []
+
+        All ->
+            []
+
+
+hasMatch : Topic -> List Topic -> Bool
+hasMatch topic topics =
+    topics |> toTopicNames |> List.member (getTopic topic)
+
+
 linksExist : Links -> Bool
 linksExist links =
     not <| links == initLinks
@@ -341,8 +368,8 @@ toUrl link =
     getUrl link.url
 
 
-topicNames : List Topic -> List String
-topicNames topics =
+toTopicNames : List Topic -> List String
+toTopicNames topics =
     topics |> List.map (\topic -> topic.name)
 
 

@@ -24,7 +24,7 @@ type Msg
     | Toggle ( Topic, Bool )
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> Model
 update msg model =
     case msg of
         Toggle ( topic, include ) ->
@@ -96,14 +96,14 @@ linksUI links =
         |> List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ])
 
 
-toggleFilter : ContentProvider.Model -> ( Topic, Bool ) -> ( ContentProvider.Model, Cmd Msg )
+toggleFilter : Model -> ( Topic, Bool ) -> Model
 toggleFilter model ( topic, include ) =
     let
         toggleTopic contentType links =
             if include then
                 List.append (model.profile.id |> runtime.topicLinks topic contentType) links
             else
-                links |> List.filter (\link -> not (link.topics |> topicNames |> List.member (getTopic topic)))
+                links |> List.filter (\link -> not (link.topics |> hasMatch topic))
 
         links =
             model.links
@@ -119,10 +119,10 @@ toggleFilter model ( topic, include ) =
                     }
             }
     in
-        ( newState, Cmd.none )
+        newState
 
 
-toggleAllFilter : ContentProvider.Model -> Bool -> ( ContentProvider.Model, Cmd Msg )
+toggleAllFilter : ContentProvider.Model -> Bool -> ContentProvider.Model
 toggleAllFilter model include =
     let
         profile =
@@ -134,7 +134,7 @@ toggleAllFilter model include =
             else
                 { model | showAll = True, links = profile.id |> runtime.links }
     in
-        ( newState, Cmd.none )
+        newState
 
 
 

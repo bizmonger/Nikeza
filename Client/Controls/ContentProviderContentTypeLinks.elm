@@ -20,7 +20,7 @@ type Msg
     | Toggle ( Topic, Bool )
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> Model
 update msg model =
     case msg of
         Toggle ( topic, include ) ->
@@ -41,33 +41,18 @@ view model contentType =
             ( model.topics, model.links )
 
         posts =
-            case contentType of
-                Answer ->
-                    links.answers
-
-                Article ->
-                    links.articles
-
-                Podcast ->
-                    links.podcasts
-
-                Video ->
-                    links.videos
-
-                Unknown ->
-                    []
-
-                All ->
-                    []
+            links |> getPosts contentType
     in
         div []
             [ table []
                 [ tr []
-                    [ td [] [ h2 [] [ text <| "All " ++ (contentType |> contentTypeToText) ] ]
-                    , td [] [ div [] (topics |> List.map toCheckbox) ]
+                    [ td [] [ h2 [] [ text <| "All " ++ (contentType |> contentTypeToText) ] ] ]
+                , tr []
+                    [ td [] [ div [] (topics |> List.map toCheckbox) ]
                     , td [] [ div [] <| List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ]) posts ]
                     ]
                 ]
+            , label [] [ text <| toString topics ]
             ]
 
 
@@ -83,14 +68,14 @@ toCheckbox topic =
         ]
 
 
-toggleFilter : Model -> ( Topic, Bool ) -> ( Model, Cmd Msg )
+toggleFilter : Model -> ( Topic, Bool ) -> Model
 toggleFilter model ( topic, include ) =
     let
         toggleTopic contentType links =
             if include then
                 List.append (model.profile.id |> runtime.topicLinks topic contentType) links
             else
-                links |> List.filter (\link -> not (link.topics |> topicNames |> List.member (getTopic topic)))
+                links |> List.filter (\link -> not (link.topics |> hasMatch topic))
 
         links =
             model.links
@@ -106,10 +91,10 @@ toggleFilter model ( topic, include ) =
                     }
             }
     in
-        ( newState, Cmd.none )
+        newState
 
 
-toggleAllFilter : Model -> Bool -> ( Model, Cmd Msg )
+toggleAllFilter : Model -> Bool -> Model
 toggleAllFilter model include =
     let
         contentProvider =
@@ -121,4 +106,4 @@ toggleAllFilter model include =
             else
                 { contentProvider | showAll = True, links = contentProvider.profile.id |> runtime.links }
     in
-        ( newState, Cmd.none )
+        newState

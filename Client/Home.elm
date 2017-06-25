@@ -161,14 +161,14 @@ update msg model =
             case subMsg of
                 ContentProviderLinks.ToggleAll _ ->
                     let
-                        ( contentProvider, _ ) =
+                        contentProvider =
                             ContentProviderLinks.update subMsg model.selectedContentProvider
                     in
                         ( { model | selectedContentProvider = contentProvider }, Cmd.none )
 
                 ContentProviderLinks.Toggle _ ->
                     let
-                        ( contentProvider, _ ) =
+                        contentProvider =
                             ContentProviderLinks.update subMsg model.selectedContentProvider
                     in
                         ( { model | selectedContentProvider = contentProvider }, Cmd.none )
@@ -180,14 +180,14 @@ update msg model =
             case subMsg of
                 ContentProviderContentTypeLinks.ToggleAll _ ->
                     let
-                        ( contentProvider, _ ) =
+                        contentProvider =
                             ContentProviderContentTypeLinks.update subMsg model.selectedContentProvider
                     in
                         ( { model | selectedContentProvider = contentProvider }, Cmd.none )
 
                 ContentProviderContentTypeLinks.Toggle _ ->
                     let
-                        ( contentProvider, _ ) =
+                        contentProvider =
                             ContentProviderContentTypeLinks.update subMsg model.selectedContentProvider
                     in
                         ( { model | selectedContentProvider = contentProvider }, Cmd.none )
@@ -198,7 +198,7 @@ onPortalLinksAction subMsg model =
     case subMsg of
         ContentProviderLinks.ToggleAll _ ->
             let
-                ( contentProvider, _ ) =
+                contentProvider =
                     ContentProviderLinks.update subMsg model.portal.contentProvider
 
                 pendingPortal =
@@ -208,7 +208,7 @@ onPortalLinksAction subMsg model =
 
         ContentProviderLinks.Toggle _ ->
             let
-                ( contentProvider, _ ) =
+                contentProvider =
                     ContentProviderLinks.update subMsg model.portal.contentProvider
 
                 pendingPortal =
