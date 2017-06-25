@@ -2,7 +2,6 @@ module Controls.ContentProviderLinks exposing (..)
 
 import Settings exposing (..)
 import Domain.Core exposing (..)
-import Domain.ContentProvider as ContentProvider exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
@@ -12,7 +11,7 @@ import Html.Events exposing (onClick, onCheck, onInput)
 
 
 type alias Model =
-    ContentProvider.Model
+    ContentProvider
 
 
 
@@ -38,7 +37,7 @@ update msg model =
 -- VIEW
 
 
-view : ContentProvider.Model -> Html Msg
+view : ContentProvider -> Html Msg
 view model =
     let
         ( profileId, topics ) =
@@ -122,7 +121,7 @@ toggleFilter model ( topic, include ) =
         newState
 
 
-toggleAllFilter : ContentProvider.Model -> Bool -> ContentProvider.Model
+toggleAllFilter : ContentProvider -> Bool -> ContentProvider
 toggleAllFilter model include =
     let
         profile =

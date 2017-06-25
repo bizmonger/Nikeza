@@ -11161,7 +11161,6 @@ var _user$project$Controls_ContentProviderContentTypeLinks$ToggleAll = function 
 	return {ctor: 'ToggleAll', _0: a};
 };
 
-
 var _user$project$Controls_ContentProviderLinks$toggleAllFilter = F2(
 	function (model, include) {
 		var profile = model.profile;
@@ -12487,6 +12486,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (contentProvide
 		});
 };
 var _user$project$Controls_ProfileThumbnail$None = {ctor: 'None'};
+
 
 var _user$project$Home$tokenizeUrl = function (urlHash) {
 	return A2(
