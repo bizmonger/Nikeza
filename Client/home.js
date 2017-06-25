@@ -13899,7 +13899,7 @@ var _user$project$Home$dashboardPage = function (model) {
 						_elm_lang$html$Html$button,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+							_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
@@ -13923,7 +13923,7 @@ var _user$project$Home$dashboardPage = function (model) {
 								_elm_lang$html$Html$button,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+									_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
@@ -13947,7 +13947,7 @@ var _user$project$Home$dashboardPage = function (model) {
 										_elm_lang$html$Html$button,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton'),
+											_0: _elm_lang$html$Html_Attributes$class('selectednavigationButton4'),
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
@@ -13971,7 +13971,7 @@ var _user$project$Home$dashboardPage = function (model) {
 												_elm_lang$html$Html$button,
 												{
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+													_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 													_1: {
 														ctor: '::',
 														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
@@ -13998,7 +13998,7 @@ var _user$project$Home$dashboardPage = function (model) {
 						_elm_lang$html$Html$button,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton'),
+							_0: _elm_lang$html$Html_Attributes$class('selectednavigationButton4'),
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
@@ -14022,7 +14022,7 @@ var _user$project$Home$dashboardPage = function (model) {
 								_elm_lang$html$Html$button,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+									_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
@@ -14046,7 +14046,7 @@ var _user$project$Home$dashboardPage = function (model) {
 										_elm_lang$html$Html$button,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+											_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
@@ -14070,7 +14070,7 @@ var _user$project$Home$dashboardPage = function (model) {
 												_elm_lang$html$Html$button,
 												{
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+													_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 													_1: {
 														ctor: '::',
 														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
@@ -14097,7 +14097,7 @@ var _user$project$Home$dashboardPage = function (model) {
 						_elm_lang$html$Html$button,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+							_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
@@ -14121,7 +14121,7 @@ var _user$project$Home$dashboardPage = function (model) {
 								_elm_lang$html$Html$button,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton'),
+									_0: _elm_lang$html$Html_Attributes$class('selectednavigationButton4'),
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
@@ -14145,7 +14145,7 @@ var _user$project$Home$dashboardPage = function (model) {
 										_elm_lang$html$Html$button,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+											_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
@@ -14169,7 +14169,7 @@ var _user$project$Home$dashboardPage = function (model) {
 												_elm_lang$html$Html$button,
 												{
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+													_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 													_1: {
 														ctor: '::',
 														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
@@ -14196,7 +14196,7 @@ var _user$project$Home$dashboardPage = function (model) {
 						_elm_lang$html$Html$button,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+							_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
@@ -14220,7 +14220,7 @@ var _user$project$Home$dashboardPage = function (model) {
 								_elm_lang$html$Html$button,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+									_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
@@ -14244,7 +14244,7 @@ var _user$project$Home$dashboardPage = function (model) {
 										_elm_lang$html$Html$button,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+											_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
@@ -14268,7 +14268,7 @@ var _user$project$Home$dashboardPage = function (model) {
 												_elm_lang$html$Html$button,
 												{
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton'),
+													_0: _elm_lang$html$Html_Attributes$class('selectednavigationButton4'),
 													_1: {
 														ctor: '::',
 														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
@@ -14300,7 +14300,7 @@ var _user$project$Home$dashboardPage = function (model) {
 						_elm_lang$html$Html$button,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton'),
+							_0: _elm_lang$html$Html_Attributes$class('selectednavigationButton3'),
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
@@ -14324,7 +14324,7 @@ var _user$project$Home$dashboardPage = function (model) {
 								_elm_lang$html$Html$button,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+									_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
@@ -14348,7 +14348,7 @@ var _user$project$Home$dashboardPage = function (model) {
 										_elm_lang$html$Html$button,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+											_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
@@ -14373,7 +14373,7 @@ var _user$project$Home$dashboardPage = function (model) {
 						_elm_lang$html$Html$button,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+							_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
@@ -14397,7 +14397,7 @@ var _user$project$Home$dashboardPage = function (model) {
 								_elm_lang$html$Html$button,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+									_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
@@ -14421,7 +14421,7 @@ var _user$project$Home$dashboardPage = function (model) {
 										_elm_lang$html$Html$button,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+											_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
@@ -14446,7 +14446,7 @@ var _user$project$Home$dashboardPage = function (model) {
 						_elm_lang$html$Html$button,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+							_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
@@ -14470,7 +14470,7 @@ var _user$project$Home$dashboardPage = function (model) {
 								_elm_lang$html$Html$button,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton'),
+									_0: _elm_lang$html$Html_Attributes$class('selectednavigationButton3'),
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
@@ -14494,7 +14494,7 @@ var _user$project$Home$dashboardPage = function (model) {
 										_elm_lang$html$Html$button,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+											_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
@@ -14519,7 +14519,7 @@ var _user$project$Home$dashboardPage = function (model) {
 						_elm_lang$html$Html$button,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+							_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
@@ -14543,7 +14543,7 @@ var _user$project$Home$dashboardPage = function (model) {
 								_elm_lang$html$Html$button,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+									_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
@@ -14567,7 +14567,7 @@ var _user$project$Home$dashboardPage = function (model) {
 										_elm_lang$html$Html$button,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton'),
+											_0: _elm_lang$html$Html_Attributes$class('selectednavigationButton3'),
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
@@ -14597,7 +14597,7 @@ var _user$project$Home$dashboardPage = function (model) {
 						_elm_lang$html$Html$button,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+							_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
@@ -14621,7 +14621,7 @@ var _user$project$Home$dashboardPage = function (model) {
 								_elm_lang$html$Html$button,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+									_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
@@ -14649,7 +14649,7 @@ var _user$project$Home$dashboardPage = function (model) {
 										_elm_lang$html$Html$button,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton'),
+											_0: _elm_lang$html$Html_Attributes$class('selectednavigationButton3'),
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
@@ -14678,7 +14678,7 @@ var _user$project$Home$dashboardPage = function (model) {
 						_elm_lang$html$Html$button,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton'),
+							_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton3'),
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
@@ -14702,7 +14702,7 @@ var _user$project$Home$dashboardPage = function (model) {
 								_elm_lang$html$Html$button,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+									_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
@@ -14730,7 +14730,7 @@ var _user$project$Home$dashboardPage = function (model) {
 										_elm_lang$html$Html$button,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+											_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
@@ -14759,7 +14759,7 @@ var _user$project$Home$dashboardPage = function (model) {
 						_elm_lang$html$Html$button,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+							_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
@@ -14783,7 +14783,7 @@ var _user$project$Home$dashboardPage = function (model) {
 								_elm_lang$html$Html$button,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+									_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
@@ -14811,7 +14811,7 @@ var _user$project$Home$dashboardPage = function (model) {
 										_elm_lang$html$Html$button,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('navigationButton'),
+											_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
@@ -15146,19 +15146,87 @@ var _user$project$Home$homePage = function (model) {
 											{
 												ctor: '::',
 												_0: A2(
-													_elm_lang$html$Html$button,
+													_elm_lang$html$Html$table,
+													{ctor: '[]'},
 													{
 														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$class('join'),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$Register),
-															_1: {ctor: '[]'}
-														}
-													},
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html$text('Join!'),
+														_0: A2(
+															_elm_lang$html$Html$tr,
+															{ctor: '[]'},
+															{
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$td,
+																	{ctor: '[]'},
+																	{
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$button,
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$class('join'),
+																				_1: {
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$Register),
+																					_1: {ctor: '[]'}
+																				}
+																			},
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text('Join!'),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$td,
+																		{ctor: '[]'},
+																		{
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$ul,
+																				{ctor: '[]'},
+																				{
+																					ctor: '::',
+																					_0: A2(
+																						_elm_lang$html$Html$li,
+																						{ctor: '[]'},
+																						{
+																							ctor: '::',
+																							_0: _elm_lang$html$Html$text('Import links to your articles, videos, and answers'),
+																							_1: {ctor: '[]'}
+																						}),
+																					_1: {
+																						ctor: '::',
+																						_0: A2(
+																							_elm_lang$html$Html$li,
+																							{ctor: '[]'},
+																							{
+																								ctor: '::',
+																								_0: _elm_lang$html$Html$text('Set your featured links for viewers to see'),
+																								_1: {ctor: '[]'}
+																							}),
+																						_1: {
+																							ctor: '::',
+																							_0: A2(
+																								_elm_lang$html$Html$li,
+																								{ctor: '[]'},
+																								{
+																									ctor: '::',
+																									_0: _elm_lang$html$Html$text('Subscribe to new links from your favorite thought leaders'),
+																									_1: {ctor: '[]'}
+																								}),
+																							_1: {ctor: '[]'}
+																						}
+																					}
+																				}),
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {ctor: '[]'}
+																}
+															}),
 														_1: {ctor: '[]'}
 													}),
 												_1: {ctor: '[]'}
