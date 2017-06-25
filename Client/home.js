@@ -11044,28 +11044,35 @@ var _user$project$Controls_ContentProviderContentTypeLinks$view = F2(
 			{
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$h2,
+					_elm_lang$html$Html$table,
 					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								'All ',
-								_user$project$Domain_Core$contentTypeToText(contentType))),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$table,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$tr,
-								{ctor: '[]'},
-								{
+						_0: A2(
+							_elm_lang$html$Html$tr,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$td,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$h2,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text(
+													A2(
+														_elm_lang$core$Basics_ops['++'],
+														'All ',
+														_user$project$Domain_Core$contentTypeToText(contentType))),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}),
+								_1: {
 									ctor: '::',
 									_0: A2(
 										_elm_lang$html$Html$td,
@@ -11118,11 +11125,11 @@ var _user$project$Controls_ContentProviderContentTypeLinks$view = F2(
 											}),
 										_1: {ctor: '[]'}
 									}
-								}),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}
+								}
+							}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
 			});
 	});
 var _user$project$Controls_ContentProviderContentTypeLinks$ToggleAll = function (a) {
@@ -12958,28 +12965,40 @@ var _user$project$Home$contentProviderTopicContentTypePage = F3(
 			{
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$h2,
+					_elm_lang$html$Html$table,
 					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								'All ',
-								_user$project$Domain_Core$contentTypeToText(contentType))),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$table,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$tr,
-								{ctor: '[]'},
-								{
+						_0: A2(
+							_elm_lang$html$Html$tr,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$td,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$img,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$src(
+													_user$project$Domain_Core$getUrl(model.profile.imageUrl)),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$width(100),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$height(100),
+														_1: {ctor: '[]'}
+													}
+												}
+											},
+											{ctor: '[]'}),
+										_1: {ctor: '[]'}
+									}),
+								_1: {
 									ctor: '::',
 									_0: A2(
 										_elm_lang$html$Html$td,
@@ -12987,87 +13006,178 @@ var _user$project$Home$contentProviderTopicContentTypePage = F3(
 										{
 											ctor: '::',
 											_0: A2(
-												_elm_lang$html$Html$img,
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$src(
-														_user$project$Domain_Core$getUrl(model.profile.imageUrl)),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$width(100),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$height(100),
-															_1: {ctor: '[]'}
-														}
-													}
-												},
-												{ctor: '[]'}),
-											_1: {ctor: '[]'}
-										}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$td,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$h2,
-													{ctor: '[]'},
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html$text(
-															_user$project$Domain_Core$getTopic(topic)),
-														_1: {ctor: '[]'}
-													}),
-												_1: {ctor: '[]'}
-											}),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$td,
+												_elm_lang$html$Html$table,
 												{ctor: '[]'},
 												{
 													ctor: '::',
 													_0: A2(
-														_elm_lang$html$Html$div,
+														_elm_lang$html$Html$tr,
 														{ctor: '[]'},
-														A2(
-															_elm_lang$core$List$map,
-															function (link) {
-																return A2(
-																	_elm_lang$html$Html$a,
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$td,
+																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$h2,
+																		{ctor: '[]'},
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html$text(
+																				A2(
+																					_elm_lang$core$Basics_ops['++'],
+																					_user$project$Domain_Core$getTopic(topic),
+																					' - ')),
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$td,
+																	{ctor: '[]'},
 																	{
 																		ctor: '::',
-																		_0: _elm_lang$html$Html_Attributes$href(
-																			_user$project$Domain_Core$getUrl(link.url)),
+																		_0: A2(
+																			_elm_lang$html$Html$h2,
+																			{ctor: '[]'},
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text(
+																					A2(
+																						_elm_lang$core$Basics_ops['++'],
+																						'All ',
+																						_user$project$Domain_Core$contentTypeToText(contentType))),
+																				_1: {ctor: '[]'}
+																			}),
 																		_1: {ctor: '[]'}
-																	},
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html$text(
-																			_user$project$Domain_Core$getTitle(link.title)),
-																		_1: {
+																	}),
+																_1: {ctor: '[]'}
+															}
+														}),
+													_1: {
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$tr,
+															{ctor: '[]'},
+															{
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$td,
+																	{ctor: '[]'},
+																	{ctor: '[]'}),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$td,
+																		{ctor: '[]'},
+																		{
 																			ctor: '::',
 																			_0: A2(
-																				_elm_lang$html$Html$br,
+																				_elm_lang$html$Html$div,
 																				{ctor: '[]'},
-																				{ctor: '[]'}),
+																				A2(
+																					_elm_lang$core$List$map,
+																					function (link) {
+																						return A2(
+																							_elm_lang$html$Html$a,
+																							{
+																								ctor: '::',
+																								_0: _elm_lang$html$Html_Attributes$href(
+																									_user$project$Domain_Core$getUrl(link.url)),
+																								_1: {ctor: '[]'}
+																							},
+																							{
+																								ctor: '::',
+																								_0: _elm_lang$html$Html$text(
+																									_user$project$Domain_Core$getTitle(link.title)),
+																								_1: {
+																									ctor: '::',
+																									_0: A2(
+																										_elm_lang$html$Html$br,
+																										{ctor: '[]'},
+																										{ctor: '[]'}),
+																									_1: {ctor: '[]'}
+																								}
+																							});
+																					},
+																					links)),
 																			_1: {ctor: '[]'}
-																		}
-																	});
-															},
-															links)),
-													_1: {ctor: '[]'}
+																		}),
+																	_1: {ctor: '[]'}
+																}
+															}),
+														_1: {ctor: '[]'}
+													}
 												}),
 											_1: {ctor: '[]'}
-										}
-									}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$tr,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('bio'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$td,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(
+										A2(
+											_elm_lang$core$Basics_ops['++'],
+											_user$project$Domain_Core$getName(model.profile.firstName),
+											A2(
+												_elm_lang$core$Basics_ops['++'],
+												' ',
+												_user$project$Domain_Core$getName(model.profile.lastName)))),
+									_1: {ctor: '[]'}
 								}),
 							_1: {ctor: '[]'}
 						}),
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$tr,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('bio'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$td,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$p,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text(model.profile.bio),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
 				}
 			});
 	});
@@ -15191,12 +15301,20 @@ var _user$project$Home$homePage = function (model) {
 																			ctor: '::',
 																			_0: A2(
 																				_elm_lang$html$Html$ul,
-																				{ctor: '[]'},
+																				{
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Attributes$class('featuresList'),
+																					_1: {ctor: '[]'}
+																				},
 																				{
 																					ctor: '::',
 																					_0: A2(
 																						_elm_lang$html$Html$li,
-																						{ctor: '[]'},
+																						{
+																							ctor: '::',
+																							_0: _elm_lang$html$Html_Attributes$class('joinReasons'),
+																							_1: {ctor: '[]'}
+																						},
 																						{
 																							ctor: '::',
 																							_0: _elm_lang$html$Html$text('Import links to your articles, videos, and answers'),
@@ -15206,7 +15324,11 @@ var _user$project$Home$homePage = function (model) {
 																						ctor: '::',
 																						_0: A2(
 																							_elm_lang$html$Html$li,
-																							{ctor: '[]'},
+																							{
+																								ctor: '::',
+																								_0: _elm_lang$html$Html_Attributes$class('joinReasons'),
+																								_1: {ctor: '[]'}
+																							},
 																							{
 																								ctor: '::',
 																								_0: _elm_lang$html$Html$text('Set your featured links for viewers to see'),
@@ -15216,7 +15338,11 @@ var _user$project$Home$homePage = function (model) {
 																							ctor: '::',
 																							_0: A2(
 																								_elm_lang$html$Html$li,
-																								{ctor: '[]'},
+																								{
+																									ctor: '::',
+																									_0: _elm_lang$html$Html_Attributes$class('joinReasons'),
+																									_1: {ctor: '[]'}
+																								},
 																								{
 																									ctor: '::',
 																									_0: _elm_lang$html$Html$text('Subscribe to new links from your favorite thought leaders'),
@@ -15438,7 +15564,7 @@ var _user$project$Home$view = function (model) {
 																		_user$project$Home$ContentProviderContentTypeLinksAction,
 																		A2(
 																			_user$project$Controls_ContentProviderContentTypeLinks$view,
-																			model.portal.contentProvider,
+																			_p37,
 																			_user$project$Domain_Core$toContentType(_p33._1._1._1._0))),
 																	_1: {ctor: '[]'}
 																}),

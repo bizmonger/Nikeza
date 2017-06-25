@@ -45,6 +45,16 @@ button.selectedNavigationButton3 {
     background-color: lightblue;
 }
 
+ul.featuresList{
+    background-color: #FAFAFA;
+    margin: 5px;
+    width: 380px;
+}
+
+li.joinReasons{
+    color: navy;
+}
+
 button.join {
     width:100px;
     height:80px;
