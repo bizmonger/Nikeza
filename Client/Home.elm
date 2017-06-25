@@ -157,24 +157,11 @@ update msg model =
         EditProfileAction subMsg ->
             onEditProfile subMsg model
 
-        ContentProviderLinksAction subMsg ->
-            case subMsg of
-                ContentProviderLinks.ToggleAll _ ->
-                    let
-                        contentProvider =
-                            ContentProviderLinks.update subMsg model.selectedContentProvider
-                    in
-                        ( { model | selectedContentProvider = contentProvider }, Cmd.none )
-
-                ContentProviderLinks.Toggle _ ->
-                    let
-                        contentProvider =
-                            ContentProviderLinks.update subMsg model.selectedContentProvider
-                    in
-                        ( { model | selectedContentProvider = contentProvider }, Cmd.none )
-
         PortalLinksAction subMsg ->
             onPortalLinksAction subMsg model
+
+        ContentProviderLinksAction subMsg ->
+            onUpdateContentProviderLinks subMsg model
 
         ContentProviderContentTypeLinksAction subMsg ->
             case subMsg of
@@ -191,6 +178,24 @@ update msg model =
                             ContentProviderContentTypeLinks.update subMsg model.selectedContentProvider
                     in
                         ( { model | selectedContentProvider = contentProvider }, Cmd.none )
+
+
+onUpdateContentProviderLinks : ContentProviderLinks.Msg -> Model -> ( Model, Cmd Msg )
+onUpdateContentProviderLinks subMsg model =
+    case subMsg of
+        ContentProviderLinks.ToggleAll _ ->
+            let
+                contentProvider =
+                    ContentProviderLinks.update subMsg model.selectedContentProvider
+            in
+                ( { model | selectedContentProvider = contentProvider }, Cmd.none )
+
+        ContentProviderLinks.Toggle _ ->
+            let
+                contentProvider =
+                    ContentProviderLinks.update subMsg model.selectedContentProvider
+            in
+                ( { model | selectedContentProvider = contentProvider }, Cmd.none )
 
 
 onPortalLinksAction : ContentProviderLinks.Msg -> Model -> ( Model, Cmd Msg )
