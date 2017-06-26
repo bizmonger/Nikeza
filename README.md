@@ -1,11 +1,11 @@
-# Nikeza
+pen# Nikeza
 
 Streamline all links from articles, videos, podcasts, and answered questions from a content provider onto one platform for others to subscribe to.
 
 # Compiling
 1. Bring up the termininal within your IDE.
 2. Enter the following: "cd Client"
-3. Install decencies: "yarn install && yarn build"
+3. Install dependencies: "yarn install && yarn build"
 3. Start live reloading server: "yarn live"
 4. Observe a web server gets spun up.
 
