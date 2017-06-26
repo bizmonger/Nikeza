@@ -13369,6 +13369,47 @@ var _user$project$Home$onAddedSource = F2(
 				};
 		}
 	});
+var _user$project$Home$refreshLinks = F2(
+	function (contentProvider, addedLinks) {
+		var links = contentProvider.links;
+		var articles = A2(
+			_elm_lang$core$List$append,
+			links.articles,
+			A2(
+				_elm_lang$core$List$filter,
+				function (l) {
+					return _elm_lang$core$Native_Utils.eq(l.contentType, _user$project$Domain_Core$Article);
+				},
+				addedLinks));
+		var videos = A2(
+			_elm_lang$core$List$append,
+			links.videos,
+			A2(
+				_elm_lang$core$List$filter,
+				function (l) {
+					return _elm_lang$core$Native_Utils.eq(l.contentType, _user$project$Domain_Core$Video);
+				},
+				addedLinks));
+		var podcasts = A2(
+			_elm_lang$core$List$append,
+			links.podcasts,
+			A2(
+				_elm_lang$core$List$filter,
+				function (l) {
+					return _elm_lang$core$Native_Utils.eq(l.contentType, _user$project$Domain_Core$Podcast);
+				},
+				addedLinks));
+		var answers = A2(
+			_elm_lang$core$List$append,
+			links.answers,
+			A2(
+				_elm_lang$core$List$filter,
+				function (l) {
+					return _elm_lang$core$Native_Utils.eq(l.contentType, _user$project$Domain_Core$Answer);
+				},
+				addedLinks));
+		return {articles: articles, videos: videos, podcasts: podcasts, answers: answers};
+	});
 var _user$project$Home$onNewLink = F2(
 	function (subMsg, model) {
 		var contentProvider = model.portal.contentProvider;
@@ -13437,7 +13478,15 @@ var _user$project$Home$onNewLink = F2(
 					});
 				var updatedPortal = _elm_lang$core$Native_Utils.update(
 					portal,
-					{newLinks: updatedLinks, linksNavigation: true});
+					{
+						newLinks: updatedLinks,
+						linksNavigation: true,
+						contentProvider: _elm_lang$core$Native_Utils.update(
+							contentProvider,
+							{
+								links: A2(_user$project$Home$refreshLinks, contentProvider, updatedLinks.added)
+							})
+					});
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(

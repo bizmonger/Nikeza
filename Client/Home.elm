@@ -341,6 +341,31 @@ onRemove model sources =
         ( newState, Cmd.none )
 
 
+refreshLinks : ContentProvider -> List Link -> Links
+refreshLinks contentProvider addedLinks =
+    let
+        links =
+            contentProvider.links
+
+        articles =
+            List.append links.articles (addedLinks |> List.filter (\l -> l.contentType == Article))
+
+        videos =
+            List.append links.videos (addedLinks |> List.filter (\l -> l.contentType == Video))
+
+        podcasts =
+            List.append links.podcasts (addedLinks |> List.filter (\l -> l.contentType == Podcast))
+
+        answers =
+            List.append links.answers (addedLinks |> List.filter (\l -> l.contentType == Answer))
+    in
+        { articles = articles
+        , videos = videos
+        , podcasts = podcasts
+        , answers = answers
+        }
+
+
 onNewLink : NewLinks.Msg -> Model -> ( Model, Cmd Msg )
 onNewLink subMsg model =
     let
@@ -381,11 +406,13 @@ onNewLink subMsg model =
                         { newLinks | canAdd = True, added = v.current.base :: v.added }
 
                     updatedPortal =
-                        { portal | newLinks = updatedLinks, linksNavigation = True }
+                        { portal
+                            | newLinks = updatedLinks
+                            , linksNavigation = True
+                            , contentProvider = { contentProvider | links = refreshLinks contentProvider updatedLinks.added }
+                        }
                 in
-                    ( { model | portal = updatedPortal }
-                    , Cmd.none
-                    )
+                    ( { model | portal = updatedPortal }, Cmd.none )
 
 
 onAddedSource : AddSource.Msg -> Model -> ( Model, Cmd Msg )
