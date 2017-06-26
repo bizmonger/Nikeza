@@ -11143,19 +11143,7 @@ var _user$project$Controls_ContentProviderContentTypeLinks$view = F2(
 							_1: {ctor: '[]'}
 						}
 					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$label,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(
-								_elm_lang$core$Basics$toString(topics)),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}
+				_1: {ctor: '[]'}
 			});
 	});
 var _user$project$Controls_ContentProviderContentTypeLinks$ToggleAll = function (a) {
@@ -13258,7 +13246,7 @@ var _user$project$Home$onLogin = F2(
 							A2(
 								_elm_lang$core$Basics_ops['++'],
 								_user$project$Domain_Core$getId(newState.portal.contentProvider.profile.id),
-								'/dashboard')))
+								'/portal')))
 				} : {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'UserInput':
 				return {
@@ -13600,7 +13588,7 @@ var _user$project$Home$onRegistration = F2(
 								A2(
 									_elm_lang$core$Basics_ops['++'],
 									_user$project$Domain_Core$getId(_p12.profile.id),
-									'/dashboard')))
+									'/portal')))
 					};
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -15157,19 +15145,7 @@ var _user$project$Home$dashboardPage = function (model) {
 							}),
 						_1: {ctor: '[]'}
 					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$label,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(
-								_elm_lang$core$Basics$toString(model.portal.contentProvider.profile)),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}
+				_1: {ctor: '[]'}
 			}
 		});
 };
@@ -15828,7 +15804,7 @@ var _user$project$Home$view = function (model) {
 							return _user$project$Home$notFoundPage;
 						}
 					} else {
-						if (_p26._1._0 === 'dashboard') {
+						if (_p26._1._0 === 'portal') {
 							if (_elm_lang$core$Native_Utils.eq(model.portal.contentProvider, _user$project$Domain_Core$initContentProvider)) {
 								var _p31 = _user$project$Settings$runtime.contentProvider(
 									_user$project$Domain_Core$Id(_p26._0));

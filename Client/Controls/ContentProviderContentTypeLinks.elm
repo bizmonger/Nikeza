@@ -2,8 +2,6 @@ module Controls.ContentProviderContentTypeLinks exposing (..)
 
 import Settings exposing (..)
 import Domain.Core exposing (..)
-
-
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
@@ -54,7 +52,6 @@ view model contentType =
                     , td [] [ div [] <| List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ]) posts ]
                     ]
                 ]
-            , label [] [ text <| toString topics ]
             ]
 
 

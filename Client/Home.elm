@@ -302,7 +302,7 @@ onRegistration subMsg model =
                                         }
                                 }
                         in
-                            ( newState, Navigation.load <| "/#/" ++ getId newUser.profile.id ++ "/dashboard" )
+                            ( newState, Navigation.load <| "/#/" ++ getId newUser.profile.id ++ "/portal" )
 
                     Err v ->
                         ( model, Cmd.none )
@@ -528,7 +528,7 @@ onLogin subMsg model =
                                 { model | login = latest }
                 in
                     if newState.login.loggedIn then
-                        ( newState, Navigation.load <| "/#/" ++ getId newState.portal.contentProvider.profile.id ++ "/dashboard" )
+                        ( newState, Navigation.load <| "/#/" ++ getId newState.portal.contentProvider.profile.id ++ "/portal" )
                     else
                         ( newState, Cmd.none )
 
@@ -605,7 +605,7 @@ view model =
                 Nothing ->
                     notFoundPage
 
-        [ id, "dashboard" ] ->
+        [ id, "portal" ] ->
             if model.portal.contentProvider == initContentProvider then
                 case runtime.contentProvider <| Id id of
                     Just contentProvider ->
@@ -986,7 +986,6 @@ dashboardPage model =
                     , td [] [ content model ]
                     ]
                 ]
-            , label [] [ text <| toString model.portal.contentProvider.profile ]
             ]
 
 
