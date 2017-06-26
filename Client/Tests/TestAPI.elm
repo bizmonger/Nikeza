@@ -6,6 +6,11 @@ import Domain.Core as Domain exposing (..)
 import String exposing (..)
 
 
+someProfileId : Id
+someProfileId =
+    Id "some_profile_id"
+
+
 profileId1 : Id
 profileId1 =
     Id "profile_1"
@@ -219,12 +224,12 @@ tryLogin : Login.Model -> Login.Model
 tryLogin credentials =
     let
         successful =
-            String.toLower credentials.username == "test" && String.toLower credentials.password == "test"
+            String.toLower credentials.email == "test" && String.toLower credentials.password == "test"
     in
         if successful then
-            { username = credentials.username, password = credentials.password, loggedIn = True }
+            { email = credentials.email, password = credentials.password, loggedIn = True }
         else
-            { username = credentials.username, password = credentials.password, loggedIn = False }
+            { email = credentials.email, password = credentials.password, loggedIn = False }
 
 
 tryRegister : Register.Model -> Result String ContentProvider
@@ -236,7 +241,7 @@ tryRegister form =
         if successful then
             let
                 profile =
-                    Profile (Id undefined) (Name form.firstName) (Name form.lastName) (Email form.email) someImageUrl "" []
+                    Profile someProfileId (Name form.firstName) (Name form.lastName) (Email form.email) someImageUrl "" []
             in
                 Ok <| ContentProvider profile True [] initLinks
         else
@@ -399,6 +404,8 @@ contentProvider id =
         Just contentProvider2
     else if id == profileId3 then
         Just contentProvider3
+    else if id == someProfileId then
+        Just contentProvider1
     else
         Nothing
 
@@ -442,8 +449,8 @@ removeSource profileId connection =
 
 
 usernameToId : String -> Id
-usernameToId username =
-    case username of
+usernameToId email =
+    case email of
         "test" ->
             profileId1
 

@@ -4,8 +4,6 @@ import Settings exposing (..)
 import Domain.Core exposing (..)
 
 
--- import Domain.ContentProvider as ContentProvider exposing (..)
-
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)

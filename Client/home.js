@@ -9271,7 +9271,7 @@ var _user$project$Controls_Login$update = F2(
 			case 'UserInput':
 				return _elm_lang$core$Native_Utils.update(
 					model,
-					{username: _p0._0});
+					{email: _p0._0});
 			case 'PasswordInput':
 				return _elm_lang$core$Native_Utils.update(
 					model,
@@ -9279,12 +9279,12 @@ var _user$project$Controls_Login$update = F2(
 			default:
 				return _elm_lang$core$Native_Utils.update(
 					model,
-					{username: _p0._0._0, password: _p0._0._1});
+					{email: _p0._0._0, password: _p0._0._1});
 		}
 	});
 var _user$project$Controls_Login$Model = F3(
 	function (a, b, c) {
-		return {username: a, password: b, loggedIn: c};
+		return {email: a, password: b, loggedIn: c};
 	});
 var _user$project$Controls_Login$init = A3(_user$project$Controls_Login$Model, '', '', false);
 var _user$project$Controls_Login$Attempt = function (a) {
@@ -9317,7 +9317,7 @@ var _user$project$Controls_Login$view = function (model) {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Events$onClick(
 									_user$project$Controls_Login$Attempt(
-										{ctor: '_Tuple2', _0: model.username, _1: model.password})),
+										{ctor: '_Tuple2', _0: model.email, _1: model.password})),
 								_1: {ctor: '[]'}
 							}
 						}
@@ -9368,7 +9368,7 @@ var _user$project$Controls_Login$view = function (model) {
 										_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Login$UserInput),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$value(model.username),
+											_0: _elm_lang$html$Html_Attributes$value(model.email),
 											_1: {ctor: '[]'}
 										}
 									}
@@ -9969,11 +9969,11 @@ var _user$project$Tests_TestAPI$removeSource = F2(
 	});
 var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 	var successful = _elm_lang$core$Native_Utils.eq(
-		_elm_lang$core$String$toLower(credentials.username),
+		_elm_lang$core$String$toLower(credentials.email),
 		'test') && _elm_lang$core$Native_Utils.eq(
 		_elm_lang$core$String$toLower(credentials.password),
 		'test');
-	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
+	return successful ? {email: credentials.email, password: credentials.password, loggedIn: true} : {email: credentials.email, password: credentials.password, loggedIn: false};
 };
 var _user$project$Tests_TestAPI$someEmail = _user$project$Domain_Core$Email('abc@abc.com');
 var _user$project$Tests_TestAPI$someDescrtiption = 'some description...';
@@ -9998,29 +9998,6 @@ var _user$project$Tests_TestAPI$someArticleTitle3 = _user$project$Domain_Core$Ti
 var _user$project$Tests_TestAPI$someArticleTitle2 = _user$project$Domain_Core$Title('Some Xamarin.Forms Article');
 var _user$project$Tests_TestAPI$someArticleTitle1 = _user$project$Domain_Core$Title('Some WPF Article');
 var _user$project$Tests_TestAPI$someImageUrl = _user$project$Domain_Core$Url('http://www.ngu.edu/myimages/silhouette2230.jpg');
-var _user$project$Tests_TestAPI$tryRegister = function (form) {
-	var successful = _elm_lang$core$Native_Utils.eq(form.password, form.confirm);
-	if (successful) {
-		var profile = A7(
-			_user$project$Domain_Core$Profile,
-			_user$project$Domain_Core$Id(_user$project$Domain_Core$undefined),
-			_user$project$Domain_Core$Name(form.firstName),
-			_user$project$Domain_Core$Name(form.lastName),
-			_user$project$Domain_Core$Email(form.email),
-			_user$project$Tests_TestAPI$someImageUrl,
-			'',
-			{ctor: '[]'});
-		return _elm_lang$core$Result$Ok(
-			A4(
-				_user$project$Domain_Core$ContentProvider,
-				profile,
-				true,
-				{ctor: '[]'},
-				_user$project$Domain_Core$initLinks));
-	} else {
-		return _elm_lang$core$Result$Err('Registration failed');
-	}
-};
 var _user$project$Tests_TestAPI$someUrl = _user$project$Domain_Core$Url('http://some_url.com');
 var _user$project$Tests_TestAPI$someTopic5 = A2(_user$project$Domain_Core$Topic, 'unit-tests', false);
 var _user$project$Tests_TestAPI$someTopic4 = A2(_user$project$Domain_Core$Topic, 'Elm', true);
@@ -10550,11 +10527,8 @@ var _user$project$Tests_TestAPI$topicLinks = F3(
 			},
 			A2(_user$project$Tests_TestAPI$linksToContent, contentType, id));
 	});
-var _user$project$Tests_TestAPI$contentProvider = function (id) {
-	return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider3) : _elm_lang$core$Maybe$Nothing));
-};
-var _user$project$Tests_TestAPI$usernameToId = function (username) {
-	var _p3 = username;
+var _user$project$Tests_TestAPI$usernameToId = function (email) {
+	var _p3 = email;
 	switch (_p3) {
 		case 'test':
 			return _user$project$Tests_TestAPI$profileId1;
@@ -10567,6 +10541,33 @@ var _user$project$Tests_TestAPI$usernameToId = function (username) {
 		default:
 			return _user$project$Domain_Core$Id(_user$project$Domain_Core$undefined);
 	}
+};
+var _user$project$Tests_TestAPI$someProfileId = _user$project$Domain_Core$Id('some_profile_id');
+var _user$project$Tests_TestAPI$tryRegister = function (form) {
+	var successful = _elm_lang$core$Native_Utils.eq(form.password, form.confirm);
+	if (successful) {
+		var profile = A7(
+			_user$project$Domain_Core$Profile,
+			_user$project$Tests_TestAPI$someProfileId,
+			_user$project$Domain_Core$Name(form.firstName),
+			_user$project$Domain_Core$Name(form.lastName),
+			_user$project$Domain_Core$Email(form.email),
+			_user$project$Tests_TestAPI$someImageUrl,
+			'',
+			{ctor: '[]'});
+		return _elm_lang$core$Result$Ok(
+			A4(
+				_user$project$Domain_Core$ContentProvider,
+				profile,
+				true,
+				{ctor: '[]'},
+				_user$project$Domain_Core$initLinks));
+	} else {
+		return _elm_lang$core$Result$Err('Registration failed');
+	}
+};
+var _user$project$Tests_TestAPI$contentProvider = function (id) {
+	return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider3) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$someProfileId) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider1) : _elm_lang$core$Maybe$Nothing)));
 };
 
 var _user$project$Services_Server$suggestedTopics = function (search) {
@@ -10612,11 +10613,11 @@ var _user$project$Services_Server$tryRegister = function (form) {
 };
 var _user$project$Services_Server$tryLogin = function (credentials) {
 	var successful = _elm_lang$core$Native_Utils.eq(
-		_elm_lang$core$String$toLower(credentials.username),
+		_elm_lang$core$String$toLower(credentials.email),
 		'test') && _elm_lang$core$Native_Utils.eq(
 		_elm_lang$core$String$toLower(credentials.password),
 		'test');
-	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
+	return successful ? {email: credentials.email, password: credentials.password, loggedIn: true} : {email: credentials.email, password: credentials.password, loggedIn: false};
 };
 
 var _user$project$Settings$Dependencies = function (a) {
@@ -13223,7 +13224,7 @@ var _user$project$Home$onLogin = F2(
 				var login = A2(_user$project$Controls_Login$update, subMsg, model.login);
 				var latest = _user$project$Settings$runtime.tryLogin(login);
 				var contentProviderResult = _user$project$Settings$runtime.contentProvider(
-					_user$project$Settings$runtime.usernameToId(latest.username));
+					_user$project$Settings$runtime.usernameToId(latest.email));
 				var newState = function () {
 					var _p5 = contentProviderResult;
 					if (_p5.ctor === 'Just') {
@@ -15156,7 +15157,19 @@ var _user$project$Home$dashboardPage = function (model) {
 							}),
 						_1: {ctor: '[]'}
 					}),
-				_1: {ctor: '[]'}
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$label,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								_elm_lang$core$Basics$toString(model.portal.contentProvider.profile)),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
 			}
 		});
 };
@@ -15187,7 +15200,7 @@ var _user$project$Home$homePage = function (model) {
 						A2(
 							_elm_lang$core$Basics_ops['++'],
 							'Welcome ',
-							A2(_elm_lang$core$Basics_ops['++'], model.login.username, '!'))),
+							A2(_elm_lang$core$Basics_ops['++'], model.login.email, '!'))),
 					_1: {ctor: '[]'}
 				}),
 			_2: A2(
@@ -15817,7 +15830,25 @@ var _user$project$Home$view = function (model) {
 						}
 					} else {
 						if (_p26._1._0 === 'dashboard') {
-							return _user$project$Home$dashboardPage(model);
+							if (_elm_lang$core$Native_Utils.eq(model.portal.contentProvider, _user$project$Domain_Core$initContentProvider)) {
+								var _p32 = _user$project$Settings$runtime.contentProvider(
+									_user$project$Domain_Core$Id(_p26._0));
+								if (_p32.ctor === 'Just') {
+									var portal = _user$project$Domain_Core$initPortal;
+									return _user$project$Home$dashboardPage(
+										_elm_lang$core$Native_Utils.update(
+											model,
+											{
+												portal: _elm_lang$core$Native_Utils.update(
+													portal,
+													{contentProvider: _p32._0})
+											}));
+								} else {
+									return _user$project$Home$notFoundPage;
+								}
+							} else {
+								return _user$project$Home$dashboardPage(model);
+							}
 						} else {
 							break _v21_8;
 						}
@@ -15838,7 +15869,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p32) {
+		subscriptions: function (_p33) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();

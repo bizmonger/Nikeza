@@ -288,21 +288,21 @@ onRegistration subMsg model =
 
             Registration.Submit _ ->
                 case form |> runtime.tryRegister of
-                    Ok user ->
+                    Ok newUser ->
                         let
                             newState =
                                 { model
                                     | registration = form
                                     , portal =
                                         { initPortal
-                                            | contentProvider = user
+                                            | contentProvider = newUser
                                             , requested = Domain.EditProfile
                                             , linksNavigation = False
                                             , sourcesNavigation = False
                                         }
                                 }
                         in
-                            ( newState, Navigation.load <| "/#/" ++ getId user.profile.id ++ "/dashboard" )
+                            ( newState, Navigation.load <| "/#/" ++ getId newUser.profile.id ++ "/dashboard" )
 
                     Err v ->
                         ( model, Cmd.none )
@@ -508,7 +508,7 @@ onLogin subMsg model =
                         runtime.tryLogin login
 
                     contentProviderResult =
-                        runtime.contentProvider <| runtime.usernameToId latest.username
+                        runtime.contentProvider <| runtime.usernameToId latest.email
 
                     newState =
                         case contentProviderResult of
@@ -606,7 +606,19 @@ view model =
                     notFoundPage
 
         [ id, "dashboard" ] ->
-            dashboardPage model
+            if model.portal.contentProvider == initContentProvider then
+                case runtime.contentProvider <| Id id of
+                    Just contentProvider ->
+                        let
+                            portal =
+                                initPortal
+                        in
+                            dashboardPage { model | portal = { portal | contentProvider = contentProvider } }
+
+                    Nothing ->
+                        notFoundPage
+            else
+                dashboardPage model
 
         _ ->
             notFoundPage
@@ -620,7 +632,7 @@ homePage model =
             let
                 ( loggedIn, welcome, signout ) =
                     ( model.login.loggedIn
-                    , p [] [ text <| "Welcome " ++ model.login.username ++ "!" ]
+                    , p [] [ text <| "Welcome " ++ model.login.email ++ "!" ]
                     , a [ href "" ] [ label [] [ text "Signout" ] ]
                     )
             in
@@ -974,6 +986,7 @@ dashboardPage model =
                     , td [] [ content model ]
                     ]
                 ]
+            , label [] [ text <| toString model.portal.contentProvider.profile ]
             ]
 
 

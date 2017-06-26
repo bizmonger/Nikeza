@@ -9,12 +9,12 @@ tryLogin : Login.Model -> Login.Model
 tryLogin credentials =
     let
         successful =
-            String.toLower credentials.username == "test" && String.toLower credentials.password == "test"
+            String.toLower credentials.email == "test" && String.toLower credentials.password == "test"
     in
         if successful then
-            { username = credentials.username, password = credentials.password, loggedIn = True }
+            { email = credentials.email, password = credentials.password, loggedIn = True }
         else
-            { username = credentials.username, password = credentials.password, loggedIn = False }
+            { email = credentials.email, password = credentials.password, loggedIn = False }
 
 
 tryRegister : Register.Model -> Result String ContentProvider
@@ -75,7 +75,6 @@ removeSource profileId connection =
 topics : List Topic
 topics =
     []
-
 
 
 platforms : List Platform

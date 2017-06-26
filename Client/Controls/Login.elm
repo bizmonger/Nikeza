@@ -9,7 +9,7 @@ import Html.Events exposing (..)
 
 
 type alias Model =
-    { username : String
+    { email : String
     , password : String
     , loggedIn : Bool
     }
@@ -34,13 +34,13 @@ update : Msg -> Model -> Model
 update msg model =
     case msg of
         UserInput v ->
-            { model | username = v }
+            { model | email = v }
 
         PasswordInput v ->
             { model | password = v }
 
-        Attempt ( username, password ) ->
-            { model | username = username, password = password }
+        Attempt ( email, password ) ->
+            { model | email = email, password = password }
 
 
 
@@ -50,7 +50,7 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ input [ class "signin", type_ "submit", value "Signin", onClick <| Attempt ( model.username, model.password ) ] []
+        [ input [ class "signin", type_ "submit", value "Signin", onClick <| Attempt ( model.email, model.password ) ] []
         , input [ class "signin", type_ "password", placeholder "password", onInput PasswordInput, value model.password ] []
-        , input [ class "signin", type_ "text", placeholder "username", onInput UserInput, value model.username ] []
+        , input [ class "signin", type_ "text", placeholder "username", onInput UserInput, value model.email ] []
         ]
