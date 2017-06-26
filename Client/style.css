@@ -17,6 +17,11 @@ div.navigationpane{
     vertical-align: text-top;
 }
 
+button.addLink {
+    height: 40px;
+    margin-top: 10px;
+}
+
 button.navigationButton4 {
     vertical-align: text-top;
     width:100px;
