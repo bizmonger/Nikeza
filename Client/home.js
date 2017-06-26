@@ -15533,7 +15533,6 @@ var _user$project$Home$view = function (model) {
 									var _p29 = _user$project$Settings$runtime.contentProvider(
 										_user$project$Domain_Core$Id(_p26._1._0));
 									if (_p29.ctor === 'Just') {
-										var _p30 = _p29._0;
 										return A2(
 											_elm_lang$html$Html$table,
 											{ctor: '[]'},
@@ -15568,7 +15567,7 @@ var _user$project$Home$view = function (model) {
 																					{
 																						ctor: '::',
 																						_0: _elm_lang$html$Html_Attributes$src(
-																							_user$project$Domain_Core$getUrl(_p30.profile.imageUrl)),
+																							_user$project$Domain_Core$getUrl(model.selectedContentProvider.profile.imageUrl)),
 																						_1: {
 																							ctor: '::',
 																							_0: _elm_lang$html$Html_Attributes$width(100),
@@ -15603,11 +15602,11 @@ var _user$project$Home$view = function (model) {
 																					_0: _elm_lang$html$Html$text(
 																						A2(
 																							_elm_lang$core$Basics_ops['++'],
-																							_user$project$Domain_Core$getName(_p30.profile.firstName),
+																							_user$project$Domain_Core$getName(model.selectedContentProvider.profile.firstName),
 																							A2(
 																								_elm_lang$core$Basics_ops['++'],
 																								' ',
-																								_user$project$Domain_Core$getName(_p30.profile.lastName)))),
+																								_user$project$Domain_Core$getName(model.selectedContentProvider.profile.lastName)))),
 																					_1: {ctor: '[]'}
 																				}),
 																			_1: {ctor: '[]'}
@@ -15633,7 +15632,7 @@ var _user$project$Home$view = function (model) {
 																							{ctor: '[]'},
 																							{
 																								ctor: '::',
-																								_0: _elm_lang$html$Html$text(_p30.profile.bio),
+																								_0: _elm_lang$html$Html$text(model.selectedContentProvider.profile.bio),
 																								_1: {ctor: '[]'}
 																							}),
 																						_1: {ctor: '[]'}
@@ -15656,7 +15655,7 @@ var _user$project$Home$view = function (model) {
 																		_user$project$Home$ContentProviderContentTypeLinksAction,
 																		A2(
 																			_user$project$Controls_ContentProviderContentTypeLinks$view,
-																			_p30,
+																			model.selectedContentProvider,
 																			_user$project$Domain_Core$toContentType(_p26._1._1._1._0))),
 																	_1: {ctor: '[]'}
 																}),
@@ -15673,14 +15672,14 @@ var _user$project$Home$view = function (model) {
 								}
 							} else {
 								if ((_p26._1._1._1._0 === 'all') && (_p26._1._1._1._1._1.ctor === '[]')) {
-									var _p31 = _user$project$Settings$runtime.contentProvider(
+									var _p30 = _user$project$Settings$runtime.contentProvider(
 										_user$project$Domain_Core$Id(_p26._1._0));
-									if (_p31.ctor === 'Just') {
+									if (_p30.ctor === 'Just') {
 										return A3(
 											_user$project$Home$contentProviderTopicContentTypePage,
 											A2(_user$project$Domain_Core$Topic, _p26._1._1._0, false),
 											_user$project$Domain_Core$toContentType(_p26._1._1._1._1._0),
-											_p31._0);
+											model.selectedContentProvider);
 									} else {
 										return _user$project$Home$notFoundPage;
 									}
@@ -15831,9 +15830,9 @@ var _user$project$Home$view = function (model) {
 					} else {
 						if (_p26._1._0 === 'dashboard') {
 							if (_elm_lang$core$Native_Utils.eq(model.portal.contentProvider, _user$project$Domain_Core$initContentProvider)) {
-								var _p32 = _user$project$Settings$runtime.contentProvider(
+								var _p31 = _user$project$Settings$runtime.contentProvider(
 									_user$project$Domain_Core$Id(_p26._0));
-								if (_p32.ctor === 'Just') {
+								if (_p31.ctor === 'Just') {
 									var portal = _user$project$Domain_Core$initPortal;
 									return _user$project$Home$dashboardPage(
 										_elm_lang$core$Native_Utils.update(
@@ -15841,7 +15840,7 @@ var _user$project$Home$view = function (model) {
 											{
 												portal: _elm_lang$core$Native_Utils.update(
 													portal,
-													{contentProvider: _p32._0})
+													{contentProvider: _p31._0})
 											}));
 								} else {
 									return _user$project$Home$notFoundPage;
@@ -15869,7 +15868,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p33) {
+		subscriptions: function (_p32) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();

@@ -557,7 +557,7 @@ view model =
 
         [ "contentProvider", id ] ->
             case runtime.contentProvider <| Id id of
-                Just c ->
+                Just _ ->
                     table []
                         [ tr []
                             [ table []
@@ -582,15 +582,15 @@ view model =
 
         [ "contentProvider", id, "all", contentType ] ->
             case runtime.contentProvider <| Id id of
-                Just c ->
+                Just _ ->
                     table []
                         [ tr []
                             [ table []
-                                [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| c.profile.imageUrl, width 100, height 100 ] [] ] ]
-                                , tr [ class "bio" ] [ td [] [ text <| getName c.profile.firstName ++ " " ++ getName c.profile.lastName ] ]
-                                , tr [ class "bio" ] [ td [] [ p [] [ text c.profile.bio ] ] ]
+                                [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| model.selectedContentProvider.profile.imageUrl, width 100, height 100 ] [] ] ]
+                                , tr [ class "bio" ] [ td [] [ text <| getName model.selectedContentProvider.profile.firstName ++ " " ++ getName model.selectedContentProvider.profile.lastName ] ]
+                                , tr [ class "bio" ] [ td [] [ p [] [ text model.selectedContentProvider.profile.bio ] ] ]
                                 ]
-                            , td [] [ Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view c <| toContentType contentType ]
+                            , td [] [ Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.selectedContentProvider <| toContentType contentType ]
                             ]
                         ]
 
@@ -599,8 +599,8 @@ view model =
 
         [ "contentProvider", id, topic, "all", contentType ] ->
             case runtime.contentProvider <| Id id of
-                Just contentProvider ->
-                    contentProviderTopicContentTypePage (Topic topic False) (toContentType contentType) contentProvider
+                Just _ ->
+                    contentProviderTopicContentTypePage (Topic topic False) (toContentType contentType) model.selectedContentProvider
 
                 Nothing ->
                     notFoundPage
