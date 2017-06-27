@@ -864,13 +864,13 @@ dashboardPage model =
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
-                    , button [ class "selectednavigationButton4", onClick ViewSources ] [ text sourcesText ]
+                    , button [ class "selectedNavigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
                     ]
 
                 Domain.ViewLinks ->
-                    [ button [ class "selectednavigationButton4", onClick ViewLinks ] [ text linksText ]
+                    [ button [ class "selectedNavigationButton4", onClick ViewLinks ] [ text linksText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
@@ -896,13 +896,13 @@ dashboardPage model =
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
-                    , button [ class "selectednavigationButton4", onClick EditProfile ] [ text profileText ]
+                    , button [ class "selectedNavigationButton4", onClick EditProfile ] [ text profileText ]
                     ]
 
         sourcesButNoLinks =
             case portal.requested of
                 Domain.ViewSources ->
-                    [ button [ class "selectednavigationButton3", onClick ViewSources ] [ text sourcesText ]
+                    [ button [ class "selectedNavigationButton3", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "navigationButton3", onClick AddNewLink ] [ text linkText ]
                     , br [] []
@@ -920,7 +920,7 @@ dashboardPage model =
                 Domain.AddLink ->
                     [ button [ class "navigationButton3", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
-                    , button [ class "selectednavigationButton3", onClick AddNewLink ] [ text linkText ]
+                    , button [ class "selectedNavigationButton3", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton3", onClick EditProfile ] [ text profileText ]
                     ]
@@ -930,7 +930,7 @@ dashboardPage model =
                     , br [] []
                     , button [ class "navigationButton3", onClick AddNewLink ] [ text linkText ]
                     , br [] []
-                    , button [ class "selectednavigationButton3", onClick EditProfile ] [ text profileText ]
+                    , button [ class "selectedNavigationButton3", onClick EditProfile ] [ text profileText ]
                     ]
 
         noSourcesNoLinks =
@@ -940,7 +940,7 @@ dashboardPage model =
                     , br [] []
                     , button [ class "navigationButton3", onClick ViewSources, disabled True ] [ text sourcesText ]
                     , br [] []
-                    , button [ class "selectednavigationButton3", onClick AddNewLink, disabled True ] [ text linkText ]
+                    , button [ class "selectedNavigationButton3", onClick AddNewLink, disabled True ] [ text linkText ]
                     ]
 
                 Domain.EditProfile ->
