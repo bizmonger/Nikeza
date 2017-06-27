@@ -439,11 +439,11 @@ contentTypeToText contentType =
             ""
 
 
-moreContentProviderContentUrl : Id -> ContentType -> Url
-moreContentProviderContentUrl id contentType =
+moreContentUrl : Id -> ContentType -> Url
+moreContentUrl id contentType =
     Url <| "/#/contentProvider/" ++ getId id ++ "/all/" ++ (contentType |> contentTypeToText)
 
 
-moreContentProviderContentOnTopicUrl : Id -> ContentType -> Topic -> Url
-moreContentProviderContentOnTopicUrl id contentType topic =
+moreTopicContentUrl : Id -> ContentType -> Topic -> Url
+moreTopicContentUrl id contentType topic =
     Url <| "/#/contentProvider/" ++ getId id ++ "/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)

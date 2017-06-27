@@ -9811,7 +9811,7 @@ var _user$project$Domain_Core$contentProviderUrl = function (id) {
 			'/#/contentProvider/',
 			_user$project$Domain_Core$getId(id)));
 };
-var _user$project$Domain_Core$moreContentProviderContentUrl = F2(
+var _user$project$Domain_Core$moreContentUrl = F2(
 	function (id, contentType) {
 		return _user$project$Domain_Core$Url(
 			A2(
@@ -9825,7 +9825,7 @@ var _user$project$Domain_Core$moreContentProviderContentUrl = F2(
 						'/all/',
 						_user$project$Domain_Core$contentTypeToText(contentType)))));
 	});
-var _user$project$Domain_Core$moreContentProviderContentOnTopicUrl = F3(
+var _user$project$Domain_Core$moreTopicContentUrl = F3(
 	function (id, contentType, topic) {
 		return _user$project$Domain_Core$Url(
 			A2(
@@ -11221,7 +11221,7 @@ var _user$project$Controls_ContentProviderLinks$linksUI = function (links) {
 		},
 		A2(_elm_lang$core$List$take, 5, links));
 };
-var _user$project$Controls_ContentProviderLinks$contentUI = F3(
+var _user$project$Controls_ContentProviderLinks$notLoggedInRequestMoreContent = F3(
 	function (profileId, contentType, links) {
 		return A2(
 			_elm_lang$core$List$append,
@@ -11234,7 +11234,7 @@ var _user$project$Controls_ContentProviderLinks$contentUI = F3(
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$href(
 							_user$project$Domain_Core$getUrl(
-								A2(_user$project$Domain_Core$moreContentProviderContentUrl, profileId, contentType))),
+								A2(_user$project$Domain_Core$moreContentUrl, profileId, contentType))),
 						_1: {ctor: '[]'}
 					},
 					{
@@ -11417,7 +11417,7 @@ var _user$project$Controls_ContentProviderLinks$view = function (model) {
 																			_0: A2(
 																				_elm_lang$html$Html$div,
 																				{ctor: '[]'},
-																				A3(_user$project$Controls_ContentProviderLinks$contentUI, profileId, _user$project$Domain_Core$Answer, links.answers)),
+																				A3(_user$project$Controls_ContentProviderLinks$notLoggedInRequestMoreContent, profileId, _user$project$Domain_Core$Answer, links.answers)),
 																			_1: {ctor: '[]'}
 																		}),
 																	_1: {
@@ -11430,7 +11430,7 @@ var _user$project$Controls_ContentProviderLinks$view = function (model) {
 																				_0: A2(
 																					_elm_lang$html$Html$div,
 																					{ctor: '[]'},
-																					A3(_user$project$Controls_ContentProviderLinks$contentUI, profileId, _user$project$Domain_Core$Article, links.articles)),
+																					A3(_user$project$Controls_ContentProviderLinks$notLoggedInRequestMoreContent, profileId, _user$project$Domain_Core$Article, links.articles)),
 																				_1: {ctor: '[]'}
 																			}),
 																		_1: {ctor: '[]'}
@@ -11493,7 +11493,7 @@ var _user$project$Controls_ContentProviderLinks$view = function (model) {
 																					_0: A2(
 																						_elm_lang$html$Html$div,
 																						{ctor: '[]'},
-																						A3(_user$project$Controls_ContentProviderLinks$contentUI, profileId, _user$project$Domain_Core$Podcast, links.podcasts)),
+																						A3(_user$project$Controls_ContentProviderLinks$notLoggedInRequestMoreContent, profileId, _user$project$Domain_Core$Podcast, links.podcasts)),
 																					_1: {ctor: '[]'}
 																				}),
 																			_1: {
@@ -11506,7 +11506,7 @@ var _user$project$Controls_ContentProviderLinks$view = function (model) {
 																						_0: A2(
 																							_elm_lang$html$Html$div,
 																							{ctor: '[]'},
-																							A3(_user$project$Controls_ContentProviderLinks$contentUI, profileId, _user$project$Domain_Core$Video, links.videos)),
+																							A3(_user$project$Controls_ContentProviderLinks$notLoggedInRequestMoreContent, profileId, _user$project$Domain_Core$Video, links.videos)),
 																						_1: {ctor: '[]'}
 																					}),
 																				_1: {ctor: '[]'}
@@ -12607,7 +12607,7 @@ var _user$project$Home$contentWithTopicUI = F4(
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$href(
 							_user$project$Domain_Core$getUrl(
-								A3(_user$project$Domain_Core$moreContentProviderContentOnTopicUrl, profileId, contentType, topic))),
+								A3(_user$project$Domain_Core$moreTopicContentUrl, profileId, contentType, topic))),
 						_1: {ctor: '[]'}
 					},
 					{

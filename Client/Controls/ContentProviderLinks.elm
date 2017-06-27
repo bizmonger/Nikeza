@@ -64,16 +64,16 @@ view model =
                                     , td [] [ b [] [ text "Articles" ] ]
                                     ]
                                 , tr []
-                                    [ td [] [ div [] <| contentUI profileId Answer links.answers ]
-                                    , td [] [ div [] <| contentUI profileId Article links.articles ]
+                                    [ td [] [ div [] <| notLoggedInRequestMoreContent profileId Answer links.answers ]
+                                    , td [] [ div [] <| notLoggedInRequestMoreContent profileId Article links.articles ]
                                     ]
                                 , tr []
                                     [ td [] [ b [] [ text "Podcasts" ] ]
                                     , td [] [ b [] [ text "Videos" ] ]
                                     ]
                                 , tr []
-                                    [ td [] [ div [] <| contentUI profileId Podcast links.podcasts ]
-                                    , td [] [ div [] <| contentUI profileId Video links.videos ]
+                                    [ td [] [ div [] <| notLoggedInRequestMoreContent profileId Podcast links.podcasts ]
+                                    , td [] [ div [] <| notLoggedInRequestMoreContent profileId Video links.videos ]
                                     ]
                                 ]
                             ]
@@ -83,9 +83,9 @@ view model =
             ]
 
 
-contentUI : Id -> ContentType -> List Link -> List (Html Msg)
-contentUI profileId contentType links =
-    List.append (linksUI links) [ a [ href <| getUrl <| moreContentProviderContentUrl profileId contentType ] [ text <| "all", br [] [] ] ]
+notLoggedInRequestMoreContent : Id -> ContentType -> List Link -> List (Html Msg)
+notLoggedInRequestMoreContent profileId contentType links =
+    List.append (linksUI links) [ a [ href <| getUrl <| moreContentUrl profileId contentType ] [ text <| "all", br [] [] ] ]
 
 
 linksUI : List Link -> List (Html Msg)

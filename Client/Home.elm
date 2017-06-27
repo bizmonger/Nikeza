@@ -1022,7 +1022,7 @@ linksUI links =
 
 contentWithTopicUI : Id -> ContentType -> Topic -> List Link -> List (Html Msg)
 contentWithTopicUI profileId contentType topic links =
-    List.append (linksUI links) [ a [ href <| getUrl <| moreContentProviderContentOnTopicUrl profileId contentType topic ] [ text <| "all", br [] [] ] ]
+    List.append (linksUI links) [ a [ href <| getUrl <| moreTopicContentUrl profileId contentType topic ] [ text <| "all", br [] [] ] ]
 
 
 
