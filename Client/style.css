@@ -3,6 +3,8 @@ header {
     top:0;
     width:100%;
     height:40px;
+    background-color:#0191CE;
+    margin-bottom:2px;
 }
 
 input[type="text"].search{
@@ -51,7 +53,7 @@ button.selectedNavigationButton3 {
 }
 
 ul.featuresList{
-    background-color: #FAFAFA;
+    background-color: #F7FCFD;
     margin: 5px;
     width: 380px;
 }
@@ -65,7 +67,8 @@ button.join {
     height:80px;
     margin-left:40px;
     font-size: 20px;
-    background-color:lightblue;
+    background-color:#0191CE;
+    color:white;
 }
 
 button.addSource {

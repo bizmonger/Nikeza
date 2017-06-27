@@ -15229,17 +15229,29 @@ var _user$project$Home$homePage = function (model) {
 			ctor: '::',
 			_0: A2(
 				_elm_lang$html$Html$header,
-				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('header'),
+					_1: {ctor: '[]'}
+				},
 				{
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$label,
-						{ctor: '[]'},
+						_elm_lang$html$Html$img,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html$text('Nikeza'),
-							_1: {ctor: '[]'}
-						}),
+							_0: _elm_lang$html$Html_Attributes$src('Assets/Nikeza_Blue_thin.png'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$width(190),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$height(38),
+									_1: {ctor: '[]'}
+								}
+							}
+						},
+						{ctor: '[]'}),
 					_1: {
 						ctor: '::',
 						_0: A2(

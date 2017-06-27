@@ -330,10 +330,7 @@ onRemove model sources =
             model.portal
 
         portal =
-            { pendingPortal
-                | contentProvider = updatedContentProvider
-                , newSource = initSource
-            }
+            { pendingPortal | contentProvider = updatedContentProvider, newSource = initSource }
 
         newState =
             { model | portal = portal }
@@ -434,10 +431,7 @@ onAddedSource subMsg model =
             { contentProvider | profile = { updatedProfile | sources = addSourceModel.sources } }
 
         portal =
-            { pendingPortal
-                | newSource = addSourceModel.source
-                , contentProvider = updatedContentProvider
-            }
+            { pendingPortal | newSource = addSourceModel.source, contentProvider = updatedContentProvider }
     in
         case subMsg of
             AddSource.InputUsername _ ->
@@ -647,8 +641,8 @@ homePage model =
                 div [] (model.contentProviders |> List.map thumbnail)
     in
         div []
-            [ header []
-                [ label [] [ text "Nikeza" ]
+            [ header [ class "header" ]
+                [ img [ src "Assets/Nikeza_Blue_thin.png", width 190, height 38 ] []
                 , br [] []
                 , label [] [ i [] [ text "Linking Your Expertise" ] ]
                 , model |> loginUI
