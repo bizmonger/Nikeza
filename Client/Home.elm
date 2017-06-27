@@ -549,31 +549,6 @@ view model =
         [ "register" ] ->
             registerPage model
 
-        [ id, "portal", "all", contentType ] ->
-            case runtime.contentProvider <| Id id of
-                Just _ ->
-                    table []
-                        [ tr []
-                            [ table []
-                                [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| model.portal.contentProvider.profile.imageUrl, width 100, height 100 ] [] ] ]
-                                , tr [ class "bio" ] [ td [] [ text <| getName model.portal.contentProvider.profile.firstName ++ " " ++ getName model.selectedContentProvider.profile.lastName ] ]
-                                , tr [ class "bio" ] [ td [] [ p [] [ text model.portal.contentProvider.profile.bio ] ] ]
-                                ]
-                            , td [] [ Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.portal.contentProvider <| toContentType contentType ]
-                            ]
-                        ]
-
-                Nothing ->
-                    notFoundPage
-
-        [ id, "portal", topic, "all", contentType ] ->
-            case runtime.contentProvider <| Id id of
-                Just _ ->
-                    contentProviderTopicContentTypePage (Topic topic False) (toContentType contentType) model.portal.contentProvider
-
-                Nothing ->
-                    notFoundPage
-
         [ "contentProvider", id ] ->
             case runtime.contentProvider <| Id id of
                 Just _ ->
@@ -620,6 +595,31 @@ view model =
             case runtime.contentProvider <| Id id of
                 Just _ ->
                     contentProviderTopicContentTypePage (Topic topic False) (toContentType contentType) model.selectedContentProvider
+
+                Nothing ->
+                    notFoundPage
+
+        [ id, "portal", "all", contentType ] ->
+            case runtime.contentProvider <| Id id of
+                Just _ ->
+                    table []
+                        [ tr []
+                            [ table []
+                                [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| model.portal.contentProvider.profile.imageUrl, width 100, height 100 ] [] ] ]
+                                , tr [ class "bio" ] [ td [] [ text <| getName model.portal.contentProvider.profile.firstName ++ " " ++ getName model.selectedContentProvider.profile.lastName ] ]
+                                , tr [ class "bio" ] [ td [] [ p [] [ text model.portal.contentProvider.profile.bio ] ] ]
+                                ]
+                            , td [] [ Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.portal.contentProvider <| toContentType contentType ]
+                            ]
+                        ]
+
+                Nothing ->
+                    notFoundPage
+
+        [ id, "portal", topic, "all", contentType ] ->
+            case runtime.contentProvider <| Id id of
+                Just _ ->
+                    contentProviderTopicContentTypePage (Topic topic False) (toContentType contentType) model.portal.contentProvider
 
                 Nothing ->
                     notFoundPage
