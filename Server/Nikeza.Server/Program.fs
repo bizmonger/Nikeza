@@ -6,18 +6,58 @@ open System.Collections.Generic
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
 open Microsoft.AspNetCore.Http
+open Microsoft.AspNetCore.Http.Features
+open Microsoft.Extensions.Configuration
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
+open Giraffe.HttpContextExtensions
 open Giraffe.HttpHandlers
 open Giraffe.Middleware
+open Giraffe.Razor.HttpHandlers
+open Giraffe.Razor.Middleware
+open Nikeza.Server.Models.Authentication
 open Nikeza.Server.Models
 open Nikeza.Server.YouTube
 open Nikeza.YouTube.Data
 
-
 // ---------------------------------
 // Web app
 // ---------------------------------
+let authScheme = "Cookie"
+let registrationHandler = 
+    fun(ctx: HttpContext) -> 
+        async {
+            let! data = ctx.BindJson<RegistrationRequest>()
+            let status = register data
+            let response = match status with 
+                            | Success -> "Registered"
+                            | Failure -> "Not Registered"
+            return! text response ctx 
+        }
+
+            
+let loginHandler  (authFailedHandler : HttpHandler) = 
+    fun(ctx: HttpContext) -> 
+        async {
+            let! data = ctx.BindJson<LogInRequest>()
+            let isAuthenticated = authenticate data.UserName data.Password
+            if isAuthenticated
+            then
+                let user = getUserClaims data.UserName authScheme
+                do! ctx.Authentication.SignInAsync(authScheme, user) |> Async.AwaitTask 
+                return Some ctx 
+            else 
+                return! authFailedHandler ctx                                                           
+        } 
+
+let setCode (handler:HttpHandler)= 
+    fun(ctx: HttpContext) ->     
+        let response =
+             if ctx.Response.Body.ToString() = ""
+                then setStatusCode 401
+                else handler
+        response ctx
+
 
 let fetchYoutube (apiKey, channelId) (ctx : HttpContext) = 
     async {
@@ -34,6 +74,12 @@ let webApp =
                 route "/" >=> razorHtmlView "Index" { Text = "Hello world, from Giraffe!" }
                 routef "/youtube/%s/%s" fetchYoutube 
             ]
+        POST >=> 
+            choose [
+                route "/register" >=> registrationHandler 
+                route "/login" >=> loginHandler (setStatusCode 401 >=> text "invalid credentials")
+                route "/logout" >=> signOff authScheme >=> text "logged out"
+            ]
         setStatusCode 404 >=> text "Not Found" ]
 
 // ---------------------------------
@@ -47,15 +93,27 @@ let errorHandler (ex : Exception) (logger : ILogger) (ctx : HttpContext) =
 // ---------------------------------
 // Config and Main
 // ---------------------------------
+let cookieAuth =
+    CookieAuthenticationOptions(
+            AuthenticationScheme    = authScheme,
+            AutomaticAuthenticate   = true,
+            AutomaticChallenge      = false,
+            CookieHttpOnly          = true,
+            CookieSecure            = CookieSecurePolicy.SameAsRequest,
+            SlidingExpiration       = true,
+            ExpireTimeSpan          = TimeSpan.FromDays 7.0
+    )
 
 let configureApp (app : IApplicationBuilder) = 
     app.UseGiraffeErrorHandler errorHandler
+    app.UseCookieAuthentication cookieAuth |> ignore
     app.UseGiraffe webApp
 
 let configureServices (services : IServiceCollection) =
     let sp  = services.BuildServiceProvider()
     let env = sp.GetService<IHostingEnvironment>()
     let viewsFolderPath = Path.Combine(env.ContentRootPath, "Views")
+    services.AddAuthentication() |> ignore
     services.AddRazorEngine viewsFolderPath |> ignore
 
 let configureLogging (loggerFactory : ILoggerFactory) =
