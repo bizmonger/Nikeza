@@ -549,6 +549,31 @@ view model =
         [ "register" ] ->
             registerPage model
 
+        [ id, "portal", "all", contentType ] ->
+            case runtime.contentProvider <| Id id of
+                Just _ ->
+                    table []
+                        [ tr []
+                            [ table []
+                                [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| model.portal.contentProvider.profile.imageUrl, width 100, height 100 ] [] ] ]
+                                , tr [ class "bio" ] [ td [] [ text <| getName model.portal.contentProvider.profile.firstName ++ " " ++ getName model.selectedContentProvider.profile.lastName ] ]
+                                , tr [ class "bio" ] [ td [] [ p [] [ text model.portal.contentProvider.profile.bio ] ] ]
+                                ]
+                            , td [] [ Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.portal.contentProvider <| toContentType contentType ]
+                            ]
+                        ]
+
+                Nothing ->
+                    notFoundPage
+
+        [ id, "portal", topic, "all", contentType ] ->
+            case runtime.contentProvider <| Id id of
+                Just _ ->
+                    contentProviderTopicContentTypePage (Topic topic False) (toContentType contentType) model.portal.contentProvider
+
+                Nothing ->
+                    notFoundPage
+
         [ "contentProvider", id ] ->
             case runtime.contentProvider <| Id id of
                 Just _ ->
@@ -642,7 +667,7 @@ homePage model =
     in
         div []
             [ header [ class "header" ]
-                [ img [ src "Assets/Nikeza_Blue_thin.png", width 190, height 38 ] []
+                [ img [ src "assets/Nikeza_thin_2.png", width 190, height 38 ] []
                 , br [] []
                 , label [] [ i [] [ text "Linking Your Expertise" ] ]
                 , model |> loginUI
