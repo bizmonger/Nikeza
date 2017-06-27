@@ -14303,7 +14303,7 @@ var _user$project$Home$dashboardPage = function (model) {
 								_elm_lang$html$Html$button,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('selectednavigationButton4'),
+									_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton4'),
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),

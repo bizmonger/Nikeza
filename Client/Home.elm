@@ -901,7 +901,7 @@ dashboardPage model =
                 Domain.AddLink ->
                     [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
                     , br [] []
-                    , button [ class "selectednavigationButton4", onClick AddNewLink ] [ text linkText ]
+                    , button [ class "selectedNavigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
