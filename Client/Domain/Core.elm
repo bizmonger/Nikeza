@@ -29,6 +29,11 @@ initLinks =
     }
 
 
+type Linksfrom
+    = FromOther
+    | FromPortal
+
+
 type alias ContentProvider =
     { profile : Profile
     , showAll : Bool
@@ -439,11 +444,21 @@ contentTypeToText contentType =
             ""
 
 
-moreContentUrl : Id -> ContentType -> Url
-moreContentUrl id contentType =
-    Url <| "/#/contentProvider/" ++ getId id ++ "/all/" ++ (contentType |> contentTypeToText)
+moreContentUrl : Linksfrom -> Id -> ContentType -> Url
+moreContentUrl linksFrom id contentType =
+    case linksFrom of
+        FromOther ->
+            Url <| "/#/contentProvider/" ++ getId id ++ "/all/" ++ (contentType |> contentTypeToText)
+
+        FromPortal ->
+            Url <| "/#/" ++ getId id ++ "/portal/all/" ++ (contentType |> contentTypeToText)
 
 
-moreTopicContentUrl : Id -> ContentType -> Topic -> Url
-moreTopicContentUrl id contentType topic =
-    Url <| "/#/contentProvider/" ++ getId id ++ "/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)
+moreTopicContentUrl : Linksfrom -> Id -> ContentType -> Topic -> Url
+moreTopicContentUrl linksFrom id contentType topic =
+    case linksFrom of
+        FromOther ->
+            Url <| "/#/contentProvider/" ++ getId id ++ "/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText |> String.toLower)
+
+        FromPortal ->
+            Url <| "/#/" ++ getId id ++ "/portal/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText |> String.toLower)

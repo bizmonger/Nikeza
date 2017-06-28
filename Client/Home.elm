@@ -559,7 +559,7 @@ view model =
                                 , tr [ class "bio" ] [ td [] [ text <| getName model.selectedContentProvider.profile.firstName ++ " " ++ getName model.selectedContentProvider.profile.lastName ] ]
                                 , tr [ class "bio" ] [ td [] [ p [] [ text model.selectedContentProvider.profile.bio ] ] ]
                                 ]
-                            , td [] [ Html.map ContentProviderLinksAction <| ContentProviderLinks.view model.selectedContentProvider ]
+                            , td [] [ Html.map ContentProviderLinksAction <| ContentProviderLinks.view FromOther model.selectedContentProvider ]
                             ]
                         ]
 
@@ -569,7 +569,7 @@ view model =
         [ "contentProvider", id, topic ] ->
             case runtime.contentProvider <| Id id of
                 Just _ ->
-                    contentProviderTopicPage model.selectedContentProvider
+                    contentProviderTopicPage FromOther model.selectedContentProvider
 
                 Nothing ->
                     notFoundPage
@@ -606,7 +606,7 @@ view model =
                         [ tr []
                             [ table []
                                 [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| model.portal.contentProvider.profile.imageUrl, width 100, height 100 ] [] ] ]
-                                , tr [ class "bio" ] [ td [] [ text <| getName model.portal.contentProvider.profile.firstName ++ " " ++ getName model.selectedContentProvider.profile.lastName ] ]
+                                , tr [ class "bio" ] [ td [] [ text <| getName model.portal.contentProvider.profile.firstName ++ " " ++ getName model.portal.contentProvider.profile.lastName ] ]
                                 , tr [ class "bio" ] [ td [] [ p [] [ text model.portal.contentProvider.profile.bio ] ] ]
                                 ]
                             , td [] [ Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.portal.contentProvider <| toContentType contentType ]
@@ -739,8 +739,8 @@ contentProviderTopicContentTypePage topic contentType model =
             ]
 
 
-contentProviderTopicPage : ContentProvider.Model -> Html Msg
-contentProviderTopicPage model =
+contentProviderTopicPage : Linksfrom -> ContentProvider.Model -> Html Msg
+contentProviderTopicPage linksfrom model =
     let
         profileId =
             model.profile.id
@@ -753,16 +753,16 @@ contentProviderTopicPage model =
                     , td [] [ b [] [ text "Articles" ] ]
                     ]
                 , tr []
-                    [ td [] [ div [] <| contentWithTopicUI profileId Answer topic (runtime.topicLinks topic Answer profileId) ]
-                    , td [] [ div [] <| contentWithTopicUI profileId Article topic (runtime.topicLinks topic Article profileId) ]
+                    [ td [] [ div [] <| contentWithTopicUI linksfrom profileId Answer topic (runtime.topicLinks topic Answer profileId) ]
+                    , td [] [ div [] <| contentWithTopicUI linksfrom profileId Article topic (runtime.topicLinks topic Article profileId) ]
                     ]
                 , tr []
                     [ td [] [ b [] [ text "Podcasts" ] ]
                     , td [] [ b [] [ text "Videos" ] ]
                     ]
                 , tr []
-                    [ td [] [ div [] <| contentWithTopicUI profileId Podcast topic (runtime.topicLinks topic Podcast profileId) ]
-                    , td [] [ div [] <| contentWithTopicUI profileId Video topic (runtime.topicLinks topic Video profileId) ]
+                    [ td [] [ div [] <| contentWithTopicUI linksfrom profileId Podcast topic (runtime.topicLinks topic Podcast profileId) ]
+                    , td [] [ div [] <| contentWithTopicUI linksfrom profileId Video topic (runtime.topicLinks topic Video profileId) ]
                     ]
                 ]
     in
@@ -802,7 +802,7 @@ content model =
                     ]
 
             Domain.ViewLinks ->
-                div [] [ Html.map PortalLinksAction <| ContentProviderLinks.view model.portal.contentProvider ]
+                div [] [ Html.map PortalLinksAction <| ContentProviderLinks.view FromPortal model.portal.contentProvider ]
 
             Domain.EditProfile ->
                 div [] [ Html.map EditProfileAction <| EditProfile.view model.portal.contentProvider.profile ]
@@ -1020,9 +1020,9 @@ linksUI links =
         |> List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ])
 
 
-contentWithTopicUI : Id -> ContentType -> Topic -> List Link -> List (Html Msg)
-contentWithTopicUI profileId contentType topic links =
-    List.append (linksUI links) [ a [ href <| getUrl <| moreTopicContentUrl profileId contentType topic ] [ text <| "all", br [] [] ] ]
+contentWithTopicUI : Linksfrom -> Id -> ContentType -> Topic -> List Link -> List (Html Msg)
+contentWithTopicUI linksFrom profileId contentType topic links =
+    List.append (linksUI links) [ a [ href <| getUrl <| moreTopicContentUrl linksFrom profileId contentType topic ] [ text <| "all", br [] [] ] ]
 
 
 

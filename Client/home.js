@@ -9762,6 +9762,8 @@ var _user$project$Domain_Core$Source = F3(
 		return {platform: a, username: b, linksFound: c};
 	});
 var _user$project$Domain_Core$initSource = A3(_user$project$Domain_Core$Source, '', '', 0);
+var _user$project$Domain_Core$FromPortal = {ctor: 'FromPortal'};
+var _user$project$Domain_Core$FromOther = {ctor: 'FromOther'};
 var _user$project$Domain_Core$Id = function (a) {
 	return {ctor: 'Id', _0: a};
 };
@@ -9811,39 +9813,77 @@ var _user$project$Domain_Core$contentProviderUrl = function (id) {
 			'/#/contentProvider/',
 			_user$project$Domain_Core$getId(id)));
 };
-var _user$project$Domain_Core$moreContentUrl = F2(
-	function (id, contentType) {
-		return _user$project$Domain_Core$Url(
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				'/#/contentProvider/',
+var _user$project$Domain_Core$moreContentUrl = F3(
+	function (linksFrom, id, contentType) {
+		var _p8 = linksFrom;
+		if (_p8.ctor === 'FromOther') {
+			return _user$project$Domain_Core$Url(
 				A2(
 					_elm_lang$core$Basics_ops['++'],
-					_user$project$Domain_Core$getId(id),
+					'/#/contentProvider/',
 					A2(
 						_elm_lang$core$Basics_ops['++'],
-						'/all/',
-						_user$project$Domain_Core$contentTypeToText(contentType)))));
-	});
-var _user$project$Domain_Core$moreTopicContentUrl = F3(
-	function (id, contentType, topic) {
-		return _user$project$Domain_Core$Url(
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				'/#/contentProvider/',
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					_user$project$Domain_Core$getId(id),
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						'/',
+						_user$project$Domain_Core$getId(id),
 						A2(
 							_elm_lang$core$Basics_ops['++'],
-							_user$project$Domain_Core$getTopic(topic),
+							'/all/',
+							_user$project$Domain_Core$contentTypeToText(contentType)))));
+		} else {
+			return _user$project$Domain_Core$Url(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'/#/',
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_user$project$Domain_Core$getId(id),
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							'/portal/all/',
+							_user$project$Domain_Core$contentTypeToText(contentType)))));
+		}
+	});
+var _user$project$Domain_Core$moreTopicContentUrl = F4(
+	function (linksFrom, id, contentType, topic) {
+		var _p9 = linksFrom;
+		if (_p9.ctor === 'FromOther') {
+			return _user$project$Domain_Core$Url(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'/#/contentProvider/',
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_user$project$Domain_Core$getId(id),
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							'/',
 							A2(
 								_elm_lang$core$Basics_ops['++'],
-								'/all/',
-								_user$project$Domain_Core$contentTypeToText(contentType)))))));
+								_user$project$Domain_Core$getTopic(topic),
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									'/all/',
+									_elm_lang$core$String$toLower(
+										_user$project$Domain_Core$contentTypeToText(contentType))))))));
+		} else {
+			return _user$project$Domain_Core$Url(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'/#/',
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_user$project$Domain_Core$getId(id),
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							'/portal/',
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								_user$project$Domain_Core$getTopic(topic),
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									'/all/',
+									_elm_lang$core$String$toLower(
+										_user$project$Domain_Core$contentTypeToText(contentType))))))));
+		}
 	});
 var _user$project$Domain_Core$Platform = function (a) {
 	return {ctor: 'Platform', _0: a};
@@ -9884,8 +9924,8 @@ var _user$project$Domain_Core$Podcast = {ctor: 'Podcast'};
 var _user$project$Domain_Core$Video = {ctor: 'Video'};
 var _user$project$Domain_Core$Article = {ctor: 'Article'};
 var _user$project$Domain_Core$toContentType = function (contentType) {
-	var _p8 = contentType;
-	switch (_p8) {
+	var _p10 = contentType;
+	switch (_p10) {
 		case 'Articles':
 			return _user$project$Domain_Core$Article;
 		case 'Article':
@@ -11221,8 +11261,8 @@ var _user$project$Controls_ContentProviderLinks$linksUI = function (links) {
 		},
 		A2(_elm_lang$core$List$take, 5, links));
 };
-var _user$project$Controls_ContentProviderLinks$notLoggedInRequestMoreContent = F3(
-	function (profileId, contentType, links) {
+var _user$project$Controls_ContentProviderLinks$requestMoreContent = F4(
+	function (linksFrom, profileId, contentType, links) {
 		return A2(
 			_elm_lang$core$List$append,
 			_user$project$Controls_ContentProviderLinks$linksUI(links),
@@ -11234,7 +11274,7 @@ var _user$project$Controls_ContentProviderLinks$notLoggedInRequestMoreContent = 
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$href(
 							_user$project$Domain_Core$getUrl(
-								A2(_user$project$Domain_Core$moreContentUrl, profileId, contentType))),
+								A3(_user$project$Domain_Core$moreContentUrl, linksFrom, profileId, contentType))),
 						_1: {ctor: '[]'}
 					},
 					{
@@ -11267,142 +11307,101 @@ var _user$project$Controls_ContentProviderLinks$update = F2(
 var _user$project$Controls_ContentProviderLinks$Toggle = function (a) {
 	return {ctor: 'Toggle', _0: a};
 };
-var _user$project$Controls_ContentProviderLinks$view = function (model) {
-	var links = model.links;
-	var toCheckBoxState = F2(
-		function (include, topic) {
-			return A2(
-				_elm_lang$html$Html$div,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$input,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$checked(include),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onCheck(
-										function (isChecked) {
-											return _user$project$Controls_ContentProviderLinks$Toggle(
-												{ctor: '_Tuple2', _0: topic, _1: isChecked});
-										}),
-									_1: {ctor: '[]'}
-								}
-							}
-						},
-						{ctor: '[]'}),
-					_1: {
+var _user$project$Controls_ContentProviderLinks$view = F2(
+	function (linksFrom, model) {
+		var links = model.links;
+		var toCheckBoxState = F2(
+			function (include, topic) {
+				return A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$label,
-							{ctor: '[]'},
+							_elm_lang$html$Html$input,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html$text(
-									_user$project$Domain_Core$getTopic(topic)),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}
-				});
-		});
-	var _p4 = {ctor: '_Tuple2', _0: model.profile.id, _1: model.topics};
-	var profileId = _p4._0;
-	var topics = _p4._1;
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$table,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$tr,
-						{ctor: '[]'},
-						{
+								_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$checked(include),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onCheck(
+											function (isChecked) {
+												return _user$project$Controls_ContentProviderLinks$Toggle(
+													{ctor: '_Tuple2', _0: topic, _1: isChecked});
+											}),
+										_1: {ctor: '[]'}
+									}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$table,
+								_elm_lang$html$Html$label,
 								{ctor: '[]'},
 								{
 									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$tr,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$td,
-												{ctor: '[]'},
-												{
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$div,
-														{ctor: '[]'},
-														A2(
-															_elm_lang$core$List$map,
-															function (t) {
-																return A2(toCheckBoxState, true, t);
-															},
-															topics)),
-													_1: {ctor: '[]'}
-												}),
-											_1: {
+									_0: _elm_lang$html$Html$text(
+										_user$project$Domain_Core$getTopic(topic)),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					});
+			});
+		var _p4 = {ctor: '_Tuple2', _0: model.profile.id, _1: model.topics};
+		var profileId = _p4._0;
+		var topics = _p4._1;
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$table,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$tr,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$table,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$tr,
+											{ctor: '[]'},
+											{
 												ctor: '::',
 												_0: A2(
-													_elm_lang$html$Html$table,
+													_elm_lang$html$Html$td,
 													{ctor: '[]'},
 													{
 														ctor: '::',
 														_0: A2(
-															_elm_lang$html$Html$tr,
+															_elm_lang$html$Html$div,
 															{ctor: '[]'},
-															{
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$td,
-																	{ctor: '[]'},
-																	{
-																		ctor: '::',
-																		_0: A2(
-																			_elm_lang$html$Html$b,
-																			{ctor: '[]'},
-																			{
-																				ctor: '::',
-																				_0: _elm_lang$html$Html$text('Answers'),
-																				_1: {ctor: '[]'}
-																			}),
-																		_1: {ctor: '[]'}
-																	}),
-																_1: {
-																	ctor: '::',
-																	_0: A2(
-																		_elm_lang$html$Html$td,
-																		{ctor: '[]'},
-																		{
-																			ctor: '::',
-																			_0: A2(
-																				_elm_lang$html$Html$b,
-																				{ctor: '[]'},
-																				{
-																					ctor: '::',
-																					_0: _elm_lang$html$Html$text('Articles'),
-																					_1: {ctor: '[]'}
-																				}),
-																			_1: {ctor: '[]'}
-																		}),
-																	_1: {ctor: '[]'}
-																}
-															}),
-														_1: {
+															A2(
+																_elm_lang$core$List$map,
+																function (t) {
+																	return A2(toCheckBoxState, true, t);
+																},
+																topics)),
+														_1: {ctor: '[]'}
+													}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$table,
+														{ctor: '[]'},
+														{
 															ctor: '::',
 															_0: A2(
 																_elm_lang$html$Html$tr,
@@ -11415,9 +11414,13 @@ var _user$project$Controls_ContentProviderLinks$view = function (model) {
 																		{
 																			ctor: '::',
 																			_0: A2(
-																				_elm_lang$html$Html$div,
+																				_elm_lang$html$Html$b,
 																				{ctor: '[]'},
-																				A3(_user$project$Controls_ContentProviderLinks$notLoggedInRequestMoreContent, profileId, _user$project$Domain_Core$Answer, links.answers)),
+																				{
+																					ctor: '::',
+																					_0: _elm_lang$html$Html$text('Answers'),
+																					_1: {ctor: '[]'}
+																				}),
 																			_1: {ctor: '[]'}
 																		}),
 																	_1: {
@@ -11428,9 +11431,13 @@ var _user$project$Controls_ContentProviderLinks$view = function (model) {
 																			{
 																				ctor: '::',
 																				_0: A2(
-																					_elm_lang$html$Html$div,
+																					_elm_lang$html$Html$b,
 																					{ctor: '[]'},
-																					A3(_user$project$Controls_ContentProviderLinks$notLoggedInRequestMoreContent, profileId, _user$project$Domain_Core$Article, links.articles)),
+																					{
+																						ctor: '::',
+																						_0: _elm_lang$html$Html$text('Articles'),
+																						_1: {ctor: '[]'}
+																					}),
 																				_1: {ctor: '[]'}
 																			}),
 																		_1: {ctor: '[]'}
@@ -11449,13 +11456,9 @@ var _user$project$Controls_ContentProviderLinks$view = function (model) {
 																			{
 																				ctor: '::',
 																				_0: A2(
-																					_elm_lang$html$Html$b,
+																					_elm_lang$html$Html$div,
 																					{ctor: '[]'},
-																					{
-																						ctor: '::',
-																						_0: _elm_lang$html$Html$text('Podcasts'),
-																						_1: {ctor: '[]'}
-																					}),
+																					A4(_user$project$Controls_ContentProviderLinks$requestMoreContent, linksFrom, profileId, _user$project$Domain_Core$Answer, links.answers)),
 																				_1: {ctor: '[]'}
 																			}),
 																		_1: {
@@ -11466,13 +11469,9 @@ var _user$project$Controls_ContentProviderLinks$view = function (model) {
 																				{
 																					ctor: '::',
 																					_0: A2(
-																						_elm_lang$html$Html$b,
+																						_elm_lang$html$Html$div,
 																						{ctor: '[]'},
-																						{
-																							ctor: '::',
-																							_0: _elm_lang$html$Html$text('Videos'),
-																							_1: {ctor: '[]'}
-																						}),
+																						A4(_user$project$Controls_ContentProviderLinks$requestMoreContent, linksFrom, profileId, _user$project$Domain_Core$Article, links.articles)),
 																					_1: {ctor: '[]'}
 																				}),
 																			_1: {ctor: '[]'}
@@ -11491,9 +11490,13 @@ var _user$project$Controls_ContentProviderLinks$view = function (model) {
 																				{
 																					ctor: '::',
 																					_0: A2(
-																						_elm_lang$html$Html$div,
+																						_elm_lang$html$Html$b,
 																						{ctor: '[]'},
-																						A3(_user$project$Controls_ContentProviderLinks$notLoggedInRequestMoreContent, profileId, _user$project$Domain_Core$Podcast, links.podcasts)),
+																						{
+																							ctor: '::',
+																							_0: _elm_lang$html$Html$text('Podcasts'),
+																							_1: {ctor: '[]'}
+																						}),
 																					_1: {ctor: '[]'}
 																				}),
 																			_1: {
@@ -11504,31 +11507,69 @@ var _user$project$Controls_ContentProviderLinks$view = function (model) {
 																					{
 																						ctor: '::',
 																						_0: A2(
-																							_elm_lang$html$Html$div,
+																							_elm_lang$html$Html$b,
 																							{ctor: '[]'},
-																							A3(_user$project$Controls_ContentProviderLinks$notLoggedInRequestMoreContent, profileId, _user$project$Domain_Core$Video, links.videos)),
+																							{
+																								ctor: '::',
+																								_0: _elm_lang$html$Html$text('Videos'),
+																								_1: {ctor: '[]'}
+																							}),
 																						_1: {ctor: '[]'}
 																					}),
 																				_1: {ctor: '[]'}
 																			}
 																		}),
-																	_1: {ctor: '[]'}
+																	_1: {
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$tr,
+																			{ctor: '[]'},
+																			{
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html$td,
+																					{ctor: '[]'},
+																					{
+																						ctor: '::',
+																						_0: A2(
+																							_elm_lang$html$Html$div,
+																							{ctor: '[]'},
+																							A4(_user$project$Controls_ContentProviderLinks$requestMoreContent, linksFrom, profileId, _user$project$Domain_Core$Podcast, links.podcasts)),
+																						_1: {ctor: '[]'}
+																					}),
+																				_1: {
+																					ctor: '::',
+																					_0: A2(
+																						_elm_lang$html$Html$td,
+																						{ctor: '[]'},
+																						{
+																							ctor: '::',
+																							_0: A2(
+																								_elm_lang$html$Html$div,
+																								{ctor: '[]'},
+																								A4(_user$project$Controls_ContentProviderLinks$requestMoreContent, linksFrom, profileId, _user$project$Domain_Core$Video, links.videos)),
+																							_1: {ctor: '[]'}
+																						}),
+																					_1: {ctor: '[]'}
+																				}
+																			}),
+																		_1: {ctor: '[]'}
+																	}
 																}
 															}
-														}
-													}),
-												_1: {ctor: '[]'}
-											}
-										}),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}),
-			_1: {ctor: '[]'}
-		});
-};
+														}),
+													_1: {ctor: '[]'}
+												}
+											}),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
 var _user$project$Controls_ContentProviderLinks$toCheckbox = function (topic) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -12594,8 +12635,8 @@ var _user$project$Home$linksUI = function (links) {
 		},
 		A2(_elm_lang$core$List$take, 5, links));
 };
-var _user$project$Home$contentWithTopicUI = F4(
-	function (profileId, contentType, topic, links) {
+var _user$project$Home$contentWithTopicUI = F5(
+	function (linksFrom, profileId, contentType, topic, links) {
 		return A2(
 			_elm_lang$core$List$append,
 			_user$project$Home$linksUI(links),
@@ -12607,7 +12648,7 @@ var _user$project$Home$contentWithTopicUI = F4(
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$href(
 							_user$project$Domain_Core$getUrl(
-								A3(_user$project$Domain_Core$moreTopicContentUrl, profileId, contentType, topic))),
+								A4(_user$project$Domain_Core$moreTopicContentUrl, linksFrom, profileId, contentType, topic))),
 						_1: {ctor: '[]'}
 					},
 					{
@@ -12636,31 +12677,14 @@ var _user$project$Home$notFoundPage = A2(
 var _user$project$Home$getLinkSummary = function (portal) {
 	return portal.newLinks;
 };
-var _user$project$Home$contentProviderTopicPage = function (model) {
-	var profileId = model.profile.id;
-	var contentTable = function (topic) {
-		return A2(
-			_elm_lang$html$Html$table,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$tr,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$h2,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(
-									_user$project$Domain_Core$getTopic(topic)),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
+var _user$project$Home$contentProviderTopicPage = F2(
+	function (linksfrom, model) {
+		var profileId = model.profile.id;
+		var contentTable = function (topic) {
+			return A2(
+				_elm_lang$html$Html$table,
+				{ctor: '[]'},
+				{
 					ctor: '::',
 					_0: A2(
 						_elm_lang$html$Html$tr,
@@ -12668,39 +12692,15 @@ var _user$project$Home$contentProviderTopicPage = function (model) {
 						{
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$td,
+								_elm_lang$html$Html$h2,
 								{ctor: '[]'},
 								{
 									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$b,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text('Answers'),
-											_1: {ctor: '[]'}
-										}),
+									_0: _elm_lang$html$Html$text(
+										_user$project$Domain_Core$getTopic(topic)),
 									_1: {ctor: '[]'}
 								}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$td,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$b,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text('Articles'),
-												_1: {ctor: '[]'}
-											}),
-										_1: {ctor: '[]'}
-									}),
-								_1: {ctor: '[]'}
-							}
+							_1: {ctor: '[]'}
 						}),
 					_1: {
 						ctor: '::',
@@ -12715,14 +12715,13 @@ var _user$project$Home$contentProviderTopicPage = function (model) {
 									{
 										ctor: '::',
 										_0: A2(
-											_elm_lang$html$Html$div,
+											_elm_lang$html$Html$b,
 											{ctor: '[]'},
-											A4(
-												_user$project$Home$contentWithTopicUI,
-												profileId,
-												_user$project$Domain_Core$Answer,
-												topic,
-												A3(_user$project$Settings$runtime.topicLinks, topic, _user$project$Domain_Core$Answer, profileId))),
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('Answers'),
+												_1: {ctor: '[]'}
+											}),
 										_1: {ctor: '[]'}
 									}),
 								_1: {
@@ -12733,14 +12732,13 @@ var _user$project$Home$contentProviderTopicPage = function (model) {
 										{
 											ctor: '::',
 											_0: A2(
-												_elm_lang$html$Html$div,
+												_elm_lang$html$Html$b,
 												{ctor: '[]'},
-												A4(
-													_user$project$Home$contentWithTopicUI,
-													profileId,
-													_user$project$Domain_Core$Article,
-													topic,
-													A3(_user$project$Settings$runtime.topicLinks, topic, _user$project$Domain_Core$Article, profileId))),
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text('Articles'),
+													_1: {ctor: '[]'}
+												}),
 											_1: {ctor: '[]'}
 										}),
 									_1: {ctor: '[]'}
@@ -12759,13 +12757,15 @@ var _user$project$Home$contentProviderTopicPage = function (model) {
 										{
 											ctor: '::',
 											_0: A2(
-												_elm_lang$html$Html$b,
+												_elm_lang$html$Html$div,
 												{ctor: '[]'},
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html$text('Podcasts'),
-													_1: {ctor: '[]'}
-												}),
+												A5(
+													_user$project$Home$contentWithTopicUI,
+													linksfrom,
+													profileId,
+													_user$project$Domain_Core$Answer,
+													topic,
+													A3(_user$project$Settings$runtime.topicLinks, topic, _user$project$Domain_Core$Answer, profileId))),
 											_1: {ctor: '[]'}
 										}),
 									_1: {
@@ -12776,13 +12776,15 @@ var _user$project$Home$contentProviderTopicPage = function (model) {
 											{
 												ctor: '::',
 												_0: A2(
-													_elm_lang$html$Html$b,
+													_elm_lang$html$Html$div,
 													{ctor: '[]'},
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html$text('Videos'),
-														_1: {ctor: '[]'}
-													}),
+													A5(
+														_user$project$Home$contentWithTopicUI,
+														linksfrom,
+														profileId,
+														_user$project$Domain_Core$Article,
+														topic,
+														A3(_user$project$Settings$runtime.topicLinks, topic, _user$project$Domain_Core$Article, profileId))),
 												_1: {ctor: '[]'}
 											}),
 										_1: {ctor: '[]'}
@@ -12801,14 +12803,13 @@ var _user$project$Home$contentProviderTopicPage = function (model) {
 											{
 												ctor: '::',
 												_0: A2(
-													_elm_lang$html$Html$div,
+													_elm_lang$html$Html$b,
 													{ctor: '[]'},
-													A4(
-														_user$project$Home$contentWithTopicUI,
-														profileId,
-														_user$project$Domain_Core$Podcast,
-														topic,
-														A3(_user$project$Settings$runtime.topicLinks, topic, _user$project$Domain_Core$Podcast, profileId))),
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text('Podcasts'),
+														_1: {ctor: '[]'}
+													}),
 												_1: {ctor: '[]'}
 											}),
 										_1: {
@@ -12819,56 +12820,43 @@ var _user$project$Home$contentProviderTopicPage = function (model) {
 												{
 													ctor: '::',
 													_0: A2(
-														_elm_lang$html$Html$div,
+														_elm_lang$html$Html$b,
 														{ctor: '[]'},
-														A4(
-															_user$project$Home$contentWithTopicUI,
-															profileId,
-															_user$project$Domain_Core$Video,
-															topic,
-															A3(_user$project$Settings$runtime.topicLinks, topic, _user$project$Domain_Core$Video, profileId))),
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html$text('Videos'),
+															_1: {ctor: '[]'}
+														}),
 													_1: {ctor: '[]'}
 												}),
 											_1: {ctor: '[]'}
 										}
 									}),
-								_1: {ctor: '[]'}
-							}
-						}
-					}
-				}
-			});
-	};
-	var _p3 = _elm_lang$core$List$head(model.topics);
-	if (_p3.ctor === 'Just') {
-		return A2(
-			_elm_lang$html$Html$table,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$tr,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$td,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$table,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$tr,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('bio'),
-												_1: {ctor: '[]'}
-											},
-											{
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$tr,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$td,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$div,
+														{ctor: '[]'},
+														A5(
+															_user$project$Home$contentWithTopicUI,
+															linksfrom,
+															profileId,
+															_user$project$Domain_Core$Podcast,
+															topic,
+															A3(_user$project$Settings$runtime.topicLinks, topic, _user$project$Domain_Core$Podcast, profileId))),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
 												ctor: '::',
 												_0: A2(
 													_elm_lang$html$Html$td,
@@ -12876,27 +12864,48 @@ var _user$project$Home$contentProviderTopicPage = function (model) {
 													{
 														ctor: '::',
 														_0: A2(
-															_elm_lang$html$Html$img,
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$src(
-																	_user$project$Domain_Core$getUrl(model.profile.imageUrl)),
-																_1: {
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$width(100),
-																	_1: {
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Attributes$height(100),
-																		_1: {ctor: '[]'}
-																	}
-																}
-															},
-															{ctor: '[]'}),
+															_elm_lang$html$Html$div,
+															{ctor: '[]'},
+															A5(
+																_user$project$Home$contentWithTopicUI,
+																linksfrom,
+																profileId,
+																_user$project$Domain_Core$Video,
+																topic,
+																A3(_user$project$Settings$runtime.topicLinks, topic, _user$project$Domain_Core$Video, profileId))),
 														_1: {ctor: '[]'}
 													}),
 												_1: {ctor: '[]'}
-											}),
-										_1: {
+											}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		};
+		var _p3 = _elm_lang$core$List$head(model.topics);
+		if (_p3.ctor === 'Just') {
+			return A2(
+				_elm_lang$html$Html$table,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$tr,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$td,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$table,
+										{ctor: '[]'},
+										{
 											ctor: '::',
 											_0: A2(
 												_elm_lang$html$Html$tr,
@@ -12912,14 +12921,23 @@ var _user$project$Home$contentProviderTopicPage = function (model) {
 														{ctor: '[]'},
 														{
 															ctor: '::',
-															_0: _elm_lang$html$Html$text(
-																A2(
-																	_elm_lang$core$Basics_ops['++'],
-																	_user$project$Domain_Core$getName(model.profile.firstName),
-																	A2(
-																		_elm_lang$core$Basics_ops['++'],
-																		' ',
-																		_user$project$Domain_Core$getName(model.profile.lastName)))),
+															_0: A2(
+																_elm_lang$html$Html$img,
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$src(
+																		_user$project$Domain_Core$getUrl(model.profile.imageUrl)),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$width(100),
+																		_1: {
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$height(100),
+																			_1: {ctor: '[]'}
+																		}
+																	}
+																},
+																{ctor: '[]'}),
 															_1: {ctor: '[]'}
 														}),
 													_1: {ctor: '[]'}
@@ -12940,43 +12958,71 @@ var _user$project$Home$contentProviderTopicPage = function (model) {
 															{ctor: '[]'},
 															{
 																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$p,
-																	{ctor: '[]'},
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html$text(model.profile.bio),
-																		_1: {ctor: '[]'}
-																	}),
+																_0: _elm_lang$html$Html$text(
+																	A2(
+																		_elm_lang$core$Basics_ops['++'],
+																		_user$project$Domain_Core$getName(model.profile.firstName),
+																		A2(
+																			_elm_lang$core$Basics_ops['++'],
+																			' ',
+																			_user$project$Domain_Core$getName(model.profile.lastName)))),
 																_1: {ctor: '[]'}
 															}),
 														_1: {ctor: '[]'}
 													}),
-												_1: {ctor: '[]'}
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$tr,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$class('bio'),
+															_1: {ctor: '[]'}
+														},
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$td,
+																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$p,
+																		{ctor: '[]'},
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html$text(model.profile.bio),
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}
 											}
-										}
-									}),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$td,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: contentTable(_p3._0),
+										}),
 									_1: {ctor: '[]'}
 								}),
-							_1: {ctor: '[]'}
-						}
-					}),
-				_1: {ctor: '[]'}
-			});
-	} else {
-		return _user$project$Home$notFoundPage;
-	}
-};
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$td,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: contentTable(_p3._0),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {ctor: '[]'}
+				});
+		} else {
+			return _user$project$Home$notFoundPage;
+		}
+	});
 var _user$project$Home$contentProviderTopicContentTypePage = F3(
 	function (topic, contentType, model) {
 		var profileId = model.profile.id;
@@ -13918,7 +13964,7 @@ var _user$project$Home$content = function (model) {
 					_0: A2(
 						_elm_lang$html$Html$map,
 						_user$project$Home$PortalLinksAction,
-						_user$project$Controls_ContentProviderLinks$view(model.portal.contentProvider)),
+						A2(_user$project$Controls_ContentProviderLinks$view, _user$project$Domain_Core$FromPortal, model.portal.contentProvider)),
 					_1: {ctor: '[]'}
 				});
 		case 'EditProfile':
@@ -15511,7 +15557,7 @@ var _user$project$Home$view = function (model) {
 							var _p28 = _user$project$Settings$runtime.contentProvider(
 								_user$project$Domain_Core$Id(_p26._1._0));
 							if (_p28.ctor === 'Just') {
-								return _user$project$Home$contentProviderTopicPage(model.selectedContentProvider);
+								return A2(_user$project$Home$contentProviderTopicPage, _user$project$Domain_Core$FromOther, model.selectedContentProvider);
 							} else {
 								return _user$project$Home$notFoundPage;
 							}
@@ -15737,7 +15783,7 @@ var _user$project$Home$view = function (model) {
 																								A2(
 																									_elm_lang$core$Basics_ops['++'],
 																									' ',
-																									_user$project$Domain_Core$getName(model.selectedContentProvider.profile.lastName)))),
+																									_user$project$Domain_Core$getName(model.portal.contentProvider.profile.lastName)))),
 																						_1: {ctor: '[]'}
 																					}),
 																				_1: {ctor: '[]'}
@@ -15966,7 +16012,7 @@ var _user$project$Home$view = function (model) {
 														_0: A2(
 															_elm_lang$html$Html$map,
 															_user$project$Home$ContentProviderLinksAction,
-															_user$project$Controls_ContentProviderLinks$view(model.selectedContentProvider)),
+															A2(_user$project$Controls_ContentProviderLinks$view, _user$project$Domain_Core$FromOther, model.selectedContentProvider)),
 														_1: {ctor: '[]'}
 													}),
 												_1: {ctor: '[]'}

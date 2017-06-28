@@ -37,8 +37,8 @@ update msg model =
 -- VIEW
 
 
-view : ContentProvider -> Html Msg
-view model =
+view : Linksfrom -> ContentProvider -> Html Msg
+view linksFrom model =
     let
         ( profileId, topics ) =
             ( model.profile.id, model.topics )
@@ -64,16 +64,16 @@ view model =
                                     , td [] [ b [] [ text "Articles" ] ]
                                     ]
                                 , tr []
-                                    [ td [] [ div [] <| notLoggedInRequestMoreContent profileId Answer links.answers ]
-                                    , td [] [ div [] <| notLoggedInRequestMoreContent profileId Article links.articles ]
+                                    [ td [] [ div [] <| requestMoreContent linksFrom profileId Answer links.answers ]
+                                    , td [] [ div [] <| requestMoreContent linksFrom profileId Article links.articles ]
                                     ]
                                 , tr []
                                     [ td [] [ b [] [ text "Podcasts" ] ]
                                     , td [] [ b [] [ text "Videos" ] ]
                                     ]
                                 , tr []
-                                    [ td [] [ div [] <| notLoggedInRequestMoreContent profileId Podcast links.podcasts ]
-                                    , td [] [ div [] <| notLoggedInRequestMoreContent profileId Video links.videos ]
+                                    [ td [] [ div [] <| requestMoreContent linksFrom profileId Podcast links.podcasts ]
+                                    , td [] [ div [] <| requestMoreContent linksFrom profileId Video links.videos ]
                                     ]
                                 ]
                             ]
@@ -83,9 +83,9 @@ view model =
             ]
 
 
-notLoggedInRequestMoreContent : Id -> ContentType -> List Link -> List (Html Msg)
-notLoggedInRequestMoreContent profileId contentType links =
-    List.append (linksUI links) [ a [ href <| getUrl <| moreContentUrl profileId contentType ] [ text <| "all", br [] [] ] ]
+requestMoreContent : Linksfrom -> Id -> ContentType -> List Link -> List (Html Msg)
+requestMoreContent linksFrom profileId contentType links =
+    List.append (linksUI links) [ a [ href <| getUrl <| moreContentUrl linksFrom profileId contentType ] [ text <| "all", br [] [] ] ]
 
 
 linksUI : List Link -> List (Html Msg)
