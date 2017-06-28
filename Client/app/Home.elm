@@ -611,13 +611,10 @@ view model =
 
         [ id, "portal", "all", contentType ] ->
             case runtime.contentProvider <| Id id of
-                Just contentProvider ->
+                Just _ ->
                     let
-                        portal =
-                            model.portal
-
                         linksContent =
-                            Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view contentProvider <| toContentType contentType
+                            Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.portal.contentProvider <| toContentType contentType
                     in
                         linksContent |> applyToPortal id model contentType
 
@@ -626,10 +623,10 @@ view model =
 
         [ id, "portal", topic, "all", contentType ] ->
             case runtime.contentProvider <| Id id of
-                Just contentProvider ->
+                Just _ ->
                     let
                         linksContent =
-                            Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view contentProvider <| toContentType contentType
+                            Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.portal.contentProvider <| toContentType contentType
                     in
                         linksContent |> applyToPortal id model contentType
 

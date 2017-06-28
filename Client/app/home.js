@@ -15632,9 +15632,8 @@ var _user$project$Home$view = function (model) {
 												_user$project$Home$ContentProviderContentTypeLinksAction,
 												A2(
 													_user$project$Controls_ContentProviderContentTypeLinks$view,
-													_p34._0,
+													model.portal.contentProvider,
 													_user$project$Domain_Core$toContentType(_p35)));
-											var portal = model.portal;
 											return A4(_user$project$Home$applyToPortal, _p36, model, _p35, linksContent);
 										} else {
 											return _user$project$Home$notFoundPage;
@@ -15672,7 +15671,7 @@ var _user$project$Home$view = function (model) {
 												_user$project$Home$ContentProviderContentTypeLinksAction,
 												A2(
 													_user$project$Controls_ContentProviderContentTypeLinks$view,
-													_p37._0,
+													model.portal.contentProvider,
 													_user$project$Domain_Core$toContentType(_p38)));
 											return A4(_user$project$Home$applyToPortal, _p39, model, _p38, linksContent);
 										} else {
