@@ -1,0 +1,772 @@
+var _seanhess$elm_style$Style$matrix = function (m) {
+	return {ctor: '_Tuple2', _0: 'matrix', _1: m};
+};
+var _seanhess$elm_style$Style$skew = function (s) {
+	return {ctor: '_Tuple2', _0: 'skew', _1: s};
+};
+var _seanhess$elm_style$Style$scale3d = function (s) {
+	return {ctor: '_Tuple2', _0: 'scale3d', _1: s};
+};
+var _seanhess$elm_style$Style$scale = function (s) {
+	return {ctor: '_Tuple2', _0: 'scale', _1: s};
+};
+var _seanhess$elm_style$Style$rotate3d = function (r) {
+	return {ctor: '_Tuple2', _0: 'rotate3d', _1: r};
+};
+var _seanhess$elm_style$Style$rotate = function (r) {
+	return {ctor: '_Tuple2', _0: 'rotate', _1: r};
+};
+var _seanhess$elm_style$Style$perspective = function (p) {
+	return {ctor: '_Tuple2', _0: 'perspective', _1: p};
+};
+var _seanhess$elm_style$Style$translate3d = function (t) {
+	return {ctor: '_Tuple2', _0: 'translate3d', _1: t};
+};
+var _seanhess$elm_style$Style$translate = function (t) {
+	return {ctor: '_Tuple2', _0: 'translate', _1: t};
+};
+var _seanhess$elm_style$Style$verticalAlign = function (t) {
+	return {ctor: '_Tuple2', _0: 'vertical-align', _1: t};
+};
+var _seanhess$elm_style$Style$wordSpacing = function (w) {
+	return {ctor: '_Tuple2', _0: 'word-spacing', _1: w};
+};
+var _seanhess$elm_style$Style$whiteSpace = function (w) {
+	return {ctor: '_Tuple2', _0: 'white-space', _1: w};
+};
+var _seanhess$elm_style$Style$unicodeBidi = function (u) {
+	return {ctor: '_Tuple2', _0: 'unicode-bidi', _1: u};
+};
+var _seanhess$elm_style$Style$textIndent = function (t) {
+	return {ctor: '_Tuple2', _0: 'text-indent', _1: t};
+};
+var _seanhess$elm_style$Style$textDecoration = function (t) {
+	return {ctor: '_Tuple2', _0: 'text-decoration', _1: t};
+};
+var _seanhess$elm_style$Style$textAlign = function (t) {
+	return {ctor: '_Tuple2', _0: 'text-align', _1: t};
+};
+var _seanhess$elm_style$Style$lineHeight = function (l) {
+	return {ctor: '_Tuple2', _0: 'line-height', _1: l};
+};
+var _seanhess$elm_style$Style$letterSpacing = function (l) {
+	return {ctor: '_Tuple2', _0: 'letter-spacing', _1: l};
+};
+var _seanhess$elm_style$Style$direction = function (d) {
+	return {ctor: '_Tuple2', _0: 'direction', _1: d};
+};
+var _seanhess$elm_style$Style$color = function (c) {
+	return {ctor: '_Tuple2', _0: 'color', _1: c};
+};
+var _seanhess$elm_style$Style$textShadow = function (t) {
+	return {ctor: '_Tuple2', _0: 'text-shadow', _1: t};
+};
+var _seanhess$elm_style$Style$boxShadow = function (b) {
+	return {ctor: '_Tuple2', _0: 'box-shadow', _1: b};
+};
+var _seanhess$elm_style$Style$zIndex = function (z) {
+	return {ctor: '_Tuple2', _0: 'z-index', _1: z};
+};
+var _seanhess$elm_style$Style$top = function (t) {
+	return {ctor: '_Tuple2', _0: 'top', _1: t};
+};
+var _seanhess$elm_style$Style$right = function (r) {
+	return {ctor: '_Tuple2', _0: 'right', _1: r};
+};
+var _seanhess$elm_style$Style$position = function (p) {
+	return {ctor: '_Tuple2', _0: 'position', _1: p};
+};
+var _seanhess$elm_style$Style$overflow = function (o) {
+	return {ctor: '_Tuple2', _0: 'overflow', _1: o};
+};
+var _seanhess$elm_style$Style$left = function (l) {
+	return {ctor: '_Tuple2', _0: 'left', _1: l};
+};
+var _seanhess$elm_style$Style$bottom = function (b) {
+	return {ctor: '_Tuple2', _0: 'bottom', _1: b};
+};
+var _seanhess$elm_style$Style$clip = function (c) {
+	return {ctor: '_Tuple2', _0: 'clip', _1: c};
+};
+var _seanhess$elm_style$Style$paddingTop = function (p) {
+	return {ctor: '_Tuple2', _0: 'padding-top', _1: p};
+};
+var _seanhess$elm_style$Style$paddingRight = function (p) {
+	return {ctor: '_Tuple2', _0: 'padding-right', _1: p};
+};
+var _seanhess$elm_style$Style$paddingLeft = function (p) {
+	return {ctor: '_Tuple2', _0: 'padding-left', _1: p};
+};
+var _seanhess$elm_style$Style$paddingBottom = function (p) {
+	return {ctor: '_Tuple2', _0: 'padding-bottom', _1: p};
+};
+var _seanhess$elm_style$Style$padding = function (p) {
+	return {ctor: '_Tuple2', _0: 'padding', _1: p};
+};
+var _seanhess$elm_style$Style$outlineWidth = function (o) {
+	return {ctor: '_Tuple2', _0: 'outline-width', _1: o};
+};
+var _seanhess$elm_style$Style$outlineStyle = function (o) {
+	return {ctor: '_Tuple2', _0: 'outline-style', _1: o};
+};
+var _seanhess$elm_style$Style$outlineColor = function (o) {
+	return {ctor: '_Tuple2', _0: 'outline-color', _1: o};
+};
+var _seanhess$elm_style$Style$outline = function (o) {
+	return {ctor: '_Tuple2', _0: 'outline', _1: o};
+};
+var _seanhess$elm_style$Style$marginTop = function (m) {
+	return {ctor: '_Tuple2', _0: 'margin-top', _1: m};
+};
+var _seanhess$elm_style$Style$marginRight = function (m) {
+	return {ctor: '_Tuple2', _0: 'margin-right', _1: m};
+};
+var _seanhess$elm_style$Style$marginLeft = function (m) {
+	return {ctor: '_Tuple2', _0: 'margin-left', _1: m};
+};
+var _seanhess$elm_style$Style$marginBottom = function (m) {
+	return {ctor: '_Tuple2', _0: 'margin-bottom', _1: m};
+};
+var _seanhess$elm_style$Style$margin = function (m) {
+	return {ctor: '_Tuple2', _0: 'margin', _1: m};
+};
+var _seanhess$elm_style$Style$listStyleType = function (l) {
+	return {ctor: '_Tuple2', _0: 'list-style-type', _1: l};
+};
+var _seanhess$elm_style$Style$listStylePosition = function (l) {
+	return {ctor: '_Tuple2', _0: 'list-style-position', _1: l};
+};
+var _seanhess$elm_style$Style$listStyleImage = function (l) {
+	return {ctor: '_Tuple2', _0: 'list-style-image', _1: l};
+};
+var _seanhess$elm_style$Style$fontWeight = function (f) {
+	return {ctor: '_Tuple2', _0: 'font-weight', _1: f};
+};
+var _seanhess$elm_style$Style$fontVariant = function (f) {
+	return {ctor: '_Tuple2', _0: 'font-variant', _1: f};
+};
+var _seanhess$elm_style$Style$fontStyle = function (f) {
+	return {ctor: '_Tuple2', _0: 'font-style', _1: f};
+};
+var _seanhess$elm_style$Style$fontSize = function (f) {
+	return {ctor: '_Tuple2', _0: 'font-size', _1: f};
+};
+var _seanhess$elm_style$Style$fontFamily = function (f) {
+	return {ctor: '_Tuple2', _0: 'font-family', _1: f};
+};
+var _seanhess$elm_style$Style$float = function (f) {
+	return {ctor: '_Tuple2', _0: 'float', _1: f};
+};
+var _seanhess$elm_style$Style$clear = function (c) {
+	return {ctor: '_Tuple2', _0: 'clear', _1: c};
+};
+var _seanhess$elm_style$Style$flexFlow = function (f) {
+	return {ctor: '_Tuple2', _0: 'flex-flow', _1: f};
+};
+var _seanhess$elm_style$Style$minWidth = function (m) {
+	return {ctor: '_Tuple2', _0: 'min-width', _1: m};
+};
+var _seanhess$elm_style$Style$minHeight = function (m) {
+	return {ctor: '_Tuple2', _0: 'min-height', _1: m};
+};
+var _seanhess$elm_style$Style$maxWidth = function (m) {
+	return {ctor: '_Tuple2', _0: 'max-width', _1: m};
+};
+var _seanhess$elm_style$Style$maxHeight = function (m) {
+	return {ctor: '_Tuple2', _0: 'max-height', _1: m};
+};
+var _seanhess$elm_style$Style$width = function (w) {
+	return {ctor: '_Tuple2', _0: 'width', _1: w};
+};
+var _seanhess$elm_style$Style$height = function (h) {
+	return {ctor: '_Tuple2', _0: 'height', _1: h};
+};
+var _seanhess$elm_style$Style$borderTopRadius = function (b) {
+	return {ctor: '_Tuple2', _0: 'border-top-radius', _1: b};
+};
+var _seanhess$elm_style$Style$borderRightRadius = function (b) {
+	return {ctor: '_Tuple2', _0: 'border-right-radius', _1: b};
+};
+var _seanhess$elm_style$Style$borderLeftRadius = function (b) {
+	return {ctor: '_Tuple2', _0: 'border-left-radius', _1: b};
+};
+var _seanhess$elm_style$Style$borderBottomRadius = function (b) {
+	return {ctor: '_Tuple2', _0: 'border-bottom-radius', _1: b};
+};
+var _seanhess$elm_style$Style$borderRadius = function (b) {
+	return {ctor: '_Tuple2', _0: 'border-radius', _1: b};
+};
+var _seanhess$elm_style$Style$borderTopWidth = function (b) {
+	return {ctor: '_Tuple2', _0: 'border-top-width', _1: b};
+};
+var _seanhess$elm_style$Style$borderRightWidth = function (b) {
+	return {ctor: '_Tuple2', _0: 'border-right-width', _1: b};
+};
+var _seanhess$elm_style$Style$borderLeftWidth = function (b) {
+	return {ctor: '_Tuple2', _0: 'border-left-width', _1: b};
+};
+var _seanhess$elm_style$Style$borderBottomWidth = function (b) {
+	return {ctor: '_Tuple2', _0: 'border-bottom-width', _1: b};
+};
+var _seanhess$elm_style$Style$borderWidth = function (b) {
+	return {ctor: '_Tuple2', _0: 'border-width', _1: b};
+};
+var _seanhess$elm_style$Style$borderTopStyle = function (b) {
+	return {ctor: '_Tuple2', _0: 'border-top-style', _1: b};
+};
+var _seanhess$elm_style$Style$borderRightStyle = function (b) {
+	return {ctor: '_Tuple2', _0: 'border-right-style', _1: b};
+};
+var _seanhess$elm_style$Style$borderLeftStyle = function (b) {
+	return {ctor: '_Tuple2', _0: 'border-left-style', _1: b};
+};
+var _seanhess$elm_style$Style$borderBottomStyle = function (b) {
+	return {ctor: '_Tuple2', _0: 'border-bottom-style', _1: b};
+};
+var _seanhess$elm_style$Style$borderStyle = function (b) {
+	return {ctor: '_Tuple2', _0: 'border-style', _1: b};
+};
+var _seanhess$elm_style$Style$borderTopColor = function (b) {
+	return {ctor: '_Tuple2', _0: 'border-top-color', _1: b};
+};
+var _seanhess$elm_style$Style$borderRightColor = function (b) {
+	return {ctor: '_Tuple2', _0: 'border-right-color', _1: b};
+};
+var _seanhess$elm_style$Style$borderLeftColor = function (b) {
+	return {ctor: '_Tuple2', _0: 'border-left-color', _1: b};
+};
+var _seanhess$elm_style$Style$borderBottomColor = function (b) {
+	return {ctor: '_Tuple2', _0: 'border-bottom-color', _1: b};
+};
+var _seanhess$elm_style$Style$borderColor = function (b) {
+	return {ctor: '_Tuple2', _0: 'border-color', _1: b};
+};
+var _seanhess$elm_style$Style$border = function (b) {
+	return {ctor: '_Tuple2', _0: 'border', _1: b};
+};
+var _seanhess$elm_style$Style$backgroundAttachment = function (b) {
+	return {ctor: '_Tuple2', _0: 'background-attachment', _1: b};
+};
+var _seanhess$elm_style$Style$backgroundRepeat = function (b) {
+	return {ctor: '_Tuple2', _0: 'background-repeat', _1: b};
+};
+var _seanhess$elm_style$Style$backgroundSize = function (b) {
+	return {ctor: '_Tuple2', _0: 'background-size', _1: b};
+};
+var _seanhess$elm_style$Style$backgroundPosition = function (b) {
+	return {ctor: '_Tuple2', _0: 'background-position', _1: b};
+};
+var _seanhess$elm_style$Style$backgroundImage = function (b) {
+	return {ctor: '_Tuple2', _0: 'background-image', _1: b};
+};
+var _seanhess$elm_style$Style$backgroundColor = function (b) {
+	return {ctor: '_Tuple2', _0: 'background-color', _1: b};
+};
+var _seanhess$elm_style$Style$prefixValue = function (prefix) {
+	var _p0 = _coreytrampe$elm_vendor$Vendor$prefix;
+	switch (_p0.ctor) {
+		case 'MS':
+			return prefix.ms;
+		case 'Moz':
+			return prefix.moz;
+		case 'O':
+			return prefix.o;
+		case 'Webkit':
+			return prefix.webkit;
+		default:
+			return prefix.$default;
+	}
+};
+var _seanhess$elm_style$Style$prefixName = F2(
+	function (prefix, value) {
+		var _p1 = _coreytrampe$elm_vendor$Vendor$prefix;
+		switch (_p1.ctor) {
+			case 'MS':
+				return {ctor: '_Tuple2', _0: prefix.ms, _1: value};
+			case 'Moz':
+				return {ctor: '_Tuple2', _0: prefix.moz, _1: value};
+			case 'O':
+				return {ctor: '_Tuple2', _0: prefix.o, _1: value};
+			case 'Webkit':
+				return {ctor: '_Tuple2', _0: prefix.webkit, _1: value};
+			default:
+				return {ctor: '_Tuple2', _0: prefix.$default, _1: value};
+		}
+	});
+var _seanhess$elm_style$Style$prefixSet = function ($default) {
+	return {ms: $default, moz: $default, o: $default, webkit: $default, $default: $default};
+};
+var _seanhess$elm_style$Style$background = function (b) {
+	var value = _seanhess$elm_style$Style$prefixSet(b);
+	var needsPrefix = A2(_elm_lang$core$String$startsWith, 'linear-gradient', b) || A2(_elm_lang$core$String$startsWith, 'radial-gradient', b);
+	var value_ = needsPrefix ? _elm_lang$core$Native_Utils.update(
+		value,
+		{
+			ms: A2(_elm_lang$core$Basics_ops['++'], '-ms-', b),
+			webkit: A2(_elm_lang$core$Basics_ops['++'], '-webkit-', b),
+			moz: A2(_elm_lang$core$Basics_ops['++'], '-moz-', b),
+			o: A2(_elm_lang$core$Basics_ops['++'], '-o-', b)
+		}) : value;
+	return {
+		ctor: '_Tuple2',
+		_0: 'background',
+		_1: _seanhess$elm_style$Style$prefixValue(value_)
+	};
+};
+var _seanhess$elm_style$Style$cursor = function (c) {
+	var value = _seanhess$elm_style$Style$prefixSet(c);
+	var value_ = _elm_lang$core$Native_Utils.eq(c, 'grab') ? _elm_lang$core$Native_Utils.update(
+		value,
+		{webkit: '-webkit-grab'}) : (_elm_lang$core$Native_Utils.eq(c, 'zoom-in') ? _elm_lang$core$Native_Utils.update(
+		value,
+		{webkit: '-webkit-zoom-in'}) : (_elm_lang$core$Native_Utils.eq(c, 'zoom-out') ? _elm_lang$core$Native_Utils.update(
+		value,
+		{webkit: '-webkit-zoom-out'}) : value));
+	return {
+		ctor: '_Tuple2',
+		_0: 'cursor',
+		_1: _seanhess$elm_style$Style$prefixValue(value_)
+	};
+};
+var _seanhess$elm_style$Style$display = function (d) {
+	var value = _seanhess$elm_style$Style$prefixSet(d);
+	var value_ = _elm_lang$core$Native_Utils.eq(d, 'flex') ? _elm_lang$core$Native_Utils.update(
+		value,
+		{webkit: '-webkit-flex', ms: '-ms-flexbox'}) : (_elm_lang$core$Native_Utils.eq(d, 'inline-flex') ? _elm_lang$core$Native_Utils.update(
+		value,
+		{webkit: '-webkit-inline-flex', ms: '-ms-inline-flexbox'}) : value);
+	return {
+		ctor: '_Tuple2',
+		_0: 'display',
+		_1: _seanhess$elm_style$Style$prefixValue(value_)
+	};
+};
+var _seanhess$elm_style$Style$flexDirection = function (f) {
+	var name = _seanhess$elm_style$Style$prefixSet('flex-direction');
+	return A2(
+		_seanhess$elm_style$Style$prefixName,
+		_elm_lang$core$Native_Utils.update(
+			name,
+			{ms: '-ms-flex-direction', webkit: '-webkit-flex-direction'}),
+		f);
+};
+var _seanhess$elm_style$Style$flexWrap = function (f) {
+	var name = _seanhess$elm_style$Style$prefixSet('flex-wrap');
+	return A2(
+		_seanhess$elm_style$Style$prefixName,
+		_elm_lang$core$Native_Utils.update(
+			name,
+			{ms: '-ms-flex-wrap', webkit: '-webkit-flex-wrap'}),
+		f);
+};
+var _seanhess$elm_style$Style$justifyContent = function (j) {
+	var value = _seanhess$elm_style$Style$prefixSet(j);
+	var value_ = _elm_lang$core$Native_Utils.eq(j, 'flex-start') ? _elm_lang$core$Native_Utils.update(
+		value,
+		{ms: 'start'}) : (_elm_lang$core$Native_Utils.eq(j, 'flex-end') ? _elm_lang$core$Native_Utils.update(
+		value,
+		{ms: 'end'}) : (_elm_lang$core$Native_Utils.eq(j, 'space-between') ? _elm_lang$core$Native_Utils.update(
+		value,
+		{ms: 'justify'}) : (_elm_lang$core$Native_Utils.eq(j, 'space-around') ? _elm_lang$core$Native_Utils.update(
+		value,
+		{ms: 'distribute'}) : value)));
+	var name = _seanhess$elm_style$Style$prefixSet('justify-content');
+	return A2(
+		_seanhess$elm_style$Style$prefixName,
+		_elm_lang$core$Native_Utils.update(
+			name,
+			{ms: '-ms-flex-pack', webkit: '-webkit-justify-content'}),
+		_seanhess$elm_style$Style$prefixValue(value_));
+};
+var _seanhess$elm_style$Style$alignItems = function (a) {
+	var value = _seanhess$elm_style$Style$prefixSet(a);
+	var value_ = _elm_lang$core$Native_Utils.eq(a, 'flex-start') ? _elm_lang$core$Native_Utils.update(
+		value,
+		{ms: 'start'}) : (_elm_lang$core$Native_Utils.eq(a, 'flex-end') ? _elm_lang$core$Native_Utils.update(
+		value,
+		{ms: 'end'}) : value);
+	var name = _seanhess$elm_style$Style$prefixSet('align-items');
+	return A2(
+		_seanhess$elm_style$Style$prefixName,
+		_elm_lang$core$Native_Utils.update(
+			name,
+			{ms: '-ms-flex-align', webkit: '-webkit-align-items'}),
+		_seanhess$elm_style$Style$prefixValue(value_));
+};
+var _seanhess$elm_style$Style$alignContent = function (a) {
+	var value = _seanhess$elm_style$Style$prefixSet(a);
+	var value_ = _elm_lang$core$Native_Utils.eq(a, 'flex-start') ? _elm_lang$core$Native_Utils.update(
+		value,
+		{ms: 'start'}) : (_elm_lang$core$Native_Utils.eq(a, 'flex-end') ? _elm_lang$core$Native_Utils.update(
+		value,
+		{ms: 'end'}) : (_elm_lang$core$Native_Utils.eq(a, 'space-between') ? _elm_lang$core$Native_Utils.update(
+		value,
+		{ms: 'justify'}) : (_elm_lang$core$Native_Utils.eq(a, 'space-around') ? _elm_lang$core$Native_Utils.update(
+		value,
+		{ms: 'distribute'}) : value)));
+	var name = _seanhess$elm_style$Style$prefixSet('align-content');
+	return A2(
+		_seanhess$elm_style$Style$prefixName,
+		_elm_lang$core$Native_Utils.update(
+			name,
+			{ms: '-ms-flex-line-pack', webkit: '-webkit-flex-start'}),
+		_seanhess$elm_style$Style$prefixValue(value_));
+};
+var _seanhess$elm_style$Style$order = function (o) {
+	var name = _seanhess$elm_style$Style$prefixSet('order');
+	return A2(
+		_seanhess$elm_style$Style$prefixName,
+		_elm_lang$core$Native_Utils.update(
+			name,
+			{ms: '-ms-flex-order', webkit: '-webkit-order'}),
+		o);
+};
+var _seanhess$elm_style$Style$flexGrow = function (f) {
+	var name = _seanhess$elm_style$Style$prefixSet('flex-grow');
+	return A2(
+		_seanhess$elm_style$Style$prefixName,
+		_elm_lang$core$Native_Utils.update(
+			name,
+			{ms: '-ms-flex-positive', webkit: '-webkit-flex-grow'}),
+		f);
+};
+var _seanhess$elm_style$Style$flexShrink = function (f) {
+	var name = _seanhess$elm_style$Style$prefixSet('flex-shrink');
+	return A2(
+		_seanhess$elm_style$Style$prefixName,
+		_elm_lang$core$Native_Utils.update(
+			name,
+			{ms: '-ms-flex-negative', webkit: '-webkit-flex-shrink'}),
+		f);
+};
+var _seanhess$elm_style$Style$flexBasis = function (f) {
+	var name = _seanhess$elm_style$Style$prefixSet('flex-basis');
+	return A2(
+		_seanhess$elm_style$Style$prefixName,
+		_elm_lang$core$Native_Utils.update(
+			name,
+			{ms: '-ms-flex-preferred-size', webkit: '-webkit-flex-basis'}),
+		f);
+};
+var _seanhess$elm_style$Style$alignSelf = function (a) {
+	var value = _seanhess$elm_style$Style$prefixSet(a);
+	var value_ = _elm_lang$core$Native_Utils.eq(a, 'flex-start') ? _elm_lang$core$Native_Utils.update(
+		value,
+		{ms: 'start'}) : (_elm_lang$core$Native_Utils.eq(a, 'flex-end') ? _elm_lang$core$Native_Utils.update(
+		value,
+		{ms: 'end'}) : value);
+	var name = _seanhess$elm_style$Style$prefixSet('align-self');
+	return A2(
+		_seanhess$elm_style$Style$prefixName,
+		_elm_lang$core$Native_Utils.update(
+			name,
+			{ms: '-ms-flex-item-align', webkit: '-webkit-align-self'}),
+		_seanhess$elm_style$Style$prefixValue(value_));
+};
+var _seanhess$elm_style$Style$flex = function (f) {
+	var name = _seanhess$elm_style$Style$prefixSet('flex');
+	return A2(
+		_seanhess$elm_style$Style$prefixName,
+		_elm_lang$core$Native_Utils.update(
+			name,
+			{ms: '-ms-flex', webkit: '-webkit-flex'}),
+		f);
+};
+var _seanhess$elm_style$Style$transform = function (t) {
+	var name = _seanhess$elm_style$Style$prefixSet('transform');
+	return A2(
+		_seanhess$elm_style$Style$prefixName,
+		_elm_lang$core$Native_Utils.update(
+			name,
+			{ms: '-ms-transform', webkit: '-webkit-transform'}),
+		t);
+};
+var _seanhess$elm_style$Style$preWrap = 'pre-wrap';
+var _seanhess$elm_style$Style$preLine = 'pre-line';
+var _seanhess$elm_style$Style$pre = 'pre';
+var _seanhess$elm_style$Style$bidiOverride = 'bidi-override';
+var _seanhess$elm_style$Style$embed = 'embed';
+var _seanhess$elm_style$Style$lineThrough = 'line-through';
+var _seanhess$elm_style$Style$overline = 'overline';
+var _seanhess$elm_style$Style$underline = 'underline';
+var _seanhess$elm_style$Style$justify = 'justify';
+var _seanhess$elm_style$Style$rtl = 'rtl';
+var _seanhess$elm_style$Style$ltr = 'ltr';
+var _seanhess$elm_style$Style$outside = 'outside';
+var _seanhess$elm_style$Style$inside = 'inside';
+var _seanhess$elm_style$Style$url = function (path) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		'url( ',
+		A2(_elm_lang$core$Basics_ops['++'], path, ' )'));
+};
+var _seanhess$elm_style$Style$outset = 'outset';
+var _seanhess$elm_style$Style$inset = 'inset';
+var _seanhess$elm_style$Style$ridge = 'ridge';
+var _seanhess$elm_style$Style$groove = 'groove';
+var _seanhess$elm_style$Style$double = 'double';
+var _seanhess$elm_style$Style$solid = 'solid';
+var _seanhess$elm_style$Style$dashed = 'dashed';
+var _seanhess$elm_style$Style$dotted = 'dotted';
+var _seanhess$elm_style$Style$hidden = 'hidden';
+var _seanhess$elm_style$Style$fixed = 'fixed';
+var _seanhess$elm_style$Style$visible = 'visible';
+var _seanhess$elm_style$Style$scroll = 'scroll';
+var _seanhess$elm_style$Style$noRepeat = 'no-repeat';
+var _seanhess$elm_style$Style$repeatY = 'repeat-y';
+var _seanhess$elm_style$Style$repeatX = 'repeat-x';
+var _seanhess$elm_style$Style$repeat = 'repeat';
+var _seanhess$elm_style$Style$color_ = function (c) {
+	var _p2 = _elm_lang$core$Color$toRgb(c);
+	var red = _p2.red;
+	var green = _p2.green;
+	var blue = _p2.blue;
+	var alpha = _p2.alpha;
+	var r = _elm_lang$core$Basics$toString(red);
+	var g = _elm_lang$core$Basics$toString(green);
+	var b = _elm_lang$core$Basics$toString(blue);
+	var a = _elm_lang$core$Basics$toString(alpha);
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		'rgba( ',
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			r,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				', ',
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					g,
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						', ',
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							b,
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								', ',
+								A2(_elm_lang$core$Basics_ops['++'], a, ' )'))))))));
+};
+var _seanhess$elm_style$Style$radialGradient = function (colors) {
+	var colorString = A2(
+		_elm_lang$core$String$join,
+		',',
+		A2(_elm_lang$core$List$map, _seanhess$elm_style$Style$color_, colors));
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		'radial-gradient( ',
+		A2(_elm_lang$core$Basics_ops['++'], colorString, ' )'));
+};
+var _seanhess$elm_style$Style$dimensions = F2(
+	function (f, xs) {
+		var _p3 = xs;
+		if (_p3.ctor === '[]') {
+			return '';
+		} else {
+			if (_p3._1.ctor === '[]') {
+				var _p4 = _p3._0;
+				return A2(
+					_elm_lang$core$Basics_ops['++'],
+					f(_p4),
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						' ',
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							f(_p4),
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								' ',
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									f(_p4),
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										' ',
+										f(_p4)))))));
+			} else {
+				if (_p3._1._1.ctor === '[]') {
+					var _p6 = _p3._0;
+					var _p5 = _p3._1._0;
+					return A2(
+						_elm_lang$core$Basics_ops['++'],
+						f(_p6),
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							' ',
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								f(_p5),
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									' ',
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										f(_p6),
+										A2(
+											_elm_lang$core$Basics_ops['++'],
+											' ',
+											f(_p5)))))));
+				} else {
+					if (_p3._1._1._1.ctor === '[]') {
+						return A2(
+							_elm_lang$core$Basics_ops['++'],
+							f(_p3._0),
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								' ',
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									f(_p3._1._0),
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										' ',
+										A2(
+											_elm_lang$core$Basics_ops['++'],
+											f(_p3._1._1._0),
+											' 0')))));
+					} else {
+						if (_p3._1._1._1._1.ctor === '[]') {
+							return A2(
+								_elm_lang$core$Basics_ops['++'],
+								f(_p3._0),
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									' ',
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										f(_p3._1._0),
+										A2(
+											_elm_lang$core$Basics_ops['++'],
+											' ',
+											A2(
+												_elm_lang$core$Basics_ops['++'],
+												f(_p3._1._1._0),
+												A2(
+													_elm_lang$core$Basics_ops['++'],
+													' ',
+													f(_p3._1._1._1._0)))))));
+						} else {
+							return A2(
+								_elm_lang$core$Basics_ops['++'],
+								f(_p3._0),
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									' ',
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										f(_p3._1._0),
+										A2(
+											_elm_lang$core$Basics_ops['++'],
+											' ',
+											A2(
+												_elm_lang$core$Basics_ops['++'],
+												f(_p3._1._1._0),
+												A2(
+													_elm_lang$core$Basics_ops['++'],
+													' ',
+													f(_p3._1._1._1._0)))))));
+						}
+					}
+				}
+			}
+		}
+	});
+var _seanhess$elm_style$Style$rad = function (r) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		_elm_lang$core$Basics$toString(r),
+		'rad');
+};
+var _seanhess$elm_style$Style$deg = function (d) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		_elm_lang$core$Basics$toString(d),
+		'deg');
+};
+var _seanhess$elm_style$Style$linearGradient = F2(
+	function (degrees, colors) {
+		var degString = A2(
+			_elm_lang$core$Basics_ops['++'],
+			_seanhess$elm_style$Style$deg(degrees),
+			', ');
+		var colorString = A2(
+			_elm_lang$core$String$join,
+			',',
+			A2(_elm_lang$core$List$map, _seanhess$elm_style$Style$color_, colors));
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			'linear-gradient( ',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				degString,
+				A2(_elm_lang$core$Basics_ops['++'], colorString, ' )')));
+	});
+var _seanhess$elm_style$Style$pc = function (p) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		_elm_lang$core$Basics$toString(p),
+		'%');
+};
+var _seanhess$elm_style$Style$px = function (p) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		_elm_lang$core$Basics$toString(p),
+		'px');
+};
+var _seanhess$elm_style$Style$em = function (e) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		_elm_lang$core$Basics$toString(e),
+		'em');
+};
+var _seanhess$elm_style$Style$smallCaps = 'small-caps';
+var _seanhess$elm_style$Style$oblique = 'oblique';
+var _seanhess$elm_style$Style$italic = 'italic';
+var _seanhess$elm_style$Style$normal = 'normal';
+var _seanhess$elm_style$Style$both = 'both';
+var _seanhess$elm_style$Style$right_ = 'right';
+var _seanhess$elm_style$Style$left_ = 'left';
+var _seanhess$elm_style$Style$none = 'none';
+var _seanhess$elm_style$Style$wrapReverse = 'wrap-reverse';
+var _seanhess$elm_style$Style$nowrap = 'nowrap';
+var _seanhess$elm_style$Style$wrap = 'wrap';
+var _seanhess$elm_style$Style$rowReverse = 'row-reverse';
+var _seanhess$elm_style$Style$row = 'row';
+var _seanhess$elm_style$Style$columnReverse = 'column-reverse';
+var _seanhess$elm_style$Style$column = 'column';
+var _seanhess$elm_style$Style$spaceAround = 'space-around';
+var _seanhess$elm_style$Style$spaceBetween = 'space-between';
+var _seanhess$elm_style$Style$flexEnd = 'flex-end';
+var _seanhess$elm_style$Style$flexStart = 'flex-start';
+var _seanhess$elm_style$Style$stretch = 'stretch';
+var _seanhess$elm_style$Style$middle = 'middle';
+var _seanhess$elm_style$Style$center = 'center';
+var _seanhess$elm_style$Style$baseline = 'baseline';
+var _seanhess$elm_style$Style$tableRow = 'table-row';
+var _seanhess$elm_style$Style$tableColumn = 'table-column';
+var _seanhess$elm_style$Style$tableCell = 'table-cell';
+var _seanhess$elm_style$Style$tableRowGroup = 'table-row-group';
+var _seanhess$elm_style$Style$tableFooterGroup = 'table-footer-group';
+var _seanhess$elm_style$Style$tableHeaderGroup = 'table-header-group';
+var _seanhess$elm_style$Style$tableColumnGroup = 'table-column-group';
+var _seanhess$elm_style$Style$tableCaption = 'table-caption';
+var _seanhess$elm_style$Style$inlineTable = 'inline-table';
+var _seanhess$elm_style$Style$table = 'table';
+var _seanhess$elm_style$Style$runIn = 'run-in';
+var _seanhess$elm_style$Style$listItem = 'list-item';
+var _seanhess$elm_style$Style$inlineFlex = 'inline-flex';
+var _seanhess$elm_style$Style$flex_ = 'flex';
+var _seanhess$elm_style$Style$inlineBlock = 'inline-block';
+var _seanhess$elm_style$Style$block = 'block';
+var _seanhess$elm_style$Style$inline = 'inline';
+var _seanhess$elm_style$Style$auto = 'auto';
+var _seanhess$elm_style$Style$static = 'static';
+var _seanhess$elm_style$Style$relative = 'relative';
+var _seanhess$elm_style$Style$absolute = 'absolute';
+var _seanhess$elm_style$Style$PrefixSet = F5(
+	function (a, b, c, d, e) {
+		return {ms: a, moz: b, o: c, webkit: d, $default: e};
+	});

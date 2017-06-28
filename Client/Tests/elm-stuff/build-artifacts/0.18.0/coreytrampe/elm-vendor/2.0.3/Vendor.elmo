@@ -1,0 +1,6 @@
+var _coreytrampe$elm_vendor$Vendor$Unknown = {ctor: 'Unknown'};
+var _coreytrampe$elm_vendor$Vendor$O = {ctor: 'O'};
+var _coreytrampe$elm_vendor$Vendor$MS = {ctor: 'MS'};
+var _coreytrampe$elm_vendor$Vendor$Webkit = {ctor: 'Webkit'};
+var _coreytrampe$elm_vendor$Vendor$Moz = {ctor: 'Moz'};
+var _coreytrampe$elm_vendor$Vendor$prefix = _elm_lang$core$Native_Utils.eq(_coreytrampe$elm_vendor$Native_Vendor.prefix, 'webkit') ? _coreytrampe$elm_vendor$Vendor$Webkit : (_elm_lang$core$Native_Utils.eq(_coreytrampe$elm_vendor$Native_Vendor.prefix, 'moz') ? _coreytrampe$elm_vendor$Vendor$Moz : (_elm_lang$core$Native_Utils.eq(_coreytrampe$elm_vendor$Native_Vendor.prefix, 'ms') ? _coreytrampe$elm_vendor$Vendor$MS : (_elm_lang$core$Native_Utils.eq(_coreytrampe$elm_vendor$Native_Vendor.prefix, 'o') ? _coreytrampe$elm_vendor$Vendor$O : _coreytrampe$elm_vendor$Vendor$Unknown)));

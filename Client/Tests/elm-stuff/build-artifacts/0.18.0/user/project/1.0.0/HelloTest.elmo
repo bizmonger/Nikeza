@@ -1,0 +1,26 @@
+var _user$project$HelloTest$suite = A2(
+	_elm_community$elm_test$Test$describe,
+	'Login module',
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_community$elm_test$Test$test,
+			'runtime.tryLogin succeeds with valid credentials',
+			function (_p0) {
+				var login = A3(_user$project$Controls_Login$Model, 'test', 'test', false);
+				var result = _user$project$Settings$runtime.tryLogin(login);
+				return A2(_elm_community$elm_test$Expect$equal, result.loggedIn, true);
+			}),
+		_1: {
+			ctor: '::',
+			_0: A2(
+				_elm_community$elm_test$Test$test,
+				'runtime.tryLogin fails with invalid credentials',
+				function (_p1) {
+					var login = A3(_user$project$Controls_Login$Model, 'test', 'invalid_password', false);
+					var result = _user$project$Settings$runtime.tryLogin(login);
+					return A2(_elm_community$elm_test$Expect$equal, result.loggedIn, false);
+				}),
+			_1: {ctor: '[]'}
+		}
+	});

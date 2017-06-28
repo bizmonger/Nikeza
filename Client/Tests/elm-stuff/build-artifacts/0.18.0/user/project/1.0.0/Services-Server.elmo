@@ -1,0 +1,49 @@
+var _user$project$Services_Server$suggestedTopics = function (search) {
+	return {ctor: '[]'};
+};
+var _user$project$Services_Server$platforms = {ctor: '[]'};
+var _user$project$Services_Server$topics = {ctor: '[]'};
+var _user$project$Services_Server$removeSource = F2(
+	function (profileId, connection) {
+		return _elm_lang$core$Result$Err('Not implemented');
+	});
+var _user$project$Services_Server$addSource = F2(
+	function (profileId, connection) {
+		return _elm_lang$core$Result$Err('Not implemented');
+	});
+var _user$project$Services_Server$connections = function (profileId) {
+	return {ctor: '[]'};
+};
+var _user$project$Services_Server$usernameToId = function (username) {
+	return _user$project$Domain_Core$Id('undefined');
+};
+var _user$project$Services_Server$topicLinks = F3(
+	function (topic, contentType, id) {
+		return {ctor: '[]'};
+	});
+var _user$project$Services_Server$removeLink = F2(
+	function (profileId, link) {
+		return _elm_lang$core$Result$Err('Not implemented');
+	});
+var _user$project$Services_Server$addLink = F2(
+	function (profileId, link) {
+		return _elm_lang$core$Result$Err('Not implemented');
+	});
+var _user$project$Services_Server$links = function (profileId) {
+	return _user$project$Domain_Core$initLinks;
+};
+var _user$project$Services_Server$contentProvider = function (id) {
+	return _elm_lang$core$Maybe$Nothing;
+};
+var _user$project$Services_Server$contentProviders = {ctor: '[]'};
+var _user$project$Services_Server$tryRegister = function (form) {
+	return _elm_lang$core$Result$Err('Registration failed');
+};
+var _user$project$Services_Server$tryLogin = function (credentials) {
+	var successful = _elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$String$toLower(credentials.username),
+		'test') && _elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$String$toLower(credentials.password),
+		'test');
+	return successful ? {username: credentials.username, password: credentials.password, loggedIn: true} : {username: credentials.username, password: credentials.password, loggedIn: false};
+};

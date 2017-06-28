@@ -1,0 +1,183 @@
+var _user$project$Controls_ProfileThumbnail$thumbnail = function (contentProvider) {
+	var concatTopics = F2(
+		function (topic1, topic2) {
+			return A2(
+				_elm_lang$html$Html$span,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: topic1,
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$label,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(' '),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: topic2,
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$label,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(' '),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				});
+		});
+	var profile = contentProvider.profile;
+	var formatTopic = function (topic) {
+		return A2(
+			_elm_lang$html$Html$a,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$href(
+					_user$project$Domain_Core$getUrl(
+						A2(_user$project$Domain_Core$contentProviderTopicUrl, profile.id, topic))),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$i,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							_user$project$Domain_Core$getTopic(topic)),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			});
+	};
+	var topics = A3(
+		_elm_lang$core$List$foldr,
+		concatTopics,
+		A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{ctor: '[]'}),
+		A2(
+			_elm_lang$core$List$map,
+			formatTopic,
+			A2(
+				_elm_lang$core$List$filter,
+				function (t) {
+					return t.isFeatured;
+				},
+				contentProvider.topics)));
+	var nameAndTopics = A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$label,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							_user$project$Domain_Core$getName(profile.firstName),
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								' ',
+								_user$project$Domain_Core$getName(profile.lastName)))),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$br,
+					{ctor: '[]'},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: topics,
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$table,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$tr,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$td,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$a,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$href(
+												_user$project$Domain_Core$getUrl(
+													_user$project$Domain_Core$contentProviderUrl(profile.id))),
+											_1: {ctor: '[]'}
+										},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$img,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$src(
+														_user$project$Domain_Core$getUrl(profile.imageUrl)),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$width(50),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$height(50),
+															_1: {ctor: '[]'}
+														}
+													}
+												},
+												{ctor: '[]'}),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$td,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: nameAndTopics,
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Controls_ProfileThumbnail$None = {ctor: 'None'};

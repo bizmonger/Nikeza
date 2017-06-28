@@ -1,0 +1,88 @@
+var _eeue56$elm_html_test$Test_Html_Selector$namedBoolAttr = F2(
+	function (name, value) {
+		return _eeue56$elm_html_test$Test_Html_Selector_Internal$BoolAttribute(
+			{
+				name: name,
+				value: value,
+				asString: A2(
+					_elm_lang$core$Basics_ops['++'],
+					name,
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						' ',
+						_elm_lang$core$Basics$toString(value)))
+			});
+	});
+var _eeue56$elm_html_test$Test_Html_Selector$namedAttr = F2(
+	function (name, value) {
+		return _eeue56$elm_html_test$Test_Html_Selector_Internal$Attribute(
+			{
+				name: name,
+				value: value,
+				asString: A2(
+					_elm_lang$core$Basics_ops['++'],
+					name,
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						' ',
+						_elm_lang$core$Basics$toString(value)))
+			});
+	});
+var _eeue56$elm_html_test$Test_Html_Selector$checked = _eeue56$elm_html_test$Test_Html_Selector$namedBoolAttr('checked');
+var _eeue56$elm_html_test$Test_Html_Selector$disabled = _eeue56$elm_html_test$Test_Html_Selector$namedBoolAttr('disabled');
+var _eeue56$elm_html_test$Test_Html_Selector$selected = _eeue56$elm_html_test$Test_Html_Selector$namedBoolAttr('selected');
+var _eeue56$elm_html_test$Test_Html_Selector$text = _eeue56$elm_html_test$Test_Html_Selector_Internal$Text;
+var _eeue56$elm_html_test$Test_Html_Selector$style = function (style) {
+	return _eeue56$elm_html_test$Test_Html_Selector_Internal$Style(style);
+};
+var _eeue56$elm_html_test$Test_Html_Selector$boolAttribute = F2(
+	function (name, value) {
+		return _eeue56$elm_html_test$Test_Html_Selector_Internal$BoolAttribute(
+			{
+				name: name,
+				value: value,
+				asString: A2(
+					_elm_lang$core$Basics_ops['++'],
+					'boolAttribute ',
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_elm_lang$core$Basics$toString(name),
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							' ',
+							_elm_lang$core$Basics$toString(value))))
+			});
+	});
+var _eeue56$elm_html_test$Test_Html_Selector$attribute = F2(
+	function (name, value) {
+		return _eeue56$elm_html_test$Test_Html_Selector_Internal$Attribute(
+			{
+				name: name,
+				value: value,
+				asString: A2(
+					_elm_lang$core$Basics_ops['++'],
+					'attribute ',
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_elm_lang$core$Basics$toString(name),
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							' ',
+							_elm_lang$core$Basics$toString(value))))
+			});
+	});
+var _eeue56$elm_html_test$Test_Html_Selector$tag = function (name) {
+	return _eeue56$elm_html_test$Test_Html_Selector_Internal$Tag(
+		{
+			name: name,
+			asString: A2(
+				_elm_lang$core$Basics_ops['++'],
+				'tag ',
+				_elm_lang$core$Basics$toString(name))
+		});
+};
+var _eeue56$elm_html_test$Test_Html_Selector$id = _eeue56$elm_html_test$Test_Html_Selector$namedAttr('id');
+var _eeue56$elm_html_test$Test_Html_Selector$className = _eeue56$elm_html_test$Test_Html_Selector$namedAttr('className');
+var _eeue56$elm_html_test$Test_Html_Selector$class = _eeue56$elm_html_test$Test_Html_Selector_Internal$Class;
+var _eeue56$elm_html_test$Test_Html_Selector$classes = _eeue56$elm_html_test$Test_Html_Selector_Internal$Classes;
+var _eeue56$elm_html_test$Test_Html_Selector$all = _eeue56$elm_html_test$Test_Html_Selector_Internal$All;

@@ -1,0 +1,117 @@
+var _user$project$Controls_Login$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'UserInput':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{email: _p0._0});
+			case 'PasswordInput':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{password: _p0._0});
+			default:
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{email: _p0._0._0, password: _p0._0._1});
+		}
+	});
+var _user$project$Controls_Login$Model = F3(
+	function (a, b, c) {
+		return {email: a, password: b, loggedIn: c};
+	});
+var _user$project$Controls_Login$init = A3(_user$project$Controls_Login$Model, '', '', false);
+var _user$project$Controls_Login$Attempt = function (a) {
+	return {ctor: 'Attempt', _0: a};
+};
+var _user$project$Controls_Login$PasswordInput = function (a) {
+	return {ctor: 'PasswordInput', _0: a};
+};
+var _user$project$Controls_Login$UserInput = function (a) {
+	return {ctor: 'UserInput', _0: a};
+};
+var _user$project$Controls_Login$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$input,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('signin'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$type_('submit'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$value('Signin'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(
+									_user$project$Controls_Login$Attempt(
+										{ctor: '_Tuple2', _0: model.email, _1: model.password})),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$input,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('signin'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$type_('password'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$placeholder('password'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Login$PasswordInput),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$value(model.password),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$input,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('signin'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$type_('text'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$placeholder('username'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Login$UserInput),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$value(model.email),
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							}
+						},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
