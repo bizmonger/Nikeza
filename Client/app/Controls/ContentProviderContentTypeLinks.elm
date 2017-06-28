@@ -43,14 +43,12 @@ view model contentType =
         posts =
             links |> getPosts contentType
     in
-        div []
-            [ table []
-                [ tr []
-                    [ td [] [ h2 [] [ text <| "All " ++ (contentType |> contentTypeToText) ] ] ]
-                , tr []
-                    [ td [] [ div [] (topics |> List.map toCheckbox) ]
-                    , td [] [ div [] <| List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ]) posts ]
-                    ]
+        table []
+            [ tr []
+                [ td [] [ h2 [] [ text <| "All " ++ (contentType |> contentTypeToText) ] ] ]
+            , tr []
+                [ td [] [ div [] (topics |> List.map toCheckbox) ]
+                , td [] [ div [] <| List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ]) posts ]
                 ]
             ]
 

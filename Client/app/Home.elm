@@ -613,10 +613,16 @@ view model =
             case runtime.contentProvider <| Id id of
                 Just _ ->
                     let
-                        content =
+                        portal =
+                            model.portal
+
+                        contentProvider =
+                            model.portal.contentProvider
+
+                        linksContent =
                             Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.portal.contentProvider <| toContentType contentType
                     in
-                        dashboardPage model content
+                        dashboardPage model <| getDashboardContent portal contentProvider contentType linksContent
 
                 Nothing ->
                     notFoundPage
@@ -624,28 +630,63 @@ view model =
         [ id, "portal", topic, "all", contentType ] ->
             case runtime.contentProvider <| Id id of
                 Just _ ->
-                    contentProviderTopicContentTypePage (Topic topic False) (toContentType contentType) model.portal.contentProvider
+                    let
+                        portal =
+                            model.portal
+
+                        contentProvider =
+                            model.portal.contentProvider
+
+                        linksContent =
+                            Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.portal.contentProvider <| toContentType contentType
+                    in
+                        dashboardPage model <| getDashboardContent portal contentProvider contentType linksContent
 
                 Nothing ->
                     notFoundPage
 
         [ id, "portal" ] ->
-            if model.portal.contentProvider == initContentProvider then
-                case runtime.contentProvider <| Id id of
-                    Just contentProvider ->
-                        let
-                            newState =
-                                { model | portal = { initPortal | contentProvider = contentProvider } }
-                        in
-                            dashboardPage newState <| content model.portal
+            let
+                portal =
+                    model.portal
 
-                    Nothing ->
-                        notFoundPage
-            else
-                dashboardPage model <| content model.portal
+                contentType =
+                    "All"
+
+                linksContent =
+                    content model.portal
+            in
+                if model.portal.contentProvider == initContentProvider then
+                    case runtime.contentProvider <| Id id of
+                        Just contentProvider ->
+                            let
+                                newState =
+                                    { model | portal = { initPortal | contentProvider = contentProvider } }
+                            in
+                                dashboardPage model <| getDashboardContent portal contentProvider contentType linksContent
+
+                        Nothing ->
+                            notFoundPage
+                else
+                    dashboardPage model <| getDashboardContent portal portal.contentProvider contentType linksContent
 
         _ ->
             notFoundPage
+
+
+getDashboardContent : Portal -> ContentProvider -> String -> Html Msg -> Html Msg
+getDashboardContent portal contentProvider contentType linksContent =
+    table []
+        [ tr []
+            [ table []
+                [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| contentProvider.profile.imageUrl, width 100, height 100 ] [] ] ]
+                , tr [ class "bio" ] [ td [] [ text <| getName contentProvider.profile.firstName ++ " " ++ getName contentProvider.profile.lastName ] ]
+                , tr [ class "bio" ] [ td [] [ p [] [ text contentProvider.profile.bio ] ] ]
+                ]
+            , td [] <| renderNavigation portal
+            , td [] [ linksContent ]
+            ]
+        ]
 
 
 homePage : Model -> Html Msg
@@ -725,18 +766,6 @@ contentProviderTopicContentTypePage topic contentType model =
             [ table []
                 [ tr []
                     [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
-                    , td []
-                        [ table []
-                            [ tr []
-                                [ td [] [ h2 [] [ text <| getTopic topic ++ " - " ] ]
-                                , td [] [ h2 [] [ text <| "All " ++ contentTypeToText contentType ] ]
-                                ]
-                            , tr []
-                                [ td [] []
-                                , td [] [ div [] <| List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ]) links ]
-                                ]
-                            ]
-                        ]
                     ]
                 ]
             , tr [ class "bio" ] [ td [] [ text <| getName model.profile.firstName ++ " " ++ getName model.profile.lastName ] ]
@@ -833,10 +862,8 @@ content portal =
                             div [] []
                 in
                     table []
-                        [ tr []
-                            [ td [] [ newLinkEditor ] ]
-                        , tr []
-                            [ td [] [ update ] ]
+                        [ tr [] [ td [] [ newLinkEditor ] ]
+                        , tr [] [ td [] [ update ] ]
                         ]
 
 
@@ -848,39 +875,17 @@ getLinkSummary portal =
 dashboardPage : Model -> Html Msg -> Html Msg
 dashboardPage model content =
     let
-        linkSummary =
-            portal |> getLinkSummary
-
         header =
             h2 [] [ text <| "Welcome " ++ getName model.portal.contentProvider.profile.firstName ]
-
-        portal =
-            model.portal
-
-        renderNavigation =
-            handleNavigation portal
     in
-        div []
-            [ header
-            , table []
-                [ tr []
-                    [ td []
-                        [ table []
-                            [ tr []
-                                [ td [] [ img [ src <| getUrl <| model.portal.contentProvider.profile.imageUrl, width 100, height 100 ] [] ]
-                                , td [] renderNavigation
-                                ]
-                            , tr [ class "bio" ] [ td [] [ p [] [ text model.portal.contentProvider.profile.bio ] ] ]
-                            ]
-                        ]
-                    , td [] [ content ]
-                    ]
-                ]
+        table []
+            [ tr [] [ td [] [ header ] ]
+            , tr [] [ td [] [ content ] ]
             ]
 
 
-handleNavigation : Portal -> List (Html Msg)
-handleNavigation portal =
+renderNavigation : Portal -> List (Html Msg)
+renderNavigation portal =
     let
         links =
             portal.contentProvider.links
@@ -1011,7 +1016,6 @@ handleNavigation portal =
         displayNavigation buttons =
             [ div [ class "navigationpane" ] buttons ]
     in
-        --renderNavigation =
         if not portal.sourcesNavigation && not portal.linksNavigation then
             displayNavigation noSourcesNoLinks
         else if portal.sourcesNavigation && not portal.linksNavigation then
