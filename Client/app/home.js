@@ -14813,8 +14813,8 @@ var _user$project$Home$renderNavigation = function (portal) {
 	}();
 	return ((!portal.sourcesNavigation) && (!portal.linksNavigation)) ? displayNavigation(noSourcesNoLinks) : ((portal.sourcesNavigation && (!portal.linksNavigation)) ? displayNavigation(sourcesButNoLinks) : displayNavigation(allNavigation));
 };
-var _user$project$Home$dashbaord = F4(
-	function (portal, contentProvider, contentType, linksContent) {
+var _user$project$Home$render = F4(
+	function (contentProvider, contentType, linksContent, portal) {
 		return A2(
 			_elm_lang$html$Html$table,
 			{ctor: '[]'},
@@ -14826,74 +14826,14 @@ var _user$project$Home$dashbaord = F4(
 					{
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$table,
+							_elm_lang$html$Html$td,
 							{ctor: '[]'},
 							{
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$tr,
+									_elm_lang$html$Html$table,
+									{ctor: '[]'},
 									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('bio'),
-										_1: {ctor: '[]'}
-									},
-									{
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$td,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$img,
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$src(
-															_user$project$Domain_Core$getUrl(contentProvider.profile.imageUrl)),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$width(100),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$height(100),
-																_1: {ctor: '[]'}
-															}
-														}
-													},
-													{ctor: '[]'}),
-												_1: {ctor: '[]'}
-											}),
-										_1: {ctor: '[]'}
-									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$tr,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('bio'),
-											_1: {ctor: '[]'}
-										},
-										{
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$td,
-												{ctor: '[]'},
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html$text(
-														A2(
-															_elm_lang$core$Basics_ops['++'],
-															_user$project$Domain_Core$getName(contentProvider.profile.firstName),
-															A2(
-																_elm_lang$core$Basics_ops['++'],
-																' ',
-																_user$project$Domain_Core$getName(contentProvider.profile.lastName)))),
-													_1: {ctor: '[]'}
-												}),
-											_1: {ctor: '[]'}
-										}),
-									_1: {
 										ctor: '::',
 										_0: A2(
 											_elm_lang$html$Html$tr,
@@ -14910,20 +14850,87 @@ var _user$project$Home$dashbaord = F4(
 													{
 														ctor: '::',
 														_0: A2(
-															_elm_lang$html$Html$p,
+															_elm_lang$html$Html$img,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$src(
+																	_user$project$Domain_Core$getUrl(contentProvider.profile.imageUrl)),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$width(100),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$height(100),
+																		_1: {ctor: '[]'}
+																	}
+																}
+															},
+															{ctor: '[]'}),
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$tr,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('bio'),
+													_1: {ctor: '[]'}
+												},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$td,
+														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html$text(
+																A2(
+																	_elm_lang$core$Basics_ops['++'],
+																	_user$project$Domain_Core$getName(contentProvider.profile.firstName),
+																	A2(
+																		_elm_lang$core$Basics_ops['++'],
+																		' ',
+																		_user$project$Domain_Core$getName(contentProvider.profile.lastName)))),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$tr,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$class('bio'),
+														_1: {ctor: '[]'}
+													},
+													{
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$td,
 															{ctor: '[]'},
 															{
 																ctor: '::',
-																_0: _elm_lang$html$Html$text(contentProvider.profile.bio),
+																_0: A2(
+																	_elm_lang$html$Html$p,
+																	{ctor: '[]'},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text(contentProvider.profile.bio),
+																		_1: {ctor: '[]'}
+																	}),
 																_1: {ctor: '[]'}
 															}),
 														_1: {ctor: '[]'}
 													}),
 												_1: {ctor: '[]'}
-											}),
-										_1: {ctor: '[]'}
-									}
-								}
+											}
+										}
+									}),
+								_1: {ctor: '[]'}
 							}),
 						_1: {
 							ctor: '::',
@@ -14948,13 +14955,28 @@ var _user$project$Home$dashbaord = F4(
 				_1: {ctor: '[]'}
 			});
 	});
+var _user$project$Home$getPortalContent = F4(
+	function (profileId, model, linksContent, contentType) {
+		var portal = model.portal;
+		if (_elm_lang$core$Native_Utils.eq(model.portal.contentProvider, _user$project$Domain_Core$initContentProvider)) {
+			var _p26 = _user$project$Settings$runtime.contentProvider(
+				_user$project$Domain_Core$Id(profileId));
+			if (_p26.ctor === 'Just') {
+				return A4(_user$project$Home$render, _p26._0, contentType, linksContent, portal);
+			} else {
+				return _user$project$Home$notFoundPage;
+			}
+		} else {
+			return A4(_user$project$Home$render, portal.contentProvider, contentType, linksContent, portal);
+		}
+	});
 var _user$project$Home$SourceAdded = function (a) {
 	return {ctor: 'SourceAdded', _0: a};
 };
 var _user$project$Home$content = function (portal) {
 	var contentProvider = portal.contentProvider;
-	var _p26 = portal.requested;
-	switch (_p26.ctor) {
+	var _p27 = portal.requested;
+	switch (_p27.ctor) {
 		case 'ViewSources':
 			return A2(
 				_elm_lang$html$Html$div,
@@ -15103,7 +15125,7 @@ var _user$project$Home$homePage = function (model) {
 			{ctor: '[]'},
 			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, model.contentProviders)));
 	var loginUI = function (model) {
-		var _p27 = {
+		var _p28 = {
 			ctor: '_Tuple3',
 			_0: model.login.loggedIn,
 			_1: A2(
@@ -15138,9 +15160,9 @@ var _user$project$Home$homePage = function (model) {
 					_1: {ctor: '[]'}
 				})
 		};
-		var loggedIn = _p27._0;
-		var welcome = _p27._1;
-		var signout = _p27._2;
+		var loggedIn = _p28._0;
+		var welcome = _p28._1;
+		var signout = _p28._2;
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$OnLogin,
@@ -15428,42 +15450,42 @@ var _user$project$Home$homePage = function (model) {
 		});
 };
 var _user$project$Home$view = function (model) {
-	var _p28 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
-	_v23_10:
+	var _p29 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+	_v24_10:
 	do {
-		if (_p28.ctor === '[]') {
+		if (_p29.ctor === '[]') {
 			return _user$project$Home$homePage(model);
 		} else {
-			if (_p28._1.ctor === '[]') {
-				switch (_p28._0) {
+			if (_p29._1.ctor === '[]') {
+				switch (_p29._0) {
 					case 'home':
 						return _user$project$Home$homePage(model);
 					case 'register':
 						return _user$project$Home$registerPage(model);
 					default:
-						break _v23_10;
+						break _v24_10;
 				}
 			} else {
-				if (_p28._1._1.ctor === '::') {
-					if (_p28._1._1._1.ctor === '[]') {
-						if (_p28._0 === 'contentProvider') {
-							var _p30 = _user$project$Settings$runtime.contentProvider(
-								_user$project$Domain_Core$Id(_p28._1._0));
-							if (_p30.ctor === 'Just') {
+				if (_p29._1._1.ctor === '::') {
+					if (_p29._1._1._1.ctor === '[]') {
+						if (_p29._0 === 'contentProvider') {
+							var _p31 = _user$project$Settings$runtime.contentProvider(
+								_user$project$Domain_Core$Id(_p29._1._0));
+							if (_p31.ctor === 'Just') {
 								return A2(_user$project$Home$contentProviderTopicPage, _user$project$Domain_Core$FromOther, model.selectedContentProvider);
 							} else {
 								return _user$project$Home$notFoundPage;
 							}
 						} else {
-							break _v23_10;
+							break _v24_10;
 						}
 					} else {
-						if (_p28._1._1._1._1.ctor === '[]') {
-							if (_p28._1._1._0 === 'all') {
-								if (_p28._0 === 'contentProvider') {
-									var _p31 = _user$project$Settings$runtime.contentProvider(
-										_user$project$Domain_Core$Id(_p28._1._0));
-									if (_p31.ctor === 'Just') {
+						if (_p29._1._1._1._1.ctor === '[]') {
+							if (_p29._1._1._0 === 'all') {
+								if (_p29._0 === 'contentProvider') {
+									var _p32 = _user$project$Settings$runtime.contentProvider(
+										_user$project$Domain_Core$Id(_p29._1._0));
+									if (_p32.ctor === 'Just') {
 										return A2(
 											_elm_lang$html$Html$table,
 											{ctor: '[]'},
@@ -15587,7 +15609,7 @@ var _user$project$Home$view = function (model) {
 																		A2(
 																			_user$project$Controls_ContentProviderContentTypeLinks$view,
 																			model.selectedContentProvider,
-																			_user$project$Domain_Core$toContentType(_p28._1._1._1._0))),
+																			_user$project$Domain_Core$toContentType(_p29._1._1._1._0))),
 																	_1: {ctor: '[]'}
 																}),
 															_1: {ctor: '[]'}
@@ -15599,78 +15621,79 @@ var _user$project$Home$view = function (model) {
 										return _user$project$Home$notFoundPage;
 									}
 								} else {
-									if (_p28._1._0 === 'portal') {
-										var _p34 = _p28._1._1._1._0;
-										var _p33 = _user$project$Settings$runtime.contentProvider(
-											_user$project$Domain_Core$Id(_p28._0));
-										if (_p33.ctor === 'Just') {
+									if (_p29._1._0 === 'portal') {
+										var _p36 = _p29._0;
+										var _p35 = _p29._1._1._1._0;
+										var _p34 = _user$project$Settings$runtime.contentProvider(
+											_user$project$Domain_Core$Id(_p36));
+										if (_p34.ctor === 'Just') {
+											var contentProvider = model.portal.contentProvider;
 											var linksContent = A2(
 												_elm_lang$html$Html$map,
 												_user$project$Home$ContentProviderContentTypeLinksAction,
 												A2(
 													_user$project$Controls_ContentProviderContentTypeLinks$view,
-													model.portal.contentProvider,
-													_user$project$Domain_Core$toContentType(_p34)));
-											var contentProvider = model.portal.contentProvider;
+													contentProvider,
+													_user$project$Domain_Core$toContentType(_p35)));
 											var portal = model.portal;
-											return A4(_user$project$Home$dashbaord, portal, contentProvider, _p34, linksContent);
+											return A4(_user$project$Home$getPortalContent, _p36, model, linksContent, _p35);
 										} else {
 											return _user$project$Home$notFoundPage;
 										}
 									} else {
-										break _v23_10;
+										break _v24_10;
 									}
 								}
 							} else {
-								break _v23_10;
+								break _v24_10;
 							}
 						} else {
-							if ((_p28._1._1._1._0 === 'all') && (_p28._1._1._1._1._1.ctor === '[]')) {
-								if (_p28._0 === 'contentProvider') {
-									var _p32 = _user$project$Settings$runtime.contentProvider(
-										_user$project$Domain_Core$Id(_p28._1._0));
-									if (_p32.ctor === 'Just') {
+							if ((_p29._1._1._1._0 === 'all') && (_p29._1._1._1._1._1.ctor === '[]')) {
+								if (_p29._0 === 'contentProvider') {
+									var _p33 = _user$project$Settings$runtime.contentProvider(
+										_user$project$Domain_Core$Id(_p29._1._0));
+									if (_p33.ctor === 'Just') {
 										return A3(
 											_user$project$Home$contentProviderTopicContentTypePage,
-											A2(_user$project$Domain_Core$Topic, _p28._1._1._0, false),
-											_user$project$Domain_Core$toContentType(_p28._1._1._1._1._0),
+											A2(_user$project$Domain_Core$Topic, _p29._1._1._0, false),
+											_user$project$Domain_Core$toContentType(_p29._1._1._1._1._0),
 											model.selectedContentProvider);
 									} else {
 										return _user$project$Home$notFoundPage;
 									}
 								} else {
-									if (_p28._1._0 === 'portal') {
-										var _p36 = _p28._1._1._1._1._0;
-										var _p35 = _user$project$Settings$runtime.contentProvider(
-											_user$project$Domain_Core$Id(_p28._0));
-										if (_p35.ctor === 'Just') {
+									if (_p29._1._0 === 'portal') {
+										var _p39 = _p29._0;
+										var _p38 = _p29._1._1._1._1._0;
+										var _p37 = _user$project$Settings$runtime.contentProvider(
+											_user$project$Domain_Core$Id(_p39));
+										if (_p37.ctor === 'Just') {
 											var linksContent = A2(
 												_elm_lang$html$Html$map,
 												_user$project$Home$ContentProviderContentTypeLinksAction,
 												A2(
 													_user$project$Controls_ContentProviderContentTypeLinks$view,
-													model.portal.contentProvider,
-													_user$project$Domain_Core$toContentType(_p36)));
-											var contentProvider = model.portal.contentProvider;
+													_p37._0,
+													_user$project$Domain_Core$toContentType(_p38)));
 											var portal = model.portal;
-											return A4(_user$project$Home$dashbaord, portal, contentProvider, _p36, linksContent);
+											return A4(_user$project$Home$getPortalContent, _p39, model, linksContent, _p38);
 										} else {
 											return _user$project$Home$notFoundPage;
 										}
 									} else {
-										break _v23_10;
+										break _v24_10;
 									}
 								}
 							} else {
-								break _v23_10;
+								break _v24_10;
 							}
 						}
 					}
 				} else {
-					if (_p28._0 === 'contentProvider') {
-						var _p29 = _user$project$Settings$runtime.contentProvider(
-							_user$project$Domain_Core$Id(_p28._1._0));
-						if (_p29.ctor === 'Just') {
+					if (_p29._0 === 'contentProvider') {
+						var _p30 = _user$project$Settings$runtime.contentProvider(
+							_user$project$Domain_Core$Id(_p29._1._0));
+						if (_p30.ctor === 'Just') {
 							return A2(
 								_elm_lang$html$Html$table,
 								{ctor: '[]'},
@@ -15803,31 +15826,13 @@ var _user$project$Home$view = function (model) {
 							return _user$project$Home$notFoundPage;
 						}
 					} else {
-						if (_p28._1._0 === 'portal') {
+						if (_p29._1._0 === 'portal') {
 							var linksContent = _user$project$Home$content(model.portal);
 							var contentType = 'All';
 							var portal = model.portal;
-							if (_elm_lang$core$Native_Utils.eq(model.portal.contentProvider, _user$project$Domain_Core$initContentProvider)) {
-								var _p37 = _user$project$Settings$runtime.contentProvider(
-									_user$project$Domain_Core$Id(_p28._0));
-								if (_p37.ctor === 'Just') {
-									var _p38 = _p37._0;
-									var newState = _elm_lang$core$Native_Utils.update(
-										model,
-										{
-											portal: _elm_lang$core$Native_Utils.update(
-												_user$project$Domain_Core$initPortal,
-												{contentProvider: _p38})
-										});
-									return A4(_user$project$Home$dashbaord, portal, _p38, contentType, linksContent);
-								} else {
-									return _user$project$Home$notFoundPage;
-								}
-							} else {
-								return A4(_user$project$Home$dashbaord, portal, portal.contentProvider, contentType, linksContent);
-							}
+							return A4(_user$project$Home$getPortalContent, _p29._0, model, linksContent, contentType);
 						} else {
-							break _v23_10;
+							break _v24_10;
 						}
 					}
 				}
@@ -15846,7 +15851,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p39) {
+		subscriptions: function (_p40) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();
