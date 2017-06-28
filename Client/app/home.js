@@ -12667,61 +12667,6 @@ var _user$project$Home$notFoundPage = A2(
 		_0: _elm_lang$html$Html$text('Page not found'),
 		_1: {ctor: '[]'}
 	});
-var _user$project$Home$dashboardPage = F2(
-	function (model, content) {
-		var header = A2(
-			_elm_lang$html$Html$h2,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text(
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						'Welcome ',
-						_user$project$Domain_Core$getName(model.portal.contentProvider.profile.firstName))),
-				_1: {ctor: '[]'}
-			});
-		return A2(
-			_elm_lang$html$Html$table,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$tr,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$td,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: header,
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$tr,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$td,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: content,
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}
-			});
-	});
 var _user$project$Home$getLinkSummary = function (portal) {
 	return portal.newLinks;
 };
@@ -14868,7 +14813,7 @@ var _user$project$Home$renderNavigation = function (portal) {
 	}();
 	return ((!portal.sourcesNavigation) && (!portal.linksNavigation)) ? displayNavigation(noSourcesNoLinks) : ((portal.sourcesNavigation && (!portal.linksNavigation)) ? displayNavigation(sourcesButNoLinks) : displayNavigation(allNavigation));
 };
-var _user$project$Home$getDashboardContent = F4(
+var _user$project$Home$dashbaord = F4(
 	function (portal, contentProvider, contentType, linksContent) {
 		return A2(
 			_elm_lang$html$Html$table,
@@ -15668,10 +15613,7 @@ var _user$project$Home$view = function (model) {
 													_user$project$Domain_Core$toContentType(_p34)));
 											var contentProvider = model.portal.contentProvider;
 											var portal = model.portal;
-											return A2(
-												_user$project$Home$dashboardPage,
-												model,
-												A4(_user$project$Home$getDashboardContent, portal, contentProvider, _p34, linksContent));
+											return A4(_user$project$Home$dashbaord, portal, contentProvider, _p34, linksContent);
 										} else {
 											return _user$project$Home$notFoundPage;
 										}
@@ -15711,10 +15653,7 @@ var _user$project$Home$view = function (model) {
 													_user$project$Domain_Core$toContentType(_p36)));
 											var contentProvider = model.portal.contentProvider;
 											var portal = model.portal;
-											return A2(
-												_user$project$Home$dashboardPage,
-												model,
-												A4(_user$project$Home$getDashboardContent, portal, contentProvider, _p36, linksContent));
+											return A4(_user$project$Home$dashbaord, portal, contentProvider, _p36, linksContent);
 										} else {
 											return _user$project$Home$notFoundPage;
 										}
@@ -15880,18 +15819,12 @@ var _user$project$Home$view = function (model) {
 												_user$project$Domain_Core$initPortal,
 												{contentProvider: _p38})
 										});
-									return A2(
-										_user$project$Home$dashboardPage,
-										model,
-										A4(_user$project$Home$getDashboardContent, portal, _p38, contentType, linksContent));
+									return A4(_user$project$Home$dashbaord, portal, _p38, contentType, linksContent);
 								} else {
 									return _user$project$Home$notFoundPage;
 								}
 							} else {
-								return A2(
-									_user$project$Home$dashboardPage,
-									model,
-									A4(_user$project$Home$getDashboardContent, portal, portal.contentProvider, contentType, linksContent));
+								return A4(_user$project$Home$dashbaord, portal, portal.contentProvider, contentType, linksContent);
 							}
 						} else {
 							break _v23_10;

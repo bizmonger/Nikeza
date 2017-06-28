@@ -622,7 +622,7 @@ view model =
                         linksContent =
                             Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.portal.contentProvider <| toContentType contentType
                     in
-                        dashboardPage model <| getDashboardContent portal contentProvider contentType linksContent
+                        dashbaord portal contentProvider contentType linksContent
 
                 Nothing ->
                     notFoundPage
@@ -640,7 +640,7 @@ view model =
                         linksContent =
                             Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.portal.contentProvider <| toContentType contentType
                     in
-                        dashboardPage model <| getDashboardContent portal contentProvider contentType linksContent
+                        dashbaord portal contentProvider contentType linksContent
 
                 Nothing ->
                     notFoundPage
@@ -663,19 +663,19 @@ view model =
                                 newState =
                                     { model | portal = { initPortal | contentProvider = contentProvider } }
                             in
-                                dashboardPage model <| getDashboardContent portal contentProvider contentType linksContent
+                                dashbaord portal contentProvider contentType linksContent
 
                         Nothing ->
                             notFoundPage
                 else
-                    dashboardPage model <| getDashboardContent portal portal.contentProvider contentType linksContent
+                    dashbaord portal portal.contentProvider contentType linksContent
 
         _ ->
             notFoundPage
 
 
-getDashboardContent : Portal -> ContentProvider -> String -> Html Msg -> Html Msg
-getDashboardContent portal contentProvider contentType linksContent =
+dashbaord : Portal -> ContentProvider -> String -> Html Msg -> Html Msg
+dashbaord portal contentProvider contentType linksContent =
     table []
         [ tr []
             [ table []
@@ -870,18 +870,6 @@ content portal =
 getLinkSummary : Portal -> NewLinks
 getLinkSummary portal =
     portal.newLinks
-
-
-dashboardPage : Model -> Html Msg -> Html Msg
-dashboardPage model content =
-    let
-        header =
-            h2 [] [ text <| "Welcome " ++ getName model.portal.contentProvider.profile.firstName ]
-    in
-        table []
-            [ tr [] [ td [] [ header ] ]
-            , tr [] [ td [] [ content ] ]
-            ]
 
 
 renderNavigation : Portal -> List (Html Msg)
