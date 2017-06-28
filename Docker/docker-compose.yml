@@ -1,0 +1,11 @@
+version: '3'
+services:
+  web-client:
+    build: ../Client/
+    ports:
+    - "8080:8080"
+    volumes:
+    - `pwd`/../Client/src:/opt/app/src
+    - `pwd`/../Client/package.json:/opt/app/package.json
+    - `pwd`/../Client/elm-package.json:/opt/app/elm-package.json
+    - `pwd`/../Client/yarn.lock:/opt/app/yarn.lock
