@@ -14958,7 +14958,7 @@ var _user$project$Home$render = F4(
 var _user$project$Home$applyToPortal = F4(
 	function (profileId, model, contentType, linksContent) {
 		var portal = model.portal;
-		if (_elm_lang$core$Native_Utils.eq(model.portal.contentProvider, _user$project$Domain_Core$initContentProvider)) {
+		if (_elm_lang$core$Native_Utils.eq(portal.contentProvider, _user$project$Domain_Core$initContentProvider)) {
 			var _p26 = _user$project$Settings$runtime.contentProvider(
 				_user$project$Domain_Core$Id(profileId));
 			if (_p26.ctor === 'Just') {

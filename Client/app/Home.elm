@@ -650,7 +650,7 @@ applyToPortal profileId model contentType linksContent =
         portal =
             model.portal
     in
-        if model.portal.contentProvider == initContentProvider then
+        if portal.contentProvider == initContentProvider then
             case runtime.contentProvider <| Id profileId of
                 Just contentProvider ->
                     portal |> render contentProvider contentType linksContent
