@@ -611,24 +611,6 @@ view model =
 
         [ id, "portal", "all", contentType ] ->
             case runtime.contentProvider <| Id id of
-                Just _ ->
-                    let
-                        portal =
-                            model.portal
-
-                        contentProvider =
-                            model.portal.contentProvider
-
-                        linksContent =
-                            Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view contentProvider <| toContentType contentType
-                    in
-                        getPortalContent id model linksContent contentType
-
-                Nothing ->
-                    notFoundPage
-
-        [ id, "portal", topic, "all", contentType ] ->
-            case runtime.contentProvider <| Id id of
                 Just contentProvider ->
                     let
                         portal =
@@ -637,30 +619,36 @@ view model =
                         linksContent =
                             Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view contentProvider <| toContentType contentType
                     in
-                        getPortalContent id model linksContent contentType
+                        linksContent |> applyToPortal id model contentType
+
+                Nothing ->
+                    notFoundPage
+
+        [ id, "portal", topic, "all", contentType ] ->
+            case runtime.contentProvider <| Id id of
+                Just contentProvider ->
+                    let
+                        linksContent =
+                            Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view contentProvider <| toContentType contentType
+                    in
+                        linksContent |> applyToPortal id model contentType
 
                 Nothing ->
                     notFoundPage
 
         [ id, "portal" ] ->
             let
-                portal =
-                    model.portal
-
-                contentType =
-                    "All"
-
-                linksContent =
-                    content model.portal
+                ( portal, contentType ) =
+                    ( model.portal, "all" )
             in
-                getPortalContent id model linksContent contentType
+                portal |> content |> applyToPortal id model contentType
 
         _ ->
             notFoundPage
 
 
-getPortalContent : String -> Model -> Html Msg -> String -> Html Msg
-getPortalContent profileId model linksContent contentType =
+applyToPortal : String -> Model -> String -> Html Msg -> Html Msg
+applyToPortal profileId model contentType linksContent =
     let
         portal =
             model.portal

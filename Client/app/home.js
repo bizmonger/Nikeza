@@ -14955,8 +14955,8 @@ var _user$project$Home$render = F4(
 				_1: {ctor: '[]'}
 			});
 	});
-var _user$project$Home$getPortalContent = F4(
-	function (profileId, model, linksContent, contentType) {
+var _user$project$Home$applyToPortal = F4(
+	function (profileId, model, contentType, linksContent) {
 		var portal = model.portal;
 		if (_elm_lang$core$Native_Utils.eq(model.portal.contentProvider, _user$project$Domain_Core$initContentProvider)) {
 			var _p26 = _user$project$Settings$runtime.contentProvider(
@@ -15627,16 +15627,15 @@ var _user$project$Home$view = function (model) {
 										var _p34 = _user$project$Settings$runtime.contentProvider(
 											_user$project$Domain_Core$Id(_p36));
 										if (_p34.ctor === 'Just') {
-											var contentProvider = model.portal.contentProvider;
 											var linksContent = A2(
 												_elm_lang$html$Html$map,
 												_user$project$Home$ContentProviderContentTypeLinksAction,
 												A2(
 													_user$project$Controls_ContentProviderContentTypeLinks$view,
-													contentProvider,
+													_p34._0,
 													_user$project$Domain_Core$toContentType(_p35)));
 											var portal = model.portal;
-											return A4(_user$project$Home$getPortalContent, _p36, model, linksContent, _p35);
+											return A4(_user$project$Home$applyToPortal, _p36, model, _p35, linksContent);
 										} else {
 											return _user$project$Home$notFoundPage;
 										}
@@ -15675,8 +15674,7 @@ var _user$project$Home$view = function (model) {
 													_user$project$Controls_ContentProviderContentTypeLinks$view,
 													_p37._0,
 													_user$project$Domain_Core$toContentType(_p38)));
-											var portal = model.portal;
-											return A4(_user$project$Home$getPortalContent, _p39, model, linksContent, _p38);
+											return A4(_user$project$Home$applyToPortal, _p39, model, _p38, linksContent);
 										} else {
 											return _user$project$Home$notFoundPage;
 										}
@@ -15827,10 +15825,15 @@ var _user$project$Home$view = function (model) {
 						}
 					} else {
 						if (_p29._1._0 === 'portal') {
-							var linksContent = _user$project$Home$content(model.portal);
-							var contentType = 'All';
-							var portal = model.portal;
-							return A4(_user$project$Home$getPortalContent, _p29._0, model, linksContent, contentType);
+							var _p40 = {ctor: '_Tuple2', _0: model.portal, _1: 'all'};
+							var portal = _p40._0;
+							var contentType = _p40._1;
+							return A4(
+								_user$project$Home$applyToPortal,
+								_p29._0,
+								model,
+								contentType,
+								_user$project$Home$content(portal));
 						} else {
 							break _v24_10;
 						}
@@ -15851,7 +15854,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p40) {
+		subscriptions: function (_p41) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();
