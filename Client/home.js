@@ -16029,13 +16029,12 @@ var _user$project$Home$view = function (model) {
 								var _p33 = _user$project$Settings$runtime.contentProvider(
 									_user$project$Domain_Core$Id(_p26._0));
 								if (_p33.ctor === 'Just') {
-									var portal = _user$project$Domain_Core$initPortal;
 									return _user$project$Home$dashboardPage(
 										_elm_lang$core$Native_Utils.update(
 											model,
 											{
 												portal: _elm_lang$core$Native_Utils.update(
-													portal,
+													_user$project$Domain_Core$initPortal,
 													{contentProvider: _p33._0})
 											}));
 								} else {

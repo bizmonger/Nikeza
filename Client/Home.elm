@@ -628,11 +628,7 @@ view model =
             if model.portal.contentProvider == initContentProvider then
                 case runtime.contentProvider <| Id id of
                     Just contentProvider ->
-                        let
-                            portal =
-                                initPortal
-                        in
-                            dashboardPage { model | portal = { portal | contentProvider = contentProvider } }
+                        dashboardPage { model | portal = { initPortal | contentProvider = contentProvider } }
 
                     Nothing ->
                         notFoundPage
