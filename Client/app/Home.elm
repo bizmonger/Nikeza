@@ -618,16 +618,6 @@ view model =
                     in
                         dashboardPage model content
 
-                -- table []
-                --     [ tr []
-                --         [ table []
-                --             [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| model.portal.contentProvider.profile.imageUrl, width 100, height 100 ] [] ] ]
-                --             , tr [ class "bio" ] [ td [] [ text <| getName model.portal.contentProvider.profile.firstName ++ " " ++ getName model.portal.contentProvider.profile.lastName ] ]
-                --             , tr [ class "bio" ] [ td [] [ p [] [ text model.portal.contentProvider.profile.bio ] ] ]
-                --             ]
-                --         , td [] [ Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.portal.contentProvider <| toContentType contentType ]
-                --         ]
-                --     ]
                 Nothing ->
                     notFoundPage
 
