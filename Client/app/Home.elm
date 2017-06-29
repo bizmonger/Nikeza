@@ -562,7 +562,7 @@ view model =
         [ "contentProvider", id ] ->
             case runtime.contentProvider <| Id id of
                 Just _ ->
-                    foo model.selectedContentProvider <| Html.map ContentProviderLinksAction <| ContentProviderLinks.view FromOther model.selectedContentProvider
+                    renderProfileBase model.selectedContentProvider <| Html.map ContentProviderLinksAction <| ContentProviderLinks.view FromOther model.selectedContentProvider
 
                 Nothing ->
                     notFoundPage
@@ -578,7 +578,7 @@ view model =
         [ "contentProvider", id, "all", contentType ] ->
             case runtime.contentProvider <| Id id of
                 Just _ ->
-                    foo model.selectedContentProvider <| Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.selectedContentProvider <| toContentType contentType
+                    renderProfileBase model.selectedContentProvider <| Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.selectedContentProvider <| toContentType contentType
 
                 Nothing ->
                     notFoundPage
@@ -626,8 +626,8 @@ view model =
             notFoundPage
 
 
-foo : ContentProvider -> Html Msg -> Html Msg
-foo contentProvider linksContent =
+renderProfileBase : ContentProvider -> Html Msg -> Html Msg
+renderProfileBase contentProvider linksContent =
     table []
         [ tr []
             [ table []

@@ -13124,7 +13124,7 @@ var _user$project$Home$contentProviderTopicContentTypePage = F3(
 				}
 			});
 	});
-var _user$project$Home$foo = F2(
+var _user$project$Home$renderProfileBase = F2(
 	function (contentProvider, linksContent) {
 		return A2(
 			_elm_lang$html$Html$table,
@@ -15615,7 +15615,7 @@ var _user$project$Home$view = function (model) {
 										_user$project$Domain_Core$Id(_p29._1._0));
 									if (_p32.ctor === 'Just') {
 										return A2(
-											_user$project$Home$foo,
+											_user$project$Home$renderProfileBase,
 											model.selectedContentProvider,
 											A2(
 												_elm_lang$html$Html$map,
@@ -15699,7 +15699,7 @@ var _user$project$Home$view = function (model) {
 							_user$project$Domain_Core$Id(_p29._1._0));
 						if (_p30.ctor === 'Just') {
 							return A2(
-								_user$project$Home$foo,
+								_user$project$Home$renderProfileBase,
 								model.selectedContentProvider,
 								A2(
 									_elm_lang$html$Html$map,
