@@ -1,11 +1,8 @@
 #!/bin/bash
 
 docker run -p 8080:8080 \
-    --rm -ti \
-    -v `pwd`/src:/opt/app/src \
-    -v `pwd`/docker/linux-node_modules:/opt/app/node_modules \
+    --rm \
+    -v `pwd`/app:/opt/app \
+    -v `pwd`/docker/node_modules:/opt/app/node_modules \
     -v `pwd`/docker/elm-stuff:/opt/app/elm-stuff \
-    -v `pwd`/package.json:/opt/app/package.json \
-    -v `pwd`/elm-package.json:/opt/app/elm-package.json \
-    -v `pwd`/yarn.lock:/opt/app/yarn.lock \
     nikeza-web-client
