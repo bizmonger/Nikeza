@@ -9,6 +9,7 @@ import Controls.AddSource as AddSource exposing (..)
 import Controls.NewLinks as NewLinks exposing (..)
 import Controls.ContentProviderLinks as ContentProviderLinks exposing (..)
 import Controls.ContentProviderContentTypeLinks as ContentProviderContentTypeLinks exposing (..)
+import Controls.ContentProviderTopicContentTypeLinks as ContentProviderTopicContentTypeLinks exposing (..)
 import Controls.Register as Registration exposing (..)
 import Controls.EditProfile as EditProfile exposing (..)
 import Html exposing (..)
@@ -91,6 +92,7 @@ type Msg
     | PortalLinksAction ContentProviderLinks.Msg
     | EditProfileAction EditProfile.Msg
     | ContentProviderContentTypeLinksAction ContentProviderContentTypeLinks.Msg
+    | ContentProviderTopicContentTypeLinksAction ContentProviderTopicContentTypeLinks.Msg
     | Search String
     | Register
     | OnRegistration Registration.Msg
@@ -178,6 +180,9 @@ update msg model =
                             ContentProviderContentTypeLinks.update subMsg model.selectedContentProvider
                     in
                         ( { model | selectedContentProvider = contentProvider }, Cmd.none )
+
+        ContentProviderTopicContentTypeLinksAction subMsg ->
+            ( model, Cmd.none )
 
 
 onUpdateContentProviderLinks : ContentProviderLinks.Msg -> Model -> Linksfrom -> ( Model, Cmd Msg )
@@ -578,18 +583,30 @@ view model =
         [ "contentProvider", id, "all", contentType ] ->
             case runtime.contentProvider <| Id id of
                 Just _ ->
-                    renderProfileBase model.selectedContentProvider <| Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.selectedContentProvider <| toContentType contentType
+                    let
+                        ( view, contentProvider ) =
+                            ( ContentProviderContentTypeLinks.view, model.selectedContentProvider )
+
+                        content =
+                            Html.map ContentProviderContentTypeLinksAction <| view contentProvider <| toContentType contentType
+                    in
+                        renderProfileBase model.selectedContentProvider <| content
 
                 Nothing ->
                     notFoundPage
 
-        [ "contentProvider", id, topic, "all", contentType ] ->
+        [ "contentProvider", id, topicName, "all", contentType ] ->
             case runtime.contentProvider <| Id id of
                 Just _ ->
-                    renderProfileBase model.selectedContentProvider <| Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.selectedContentProvider <| toContentType contentType
+                    let
+                        topic =
+                            Topic topicName False
 
-                --label [] [ text (toString model.selectedContentProvider.links) ]
-                -- contentProviderTopicContentTypePage (Topic topic False) (toContentType contentType) model.selectedContentProvider
+                        content =
+                            Html.map ContentProviderTopicContentTypeLinksAction <| ContentProviderTopicContentTypeLinks.view model.selectedContentProvider topic <| toContentType contentType
+                    in
+                        renderProfileBase model.selectedContentProvider <| content
+
                 Nothing ->
                     notFoundPage
 
@@ -738,26 +755,6 @@ registerPage model =
         [ h3 [] [ text "Join" ]
         , Html.map OnRegistration <| Registration.view model.registration
         ]
-
-
-
--- contentProviderTopicContentTypePage : Topic -> ContentType -> ContentProvider.Model -> Html Msg
--- contentProviderTopicContentTypePage topic contentType model =
---     let
---         profileId =
---             model.profile.id
---         links =
---             runtime.topicLinks topic Video profileId
---     in
---         div []
---             [ table []
---                 [ tr []
---                     [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
---                     ]
---                 ]
---             , tr [ class "bio" ] [ td [] [ text <| getName model.profile.firstName ++ " " ++ getName model.profile.lastName ] ]
---             , tr [ class "bio" ] [ td [] [ p [] [ text model.profile.bio ] ] ]
---             ]
 
 
 contentProviderTopicPage : Linksfrom -> ContentProvider.Model -> Html Msg
