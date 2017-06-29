@@ -458,7 +458,7 @@ moreTopicContentUrl : Linksfrom -> Id -> ContentType -> Topic -> Url
 moreTopicContentUrl linksFrom id contentType topic =
     case linksFrom of
         FromOther ->
-            Url <| "/#/contentProvider/" ++ getId id ++ "/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText |> String.toLower)
+            Url <| "/#/contentProvider/" ++ getId id ++ "/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)
 
         FromPortal ->
-            Url <| "/#/" ++ getId id ++ "/portal/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText |> String.toLower)
+            Url <| "/#/" ++ getId id ++ "/portal/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)

@@ -586,8 +586,10 @@ view model =
         [ "contentProvider", id, topic, "all", contentType ] ->
             case runtime.contentProvider <| Id id of
                 Just _ ->
-                    contentProviderTopicContentTypePage (Topic topic False) (toContentType contentType) model.selectedContentProvider
+                    renderProfileBase model.selectedContentProvider <| Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.selectedContentProvider <| toContentType contentType
 
+                --label [] [ text (toString model.selectedContentProvider.links) ]
+                -- contentProviderTopicContentTypePage (Topic topic False) (toContentType contentType) model.selectedContentProvider
                 Nothing ->
                     notFoundPage
 
@@ -738,24 +740,24 @@ registerPage model =
         ]
 
 
-contentProviderTopicContentTypePage : Topic -> ContentType -> ContentProvider.Model -> Html Msg
-contentProviderTopicContentTypePage topic contentType model =
-    let
-        profileId =
-            model.profile.id
 
-        links =
-            runtime.topicLinks topic Video profileId
-    in
-        div []
-            [ table []
-                [ tr []
-                    [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
-                    ]
-                ]
-            , tr [ class "bio" ] [ td [] [ text <| getName model.profile.firstName ++ " " ++ getName model.profile.lastName ] ]
-            , tr [ class "bio" ] [ td [] [ p [] [ text model.profile.bio ] ] ]
-            ]
+-- contentProviderTopicContentTypePage : Topic -> ContentType -> ContentProvider.Model -> Html Msg
+-- contentProviderTopicContentTypePage topic contentType model =
+--     let
+--         profileId =
+--             model.profile.id
+--         links =
+--             runtime.topicLinks topic Video profileId
+--     in
+--         div []
+--             [ table []
+--                 [ tr []
+--                     [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ]
+--                     ]
+--                 ]
+--             , tr [ class "bio" ] [ td [] [ text <| getName model.profile.firstName ++ " " ++ getName model.profile.lastName ] ]
+--             , tr [ class "bio" ] [ td [] [ p [] [ text model.profile.bio ] ] ]
+--             ]
 
 
 contentProviderTopicPage : Linksfrom -> ContentProvider.Model -> Html Msg

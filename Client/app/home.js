@@ -9862,8 +9862,7 @@ var _user$project$Domain_Core$moreTopicContentUrl = F4(
 								A2(
 									_elm_lang$core$Basics_ops['++'],
 									'/all/',
-									_elm_lang$core$String$toLower(
-										_user$project$Domain_Core$contentTypeToText(contentType))))))));
+									_user$project$Domain_Core$contentTypeToText(contentType)))))));
 		} else {
 			return _user$project$Domain_Core$Url(
 				A2(
@@ -9881,8 +9880,7 @@ var _user$project$Domain_Core$moreTopicContentUrl = F4(
 								A2(
 									_elm_lang$core$Basics_ops['++'],
 									'/all/',
-									_elm_lang$core$String$toLower(
-										_user$project$Domain_Core$contentTypeToText(contentType))))))));
+									_user$project$Domain_Core$contentTypeToText(contentType)))))));
 		}
 	});
 var _user$project$Domain_Core$Platform = function (a) {
@@ -13013,114 +13011,6 @@ var _user$project$Home$contentProviderTopicPage = F2(
 			return _user$project$Home$notFoundPage;
 		}
 	});
-var _user$project$Home$contentProviderTopicContentTypePage = F3(
-	function (topic, contentType, model) {
-		var profileId = model.profile.id;
-		var links = A3(_user$project$Settings$runtime.topicLinks, topic, _user$project$Domain_Core$Video, profileId);
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$table,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$tr,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$td,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$img,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$src(
-													_user$project$Domain_Core$getUrl(model.profile.imageUrl)),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$width(100),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$height(100),
-														_1: {ctor: '[]'}
-													}
-												}
-											},
-											{ctor: '[]'}),
-										_1: {ctor: '[]'}
-									}),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$tr,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('bio'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$td,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text(
-										A2(
-											_elm_lang$core$Basics_ops['++'],
-											_user$project$Domain_Core$getName(model.profile.firstName),
-											A2(
-												_elm_lang$core$Basics_ops['++'],
-												' ',
-												_user$project$Domain_Core$getName(model.profile.lastName)))),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$tr,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('bio'),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$td,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$p,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text(model.profile.bio),
-												_1: {ctor: '[]'}
-											}),
-										_1: {ctor: '[]'}
-									}),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}
-				}
-			});
-	});
 var _user$project$Home$renderProfileBase = F2(
 	function (contentProvider, linksContent) {
 		return A2(
@@ -15655,11 +15545,16 @@ var _user$project$Home$view = function (model) {
 									var _p33 = _user$project$Settings$runtime.contentProvider(
 										_user$project$Domain_Core$Id(_p29._1._0));
 									if (_p33.ctor === 'Just') {
-										return A3(
-											_user$project$Home$contentProviderTopicContentTypePage,
-											A2(_user$project$Domain_Core$Topic, _p29._1._1._0, false),
-											_user$project$Domain_Core$toContentType(_p29._1._1._1._1._0),
-											model.selectedContentProvider);
+										return A2(
+											_user$project$Home$renderProfileBase,
+											model.selectedContentProvider,
+											A2(
+												_elm_lang$html$Html$map,
+												_user$project$Home$ContentProviderContentTypeLinksAction,
+												A2(
+													_user$project$Controls_ContentProviderContentTypeLinks$view,
+													model.selectedContentProvider,
+													_user$project$Domain_Core$toContentType(_p29._1._1._1._1._0))));
 									} else {
 										return _user$project$Home$notFoundPage;
 									}
