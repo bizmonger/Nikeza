@@ -829,7 +829,7 @@ content portal =
             Domain.AddLink ->
                 let
                     linkSummary =
-                        portal |> getLinkSummary
+                        portal.newLinks
 
                     newLinkEditor =
                         Html.map NewLink (NewLinks.view (linkSummary))
@@ -850,11 +850,6 @@ content portal =
                         [ tr [] [ td [] [ newLinkEditor ] ]
                         , tr [] [ td [] [ update ] ]
                         ]
-
-
-getLinkSummary : Portal -> NewLinks
-getLinkSummary portal =
-    portal.newLinks
 
 
 renderNavigation : Portal -> List (Html Msg)

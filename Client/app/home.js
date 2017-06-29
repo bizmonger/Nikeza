@@ -12667,9 +12667,6 @@ var _user$project$Home$notFoundPage = A2(
 		_0: _elm_lang$html$Html$text('Page not found'),
 		_1: {ctor: '[]'}
 	});
-var _user$project$Home$getLinkSummary = function (portal) {
-	return portal.newLinks;
-};
 var _user$project$Home$contentProviderTopicPage = F2(
 	function (linksfrom, model) {
 		var profileId = model.profile.id;
@@ -15184,7 +15181,7 @@ var _user$project$Home$content = function (portal) {
 						}
 					});
 			};
-			var linkSummary = _user$project$Home$getLinkSummary(portal);
+			var linkSummary = portal.newLinks;
 			var newLinkEditor = A2(
 				_elm_lang$html$Html$map,
 				_user$project$Home$NewLink,
