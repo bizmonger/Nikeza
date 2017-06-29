@@ -18,6 +18,8 @@ Reference the Setup document at [https://github.com/Lambda-Cartel/everything/wik
 In summary, the following is required:
 
 1. You need NodeJS. You can download it at [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
-2. Run `npm install -g yarn`
-3. Then `yarn install`
-4. Run the webserver with `yarn server`
+2. Enter the app directory `cd app` 
+3. Run `npm install -g yarn`
+5. Then `yarn install`
+6. Then build the project with `yarn build`
+6. Run the webserver with `yarn server`
