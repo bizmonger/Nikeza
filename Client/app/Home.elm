@@ -562,16 +562,7 @@ view model =
         [ "contentProvider", id ] ->
             case runtime.contentProvider <| Id id of
                 Just _ ->
-                    table []
-                        [ tr []
-                            [ table []
-                                [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| model.selectedContentProvider.profile.imageUrl, width 100, height 100 ] [] ] ]
-                                , tr [ class "bio" ] [ td [] [ text <| getName model.selectedContentProvider.profile.firstName ++ " " ++ getName model.selectedContentProvider.profile.lastName ] ]
-                                , tr [ class "bio" ] [ td [] [ p [] [ text model.selectedContentProvider.profile.bio ] ] ]
-                                ]
-                            , td [] [ Html.map ContentProviderLinksAction <| ContentProviderLinks.view FromOther model.selectedContentProvider ]
-                            ]
-                        ]
+                    foo model.selectedContentProvider <| Html.map ContentProviderLinksAction <| ContentProviderLinks.view FromOther model.selectedContentProvider
 
                 Nothing ->
                     notFoundPage
@@ -587,16 +578,7 @@ view model =
         [ "contentProvider", id, "all", contentType ] ->
             case runtime.contentProvider <| Id id of
                 Just _ ->
-                    table []
-                        [ tr []
-                            [ table []
-                                [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| model.selectedContentProvider.profile.imageUrl, width 100, height 100 ] [] ] ]
-                                , tr [ class "bio" ] [ td [] [ text <| getName model.selectedContentProvider.profile.firstName ++ " " ++ getName model.selectedContentProvider.profile.lastName ] ]
-                                , tr [ class "bio" ] [ td [] [ p [] [ text model.selectedContentProvider.profile.bio ] ] ]
-                                ]
-                            , td [] [ Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.selectedContentProvider <| toContentType contentType ]
-                            ]
-                        ]
+                    foo model.selectedContentProvider <| Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.selectedContentProvider <| toContentType contentType
 
                 Nothing ->
                     notFoundPage
@@ -642,6 +624,20 @@ view model =
 
         _ ->
             notFoundPage
+
+
+foo : ContentProvider -> Html Msg -> Html Msg
+foo contentProvider linksContent =
+    table []
+        [ tr []
+            [ table []
+                [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| contentProvider.profile.imageUrl, width 100, height 100 ] [] ] ]
+                , tr [ class "bio" ] [ td [] [ text <| getName contentProvider.profile.firstName ++ " " ++ getName contentProvider.profile.lastName ] ]
+                , tr [ class "bio" ] [ td [] [ p [] [ text contentProvider.profile.bio ] ] ]
+                ]
+            , td [] [ linksContent ]
+            ]
+        ]
 
 
 applyToPortal : String -> Model -> String -> Html Msg -> Html Msg
