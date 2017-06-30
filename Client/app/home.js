@@ -9813,7 +9813,7 @@ var _user$project$Domain_Core$contentProviderUrl = function (id) {
 			'/#/contentProvider/',
 			_user$project$Domain_Core$getId(id)));
 };
-var _user$project$Domain_Core$moreContentUrl = F3(
+var _user$project$Domain_Core$allContentUrl = F3(
 	function (linksFrom, id, contentType) {
 		var _p8 = linksFrom;
 		if (_p8.ctor === 'FromOther') {
@@ -9842,7 +9842,7 @@ var _user$project$Domain_Core$moreContentUrl = F3(
 							_user$project$Domain_Core$contentTypeToText(contentType)))));
 		}
 	});
-var _user$project$Domain_Core$moreTopicContentUrl = F4(
+var _user$project$Domain_Core$allTopicContentUrl = F4(
 	function (linksFrom, id, contentType, topic) {
 		var _p9 = linksFrom;
 		if (_p9.ctor === 'FromOther') {
@@ -11252,7 +11252,7 @@ var _user$project$Controls_ContentProviderLinks$linksUI = function (links) {
 		},
 		A2(_elm_lang$core$List$take, 5, links));
 };
-var _user$project$Controls_ContentProviderLinks$requestMoreContent = F4(
+var _user$project$Controls_ContentProviderLinks$requestAllContent = F4(
 	function (linksFrom, profileId, contentType, links) {
 		return A2(
 			_elm_lang$core$List$append,
@@ -11265,7 +11265,7 @@ var _user$project$Controls_ContentProviderLinks$requestMoreContent = F4(
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$href(
 							_user$project$Domain_Core$getUrl(
-								A3(_user$project$Domain_Core$moreContentUrl, linksFrom, profileId, contentType))),
+								A3(_user$project$Domain_Core$allContentUrl, linksFrom, profileId, contentType))),
 						_1: {ctor: '[]'}
 					},
 					{
@@ -11449,7 +11449,7 @@ var _user$project$Controls_ContentProviderLinks$view = F2(
 																				_0: A2(
 																					_elm_lang$html$Html$div,
 																					{ctor: '[]'},
-																					A4(_user$project$Controls_ContentProviderLinks$requestMoreContent, linksFrom, profileId, _user$project$Domain_Core$Answer, links.answers)),
+																					A4(_user$project$Controls_ContentProviderLinks$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Answer, links.answers)),
 																				_1: {ctor: '[]'}
 																			}),
 																		_1: {
@@ -11462,7 +11462,7 @@ var _user$project$Controls_ContentProviderLinks$view = F2(
 																					_0: A2(
 																						_elm_lang$html$Html$div,
 																						{ctor: '[]'},
-																						A4(_user$project$Controls_ContentProviderLinks$requestMoreContent, linksFrom, profileId, _user$project$Domain_Core$Article, links.articles)),
+																						A4(_user$project$Controls_ContentProviderLinks$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Article, links.articles)),
 																					_1: {ctor: '[]'}
 																				}),
 																			_1: {ctor: '[]'}
@@ -11525,7 +11525,7 @@ var _user$project$Controls_ContentProviderLinks$view = F2(
 																						_0: A2(
 																							_elm_lang$html$Html$div,
 																							{ctor: '[]'},
-																							A4(_user$project$Controls_ContentProviderLinks$requestMoreContent, linksFrom, profileId, _user$project$Domain_Core$Podcast, links.podcasts)),
+																							A4(_user$project$Controls_ContentProviderLinks$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Podcast, links.podcasts)),
 																						_1: {ctor: '[]'}
 																					}),
 																				_1: {
@@ -11538,7 +11538,7 @@ var _user$project$Controls_ContentProviderLinks$view = F2(
 																							_0: A2(
 																								_elm_lang$html$Html$div,
 																								{ctor: '[]'},
-																								A4(_user$project$Controls_ContentProviderLinks$requestMoreContent, linksFrom, profileId, _user$project$Domain_Core$Video, links.videos)),
+																								A4(_user$project$Controls_ContentProviderLinks$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Video, links.videos)),
 																							_1: {ctor: '[]'}
 																						}),
 																					_1: {ctor: '[]'}
@@ -12732,7 +12732,7 @@ var _user$project$Home$contentWithTopicUI = F5(
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$href(
 							_user$project$Domain_Core$getUrl(
-								A4(_user$project$Domain_Core$moreTopicContentUrl, linksFrom, profileId, contentType, topic))),
+								A4(_user$project$Domain_Core$allTopicContentUrl, linksFrom, profileId, contentType, topic))),
 						_1: {ctor: '[]'}
 					},
 					{
@@ -14941,49 +14941,18 @@ var _user$project$Home$render = F4(
 						_0: A2(
 							_elm_lang$html$Html$td,
 							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$table,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$tr,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('bio'),
-												_1: {ctor: '[]'}
-											},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$td,
-													{ctor: '[]'},
-													{
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$img,
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$src(
-																	_user$project$Domain_Core$getUrl(contentProvider.profile.imageUrl)),
-																_1: {
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$width(100),
-																	_1: {
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Attributes$height(100),
-																		_1: {ctor: '[]'}
-																	}
-																}
-															},
-															{ctor: '[]'}),
-														_1: {ctor: '[]'}
-													}),
-												_1: {ctor: '[]'}
-											}),
-										_1: {
+							_user$project$Home$renderNavigation(portal)),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$td,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$table,
+										{ctor: '[]'},
+										{
 											ctor: '::',
 											_0: A2(
 												_elm_lang$html$Html$tr,
@@ -14999,14 +14968,23 @@ var _user$project$Home$render = F4(
 														{ctor: '[]'},
 														{
 															ctor: '::',
-															_0: _elm_lang$html$Html$text(
-																A2(
-																	_elm_lang$core$Basics_ops['++'],
-																	_user$project$Domain_Core$getName(contentProvider.profile.firstName),
-																	A2(
-																		_elm_lang$core$Basics_ops['++'],
-																		' ',
-																		_user$project$Domain_Core$getName(contentProvider.profile.lastName)))),
+															_0: A2(
+																_elm_lang$html$Html$img,
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$src(
+																		_user$project$Domain_Core$getUrl(contentProvider.profile.imageUrl)),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$width(100),
+																		_1: {
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$height(100),
+																			_1: {ctor: '[]'}
+																		}
+																	}
+																},
+																{ctor: '[]'}),
 															_1: {ctor: '[]'}
 														}),
 													_1: {ctor: '[]'}
@@ -15027,30 +15005,52 @@ var _user$project$Home$render = F4(
 															{ctor: '[]'},
 															{
 																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$p,
-																	{ctor: '[]'},
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html$text(contentProvider.profile.bio),
-																		_1: {ctor: '[]'}
-																	}),
+																_0: _elm_lang$html$Html$text(
+																	A2(
+																		_elm_lang$core$Basics_ops['++'],
+																		_user$project$Domain_Core$getName(contentProvider.profile.firstName),
+																		A2(
+																			_elm_lang$core$Basics_ops['++'],
+																			' ',
+																			_user$project$Domain_Core$getName(contentProvider.profile.lastName)))),
 																_1: {ctor: '[]'}
 															}),
 														_1: {ctor: '[]'}
 													}),
-												_1: {ctor: '[]'}
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$tr,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$class('bio'),
+															_1: {ctor: '[]'}
+														},
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$td,
+																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$p,
+																		{ctor: '[]'},
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html$text(contentProvider.profile.bio),
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}
 											}
-										}
-									}),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$td,
-								{ctor: '[]'},
-								_user$project$Home$renderNavigation(portal)),
+										}),
+									_1: {ctor: '[]'}
+								}),
 							_1: {
 								ctor: '::',
 								_0: A2(

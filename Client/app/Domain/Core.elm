@@ -444,8 +444,8 @@ contentTypeToText contentType =
             ""
 
 
-moreContentUrl : Linksfrom -> Id -> ContentType -> Url
-moreContentUrl linksFrom id contentType =
+allContentUrl : Linksfrom -> Id -> ContentType -> Url
+allContentUrl linksFrom id contentType =
     case linksFrom of
         FromOther ->
             Url <| "/#/contentProvider/" ++ getId id ++ "/all/" ++ (contentType |> contentTypeToText)
@@ -454,8 +454,8 @@ moreContentUrl linksFrom id contentType =
             Url <| "/#/" ++ getId id ++ "/portal/all/" ++ (contentType |> contentTypeToText)
 
 
-moreTopicContentUrl : Linksfrom -> Id -> ContentType -> Topic -> Url
-moreTopicContentUrl linksFrom id contentType topic =
+allTopicContentUrl : Linksfrom -> Id -> ContentType -> Topic -> Url
+allTopicContentUrl linksFrom id contentType topic =
     case linksFrom of
         FromOther ->
             Url <| "/#/contentProvider/" ++ getId id ++ "/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)

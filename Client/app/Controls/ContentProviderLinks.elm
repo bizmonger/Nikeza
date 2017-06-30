@@ -64,16 +64,16 @@ view linksFrom model =
                                     , td [] [ b [] [ text "Articles" ] ]
                                     ]
                                 , tr []
-                                    [ td [] [ div [] <| requestMoreContent linksFrom profileId Answer links.answers ]
-                                    , td [] [ div [] <| requestMoreContent linksFrom profileId Article links.articles ]
+                                    [ td [] [ div [] <| requestAllContent linksFrom profileId Answer links.answers ]
+                                    , td [] [ div [] <| requestAllContent linksFrom profileId Article links.articles ]
                                     ]
                                 , tr []
                                     [ td [] [ b [] [ text "Podcasts" ] ]
                                     , td [] [ b [] [ text "Videos" ] ]
                                     ]
                                 , tr []
-                                    [ td [] [ div [] <| requestMoreContent linksFrom profileId Podcast links.podcasts ]
-                                    , td [] [ div [] <| requestMoreContent linksFrom profileId Video links.videos ]
+                                    [ td [] [ div [] <| requestAllContent linksFrom profileId Podcast links.podcasts ]
+                                    , td [] [ div [] <| requestAllContent linksFrom profileId Video links.videos ]
                                     ]
                                 ]
                             ]
@@ -83,9 +83,12 @@ view linksFrom model =
             ]
 
 
-requestMoreContent : Linksfrom -> Id -> ContentType -> List Link -> List (Html Msg)
-requestMoreContent linksFrom profileId contentType links =
-    List.append (linksUI links) [ a [ href <| getUrl <| moreContentUrl linksFrom profileId contentType ] [ text <| "all", br [] [] ] ]
+requestAllContent : Linksfrom -> Id -> ContentType -> List Link -> List (Html Msg)
+requestAllContent linksFrom profileId contentType links =
+    List.append (linksUI links)
+        [ a [ href <| getUrl <| allContentUrl linksFrom profileId contentType ]
+            [ text <| "all", br [] [] ]
+        ]
 
 
 linksUI : List Link -> List (Html Msg)

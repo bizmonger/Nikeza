@@ -680,14 +680,14 @@ render : ContentProvider -> String -> Html Msg -> Portal -> Html Msg
 render contentProvider contentType linksContent portal =
     table []
         [ tr []
-            [ td []
+            [ td [] <| renderNavigation portal
+            , td []
                 [ table []
                     [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| contentProvider.profile.imageUrl, width 100, height 100 ] [] ] ]
                     , tr [ class "bio" ] [ td [] [ text <| getName contentProvider.profile.firstName ++ " " ++ getName contentProvider.profile.lastName ] ]
                     , tr [ class "bio" ] [ td [] [ p [] [ text contentProvider.profile.bio ] ] ]
                     ]
                 ]
-            , td [] <| renderNavigation portal
             , td [] [ linksContent ]
             ]
         ]
@@ -1005,7 +1005,7 @@ linksUI links =
 
 contentWithTopicUI : Linksfrom -> Id -> ContentType -> Topic -> List Link -> List (Html Msg)
 contentWithTopicUI linksFrom profileId contentType topic links =
-    List.append (linksUI links) [ a [ href <| getUrl <| moreTopicContentUrl linksFrom profileId contentType topic ] [ text <| "all", br [] [] ] ]
+    List.append (linksUI links) [ a [ href <| getUrl <| allTopicContentUrl linksFrom profileId contentType topic ] [ text <| "all", br [] [] ] ]
 
 
 
