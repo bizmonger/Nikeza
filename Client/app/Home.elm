@@ -1044,5 +1044,53 @@ navigate msg model location =
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
 
+        [ id, "portal" ] ->
+            case runtime.contentProvider <| Id id of
+                Just c ->
+                    let
+                        portal =
+                            model.portal
+
+                        pendingPortal =
+                            { portal | contentProvider = c }
+                    in
+                        ( { model | portal = pendingPortal, currentRoute = location }, Cmd.none )
+
+                Nothing ->
+                    ( { model | currentRoute = location }, Cmd.none )
+
+        [ id, "portal", topic ] ->
+            case runtime.contentProvider <| Id id of
+                Just contentProvider ->
+                    let
+                        topicContentProvider =
+                            { contentProvider | topics = [ Topic topic False ] }
+
+                        portal =
+                            model.portal
+
+                        pendingPortal =
+                            { portal | contentProvider = topicContentProvider }
+                    in
+                        ( { model | portal = pendingPortal, currentRoute = location }, Cmd.none )
+
+                Nothing ->
+                    ( { model | currentRoute = location }, Cmd.none )
+
+        [ id, "portal", "all", contentType ] ->
+            case runtime.contentProvider <| Id id of
+                Just contentProvider ->
+                    let
+                        portal =
+                            model.portal
+
+                        pendingPortal =
+                            { portal | contentProvider = contentProvider }
+                    in
+                        ( { model | portal = pendingPortal, currentRoute = location }, Cmd.none )
+
+                Nothing ->
+                    ( { model | currentRoute = location }, Cmd.none )
+
         _ ->
             ( { model | currentRoute = location }, Cmd.none )
