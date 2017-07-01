@@ -680,16 +680,13 @@ render : ContentProvider -> String -> Html Msg -> Portal -> Html Msg
 render contentProvider contentType linksContent portal =
     table []
         [ tr []
-            [ td [] <| renderNavigation portal
-            , td []
+            [ td []
                 [ table []
-                    [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| contentProvider.profile.imageUrl, width 100, height 100 ] [] ] ]
-                    , tr [ class "bio" ] [ td [] [ text <| getName contentProvider.profile.firstName ++ " " ++ getName contentProvider.profile.lastName ] ]
-                    , tr [ class "bio" ] [ td [] [ p [] [ text contentProvider.profile.bio ] ] ]
-                    ]
+                    [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| contentProvider.profile.imageUrl, width 100, height 100 ] [] ] ] ]
                 ]
             , td [] [ linksContent ]
             ]
+        , tr [] [ td [] <| renderNavigation portal ]
         ]
 
 
