@@ -682,11 +682,12 @@ render contentProvider contentType linksContent portal =
         [ tr []
             [ td []
                 [ table []
-                    [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| contentProvider.profile.imageUrl, width 100, height 100 ] [] ] ] ]
+                    [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| contentProvider.profile.imageUrl, width 100, height 100 ] [] ] ]
+                    , tr [] [ td [] <| renderNavigation portal ]
+                    ]
                 ]
             , td [] [ linksContent ]
             ]
-        , tr [] [ td [] <| renderNavigation portal ]
         ]
 
 
