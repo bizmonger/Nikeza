@@ -19,6 +19,7 @@ open Nikeza.Server.Models.Authentication
 open Nikeza.Server.Models
 open Nikeza.Server.YouTube
 open Nikeza.YouTube.Data
+open Nikeza.YouTube.Data.Authentication
 
 // ---------------------------------
 // Web app
@@ -62,7 +63,7 @@ let setCode (handler:HttpHandler)=
 let fetchYoutube (apiKey, channelId) (ctx : HttpContext) = 
     async {
         let youtube = youTubeService apiKey
-        let! videos = uploadList youtube { id = Some channelId; userName = None } 
+        let! videos = uploadList youtube <| ChannelId channelId
         return! json videos ctx
     }
 
