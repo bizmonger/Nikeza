@@ -128,6 +128,8 @@ let main argv =
         .Configure(Action<IApplicationBuilder> configureApp)
         .ConfigureServices(Action<IServiceCollection> configureServices)
         .ConfigureLogging(Action<ILoggerFactory> configureLogging)
+        // '0.0.0.0' must be used since 'localhost' does not work in docker.
+        .UseUrls("http://0.0.0.0:5000") 
         .Build()
         .Run()
     0
