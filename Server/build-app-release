@@ -1,0 +1,8 @@
+#!/bin/bash
+
+dotnet restore Nikeza.YouTube
+dotnet build Nikeza.YouTube/Nikeza.YouTube.fsproj
+dotnet restore Nikeza.Server
+dotnet build Nikeza.Server/Nikeza.Server.fsproj
+
+dotnet publish -c release Nikeza.Server -o ../dist
