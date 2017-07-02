@@ -1030,6 +1030,14 @@ navigate msg model location =
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
 
+        [ "contentProvider", id, "all", contentType ] ->
+            case runtime.contentProvider <| Id id of
+                Just c ->
+                    ( { model | selectedContentProvider = c, currentRoute = location }, Cmd.none )
+
+                Nothing ->
+                    ( { model | currentRoute = location }, Cmd.none )
+
         [ "contentProvider", id, topic ] ->
             case runtime.contentProvider <| Id id of
                 Just contentProvider ->
@@ -1050,7 +1058,13 @@ navigate msg model location =
                             model.portal
 
                         pendingPortal =
-                            { portal | contentProvider = c }
+                            { portal
+                                | contentProvider = c
+                                , sourcesNavigation = c.profile.sources |> List.isEmpty
+                                , addLinkNavigation = True
+                                , linksNavigation = linksExist c.links
+                                , requested = Domain.ViewLinks
+                            }
                     in
                         ( { model | portal = pendingPortal, currentRoute = location }, Cmd.none )
 
@@ -1077,13 +1091,19 @@ navigate msg model location =
 
         [ id, "portal", "all", contentType ] ->
             case runtime.contentProvider <| Id id of
-                Just contentProvider ->
+                Just c ->
                     let
                         portal =
                             model.portal
 
                         pendingPortal =
-                            { portal | contentProvider = contentProvider }
+                            { portal
+                                | contentProvider = c
+                                , sourcesNavigation = c.profile.sources |> List.isEmpty
+                                , addLinkNavigation = True
+                                , linksNavigation = linksExist c.links
+                                , requested = Domain.ViewLinks
+                            }
                     in
                         ( { model | portal = pendingPortal, currentRoute = location }, Cmd.none )
 
