@@ -51,7 +51,8 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ input [ type_ "text", placeholder "first name", onInput FirstNameInput, value <| getName model.firstName ] []
+        [ h2 [] [ text "Profile" ]
+        , input [ type_ "text", placeholder "first name", onInput FirstNameInput, value <| getName model.firstName ] []
         , br [] []
         , input [ type_ "text", placeholder "last name", onInput LastNameInput, value <| getName model.lastName ] []
         , br [] []
