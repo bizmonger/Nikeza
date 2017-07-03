@@ -4,7 +4,7 @@ Streamline all links from articles, videos, podcasts, and answered questions fro
 
 # Compiling
 1. Bring up the termininal within your IDE.
-2. Enter the following: "cd Client"
+2. Enter the following: "cd Client/app"
 3. Install dependencies: "yarn install && yarn build"
 3. Start live reloading server: "yarn live"
 4. Observe a web server gets spun up.
