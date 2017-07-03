@@ -176,10 +176,19 @@ update msg model =
 
                 ContentProviderContentTypeLinks.Toggle _ ->
                     let
+                        portal =
+                            model.portal
+
                         contentProvider =
-                            ContentProviderContentTypeLinks.update subMsg model.selectedContentProvider
+                            if model.portal.requested == Domain.ViewLinks then
+                                ContentProviderContentTypeLinks.update subMsg model.portal.contentProvider
+                            else
+                                ContentProviderContentTypeLinks.update subMsg model.selectedContentProvider
                     in
-                        ( { model | selectedContentProvider = contentProvider }, Cmd.none )
+                        if model.portal.requested == Domain.ViewLinks then
+                            ( { model | portal = { portal | contentProvider = contentProvider } }, Cmd.none )
+                        else
+                            ( { model | selectedContentProvider = contentProvider }, Cmd.none )
 
         ContentProviderTopicContentTypeLinksAction subMsg ->
             ( model, Cmd.none )

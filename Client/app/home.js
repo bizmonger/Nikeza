@@ -14014,8 +14014,19 @@ var _user$project$Home$update = F2(
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
-					var contentProvider = A2(_user$project$Controls_ContentProviderContentTypeLinks$update, _p26, model.selectedContentProvider);
-					return {
+					var contentProvider = _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? A2(_user$project$Controls_ContentProviderContentTypeLinks$update, _p26, model.portal.contentProvider) : A2(_user$project$Controls_ContentProviderContentTypeLinks$update, _p26, model.selectedContentProvider);
+					var portal = model.portal;
+					return _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								portal: _elm_lang$core$Native_Utils.update(
+									portal,
+									{contentProvider: contentProvider})
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					} : {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
