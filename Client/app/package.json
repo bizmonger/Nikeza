@@ -9,9 +9,9 @@
     "server": "./node_modules/http-server/bin/http-server .",
 
 
-    "start": "elm-live Main.elm --open",
-    "test:watch": "elm-test --watch",
-    "start:test:watch": "concurrently 'npm run start' 'npm run test:watch'"
+     "start": "elm-live Main.elm --open",
+    "start:test:watch": "concurrently \"npm run start\" \"npm run test:watch\"",
+    "test:watch": "elm-test --watch"
   },
   "dependencies": {
     "ace-css": "1.1",
@@ -26,6 +26,7 @@
     "webpack-dev-server": "^2.4.5"
   },
   "devDependencies": {
+    "concurrently": "^3.5.0",
     "elm": "^0.18.0",
     "elm-live": "^2.7.4",
     "http-server": "^0.10.0"

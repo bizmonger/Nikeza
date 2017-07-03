@@ -240,6 +240,7 @@ type ContentProviderRequest
     | ViewLinks
     | AddLink
     | EditProfile
+    | ViewSubscriptions
 
 
 

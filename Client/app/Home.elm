@@ -87,6 +87,7 @@ type Msg
     | AddNewLink
     | ViewLinks
     | EditProfile
+    | ViewSubscriptions
     | NewLink NewLinks.Msg
     | ContentProviderLinksAction ContentProviderLinks.Msg
     | PortalLinksAction ContentProviderLinks.Msg
@@ -149,6 +150,13 @@ update msg model =
                     model.portal
             in
                 ( { model | portal = { pendingPortal | requested = Domain.EditProfile } }, Cmd.none )
+
+        ViewSubscriptions ->
+            let
+                pendingPortal =
+                    model.portal
+            in
+                ( { model | portal = { pendingPortal | requested = Domain.ViewSubscriptions } }, Cmd.none )
 
         SourceAdded subMsg ->
             onAddedSource subMsg model
@@ -859,6 +867,9 @@ content contentToEmbed portal =
                         , tr [] [ td [] [ update ] ]
                         ]
 
+            Domain.ViewSubscriptions ->
+                div [] [ label [] [ text "Subscriptions..." ] ]
+
 
 renderNavigation : Portal -> List (Html Msg)
 renderNavigation portal =
@@ -872,6 +883,9 @@ renderNavigation portal =
                 + (List.length links.videos)
                 + (List.length links.podcasts)
 
+        totalSubscriptions =
+            0
+
         profile =
             portal.contentProvider.profile
 
@@ -881,11 +895,11 @@ renderNavigation portal =
         linksText =
             "Links " ++ "(" ++ (toString totalLinks) ++ ")"
 
-        linkText =
-            "Link"
+        subscriptionsText =
+            "Following " ++ "(" ++ (toString totalSubscriptions) ++ ")"
 
-        profileText =
-            "Profile"
+        ( linkText, profileText ) =
+            ( "Link", "Profile" )
 
         allNavigation =
             case portal.requested of
@@ -897,6 +911,8 @@ renderNavigation portal =
                     , button [ class "selectedNavigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text subscriptionsText ]
                     ]
 
                 Domain.ViewLinks ->
@@ -907,6 +923,8 @@ renderNavigation portal =
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text subscriptionsText ]
                     ]
 
                 Domain.AddLink ->
@@ -917,6 +935,8 @@ renderNavigation portal =
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text subscriptionsText ]
                     ]
 
                 Domain.EditProfile ->
@@ -927,6 +947,20 @@ renderNavigation portal =
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "selectedNavigationButton4", onClick EditProfile ] [ text profileText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text subscriptionsText ]
+                    ]
+
+                Domain.ViewSubscriptions ->
+                    [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
+                    , br [] []
+                    , button [ class "selectedNavigationButton4", onClick ViewSubscriptions ] [ text subscriptionsText ]
                     ]
 
         sourcesButNoLinks =
@@ -961,6 +995,16 @@ renderNavigation portal =
                     , button [ class "navigationButton3", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "selectedNavigationButton3", onClick EditProfile ] [ text profileText ]
+                    ]
+
+                Domain.ViewSubscriptions ->
+                    [ button [ class "navigationButton3", onClick ViewSources ] [ text sourcesText ]
+                    , br [] []
+                    , button [ class "navigationButton3", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , button [ class "navigationButton3", onClick EditProfile ] [ text profileText ]
+                    , br [] []
+                    , button [ class "selectedNavigationButton3", onClick ViewSubscriptions ] [ text subscriptionsText ]
                     ]
 
         noSourcesNoLinks =
