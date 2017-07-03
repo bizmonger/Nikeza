@@ -625,18 +625,6 @@ view model =
                 Nothing ->
                     notFoundPage
 
-        [ id, "portal", topic, "all", contentType ] ->
-            case runtime.contentProvider <| Id id of
-                Just _ ->
-                    let
-                        contentToEmbed =
-                            Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.portal.contentProvider <| toContentType contentType
-                    in
-                        contentToEmbed |> applyToPortal id model contentType
-
-                Nothing ->
-                    notFoundPage
-
         [ id, "portal" ] ->
             let
                 ( portal, contentType ) =

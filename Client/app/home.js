@@ -15218,7 +15218,7 @@ var _user$project$Home$content = F2(
 							_elm_lang$html$Html$map,
 							_user$project$Home$SourceAdded,
 							_user$project$Controls_AddSource$view(
-								{source: portal.newSource, sources: portal.contentProvider.profile.sources})),
+								{source: portal.newSource, sources: contentProvider.profile.sources})),
 						_1: {ctor: '[]'}
 					});
 			case 'ViewLinks':
@@ -15235,7 +15235,7 @@ var _user$project$Home$content = F2(
 								_0: A2(
 									_elm_lang$html$Html$map,
 									_user$project$Home$PortalLinksAction,
-									A2(_user$project$Controls_ContentProviderLinks$view, _user$project$Domain_Core$FromPortal, portal.contentProvider)),
+									A2(_user$project$Controls_ContentProviderLinks$view, _user$project$Domain_Core$FromPortal, contentProvider)),
 								_1: {ctor: '[]'}
 							});
 					}
@@ -15250,7 +15250,7 @@ var _user$project$Home$content = F2(
 						_0: A2(
 							_elm_lang$html$Html$map,
 							_user$project$Home$EditProfileAction,
-							_user$project$Controls_EditProfile$view(portal.contentProvider.profile)),
+							_user$project$Controls_EditProfile$view(contentProvider.profile)),
 						_1: {ctor: '[]'}
 					});
 			default:
@@ -15690,7 +15690,7 @@ var _user$project$Home$homePage = function (model) {
 };
 var _user$project$Home$view = function (model) {
 	var _p36 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
-	_v29_10:
+	_v29_9:
 	do {
 		if (_p36.ctor === '[]') {
 			return _user$project$Home$homePage(model);
@@ -15702,7 +15702,7 @@ var _user$project$Home$view = function (model) {
 					case 'register':
 						return _user$project$Home$registerPage(model);
 					default:
-						break _v29_10;
+						break _v29_9;
 				}
 			} else {
 				if (_p36._1._1.ctor === '::') {
@@ -15716,10 +15716,31 @@ var _user$project$Home$view = function (model) {
 								return _user$project$Home$notFoundPage;
 							}
 						} else {
-							break _v29_10;
+							break _v29_9;
 						}
 					} else {
-						if (_p36._1._1._1._1.ctor === '[]') {
+						if (_p36._1._1._1._1.ctor === '::') {
+							if (((_p36._0 === 'contentProvider') && (_p36._1._1._1._0 === 'all')) && (_p36._1._1._1._1._1.ctor === '[]')) {
+								var _p41 = _user$project$Settings$runtime.contentProvider(
+									_user$project$Domain_Core$Id(_p36._1._0));
+								if (_p41.ctor === 'Just') {
+									var topic = A2(_user$project$Domain_Core$Topic, _p36._1._1._0, false);
+									var contentToEmbed = A2(
+										_elm_lang$html$Html$map,
+										_user$project$Home$ContentProviderTopicContentTypeLinksAction,
+										A3(
+											_user$project$Controls_ContentProviderTopicContentTypeLinks$view,
+											model.selectedContentProvider,
+											topic,
+											_user$project$Domain_Core$toContentType(_p36._1._1._1._1._0)));
+									return A2(_user$project$Home$renderProfileBase, model.selectedContentProvider, contentToEmbed);
+								} else {
+									return _user$project$Home$notFoundPage;
+								}
+							} else {
+								break _v29_9;
+							}
+						} else {
 							if (_p36._1._1._0 === 'all') {
 								if (_p36._0 === 'contentProvider') {
 									var _p39 = _user$project$Settings$runtime.contentProvider(
@@ -15762,55 +15783,11 @@ var _user$project$Home$view = function (model) {
 											return _user$project$Home$notFoundPage;
 										}
 									} else {
-										break _v29_10;
+										break _v29_9;
 									}
 								}
 							} else {
-								break _v29_10;
-							}
-						} else {
-							if ((_p36._1._1._1._0 === 'all') && (_p36._1._1._1._1._1.ctor === '[]')) {
-								if (_p36._0 === 'contentProvider') {
-									var _p41 = _user$project$Settings$runtime.contentProvider(
-										_user$project$Domain_Core$Id(_p36._1._0));
-									if (_p41.ctor === 'Just') {
-										var topic = A2(_user$project$Domain_Core$Topic, _p36._1._1._0, false);
-										var contentToEmbed = A2(
-											_elm_lang$html$Html$map,
-											_user$project$Home$ContentProviderTopicContentTypeLinksAction,
-											A3(
-												_user$project$Controls_ContentProviderTopicContentTypeLinks$view,
-												model.selectedContentProvider,
-												topic,
-												_user$project$Domain_Core$toContentType(_p36._1._1._1._1._0)));
-										return A2(_user$project$Home$renderProfileBase, model.selectedContentProvider, contentToEmbed);
-									} else {
-										return _user$project$Home$notFoundPage;
-									}
-								} else {
-									if (_p36._1._0 === 'portal') {
-										var _p47 = _p36._0;
-										var _p46 = _p36._1._1._1._1._0;
-										var _p45 = _user$project$Settings$runtime.contentProvider(
-											_user$project$Domain_Core$Id(_p47));
-										if (_p45.ctor === 'Just') {
-											var contentToEmbed = A2(
-												_elm_lang$html$Html$map,
-												_user$project$Home$ContentProviderContentTypeLinksAction,
-												A2(
-													_user$project$Controls_ContentProviderContentTypeLinks$view,
-													model.portal.contentProvider,
-													_user$project$Domain_Core$toContentType(_p46)));
-											return A4(_user$project$Home$applyToPortal, _p47, model, _p46, contentToEmbed);
-										} else {
-											return _user$project$Home$notFoundPage;
-										}
-									} else {
-										break _v29_10;
-									}
-								}
-							} else {
-								break _v29_10;
+								break _v29_9;
 							}
 						}
 					}
@@ -15831,9 +15808,9 @@ var _user$project$Home$view = function (model) {
 						}
 					} else {
 						if (_p36._1._0 === 'portal') {
-							var _p48 = {ctor: '_Tuple2', _0: model.portal, _1: 'all'};
-							var portal = _p48._0;
-							var contentType = _p48._1;
+							var _p45 = {ctor: '_Tuple2', _0: model.portal, _1: 'all'};
+							var portal = _p45._0;
+							var contentType = _p45._1;
 							return A4(
 								_user$project$Home$applyToPortal,
 								_p36._0,
@@ -15841,7 +15818,7 @@ var _user$project$Home$view = function (model) {
 								contentType,
 								A2(_user$project$Home$content, _elm_lang$core$Maybe$Nothing, portal));
 						} else {
-							break _v29_10;
+							break _v29_9;
 						}
 					}
 				}
@@ -15860,7 +15837,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p49) {
+		subscriptions: function (_p46) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();
