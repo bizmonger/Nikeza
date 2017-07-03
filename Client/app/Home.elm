@@ -818,7 +818,7 @@ content contentToEmbed portal =
                     [ Html.map SourceAdded <|
                         AddSource.view
                             { source = portal.newSource
-                            , sources = portal.contentProvider.profile.sources
+                            , sources = contentProvider.profile.sources
                             }
                     ]
 
@@ -830,12 +830,12 @@ content contentToEmbed portal =
                                 v
 
                             Nothing ->
-                                div [] [ Html.map PortalLinksAction <| ContentProviderLinks.view FromPortal portal.contentProvider ]
+                                div [] [ Html.map PortalLinksAction <| ContentProviderLinks.view FromPortal contentProvider ]
                 in
-                    Debug.log "contentToDisplay" contentToDisplay
+                    contentToDisplay
 
             Domain.EditProfile ->
-                div [] [ Html.map EditProfileAction <| EditProfile.view portal.contentProvider.profile ]
+                div [] [ Html.map EditProfileAction <| EditProfile.view contentProvider.profile ]
 
             Domain.AddLink ->
                 let

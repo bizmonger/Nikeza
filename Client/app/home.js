@@ -15240,7 +15240,7 @@ var _user$project$Home$content = F2(
 							});
 					}
 				}();
-				return A2(_elm_lang$core$Debug$log, 'contentToDisplay', contentToDisplay);
+				return contentToDisplay;
 			case 'EditProfile':
 				return A2(
 					_elm_lang$html$Html$div,
