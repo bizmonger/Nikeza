@@ -587,10 +587,10 @@ view model =
                         ( view, contentProvider ) =
                             ( ContentProviderContentTypeLinks.view, model.selectedContentProvider )
 
-                        content =
+                        contentToEmbed =
                             Html.map ContentProviderContentTypeLinksAction <| view contentProvider <| toContentType contentType
                     in
-                        renderProfileBase model.selectedContentProvider <| content
+                        renderProfileBase model.selectedContentProvider <| contentToEmbed
 
                 Nothing ->
                     notFoundPage
@@ -602,10 +602,10 @@ view model =
                         topic =
                             Topic topicName False
 
-                        content =
+                        contentToEmbed =
                             Html.map ContentProviderTopicContentTypeLinksAction <| ContentProviderTopicContentTypeLinks.view model.selectedContentProvider topic <| toContentType contentType
                     in
-                        renderProfileBase model.selectedContentProvider <| content
+                        renderProfileBase model.selectedContentProvider <| contentToEmbed
 
                 Nothing ->
                     notFoundPage
@@ -616,8 +616,11 @@ view model =
                     let
                         linksContent =
                             Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.portal.contentProvider <| toContentType contentType
+
+                        contentToEmbed =
+                            linksContent |> applyToPortal id model contentType
                     in
-                        linksContent |> applyToPortal id model contentType
+                        model.portal |> content (Just contentToEmbed)
 
                 Nothing ->
                     notFoundPage
@@ -626,10 +629,10 @@ view model =
             case runtime.contentProvider <| Id id of
                 Just _ ->
                     let
-                        linksContent =
+                        contentToEmbed =
                             Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.portal.contentProvider <| toContentType contentType
                     in
-                        linksContent |> applyToPortal id model contentType
+                        contentToEmbed |> applyToPortal id model contentType
 
                 Nothing ->
                     notFoundPage
@@ -639,7 +642,9 @@ view model =
                 ( portal, contentType ) =
                     ( model.portal, "all" )
             in
-                portal |> content |> applyToPortal id model contentType
+                portal
+                    |> content Nothing
+                    |> applyToPortal id model contentType
 
         _ ->
             notFoundPage
@@ -801,8 +806,8 @@ contentProviderTopicPage linksfrom model =
                 notFoundPage
 
 
-content : Portal -> Html Msg
-content portal =
+content : Maybe (Html Msg) -> Portal -> Html Msg
+content contentToEmbed portal =
     let
         contentProvider =
             portal.contentProvider
@@ -818,7 +823,16 @@ content portal =
                     ]
 
             Domain.ViewLinks ->
-                div [] [ Html.map PortalLinksAction <| ContentProviderLinks.view FromPortal portal.contentProvider ]
+                let
+                    contentToDisplay =
+                        case contentToEmbed of
+                            Just v ->
+                                v
+
+                            Nothing ->
+                                div [] [ Html.map PortalLinksAction <| ContentProviderLinks.view FromPortal portal.contentProvider ]
+                in
+                    Debug.log "contentToDisplay" contentToDisplay
 
             Domain.EditProfile ->
                 div [] [ Html.map EditProfileAction <| EditProfile.view portal.contentProvider.profile ]
