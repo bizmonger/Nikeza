@@ -34,8 +34,8 @@ suite =
                     Expect.equal result.loggedIn False
         , test "search yields profile" <|
             \_ ->
-                -- Setup
                 let
+                    -- Setup
                     location =
                         Navigation.Location "" "" "" "" "" "" "" "" "" "" ""
 
