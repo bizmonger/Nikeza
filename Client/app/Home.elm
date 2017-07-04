@@ -722,16 +722,26 @@ homePage model =
         contentProvidersUI =
             Html.map ProfileThumbnail <|
                 div [] (model.contentProviders |> List.map thumbnail)
-    in
-        div []
-            [ header [ class "header" ]
-                [ img [ src "assets/Nikeza_thin_2.png", width 190, height 38 ] []
-                , br [] []
-                , label [] [ i [] [ text "Linking Your Expertise" ] ]
-                , model |> loginUI
+
+        headerContent =
+            div []
+                [ header [ class "header" ]
+                    [ img [ src "assets/Nikeza_thin_2.png", width 190, height 38 ] []
+                    , br [] []
+                    , label [] [ i [] [ text "Linking Your Expertise" ] ]
+                    , model |> loginUI
+                    ]
+                , input [ class "search", type_ "text", placeholder "name", onInput Search ] []
                 ]
-            , input [ class "search", type_ "text", placeholder "name", onInput Search ] []
-            , table []
+
+        footerContent =
+            footer [ class "copyright" ]
+                [ label [] [ text "2017" ]
+                , a [ href "" ] [ text "GitHub" ]
+                ]
+
+        bodyContent =
+            table []
                 [ tr []
                     [ td [] [ div [] [ contentProvidersUI ] ]
                     , td []
@@ -750,10 +760,11 @@ homePage model =
                         ]
                     ]
                 ]
-            , footer [ class "copyright" ]
-                [ label [] [ text "(c)2017" ]
-                , a [ href "" ] [ text "GitHub" ]
-                ]
+    in
+        div []
+            [ headerContent
+            , bodyContent
+            , footerContent
             ]
 
 

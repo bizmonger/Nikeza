@@ -15738,6 +15738,40 @@ var _user$project$Home$OnLogin = function (a) {
 	return {ctor: 'OnLogin', _0: a};
 };
 var _user$project$Home$homePage = function (model) {
+	var footerContent = A2(
+		_elm_lang$html$Html$footer,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('copyright'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$label,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('2017'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$a,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$href(''),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('GitHub'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		});
 	var contentProvidersUI = A2(
 		_elm_lang$html$Html$map,
 		_user$project$Home$ProfileThumbnail,
@@ -15745,6 +15779,145 @@ var _user$project$Home$homePage = function (model) {
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
 			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, model.contentProviders)));
+	var bodyContent = A2(
+		_elm_lang$html$Html$table,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$tr,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$td,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: contentProvidersUI,
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$td,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$table,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$tr,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$td,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$button,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$class('join'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$Register),
+																	_1: {ctor: '[]'}
+																}
+															},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text('Join!'),
+																_1: {ctor: '[]'}
+															}),
+														_1: {ctor: '[]'}
+													}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$td,
+														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$ul,
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$class('featuresList'),
+																	_1: {ctor: '[]'}
+																},
+																{
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$li,
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$class('joinReasons'),
+																			_1: {ctor: '[]'}
+																		},
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html$text('Import links to your articles, videos, and answers'),
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$li,
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$class('joinReasons'),
+																				_1: {ctor: '[]'}
+																			},
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text('Set your featured links for viewers to see'),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$li,
+																				{
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Attributes$class('joinReasons'),
+																					_1: {ctor: '[]'}
+																				},
+																				{
+																					ctor: '::',
+																					_0: _elm_lang$html$Html$text('Subscribe to new links from your favorite thought leaders'),
+																					_1: {ctor: '[]'}
+																				}),
+																			_1: {ctor: '[]'}
+																		}
+																	}
+																}),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}
+											}),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {ctor: '[]'}
+		});
 	var loginUI = function (model) {
 		var _p36 = {
 			ctor: '_Tuple3',
@@ -15804,7 +15977,7 @@ var _user$project$Home$homePage = function (model) {
 				}
 			});
 	};
-	return A2(
+	var headerContent = A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{
@@ -15887,185 +16060,22 @@ var _user$project$Home$homePage = function (model) {
 						}
 					},
 					{ctor: '[]'}),
+				_1: {ctor: '[]'}
+			}
+		});
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: headerContent,
+			_1: {
+				ctor: '::',
+				_0: bodyContent,
 				_1: {
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$table,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$tr,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$td,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$div,
-												{ctor: '[]'},
-												{
-													ctor: '::',
-													_0: contentProvidersUI,
-													_1: {ctor: '[]'}
-												}),
-											_1: {ctor: '[]'}
-										}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$td,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$table,
-													{ctor: '[]'},
-													{
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$tr,
-															{ctor: '[]'},
-															{
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$td,
-																	{ctor: '[]'},
-																	{
-																		ctor: '::',
-																		_0: A2(
-																			_elm_lang$html$Html$button,
-																			{
-																				ctor: '::',
-																				_0: _elm_lang$html$Html_Attributes$class('join'),
-																				_1: {
-																					ctor: '::',
-																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$Register),
-																					_1: {ctor: '[]'}
-																				}
-																			},
-																			{
-																				ctor: '::',
-																				_0: _elm_lang$html$Html$text('Join!'),
-																				_1: {ctor: '[]'}
-																			}),
-																		_1: {ctor: '[]'}
-																	}),
-																_1: {
-																	ctor: '::',
-																	_0: A2(
-																		_elm_lang$html$Html$td,
-																		{ctor: '[]'},
-																		{
-																			ctor: '::',
-																			_0: A2(
-																				_elm_lang$html$Html$ul,
-																				{
-																					ctor: '::',
-																					_0: _elm_lang$html$Html_Attributes$class('featuresList'),
-																					_1: {ctor: '[]'}
-																				},
-																				{
-																					ctor: '::',
-																					_0: A2(
-																						_elm_lang$html$Html$li,
-																						{
-																							ctor: '::',
-																							_0: _elm_lang$html$Html_Attributes$class('joinReasons'),
-																							_1: {ctor: '[]'}
-																						},
-																						{
-																							ctor: '::',
-																							_0: _elm_lang$html$Html$text('Import links to your articles, videos, and answers'),
-																							_1: {ctor: '[]'}
-																						}),
-																					_1: {
-																						ctor: '::',
-																						_0: A2(
-																							_elm_lang$html$Html$li,
-																							{
-																								ctor: '::',
-																								_0: _elm_lang$html$Html_Attributes$class('joinReasons'),
-																								_1: {ctor: '[]'}
-																							},
-																							{
-																								ctor: '::',
-																								_0: _elm_lang$html$Html$text('Set your featured links for viewers to see'),
-																								_1: {ctor: '[]'}
-																							}),
-																						_1: {
-																							ctor: '::',
-																							_0: A2(
-																								_elm_lang$html$Html$li,
-																								{
-																									ctor: '::',
-																									_0: _elm_lang$html$Html_Attributes$class('joinReasons'),
-																									_1: {ctor: '[]'}
-																								},
-																								{
-																									ctor: '::',
-																									_0: _elm_lang$html$Html$text('Subscribe to new links from your favorite thought leaders'),
-																									_1: {ctor: '[]'}
-																								}),
-																							_1: {ctor: '[]'}
-																						}
-																					}
-																				}),
-																			_1: {ctor: '[]'}
-																		}),
-																	_1: {ctor: '[]'}
-																}
-															}),
-														_1: {ctor: '[]'}
-													}),
-												_1: {ctor: '[]'}
-											}),
-										_1: {ctor: '[]'}
-									}
-								}),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$footer,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('copyright'),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$label,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text('(c)2017'),
-										_1: {ctor: '[]'}
-									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$a,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$href(''),
-											_1: {ctor: '[]'}
-										},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text('GitHub'),
-											_1: {ctor: '[]'}
-										}),
-									_1: {ctor: '[]'}
-								}
-							}),
-						_1: {ctor: '[]'}
-					}
+					_0: footerContent,
+					_1: {ctor: '[]'}
 				}
 			}
 		});
