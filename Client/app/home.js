@@ -13273,6 +13273,40 @@ var _user$project$Home$contentProviderTopicPage = F2(
 			return _user$project$Home$notFoundPage;
 		}
 	});
+var _user$project$Home$footerContent = A2(
+	_elm_lang$html$Html$footer,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('copyright'),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$label,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text('2017'),
+				_1: {ctor: '[]'}
+			}),
+		_1: {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$a,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$href(''),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('GitHub'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		}
+	});
 var _user$project$Home$renderProfileBase = F2(
 	function (contentProvider, linksContent) {
 		return A2(
@@ -15737,41 +15771,173 @@ var _user$project$Home$ProfileThumbnail = function (a) {
 var _user$project$Home$OnLogin = function (a) {
 	return {ctor: 'OnLogin', _0: a};
 };
-var _user$project$Home$homePage = function (model) {
-	var footerContent = A2(
-		_elm_lang$html$Html$footer,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('copyright'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$label,
+var _user$project$Home$headerContent = function (model) {
+	var loginUI = function (model) {
+		var _p36 = {
+			ctor: '_Tuple3',
+			_0: model.login.loggedIn,
+			_1: A2(
+				_elm_lang$html$Html$p,
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('2017'),
+					_0: _elm_lang$html$Html$text(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							'Welcome ',
+							A2(_elm_lang$core$Basics_ops['++'], model.login.email, '!'))),
 					_1: {ctor: '[]'}
+				}),
+			_2: A2(
+				_elm_lang$html$Html$a,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$href(''),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$label,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Signout'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				})
+		};
+		var loggedIn = _p36._0;
+		var welcome = _p36._1;
+		var signout = _p36._2;
+		return (!loggedIn) ? A2(
+			_elm_lang$html$Html$map,
+			_user$project$Home$OnLogin,
+			_user$project$Controls_Login$view(model.login)) : A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('signin'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: welcome,
+				_1: {
+					ctor: '::',
+					_0: signout,
+					_1: {ctor: '[]'}
+				}
+			});
+	};
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$header,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('header'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src('assets/Nikeza_thin_2.png'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$width(190),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$height(38),
+									_1: {ctor: '[]'}
+								}
+							}
+						},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$label,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$i,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('Linking Your Expertise'),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: loginUI(model),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
 				}),
 			_1: {
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$a,
+					_elm_lang$html$Html$input,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$href(''),
-						_1: {ctor: '[]'}
+						_0: _elm_lang$html$Html_Attributes$class('search'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$type_('text'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$placeholder('name'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onInput(_user$project$Home$Search),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
 					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text('GitHub'),
-						_1: {ctor: '[]'}
-					}),
+					{ctor: '[]'}),
 				_1: {ctor: '[]'}
 			}
 		});
+};
+var _user$project$Home$renderPage = F2(
+	function (content, model) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: _user$project$Home$headerContent(model),
+				_1: {
+					ctor: '::',
+					_0: content,
+					_1: {
+						ctor: '::',
+						_0: _user$project$Home$footerContent,
+						_1: {ctor: '[]'}
+					}
+				}
+			});
+	});
+var _user$project$Home$homePage = function (model) {
 	var contentProvidersUI = A2(
 		_elm_lang$html$Html$map,
 		_user$project$Home$ProfileThumbnail,
@@ -15779,7 +15945,7 @@ var _user$project$Home$homePage = function (model) {
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
 			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, model.contentProviders)));
-	var bodyContent = A2(
+	var mainContent = A2(
 		_elm_lang$html$Html$table,
 		{ctor: '[]'},
 		{
@@ -15918,167 +16084,7 @@ var _user$project$Home$homePage = function (model) {
 				}),
 			_1: {ctor: '[]'}
 		});
-	var loginUI = function (model) {
-		var _p36 = {
-			ctor: '_Tuple3',
-			_0: model.login.loggedIn,
-			_1: A2(
-				_elm_lang$html$Html$p,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(
-						A2(
-							_elm_lang$core$Basics_ops['++'],
-							'Welcome ',
-							A2(_elm_lang$core$Basics_ops['++'], model.login.email, '!'))),
-					_1: {ctor: '[]'}
-				}),
-			_2: A2(
-				_elm_lang$html$Html$a,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$href(''),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$label,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('Signout'),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				})
-		};
-		var loggedIn = _p36._0;
-		var welcome = _p36._1;
-		var signout = _p36._2;
-		return (!loggedIn) ? A2(
-			_elm_lang$html$Html$map,
-			_user$project$Home$OnLogin,
-			_user$project$Controls_Login$view(model.login)) : A2(
-			_elm_lang$html$Html$div,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('signin'),
-				_1: {ctor: '[]'}
-			},
-			{
-				ctor: '::',
-				_0: welcome,
-				_1: {
-					ctor: '::',
-					_0: signout,
-					_1: {ctor: '[]'}
-				}
-			});
-	};
-	var headerContent = A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$header,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('header'),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$img,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$src('assets/Nikeza_thin_2.png'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$width(190),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$height(38),
-									_1: {ctor: '[]'}
-								}
-							}
-						},
-						{ctor: '[]'}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$label,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$i,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text('Linking Your Expertise'),
-											_1: {ctor: '[]'}
-										}),
-									_1: {ctor: '[]'}
-								}),
-							_1: {
-								ctor: '::',
-								_0: loginUI(model),
-								_1: {ctor: '[]'}
-							}
-						}
-					}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$input,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('search'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$type_('text'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$placeholder('name'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onInput(_user$project$Home$Search),
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					},
-					{ctor: '[]'}),
-				_1: {ctor: '[]'}
-			}
-		});
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: headerContent,
-			_1: {
-				ctor: '::',
-				_0: bodyContent,
-				_1: {
-					ctor: '::',
-					_0: footerContent,
-					_1: {ctor: '[]'}
-				}
-			}
-		});
+	return A2(_user$project$Home$renderPage, mainContent, model);
 };
 var _user$project$Home$view = function (model) {
 	var _p37 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
@@ -16092,7 +16098,8 @@ var _user$project$Home$view = function (model) {
 					case 'home':
 						return _user$project$Home$homePage(model);
 					case 'register':
-						return _user$project$Home$registerPage(model);
+						var content = _user$project$Home$registerPage(model);
+						return A2(_user$project$Home$renderPage, content, model);
 					default:
 						break _v29_9;
 				}
@@ -16103,7 +16110,8 @@ var _user$project$Home$view = function (model) {
 							var _p39 = _user$project$Settings$runtime.contentProvider(
 								_user$project$Domain_Core$Id(_p37._1._0));
 							if (_p39.ctor === 'Just') {
-								return A2(_user$project$Home$contentProviderTopicPage, _user$project$Domain_Core$FromOther, model.selectedContentProvider);
+								var content = A2(_user$project$Home$contentProviderTopicPage, _user$project$Domain_Core$FromOther, model.selectedContentProvider);
+								return A2(_user$project$Home$renderPage, content, model);
 							} else {
 								return _user$project$Home$notFoundPage;
 							}
@@ -16125,7 +16133,8 @@ var _user$project$Home$view = function (model) {
 											model.selectedContentProvider,
 											topic,
 											_user$project$Domain_Core$toContentType(_p37._1._1._1._1._0)));
-									return A2(_user$project$Home$renderProfileBase, model.selectedContentProvider, contentToEmbed);
+									var content = A2(_user$project$Home$renderProfileBase, model.selectedContentProvider, contentToEmbed);
+									return A2(_user$project$Home$renderPage, content, model);
 								} else {
 									return _user$project$Home$notFoundPage;
 								}
@@ -16148,7 +16157,8 @@ var _user$project$Home$view = function (model) {
 												view,
 												contentProvider,
 												_user$project$Domain_Core$toContentType(_p37._1._1._1._0)));
-										return A2(_user$project$Home$renderProfileBase, model.selectedContentProvider, contentToEmbed);
+										var content = A2(_user$project$Home$renderProfileBase, model.selectedContentProvider, contentToEmbed);
+										return A2(_user$project$Home$renderPage, content, model);
 									} else {
 										return _user$project$Home$notFoundPage;
 									}
@@ -16167,10 +16177,11 @@ var _user$project$Home$view = function (model) {
 													model.portal.contentProvider,
 													_user$project$Domain_Core$toContentType(_p44)));
 											var contentToEmbed = A4(_user$project$Home$applyToPortal, _p45, model, _p44, linksContent);
-											return A2(
+											var mainContent = A2(
 												_user$project$Home$content,
 												_elm_lang$core$Maybe$Just(contentToEmbed),
 												model.portal);
+											return A2(_user$project$Home$renderPage, mainContent, model);
 										} else {
 											return _user$project$Home$notFoundPage;
 										}
@@ -16188,13 +16199,14 @@ var _user$project$Home$view = function (model) {
 						var _p38 = _user$project$Settings$runtime.contentProvider(
 							_user$project$Domain_Core$Id(_p37._1._0));
 						if (_p38.ctor === 'Just') {
-							return A2(
+							var content = A2(
 								_user$project$Home$renderProfileBase,
 								model.selectedContentProvider,
 								A2(
 									_elm_lang$html$Html$map,
 									_user$project$Home$ContentProviderLinksAction,
 									A2(_user$project$Controls_ContentProviderLinks$view, _user$project$Domain_Core$FromOther, model.selectedContentProvider)));
+							return A2(_user$project$Home$renderPage, content, model);
 						} else {
 							return _user$project$Home$notFoundPage;
 						}
@@ -16203,12 +16215,13 @@ var _user$project$Home$view = function (model) {
 							var _p46 = {ctor: '_Tuple2', _0: model.portal, _1: 'all'};
 							var portal = _p46._0;
 							var contentType = _p46._1;
-							return A4(
+							var mainContent = A4(
 								_user$project$Home$applyToPortal,
 								_p37._0,
 								model,
 								contentType,
 								A2(_user$project$Home$content, _elm_lang$core$Maybe$Nothing, portal));
+							return A2(_user$project$Home$renderPage, mainContent, model);
 						} else {
 							break _v29_9;
 						}

@@ -579,12 +579,20 @@ view model =
             homePage model
 
         [ "register" ] ->
-            registerPage model
+            let
+                content =
+                    registerPage model
+            in
+                model |> renderPage content
 
         [ "contentProvider", id ] ->
             case runtime.contentProvider <| Id id of
                 Just _ ->
-                    renderProfileBase model.selectedContentProvider <| Html.map ContentProviderLinksAction <| ContentProviderLinks.view FromOther model.selectedContentProvider
+                    let
+                        content =
+                            renderProfileBase model.selectedContentProvider <| Html.map ContentProviderLinksAction <| ContentProviderLinks.view FromOther model.selectedContentProvider
+                    in
+                        model |> renderPage content
 
                 Nothing ->
                     notFoundPage
@@ -592,7 +600,11 @@ view model =
         [ "contentProvider", id, topic ] ->
             case runtime.contentProvider <| Id id of
                 Just _ ->
-                    contentProviderTopicPage FromOther model.selectedContentProvider
+                    let
+                        content =
+                            contentProviderTopicPage FromOther model.selectedContentProvider
+                    in
+                        model |> renderPage content
 
                 Nothing ->
                     notFoundPage
@@ -606,8 +618,11 @@ view model =
 
                         contentToEmbed =
                             Html.map ContentProviderContentTypeLinksAction <| view contentProvider <| toContentType contentType
+
+                        content =
+                            renderProfileBase model.selectedContentProvider <| contentToEmbed
                     in
-                        renderProfileBase model.selectedContentProvider <| contentToEmbed
+                        model |> renderPage content
 
                 Nothing ->
                     notFoundPage
@@ -621,8 +636,11 @@ view model =
 
                         contentToEmbed =
                             Html.map ContentProviderTopicContentTypeLinksAction <| ContentProviderTopicContentTypeLinks.view model.selectedContentProvider topic <| toContentType contentType
+
+                        content =
+                            renderProfileBase model.selectedContentProvider <| contentToEmbed
                     in
-                        renderProfileBase model.selectedContentProvider <| contentToEmbed
+                        model |> renderPage content
 
                 Nothing ->
                     notFoundPage
@@ -636,8 +654,11 @@ view model =
 
                         contentToEmbed =
                             linksContent |> applyToPortal id model contentType
+
+                        mainContent =
+                            model.portal |> content (Just contentToEmbed)
                     in
-                        model.portal |> content (Just contentToEmbed)
+                        model |> renderPage mainContent
 
                 Nothing ->
                     notFoundPage
@@ -646,10 +667,13 @@ view model =
             let
                 ( portal, contentType ) =
                     ( model.portal, "all" )
+
+                mainContent =
+                    portal
+                        |> content Nothing
+                        |> applyToPortal id model contentType
             in
-                portal
-                    |> content Nothing
-                    |> applyToPortal id model contentType
+                model |> renderPage mainContent
 
         _ ->
             notFoundPage
@@ -701,8 +725,8 @@ render contentProvider contentType linksContent portal =
         ]
 
 
-homePage : Model -> Html Msg
-homePage model =
+headerContent : Model -> Html Msg
+headerContent model =
     let
         loginUI : Model -> Html Msg
         loginUI model =
@@ -717,30 +741,35 @@ homePage model =
                     Html.map OnLogin <| Login.view model.login
                 else
                     div [ class "signin" ] [ welcome, signout ]
+    in
+        div []
+            [ header [ class "header" ]
+                [ img [ src "assets/Nikeza_thin_2.png", width 190, height 38 ] []
+                , br [] []
+                , label [] [ i [] [ text "Linking Your Expertise" ] ]
+                , model |> loginUI
+                ]
+            , input [ class "search", type_ "text", placeholder "name", onInput Search ] []
+            ]
 
+
+footerContent : Html Msg
+footerContent =
+    footer [ class "copyright" ]
+        [ label [] [ text "2017" ]
+        , a [ href "" ] [ text "GitHub" ]
+        ]
+
+
+homePage : Model -> Html Msg
+homePage model =
+    let
         contentProvidersUI : Html Msg
         contentProvidersUI =
             Html.map ProfileThumbnail <|
                 div [] (model.contentProviders |> List.map thumbnail)
 
-        headerContent =
-            div []
-                [ header [ class "header" ]
-                    [ img [ src "assets/Nikeza_thin_2.png", width 190, height 38 ] []
-                    , br [] []
-                    , label [] [ i [] [ text "Linking Your Expertise" ] ]
-                    , model |> loginUI
-                    ]
-                , input [ class "search", type_ "text", placeholder "name", onInput Search ] []
-                ]
-
-        footerContent =
-            footer [ class "copyright" ]
-                [ label [] [ text "2017" ]
-                , a [ href "" ] [ text "GitHub" ]
-                ]
-
-        bodyContent =
+        mainContent =
             table []
                 [ tr []
                     [ td [] [ div [] [ contentProvidersUI ] ]
@@ -761,11 +790,16 @@ homePage model =
                     ]
                 ]
     in
-        div []
-            [ headerContent
-            , bodyContent
-            , footerContent
-            ]
+        model |> renderPage mainContent
+
+
+renderPage : Html Msg -> Model -> Html Msg
+renderPage content model =
+    div []
+        [ headerContent model
+        , content
+        , footerContent
+        ]
 
 
 registerPage : Model -> Html Msg
