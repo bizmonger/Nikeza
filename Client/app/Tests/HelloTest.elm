@@ -34,6 +34,7 @@ suite =
                     Expect.equal result.loggedIn False
         , test "search yields profile" <|
             \_ ->
+                -- Setup
                 let
                     location =
                         Navigation.Location "" "" "" "" "" "" "" "" "" "" ""
@@ -41,14 +42,15 @@ suite =
                     ( model, _ ) =
                         Home.init location
 
+                    -- Test
                     ( newState, _ ) =
                         model |> Home.update (Search "Scott")
 
-                    onlyOne =
-                        (newState.contentProviders |> List.length) == 1
-
-                    isContentProvider1 =
-                        newState.contentProviders |> List.member contentProvider1
+                    -- Verify
+                    ( onlyOne, isContentProvider1 ) =
+                        ( (newState.contentProviders |> List.length) == 1
+                        , newState.contentProviders |> List.member contentProvider1
+                        )
                 in
                     Expect.equal (onlyOne && isContentProvider1) True
         ]
