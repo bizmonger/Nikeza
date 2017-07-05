@@ -940,7 +940,7 @@ renderNavigation portal =
         linksText =
             "Links " ++ "(" ++ (toString totalLinks) ++ ")"
 
-        subscriptionsText =
+        followingText =
             "Following " ++ "(" ++ (toString totalSubscriptions) ++ ")"
 
         ( linkText, profileText ) =
@@ -951,61 +951,63 @@ renderNavigation portal =
                 Domain.ViewSources ->
                     [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
                     , br [] []
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
+                    , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "selectedNavigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text subscriptionsText ]
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
                     ]
 
                 Domain.ViewLinks ->
                     [ button [ class "selectedNavigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
-                    , br [] []
-                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text subscriptionsText ]
                     ]
 
                 Domain.AddLink ->
                     [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
                     , br [] []
                     , button [ class "selectedNavigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
-                    , br [] []
-                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text subscriptionsText ]
                     ]
 
                 Domain.EditProfile ->
                     [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "selectedNavigationButton4", onClick EditProfile ] [ text profileText ]
-                    , br [] []
-                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text subscriptionsText ]
                     ]
 
                 Domain.ViewSubscriptions ->
                     [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , br [] []
+                    , button [ class "selectedNavigationButton4", onClick ViewSubscriptions ] [ text followingText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
-                    , br [] []
-                    , button [ class "selectedNavigationButton4", onClick ViewSubscriptions ] [ text subscriptionsText ]
                     ]
 
         sourcesButNoLinks =
@@ -1049,7 +1051,7 @@ renderNavigation portal =
                     , br [] []
                     , button [ class "navigationButton3", onClick EditProfile ] [ text profileText ]
                     , br [] []
-                    , button [ class "selectedNavigationButton3", onClick ViewSubscriptions ] [ text subscriptionsText ]
+                    , button [ class "selectedNavigationButton3", onClick ViewSubscriptions ] [ text followingText ]
                     ]
 
         noSourcesNoLinks =
