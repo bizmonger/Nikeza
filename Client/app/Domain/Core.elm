@@ -241,6 +241,7 @@ type ContentProviderRequest
     | AddLink
     | EditProfile
     | ViewSubscriptions
+    | ViewFollowers
 
 
 

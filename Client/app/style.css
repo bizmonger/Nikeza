@@ -25,28 +25,28 @@ button.addLink {
 
 button.navigationButton4 {
     vertical-align: text-top;
-    width:100px;
+    width:115px;
     height:25px;
     background-color: lightgray;
 }
 
 button.selectedNavigationButton4 {
     vertical-align: text-top;
-    width:100px;
+    width:115px;
     height:25px;
     background-color: lightblue;
 }
 
 button.navigationButton3 {
     vertical-align: text-top;
-    width:100px;
+    width:115px;
     height:33px;
     background-color: lightgray;
 }
 
 button.selectedNavigationButton3 {
     vertical-align: text-top;
-    width:100px;
+    width:115px;
     height:33px;
     background-color: lightblue;
 }
@@ -108,4 +108,9 @@ footer {
     width: 100%;
     bottom: 0;
     position: fixed;
+}
+
+img.profile {
+    height: 115px;
+    width: 115px;
 }
