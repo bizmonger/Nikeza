@@ -124,6 +124,7 @@ let configureLogging (loggerFactory : ILoggerFactory) =
 let main argv =                                
     WebHostBuilder()
         .UseKestrel()
+        .UseIISIntegration()
         .UseContentRoot(Directory.GetCurrentDirectory())
         .Configure(Action<IApplicationBuilder> configureApp)
         .ConfigureServices(Action<IServiceCollection> configureServices)
