@@ -383,11 +383,8 @@ refreshLinks contentProvider addedLinks =
 onNewLink : NewLinks.Msg -> Model -> ( Model, Cmd Msg )
 onNewLink subMsg model =
     let
-        pendingPortal =
-            model.portal
-
-        contentProvider =
-            model.portal.contentProvider
+        ( pendingPortal, contentProvider ) =
+            ( model.portal, model.portal.contentProvider )
 
         newLinks =
             NewLinks.update subMsg pendingPortal.newLinks
@@ -432,14 +429,8 @@ onNewLink subMsg model =
 onAddedSource : AddSource.Msg -> Model -> ( Model, Cmd Msg )
 onAddedSource subMsg model =
     let
-        pendingPortal =
-            model.portal
-
-        contentProvider =
-            model.portal.contentProvider
-
-        updatedProfile =
-            contentProvider.profile
+        ( pendingPortal, contentProvider, updatedProfile ) =
+            ( model.portal, model.portal.contentProvider, model.portal.contentProvider.profile )
 
         addSourceModel =
             AddSource.update subMsg { source = pendingPortal.newSource, sources = contentProvider.profile.sources }
@@ -746,18 +737,19 @@ footerContent =
         ]
 
 
+contentProvidersUI : Model -> Html Msg
+contentProvidersUI model =
+    Html.map ProfileThumbnail <|
+        div [] (model.contentProviders |> List.map thumbnail)
+
+
 homePage : Model -> Html Msg
 homePage model =
     let
-        contentProvidersUI : Html Msg
-        contentProvidersUI =
-            Html.map ProfileThumbnail <|
-                div [] (model.contentProviders |> List.map thumbnail)
-
         mainContent =
             table []
                 [ tr []
-                    [ td [] [ div [] [ contentProvidersUI ] ]
+                    [ td [] [ div [] [ contentProvidersUI model ] ]
                     , td []
                         [ table []
                             [ tr []

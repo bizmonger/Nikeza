@@ -79,8 +79,7 @@ toggleFilter model ( topic, include ) =
 
         newState =
             { model
-                | showAll = False
-                , links =
+                | links =
                     { answers = links.answers |> toggleTopic Answer
                     , articles = links.articles |> toggleTopic Article
                     , videos = links.videos |> toggleTopic Video

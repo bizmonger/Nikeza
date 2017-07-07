@@ -11024,7 +11024,6 @@ var _user$project$Controls_ContentProviderContentTypeLinks$toggleFilter = F2(
 		var newState = _elm_lang$core$Native_Utils.update(
 			model,
 			{
-				showAll: false,
 				links: {
 					answers: A2(toggleTopic, _user$project$Domain_Core$Answer, links.answers),
 					articles: A2(toggleTopic, _user$project$Domain_Core$Article, links.articles),
@@ -13525,9 +13524,10 @@ var _user$project$Home$matchContentProviders = F2(
 	});
 var _user$project$Home$onAddedSource = F2(
 	function (subMsg, model) {
-		var contentProvider = model.portal.contentProvider;
-		var updatedProfile = contentProvider.profile;
-		var pendingPortal = model.portal;
+		var _p13 = {ctor: '_Tuple3', _0: model.portal, _1: model.portal.contentProvider, _2: model.portal.contentProvider.profile};
+		var pendingPortal = _p13._0;
+		var contentProvider = _p13._1;
+		var updatedProfile = _p13._2;
 		var addSourceModel = A2(
 			_user$project$Controls_AddSource$update,
 			subMsg,
@@ -13542,8 +13542,8 @@ var _user$project$Home$onAddedSource = F2(
 		var portal = _elm_lang$core$Native_Utils.update(
 			pendingPortal,
 			{newSource: addSourceModel.source, contentProvider: updatedContentProvider});
-		var _p13 = subMsg;
-		switch (_p13.ctor) {
+		var _p14 = subMsg;
+		switch (_p14.ctor) {
 			case 'InputUsername':
 				return {
 					ctor: '_Tuple2',
@@ -13637,14 +13637,15 @@ var _user$project$Home$refreshLinks = F2(
 	});
 var _user$project$Home$onNewLink = F2(
 	function (subMsg, model) {
-		var contentProvider = model.portal.contentProvider;
-		var pendingPortal = model.portal;
+		var _p15 = {ctor: '_Tuple2', _0: model.portal, _1: model.portal.contentProvider};
+		var pendingPortal = _p15._0;
+		var contentProvider = _p15._1;
 		var newLinks = A2(_user$project$Controls_NewLinks$update, subMsg, pendingPortal.newLinks);
 		var portal = _elm_lang$core$Native_Utils.update(
 			pendingPortal,
 			{newLinks: newLinks});
-		var _p14 = subMsg;
-		switch (_p14.ctor) {
+		var _p16 = subMsg;
+		switch (_p16.ctor) {
 			case 'InputTitle':
 				return {
 					ctor: '_Tuple2',
@@ -13694,12 +13695,12 @@ var _user$project$Home$onNewLink = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
-				var _p15 = _p14._0;
+				var _p17 = _p16._0;
 				var updatedLinks = _elm_lang$core$Native_Utils.update(
 					newLinks,
 					{
 						canAdd: true,
-						added: {ctor: '::', _0: _p15.current.base, _1: _p15.added}
+						added: {ctor: '::', _0: _p17.current.base, _1: _p17.added}
 					});
 				var updatedPortal = _elm_lang$core$Native_Utils.update(
 					portal,
@@ -13749,8 +13750,8 @@ var _user$project$Home$onRemove = F2(
 var _user$project$Home$onRegistration = F2(
 	function (subMsg, model) {
 		var form = A2(_user$project$Controls_Register$update, subMsg, model.registration);
-		var _p16 = subMsg;
-		switch (_p16.ctor) {
+		var _p18 = subMsg;
+		switch (_p18.ctor) {
 			case 'FirstNameInput':
 				return {
 					ctor: '_Tuple2',
@@ -13792,16 +13793,16 @@ var _user$project$Home$onRegistration = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
-				var _p17 = _user$project$Settings$runtime.tryRegister(form);
-				if (_p17.ctor === 'Ok') {
-					var _p18 = _p17._0;
+				var _p19 = _user$project$Settings$runtime.tryRegister(form);
+				if (_p19.ctor === 'Ok') {
+					var _p20 = _p19._0;
 					var newState = _elm_lang$core$Native_Utils.update(
 						model,
 						{
 							registration: form,
 							portal: _elm_lang$core$Native_Utils.update(
 								_user$project$Domain_Core$initPortal,
-								{contentProvider: _p18, requested: _user$project$Domain_Core$EditProfile, linksNavigation: false, sourcesNavigation: false})
+								{contentProvider: _p20, requested: _user$project$Domain_Core$EditProfile, linksNavigation: false, sourcesNavigation: false})
 						});
 					return {
 						ctor: '_Tuple2',
@@ -13812,7 +13813,7 @@ var _user$project$Home$onRegistration = F2(
 								'/#/',
 								A2(
 									_elm_lang$core$Basics_ops['++'],
-									_user$project$Domain_Core$getId(_p18.profile.id),
+									_user$project$Domain_Core$getId(_p20.profile.id),
 									'/portal')))
 					};
 				} else {
@@ -13836,8 +13837,8 @@ var _user$project$Home$onEditProfile = F2(
 							{profile: updatedProfile})
 					})
 			});
-		var _p19 = subMsg;
-		switch (_p19.ctor) {
+		var _p21 = subMsg;
+		switch (_p21.ctor) {
 			case 'FirstNameInput':
 				return {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'LastNameInput':
@@ -13857,7 +13858,7 @@ var _user$project$Home$onEditProfile = F2(
 								{
 									contentProvider: _elm_lang$core$Native_Utils.update(
 										contentProvider,
-										{profile: _p19._0}),
+										{profile: _p21._0}),
 									sourcesNavigation: true,
 									linksNavigation: !_elm_lang$core$Native_Utils.eq(contentProvider.links, _user$project$Domain_Core$initLinks),
 									requested: _user$project$Domain_Core$ViewSources
@@ -13869,8 +13870,8 @@ var _user$project$Home$onEditProfile = F2(
 	});
 var _user$project$Home$onPortalLinksAction = F2(
 	function (subMsg, model) {
-		var _p20 = subMsg;
-		if (_p20.ctor === 'ToggleAll') {
+		var _p22 = subMsg;
+		if (_p22.ctor === 'ToggleAll') {
 			var pendingPortal = model.portal;
 			var contentProvider = A2(_user$project$Controls_ContentProviderLinks$update, subMsg, model.portal.contentProvider);
 			return {
@@ -13902,11 +13903,11 @@ var _user$project$Home$onPortalLinksAction = F2(
 	});
 var _user$project$Home$onUpdateContentProviderLinks = F3(
 	function (subMsg, model, linksfrom) {
-		var _p21 = subMsg;
-		if (_p21.ctor === 'ToggleAll') {
+		var _p23 = subMsg;
+		if (_p23.ctor === 'ToggleAll') {
 			var contentProvider = function () {
-				var _p22 = linksfrom;
-				if (_p22.ctor === 'FromPortal') {
+				var _p24 = linksfrom;
+				if (_p24.ctor === 'FromPortal') {
 					return A2(_user$project$Controls_ContentProviderLinks$update, subMsg, model.portal.contentProvider);
 				} else {
 					return A2(_user$project$Controls_ContentProviderLinks$update, subMsg, model.selectedContentProvider);
@@ -13921,8 +13922,8 @@ var _user$project$Home$onUpdateContentProviderLinks = F3(
 			};
 		} else {
 			var contentProvider = function () {
-				var _p23 = linksfrom;
-				if (_p23.ctor === 'FromPortal') {
+				var _p25 = linksfrom;
+				if (_p25.ctor === 'FromPortal') {
 					return A2(_user$project$Controls_ContentProviderLinks$update, subMsg, model.portal.contentProvider);
 				} else {
 					return A2(_user$project$Controls_ContentProviderLinks$update, subMsg, model.selectedContentProvider);
@@ -13940,10 +13941,10 @@ var _user$project$Home$onUpdateContentProviderLinks = F3(
 var _user$project$Home$update = F2(
 	function (msg, model) {
 		var portal = model.portal;
-		var _p24 = msg;
-		switch (_p24.ctor) {
+		var _p26 = msg;
+		switch (_p26.ctor) {
 			case 'UrlChange':
-				return A3(_user$project$Home$navigate, msg, model, _p24._0);
+				return A3(_user$project$Home$navigate, msg, model, _p26._0);
 			case 'Register':
 				return {
 					ctor: '_Tuple2',
@@ -13951,11 +13952,11 @@ var _user$project$Home$update = F2(
 					_1: _elm_lang$navigation$Navigation$load('/#/register')
 				};
 			case 'OnRegistration':
-				return A2(_user$project$Home$onRegistration, _p24._0, model);
+				return A2(_user$project$Home$onRegistration, _p26._0, model);
 			case 'OnLogin':
-				return A2(_user$project$Home$onLogin, _p24._0, model);
+				return A2(_user$project$Home$onLogin, _p26._0, model);
 			case 'Search':
-				if (_p24._0 === '') {
+				if (_p26._0 === '') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -13964,7 +13965,7 @@ var _user$project$Home$update = F2(
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
-					return A2(_user$project$Home$matchContentProviders, model, _p24._0);
+					return A2(_user$project$Home$matchContentProviders, model, _p26._0);
 				}
 			case 'ProfileThumbnail':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -14041,20 +14042,20 @@ var _user$project$Home$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'SourceAdded':
-				return A2(_user$project$Home$onAddedSource, _p24._0, model);
+				return A2(_user$project$Home$onAddedSource, _p26._0, model);
 			case 'NewLink':
-				return A2(_user$project$Home$onNewLink, _p24._0, model);
+				return A2(_user$project$Home$onNewLink, _p26._0, model);
 			case 'EditProfileAction':
-				return A2(_user$project$Home$onEditProfile, _p24._0, model);
+				return A2(_user$project$Home$onEditProfile, _p26._0, model);
 			case 'PortalLinksAction':
-				return A2(_user$project$Home$onPortalLinksAction, _p24._0, model);
+				return A2(_user$project$Home$onPortalLinksAction, _p26._0, model);
 			case 'ContentProviderLinksAction':
-				return A3(_user$project$Home$onUpdateContentProviderLinks, _p24._0, model, _user$project$Domain_Core$FromOther);
+				return A3(_user$project$Home$onUpdateContentProviderLinks, _p26._0, model, _user$project$Domain_Core$FromOther);
 			case 'ContentProviderContentTypeLinksAction':
-				var _p26 = _p24._0;
-				var _p25 = _p26;
-				if (_p25.ctor === 'ToggleAll') {
-					var contentProvider = A2(_user$project$Controls_ContentProviderContentTypeLinks$update, _p26, model.selectedContentProvider);
+				var _p28 = _p26._0;
+				var _p27 = _p28;
+				if (_p27.ctor === 'ToggleAll') {
+					var contentProvider = A2(_user$project$Controls_ContentProviderContentTypeLinks$update, _p28, model.selectedContentProvider);
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -14063,7 +14064,7 @@ var _user$project$Home$update = F2(
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
-					var contentProvider = _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? A2(_user$project$Controls_ContentProviderContentTypeLinks$update, _p26, model.portal.contentProvider) : A2(_user$project$Controls_ContentProviderContentTypeLinks$update, _p26, model.selectedContentProvider);
+					var contentProvider = _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? A2(_user$project$Controls_ContentProviderContentTypeLinks$update, _p28, model.portal.contentProvider) : A2(_user$project$Controls_ContentProviderContentTypeLinks$update, _p28, model.selectedContentProvider);
 					return _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -14088,12 +14089,12 @@ var _user$project$Home$update = F2(
 	});
 var _user$project$Home$init = function (location) {
 	var contentProvider = function () {
-		var _p27 = _user$project$Home$tokenizeUrl(location.hash);
-		if ((((_p27.ctor === '::') && (_p27._0 === 'contentProvider')) && (_p27._1.ctor === '::')) && (_p27._1._1.ctor === '[]')) {
-			var _p28 = _user$project$Settings$runtime.contentProvider(
-				_user$project$Domain_Core$Id(_p27._1._0));
-			if (_p28.ctor === 'Just') {
-				return _p28._0;
+		var _p29 = _user$project$Home$tokenizeUrl(location.hash);
+		if ((((_p29.ctor === '::') && (_p29._0 === 'contentProvider')) && (_p29._1.ctor === '::')) && (_p29._1._1.ctor === '[]')) {
+			var _p30 = _user$project$Settings$runtime.contentProvider(
+				_user$project$Domain_Core$Id(_p29._1._0));
+			if (_p30.ctor === 'Just') {
+				return _p30._0;
 			} else {
 				return _user$project$Domain_Core$initContentProvider;
 			}
@@ -14181,9 +14182,9 @@ var _user$project$Home$renderNavigation = function (portal) {
 			_1: {ctor: '[]'}
 		};
 	};
-	var _p29 = {ctor: '_Tuple2', _0: 'Link', _1: 'Profile'};
-	var linkText = _p29._0;
-	var profileText = _p29._1;
+	var _p31 = {ctor: '_Tuple2', _0: 'Link', _1: 'Profile'};
+	var linkText = _p31._0;
+	var profileText = _p31._1;
 	var profile = portal.contentProvider.profile;
 	var sourcesText = A2(
 		_elm_lang$core$Basics_ops['++'],
@@ -14269,8 +14270,8 @@ var _user$project$Home$renderNavigation = function (portal) {
 				}
 			}
 		};
-		var _p30 = portal.requested;
-		switch (_p30.ctor) {
+		var _p32 = portal.requested;
+		switch (_p32.ctor) {
 			case 'ViewSources':
 				return {
 					ctor: '::',
@@ -14499,8 +14500,8 @@ var _user$project$Home$renderNavigation = function (portal) {
 		}
 	}();
 	var noSourcesNoLinks = function () {
-		var _p31 = portal.requested;
-		switch (_p31.ctor) {
+		var _p33 = portal.requested;
+		switch (_p33.ctor) {
 			case 'AddLink':
 				return {
 					ctor: '::',
@@ -14781,8 +14782,8 @@ var _user$project$Home$renderNavigation = function (portal) {
 				_elm_lang$core$Basics$toString(totalLinks),
 				')')));
 	var allNavigation = function () {
-		var _p32 = portal.requested;
-		switch (_p32.ctor) {
+		var _p34 = portal.requested;
+		switch (_p34.ctor) {
 			case 'ViewSources':
 				return {
 					ctor: '::',
@@ -15810,10 +15811,10 @@ var _user$project$Home$applyToPortal = F4(
 	function (profileId, model, contentType, linksContent) {
 		var portal = model.portal;
 		if (_elm_lang$core$Native_Utils.eq(portal.contentProvider, _user$project$Domain_Core$initContentProvider)) {
-			var _p33 = _user$project$Settings$runtime.contentProvider(
+			var _p35 = _user$project$Settings$runtime.contentProvider(
 				_user$project$Domain_Core$Id(profileId));
-			if (_p33.ctor === 'Just') {
-				return A4(_user$project$Home$render, _p33._0, contentType, linksContent, portal);
+			if (_p35.ctor === 'Just') {
+				return A4(_user$project$Home$render, _p35._0, contentType, linksContent, portal);
 			} else {
 				return _user$project$Home$notFoundPage;
 			}
@@ -15827,8 +15828,8 @@ var _user$project$Home$SourceAdded = function (a) {
 var _user$project$Home$content = F2(
 	function (contentToEmbed, portal) {
 		var contentProvider = portal.contentProvider;
-		var _p34 = portal.requested;
-		switch (_p34.ctor) {
+		var _p36 = portal.requested;
+		switch (_p36.ctor) {
 			case 'ViewSources':
 				return A2(
 					_elm_lang$html$Html$div,
@@ -15844,9 +15845,9 @@ var _user$project$Home$content = F2(
 					});
 			case 'ViewLinks':
 				var contentToDisplay = function () {
-					var _p35 = contentToEmbed;
-					if (_p35.ctor === 'Just') {
-						return _p35._0;
+					var _p37 = contentToEmbed;
+					if (_p37.ctor === 'Just') {
+						return _p37._0;
 					} else {
 						return A2(
 							_elm_lang$html$Html$div,
@@ -16005,12 +16006,21 @@ var _user$project$Home$content = F2(
 var _user$project$Home$ProfileThumbnail = function (a) {
 	return {ctor: 'ProfileThumbnail', _0: a};
 };
+var _user$project$Home$contentProvidersUI = function (model) {
+	return A2(
+		_elm_lang$html$Html$map,
+		_user$project$Home$ProfileThumbnail,
+		A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, model.contentProviders)));
+};
 var _user$project$Home$OnLogin = function (a) {
 	return {ctor: 'OnLogin', _0: a};
 };
 var _user$project$Home$headerContent = function (model) {
 	var loginUI = function (model) {
-		var _p36 = {
+		var _p38 = {
 			ctor: '_Tuple3',
 			_0: model.login.loggedIn,
 			_1: A2(
@@ -16045,9 +16055,9 @@ var _user$project$Home$headerContent = function (model) {
 					_1: {ctor: '[]'}
 				})
 		};
-		var loggedIn = _p36._0;
-		var welcome = _p36._1;
-		var signout = _p36._2;
+		var loggedIn = _p38._0;
+		var welcome = _p38._1;
+		var signout = _p38._2;
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$OnLogin,
@@ -16175,13 +16185,6 @@ var _user$project$Home$renderPage = F2(
 			});
 	});
 var _user$project$Home$homePage = function (model) {
-	var contentProvidersUI = A2(
-		_elm_lang$html$Html$map,
-		_user$project$Home$ProfileThumbnail,
-		A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, model.contentProviders)));
 	var mainContent = A2(
 		_elm_lang$html$Html$table,
 		{ctor: '[]'},
@@ -16202,7 +16205,7 @@ var _user$project$Home$homePage = function (model) {
 								{ctor: '[]'},
 								{
 									ctor: '::',
-									_0: contentProvidersUI,
+									_0: _user$project$Home$contentProvidersUI(model),
 									_1: {ctor: '[]'}
 								}),
 							_1: {ctor: '[]'}
@@ -16324,14 +16327,14 @@ var _user$project$Home$homePage = function (model) {
 	return A2(_user$project$Home$renderPage, mainContent, model);
 };
 var _user$project$Home$view = function (model) {
-	var _p37 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+	var _p39 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
 	_v29_9:
 	do {
-		if (_p37.ctor === '[]') {
+		if (_p39.ctor === '[]') {
 			return _user$project$Home$homePage(model);
 		} else {
-			if (_p37._1.ctor === '[]') {
-				switch (_p37._0) {
+			if (_p39._1.ctor === '[]') {
+				switch (_p39._0) {
 					case 'home':
 						return _user$project$Home$homePage(model);
 					case 'register':
@@ -16341,12 +16344,12 @@ var _user$project$Home$view = function (model) {
 						break _v29_9;
 				}
 			} else {
-				if (_p37._1._1.ctor === '::') {
-					if (_p37._1._1._1.ctor === '[]') {
-						if (_p37._0 === 'contentProvider') {
-							var _p39 = _user$project$Settings$runtime.contentProvider(
-								_user$project$Domain_Core$Id(_p37._1._0));
-							if (_p39.ctor === 'Just') {
+				if (_p39._1._1.ctor === '::') {
+					if (_p39._1._1._1.ctor === '[]') {
+						if (_p39._0 === 'contentProvider') {
+							var _p41 = _user$project$Settings$runtime.contentProvider(
+								_user$project$Domain_Core$Id(_p39._1._0));
+							if (_p41.ctor === 'Just') {
 								var content = A2(_user$project$Home$contentProviderTopicPage, _user$project$Domain_Core$FromOther, model.selectedContentProvider);
 								return A2(_user$project$Home$renderPage, content, model);
 							} else {
@@ -16356,12 +16359,12 @@ var _user$project$Home$view = function (model) {
 							break _v29_9;
 						}
 					} else {
-						if (_p37._1._1._1._1.ctor === '::') {
-							if (((_p37._0 === 'contentProvider') && (_p37._1._1._1._0 === 'all')) && (_p37._1._1._1._1._1.ctor === '[]')) {
-								var _p42 = _user$project$Settings$runtime.contentProvider(
-									_user$project$Domain_Core$Id(_p37._1._0));
-								if (_p42.ctor === 'Just') {
-									var topic = A2(_user$project$Domain_Core$Topic, _p37._1._1._0, false);
+						if (_p39._1._1._1._1.ctor === '::') {
+							if (((_p39._0 === 'contentProvider') && (_p39._1._1._1._0 === 'all')) && (_p39._1._1._1._1._1.ctor === '[]')) {
+								var _p44 = _user$project$Settings$runtime.contentProvider(
+									_user$project$Domain_Core$Id(_p39._1._0));
+								if (_p44.ctor === 'Just') {
+									var topic = A2(_user$project$Domain_Core$Topic, _p39._1._1._0, false);
 									var contentToEmbed = A2(
 										_elm_lang$html$Html$map,
 										_user$project$Home$ContentProviderTopicContentTypeLinksAction,
@@ -16369,7 +16372,7 @@ var _user$project$Home$view = function (model) {
 											_user$project$Controls_ContentProviderTopicContentTypeLinks$view,
 											model.selectedContentProvider,
 											topic,
-											_user$project$Domain_Core$toContentType(_p37._1._1._1._1._0)));
+											_user$project$Domain_Core$toContentType(_p39._1._1._1._1._0)));
 									var content = A2(_user$project$Home$renderProfileBase, model.selectedContentProvider, contentToEmbed);
 									return A2(_user$project$Home$renderPage, content, model);
 								} else {
@@ -16379,41 +16382,41 @@ var _user$project$Home$view = function (model) {
 								break _v29_9;
 							}
 						} else {
-							if (_p37._1._1._0 === 'all') {
-								if (_p37._0 === 'contentProvider') {
-									var _p40 = _user$project$Settings$runtime.contentProvider(
-										_user$project$Domain_Core$Id(_p37._1._0));
-									if (_p40.ctor === 'Just') {
-										var _p41 = {ctor: '_Tuple2', _0: _user$project$Controls_ContentProviderContentTypeLinks$view, _1: model.selectedContentProvider};
-										var view = _p41._0;
-										var contentProvider = _p41._1;
+							if (_p39._1._1._0 === 'all') {
+								if (_p39._0 === 'contentProvider') {
+									var _p42 = _user$project$Settings$runtime.contentProvider(
+										_user$project$Domain_Core$Id(_p39._1._0));
+									if (_p42.ctor === 'Just') {
+										var _p43 = {ctor: '_Tuple2', _0: _user$project$Controls_ContentProviderContentTypeLinks$view, _1: model.selectedContentProvider};
+										var view = _p43._0;
+										var contentProvider = _p43._1;
 										var contentToEmbed = A2(
 											_elm_lang$html$Html$map,
 											_user$project$Home$ContentProviderContentTypeLinksAction,
 											A2(
 												view,
 												contentProvider,
-												_user$project$Domain_Core$toContentType(_p37._1._1._1._0)));
+												_user$project$Domain_Core$toContentType(_p39._1._1._1._0)));
 										var content = A2(_user$project$Home$renderProfileBase, model.selectedContentProvider, contentToEmbed);
 										return A2(_user$project$Home$renderPage, content, model);
 									} else {
 										return _user$project$Home$notFoundPage;
 									}
 								} else {
-									if (_p37._1._0 === 'portal') {
-										var _p45 = _p37._0;
-										var _p44 = _p37._1._1._1._0;
-										var _p43 = _user$project$Settings$runtime.contentProvider(
-											_user$project$Domain_Core$Id(_p45));
-										if (_p43.ctor === 'Just') {
+									if (_p39._1._0 === 'portal') {
+										var _p47 = _p39._0;
+										var _p46 = _p39._1._1._1._0;
+										var _p45 = _user$project$Settings$runtime.contentProvider(
+											_user$project$Domain_Core$Id(_p47));
+										if (_p45.ctor === 'Just') {
 											var linksContent = A2(
 												_elm_lang$html$Html$map,
 												_user$project$Home$ContentProviderContentTypeLinksAction,
 												A2(
 													_user$project$Controls_ContentProviderContentTypeLinks$view,
 													model.portal.contentProvider,
-													_user$project$Domain_Core$toContentType(_p44)));
-											var contentToEmbed = A4(_user$project$Home$applyToPortal, _p45, model, _p44, linksContent);
+													_user$project$Domain_Core$toContentType(_p46)));
+											var contentToEmbed = A4(_user$project$Home$applyToPortal, _p47, model, _p46, linksContent);
 											var mainContent = A2(
 												_user$project$Home$content,
 												_elm_lang$core$Maybe$Just(contentToEmbed),
@@ -16432,10 +16435,10 @@ var _user$project$Home$view = function (model) {
 						}
 					}
 				} else {
-					if (_p37._0 === 'contentProvider') {
-						var _p38 = _user$project$Settings$runtime.contentProvider(
-							_user$project$Domain_Core$Id(_p37._1._0));
-						if (_p38.ctor === 'Just') {
+					if (_p39._0 === 'contentProvider') {
+						var _p40 = _user$project$Settings$runtime.contentProvider(
+							_user$project$Domain_Core$Id(_p39._1._0));
+						if (_p40.ctor === 'Just') {
 							var content = A2(
 								_user$project$Home$renderProfileBase,
 								model.selectedContentProvider,
@@ -16448,13 +16451,13 @@ var _user$project$Home$view = function (model) {
 							return _user$project$Home$notFoundPage;
 						}
 					} else {
-						if (_p37._1._0 === 'portal') {
-							var _p46 = {ctor: '_Tuple2', _0: model.portal, _1: 'all'};
-							var portal = _p46._0;
-							var contentType = _p46._1;
+						if (_p39._1._0 === 'portal') {
+							var _p48 = {ctor: '_Tuple2', _0: model.portal, _1: 'all'};
+							var portal = _p48._0;
+							var contentType = _p48._1;
 							var mainContent = A4(
 								_user$project$Home$applyToPortal,
-								_p37._0,
+								_p39._0,
 								model,
 								contentType,
 								A2(_user$project$Home$content, _elm_lang$core$Maybe$Nothing, portal));
@@ -16479,7 +16482,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p47) {
+		subscriptions: function (_p49) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();
