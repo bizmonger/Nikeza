@@ -163,13 +163,6 @@ update msg model =
 
             ContentProviderContentTypeLinksAction subMsg ->
                 case subMsg of
-                    ContentProviderContentTypeLinks.ToggleAll _ ->
-                        let
-                            contentProvider =
-                                ContentProviderContentTypeLinks.update subMsg model.selectedContentProvider
-                        in
-                            ( { model | selectedContentProvider = contentProvider }, Cmd.none )
-
                     ContentProviderContentTypeLinks.Toggle _ ->
                         let
                             contentProvider =
@@ -190,18 +183,6 @@ update msg model =
 onUpdateContentProviderLinks : ContentProviderLinks.Msg -> Model -> Linksfrom -> ( Model, Cmd Msg )
 onUpdateContentProviderLinks subMsg model linksfrom =
     case subMsg of
-        ContentProviderLinks.ToggleAll _ ->
-            let
-                contentProvider =
-                    case linksfrom of
-                        FromPortal ->
-                            ContentProviderLinks.update subMsg model.portal.contentProvider
-
-                        FromOther ->
-                            ContentProviderLinks.update subMsg model.selectedContentProvider
-            in
-                ( { model | selectedContentProvider = contentProvider }, Cmd.none )
-
         ContentProviderLinks.Toggle _ ->
             let
                 contentProvider =
@@ -218,16 +199,6 @@ onUpdateContentProviderLinks subMsg model linksfrom =
 onPortalLinksAction : ContentProviderLinks.Msg -> Model -> ( Model, Cmd Msg )
 onPortalLinksAction subMsg model =
     case subMsg of
-        ContentProviderLinks.ToggleAll _ ->
-            let
-                contentProvider =
-                    ContentProviderLinks.update subMsg model.portal.contentProvider
-
-                pendingPortal =
-                    model.portal
-            in
-                ( { model | portal = { pendingPortal | contentProvider = contentProvider } }, Cmd.none )
-
         ContentProviderLinks.Toggle _ ->
             let
                 contentProvider =

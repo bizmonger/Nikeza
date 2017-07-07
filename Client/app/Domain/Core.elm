@@ -36,7 +36,6 @@ type Linksfrom
 
 type alias ContentProvider =
     { profile : Profile
-    , showAll : Bool
     , topics : List Topic
     , links : Links
     }
@@ -48,7 +47,7 @@ initContentProvider =
         addedLinks =
             NewLinks initLinkToCreate False []
     in
-        ContentProvider initProfile True initTopics initLinks
+        ContentProvider initProfile initTopics initLinks
 
 
 type alias Portal =
