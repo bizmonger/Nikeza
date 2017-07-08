@@ -13453,13 +13453,16 @@ var _user$project$Home$onLogin = F2(
 				};
 		}
 	});
-var _user$project$Home$matchContentProviders = F2(
-	function (model, matchValue) {
+var _user$project$Home$filterContentProviders = F3(
+	function (contentProviders, matchValue, includeFlag) {
 		var isMatch = function (name) {
-			return A2(
+			return includeFlag ? A2(
 				_elm_lang$core$String$contains,
 				_elm_lang$core$String$toLower(matchValue),
-				_elm_lang$core$String$toLower(name));
+				_elm_lang$core$String$toLower(name)) : (!A2(
+				_elm_lang$core$String$contains,
+				_elm_lang$core$String$toLower(matchValue),
+				_elm_lang$core$String$toLower(name)));
 		};
 		var onFirstName = function (contentProvider) {
 			return isMatch(
@@ -13472,12 +13475,17 @@ var _user$project$Home$matchContentProviders = F2(
 		var onName = function (contentProvider) {
 			return onFirstName(contentProvider) || onLastName(contentProvider);
 		};
-		var filtered = A2(_elm_lang$core$List$filter, onName, _user$project$Settings$runtime.contentProviders);
+		return A2(_elm_lang$core$List$filter, onName, contentProviders);
+	});
+var _user$project$Home$matchContentProviders = F2(
+	function (model, matchValue) {
 		return {
 			ctor: '_Tuple2',
 			_0: _elm_lang$core$Native_Utils.update(
 				model,
-				{contentProviders: filtered}),
+				{
+					contentProviders: A3(_user$project$Home$filterContentProviders, _user$project$Settings$runtime.contentProviders, matchValue, true)
+				}),
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
@@ -16219,9 +16227,96 @@ var _user$project$Home$applyToPortal = F4(
 var _user$project$Home$SourceAdded = function (a) {
 	return {ctor: 'SourceAdded', _0: a};
 };
+var _user$project$Home$ProfileThumbnail = function (a) {
+	return {ctor: 'ProfileThumbnail', _0: a};
+};
+var _user$project$Home$contentProvidersUI = function (contentProviders) {
+	return A2(
+		_elm_lang$html$Html$map,
+		_user$project$Home$ProfileThumbnail,
+		A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, contentProviders)));
+};
+var _user$project$Home$filteredContentProvidersUI = F3(
+	function (contentProviders, placeHolder, matchValue) {
+		var filtered = A3(_user$project$Home$filterContentProviders, contentProviders, matchValue, false);
+		return A2(
+			_elm_lang$html$Html$table,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$tr,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$td,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$input,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('search'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$type_('text'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$placeholder(placeHolder),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Events$onInput(_user$project$Home$Search),
+													_1: {ctor: '[]'}
+												}
+											}
+										}
+									},
+									{ctor: '[]'}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$tr,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$td,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$div,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _user$project$Home$contentProvidersUI(filtered),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			});
+	});
 var _user$project$Home$content = F2(
-	function (contentToEmbed, portal) {
+	function (contentToEmbed, model) {
+		var portal = model.portal;
 		var contentProvider = portal.contentProvider;
+		var matchValue = A2(
+			_elm_lang$core$Basics_ops['++'],
+			_user$project$Domain_Core$getName(contentProvider.profile.firstName),
+			_user$project$Domain_Core$getName(model.portal.contentProvider.profile.lastName));
 		var _p35 = portal.requested;
 		switch (_p35.ctor) {
 			case 'ViewSources':
@@ -16364,67 +16459,13 @@ var _user$project$Home$content = F2(
 						}
 					});
 			case 'ViewSubscriptions':
-				return A2(
-					_elm_lang$html$Html$div,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$label,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('Following...'),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					});
+				return A3(_user$project$Home$filteredContentProvidersUI, model.contentProviders, 'name you\'re following', matchValue);
 			case 'ViewFollowers':
-				return A2(
-					_elm_lang$html$Html$div,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$label,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('Subscribers...'),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					});
+				return A3(_user$project$Home$filteredContentProvidersUI, model.contentProviders, 'name of follower', matchValue);
 			default:
-				return A2(
-					_elm_lang$html$Html$div,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$label,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('Providers...'),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					});
+				return A3(_user$project$Home$filteredContentProvidersUI, model.contentProviders, 'name', matchValue);
 		}
 	});
-var _user$project$Home$ProfileThumbnail = function (a) {
-	return {ctor: 'ProfileThumbnail', _0: a};
-};
-var _user$project$Home$contentProvidersUI = function (model) {
-	return A2(
-		_elm_lang$html$Html$map,
-		_user$project$Home$ProfileThumbnail,
-		A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, model.contentProviders)));
-};
 var _user$project$Home$OnLogin = function (a) {
 	return {ctor: 'OnLogin', _0: a};
 };
@@ -16606,7 +16647,7 @@ var _user$project$Home$homePage = function (model) {
 									{ctor: '[]'},
 									{
 										ctor: '::',
-										_0: _user$project$Home$contentProvidersUI(model),
+										_0: _user$project$Home$contentProvidersUI(model.contentProviders),
 										_1: {ctor: '[]'}
 									}),
 								_1: {ctor: '[]'}
@@ -16822,7 +16863,7 @@ var _user$project$Home$view = function (model) {
 											var mainContent = A2(
 												_user$project$Home$content,
 												_elm_lang$core$Maybe$Just(contentToEmbed),
-												model.portal);
+												model);
 											return A2(_user$project$Home$renderPage, mainContent, model);
 										} else {
 											return _user$project$Home$notFoundPage;
@@ -16862,7 +16903,7 @@ var _user$project$Home$view = function (model) {
 								_p38._0,
 								model,
 								contentType,
-								A2(_user$project$Home$content, _elm_lang$core$Maybe$Nothing, portal));
+								A2(_user$project$Home$content, _elm_lang$core$Maybe$Nothing, model));
 							return A2(_user$project$Home$renderPage, mainContent, model);
 						} else {
 							break _v28_9;

@@ -448,11 +448,14 @@ onAddedSource subMsg model =
                 )
 
 
-matchContentProviders : Model -> String -> ( Model, Cmd Msg )
-matchContentProviders model matchValue =
+filterContentProviders : List ContentProvider -> String -> Bool -> List ContentProvider
+filterContentProviders contentProviders matchValue includeFlag =
     let
         isMatch name =
-            name |> toLower |> contains (matchValue |> toLower)
+            if includeFlag then
+                name |> toLower |> contains (matchValue |> toLower)
+            else
+                name |> toLower |> contains (matchValue |> toLower) |> not
 
         onFirstName contentProvider =
             contentProvider.profile.firstName |> getName |> isMatch
@@ -462,11 +465,13 @@ matchContentProviders model matchValue =
 
         onName contentProvider =
             onFirstName contentProvider || onLastName contentProvider
-
-        filtered =
-            runtime.contentProviders |> List.filter onName
     in
-        ( { model | contentProviders = filtered }, Cmd.none )
+        contentProviders |> List.filter onName
+
+
+matchContentProviders : Model -> String -> ( Model, Cmd Msg )
+matchContentProviders model matchValue =
+    ( { model | contentProviders = filterContentProviders runtime.contentProviders matchValue True }, Cmd.none )
 
 
 onLogin : Login.Msg -> Model -> ( Model, Cmd Msg )
@@ -607,7 +612,7 @@ view model =
                             linksContent |> applyToPortal id model contentType
 
                         mainContent =
-                            model.portal |> content (Just contentToEmbed)
+                            model |> content (Just contentToEmbed)
                     in
                         model |> renderPage mainContent
 
@@ -620,7 +625,7 @@ view model =
                     ( model.portal, "all" )
 
                 mainContent =
-                    portal
+                    model
                         |> content Nothing
                         |> applyToPortal id model contentType
             in
@@ -710,10 +715,10 @@ footerContent =
         ]
 
 
-contentProvidersUI : Model -> Html Msg
-contentProvidersUI model =
+contentProvidersUI : List ContentProvider -> Html Msg
+contentProvidersUI contentProviders =
     Html.map ProfileThumbnail <|
-        div [] (model.contentProviders |> List.map thumbnail)
+        div [] (contentProviders |> List.map thumbnail)
 
 
 homePage : Model -> Html Msg
@@ -723,7 +728,7 @@ homePage model =
             table []
                 [ tr [] [ td [] [ input [ class "search", type_ "text", placeholder "name", onInput Search ] [] ] ]
                 , tr []
-                    [ td [] [ div [] [ contentProvidersUI model ] ]
+                    [ td [] [ div [] [ contentProvidersUI model.contentProviders ] ]
                     , td []
                         [ table []
                             [ tr []
@@ -807,11 +812,17 @@ contentProviderTopicPage linksfrom model =
                 notFoundPage
 
 
-content : Maybe (Html Msg) -> Portal -> Html Msg
-content contentToEmbed portal =
+content : Maybe (Html Msg) -> Model -> Html Msg
+content contentToEmbed model =
     let
+        portal =
+            model.portal
+
         contentProvider =
             portal.contentProvider
+
+        matchValue =
+            (contentProvider.profile.firstName |> getName) ++ (model.portal.contentProvider.profile.lastName |> getName)
     in
         case portal.requested of
             Domain.ViewSources ->
@@ -864,13 +875,27 @@ content contentToEmbed portal =
                         ]
 
             Domain.ViewSubscriptions ->
-                div [] [ label [] [ text "Following..." ] ]
+                filteredContentProvidersUI model.contentProviders "name you're following" matchValue
 
             Domain.ViewFollowers ->
-                div [] [ label [] [ text "Subscribers..." ] ]
+                filteredContentProvidersUI model.contentProviders "name of follower" matchValue
 
             Domain.ViewProviders ->
-                div [] [ label [] [ text "Providers..." ] ]
+                filteredContentProvidersUI model.contentProviders "name" matchValue
+
+
+filteredContentProvidersUI : List ContentProvider -> String -> String -> Html Msg
+filteredContentProvidersUI contentProviders placeHolder matchValue =
+    let
+        filtered =
+            filterContentProviders contentProviders matchValue False
+    in
+        table []
+            [ tr [] [ td [] [ input [ class "search", type_ "text", placeholder placeHolder, onInput Search ] [] ] ]
+            , tr []
+                [ td [] [ div [] [ contentProvidersUI filtered ] ]
+                ]
+            ]
 
 
 renderNavigation : Portal -> List (Html Msg)
