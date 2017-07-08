@@ -695,7 +695,7 @@ headerContent model =
     in
         div []
             [ header [ class "header" ]
-                [ img [ class "logo", src "assets/Nikeza_thin_2.png", width 190, height 38 ] []
+                [ img [ class "logo", src "assets/Nikeza_thin_2.png" ] []
                 , br [] []
                 , model |> loginUI
                 ]

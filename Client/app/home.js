@@ -16510,15 +16510,7 @@ var _user$project$Home$headerContent = function (model) {
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Attributes$src('assets/Nikeza_thin_2.png'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$width(190),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$height(38),
-										_1: {ctor: '[]'}
-									}
-								}
+								_1: {ctor: '[]'}
 							}
 						},
 						{ctor: '[]'}),
