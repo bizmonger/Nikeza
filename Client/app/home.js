@@ -16246,7 +16246,7 @@ var _user$project$Home$contentProvidersUI = function (contentProviders) {
 			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, contentProviders)));
 };
 var _user$project$Home$searchContentProvidersUI = F2(
-	function (contentProviders, placeHolder) {
+	function (placeHolder, contentProviders) {
 		return A2(
 			_elm_lang$html$Html$table,
 			{ctor: '[]'},
@@ -16316,8 +16316,10 @@ var _user$project$Home$searchContentProvidersUI = F2(
 	});
 var _user$project$Home$filteredContentProvidersUI = F3(
 	function (contentProviders, placeHolder, profileId) {
-		var filtered = A2(_user$project$Home$removeContentProvider, profileId, contentProviders);
-		return A2(_user$project$Home$searchContentProvidersUI, filtered, placeHolder);
+		return A2(
+			_user$project$Home$searchContentProvidersUI,
+			placeHolder,
+			A2(_user$project$Home$removeContentProvider, profileId, contentProviders));
 	});
 var _user$project$Home$content = F2(
 	function (contentToEmbed, model) {
@@ -16465,11 +16467,11 @@ var _user$project$Home$content = F2(
 						}
 					});
 			case 'ViewSubscriptions':
-				return A2(_user$project$Home$searchContentProvidersUI, model.contentProviders, 'name you\'re following');
+				return A2(_user$project$Home$searchContentProvidersUI, 'name you\'re following', model.contentProviders);
 			case 'ViewFollowers':
-				return A2(_user$project$Home$searchContentProvidersUI, model.contentProviders, 'name of follower');
+				return A2(_user$project$Home$searchContentProvidersUI, 'name of follower', model.contentProviders);
 			default:
-				return A3(_user$project$Home$filteredContentProvidersUI, model.contentProviders, 'name', model.portal.contentProvider.profile.id);
+				return A3(_user$project$Home$filteredContentProvidersUI, model.contentProviders, 'name', contentProvider.profile.id);
 		}
 	});
 var _user$project$Home$OnLogin = function (a) {

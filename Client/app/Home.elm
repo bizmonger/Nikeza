@@ -869,13 +869,13 @@ content contentToEmbed model =
                         ]
 
             Domain.ViewSubscriptions ->
-                searchContentProvidersUI model.contentProviders "name you're following"
+                model.contentProviders |> searchContentProvidersUI "name you're following"
 
             Domain.ViewFollowers ->
-                searchContentProvidersUI model.contentProviders "name of follower"
+                model.contentProviders |> searchContentProvidersUI "name of follower"
 
             Domain.ViewProviders ->
-                filteredContentProvidersUI model.contentProviders "name" model.portal.contentProvider.profile.id
+                contentProvider.profile.id |> filteredContentProvidersUI model.contentProviders "name"
 
 
 removeContentProvider : Id -> List ContentProvider -> List ContentProvider
