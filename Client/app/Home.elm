@@ -448,14 +448,11 @@ onAddedSource subMsg model =
                 )
 
 
-filterContentProviders : List ContentProvider -> String -> Bool -> List ContentProvider
-filterContentProviders contentProviders matchValue includeFlag =
+filterContentProviders : List ContentProvider -> String -> List ContentProvider
+filterContentProviders contentProviders matchValue =
     let
         isMatch name =
-            if includeFlag then
-                name |> toLower |> contains (matchValue |> toLower)
-            else
-                name |> toLower |> contains (matchValue |> toLower) |> not
+            name |> toLower |> contains (matchValue |> toLower)
 
         onFirstName contentProvider =
             contentProvider.profile.firstName |> getName |> isMatch
@@ -471,7 +468,7 @@ filterContentProviders contentProviders matchValue includeFlag =
 
 matchContentProviders : Model -> String -> ( Model, Cmd Msg )
 matchContentProviders model matchValue =
-    ( { model | contentProviders = filterContentProviders runtime.contentProviders matchValue True }, Cmd.none )
+    ( { model | contentProviders = filterContentProviders runtime.contentProviders matchValue }, Cmd.none )
 
 
 onLogin : Login.Msg -> Model -> ( Model, Cmd Msg )
@@ -820,9 +817,6 @@ content contentToEmbed model =
 
         contentProvider =
             portal.contentProvider
-
-        matchValue =
-            (contentProvider.profile.firstName |> getName) ++ (model.portal.contentProvider.profile.lastName |> getName)
     in
         case portal.requested of
             Domain.ViewSources ->
@@ -875,27 +869,35 @@ content contentToEmbed model =
                         ]
 
             Domain.ViewSubscriptions ->
-                filteredContentProvidersUI model.contentProviders "name you're following" matchValue
+                searchContentProvidersUI model.contentProviders "name you're following"
 
             Domain.ViewFollowers ->
-                filteredContentProvidersUI model.contentProviders "name of follower" matchValue
+                searchContentProvidersUI model.contentProviders "name of follower"
 
             Domain.ViewProviders ->
-                filteredContentProvidersUI model.contentProviders "name" matchValue
+                filteredContentProvidersUI model.contentProviders "name" model.portal.contentProvider.profile.id
 
 
-filteredContentProvidersUI : List ContentProvider -> String -> String -> Html Msg
-filteredContentProvidersUI contentProviders placeHolder matchValue =
-    let
-        filtered =
-            filterContentProviders contentProviders matchValue False
-    in
-        table []
-            [ tr [] [ td [] [ input [ class "search", type_ "text", placeholder placeHolder, onInput Search ] [] ] ]
-            , tr []
-                [ td [] [ div [] [ contentProvidersUI filtered ] ]
-                ]
+removeContentProvider : Id -> List ContentProvider -> List ContentProvider
+removeContentProvider profileId contentProviders =
+    contentProviders |> List.filter (\p -> p.profile.id /= profileId)
+
+
+filteredContentProvidersUI : List ContentProvider -> String -> Id -> Html Msg
+filteredContentProvidersUI contentProviders placeHolder profileId =
+    contentProviders
+        |> removeContentProvider profileId
+        |> searchContentProvidersUI placeHolder
+
+
+searchContentProvidersUI : String -> List ContentProvider -> Html Msg
+searchContentProvidersUI placeHolder contentProviders =
+    table []
+        [ tr [] [ td [] [ input [ class "search", type_ "text", placeholder placeHolder, onInput Search ] [] ] ]
+        , tr []
+            [ td [] [ div [] [ contentProvidersUI contentProviders ] ]
             ]
+        ]
 
 
 renderNavigation : Portal -> List (Html Msg)

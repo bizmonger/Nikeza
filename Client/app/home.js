@@ -12886,6 +12886,15 @@ var _user$project$Home$notFoundPage = A2(
 		_0: _elm_lang$html$Html$text('Page not found'),
 		_1: {ctor: '[]'}
 	});
+var _user$project$Home$removeContentProvider = F2(
+	function (profileId, contentProviders) {
+		return A2(
+			_elm_lang$core$List$filter,
+			function (p) {
+				return !_elm_lang$core$Native_Utils.eq(p.profile.id, profileId);
+			},
+			contentProviders);
+	});
 var _user$project$Home$contentProviderTopicPage = F2(
 	function (linksfrom, model) {
 		var profileId = model.profile.id;
@@ -13453,16 +13462,13 @@ var _user$project$Home$onLogin = F2(
 				};
 		}
 	});
-var _user$project$Home$filterContentProviders = F3(
-	function (contentProviders, matchValue, includeFlag) {
+var _user$project$Home$filterContentProviders = F2(
+	function (contentProviders, matchValue) {
 		var isMatch = function (name) {
-			return includeFlag ? A2(
+			return A2(
 				_elm_lang$core$String$contains,
 				_elm_lang$core$String$toLower(matchValue),
-				_elm_lang$core$String$toLower(name)) : (!A2(
-				_elm_lang$core$String$contains,
-				_elm_lang$core$String$toLower(matchValue),
-				_elm_lang$core$String$toLower(name)));
+				_elm_lang$core$String$toLower(name));
 		};
 		var onFirstName = function (contentProvider) {
 			return isMatch(
@@ -13484,7 +13490,7 @@ var _user$project$Home$matchContentProviders = F2(
 			_0: _elm_lang$core$Native_Utils.update(
 				model,
 				{
-					contentProviders: A3(_user$project$Home$filterContentProviders, _user$project$Settings$runtime.contentProviders, matchValue, true)
+					contentProviders: A2(_user$project$Home$filterContentProviders, _user$project$Settings$runtime.contentProviders, matchValue)
 				}),
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
@@ -16239,9 +16245,8 @@ var _user$project$Home$contentProvidersUI = function (contentProviders) {
 			{ctor: '[]'},
 			A2(_elm_lang$core$List$map, _user$project$Controls_ProfileThumbnail$thumbnail, contentProviders)));
 };
-var _user$project$Home$filteredContentProvidersUI = F3(
-	function (contentProviders, placeHolder, matchValue) {
-		var filtered = A3(_user$project$Home$filterContentProviders, contentProviders, matchValue, false);
+var _user$project$Home$searchContentProvidersUI = F2(
+	function (contentProviders, placeHolder) {
 		return A2(
 			_elm_lang$html$Html$table,
 			{ctor: '[]'},
@@ -16298,7 +16303,7 @@ var _user$project$Home$filteredContentProvidersUI = F3(
 										{ctor: '[]'},
 										{
 											ctor: '::',
-											_0: _user$project$Home$contentProvidersUI(filtered),
+											_0: _user$project$Home$contentProvidersUI(contentProviders),
 											_1: {ctor: '[]'}
 										}),
 									_1: {ctor: '[]'}
@@ -16309,14 +16314,15 @@ var _user$project$Home$filteredContentProvidersUI = F3(
 				}
 			});
 	});
+var _user$project$Home$filteredContentProvidersUI = F3(
+	function (contentProviders, placeHolder, profileId) {
+		var filtered = A2(_user$project$Home$removeContentProvider, profileId, contentProviders);
+		return A2(_user$project$Home$searchContentProvidersUI, filtered, placeHolder);
+	});
 var _user$project$Home$content = F2(
 	function (contentToEmbed, model) {
 		var portal = model.portal;
 		var contentProvider = portal.contentProvider;
-		var matchValue = A2(
-			_elm_lang$core$Basics_ops['++'],
-			_user$project$Domain_Core$getName(contentProvider.profile.firstName),
-			_user$project$Domain_Core$getName(model.portal.contentProvider.profile.lastName));
 		var _p35 = portal.requested;
 		switch (_p35.ctor) {
 			case 'ViewSources':
@@ -16459,11 +16465,11 @@ var _user$project$Home$content = F2(
 						}
 					});
 			case 'ViewSubscriptions':
-				return A3(_user$project$Home$filteredContentProvidersUI, model.contentProviders, 'name you\'re following', matchValue);
+				return A2(_user$project$Home$searchContentProvidersUI, model.contentProviders, 'name you\'re following');
 			case 'ViewFollowers':
-				return A3(_user$project$Home$filteredContentProvidersUI, model.contentProviders, 'name of follower', matchValue);
+				return A2(_user$project$Home$searchContentProvidersUI, model.contentProviders, 'name of follower');
 			default:
-				return A3(_user$project$Home$filteredContentProvidersUI, model.contentProviders, 'name', matchValue);
+				return A3(_user$project$Home$filteredContentProvidersUI, model.contentProviders, 'name', model.portal.contentProvider.profile.id);
 		}
 	});
 var _user$project$Home$OnLogin = function (a) {
