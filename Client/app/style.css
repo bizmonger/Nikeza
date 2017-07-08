@@ -3,6 +3,12 @@ img.logo {
     height: 38px;
 }
 
+img.profile {
+    height: 115px;
+    width: 115px;
+    margin-bottom: 14px;
+}
+
 header {
     top:0;
     width:100%;
@@ -58,7 +64,7 @@ button.selectedNavigationButton3 {
 
 ul.featuresList{
     background-color: #F7FCFD;
-    margin: 5px;
+    margin-top: 10px;
     width: 380px;
 }
 
@@ -113,9 +119,4 @@ footer {
     width: 100%;
     bottom: 0;
     position: fixed;
-}
-
-img.profile {
-    height: 115px;
-    width: 115px;
 }
