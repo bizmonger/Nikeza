@@ -16506,14 +16506,18 @@ var _user$project$Home$headerContent = function (model) {
 						_elm_lang$html$Html$img,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$src('assets/Nikeza_thin_2.png'),
+							_0: _elm_lang$html$Html_Attributes$class('logo'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$width(190),
+								_0: _elm_lang$html$Html_Attributes$src('assets/Nikeza_thin_2.png'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$height(38),
-									_1: {ctor: '[]'}
+									_0: _elm_lang$html$Html_Attributes$width(190),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$height(38),
+										_1: {ctor: '[]'}
+									}
 								}
 							}
 						},
@@ -16526,53 +16530,12 @@ var _user$project$Home$headerContent = function (model) {
 							{ctor: '[]'}),
 						_1: {
 							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$label,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$i,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text('Linking Your Expertise'),
-											_1: {ctor: '[]'}
-										}),
-									_1: {ctor: '[]'}
-								}),
-							_1: {
-								ctor: '::',
-								_0: loginUI(model),
-								_1: {ctor: '[]'}
-							}
+							_0: loginUI(model),
+							_1: {ctor: '[]'}
 						}
 					}
 				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$input,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('search'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$type_('text'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$placeholder('name'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onInput(_user$project$Home$Search),
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					},
-					{ctor: '[]'}),
-				_1: {ctor: '[]'}
-			}
+			_1: {ctor: '[]'}
 		});
 };
 var _user$project$Home$renderPage = F2(
@@ -16611,16 +16574,35 @@ var _user$project$Home$homePage = function (model) {
 						{
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$div,
-								{ctor: '[]'},
+								_elm_lang$html$Html$input,
 								{
 									ctor: '::',
-									_0: _user$project$Home$contentProvidersUI(model),
-									_1: {ctor: '[]'}
-								}),
+									_0: _elm_lang$html$Html_Attributes$class('search'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$type_('text'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$placeholder('name'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onInput(_user$project$Home$Search),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								},
+								{ctor: '[]'}),
 							_1: {ctor: '[]'}
 						}),
-					_1: {
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$tr,
+					{ctor: '[]'},
+					{
 						ctor: '::',
 						_0: A2(
 							_elm_lang$html$Html$td,
@@ -16628,39 +16610,31 @@ var _user$project$Home$homePage = function (model) {
 							{
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$table,
+									_elm_lang$html$Html$div,
 									{ctor: '[]'},
 									{
 										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$tr,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$td,
-													{ctor: '[]'},
-													{
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$button,
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$class('join'),
-																_1: {
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$Register),
-																	_1: {ctor: '[]'}
-																}
-															},
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html$text('Join!'),
-																_1: {ctor: '[]'}
-															}),
-														_1: {ctor: '[]'}
-													}),
-												_1: {
+										_0: _user$project$Home$contentProvidersUI(model),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$td,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$table,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$tr,
+												{ctor: '[]'},
+												{
 													ctor: '::',
 													_0: A2(
 														_elm_lang$html$Html$td,
@@ -16668,27 +16642,38 @@ var _user$project$Home$homePage = function (model) {
 														{
 															ctor: '::',
 															_0: A2(
-																_elm_lang$html$Html$ul,
+																_elm_lang$html$Html$button,
 																{
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$class('featuresList'),
-																	_1: {ctor: '[]'}
+																	_0: _elm_lang$html$Html_Attributes$class('join'),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$Register),
+																		_1: {ctor: '[]'}
+																	}
 																},
 																{
 																	ctor: '::',
-																	_0: A2(
-																		_elm_lang$html$Html$li,
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$class('joinReasons'),
-																			_1: {ctor: '[]'}
-																		},
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html$text('Import links to your articles, videos, and answers'),
-																			_1: {ctor: '[]'}
-																		}),
-																	_1: {
+																	_0: _elm_lang$html$Html$text('Join!'),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {ctor: '[]'}
+														}),
+													_1: {
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$td,
+															{ctor: '[]'},
+															{
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$ul,
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$class('featuresList'),
+																		_1: {ctor: '[]'}
+																	},
+																	{
 																		ctor: '::',
 																		_0: A2(
 																			_elm_lang$html$Html$li,
@@ -16699,7 +16684,7 @@ var _user$project$Home$homePage = function (model) {
 																			},
 																			{
 																				ctor: '::',
-																				_0: _elm_lang$html$Html$text('Set your featured links for viewers to see'),
+																				_0: _elm_lang$html$Html$text('Import links to your articles, videos, and answers'),
 																				_1: {ctor: '[]'}
 																			}),
 																		_1: {
@@ -16713,26 +16698,41 @@ var _user$project$Home$homePage = function (model) {
 																				},
 																				{
 																					ctor: '::',
-																					_0: _elm_lang$html$Html$text('Subscribe to new links from your favorite thought leaders'),
+																					_0: _elm_lang$html$Html$text('Set your featured links for viewers to see'),
 																					_1: {ctor: '[]'}
 																				}),
-																			_1: {ctor: '[]'}
+																			_1: {
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html$li,
+																					{
+																						ctor: '::',
+																						_0: _elm_lang$html$Html_Attributes$class('joinReasons'),
+																						_1: {ctor: '[]'}
+																					},
+																					{
+																						ctor: '::',
+																						_0: _elm_lang$html$Html$text('Subscribe to new links from your favorite thought leaders'),
+																						_1: {ctor: '[]'}
+																					}),
+																				_1: {ctor: '[]'}
+																			}
 																		}
-																	}
-																}),
-															_1: {ctor: '[]'}
-														}),
-													_1: {ctor: '[]'}
-												}
-											}),
-										_1: {ctor: '[]'}
-									}),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}
-				}),
-			_1: {ctor: '[]'}
+																	}),
+																_1: {ctor: '[]'}
+															}),
+														_1: {ctor: '[]'}
+													}
+												}),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}),
+				_1: {ctor: '[]'}
+			}
 		});
 	return A2(_user$project$Home$renderPage, mainContent, model);
 };

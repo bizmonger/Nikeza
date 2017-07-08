@@ -695,12 +695,10 @@ headerContent model =
     in
         div []
             [ header [ class "header" ]
-                [ img [ src "assets/Nikeza_thin_2.png", width 190, height 38 ] []
+                [ img [ class "logo", src "assets/Nikeza_thin_2.png", width 190, height 38 ] []
                 , br [] []
-                , label [] [ i [] [ text "Linking Your Expertise" ] ]
                 , model |> loginUI
                 ]
-            , input [ class "search", type_ "text", placeholder "name", onInput Search ] []
             ]
 
 
@@ -723,7 +721,8 @@ homePage model =
     let
         mainContent =
             table []
-                [ tr []
+                [ tr [] [ td [] [ input [ class "search", type_ "text", placeholder "name", onInput Search ] [] ] ]
+                , tr []
                     [ td [] [ div [] [ contentProvidersUI model ] ]
                     , td []
                         [ table []
