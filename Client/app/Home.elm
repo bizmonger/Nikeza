@@ -89,6 +89,7 @@ type Msg
     | EditProfile
     | ViewSubscriptions
     | ViewFollowers
+    | ViewProviders
     | NewLink NewLinks.Msg
     | ContentProviderLinksAction ContentProviderLinks.Msg
     | PortalLinksAction ContentProviderLinks.Msg
@@ -145,6 +146,9 @@ update msg model =
 
             ViewFollowers ->
                 ( { model | portal = { portal | requested = Domain.ViewFollowers } }, Cmd.none )
+
+            ViewProviders ->
+                ( { model | portal = { portal | requested = Domain.ViewProviders } }, Cmd.none )
 
             SourceAdded subMsg ->
                 onAddedSource subMsg model
@@ -866,6 +870,9 @@ content contentToEmbed portal =
             Domain.ViewFollowers ->
                 div [] [ label [] [ text "Subscribers..." ] ]
 
+            Domain.ViewProviders ->
+                div [] [ label [] [ text "Providers..." ] ]
+
 
 renderNavigation : Portal -> List (Html Msg)
 renderNavigation portal =
@@ -885,6 +892,9 @@ renderNavigation portal =
         totalFollowers =
             0
 
+        totalProviders =
+            0
+
         profile =
             portal.contentProvider.profile
 
@@ -900,6 +910,9 @@ renderNavigation portal =
         followersText =
             "Subscribers " ++ "(" ++ (toString totalFollowers) ++ ")"
 
+        browseText =
+            "Browse " ++ "(" ++ (toString totalProviders) ++ ")"
+
         ( linkText, profileText ) =
             ( "Link", "Profile" )
 
@@ -912,13 +925,16 @@ renderNavigation portal =
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewProviders ] [ text browseText ]
+                    , br [] []
+                    , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "selectedNavigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
                     ]
 
                 Domain.ViewLinks ->
@@ -928,11 +944,16 @@ renderNavigation portal =
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewProviders ] [ text browseText ]
+                    , br [] []
+                    , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
+                    , br [] []
                     ]
 
                 Domain.AddLink ->
@@ -942,11 +963,16 @@ renderNavigation portal =
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewProviders ] [ text browseText ]
+                    , br [] []
+                    , br [] []
                     , button [ class "selectedNavigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
+                    , br [] []
                     ]
 
                 Domain.EditProfile ->
@@ -956,11 +982,16 @@ renderNavigation portal =
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewProviders ] [ text browseText ]
+                    , br [] []
+                    , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "selectedNavigationButton4", onClick EditProfile ] [ text profileText ]
+                    , br [] []
                     ]
 
                 Domain.ViewSubscriptions ->
@@ -970,11 +1001,16 @@ renderNavigation portal =
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewProviders ] [ text browseText ]
+                    , br [] []
+                    , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
+                    , br [] []
                     ]
 
                 Domain.ViewFollowers ->
@@ -984,11 +1020,35 @@ renderNavigation portal =
                     , br [] []
                     , button [ class "selectedNavigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewProviders ] [ text browseText ]
+                    , br [] []
+                    , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
+                    , br [] []
+                    ]
+
+                Domain.ViewProviders ->
+                    [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "selectedNavigationButton4", onClick ViewProviders ] [ text browseText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
+                    , br [] []
                     ]
 
         sourcesButNoLinks =
@@ -1033,6 +1093,9 @@ renderNavigation portal =
                         noSelectedButton
 
                     Domain.ViewFollowers ->
+                        noSelectedButton
+
+                    Domain.ViewProviders ->
                         noSelectedButton
 
         noSourcesNoLinks =

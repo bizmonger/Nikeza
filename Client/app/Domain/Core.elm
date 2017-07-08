@@ -241,6 +241,7 @@ type ContentProviderRequest
     | EditProfile
     | ViewSubscriptions
     | ViewFollowers
+    | ViewProviders
 
 
 

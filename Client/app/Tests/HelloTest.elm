@@ -9,6 +9,9 @@ import Test exposing (..)
 import Expect
 
 
+-- TODO: https://stackoverflow.com/questions/44909872/executing-elm-test-throws-runtime-exception-cannot-read-property-href-of-unde/44979563#44979563
+
+
 suite : Test
 suite =
     describe "My Tests"
