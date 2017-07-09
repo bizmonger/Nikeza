@@ -6,7 +6,7 @@ open System.Net.Http
 open Nikeza.Wordpress.Rss.Data
 open Newtonsoft.Json
 
-let jsonRssFeed feedUrl = async { 
+let jsonRssFeed (feedUrl: string) = async { 
         let client = new  HttpClient()
         let! response = client.GetByteArrayAsync(feedUrl)                         
                         |> Async.AwaitTask                                                     
