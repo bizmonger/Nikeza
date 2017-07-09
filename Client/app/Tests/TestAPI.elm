@@ -203,17 +203,17 @@ profile3 =
 
 contentProvider1 : ContentProvider
 contentProvider1 =
-    ContentProvider profile1 True topics contentProvider1Links
+    ContentProvider profile1 topics contentProvider1Links
 
 
 contentProvider2 : ContentProvider
 contentProvider2 =
-    ContentProvider profile2 True topics contentProvider2Links
+    ContentProvider profile2 topics contentProvider2Links
 
 
 contentProvider3 : ContentProvider
 contentProvider3 =
-    ContentProvider profile3 True topics contentProvider3Links
+    ContentProvider profile3 topics contentProvider3Links
 
 
 
@@ -243,7 +243,7 @@ tryRegister form =
                 profile =
                     Profile someProfileId (Name form.firstName) (Name form.lastName) (Email form.email) someImageUrl "" []
             in
-                Ok <| ContentProvider profile True [] initLinks
+                Ok <| ContentProvider profile [] initLinks
         else
             Err "Registration failed"
 
