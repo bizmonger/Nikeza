@@ -188,35 +188,44 @@ someEmail =
 
 profile1 : Profile
 profile1 =
-    Profile profileId1 (Name "Scott") (Name "Nimrod") someEmail someImageUrl someDescrtiption (profileId1 |> connections)
+    Profile profileId1 (Name "Scott") (Name "Nimrod") someEmail someImageUrl someDescrtiption (profileId1 |> sources)
 
 
 profile2 : Profile
 profile2 =
-    Profile profileId2 (Name "Pablo") (Name "Rivera") someEmail someImageUrl someDescrtiption (profileId2 |> connections)
+    Profile profileId2 (Name "Pablo") (Name "Rivera") someEmail someImageUrl someDescrtiption (profileId2 |> sources)
 
 
 profile3 : Profile
 profile3 =
-    Profile profileId3 (Name "Adam") (Name "Wright") someEmail someImageUrl someDescrtiption (profileId3 |> connections)
+    Profile profileId3 (Name "Adam") (Name "Wright") someEmail someImageUrl someDescrtiption (profileId3 |> sources)
 
 
 contentProvider1 : ContentProvider
 contentProvider1 =
-    ContentProvider profile1 topics contentProvider1Links
+    ContentProvider profile1 topics contentProvider1Links (Subscribers [])
 
 
 contentProvider2 : ContentProvider
 contentProvider2 =
-    ContentProvider profile2 topics contentProvider2Links
+    ContentProvider profile2 topics contentProvider2Links (Subscribers [])
 
 
 contentProvider3 : ContentProvider
 contentProvider3 =
-    ContentProvider profile3 topics contentProvider3Links
+    ContentProvider profile3 topics contentProvider3Links (Subscribers [])
 
 
 
+-- contentProvider1 : ContentProvider
+-- contentProvider1 =
+--     ContentProvider profile1 topics contentProvider1Links (Subscribers [ contentProvider2 ])
+-- contentProvider2 : ContentProvider
+-- contentProvider2 =
+--     ContentProvider profile2 topics contentProvider2Links (Subscribers [ contentProvider1, contentProvider3 ])
+-- contentProvider3 : ContentProvider
+-- contentProvider3 =
+--     ContentProvider profile3 topics contentProvider3Links (Subscribers [ contentProvider1, contentProvider2 ])
 -- FUNCTIONS
 
 
@@ -243,7 +252,7 @@ tryRegister form =
                 profile =
                     Profile someProfileId (Name form.firstName) (Name form.lastName) (Email form.email) someImageUrl "" []
             in
-                Ok <| ContentProvider profile [] initLinks
+                Ok <| ContentProvider profile [] initLinks (Subscribers [])
         else
             Err "Registration failed"
 
@@ -430,8 +439,8 @@ topicLinks topic contentType id =
         |> List.filter (\link -> link.topics |> List.any (\t -> t.name == topic.name))
 
 
-connections : Id -> List Source
-connections profileId =
+sources : Id -> List Source
+sources profileId =
     [ { platform = "WordPress", username = "bizmonger", linksFound = 0 }
     , { platform = "YouTube", username = "bizmonger", linksFound = 0 }
     , { platform = "StackOverflow", username = "scott-nimrod", linksFound = 0 }
@@ -440,12 +449,12 @@ connections profileId =
 
 addSource : Id -> Source -> Result String (List Source)
 addSource profileId connection =
-    Ok <| connection :: (profileId |> connections)
+    Ok <| connection :: (profileId |> sources)
 
 
 removeSource : Id -> Source -> Result String (List Source)
 removeSource profileId connection =
-    Ok (profileId |> connections |> List.filter (\c -> profileId |> connections |> List.member connection))
+    Ok (profileId |> sources |> List.filter (\c -> profileId |> sources |> List.member connection))
 
 
 usernameToId : String -> Id
@@ -475,3 +484,13 @@ platforms =
     , Platform "Medium"
     , Platform "StackOverflow"
     ]
+
+
+subscribers : Id -> Subscribers
+subscribers profileId =
+    Subscribers []
+
+
+followers : Id -> List ContentProvider
+followers profileId =
+    []

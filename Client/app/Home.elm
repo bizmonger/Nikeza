@@ -869,6 +869,7 @@ content contentToEmbed model =
                         ]
 
             Domain.ViewSubscriptions ->
+                -- contentProvider.subscribers |> searchContentProvidersUI "name you're following"
                 model.contentProviders |> searchContentProvidersUI "name you're following"
 
             Domain.ViewFollowers ->

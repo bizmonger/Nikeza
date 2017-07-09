@@ -9729,9 +9729,9 @@ var _user$project$Domain_Core$Links = F4(
 	function (a, b, c, d) {
 		return {answers: a, articles: b, videos: c, podcasts: d};
 	});
-var _user$project$Domain_Core$ContentProvider = F3(
-	function (a, b, c) {
-		return {profile: a, topics: b, links: c};
+var _user$project$Domain_Core$ContentProvider = F4(
+	function (a, b, c, d) {
+		return {profile: a, topics: b, links: c, subscribers: d};
 	});
 var _user$project$Domain_Core$Portal = F7(
 	function (a, b, c, d, e, f, g) {
@@ -9764,6 +9764,9 @@ var _user$project$Domain_Core$Source = F3(
 var _user$project$Domain_Core$initSource = A3(_user$project$Domain_Core$Source, '', '', 0);
 var _user$project$Domain_Core$FromPortal = {ctor: 'FromPortal'};
 var _user$project$Domain_Core$FromOther = {ctor: 'FromOther'};
+var _user$project$Domain_Core$Subscribers = function (a) {
+	return {ctor: 'Subscribers', _0: a};
+};
 var _user$project$Domain_Core$Id = function (a) {
 	return {ctor: 'Id', _0: a};
 };
@@ -9911,7 +9914,13 @@ var _user$project$Domain_Core$initContentProvider = function () {
 		_user$project$Domain_Core$initLinkToCreate,
 		false,
 		{ctor: '[]'});
-	return A3(_user$project$Domain_Core$ContentProvider, _user$project$Domain_Core$initProfile, _user$project$Domain_Core$initTopics, _user$project$Domain_Core$initLinks);
+	return A4(
+		_user$project$Domain_Core$ContentProvider,
+		_user$project$Domain_Core$initProfile,
+		_user$project$Domain_Core$initTopics,
+		_user$project$Domain_Core$initLinks,
+		_user$project$Domain_Core$Subscribers(
+			{ctor: '[]'}));
 }();
 var _user$project$Domain_Core$initNewLinks = {
 	current: _user$project$Domain_Core$initLinkToCreate,
@@ -9950,6 +9959,13 @@ var _user$project$Domain_Core$toContentType = function (contentType) {
 	}
 };
 
+var _user$project$Tests_TestAPI$followers = function (profileId) {
+	return {ctor: '[]'};
+};
+var _user$project$Tests_TestAPI$subscribers = function (profileId) {
+	return _user$project$Domain_Core$Subscribers(
+		{ctor: '[]'});
+};
 var _user$project$Tests_TestAPI$platforms = {
 	ctor: '::',
 	_0: _user$project$Domain_Core$Platform('WordPress'),
@@ -9971,7 +9987,7 @@ var _user$project$Tests_TestAPI$platforms = {
 		}
 	}
 };
-var _user$project$Tests_TestAPI$connections = function (profileId) {
+var _user$project$Tests_TestAPI$sources = function (profileId) {
 	return {
 		ctor: '::',
 		_0: {platform: 'WordPress', username: 'bizmonger', linksFound: 0},
@@ -9992,7 +10008,7 @@ var _user$project$Tests_TestAPI$addSource = F2(
 			{
 				ctor: '::',
 				_0: connection,
-				_1: _user$project$Tests_TestAPI$connections(profileId)
+				_1: _user$project$Tests_TestAPI$sources(profileId)
 			});
 	});
 var _user$project$Tests_TestAPI$removeSource = F2(
@@ -10004,9 +10020,9 @@ var _user$project$Tests_TestAPI$removeSource = F2(
 					return A2(
 						_elm_lang$core$List$member,
 						connection,
-						_user$project$Tests_TestAPI$connections(profileId));
+						_user$project$Tests_TestAPI$sources(profileId));
 				},
-				_user$project$Tests_TestAPI$connections(profileId)));
+				_user$project$Tests_TestAPI$sources(profileId)));
 	});
 var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 	var successful = _elm_lang$core$Native_Utils.eq(
@@ -10087,7 +10103,7 @@ var _user$project$Tests_TestAPI$profile3 = A7(
 	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$connections(_user$project$Tests_TestAPI$profileId3));
+	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId3));
 var _user$project$Tests_TestAPI$profileId2 = _user$project$Domain_Core$Id('profile_2');
 var _user$project$Tests_TestAPI$profile2 = A7(
 	_user$project$Domain_Core$Profile,
@@ -10097,7 +10113,7 @@ var _user$project$Tests_TestAPI$profile2 = A7(
 	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$connections(_user$project$Tests_TestAPI$profileId2));
+	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId2));
 var _user$project$Tests_TestAPI$profileId1 = _user$project$Domain_Core$Id('profile_1');
 var _user$project$Tests_TestAPI$profile1 = A7(
 	_user$project$Domain_Core$Profile,
@@ -10107,7 +10123,7 @@ var _user$project$Tests_TestAPI$profile1 = A7(
 	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$someImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$connections(_user$project$Tests_TestAPI$profileId1));
+	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId1));
 var _user$project$Tests_TestAPI$linksToContent = F2(
 	function (contentType, profileId) {
 		var _p0 = contentType;
@@ -10424,21 +10440,39 @@ var _user$project$Tests_TestAPI$contentProvider1Links = A4(
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId1),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId1),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId1));
-var _user$project$Tests_TestAPI$contentProvider1 = A3(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile1, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider1Links);
+var _user$project$Tests_TestAPI$contentProvider1 = A4(
+	_user$project$Domain_Core$ContentProvider,
+	_user$project$Tests_TestAPI$profile1,
+	_user$project$Tests_TestAPI$topics,
+	_user$project$Tests_TestAPI$contentProvider1Links,
+	_user$project$Domain_Core$Subscribers(
+		{ctor: '[]'}));
 var _user$project$Tests_TestAPI$contentProvider2Links = A4(
 	_user$project$Domain_Core$Links,
 	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId2),
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId2),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId2),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId2));
-var _user$project$Tests_TestAPI$contentProvider2 = A3(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile2, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider2Links);
+var _user$project$Tests_TestAPI$contentProvider2 = A4(
+	_user$project$Domain_Core$ContentProvider,
+	_user$project$Tests_TestAPI$profile2,
+	_user$project$Tests_TestAPI$topics,
+	_user$project$Tests_TestAPI$contentProvider2Links,
+	_user$project$Domain_Core$Subscribers(
+		{ctor: '[]'}));
 var _user$project$Tests_TestAPI$contentProvider3Links = A4(
 	_user$project$Domain_Core$Links,
 	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId3),
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId3),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId3),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId3));
-var _user$project$Tests_TestAPI$contentProvider3 = A3(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile3, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider3Links);
+var _user$project$Tests_TestAPI$contentProvider3 = A4(
+	_user$project$Domain_Core$ContentProvider,
+	_user$project$Tests_TestAPI$profile3,
+	_user$project$Tests_TestAPI$topics,
+	_user$project$Tests_TestAPI$contentProvider3Links,
+	_user$project$Domain_Core$Subscribers(
+		{ctor: '[]'}));
 var _user$project$Tests_TestAPI$contentProviders = {
 	ctor: '::',
 	_0: _user$project$Tests_TestAPI$contentProvider1,
@@ -10597,11 +10631,13 @@ var _user$project$Tests_TestAPI$tryRegister = function (form) {
 			'',
 			{ctor: '[]'});
 		return _elm_lang$core$Result$Ok(
-			A3(
+			A4(
 				_user$project$Domain_Core$ContentProvider,
 				profile,
 				{ctor: '[]'},
-				_user$project$Domain_Core$initLinks));
+				_user$project$Domain_Core$initLinks,
+				_user$project$Domain_Core$Subscribers(
+					{ctor: '[]'})));
 	} else {
 		return _elm_lang$core$Result$Err('Registration failed');
 	}
@@ -10610,6 +10646,13 @@ var _user$project$Tests_TestAPI$contentProvider = function (id) {
 	return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider3) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$someProfileId) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider1) : _elm_lang$core$Maybe$Nothing)));
 };
 
+var _user$project$Services_Server$followers = function (profileId) {
+	return {ctor: '[]'};
+};
+var _user$project$Services_Server$subscribers = function (profileId) {
+	return _user$project$Domain_Core$Subscribers(
+		{ctor: '[]'});
+};
 var _user$project$Services_Server$suggestedTopics = function (search) {
 	return {ctor: '[]'};
 };
@@ -10623,7 +10666,7 @@ var _user$project$Services_Server$addSource = F2(
 	function (profileId, connection) {
 		return _elm_lang$core$Result$Err('Not implemented');
 	});
-var _user$project$Services_Server$connections = function (profileId) {
+var _user$project$Services_Server$sources = function (profileId) {
 	return {ctor: '[]'};
 };
 var _user$project$Services_Server$usernameToId = function (username) {
@@ -10675,7 +10718,11 @@ var _user$project$Settings$Dependencies = function (a) {
 												return function (m) {
 													return function (n) {
 														return function (o) {
-															return {tryLogin: a, tryRegister: b, contentProvider: c, contentProviders: d, links: e, addLink: f, removeLink: g, topicLinks: h, usernameToId: i, connections: j, addSource: k, removeSource: l, platforms: m, topics: n, suggestedTopics: o};
+															return function (p) {
+																return function (q) {
+																	return {tryLogin: a, tryRegister: b, contentProvider: c, contentProviders: d, links: e, addLink: f, removeLink: g, topicLinks: h, usernameToId: i, sources: j, addSource: k, removeSource: l, platforms: m, topics: n, suggestedTopics: o, subscribers: p, followers: q};
+																};
+															};
 														};
 													};
 												};
@@ -10696,9 +10743,9 @@ var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return _user$project$Settings$Dependencies(_user$project$Services_Server$tryLogin)(_user$project$Services_Server$tryRegister)(_user$project$Services_Server$contentProvider)(_user$project$Services_Server$contentProviders)(_user$project$Services_Server$links)(_user$project$Services_Server$addLink)(_user$project$Services_Server$removeLink)(_user$project$Services_Server$topicLinks)(_user$project$Services_Server$usernameToId)(_user$project$Services_Server$connections)(_user$project$Services_Server$addSource)(_user$project$Services_Server$removeSource)(_user$project$Services_Server$platforms)(_user$project$Services_Server$topics)(_user$project$Services_Server$suggestedTopics);
+		return _user$project$Settings$Dependencies(_user$project$Services_Server$tryLogin)(_user$project$Services_Server$tryRegister)(_user$project$Services_Server$contentProvider)(_user$project$Services_Server$contentProviders)(_user$project$Services_Server$links)(_user$project$Services_Server$addLink)(_user$project$Services_Server$removeLink)(_user$project$Services_Server$topicLinks)(_user$project$Services_Server$usernameToId)(_user$project$Services_Server$sources)(_user$project$Services_Server$addSource)(_user$project$Services_Server$removeSource)(_user$project$Services_Server$platforms)(_user$project$Services_Server$topics)(_user$project$Services_Server$suggestedTopics)(_user$project$Services_Server$subscribers)(_user$project$Services_Server$followers);
 	} else {
-		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$contentProvider)(_user$project$Tests_TestAPI$contentProviders)(_user$project$Tests_TestAPI$links)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$usernameToId)(_user$project$Tests_TestAPI$connections)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$platforms)(_user$project$Tests_TestAPI$topics)(_user$project$Tests_TestAPI$suggestedTopics);
+		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$contentProvider)(_user$project$Tests_TestAPI$contentProviders)(_user$project$Tests_TestAPI$links)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$usernameToId)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$platforms)(_user$project$Tests_TestAPI$topics)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscribers)(_user$project$Tests_TestAPI$followers);
 	}
 }();
 var _user$project$Settings$Integration = {ctor: 'Integration'};

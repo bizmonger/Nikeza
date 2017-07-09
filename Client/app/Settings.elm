@@ -25,12 +25,14 @@ type alias Dependencies =
     , removeLink : RemoveLinkfunction
     , topicLinks : TopicLinksfunction
     , usernameToId : UserNameToIdfunction
-    , connections : Sourcesfunction
+    , sources : Sourcesfunction
     , addSource : AddSourcefunction
     , removeSource : RemoveSourcefunction
     , platforms : List Platform
     , topics : List Topic
     , suggestedTopics : SuggestedTopicsfunction
+    , subscribers : Subscribersfunction
+    , followers : Followersfunction
     }
 
 
@@ -48,12 +50,14 @@ runtime =
                 Services.removeLink
                 Services.topicLinks
                 Services.usernameToId
-                Services.connections
+                Services.sources
                 Services.addSource
                 Services.removeSource
                 Services.platforms
                 Services.topics
                 Services.suggestedTopics
+                Services.subscribers
+                Services.followers
 
         Isolation ->
             Dependencies
@@ -66,9 +70,11 @@ runtime =
                 TestAPI.removeLink
                 TestAPI.topicLinks
                 TestAPI.usernameToId
-                TestAPI.connections
+                TestAPI.sources
                 TestAPI.addSource
                 TestAPI.removeSource
                 TestAPI.platforms
                 TestAPI.topics
                 TestAPI.suggestedTopics
+                TestAPI.subscribers
+                TestAPI.followers

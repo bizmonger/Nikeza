@@ -57,8 +57,8 @@ usernameToId username =
     Id "undefined"
 
 
-connections : Id -> List Source
-connections profileId =
+sources : Id -> List Source
+sources profileId =
     []
 
 
@@ -84,4 +84,14 @@ platforms =
 
 suggestedTopics : String -> List Topic
 suggestedTopics search =
+    []
+
+
+subscribers : Id -> Subscribers
+subscribers profileId =
+    Subscribers []
+
+
+followers : Id -> List ContentProvider
+followers profileId =
     []
