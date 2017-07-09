@@ -2,11 +2,14 @@
 'use strict';
 
 
-var api = fetch("/api/hellos/1").then((function (prim) {
+var tagApi = "https://api.stackexchange.com/2.2/tags?order=desc&sort=popular&site=stackoverflow";
+
+var tags = fetch(tagApi).then((function (prim) {
           return prim.text();
         })).then((function (text) {
         return Promise.resolve((console.log(text), /* () */0));
       }));
 
-exports.api = api;
-/* api Not a pure module */
+exports.tagApi = tagApi;
+exports.tags   = tags;
+/* tags Not a pure module */
