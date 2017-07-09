@@ -869,11 +869,17 @@ content contentToEmbed model =
                         ]
 
             Domain.ViewSubscriptions ->
-                -- contentProvider.subscribers |> searchContentProvidersUI "name you're following"
-                model.contentProviders |> searchContentProvidersUI "name you're following"
+                let
+                    subscribers =
+                        contentProvider.subscribers contentProvider.profile.id
+
+                    (Subscribers contentProviders) =
+                        subscribers
+                in
+                    contentProviders |> searchContentProvidersUI "name you're following"
 
             Domain.ViewFollowers ->
-                model.contentProviders |> searchContentProvidersUI "name of follower"
+                contentProvider.profile.id |> filteredContentProvidersUI model.contentProviders "name of follower"
 
             Domain.ViewProviders ->
                 contentProvider.profile.id |> filteredContentProvidersUI model.contentProviders "name"

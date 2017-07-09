@@ -38,7 +38,7 @@ type alias ContentProvider =
     { profile : Profile
     , topics : List Topic
     , links : Links
-    , subscribers : Subscribers
+    , subscribers : Subscribersfunction
     }
 
 
@@ -46,13 +46,14 @@ type Subscribers
     = Subscribers (List ContentProvider)
 
 
+initSubscribers : Id -> Subscribers
+initSubscribers profileId =
+    Subscribers []
+
+
 initContentProvider : ContentProvider
 initContentProvider =
-    let
-        addedLinks =
-            NewLinks initLinkToCreate False []
-    in
-        ContentProvider initProfile initTopics initLinks (Subscribers [])
+    ContentProvider initProfile initTopics initLinks initSubscribers
 
 
 type alias Portal =

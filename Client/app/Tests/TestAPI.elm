@@ -6,11 +6,6 @@ import Domain.Core as Domain exposing (..)
 import String exposing (..)
 
 
-someProfileId : Id
-someProfileId =
-    Id "some_profile_id"
-
-
 profileId1 : Id
 profileId1 =
     Id "profile_1"
@@ -201,31 +196,34 @@ profile3 =
     Profile profileId3 (Name "Adam") (Name "Wright") someEmail someImageUrl someDescrtiption (profileId3 |> sources)
 
 
+subscribers : Id -> Subscribers
+subscribers profileId =
+    if profileId == profileId1 then
+        Subscribers [ contentProvider2, contentProvider3 ]
+    else if profileId == profileId2 then
+        Subscribers [ contentProvider1, contentProvider3 ]
+    else if profileId == profileId3 then
+        Subscribers [ contentProvider1, contentProvider2 ]
+    else
+        Subscribers []
+
+
 contentProvider1 : ContentProvider
 contentProvider1 =
-    ContentProvider profile1 topics contentProvider1Links (Subscribers [])
+    ContentProvider profile1 topics contentProvider1Links subscribers
 
 
 contentProvider2 : ContentProvider
 contentProvider2 =
-    ContentProvider profile2 topics contentProvider2Links (Subscribers [])
+    ContentProvider profile2 topics contentProvider2Links subscribers
 
 
 contentProvider3 : ContentProvider
 contentProvider3 =
-    ContentProvider profile3 topics contentProvider3Links (Subscribers [])
+    ContentProvider profile3 topics contentProvider3Links subscribers
 
 
 
--- contentProvider1 : ContentProvider
--- contentProvider1 =
---     ContentProvider profile1 topics contentProvider1Links (Subscribers [ contentProvider2 ])
--- contentProvider2 : ContentProvider
--- contentProvider2 =
---     ContentProvider profile2 topics contentProvider2Links (Subscribers [ contentProvider1, contentProvider3 ])
--- contentProvider3 : ContentProvider
--- contentProvider3 =
---     ContentProvider profile3 topics contentProvider3Links (Subscribers [ contentProvider1, contentProvider2 ])
 -- FUNCTIONS
 
 
@@ -250,9 +248,9 @@ tryRegister form =
         if successful then
             let
                 profile =
-                    Profile someProfileId (Name form.firstName) (Name form.lastName) (Email form.email) someImageUrl "" []
+                    Profile profileId1 (Name form.firstName) (Name form.lastName) (Email form.email) someImageUrl "" []
             in
-                Ok <| ContentProvider profile [] initLinks (Subscribers [])
+                Ok <| ContentProvider profile [] initLinks subscribers
         else
             Err "Registration failed"
 
@@ -413,8 +411,6 @@ contentProvider id =
         Just contentProvider2
     else if id == profileId3 then
         Just contentProvider3
-    else if id == someProfileId then
-        Just contentProvider1
     else
         Nothing
 
@@ -484,11 +480,6 @@ platforms =
     , Platform "Medium"
     , Platform "StackOverflow"
     ]
-
-
-subscribers : Id -> Subscribers
-subscribers profileId =
-    Subscribers []
 
 
 followers : Id -> List ContentProvider
