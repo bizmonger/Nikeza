@@ -10579,22 +10579,22 @@ var _user$project$Tests_TestAPI$followers = function (profileId) {
 		}) : _user$project$Domain_Core$Subscribers(
 		{ctor: '[]'})));
 };
-var _user$project$Tests_TestAPI$contentProvider1 = A5(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile1, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider1Links, _user$project$Tests_TestAPI$subscribers, _user$project$Tests_TestAPI$followers);
-var _user$project$Tests_TestAPI$subscribers = function (profileId) {
+var _user$project$Tests_TestAPI$contentProvider1 = A5(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile1, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider1Links, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
+var _user$project$Tests_TestAPI$subscriptions = function (profileId) {
 	return _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? _user$project$Domain_Core$Subscribers(
 		{
 			ctor: '::',
 			_0: _user$project$Tests_TestAPI$contentProvider2,
+			_1: {ctor: '[]'}
+		}) : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId2) ? _user$project$Domain_Core$Subscribers(
+		{
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$contentProvider1,
 			_1: {
 				ctor: '::',
 				_0: _user$project$Tests_TestAPI$contentProvider3,
 				_1: {ctor: '[]'}
 			}
-		}) : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId2) ? _user$project$Domain_Core$Subscribers(
-		{
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$contentProvider1,
-			_1: {ctor: '[]'}
 		}) : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId3) ? _user$project$Domain_Core$Subscribers(
 		{
 			ctor: '::',
@@ -10607,8 +10607,8 @@ var _user$project$Tests_TestAPI$subscribers = function (profileId) {
 		}) : _user$project$Domain_Core$Subscribers(
 		{ctor: '[]'})));
 };
-var _user$project$Tests_TestAPI$contentProvider2 = A5(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile2, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider2Links, _user$project$Tests_TestAPI$subscribers, _user$project$Tests_TestAPI$followers);
-var _user$project$Tests_TestAPI$contentProvider3 = A5(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile3, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider3Links, _user$project$Tests_TestAPI$subscribers, _user$project$Tests_TestAPI$followers);
+var _user$project$Tests_TestAPI$contentProvider2 = A5(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile2, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider2Links, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
+var _user$project$Tests_TestAPI$contentProvider3 = A5(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile3, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider3Links, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
 var _user$project$Tests_TestAPI$contentProviders = {
 	ctor: '::',
 	_0: _user$project$Tests_TestAPI$contentProvider1,
@@ -10640,7 +10640,7 @@ var _user$project$Tests_TestAPI$tryRegister = function (form) {
 				profile,
 				{ctor: '[]'},
 				_user$project$Domain_Core$initLinks,
-				_user$project$Tests_TestAPI$subscribers,
+				_user$project$Tests_TestAPI$subscriptions,
 				_user$project$Tests_TestAPI$followers));
 	} else {
 		return _elm_lang$core$Result$Err('Registration failed');
@@ -10669,7 +10669,7 @@ var _user$project$Services_Server$followers = function (profileId) {
 	return _user$project$Domain_Core$Subscribers(
 		{ctor: '[]'});
 };
-var _user$project$Services_Server$subscribers = function (profileId) {
+var _user$project$Services_Server$subscriptions = function (profileId) {
 	return _user$project$Domain_Core$Subscribers(
 		{ctor: '[]'});
 };
@@ -10740,7 +10740,7 @@ var _user$project$Settings$Dependencies = function (a) {
 														return function (o) {
 															return function (p) {
 																return function (q) {
-																	return {tryLogin: a, tryRegister: b, contentProvider: c, contentProviders: d, links: e, addLink: f, removeLink: g, topicLinks: h, usernameToId: i, sources: j, addSource: k, removeSource: l, platforms: m, topics: n, suggestedTopics: o, subscribers: p, followers: q};
+																	return {tryLogin: a, tryRegister: b, contentProvider: c, contentProviders: d, links: e, addLink: f, removeLink: g, topicLinks: h, usernameToId: i, sources: j, addSource: k, removeSource: l, platforms: m, topics: n, suggestedTopics: o, subscriptions: p, followers: q};
 																};
 															};
 														};
@@ -10763,9 +10763,9 @@ var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return _user$project$Settings$Dependencies(_user$project$Services_Server$tryLogin)(_user$project$Services_Server$tryRegister)(_user$project$Services_Server$contentProvider)(_user$project$Services_Server$contentProviders)(_user$project$Services_Server$links)(_user$project$Services_Server$addLink)(_user$project$Services_Server$removeLink)(_user$project$Services_Server$topicLinks)(_user$project$Services_Server$usernameToId)(_user$project$Services_Server$sources)(_user$project$Services_Server$addSource)(_user$project$Services_Server$removeSource)(_user$project$Services_Server$platforms)(_user$project$Services_Server$topics)(_user$project$Services_Server$suggestedTopics)(_user$project$Services_Server$subscribers)(_user$project$Services_Server$followers);
+		return _user$project$Settings$Dependencies(_user$project$Services_Server$tryLogin)(_user$project$Services_Server$tryRegister)(_user$project$Services_Server$contentProvider)(_user$project$Services_Server$contentProviders)(_user$project$Services_Server$links)(_user$project$Services_Server$addLink)(_user$project$Services_Server$removeLink)(_user$project$Services_Server$topicLinks)(_user$project$Services_Server$usernameToId)(_user$project$Services_Server$sources)(_user$project$Services_Server$addSource)(_user$project$Services_Server$removeSource)(_user$project$Services_Server$platforms)(_user$project$Services_Server$topics)(_user$project$Services_Server$suggestedTopics)(_user$project$Services_Server$subscriptions)(_user$project$Services_Server$followers);
 	} else {
-		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$contentProvider)(_user$project$Tests_TestAPI$contentProviders)(_user$project$Tests_TestAPI$links)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$usernameToId)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$platforms)(_user$project$Tests_TestAPI$topics)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscribers)(_user$project$Tests_TestAPI$followers);
+		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$contentProvider)(_user$project$Tests_TestAPI$contentProviders)(_user$project$Tests_TestAPI$links)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$usernameToId)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$platforms)(_user$project$Tests_TestAPI$topics)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers);
 	}
 }();
 var _user$project$Settings$Integration = {ctor: 'Integration'};
@@ -16534,8 +16534,8 @@ var _user$project$Home$content = F2(
 						}
 					});
 			case 'ViewSubscriptions':
-				var subscribers = contentProvider.subscriptions(contentProvider.profile.id);
-				var _p37 = subscribers;
+				var following = contentProvider.subscriptions(contentProvider.profile.id);
+				var _p37 = following;
 				var subscriptions = _p37._0;
 				return A2(_user$project$Home$searchContentProvidersUI, 'name you\'re following', subscriptions);
 			case 'ViewFollowers':

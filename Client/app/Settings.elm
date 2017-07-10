@@ -31,7 +31,7 @@ type alias Dependencies =
     , platforms : List Platform
     , topics : List Topic
     , suggestedTopics : SuggestedTopicsfunction
-    , subscribers : Subscriptionsfunction
+    , subscriptions : Subscriptionsfunction
     , followers : Followersfunction
     }
 
@@ -56,7 +56,7 @@ runtime =
                 Services.platforms
                 Services.topics
                 Services.suggestedTopics
-                Services.subscribers
+                Services.subscriptions
                 Services.followers
 
         Isolation ->
@@ -76,5 +76,5 @@ runtime =
                 TestAPI.platforms
                 TestAPI.topics
                 TestAPI.suggestedTopics
-                TestAPI.subscribers
+                TestAPI.subscriptions
                 TestAPI.followers

@@ -196,12 +196,12 @@ profile3 =
     Profile profileId3 (Name "Adam") (Name "Wright") someEmail someImageUrl someDescrtiption (profileId3 |> sources)
 
 
-subscribers : Id -> Subscribers
-subscribers profileId =
+subscriptions : Id -> Subscribers
+subscriptions profileId =
     if profileId == profileId1 then
-        Subscribers [ contentProvider2, contentProvider3 ]
+        Subscribers [ contentProvider2 ]
     else if profileId == profileId2 then
-        Subscribers [ contentProvider1 ]
+        Subscribers [ contentProvider1, contentProvider3 ]
     else if profileId == profileId3 then
         Subscribers [ contentProvider1, contentProvider2 ]
     else
@@ -222,17 +222,17 @@ followers profileId =
 
 contentProvider1 : ContentProvider
 contentProvider1 =
-    ContentProvider profile1 topics contentProvider1Links subscribers followers
+    ContentProvider profile1 topics contentProvider1Links subscriptions followers
 
 
 contentProvider2 : ContentProvider
 contentProvider2 =
-    ContentProvider profile2 topics contentProvider2Links subscribers followers
+    ContentProvider profile2 topics contentProvider2Links subscriptions followers
 
 
 contentProvider3 : ContentProvider
 contentProvider3 =
-    ContentProvider profile3 topics contentProvider3Links subscribers followers
+    ContentProvider profile3 topics contentProvider3Links subscriptions followers
 
 
 
@@ -262,7 +262,7 @@ tryRegister form =
                 profile =
                     Profile profileId1 (Name form.firstName) (Name form.lastName) (Email form.email) someImageUrl "" []
             in
-                Ok <| ContentProvider profile [] initLinks subscribers followers
+                Ok <| ContentProvider profile [] initLinks subscriptions followers
         else
             Err "Registration failed"
 

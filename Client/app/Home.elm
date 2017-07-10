@@ -870,11 +870,11 @@ content contentToEmbed model =
 
             Domain.ViewSubscriptions ->
                 let
-                    subscribers =
+                    following =
                         contentProvider.subscriptions contentProvider.profile.id
 
                     (Subscribers subscriptions) =
-                        subscribers
+                        following
                 in
                     subscriptions |> searchContentProvidersUI "name you're following"
 

@@ -87,8 +87,8 @@ suggestedTopics search =
     []
 
 
-subscribers : Id -> Subscribers
-subscribers profileId =
+subscriptions : Id -> Subscribers
+subscriptions profileId =
     Subscribers []
 
 
