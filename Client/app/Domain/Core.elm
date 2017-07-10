@@ -36,19 +36,24 @@ type Linksfrom
 
 type alias ContentProvider =
     { profile : Profile
-    , showAll : Bool
     , topics : List Topic
     , links : Links
+    , subscribers : Subscribersfunction
     }
+
+
+type Subscribers
+    = Subscribers (List ContentProvider)
+
+
+initSubscribers : Id -> Subscribers
+initSubscribers profileId =
+    Subscribers []
 
 
 initContentProvider : ContentProvider
 initContentProvider =
-    let
-        addedLinks =
-            NewLinks initLinkToCreate False []
-    in
-        ContentProvider initProfile True initTopics initLinks
+    ContentProvider initProfile initTopics initLinks initSubscribers
 
 
 type alias Portal =
@@ -240,6 +245,9 @@ type ContentProviderRequest
     | ViewLinks
     | AddLink
     | EditProfile
+    | ViewSubscriptions
+    | ViewFollowers
+    | ViewProviders
 
 
 
@@ -296,6 +304,14 @@ type alias UserNameToIdfunction =
 
 type alias SuggestedTopicsfunction =
     String -> List Topic
+
+
+type alias Subscribersfunction =
+    Id -> Subscribers
+
+
+type alias Followersfunction =
+    Id -> List ContentProvider
 
 
 type ContentType

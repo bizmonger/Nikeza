@@ -69,7 +69,10 @@ view model =
         tableRecords =
             List.append records (model.sources |> List.map sourceUI)
     in
-        div [] [ table [] tableRecords ]
+        div []
+            [ h2 [] [ text "Sources" ]
+            , table [] tableRecords
+            ]
 
 
 sourceUI : Source -> Html Msg

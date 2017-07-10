@@ -98,7 +98,8 @@ view model =
                 ]
     in
         div []
-            [ table []
+            [ h2 [] [ text "Link" ]
+            , table []
                 [ tr []
                     [ td []
                         [ table []

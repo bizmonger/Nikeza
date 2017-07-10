@@ -16,8 +16,7 @@ type alias Model =
 
 
 type Msg
-    = ToggleAll Bool
-    | Toggle ( Topic, Bool )
+    = Toggle ( Topic, Bool )
 
 
 update : Msg -> Model -> Model
@@ -25,9 +24,6 @@ update msg model =
     case msg of
         Toggle ( topic, include ) ->
             ( topic, include ) |> toggleFilter model
-
-        ToggleAll include ->
-            include |> toggleAllFilter model
 
 
 
@@ -79,28 +75,12 @@ toggleFilter model ( topic, include ) =
 
         newState =
             { model
-                | showAll = False
-                , links =
+                | links =
                     { answers = links.answers |> toggleTopic Answer
                     , articles = links.articles |> toggleTopic Article
                     , videos = links.videos |> toggleTopic Video
                     , podcasts = links.podcasts |> toggleTopic Podcast
                     }
             }
-    in
-        newState
-
-
-toggleAllFilter : Model -> Bool -> Model
-toggleAllFilter model include =
-    let
-        contentProvider =
-            model
-
-        newState =
-            if not include then
-                { contentProvider | showAll = False, links = initLinks }
-            else
-                { contentProvider | showAll = True, links = contentProvider.profile.id |> runtime.links }
     in
         newState

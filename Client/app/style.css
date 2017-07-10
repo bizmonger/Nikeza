@@ -1,3 +1,13 @@
+img.logo {
+    width: 190px;
+    height: 38px;
+}
+
+img.profile {
+    height: 115px;
+    width: 115px;
+    margin-bottom: 14px;
+}
 
 header {
     top:0;
@@ -7,6 +17,7 @@ header {
 }
 
 input[type="text"].search{
+    margin-bottom: 0px;
     width:250px;
 }
 
@@ -25,35 +36,35 @@ button.addLink {
 
 button.navigationButton4 {
     vertical-align: text-top;
-    width:100px;
+    width:115px;
     height:25px;
     background-color: lightgray;
 }
 
 button.selectedNavigationButton4 {
     vertical-align: text-top;
-    width:100px;
+    width:115px;
     height:25px;
     background-color: lightblue;
 }
 
 button.navigationButton3 {
     vertical-align: text-top;
-    width:100px;
+    width:115px;
     height:33px;
     background-color: lightgray;
 }
 
 button.selectedNavigationButton3 {
     vertical-align: text-top;
-    width:100px;
+    width:115px;
     height:33px;
     background-color: lightblue;
 }
 
 ul.featuresList{
     background-color: #F7FCFD;
-    margin: 5px;
+    margin-top: 10px;
     width: 380px;
 }
 

@@ -6,7 +6,12 @@
   "scripts": {
     "build": "./node_modules/elm/binwrappers/elm-package install --yes && ./node_modules/elm/binwrappers/elm-make --yes",
     "live": "./node_modules/elm-live/bin/elm-live.js Home.elm --open --output=home.js --path-to-elm-make=./node_modules/elm/binwrappers/elm-make",
-    "server": "./node_modules/http-server/bin/http-server ."
+    "server": "./node_modules/http-server/bin/http-server .",
+
+
+     "start": "elm-live Main.elm --open",
+    "start:test:watch": "concurrently \"npm run start\" \"npm run test:watch\"",
+    "test:watch": "elm-test --watch"
   },
   "dependencies": {
     "ace-css": "1.1",
@@ -21,6 +26,7 @@
     "webpack-dev-server": "^2.4.5"
   },
   "devDependencies": {
+    "concurrently": "^3.5.0",
     "elm": "^0.18.0",
     "elm-live": "^2.7.4",
     "http-server": "^0.10.0"

@@ -87,6 +87,9 @@ type Msg
     | AddNewLink
     | ViewLinks
     | EditProfile
+    | ViewSubscriptions
+    | ViewFollowers
+    | ViewProviders
     | NewLink NewLinks.Msg
     | ContentProviderLinksAction ContentProviderLinks.Msg
     | PortalLinksAction ContentProviderLinks.Msg
@@ -100,106 +103,90 @@ type Msg
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case msg of
-        UrlChange location ->
-            location |> navigate msg model
+    let
+        portal =
+            model.portal
+    in
+        case msg of
+            UrlChange location ->
+                location |> navigate msg model
 
-        Register ->
-            ( model, Navigation.load <| "/#/register" )
+            Register ->
+                ( model, Navigation.load <| "/#/register" )
 
-        OnRegistration subMsg ->
-            onRegistration subMsg model
+            OnRegistration subMsg ->
+                onRegistration subMsg model
 
-        OnLogin subMsg ->
-            onLogin subMsg model
+            OnLogin subMsg ->
+                onLogin subMsg model
 
-        Search "" ->
-            ( { model | contentProviders = runtime.contentProviders }, Cmd.none )
+            Search "" ->
+                ( { model | contentProviders = runtime.contentProviders }, Cmd.none )
 
-        Search text ->
-            text |> matchContentProviders model
+            Search text ->
+                text |> matchContentProviders model
 
-        ProfileThumbnail subMsg ->
-            ( model, Cmd.none )
+            ProfileThumbnail subMsg ->
+                ( model, Cmd.none )
 
-        ViewSources ->
-            let
-                pendingPortal =
-                    model.portal
-            in
-                ( { model | portal = { pendingPortal | requested = Domain.ViewSources } }, Cmd.none )
+            ViewSources ->
+                ( { model | portal = { portal | requested = Domain.ViewSources } }, Cmd.none )
 
-        AddNewLink ->
-            let
-                pendingPortal =
-                    model.portal
-            in
-                ( { model | portal = { pendingPortal | requested = Domain.AddLink } }, Cmd.none )
+            AddNewLink ->
+                ( { model | portal = { portal | requested = Domain.AddLink } }, Cmd.none )
 
-        ViewLinks ->
-            let
-                pendingPortal =
-                    model.portal
-            in
-                ( { model | portal = { pendingPortal | requested = Domain.ViewLinks } }, Cmd.none )
+            ViewLinks ->
+                ( { model | portal = { portal | requested = Domain.ViewLinks } }, Cmd.none )
 
-        EditProfile ->
-            let
-                pendingPortal =
-                    model.portal
-            in
-                ( { model | portal = { pendingPortal | requested = Domain.EditProfile } }, Cmd.none )
+            EditProfile ->
+                ( { model | portal = { portal | requested = Domain.EditProfile } }, Cmd.none )
 
-        SourceAdded subMsg ->
-            onAddedSource subMsg model
+            ViewSubscriptions ->
+                ( { model | portal = { portal | requested = Domain.ViewSubscriptions } }, Cmd.none )
 
-        NewLink subMsg ->
-            onNewLink subMsg model
+            ViewFollowers ->
+                ( { model | portal = { portal | requested = Domain.ViewFollowers } }, Cmd.none )
 
-        EditProfileAction subMsg ->
-            onEditProfile subMsg model
+            ViewProviders ->
+                ( { model | portal = { portal | requested = Domain.ViewProviders } }, Cmd.none )
 
-        PortalLinksAction subMsg ->
-            onPortalLinksAction subMsg model
+            SourceAdded subMsg ->
+                onAddedSource subMsg model
 
-        ContentProviderLinksAction subMsg ->
-            onUpdateContentProviderLinks subMsg model FromOther
+            NewLink subMsg ->
+                onNewLink subMsg model
 
-        ContentProviderContentTypeLinksAction subMsg ->
-            case subMsg of
-                ContentProviderContentTypeLinks.ToggleAll _ ->
-                    let
-                        contentProvider =
-                            ContentProviderContentTypeLinks.update subMsg model.selectedContentProvider
-                    in
-                        ( { model | selectedContentProvider = contentProvider }, Cmd.none )
+            EditProfileAction subMsg ->
+                onEditProfile subMsg model
 
-                ContentProviderContentTypeLinks.Toggle _ ->
-                    let
-                        contentProvider =
-                            ContentProviderContentTypeLinks.update subMsg model.selectedContentProvider
-                    in
-                        ( { model | selectedContentProvider = contentProvider }, Cmd.none )
+            PortalLinksAction subMsg ->
+                onPortalLinksAction subMsg model
 
-        ContentProviderTopicContentTypeLinksAction subMsg ->
-            ( model, Cmd.none )
+            ContentProviderLinksAction subMsg ->
+                onUpdateContentProviderLinks subMsg model FromOther
+
+            ContentProviderContentTypeLinksAction subMsg ->
+                case subMsg of
+                    ContentProviderContentTypeLinks.Toggle _ ->
+                        let
+                            contentProvider =
+                                if model.portal.requested == Domain.ViewLinks then
+                                    ContentProviderContentTypeLinks.update subMsg model.portal.contentProvider
+                                else
+                                    ContentProviderContentTypeLinks.update subMsg model.selectedContentProvider
+                        in
+                            if model.portal.requested == Domain.ViewLinks then
+                                ( { model | portal = { portal | contentProvider = contentProvider } }, Cmd.none )
+                            else
+                                ( { model | selectedContentProvider = contentProvider }, Cmd.none )
+
+            ContentProviderTopicContentTypeLinksAction subMsg ->
+                ( model, Cmd.none )
 
 
 onUpdateContentProviderLinks : ContentProviderLinks.Msg -> Model -> Linksfrom -> ( Model, Cmd Msg )
 onUpdateContentProviderLinks subMsg model linksfrom =
     case subMsg of
-        ContentProviderLinks.ToggleAll _ ->
-            let
-                contentProvider =
-                    case linksfrom of
-                        FromPortal ->
-                            ContentProviderLinks.update subMsg model.portal.contentProvider
-
-                        FromOther ->
-                            ContentProviderLinks.update subMsg model.selectedContentProvider
-            in
-                ( { model | selectedContentProvider = contentProvider }, Cmd.none )
-
         ContentProviderLinks.Toggle _ ->
             let
                 contentProvider =
@@ -216,16 +203,6 @@ onUpdateContentProviderLinks subMsg model linksfrom =
 onPortalLinksAction : ContentProviderLinks.Msg -> Model -> ( Model, Cmd Msg )
 onPortalLinksAction subMsg model =
     case subMsg of
-        ContentProviderLinks.ToggleAll _ ->
-            let
-                contentProvider =
-                    ContentProviderLinks.update subMsg model.portal.contentProvider
-
-                pendingPortal =
-                    model.portal
-            in
-                ( { model | portal = { pendingPortal | contentProvider = contentProvider } }, Cmd.none )
-
         ContentProviderLinks.Toggle _ ->
             let
                 contentProvider =
@@ -381,11 +358,8 @@ refreshLinks contentProvider addedLinks =
 onNewLink : NewLinks.Msg -> Model -> ( Model, Cmd Msg )
 onNewLink subMsg model =
     let
-        pendingPortal =
-            model.portal
-
-        contentProvider =
-            model.portal.contentProvider
+        ( pendingPortal, contentProvider ) =
+            ( model.portal, model.portal.contentProvider )
 
         newLinks =
             NewLinks.update subMsg pendingPortal.newLinks
@@ -430,14 +404,8 @@ onNewLink subMsg model =
 onAddedSource : AddSource.Msg -> Model -> ( Model, Cmd Msg )
 onAddedSource subMsg model =
     let
-        pendingPortal =
-            model.portal
-
-        contentProvider =
-            model.portal.contentProvider
-
-        updatedProfile =
-            contentProvider.profile
+        ( pendingPortal, contentProvider, updatedProfile ) =
+            ( model.portal, model.portal.contentProvider, model.portal.contentProvider.profile )
 
         addSourceModel =
             AddSource.update subMsg { source = pendingPortal.newSource, sources = contentProvider.profile.sources }
@@ -480,8 +448,8 @@ onAddedSource subMsg model =
                 )
 
 
-matchContentProviders : Model -> String -> ( Model, Cmd Msg )
-matchContentProviders model matchValue =
+filterContentProviders : List ContentProvider -> String -> List ContentProvider
+filterContentProviders contentProviders matchValue =
     let
         isMatch name =
             name |> toLower |> contains (matchValue |> toLower)
@@ -494,11 +462,13 @@ matchContentProviders model matchValue =
 
         onName contentProvider =
             onFirstName contentProvider || onLastName contentProvider
-
-        filtered =
-            runtime.contentProviders |> List.filter onName
     in
-        ( { model | contentProviders = filtered }, Cmd.none )
+        contentProviders |> List.filter onName
+
+
+matchContentProviders : Model -> String -> ( Model, Cmd Msg )
+matchContentProviders model matchValue =
+    ( { model | contentProviders = filterContentProviders runtime.contentProviders matchValue }, Cmd.none )
 
 
 onLogin : Login.Msg -> Model -> ( Model, Cmd Msg )
@@ -562,12 +532,20 @@ view model =
             homePage model
 
         [ "register" ] ->
-            registerPage model
+            let
+                content =
+                    registerPage model
+            in
+                model |> renderPage content
 
         [ "contentProvider", id ] ->
             case runtime.contentProvider <| Id id of
                 Just _ ->
-                    renderProfileBase model.selectedContentProvider <| Html.map ContentProviderLinksAction <| ContentProviderLinks.view FromOther model.selectedContentProvider
+                    let
+                        content =
+                            renderProfileBase model.selectedContentProvider <| Html.map ContentProviderLinksAction <| ContentProviderLinks.view FromOther model.selectedContentProvider
+                    in
+                        model |> renderPage content
 
                 Nothing ->
                     notFoundPage
@@ -575,7 +553,11 @@ view model =
         [ "contentProvider", id, topic ] ->
             case runtime.contentProvider <| Id id of
                 Just _ ->
-                    contentProviderTopicPage FromOther model.selectedContentProvider
+                    let
+                        content =
+                            contentProviderTopicPage FromOther model.selectedContentProvider
+                    in
+                        model |> renderPage content
 
                 Nothing ->
                     notFoundPage
@@ -587,10 +569,13 @@ view model =
                         ( view, contentProvider ) =
                             ( ContentProviderContentTypeLinks.view, model.selectedContentProvider )
 
-                        content =
+                        contentToEmbed =
                             Html.map ContentProviderContentTypeLinksAction <| view contentProvider <| toContentType contentType
+
+                        content =
+                            renderProfileBase model.selectedContentProvider <| contentToEmbed
                     in
-                        renderProfileBase model.selectedContentProvider <| content
+                        model |> renderPage content
 
                 Nothing ->
                     notFoundPage
@@ -602,10 +587,13 @@ view model =
                         topic =
                             Topic topicName False
 
-                        content =
+                        contentToEmbed =
                             Html.map ContentProviderTopicContentTypeLinksAction <| ContentProviderTopicContentTypeLinks.view model.selectedContentProvider topic <| toContentType contentType
+
+                        content =
+                            renderProfileBase model.selectedContentProvider <| contentToEmbed
                     in
-                        renderProfileBase model.selectedContentProvider <| content
+                        model |> renderPage content
 
                 Nothing ->
                     notFoundPage
@@ -616,20 +604,14 @@ view model =
                     let
                         linksContent =
                             Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.portal.contentProvider <| toContentType contentType
-                    in
-                        linksContent |> applyToPortal id model contentType
 
-                Nothing ->
-                    notFoundPage
+                        contentToEmbed =
+                            linksContent |> applyToPortal id model contentType
 
-        [ id, "portal", topic, "all", contentType ] ->
-            case runtime.contentProvider <| Id id of
-                Just _ ->
-                    let
-                        linksContent =
-                            Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.portal.contentProvider <| toContentType contentType
+                        mainContent =
+                            model |> content (Just contentToEmbed)
                     in
-                        linksContent |> applyToPortal id model contentType
+                        model |> renderPage mainContent
 
                 Nothing ->
                     notFoundPage
@@ -638,8 +620,13 @@ view model =
             let
                 ( portal, contentType ) =
                     ( model.portal, "all" )
+
+                mainContent =
+                    model
+                        |> content Nothing
+                        |> applyToPortal id model contentType
             in
-                portal |> content |> applyToPortal id model contentType
+                model |> renderPage mainContent
 
         _ ->
             notFoundPage
@@ -650,7 +637,7 @@ renderProfileBase contentProvider linksContent =
     table []
         [ tr []
             [ table []
-                [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| contentProvider.profile.imageUrl, width 100, height 100 ] [] ] ]
+                [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| getUrl <| contentProvider.profile.imageUrl ] [] ] ]
                 , tr [ class "bio" ] [ td [] [ text <| getName contentProvider.profile.firstName ++ " " ++ getName contentProvider.profile.lastName ] ]
                 , tr [ class "bio" ] [ td [] [ p [] [ text contentProvider.profile.bio ] ] ]
                 ]
@@ -682,7 +669,7 @@ render contentProvider contentType linksContent portal =
         [ tr []
             [ td []
                 [ table []
-                    [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| contentProvider.profile.imageUrl, width 100, height 100 ] [] ] ]
+                    [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| getUrl <| contentProvider.profile.imageUrl ] [] ] ]
                     , tr [] [ td [] <| renderNavigation portal ]
                     ]
                 ]
@@ -691,8 +678,8 @@ render contentProvider contentType linksContent portal =
         ]
 
 
-homePage : Model -> Html Msg
-homePage model =
+headerContent : Model -> Html Msg
+headerContent model =
     let
         loginUI : Model -> Html Msg
         loginUI model =
@@ -707,23 +694,38 @@ homePage model =
                     Html.map OnLogin <| Login.view model.login
                 else
                     div [ class "signin" ] [ welcome, signout ]
-
-        contentProvidersUI : Html Msg
-        contentProvidersUI =
-            Html.map ProfileThumbnail <|
-                div [] (model.contentProviders |> List.map thumbnail)
     in
         div []
             [ header [ class "header" ]
-                [ img [ src "assets/Nikeza_thin_2.png", width 190, height 38 ] []
+                [ img [ class "logo", src "assets/Nikeza_thin_2.png" ] []
                 , br [] []
-                , label [] [ i [] [ text "Linking Your Expertise" ] ]
                 , model |> loginUI
                 ]
-            , input [ class "search", type_ "text", placeholder "name", onInput Search ] []
-            , table []
-                [ tr []
-                    [ td [] [ div [] [ contentProvidersUI ] ]
+            ]
+
+
+footerContent : Html Msg
+footerContent =
+    footer [ class "copyright" ]
+        [ label [] [ text "2017" ]
+        , a [ href "" ] [ text "GitHub" ]
+        ]
+
+
+contentProvidersUI : List ContentProvider -> Html Msg
+contentProvidersUI contentProviders =
+    Html.map ProfileThumbnail <|
+        div [] (contentProviders |> List.map thumbnail)
+
+
+homePage : Model -> Html Msg
+homePage model =
+    let
+        mainContent =
+            table []
+                [ tr [] [ td [] [ input [ class "search", type_ "text", placeholder "name", onInput Search ] [] ] ]
+                , tr []
+                    [ td [] [ div [] [ contentProvidersUI model.contentProviders ] ]
                     , td []
                         [ table []
                             [ tr []
@@ -740,11 +742,17 @@ homePage model =
                         ]
                     ]
                 ]
-            , footer [ class "copyright" ]
-                [ label [] [ text "(c)2017" ]
-                , a [ href "" ] [ text "GitHub" ]
-                ]
-            ]
+    in
+        model |> renderPage mainContent
+
+
+renderPage : Html Msg -> Model -> Html Msg
+renderPage content model =
+    div []
+        [ headerContent model
+        , content
+        , footerContent
+        ]
 
 
 registerPage : Model -> Html Msg
@@ -788,7 +796,7 @@ contentProviderTopicPage linksfrom model =
                     [ tr []
                         [ td []
                             [ table []
-                                [ tr [ class "bio" ] [ td [] [ img [ src <| getUrl <| model.profile.imageUrl, width 100, height 100 ] [] ] ]
+                                [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| getUrl <| model.profile.imageUrl ] [] ] ]
                                 , tr [ class "bio" ] [ td [] [ text <| getName model.profile.firstName ++ " " ++ getName model.profile.lastName ] ]
                                 , tr [ class "bio" ] [ td [] [ p [] [ text model.profile.bio ] ] ]
                                 ]
@@ -801,9 +809,12 @@ contentProviderTopicPage linksfrom model =
                 notFoundPage
 
 
-content : Portal -> Html Msg
-content portal =
+content : Maybe (Html Msg) -> Model -> Html Msg
+content contentToEmbed model =
     let
+        portal =
+            model.portal
+
         contentProvider =
             portal.contentProvider
     in
@@ -813,15 +824,24 @@ content portal =
                     [ Html.map SourceAdded <|
                         AddSource.view
                             { source = portal.newSource
-                            , sources = portal.contentProvider.profile.sources
+                            , sources = contentProvider.profile.sources
                             }
                     ]
 
             Domain.ViewLinks ->
-                div [] [ Html.map PortalLinksAction <| ContentProviderLinks.view FromPortal portal.contentProvider ]
+                let
+                    contentToDisplay =
+                        case contentToEmbed of
+                            Just v ->
+                                v
+
+                            Nothing ->
+                                div [] [ Html.map PortalLinksAction <| ContentProviderLinks.view FromPortal contentProvider ]
+                in
+                    contentToDisplay
 
             Domain.EditProfile ->
-                div [] [ Html.map EditProfileAction <| EditProfile.view portal.contentProvider.profile ]
+                div [] [ Html.map EditProfileAction <| EditProfile.view contentProvider.profile ]
 
             Domain.AddLink ->
                 let
@@ -848,6 +868,44 @@ content portal =
                         , tr [] [ td [] [ update ] ]
                         ]
 
+            Domain.ViewSubscriptions ->
+                let
+                    subscribers =
+                        contentProvider.subscribers contentProvider.profile.id
+
+                    (Subscribers contentProviders) =
+                        subscribers
+                in
+                    contentProviders |> searchContentProvidersUI "name you're following"
+
+            Domain.ViewFollowers ->
+                contentProvider.profile.id |> filteredContentProvidersUI model.contentProviders "name of follower"
+
+            Domain.ViewProviders ->
+                contentProvider.profile.id |> filteredContentProvidersUI model.contentProviders "name"
+
+
+removeContentProvider : Id -> List ContentProvider -> List ContentProvider
+removeContentProvider profileId contentProviders =
+    contentProviders |> List.filter (\p -> p.profile.id /= profileId)
+
+
+filteredContentProvidersUI : List ContentProvider -> String -> Id -> Html Msg
+filteredContentProvidersUI contentProviders placeHolder profileId =
+    contentProviders
+        |> removeContentProvider profileId
+        |> searchContentProvidersUI placeHolder
+
+
+searchContentProvidersUI : String -> List ContentProvider -> Html Msg
+searchContentProvidersUI placeHolder contentProviders =
+    table []
+        [ tr [] [ td [] [ input [ class "search", type_ "text", placeholder placeHolder, onInput Search ] [] ] ]
+        , tr []
+            [ td [] [ div [] [ contentProvidersUI contentProviders ] ]
+            ]
+        ]
+
 
 renderNavigation : Portal -> List (Html Msg)
 renderNavigation portal =
@@ -861,6 +919,15 @@ renderNavigation portal =
                 + (List.length links.videos)
                 + (List.length links.podcasts)
 
+        totalSubscriptions =
+            0
+
+        totalFollowers =
+            0
+
+        totalProviders =
+            0
+
         profile =
             portal.contentProvider.profile
 
@@ -870,87 +937,199 @@ renderNavigation portal =
         linksText =
             "Links " ++ "(" ++ (toString totalLinks) ++ ")"
 
-        linkText =
-            "Link"
+        followingText =
+            "Following " ++ "(" ++ (toString totalSubscriptions) ++ ")"
 
-        profileText =
-            "Profile"
+        followersText =
+            "Subscribers " ++ "(" ++ (toString totalFollowers) ++ ")"
+
+        browseText =
+            "Browse " ++ "(" ++ (toString totalProviders) ++ ")"
+
+        ( linkText, profileText ) =
+            ( "Link", "Profile" )
 
         allNavigation =
             case portal.requested of
                 Domain.ViewSources ->
                     [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
                     , br [] []
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewProviders ] [ text browseText ]
+                    , br [] []
+                    , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "selectedNavigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
+                    , br [] []
                     ]
 
                 Domain.ViewLinks ->
                     [ button [ class "selectedNavigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewProviders ] [ text browseText ]
+                    , br [] []
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
+                    , br [] []
                     ]
 
                 Domain.AddLink ->
                     [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewProviders ] [ text browseText ]
+                    , br [] []
                     , br [] []
                     , button [ class "selectedNavigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
+                    , br [] []
                     ]
 
                 Domain.EditProfile ->
                     [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewProviders ] [ text browseText ]
+                    , br [] []
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "selectedNavigationButton4", onClick EditProfile ] [ text profileText ]
+                    , br [] []
+                    ]
+
+                Domain.ViewSubscriptions ->
+                    [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , br [] []
+                    , button [ class "selectedNavigationButton4", onClick ViewSubscriptions ] [ text followingText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewProviders ] [ text browseText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
+                    , br [] []
+                    ]
+
+                Domain.ViewFollowers ->
+                    [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
+                    , br [] []
+                    , button [ class "selectedNavigationButton4", onClick ViewFollowers ] [ text followersText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewProviders ] [ text browseText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
+                    , br [] []
+                    ]
+
+                Domain.ViewProviders ->
+                    [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "selectedNavigationButton4", onClick ViewProviders ] [ text browseText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
+                    , br [] []
                     ]
 
         sourcesButNoLinks =
-            case portal.requested of
-                Domain.ViewSources ->
-                    [ button [ class "selectedNavigationButton3", onClick ViewSources ] [ text sourcesText ]
-                    , br [] []
-                    , button [ class "navigationButton3", onClick AddNewLink ] [ text linkText ]
-                    , br [] []
-                    , button [ class "navigationButton3", onClick EditProfile ] [ text profileText ]
-                    ]
-
-                Domain.ViewLinks ->
+            let
+                noSelectedButton =
                     [ button [ class "navigationButton3", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "navigationButton3", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton3", onClick EditProfile ] [ text profileText ]
                     ]
+            in
+                case portal.requested of
+                    Domain.ViewSources ->
+                        [ button [ class "selectedNavigationButton3", onClick ViewSources ] [ text sourcesText ]
+                        , br [] []
+                        , button [ class "navigationButton3", onClick AddNewLink ] [ text linkText ]
+                        , br [] []
+                        , button [ class "navigationButton3", onClick EditProfile ] [ text profileText ]
+                        ]
 
-                Domain.AddLink ->
-                    [ button [ class "navigationButton3", onClick ViewSources ] [ text sourcesText ]
-                    , br [] []
-                    , button [ class "selectedNavigationButton3", onClick AddNewLink ] [ text linkText ]
-                    , br [] []
-                    , button [ class "navigationButton3", onClick EditProfile ] [ text profileText ]
-                    ]
+                    Domain.AddLink ->
+                        [ button [ class "navigationButton3", onClick ViewSources ] [ text sourcesText ]
+                        , br [] []
+                        , button [ class "selectedNavigationButton3", onClick AddNewLink ] [ text linkText ]
+                        , br [] []
+                        , button [ class "navigationButton3", onClick EditProfile ] [ text profileText ]
+                        ]
 
-                Domain.EditProfile ->
-                    [ button [ class "navigationButton3", onClick ViewSources ] [ text sourcesText ]
-                    , br [] []
-                    , button [ class "navigationButton3", onClick AddNewLink ] [ text linkText ]
-                    , br [] []
-                    , button [ class "selectedNavigationButton3", onClick EditProfile ] [ text profileText ]
-                    ]
+                    Domain.EditProfile ->
+                        [ button [ class "navigationButton3", onClick ViewSources ] [ text sourcesText ]
+                        , br [] []
+                        , button [ class "navigationButton3", onClick AddNewLink ] [ text linkText ]
+                        , br [] []
+                        , button [ class "selectedNavigationButton3", onClick EditProfile ] [ text profileText ]
+                        ]
+
+                    Domain.ViewLinks ->
+                        noSelectedButton
+
+                    Domain.ViewSubscriptions ->
+                        noSelectedButton
+
+                    Domain.ViewFollowers ->
+                        noSelectedButton
+
+                    Domain.ViewProviders ->
+                        noSelectedButton
 
         noSourcesNoLinks =
             case portal.requested of
@@ -1030,6 +1209,14 @@ navigate msg model location =
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
 
+        [ "contentProvider", id, "all", contentType ] ->
+            case runtime.contentProvider <| Id id of
+                Just c ->
+                    ( { model | selectedContentProvider = c, currentRoute = location }, Cmd.none )
+
+                Nothing ->
+                    ( { model | currentRoute = location }, Cmd.none )
+
         [ "contentProvider", id, topic ] ->
             case runtime.contentProvider <| Id id of
                 Just contentProvider ->
@@ -1050,7 +1237,13 @@ navigate msg model location =
                             model.portal
 
                         pendingPortal =
-                            { portal | contentProvider = c }
+                            { portal
+                                | contentProvider = c
+                                , sourcesNavigation = c.profile.sources |> List.isEmpty
+                                , addLinkNavigation = True
+                                , linksNavigation = linksExist c.links
+                                , requested = Domain.ViewLinks
+                            }
                     in
                         ( { model | portal = pendingPortal, currentRoute = location }, Cmd.none )
 
@@ -1077,13 +1270,19 @@ navigate msg model location =
 
         [ id, "portal", "all", contentType ] ->
             case runtime.contentProvider <| Id id of
-                Just contentProvider ->
+                Just c ->
                     let
                         portal =
                             model.portal
 
                         pendingPortal =
-                            { portal | contentProvider = contentProvider }
+                            { portal
+                                | contentProvider = c
+                                , sourcesNavigation = c.profile.sources |> List.isEmpty
+                                , addLinkNavigation = True
+                                , linksNavigation = linksExist c.links
+                                , requested = Domain.ViewLinks
+                            }
                     in
                         ( { model | portal = pendingPortal, currentRoute = location }, Cmd.none )
 

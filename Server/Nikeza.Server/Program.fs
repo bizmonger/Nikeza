@@ -126,11 +126,12 @@ let main argv =
     let webRoot = Path.Combine(contentRoot, "wwwroot")                  
     WebHostBuilder()
         .UseKestrel()
-        .UseContentRoot(contentRoot)
-        .UseWebRoot(webRoot)
+        .UseContentRoot(Directory.GetCurrentDirectory())
         .Configure(Action<IApplicationBuilder> configureApp)
         .ConfigureServices(Action<IServiceCollection> configureServices)
         .ConfigureLogging(Action<ILoggerFactory> configureLogging)
+        // '0.0.0.0' must be used since 'localhost' does not work in docker.
+        .UseUrls("http://0.0.0.0:5000") 
         .Build()
         .Run()
     0
