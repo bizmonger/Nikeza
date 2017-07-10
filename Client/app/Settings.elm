@@ -31,7 +31,7 @@ type alias Dependencies =
     , platforms : List Platform
     , topics : List Topic
     , suggestedTopics : SuggestedTopicsfunction
-    , subscribers : Subscribersfunction
+    , subscribers : Subscriptionsfunction
     , followers : Followersfunction
     }
 

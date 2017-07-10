@@ -92,6 +92,6 @@ subscribers profileId =
     Subscribers []
 
 
-followers : Id -> List ContentProvider
+followers : Id -> Subscribers
 followers profileId =
-    []
+    Subscribers []

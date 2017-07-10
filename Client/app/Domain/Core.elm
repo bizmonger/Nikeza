@@ -38,7 +38,8 @@ type alias ContentProvider =
     { profile : Profile
     , topics : List Topic
     , links : Links
-    , subscribers : Subscribersfunction
+    , subscriptions : Subscriptionsfunction
+    , followers : Followersfunction
     }
 
 
@@ -46,14 +47,14 @@ type Subscribers
     = Subscribers (List ContentProvider)
 
 
-initSubscribers : Id -> Subscribers
-initSubscribers profileId =
+initSubscription : Id -> Subscribers
+initSubscription profileId =
     Subscribers []
 
 
 initContentProvider : ContentProvider
 initContentProvider =
-    ContentProvider initProfile initTopics initLinks initSubscribers
+    ContentProvider initProfile initTopics initLinks initSubscription initSubscription
 
 
 type alias Portal =
@@ -306,12 +307,12 @@ type alias SuggestedTopicsfunction =
     String -> List Topic
 
 
-type alias Subscribersfunction =
+type alias Subscriptionsfunction =
     Id -> Subscribers
 
 
 type alias Followersfunction =
-    Id -> List ContentProvider
+    Id -> Subscribers
 
 
 type ContentType

@@ -201,6 +201,18 @@ subscribers profileId =
     if profileId == profileId1 then
         Subscribers [ contentProvider2, contentProvider3 ]
     else if profileId == profileId2 then
+        Subscribers [ contentProvider1 ]
+    else if profileId == profileId3 then
+        Subscribers [ contentProvider1, contentProvider2 ]
+    else
+        Subscribers []
+
+
+followers : Id -> Subscribers
+followers profileId =
+    if profileId == profileId1 then
+        Subscribers [ contentProvider2 ]
+    else if profileId == profileId2 then
         Subscribers [ contentProvider1, contentProvider3 ]
     else if profileId == profileId3 then
         Subscribers [ contentProvider1, contentProvider2 ]
@@ -210,17 +222,17 @@ subscribers profileId =
 
 contentProvider1 : ContentProvider
 contentProvider1 =
-    ContentProvider profile1 topics contentProvider1Links subscribers
+    ContentProvider profile1 topics contentProvider1Links subscribers followers
 
 
 contentProvider2 : ContentProvider
 contentProvider2 =
-    ContentProvider profile2 topics contentProvider2Links subscribers
+    ContentProvider profile2 topics contentProvider2Links subscribers followers
 
 
 contentProvider3 : ContentProvider
 contentProvider3 =
-    ContentProvider profile3 topics contentProvider3Links subscribers
+    ContentProvider profile3 topics contentProvider3Links subscribers followers
 
 
 
@@ -250,7 +262,7 @@ tryRegister form =
                 profile =
                     Profile profileId1 (Name form.firstName) (Name form.lastName) (Email form.email) someImageUrl "" []
             in
-                Ok <| ContentProvider profile [] initLinks subscribers
+                Ok <| ContentProvider profile [] initLinks subscribers followers
         else
             Err "Registration failed"
 
@@ -480,8 +492,3 @@ platforms =
     , Platform "Medium"
     , Platform "StackOverflow"
     ]
-
-
-followers : Id -> List ContentProvider
-followers profileId =
-    []

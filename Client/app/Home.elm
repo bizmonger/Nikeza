@@ -871,15 +871,22 @@ content contentToEmbed model =
             Domain.ViewSubscriptions ->
                 let
                     subscribers =
-                        contentProvider.subscribers contentProvider.profile.id
+                        contentProvider.subscriptions contentProvider.profile.id
 
-                    (Subscribers contentProviders) =
+                    (Subscribers subscriptions) =
                         subscribers
                 in
-                    contentProviders |> searchContentProvidersUI "name you're following"
+                    subscriptions |> searchContentProvidersUI "name you're following"
 
             Domain.ViewFollowers ->
-                contentProvider.profile.id |> filteredContentProvidersUI model.contentProviders "name of follower"
+                let
+                    followingYou =
+                        contentProvider.followers contentProvider.profile.id
+
+                    (Subscribers followers) =
+                        followingYou
+                in
+                    followers |> searchContentProvidersUI "name of subscriber"
 
             Domain.ViewProviders ->
                 contentProvider.profile.id |> filteredContentProvidersUI model.contentProviders "name"
