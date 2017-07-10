@@ -20,6 +20,8 @@ open Nikeza.Server.Models
 open Nikeza.Server.YouTube
 open Nikeza.YouTube.Data
 open Nikeza.YouTube.Data.Authentication
+open Nikeza.Wordpress.Rss.Data
+open Nikeza.Server.Wordpress
 
 // ---------------------------------
 // Web app
@@ -67,13 +69,21 @@ let fetchYoutube (apiKey, channelId) (ctx : HttpContext) =
         return! json videos ctx
     }
 
+// Wordpress
+let fetchWordpress (feedUrl) (ctx : HttpContext) =
+    async {
+        let! response = jsonRssFeed feedUrl
+        return! json response ctx
+    }
+
 let webApp = 
 
     choose [
         GET >=>
             choose [
                 route "/" >=> razorHtmlView "Index" { Text = "Hello world, from Giraffe!" }
-                routef "/youtube/%s/%s" fetchYoutube 
+                routef "/youtube/%s/%s" fetchYoutube
+                routef "/wordpress/%s"  fetchWordpress
             ]
         POST >=> 
             choose [
