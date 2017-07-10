@@ -72,7 +72,7 @@ let webApp =
     choose [
         GET >=>
             choose [
-                route "/" >=> razorHtmlView "Index" { Text = "Hello world, from Giraffe!" }
+                route "/" >=> htmlFile "/home.html"
                 routef "/youtube/%s/%s" fetchYoutube 
             ]
         POST >=> 
@@ -121,10 +121,13 @@ let configureLogging (loggerFactory : ILoggerFactory) =
     loggerFactory.AddConsole(LogLevel.Trace).AddDebug() |> ignore
 
 [<EntryPoint>]
-let main argv =                                
+let main argv =              
+    let contentRoot = Directory.GetCurrentDirectory()
+    let webRoot = Path.Combine(contentRoot, "wwwroot")                  
     WebHostBuilder()
         .UseKestrel()
-        .UseContentRoot(Directory.GetCurrentDirectory())
+        .UseContentRoot(contentRoot)
+        .UseWebRoot(webRoot)
         .Configure(Action<IApplicationBuilder> configureApp)
         .ConfigureServices(Action<IServiceCollection> configureServices)
         .ConfigureLogging(Action<ILoggerFactory> configureLogging)

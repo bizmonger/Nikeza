@@ -1,4 +1,6 @@
 Server/Nikeza.Server/bin/
 Server/Nikeza.Server/obj/
+Server/Nikeza.YouTube/bin/
+Server/Nikeza.YouTube/obj/
 Client/app/node_modules
-
+Client/app/Elm-Stuff

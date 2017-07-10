@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="FSharp.Core" Version="4.1.*" />
-    <PackageReference Include="FSharp.NET.Sdk" Version="1.0.*" PrivateAssets="All" />
+    <PackageReference Include="FSharp.NET.Sdk" Version="1.0.*" PrivateAssets="All"  />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="1.1.*" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.*" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.*" />
@@ -25,7 +25,7 @@
     <PackageReference Include="Giraffe" Version="0.1.0-*" />
     <PackageReference Include="Giraffe.Razor" Version="0.1.0-*" />
   </ItemGroup>
-
+   
   <ItemGroup>
     <ProjectReference Include="../Nikeza.YouTube/Nikeza.YouTube.fsproj"/>
   </ItemGroup>
@@ -37,6 +37,9 @@
   <ItemGroup>
     <Watch Include="**\*.cshtml" Exclude="bin\**\*" />
   </ItemGroup>
+   <ItemGroup>
+    <Watch Include="**\*.html" Exclude="bin\**\*" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Include="Models.fs" />
@@ -47,6 +50,9 @@
 
   <ItemGroup>
     <Content Include="Views\*.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+     <Content Include="*.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

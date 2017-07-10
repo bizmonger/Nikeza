@@ -1,8 +1,9 @@
 FROM awright18/aspnetcore-build-mono:latest
 
-COPY Server/Nikeza.Server/*.fsproj Server/Nikeza.Server/
-COPY Server/Nikeza.YouTube/*.fsproj Server/Nikeza.YouTube/
-RUN dotnet restore Server/Nikeza.Server/Nikeza.Server.fsproj
+COPY Server/Nikeza.YouTube/Nikeza.YouTube.fsproj Server/Nikeza.YouTube/Nikeza.YouTube.fsproj
+COPY Server/Nikeza.Server/Nikeza.Server.fsproj Server/Nikeza.Server/Nikeza.Server.fsproj
+RUN dotnet restore Server/Nikeza.Server/Nikeza.Server.fsproj 
+    
 
 COPY Client/app/*.json Client/app/
 RUN cd Client/app \
@@ -12,7 +13,7 @@ RUN cd Client/app \
 
 COPY . .
 RUN cd Client/app \
-    elm-make Home.elm --output=../../Server/Nikeza.Server/wwwroot/home.html \
+    elm-make Home.elm --output=../../Server/Nikeza.Server/home.html \
     && cd ../../ \
     && dotnet publish Server/Nikeza.Server/Nikeza.Server.fsproj -f netcoreapp1.1 -o /app/ -c Debug
 
