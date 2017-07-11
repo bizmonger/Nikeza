@@ -734,7 +734,7 @@ homePage model =
                                     [ ul [ class "featuresList" ]
                                         [ li [ class "joinReasons" ] [ text "Import links to your articles, videos, and answers" ]
                                         , li [ class "joinReasons" ] [ text "Set your featured links for viewers to see" ]
-                                        , li [ class "joinReasons" ] [ text "Subscribe to new links from your favorite thought leaders" ]
+                                        , li [ class "joinReasons" ] [ text "Subscribe to published links from your favorite thought leaders" ]
                                         ]
                                     ]
                                 ]
@@ -951,7 +951,7 @@ renderNavigation portal =
             "Subscribers " ++ "(" ++ (toString <| List.length followers) ++ ")"
 
         browseText =
-            "Browse " ++ "(" ++ (toString totalProviders) ++ ")"
+            "Network " ++ "(" ++ (toString totalProviders) ++ ")"
 
         ( linkText, profileText ) =
             ( "Link", "Profile" )

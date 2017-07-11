@@ -14728,7 +14728,7 @@ var _user$project$Home$renderNavigation = function (portal) {
 	var totalProviders = _elm_lang$core$List$length(_user$project$Settings$runtime.contentProviders) - 1;
 	var browseText = A2(
 		_elm_lang$core$Basics_ops['++'],
-		'Browse ',
+		'Network ',
 		A2(
 			_elm_lang$core$Basics_ops['++'],
 			'(',
@@ -16798,7 +16798,7 @@ var _user$project$Home$homePage = function (model) {
 																					},
 																					{
 																						ctor: '::',
-																						_0: _elm_lang$html$Html$text('Subscribe to new links from your favorite thought leaders'),
+																						_0: _elm_lang$html$Html$text('Subscribe to published links from your favorite thought leaders'),
 																						_1: {ctor: '[]'}
 																					}),
 																				_1: {ctor: '[]'}
