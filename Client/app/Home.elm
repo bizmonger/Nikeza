@@ -926,14 +926,14 @@ renderNavigation portal =
                 + (List.length links.videos)
                 + (List.length links.podcasts)
 
-        totalSubscriptions =
-            0
+        (Subscribers subscriptions) =
+            runtime.subscriptions profile.id
 
-        totalFollowers =
-            0
+        (Subscribers followers) =
+            runtime.followers profile.id
 
         totalProviders =
-            0
+            List.length runtime.contentProviders - 1
 
         profile =
             portal.contentProvider.profile
@@ -945,10 +945,10 @@ renderNavigation portal =
             "Links " ++ "(" ++ (toString totalLinks) ++ ")"
 
         followingText =
-            "Following " ++ "(" ++ (toString totalSubscriptions) ++ ")"
+            "Following " ++ "(" ++ (toString <| List.length subscriptions) ++ ")"
 
         followersText =
-            "Subscribers " ++ "(" ++ (toString totalFollowers) ++ ")"
+            "Subscribers " ++ "(" ++ (toString <| List.length followers) ++ ")"
 
         browseText =
             "Browse " ++ "(" ++ (toString totalProviders) ++ ")"

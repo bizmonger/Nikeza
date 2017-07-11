@@ -199,11 +199,8 @@ profile3 =
 subscriptions : Id -> Subscribers
 subscriptions profileId =
     if profileId == profileId1 then
+        -- Weird error when we have contentProvider3
         Subscribers [ contentProvider2 ]
-    else if profileId == profileId2 then
-        Subscribers [ contentProvider1, contentProvider3 ]
-    else if profileId == profileId3 then
-        Subscribers [ contentProvider1, contentProvider2 ]
     else
         Subscribers []
 
@@ -211,11 +208,7 @@ subscriptions profileId =
 followers : Id -> Subscribers
 followers profileId =
     if profileId == profileId1 then
-        Subscribers [ contentProvider2 ]
-    else if profileId == profileId2 then
-        Subscribers [ contentProvider1, contentProvider3 ]
-    else if profileId == profileId3 then
-        Subscribers [ contentProvider1, contentProvider2 ]
+        Subscribers [ contentProvider2, contentProvider3 ]
     else
         Subscribers []
 
