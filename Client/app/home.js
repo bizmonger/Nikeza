@@ -11181,7 +11181,11 @@ var _user$project$Controls_ContentProviderContentTypeLinks$view = F2(
 															ctor: '::',
 															_0: _elm_lang$html$Html_Attributes$href(
 																_user$project$Domain_Core$getUrl(link.url)),
-															_1: {ctor: '[]'}
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$target('_blank'),
+																_1: {ctor: '[]'}
+															}
 														},
 														{
 															ctor: '::',
@@ -11247,7 +11251,11 @@ var _user$project$Controls_ContentProviderLinks$linksUI = function (links) {
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$href(
 						_user$project$Domain_Core$getUrl(link.url)),
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$target('_blank'),
+						_1: {ctor: '[]'}
+					}
 				},
 				{
 					ctor: '::',
@@ -11279,7 +11287,11 @@ var _user$project$Controls_ContentProviderLinks$requestAllContent = F4(
 						_0: _elm_lang$html$Html_Attributes$href(
 							_user$project$Domain_Core$getUrl(
 								A3(_user$project$Domain_Core$allContentUrl, linksFrom, profileId, contentType))),
-						_1: {ctor: '[]'}
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$target('_blank'),
+							_1: {ctor: '[]'}
+						}
 					},
 					{
 						ctor: '::',
@@ -11678,7 +11690,11 @@ var _user$project$Controls_ContentProviderTopicContentTypeLinks$view = F3(
 														ctor: '::',
 														_0: _elm_lang$html$Html_Attributes$href(
 															_user$project$Domain_Core$getUrl(link.url)),
-														_1: {ctor: '[]'}
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$target('_blank'),
+															_1: {ctor: '[]'}
+														}
 													},
 													{
 														ctor: '::',
@@ -12864,7 +12880,11 @@ var _user$project$Home$linksUI = function (links) {
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$href(
 						_user$project$Domain_Core$getUrl(link.url)),
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$target('_blank'),
+						_1: {ctor: '[]'}
+					}
 				},
 				{
 					ctor: '::',
@@ -16441,7 +16461,11 @@ var _user$project$Home$content = F2(
 										ctor: '::',
 										_0: _elm_lang$html$Html_Attributes$href(
 											_user$project$Domain_Core$getUrl(l.url)),
-										_1: {ctor: '[]'}
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$target('_blank'),
+											_1: {ctor: '[]'}
+										}
 									},
 									{
 										ctor: '::',

@@ -854,7 +854,7 @@ content contentToEmbed model =
                     addLink l =
                         div []
                             [ label [] [ text <| (l.contentType |> contentTypeToText |> dropRight 1) ++ ": " ]
-                            , a [ href <| getUrl l.url ] [ text <| getTitle l.title ]
+                            , a [ href <| getUrl l.url, target "_blank" ] [ text <| getTitle l.title ]
                             ]
 
                     update =
@@ -1184,7 +1184,7 @@ linksUI : List Link -> List (Html Msg)
 linksUI links =
     links
         |> List.take 5
-        |> List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ])
+        |> List.map (\link -> a [ href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ])
 
 
 contentWithTopicUI : Linksfrom -> Id -> ContentType -> Topic -> List Link -> List (Html Msg)
