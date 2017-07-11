@@ -16607,42 +16607,60 @@ var _user$project$Home$headerContent = function (model) {
 			});
 	};
 	return A2(
-		_elm_lang$html$Html$div,
+		_elm_lang$html$Html$table,
 		{ctor: '[]'},
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$header,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('header'),
-					_1: {ctor: '[]'}
-				},
+				_elm_lang$html$Html$tr,
+				{ctor: '[]'},
 				{
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$img,
+						_elm_lang$html$Html$td,
+						{ctor: '[]'},
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('logo'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$src('assets/Nikeza_thin_2.png'),
-								_1: {ctor: '[]'}
-							}
-						},
-						{ctor: '[]'}),
+							_0: A2(
+								_elm_lang$html$Html$header,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('header'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$img,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('logo'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$src('assets/Nikeza_thin_2.png'),
+												_1: {ctor: '[]'}
+											}
+										},
+										{ctor: '[]'}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}),
 					_1: {
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
-						_1: {
-							ctor: '::',
-							_0: loginUI(model),
-							_1: {ctor: '[]'}
-						}
+							_elm_lang$html$Html$td,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('login'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: loginUI(model),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
 					}
 				}),
 			_1: {ctor: '[]'}

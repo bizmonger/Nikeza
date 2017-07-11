@@ -695,11 +695,13 @@ headerContent model =
                 else
                     div [ class "signin" ] [ welcome, signout ]
     in
-        div []
-            [ header [ class "header" ]
-                [ img [ class "logo", src "assets/Nikeza_thin_2.png" ] []
-                , br [] []
-                , model |> loginUI
+        table []
+            [ tr []
+                [ td []
+                    [ header [ class "header" ]
+                        [ img [ class "logo", src "assets/Nikeza_thin_2.png" ] [] ]
+                    ]
+                , td [ class "login" ] [ model |> loginUI ]
                 ]
             ]
 

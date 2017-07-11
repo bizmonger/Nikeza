@@ -98,6 +98,10 @@ table td, table td * {
     vertical-align: top;
 }
 
+td.login {
+    text-align: right;
+}
+
 tr.bio {
     text-align: center;
 }
