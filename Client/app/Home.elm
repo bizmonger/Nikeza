@@ -548,7 +548,7 @@ view model =
                         model |> renderPage content
 
                 Nothing ->
-                    notFoundPage
+                    pageNotFound
 
         [ "contentProvider", id, topic ] ->
             case runtime.contentProvider <| Id id of
@@ -560,7 +560,7 @@ view model =
                         model |> renderPage content
 
                 Nothing ->
-                    notFoundPage
+                    pageNotFound
 
         [ "contentProvider", id, "all", contentType ] ->
             case runtime.contentProvider <| Id id of
@@ -578,7 +578,7 @@ view model =
                         model |> renderPage content
 
                 Nothing ->
-                    notFoundPage
+                    pageNotFound
 
         [ "contentProvider", id, topicName, "all", contentType ] ->
             case runtime.contentProvider <| Id id of
@@ -596,7 +596,31 @@ view model =
                         model |> renderPage content
 
                 Nothing ->
-                    notFoundPage
+                    pageNotFound
+
+        [ id, "portal", "edit-profile" ] ->
+            case runtime.contentProvider <| Id id of
+                Just _ ->
+                    let
+                        portal =
+                            model.portal
+
+                        profileView =
+                            Html.map EditProfileAction <| EditProfile.view model.portal.contentProvider.profile
+
+                        contentToEmbed =
+                            render model.portal.contentProvider "" profileView model.portal
+
+                        mainContent =
+                            model |> content (Just contentToEmbed)
+
+                        updatedModel =
+                            { model | portal = { portal | requested = Domain.EditProfile } }
+                    in
+                        updatedModel |> renderPage mainContent
+
+                Nothing ->
+                    pageNotFound
 
         [ id, "portal", "all", contentType ] ->
             case runtime.contentProvider <| Id id of
@@ -614,7 +638,7 @@ view model =
                         model |> renderPage mainContent
 
                 Nothing ->
-                    notFoundPage
+                    pageNotFound
 
         [ id, "portal" ] ->
             let
@@ -629,7 +653,7 @@ view model =
                 model |> renderPage mainContent
 
         _ ->
-            notFoundPage
+            pageNotFound
 
 
 renderProfileBase : ContentProvider -> Html Msg -> Html Msg
@@ -658,13 +682,13 @@ applyToPortal profileId model contentType linksContent =
                     portal |> render contentProvider contentType linksContent
 
                 Nothing ->
-                    notFoundPage
+                    pageNotFound
         else
             portal |> render portal.contentProvider contentType linksContent
 
 
 render : ContentProvider -> String -> Html Msg -> Portal -> Html Msg
-render contentProvider contentType linksContent portal =
+render contentProvider contentType content portal =
     table []
         [ tr []
             [ td []
@@ -673,7 +697,7 @@ render contentProvider contentType linksContent portal =
                     , tr [] [ td [] <| renderNavigation portal ]
                     ]
                 ]
-            , td [] [ linksContent ]
+            , td [] [ content ]
             ]
         ]
 
@@ -684,24 +708,31 @@ headerContent model =
         loginUI : Model -> Html Msg
         loginUI model =
             let
-                ( loggedIn, welcome, signout ) =
+                profileId =
+                    getId model.portal.contentProvider.profile.id
+
+                ( loggedIn, welcome, signout, profile ) =
                     ( model.login.loggedIn
                     , p [] [ text <| "Welcome " ++ model.login.email ++ "!" ]
+                    , a [ href ("/#/" ++ profileId ++ "/portal/edit-profile") ] [ label [] [ text "Edit Profile" ] ]
                     , a [ href "" ] [ label [] [ text "Signout" ] ]
                     )
             in
                 if (not loggedIn) then
                     Html.map OnLogin <| Login.view model.login
                 else
-                    div [ class "signin" ] [ welcome, signout ]
+                    div [ class "signin" ]
+                        [ welcome
+                        , signout
+                        , br [] []
+                        , profile
+                        ]
     in
-        table []
-            [ tr []
-                [ td []
-                    [ header [ class "header" ]
-                        [ img [ class "logo", src "assets/Nikeza_thin_2.png" ] [] ]
-                    ]
-                , td [ class "login" ] [ model |> loginUI ]
+        div []
+            [ header [ class "header" ]
+                [ img [ class "logo", src "assets/Nikeza_thin_2.png" ] []
+                , br [] []
+                , model |> loginUI
                 ]
             ]
 
@@ -808,7 +839,7 @@ contentProviderTopicPage linksfrom model =
                     ]
 
             Nothing ->
-                notFoundPage
+                pageNotFound
 
 
 content : Maybe (Html Msg) -> Model -> Html Msg
@@ -974,9 +1005,6 @@ renderNavigation portal =
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "selectedNavigationButton4", onClick ViewSources ] [ text sourcesText ]
-                    , br [] []
-                    , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
-                    , br [] []
                     ]
 
                 Domain.ViewLinks ->
@@ -993,9 +1021,6 @@ renderNavigation portal =
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
-                    , br [] []
-                    , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
-                    , br [] []
                     ]
 
                 Domain.AddLink ->
@@ -1012,9 +1037,6 @@ renderNavigation portal =
                     , button [ class "selectedNavigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
-                    , br [] []
-                    , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
-                    , br [] []
                     ]
 
                 Domain.EditProfile ->
@@ -1031,9 +1053,6 @@ renderNavigation portal =
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
-                    , br [] []
-                    , button [ class "selectedNavigationButton4", onClick EditProfile ] [ text profileText ]
-                    , br [] []
                     ]
 
                 Domain.ViewSubscriptions ->
@@ -1050,9 +1069,6 @@ renderNavigation portal =
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
-                    , br [] []
-                    , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
-                    , br [] []
                     ]
 
                 Domain.ViewFollowers ->
@@ -1069,9 +1085,6 @@ renderNavigation portal =
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
-                    , br [] []
-                    , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
-                    , br [] []
                     ]
 
                 Domain.ViewProviders ->
@@ -1088,9 +1101,6 @@ renderNavigation portal =
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
-                    , br [] []
-                    , button [ class "navigationButton4", onClick EditProfile ] [ text profileText ]
-                    , br [] []
                     ]
 
         sourcesButNoLinks =
@@ -1099,8 +1109,6 @@ renderNavigation portal =
                     [ button [ class "navigationButton3", onClick ViewSources ] [ text sourcesText ]
                     , br [] []
                     , button [ class "navigationButton3", onClick AddNewLink ] [ text linkText ]
-                    , br [] []
-                    , button [ class "navigationButton3", onClick EditProfile ] [ text profileText ]
                     ]
             in
                 case portal.requested of
@@ -1108,24 +1116,18 @@ renderNavigation portal =
                         [ button [ class "selectedNavigationButton3", onClick ViewSources ] [ text sourcesText ]
                         , br [] []
                         , button [ class "navigationButton3", onClick AddNewLink ] [ text linkText ]
-                        , br [] []
-                        , button [ class "navigationButton3", onClick EditProfile ] [ text profileText ]
                         ]
 
                     Domain.AddLink ->
                         [ button [ class "navigationButton3", onClick ViewSources ] [ text sourcesText ]
                         , br [] []
                         , button [ class "selectedNavigationButton3", onClick AddNewLink ] [ text linkText ]
-                        , br [] []
-                        , button [ class "navigationButton3", onClick EditProfile ] [ text profileText ]
                         ]
 
                     Domain.EditProfile ->
                         [ button [ class "navigationButton3", onClick ViewSources ] [ text sourcesText ]
                         , br [] []
                         , button [ class "navigationButton3", onClick AddNewLink ] [ text linkText ]
-                        , br [] []
-                        , button [ class "selectedNavigationButton3", onClick EditProfile ] [ text profileText ]
                         ]
 
                     Domain.ViewLinks ->
@@ -1177,8 +1179,8 @@ renderNavigation portal =
             displayNavigation allNavigation
 
 
-notFoundPage : Html Msg
-notFoundPage =
+pageNotFound : Html Msg
+pageNotFound =
     div [] [ text "Page not found" ]
 
 
@@ -1237,6 +1239,9 @@ navigate msg model location =
 
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
+
+        [ id, "portal", profileId, "edit-profile" ] ->
+            ( { model | currentRoute = location }, Cmd.none )
 
         [ id, "portal" ] ->
             case runtime.contentProvider <| Id id of
