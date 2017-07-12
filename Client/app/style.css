@@ -1,6 +1,7 @@
 img.logo {
     width: 190px;
     height: 38px;
+    float: left;
 }
 
 img.profile {
@@ -111,6 +112,7 @@ label.title {
 }
 
 .signin {
+    margin-top: -13px;
     float:right;
     text-align: center;
 }
