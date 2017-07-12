@@ -81,10 +81,14 @@ view linksFrom model =
 
 requestAllContent : Linksfrom -> Id -> ContentType -> List Link -> List (Html Msg)
 requestAllContent linksFrom profileId contentType links =
-    List.append (linksUI links)
-        [ a [ href <| getUrl <| allContentUrl linksFrom profileId contentType, target "_blank" ]
-            [ text <| "all", br [] [] ]
-        ]
+    let
+        totalLinks =
+            links |> List.length |> toString
+    in
+        List.append (linksUI links)
+            [ a [ href <| getUrl <| allContentUrl linksFrom profileId contentType ]
+                [ text <| ("All (" ++ totalLinks ++ ") links"), br [] [] ]
+            ]
 
 
 linksUI : List Link -> List (Html Msg)

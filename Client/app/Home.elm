@@ -984,20 +984,11 @@ renderNavigation portal =
         links =
             portal.contentProvider.links
 
-        totalLinks =
-            (List.length links.answers)
-                + (List.length links.articles)
-                + (List.length links.videos)
-                + (List.length links.podcasts)
-
         (Subscribers subscriptions) =
             runtime.subscriptions profile.id
 
         (Subscribers followers) =
             runtime.followers profile.id
-
-        totalProviders =
-            List.length runtime.contentProviders - 1
 
         profile =
             portal.contentProvider.profile
@@ -1005,20 +996,11 @@ renderNavigation portal =
         sourcesText =
             "Sources " ++ "(" ++ (toString <| List.length profile.sources) ++ ")"
 
-        linksText =
-            "Published " ++ "(" ++ (toString totalLinks) ++ ")"
-
-        followingText =
-            "Following " ++ "(" ++ (toString <| List.length subscriptions) ++ ")"
+        ( linksText, followingText, membersText, linkText, profileText ) =
+            ( "Published", "Following", "Members", "Link", "Profile" )
 
         followersText =
             "Subscribers " ++ "(" ++ (toString <| List.length followers) ++ ")"
-
-        membersText =
-            "Members " ++ "(" ++ (toString totalProviders) ++ ")"
-
-        ( linkText, profileText ) =
-            ( "Link", "Profile" )
 
         allNavigation =
             case portal.requested of

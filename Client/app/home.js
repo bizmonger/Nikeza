@@ -11275,6 +11275,8 @@ var _user$project$Controls_ContentProviderLinks$linksUI = function (links) {
 };
 var _user$project$Controls_ContentProviderLinks$requestAllContent = F4(
 	function (linksFrom, profileId, contentType, links) {
+		var totalLinks = _elm_lang$core$Basics$toString(
+			_elm_lang$core$List$length(links));
 		return A2(
 			_elm_lang$core$List$append,
 			_user$project$Controls_ContentProviderLinks$linksUI(links),
@@ -11287,15 +11289,15 @@ var _user$project$Controls_ContentProviderLinks$requestAllContent = F4(
 						_0: _elm_lang$html$Html_Attributes$href(
 							_user$project$Domain_Core$getUrl(
 								A3(_user$project$Domain_Core$allContentUrl, linksFrom, profileId, contentType))),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$target('_blank'),
-							_1: {ctor: '[]'}
-						}
+						_1: {ctor: '[]'}
 					},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text('all'),
+						_0: _elm_lang$html$Html$text(
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								'All (',
+								A2(_elm_lang$core$Basics_ops['++'], totalLinks, ') links'))),
 						_1: {
 							ctor: '::',
 							_0: A2(
@@ -14178,9 +14180,12 @@ var _user$project$Home$renderNavigation = function (portal) {
 			_1: {ctor: '[]'}
 		};
 	};
-	var _p30 = {ctor: '_Tuple2', _0: 'Link', _1: 'Profile'};
-	var linkText = _p30._0;
-	var profileText = _p30._1;
+	var _p30 = {ctor: '_Tuple5', _0: 'Published', _1: 'Following', _2: 'Members', _3: 'Link', _4: 'Profile'};
+	var linksText = _p30._0;
+	var followingText = _p30._1;
+	var membersText = _p30._2;
+	var linkText = _p30._3;
+	var profileText = _p30._4;
 	var profile = portal.contentProvider.profile;
 	var sourcesText = A2(
 		_elm_lang$core$Basics_ops['++'],
@@ -14641,17 +14646,6 @@ var _user$project$Home$renderNavigation = function (portal) {
 				};
 		}
 	}();
-	var totalProviders = _elm_lang$core$List$length(_user$project$Settings$runtime.contentProviders) - 1;
-	var membersText = A2(
-		_elm_lang$core$Basics_ops['++'],
-		'Members ',
-		A2(
-			_elm_lang$core$Basics_ops['++'],
-			'(',
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_elm_lang$core$Basics$toString(totalProviders),
-				')')));
 	var _p33 = _user$project$Settings$runtime.followers(profile.id);
 	var followers = _p33._0;
 	var followersText = A2(
@@ -14665,34 +14659,9 @@ var _user$project$Home$renderNavigation = function (portal) {
 				_elm_lang$core$Basics$toString(
 					_elm_lang$core$List$length(followers)),
 				')')));
-	var _p34 = _user$project$Settings$runtime.subscriptions(profile.id);
-	var subscriptions = _p34._0;
-	var followingText = A2(
-		_elm_lang$core$Basics_ops['++'],
-		'Following ',
-		A2(
-			_elm_lang$core$Basics_ops['++'],
-			'(',
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_elm_lang$core$Basics$toString(
-					_elm_lang$core$List$length(subscriptions)),
-				')')));
-	var links = portal.contentProvider.links;
-	var totalLinks = ((_elm_lang$core$List$length(links.answers) + _elm_lang$core$List$length(links.articles)) + _elm_lang$core$List$length(links.videos)) + _elm_lang$core$List$length(links.podcasts);
-	var linksText = A2(
-		_elm_lang$core$Basics_ops['++'],
-		'Published ',
-		A2(
-			_elm_lang$core$Basics_ops['++'],
-			'(',
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_elm_lang$core$Basics$toString(totalLinks),
-				')')));
 	var allNavigation = function () {
-		var _p35 = portal.requested;
-		switch (_p35.ctor) {
+		var _p34 = portal.requested;
+		switch (_p34.ctor) {
 			case 'ViewSources':
 				return {
 					ctor: '::',
@@ -15633,6 +15602,9 @@ var _user$project$Home$renderNavigation = function (portal) {
 				};
 		}
 	}();
+	var _p35 = _user$project$Settings$runtime.subscriptions(profile.id);
+	var subscriptions = _p35._0;
+	var links = portal.contentProvider.links;
 	return ((!portal.sourcesNavigation) && (!portal.linksNavigation)) ? displayNavigation(noSourcesNoLinks) : ((portal.sourcesNavigation && (!portal.linksNavigation)) ? displayNavigation(sourcesButNoLinks) : displayNavigation(allNavigation));
 };
 var _user$project$Home$render = F4(
