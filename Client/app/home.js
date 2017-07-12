@@ -9312,13 +9312,17 @@ var _user$project$Controls_Login$view = function (model) {
 						_0: _elm_lang$html$Html_Attributes$type_('submit'),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$value('Signin'),
+							_0: _elm_lang$html$Html_Attributes$tabindex(3),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(
-									_user$project$Controls_Login$Attempt(
-										{ctor: '_Tuple2', _0: model.email, _1: model.password})),
-								_1: {ctor: '[]'}
+								_0: _elm_lang$html$Html_Attributes$value('Signin'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(
+										_user$project$Controls_Login$Attempt(
+											{ctor: '_Tuple2', _0: model.email, _1: model.password})),
+									_1: {ctor: '[]'}
+								}
 							}
 						}
 					}
@@ -9336,14 +9340,18 @@ var _user$project$Controls_Login$view = function (model) {
 							_0: _elm_lang$html$Html_Attributes$type_('password'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$placeholder('password'),
+								_0: _elm_lang$html$Html_Attributes$tabindex(2),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Login$PasswordInput),
+									_0: _elm_lang$html$Html_Attributes$placeholder('password'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$value(model.password),
-										_1: {ctor: '[]'}
+										_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Login$PasswordInput),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$value(model.password),
+											_1: {ctor: '[]'}
+										}
 									}
 								}
 							}
@@ -9362,14 +9370,18 @@ var _user$project$Controls_Login$view = function (model) {
 								_0: _elm_lang$html$Html_Attributes$type_('text'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$placeholder('username'),
+									_0: _elm_lang$html$Html_Attributes$tabindex(1),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Login$UserInput),
+										_0: _elm_lang$html$Html_Attributes$placeholder('username'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$value(model.email),
-											_1: {ctor: '[]'}
+											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Login$UserInput),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$value(model.email),
+												_1: {ctor: '[]'}
+											}
 										}
 									}
 								}
