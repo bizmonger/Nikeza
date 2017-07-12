@@ -249,6 +249,7 @@ type ContentProviderRequest
     | ViewSubscriptions
     | ViewFollowers
     | ViewProviders
+    | Recent
 
 
 

@@ -90,6 +90,7 @@ type Msg
     | ViewSubscriptions
     | ViewFollowers
     | ViewProviders
+    | Recent
     | NewLink NewLinks.Msg
     | ContentProviderLinksAction ContentProviderLinks.Msg
     | PortalLinksAction ContentProviderLinks.Msg
@@ -149,6 +150,9 @@ update msg model =
 
             ViewProviders ->
                 ( { model | portal = { portal | requested = Domain.ViewProviders } }, Cmd.none )
+
+            Recent ->
+                ( { model | portal = { portal | requested = Domain.Recent } }, Cmd.none )
 
             SourceAdded subMsg ->
                 onAddedSource subMsg model
@@ -497,7 +501,7 @@ onLogin subMsg model =
                                     , portal =
                                         { pendingPortal
                                             | contentProvider = contentProvider
-                                            , requested = Domain.ViewLinks
+                                            , requested = Domain.Recent
                                             , linksNavigation = linksExist contentProvider.links
                                             , sourcesNavigation = not <| List.isEmpty contentProvider.profile.sources
                                         }
@@ -955,6 +959,9 @@ content contentToEmbed model =
             Domain.ViewProviders ->
                 contentProvider.profile.id |> filteredContentProvidersUI model.contentProviders "name"
 
+            Domain.Recent ->
+                h3 [] [ text "Recent..." ]
+
 
 removeContentProvider : Id -> List ContentProvider -> List ContentProvider
 removeContentProvider profileId contentProviders =
@@ -996,16 +1003,38 @@ renderNavigation portal =
         sourcesText =
             "Sources " ++ "(" ++ (toString <| List.length profile.sources) ++ ")"
 
+        newText =
+            "Recent " ++ "(" ++ (toString <| 0) ++ ")"
+
         ( linksText, followingText, membersText, linkText, profileText ) =
-            ( "Published", "Following", "Members", "Link", "Profile" )
+            ( "Showcase", "Following", "Members", "Link", "Profile" )
 
         followersText =
             "Subscribers " ++ "(" ++ (toString <| List.length followers) ++ ")"
 
         allNavigation =
             case portal.requested of
+                Domain.Recent ->
+                    [ button [ class "selectedNavigationButton4", onClick Recent ] [ text newText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewProviders ] [ text membersText ]
+                    ]
+
                 Domain.ViewSources ->
-                    [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    [ button [ class "navigationButton4", onClick Recent ] [ text newText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
@@ -1018,7 +1047,10 @@ renderNavigation portal =
                     ]
 
                 Domain.ViewLinks ->
-                    [ button [ class "selectedNavigationButton4", onClick ViewLinks ] [ text linksText ]
+                    [ button [ class "navigationButton4", onClick Recent ] [ text newText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "selectedNavigationButton4", onClick ViewLinks ] [ text linksText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
@@ -1031,7 +1063,10 @@ renderNavigation portal =
                     ]
 
                 Domain.AddLink ->
-                    [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    [ button [ class "navigationButton4", onClick Recent ] [ text newText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
                     , br [] []
                     , button [ class "selectedNavigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
@@ -1044,7 +1079,10 @@ renderNavigation portal =
                     ]
 
                 Domain.EditProfile ->
-                    [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    [ button [ class "navigationButton4", onClick Recent ] [ text newText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
@@ -1057,7 +1095,10 @@ renderNavigation portal =
                     ]
 
                 Domain.ViewSubscriptions ->
-                    [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    [ button [ class "navigationButton4", onClick Recent ] [ text newText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
@@ -1072,7 +1113,10 @@ renderNavigation portal =
                     ]
 
                 Domain.ViewFollowers ->
-                    [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    [ button [ class "navigationButton4", onClick Recent ] [ text newText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
@@ -1085,7 +1129,10 @@ renderNavigation portal =
                     ]
 
                 Domain.ViewProviders ->
-                    [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    [ button [ class "navigationButton4", onClick Recent ] [ text newText ]
+                    , br [] []
+                    , br [] []
+                    , button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
@@ -1134,6 +1181,9 @@ renderNavigation portal =
                         noSelectedButton
 
                     Domain.ViewProviders ->
+                        noSelectedButton
+
+                    Domain.Recent ->
                         noSelectedButton
 
         noSourcesNoLinks =
@@ -1247,7 +1297,7 @@ navigate msg model location =
                                 , sourcesNavigation = c.profile.sources |> List.isEmpty
                                 , addLinkNavigation = True
                                 , linksNavigation = linksExist c.links
-                                , requested = Domain.ViewLinks
+                                , requested = Domain.Recent
                             }
                     in
                         ( { model | portal = pendingPortal, currentRoute = location }, Cmd.none )
