@@ -622,6 +622,36 @@ view model =
                 Nothing ->
                     pageNotFound
 
+        [ id, "portal", "edit-sources" ] ->
+            case runtime.contentProvider <| Id id of
+                Just _ ->
+                    let
+                        portal =
+                            model.portal
+
+                        sourcesView =
+                            div []
+                                [ Html.map SourceAdded <|
+                                    AddSource.view
+                                        { source = model.portal.newSource
+                                        , sources = model.portal.contentProvider.profile.sources
+                                        }
+                                ]
+
+                        contentToEmbed =
+                            render model.portal.contentProvider "" sourcesView model.portal
+
+                        mainContent =
+                            model |> content (Just contentToEmbed)
+
+                        updatedModel =
+                            { model | portal = { portal | requested = Domain.ViewSources } }
+                    in
+                        updatedModel |> renderPage mainContent
+
+                Nothing ->
+                    pageNotFound
+
         [ id, "portal", "all", contentType ] ->
             case runtime.contentProvider <| Id id of
                 Just _ ->
@@ -711,10 +741,11 @@ headerContent model =
                 profileId =
                     getId model.portal.contentProvider.profile.id
 
-                ( loggedIn, welcome, signout, profile ) =
+                ( loggedIn, welcome, signout, profile, sources ) =
                     ( model.login.loggedIn
                     , p [] [ text <| "Welcome " ++ model.login.email ++ "!" ]
-                    , a [ href ("/#/" ++ profileId ++ "/portal/edit-profile") ] [ label [] [ text "Edit Profile" ] ]
+                    , a [ href ("/#/" ++ profileId ++ "/portal/edit-profile") ] [ label [] [ text "Profile" ] ]
+                    , a [ href ("/#/" ++ profileId ++ "/portal/edit-sources") ] [ label [] [ text "Sources" ] ]
                     , a [ href "" ] [ label [] [ text "Signout" ] ]
                     )
             in
@@ -983,7 +1014,7 @@ renderNavigation portal =
         followersText =
             "Subscribers " ++ "(" ++ (toString <| List.length followers) ++ ")"
 
-        browseText =
+        membersText =
             "Members " ++ "(" ++ (toString totalProviders) ++ ")"
 
         ( linkText, profileText ) =
@@ -994,113 +1025,94 @@ renderNavigation portal =
                 Domain.ViewSources ->
                     [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
                     , br [] []
+                    , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , br [] []
                     , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
-                    , br [] []
-                    , button [ class "navigationButton4", onClick ViewProviders ] [ text browseText ]
-                    , br [] []
-                    , br [] []
-                    , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
-                    , br [] []
-                    , button [ class "selectedNavigationButton4", onClick ViewSources ] [ text sourcesText ]
+                    , button [ class "navigationButton4", onClick ViewProviders ] [ text membersText ]
                     ]
 
                 Domain.ViewLinks ->
                     [ button [ class "selectedNavigationButton4", onClick ViewLinks ] [ text linksText ]
                     , br [] []
+                    , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , br [] []
                     , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
-                    , br [] []
-                    , button [ class "navigationButton4", onClick ViewProviders ] [ text browseText ]
-                    , br [] []
-                    , br [] []
-                    , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
-                    , br [] []
-                    , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
+                    , button [ class "navigationButton4", onClick ViewProviders ] [ text membersText ]
                     ]
 
                 Domain.AddLink ->
                     [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
                     , br [] []
+                    , button [ class "selectedNavigationButton4", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , br [] []
                     , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
-                    , br [] []
-                    , button [ class "navigationButton4", onClick ViewProviders ] [ text browseText ]
-                    , br [] []
-                    , br [] []
-                    , button [ class "selectedNavigationButton4", onClick AddNewLink ] [ text linkText ]
-                    , br [] []
-                    , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
+                    , button [ class "navigationButton4", onClick ViewProviders ] [ text membersText ]
                     ]
 
                 Domain.EditProfile ->
                     [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
                     , br [] []
+                    , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , br [] []
                     , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
-                    , br [] []
-                    , button [ class "navigationButton4", onClick ViewProviders ] [ text browseText ]
-                    , br [] []
-                    , br [] []
-                    , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
-                    , br [] []
-                    , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
+                    , button [ class "navigationButton4", onClick ViewProviders ] [ text membersText ]
                     ]
 
                 Domain.ViewSubscriptions ->
                     [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
                     , br [] []
+                    , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , br [] []
                     , button [ class "selectedNavigationButton4", onClick ViewSubscriptions ] [ text followingText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
+                    , button [ class "navigationButton4", onClick ViewProviders ] [ text membersText ]
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewProviders ] [ text browseText ]
                     , br [] []
-                    , br [] []
-                    , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
-                    , br [] []
-                    , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
                     ]
 
                 Domain.ViewFollowers ->
                     [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
                     , br [] []
+                    , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , br [] []
                     , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
                     , br [] []
                     , button [ class "selectedNavigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
-                    , br [] []
-                    , button [ class "navigationButton4", onClick ViewProviders ] [ text browseText ]
-                    , br [] []
-                    , br [] []
-                    , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
-                    , br [] []
-                    , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
+                    , button [ class "navigationButton4", onClick ViewProviders ] [ text membersText ]
                     ]
 
                 Domain.ViewProviders ->
                     [ button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
                     , br [] []
+                    , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
+                    , br [] []
+                    , br [] []
                     , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
-                    , br [] []
-                    , button [ class "selectedNavigationButton4", onClick ViewProviders ] [ text browseText ]
-                    , br [] []
-                    , br [] []
-                    , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
-                    , br [] []
-                    , button [ class "navigationButton4", onClick ViewSources ] [ text sourcesText ]
+                    , button [ class "selectedNavigationButton4", onClick ViewProviders ] [ text membersText ]
                     ]
 
         sourcesButNoLinks =
@@ -1239,9 +1251,6 @@ navigate msg model location =
 
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
-
-        [ id, "portal", profileId, "edit-profile" ] ->
-            ( { model | currentRoute = location }, Cmd.none )
 
         [ id, "portal" ] ->
             case runtime.contentProvider <| Id id of
