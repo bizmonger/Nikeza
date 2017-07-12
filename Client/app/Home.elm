@@ -975,7 +975,7 @@ renderNavigation portal =
             "Sources " ++ "(" ++ (toString <| List.length profile.sources) ++ ")"
 
         linksText =
-            "Links " ++ "(" ++ (toString totalLinks) ++ ")"
+            "Published " ++ "(" ++ (toString totalLinks) ++ ")"
 
         followingText =
             "Following " ++ "(" ++ (toString <| List.length subscriptions) ++ ")"
@@ -984,7 +984,7 @@ renderNavigation portal =
             "Subscribers " ++ "(" ++ (toString <| List.length followers) ++ ")"
 
         browseText =
-            "Network " ++ "(" ++ (toString totalProviders) ++ ")"
+            "Members " ++ "(" ++ (toString totalProviders) ++ ")"
 
         ( linkText, profileText ) =
             ( "Link", "Profile" )

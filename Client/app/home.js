@@ -14674,7 +14674,7 @@ var _user$project$Home$renderNavigation = function (portal) {
 	var totalProviders = _elm_lang$core$List$length(_user$project$Settings$runtime.contentProviders) - 1;
 	var browseText = A2(
 		_elm_lang$core$Basics_ops['++'],
-		'Network ',
+		'Members ',
 		A2(
 			_elm_lang$core$Basics_ops['++'],
 			'(',
@@ -14712,7 +14712,7 @@ var _user$project$Home$renderNavigation = function (portal) {
 	var totalLinks = ((_elm_lang$core$List$length(links.answers) + _elm_lang$core$List$length(links.articles)) + _elm_lang$core$List$length(links.videos)) + _elm_lang$core$List$length(links.podcasts);
 	var linksText = A2(
 		_elm_lang$core$Basics_ops['++'],
-		'Links ',
+		'Published ',
 		A2(
 			_elm_lang$core$Basics_ops['++'],
 			'(',
