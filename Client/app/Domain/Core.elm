@@ -38,6 +38,7 @@ type alias ContentProvider =
     { profile : Profile
     , topics : List Topic
     , links : Links
+    , recentLinks : List Link
     , subscriptions : Subscriptionsfunction
     , followers : Followersfunction
     }
@@ -54,7 +55,7 @@ initSubscription profileId =
 
 initContentProvider : ContentProvider
 initContentProvider =
-    ContentProvider initProfile initTopics initLinks initSubscription initSubscription
+    ContentProvider initProfile initTopics initLinks [] initSubscription initSubscription
 
 
 type alias Portal =

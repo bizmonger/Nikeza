@@ -960,7 +960,7 @@ content contentToEmbed model =
                 contentProvider.profile.id |> filteredContentProvidersUI model.contentProviders "name"
 
             Domain.Recent ->
-                h3 [] [ text "Recent..." ]
+                contentProvidersUI model.contentProviders
 
 
 removeContentProvider : Id -> List ContentProvider -> List ContentProvider
@@ -979,9 +979,7 @@ searchContentProvidersUI : String -> List ContentProvider -> Html Msg
 searchContentProvidersUI placeHolder contentProviders =
     table []
         [ tr [] [ td [] [ input [ class "search", type_ "text", placeholder placeHolder, onInput Search ] [] ] ]
-        , tr []
-            [ td [] [ div [] [ contentProvidersUI contentProviders ] ]
-            ]
+        , tr [] [ td [] [ div [] [ contentProvidersUI contentProviders ] ] ]
         ]
 
 

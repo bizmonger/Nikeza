@@ -270,27 +270,27 @@ followers profileId =
 
 contentProvider1 : ContentProvider
 contentProvider1 =
-    ContentProvider profile1 topics contentProvider1Links subscriptions followers
+    ContentProvider profile1 topics contentProvider1Links [] subscriptions followers
 
 
 contentProvider2 : ContentProvider
 contentProvider2 =
-    ContentProvider profile2 topics contentProvider2Links subscriptions followers
+    ContentProvider profile2 topics contentProvider2Links [] subscriptions followers
 
 
 contentProvider3 : ContentProvider
 contentProvider3 =
-    ContentProvider profile3 topics contentProvider3Links subscriptions followers
+    ContentProvider profile3 topics contentProvider3Links [] subscriptions followers
 
 
 contentProvider4 : ContentProvider
 contentProvider4 =
-    ContentProvider profile4 topics contentProvider4Links subscriptions followers
+    ContentProvider profile4 topics contentProvider4Links [] subscriptions followers
 
 
 contentProvider5 : ContentProvider
 contentProvider5 =
-    ContentProvider profile5 topics contentProvider5Links subscriptions followers
+    ContentProvider profile5 topics contentProvider5Links [] subscriptions followers
 
 
 
@@ -320,7 +320,7 @@ tryRegister form =
                 profile =
                     Profile profileId1 (Name form.firstName) (Name form.lastName) (Email form.email) someImageUrl "" []
             in
-                Ok <| ContentProvider profile [] initLinks subscriptions followers
+                Ok <| ContentProvider profile [] initLinks [] subscriptions followers
         else
             Err "Registration failed"
 

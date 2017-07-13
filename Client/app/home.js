@@ -9741,9 +9741,9 @@ var _user$project$Domain_Core$Links = F4(
 	function (a, b, c, d) {
 		return {answers: a, articles: b, videos: c, podcasts: d};
 	});
-var _user$project$Domain_Core$ContentProvider = F5(
-	function (a, b, c, d, e) {
-		return {profile: a, topics: b, links: c, subscriptions: d, followers: e};
+var _user$project$Domain_Core$ContentProvider = F6(
+	function (a, b, c, d, e, f) {
+		return {profile: a, topics: b, links: c, recentLinks: d, subscriptions: e, followers: f};
 	});
 var _user$project$Domain_Core$Portal = F7(
 	function (a, b, c, d, e, f, g) {
@@ -9807,7 +9807,14 @@ var _user$project$Domain_Core$initProfile = {
 	bio: _user$project$Domain_Core$undefined,
 	sources: {ctor: '[]'}
 };
-var _user$project$Domain_Core$initContentProvider = A5(_user$project$Domain_Core$ContentProvider, _user$project$Domain_Core$initProfile, _user$project$Domain_Core$initTopics, _user$project$Domain_Core$initLinks, _user$project$Domain_Core$initSubscription, _user$project$Domain_Core$initSubscription);
+var _user$project$Domain_Core$initContentProvider = A6(
+	_user$project$Domain_Core$ContentProvider,
+	_user$project$Domain_Core$initProfile,
+	_user$project$Domain_Core$initTopics,
+	_user$project$Domain_Core$initLinks,
+	{ctor: '[]'},
+	_user$project$Domain_Core$initSubscription,
+	_user$project$Domain_Core$initSubscription);
 var _user$project$Domain_Core$topicUrl = F2(
 	function (id, topic) {
 		return _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined);
@@ -10615,7 +10622,14 @@ var _user$project$Tests_TestAPI$followers = function (profileId) {
 		}) : _user$project$Domain_Core$Subscribers(
 		{ctor: '[]'});
 };
-var _user$project$Tests_TestAPI$contentProvider2 = A5(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile2, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider2Links, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
+var _user$project$Tests_TestAPI$contentProvider2 = A6(
+	_user$project$Domain_Core$ContentProvider,
+	_user$project$Tests_TestAPI$profile2,
+	_user$project$Tests_TestAPI$topics,
+	_user$project$Tests_TestAPI$contentProvider2Links,
+	{ctor: '[]'},
+	_user$project$Tests_TestAPI$subscriptions,
+	_user$project$Tests_TestAPI$followers);
 var _user$project$Tests_TestAPI$subscriptions = function (profileId) {
 	return _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? _user$project$Domain_Core$Subscribers(
 		{
@@ -10625,10 +10639,38 @@ var _user$project$Tests_TestAPI$subscriptions = function (profileId) {
 		}) : _user$project$Domain_Core$Subscribers(
 		{ctor: '[]'});
 };
-var _user$project$Tests_TestAPI$contentProvider3 = A5(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile3, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider3Links, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
-var _user$project$Tests_TestAPI$contentProvider1 = A5(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile1, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider1Links, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
-var _user$project$Tests_TestAPI$contentProvider4 = A5(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile4, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider4Links, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
-var _user$project$Tests_TestAPI$contentProvider5 = A5(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile5, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider5Links, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
+var _user$project$Tests_TestAPI$contentProvider3 = A6(
+	_user$project$Domain_Core$ContentProvider,
+	_user$project$Tests_TestAPI$profile3,
+	_user$project$Tests_TestAPI$topics,
+	_user$project$Tests_TestAPI$contentProvider3Links,
+	{ctor: '[]'},
+	_user$project$Tests_TestAPI$subscriptions,
+	_user$project$Tests_TestAPI$followers);
+var _user$project$Tests_TestAPI$contentProvider1 = A6(
+	_user$project$Domain_Core$ContentProvider,
+	_user$project$Tests_TestAPI$profile1,
+	_user$project$Tests_TestAPI$topics,
+	_user$project$Tests_TestAPI$contentProvider1Links,
+	{ctor: '[]'},
+	_user$project$Tests_TestAPI$subscriptions,
+	_user$project$Tests_TestAPI$followers);
+var _user$project$Tests_TestAPI$contentProvider4 = A6(
+	_user$project$Domain_Core$ContentProvider,
+	_user$project$Tests_TestAPI$profile4,
+	_user$project$Tests_TestAPI$topics,
+	_user$project$Tests_TestAPI$contentProvider4Links,
+	{ctor: '[]'},
+	_user$project$Tests_TestAPI$subscriptions,
+	_user$project$Tests_TestAPI$followers);
+var _user$project$Tests_TestAPI$contentProvider5 = A6(
+	_user$project$Domain_Core$ContentProvider,
+	_user$project$Tests_TestAPI$profile5,
+	_user$project$Tests_TestAPI$topics,
+	_user$project$Tests_TestAPI$contentProvider5Links,
+	{ctor: '[]'},
+	_user$project$Tests_TestAPI$subscriptions,
+	_user$project$Tests_TestAPI$followers);
 var _user$project$Tests_TestAPI$contentProviders = {
 	ctor: '::',
 	_0: _user$project$Tests_TestAPI$contentProvider1,
@@ -10663,11 +10705,12 @@ var _user$project$Tests_TestAPI$tryRegister = function (form) {
 			'',
 			{ctor: '[]'});
 		return _elm_lang$core$Result$Ok(
-			A5(
+			A6(
 				_user$project$Domain_Core$ContentProvider,
 				profile,
 				{ctor: '[]'},
 				_user$project$Domain_Core$initLinks,
+				{ctor: '[]'},
 				_user$project$Tests_TestAPI$subscriptions,
 				_user$project$Tests_TestAPI$followers));
 	} else {
@@ -16447,14 +16490,7 @@ var _user$project$Home$content = F2(
 			case 'ViewProviders':
 				return A3(_user$project$Home$filteredContentProvidersUI, model.contentProviders, 'name', contentProvider.profile.id);
 			default:
-				return A2(
-					_elm_lang$html$Html$h3,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text('Recent...'),
-						_1: {ctor: '[]'}
-					});
+				return _user$project$Home$contentProvidersUI(model.contentProviders);
 		}
 	});
 var _user$project$Home$OnLogin = function (a) {
