@@ -268,29 +268,29 @@ followers profileId =
         Subscribers []
 
 
-contentProvider1 : ContentProvider
+contentProvider1 : Provider
 contentProvider1 =
-    ContentProvider profile1 topics contentProvider1Links [] subscriptions followers
+    Provider profile1 topics contentProvider1Links [] subscriptions followers
 
 
-contentProvider2 : ContentProvider
+contentProvider2 : Provider
 contentProvider2 =
-    ContentProvider profile2 topics contentProvider2Links [] subscriptions followers
+    Provider profile2 topics contentProvider2Links [] subscriptions followers
 
 
-contentProvider3 : ContentProvider
+contentProvider3 : Provider
 contentProvider3 =
-    ContentProvider profile3 topics contentProvider3Links [] subscriptions followers
+    Provider profile3 topics contentProvider3Links [] subscriptions followers
 
 
-contentProvider4 : ContentProvider
+contentProvider4 : Provider
 contentProvider4 =
-    ContentProvider profile4 topics contentProvider4Links [] subscriptions followers
+    Provider profile4 topics contentProvider4Links [] subscriptions followers
 
 
-contentProvider5 : ContentProvider
+contentProvider5 : Provider
 contentProvider5 =
-    ContentProvider profile5 topics contentProvider5Links [] subscriptions followers
+    Provider profile5 topics contentProvider5Links [] subscriptions followers
 
 
 
@@ -309,7 +309,7 @@ tryLogin credentials =
             { email = credentials.email, password = credentials.password, loggedIn = False }
 
 
-tryRegister : Register.Model -> Result String ContentProvider
+tryRegister : Register.Model -> Result String Provider
 tryRegister form =
     let
         successful =
@@ -320,7 +320,7 @@ tryRegister form =
                 profile =
                     Profile profileId1 (Name form.firstName) (Name form.lastName) (Email form.email) someImageUrl "" []
             in
-                Ok <| ContentProvider profile [] initLinks [] subscriptions followers
+                Ok <| Provider profile [] initLinks [] subscriptions followers
         else
             Err "Registration failed"
 
@@ -473,7 +473,7 @@ suggestedTopics search =
         []
 
 
-contentProvider : Id -> Maybe ContentProvider
+contentProvider : Id -> Maybe Provider
 contentProvider id =
     if id == profileId1 then
         Just contentProvider1
@@ -489,7 +489,7 @@ contentProvider id =
         Nothing
 
 
-contentProviders : List ContentProvider
+contentProviders : List Provider
 contentProviders =
     [ contentProvider1
     , contentProvider2

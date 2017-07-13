@@ -2,14 +2,14 @@ module Home exposing (..)
 
 import Settings exposing (runtime)
 import Domain.Core as Domain exposing (..)
-import Domain.ContentProvider as ContentProvider exposing (..)
+import Domain.Provider as Provider exposing (..)
 import Controls.Login as Login exposing (..)
 import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
 import Controls.AddSource as AddSource exposing (..)
 import Controls.NewLinks as NewLinks exposing (..)
-import Controls.ContentProviderLinks as ContentProviderLinks exposing (..)
-import Controls.ContentProviderContentTypeLinks as ContentProviderContentTypeLinks exposing (..)
-import Controls.ContentProviderTopicContentTypeLinks as ContentProviderTopicContentTypeLinks exposing (..)
+import Controls.ProviderLinks as ProviderLinks exposing (..)
+import Controls.ProviderContentTypeLinks as ProviderContentTypeLinks exposing (..)
+import Controls.ProviderTopicContentTypeLinks as ProviderTopicContentTypeLinks exposing (..)
 import Controls.Register as Registration exposing (..)
 import Controls.EditProfile as EditProfile exposing (..)
 import Html exposing (..)
@@ -42,8 +42,8 @@ type alias Model =
     , login : Login.Model
     , registration : Registration.Model
     , portal : Portal
-    , contentProviders : List ContentProvider
-    , selectedContentProvider : ContentProvider
+    , contentProviders : List Provider
+    , selectedProvider : Provider
     }
 
 
@@ -58,17 +58,17 @@ init location =
                             contentProvider
 
                         Nothing ->
-                            initContentProvider
+                            initProvider
 
                 _ ->
-                    initContentProvider
+                    initProvider
     in
         ( { currentRoute = location
           , login = Login.init
           , registration = Registration.model
           , portal = initPortal
           , contentProviders = runtime.contentProviders
-          , selectedContentProvider = contentProvider
+          , selectedProvider = contentProvider
           }
         , Cmd.none
         )
@@ -92,11 +92,11 @@ type Msg
     | ViewProviders
     | Recent
     | NewLink NewLinks.Msg
-    | ContentProviderLinksAction ContentProviderLinks.Msg
-    | PortalLinksAction ContentProviderLinks.Msg
+    | ProviderLinksAction ProviderLinks.Msg
+    | PortalLinksAction ProviderLinks.Msg
     | EditProfileAction EditProfile.Msg
-    | ContentProviderContentTypeLinksAction ContentProviderContentTypeLinks.Msg
-    | ContentProviderTopicContentTypeLinksAction ContentProviderTopicContentTypeLinks.Msg
+    | ProviderContentTypeLinksAction ProviderContentTypeLinks.Msg
+    | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
     | Search String
     | Register
     | OnRegistration Registration.Msg
@@ -125,7 +125,7 @@ update msg model =
                 ( { model | contentProviders = runtime.contentProviders }, Cmd.none )
 
             Search text ->
-                text |> matchContentProviders model
+                text |> matchProviders model
 
             ProfileThumbnail subMsg ->
                 ( model, Cmd.none )
@@ -166,51 +166,51 @@ update msg model =
             PortalLinksAction subMsg ->
                 onPortalLinksAction subMsg model
 
-            ContentProviderLinksAction subMsg ->
-                onUpdateContentProviderLinks subMsg model FromOther
+            ProviderLinksAction subMsg ->
+                onUpdateProviderLinks subMsg model FromOther
 
-            ContentProviderContentTypeLinksAction subMsg ->
+            ProviderContentTypeLinksAction subMsg ->
                 case subMsg of
-                    ContentProviderContentTypeLinks.Toggle _ ->
+                    ProviderContentTypeLinks.Toggle _ ->
                         let
                             contentProvider =
                                 if model.portal.requested == Domain.ViewLinks then
-                                    ContentProviderContentTypeLinks.update subMsg model.portal.contentProvider
+                                    ProviderContentTypeLinks.update subMsg model.portal.contentProvider
                                 else
-                                    ContentProviderContentTypeLinks.update subMsg model.selectedContentProvider
+                                    ProviderContentTypeLinks.update subMsg model.selectedProvider
                         in
                             if model.portal.requested == Domain.ViewLinks then
                                 ( { model | portal = { portal | contentProvider = contentProvider } }, Cmd.none )
                             else
-                                ( { model | selectedContentProvider = contentProvider }, Cmd.none )
+                                ( { model | selectedProvider = contentProvider }, Cmd.none )
 
-            ContentProviderTopicContentTypeLinksAction subMsg ->
+            ProviderTopicContentTypeLinksAction subMsg ->
                 ( model, Cmd.none )
 
 
-onUpdateContentProviderLinks : ContentProviderLinks.Msg -> Model -> Linksfrom -> ( Model, Cmd Msg )
-onUpdateContentProviderLinks subMsg model linksfrom =
+onUpdateProviderLinks : ProviderLinks.Msg -> Model -> Linksfrom -> ( Model, Cmd Msg )
+onUpdateProviderLinks subMsg model linksfrom =
     case subMsg of
-        ContentProviderLinks.Toggle _ ->
+        ProviderLinks.Toggle _ ->
             let
                 contentProvider =
                     case linksfrom of
                         FromPortal ->
-                            ContentProviderLinks.update subMsg model.portal.contentProvider
+                            ProviderLinks.update subMsg model.portal.contentProvider
 
                         FromOther ->
-                            ContentProviderLinks.update subMsg model.selectedContentProvider
+                            ProviderLinks.update subMsg model.selectedProvider
             in
-                ( { model | selectedContentProvider = contentProvider }, Cmd.none )
+                ( { model | selectedProvider = contentProvider }, Cmd.none )
 
 
-onPortalLinksAction : ContentProviderLinks.Msg -> Model -> ( Model, Cmd Msg )
+onPortalLinksAction : ProviderLinks.Msg -> Model -> ( Model, Cmd Msg )
 onPortalLinksAction subMsg model =
     case subMsg of
-        ContentProviderLinks.Toggle _ ->
+        ProviderLinks.Toggle _ ->
             let
                 contentProvider =
-                    ContentProviderLinks.update subMsg model.portal.contentProvider
+                    ProviderLinks.update subMsg model.portal.contentProvider
 
                 pendingPortal =
                     model.portal
@@ -319,14 +319,14 @@ onRemove model sources =
         updatedProfile =
             { profile | sources = sourcesLeft }
 
-        updatedContentProvider =
+        updatedProvider =
             { contentProvider | profile = updatedProfile }
 
         pendingPortal =
             model.portal
 
         portal =
-            { pendingPortal | contentProvider = updatedContentProvider, newSource = initSource }
+            { pendingPortal | contentProvider = updatedProvider, newSource = initSource }
 
         newState =
             { model | portal = portal }
@@ -334,7 +334,7 @@ onRemove model sources =
         ( newState, Cmd.none )
 
 
-refreshLinks : ContentProvider -> List Link -> Links
+refreshLinks : Provider -> List Link -> Links
 refreshLinks contentProvider addedLinks =
     let
         links =
@@ -414,11 +414,11 @@ onAddedSource subMsg model =
         addSourceModel =
             AddSource.update subMsg { source = pendingPortal.newSource, sources = contentProvider.profile.sources }
 
-        updatedContentProvider =
+        updatedProvider =
             { contentProvider | profile = { updatedProfile | sources = addSourceModel.sources } }
 
         portal =
-            { pendingPortal | newSource = addSourceModel.source, contentProvider = updatedContentProvider }
+            { pendingPortal | newSource = addSourceModel.source, contentProvider = updatedProvider }
     in
         case subMsg of
             AddSource.InputUsername _ ->
@@ -452,8 +452,8 @@ onAddedSource subMsg model =
                 )
 
 
-filterContentProviders : List ContentProvider -> String -> List ContentProvider
-filterContentProviders contentProviders matchValue =
+filterProviders : List Provider -> String -> List Provider
+filterProviders contentProviders matchValue =
     let
         isMatch name =
             name |> toLower |> contains (matchValue |> toLower)
@@ -470,9 +470,9 @@ filterContentProviders contentProviders matchValue =
         contentProviders |> List.filter onName
 
 
-matchContentProviders : Model -> String -> ( Model, Cmd Msg )
-matchContentProviders model matchValue =
-    ( { model | contentProviders = filterContentProviders runtime.contentProviders matchValue }, Cmd.none )
+matchProviders : Model -> String -> ( Model, Cmd Msg )
+matchProviders model matchValue =
+    ( { model | contentProviders = filterProviders runtime.contentProviders matchValue }, Cmd.none )
 
 
 onLogin : Login.Msg -> Model -> ( Model, Cmd Msg )
@@ -547,7 +547,7 @@ view model =
                 Just _ ->
                     let
                         content =
-                            renderProfileBase model.selectedContentProvider <| Html.map ContentProviderLinksAction <| ContentProviderLinks.view FromOther model.selectedContentProvider
+                            renderProfileBase model.selectedProvider <| Html.map ProviderLinksAction <| ProviderLinks.view FromOther model.selectedProvider
                     in
                         model |> renderPage content
 
@@ -559,7 +559,7 @@ view model =
                 Just _ ->
                     let
                         content =
-                            contentProviderTopicPage FromOther model.selectedContentProvider
+                            contentProviderTopicPage FromOther model.selectedProvider
                     in
                         model |> renderPage content
 
@@ -571,13 +571,13 @@ view model =
                 Just _ ->
                     let
                         ( view, contentProvider ) =
-                            ( ContentProviderContentTypeLinks.view, model.selectedContentProvider )
+                            ( ProviderContentTypeLinks.view, model.selectedProvider )
 
                         contentToEmbed =
-                            Html.map ContentProviderContentTypeLinksAction <| view contentProvider <| toContentType contentType
+                            Html.map ProviderContentTypeLinksAction <| view contentProvider <| toContentType contentType
 
                         content =
-                            renderProfileBase model.selectedContentProvider <| contentToEmbed
+                            renderProfileBase model.selectedProvider <| contentToEmbed
                     in
                         model |> renderPage content
 
@@ -592,10 +592,10 @@ view model =
                             Topic topicName False
 
                         contentToEmbed =
-                            Html.map ContentProviderTopicContentTypeLinksAction <| ContentProviderTopicContentTypeLinks.view model.selectedContentProvider topic <| toContentType contentType
+                            Html.map ProviderTopicContentTypeLinksAction <| ProviderTopicContentTypeLinks.view model.selectedProvider topic <| toContentType contentType
 
                         content =
-                            renderProfileBase model.selectedContentProvider <| contentToEmbed
+                            renderProfileBase model.selectedProvider <| contentToEmbed
                     in
                         model |> renderPage content
 
@@ -661,7 +661,7 @@ view model =
                 Just _ ->
                     let
                         linksContent =
-                            Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.portal.contentProvider <| toContentType contentType
+                            Html.map ProviderContentTypeLinksAction <| ProviderContentTypeLinks.view model.portal.contentProvider <| toContentType contentType
 
                         contentToEmbed =
                             linksContent |> applyToPortal id model contentType
@@ -690,7 +690,7 @@ view model =
             pageNotFound
 
 
-renderProfileBase : ContentProvider -> Html Msg -> Html Msg
+renderProfileBase : Provider -> Html Msg -> Html Msg
 renderProfileBase contentProvider linksContent =
     table []
         [ tr []
@@ -710,7 +710,7 @@ applyToPortal profileId model contentType linksContent =
         portal =
             model.portal
     in
-        if portal.contentProvider == initContentProvider then
+        if portal.contentProvider == initProvider then
             case runtime.contentProvider <| Id profileId of
                 Just contentProvider ->
                     portal |> render contentProvider contentType linksContent
@@ -721,7 +721,7 @@ applyToPortal profileId model contentType linksContent =
             portal |> render portal.contentProvider contentType linksContent
 
 
-render : ContentProvider -> String -> Html Msg -> Portal -> Html Msg
+render : Provider -> String -> Html Msg -> Portal -> Html Msg
 render contentProvider contentType content portal =
     table []
         [ tr []
@@ -780,7 +780,7 @@ footerContent =
         ]
 
 
-contentProvidersUI : List ContentProvider -> Html Msg
+contentProvidersUI : List Provider -> Html Msg
 contentProvidersUI contentProviders =
     Html.map ProfileThumbnail <|
         div [] (contentProviders |> List.map thumbnail)
@@ -831,7 +831,7 @@ registerPage model =
         ]
 
 
-contentProviderTopicPage : Linksfrom -> ContentProvider.Model -> Html Msg
+contentProviderTopicPage : Linksfrom -> Provider.Model -> Html Msg
 contentProviderTopicPage linksfrom model =
     let
         profileId =
@@ -904,7 +904,7 @@ content contentToEmbed model =
                                 v
 
                             Nothing ->
-                                div [] [ Html.map PortalLinksAction <| ContentProviderLinks.view FromPortal contentProvider ]
+                                div [] [ Html.map PortalLinksAction <| ProviderLinks.view FromPortal contentProvider ]
                 in
                     contentToDisplay
 
@@ -944,7 +944,7 @@ content contentToEmbed model =
                     (Subscribers subscriptions) =
                         following
                 in
-                    subscriptions |> searchContentProvidersUI "name you're following"
+                    subscriptions |> searchProvidersUI "name you're following"
 
             Domain.ViewFollowers ->
                 let
@@ -954,29 +954,29 @@ content contentToEmbed model =
                     (Subscribers followers) =
                         followingYou
                 in
-                    followers |> searchContentProvidersUI "name of subscriber"
+                    followers |> searchProvidersUI "name of subscriber"
 
             Domain.ViewProviders ->
-                contentProvider.profile.id |> filteredContentProvidersUI model.contentProviders "name"
+                contentProvider.profile.id |> filteredProvidersUI model.contentProviders "name"
 
             Domain.Recent ->
                 contentProvidersUI model.contentProviders
 
 
-removeContentProvider : Id -> List ContentProvider -> List ContentProvider
-removeContentProvider profileId contentProviders =
+removeProvider : Id -> List Provider -> List Provider
+removeProvider profileId contentProviders =
     contentProviders |> List.filter (\p -> p.profile.id /= profileId)
 
 
-filteredContentProvidersUI : List ContentProvider -> String -> Id -> Html Msg
-filteredContentProvidersUI contentProviders placeHolder profileId =
+filteredProvidersUI : List Provider -> String -> Id -> Html Msg
+filteredProvidersUI contentProviders placeHolder profileId =
     contentProviders
-        |> removeContentProvider profileId
-        |> searchContentProvidersUI placeHolder
+        |> removeProvider profileId
+        |> searchProvidersUI placeHolder
 
 
-searchContentProvidersUI : String -> List ContentProvider -> Html Msg
-searchContentProvidersUI placeHolder contentProviders =
+searchProvidersUI : String -> List Provider -> Html Msg
+searchProvidersUI placeHolder contentProviders =
     table []
         [ tr [] [ td [] [ input [ class "search", type_ "text", placeholder placeHolder, onInput Search ] [] ] ]
         , tr [] [ td [] [ div [] [ contentProvidersUI contentProviders ] ] ]
@@ -1257,7 +1257,7 @@ navigate msg model location =
         [ "contentProvider", id ] ->
             case runtime.contentProvider <| Id id of
                 Just c ->
-                    ( { model | selectedContentProvider = c, currentRoute = location }, Cmd.none )
+                    ( { model | selectedProvider = c, currentRoute = location }, Cmd.none )
 
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
@@ -1265,7 +1265,7 @@ navigate msg model location =
         [ "contentProvider", id, "all", contentType ] ->
             case runtime.contentProvider <| Id id of
                 Just c ->
-                    ( { model | selectedContentProvider = c, currentRoute = location }, Cmd.none )
+                    ( { model | selectedProvider = c, currentRoute = location }, Cmd.none )
 
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
@@ -1274,10 +1274,10 @@ navigate msg model location =
             case runtime.contentProvider <| Id id of
                 Just contentProvider ->
                     let
-                        topicContentProvider =
+                        topicProvider =
                             { contentProvider | topics = [ Topic topic False ] }
                     in
-                        ( { model | selectedContentProvider = topicContentProvider, currentRoute = location }, Cmd.none )
+                        ( { model | selectedProvider = topicProvider, currentRoute = location }, Cmd.none )
 
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
@@ -1307,14 +1307,14 @@ navigate msg model location =
             case runtime.contentProvider <| Id id of
                 Just contentProvider ->
                     let
-                        topicContentProvider =
+                        topicProvider =
                             { contentProvider | topics = [ Topic topic False ] }
 
                         portal =
                             model.portal
 
                         pendingPortal =
-                            { portal | contentProvider = topicContentProvider }
+                            { portal | contentProvider = topicProvider }
                     in
                         ( { model | portal = pendingPortal, currentRoute = location }, Cmd.none )
 

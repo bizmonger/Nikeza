@@ -17,17 +17,17 @@ tryLogin credentials =
             { email = credentials.email, password = credentials.password, loggedIn = False }
 
 
-tryRegister : Register.Model -> Result String ContentProvider
+tryRegister : Register.Model -> Result String Provider
 tryRegister form =
     Err "Registration failed"
 
 
-contentProviders : List ContentProvider
+contentProviders : List Provider
 contentProviders =
     []
 
 
-contentProvider : Id -> Maybe ContentProvider
+contentProvider : Id -> Maybe Provider
 contentProvider id =
     Nothing
 

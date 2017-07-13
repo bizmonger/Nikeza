@@ -18,8 +18,8 @@ type Configuration
 type alias Dependencies =
     { tryLogin : Loginfunction
     , tryRegister : Registerfunction
-    , contentProvider : ContentProviderfunction
-    , contentProviders : ContentProvidersfunction
+    , contentProvider : Providerfunction
+    , contentProviders : Providersfunction
     , links : Linksfunction
     , addLink : AddLinkfunction
     , removeLink : RemoveLinkfunction

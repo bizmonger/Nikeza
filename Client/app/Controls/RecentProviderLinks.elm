@@ -12,7 +12,7 @@ type Msg
     = None
 
 
-thumbnail : ContentProvider -> Html Msg
+thumbnail : Provider -> Html Msg
 thumbnail contentProvider =
     let
         profile =

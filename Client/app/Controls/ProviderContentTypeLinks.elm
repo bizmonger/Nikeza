@@ -1,4 +1,4 @@
-module Controls.ContentProviderContentTypeLinks exposing (..)
+module Controls.ProviderContentTypeLinks exposing (..)
 
 import Settings exposing (..)
 import Domain.Core exposing (..)
@@ -8,7 +8,7 @@ import Html.Events exposing (onClick, onCheck, onInput)
 
 
 type alias Model =
-    ContentProvider
+    Provider
 
 
 

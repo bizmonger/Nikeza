@@ -1,4 +1,4 @@
-module Controls.ContentProviderLinks exposing (..)
+module Controls.ProviderLinks exposing (..)
 
 import Settings exposing (..)
 import Domain.Core exposing (..)
@@ -11,7 +11,7 @@ import Html.Events exposing (onClick, onCheck, onInput)
 
 
 type alias Model =
-    ContentProvider
+    Provider
 
 
 
@@ -33,7 +33,7 @@ update msg model =
 -- VIEW
 
 
-view : Linksfrom -> ContentProvider -> Html Msg
+view : Linksfrom -> Provider -> Html Msg
 view linksFrom model =
     let
         ( profileId, topics ) =

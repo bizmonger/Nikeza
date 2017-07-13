@@ -34,7 +34,7 @@ type Linksfrom
     | FromPortal
 
 
-type alias ContentProvider =
+type alias Provider =
     { profile : Profile
     , topics : List Topic
     , links : Links
@@ -45,7 +45,7 @@ type alias ContentProvider =
 
 
 type Subscribers
-    = Subscribers (List ContentProvider)
+    = Subscribers (List Provider)
 
 
 initSubscription : Id -> Subscribers
@@ -53,17 +53,17 @@ initSubscription profileId =
     Subscribers []
 
 
-initContentProvider : ContentProvider
-initContentProvider =
-    ContentProvider initProfile initTopics initLinks [] initSubscription initSubscription
+initProvider : Provider
+initProvider =
+    Provider initProfile initTopics initLinks [] initSubscription initSubscription
 
 
 type alias Portal =
-    { contentProvider : ContentProvider
+    { contentProvider : Provider
     , sourcesNavigation : Bool
     , addLinkNavigation : Bool
     , linksNavigation : Bool
-    , requested : ContentProviderRequest
+    , requested : ProviderRequest
     , newSource : Source
     , newLinks : NewLinks
     }
@@ -71,7 +71,7 @@ type alias Portal =
 
 initPortal : Portal
 initPortal =
-    { contentProvider = initContentProvider
+    { contentProvider = initProvider
     , sourcesNavigation = False
     , addLinkNavigation = False
     , linksNavigation = False
@@ -242,7 +242,7 @@ initSource =
     Source "" "" 0
 
 
-type ContentProviderRequest
+type ProviderRequest
     = ViewSources
     | ViewLinks
     | AddLink
@@ -277,12 +277,12 @@ type alias RemoveLinkfunction =
     Id -> Link -> Result String Links
 
 
-type alias ContentProviderfunction =
-    Id -> Maybe ContentProvider
+type alias Providerfunction =
+    Id -> Maybe Provider
 
 
-type alias ContentProvidersfunction =
-    List ContentProvider
+type alias Providersfunction =
+    List Provider
 
 
 type alias Loginfunction =
@@ -290,7 +290,7 @@ type alias Loginfunction =
 
 
 type alias Registerfunction =
-    Register.Model -> Result String ContentProvider
+    Register.Model -> Result String Provider
 
 
 type alias Linksfunction =

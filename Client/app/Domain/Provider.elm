@@ -1,8 +1,8 @@
-module Domain.ContentProvider exposing (..)
+module Domain.Provider exposing (..)
 
 import Domain.Core exposing (..)
 import Settings exposing (..)
 
 
 type alias Model =
-    ContentProvider
+    Provider

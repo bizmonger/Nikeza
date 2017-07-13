@@ -50,10 +50,10 @@ suite =
                         model |> Home.update (Search "Scott")
 
                     -- Verify
-                    ( onlyOne, isContentProvider1 ) =
+                    ( onlyOne, isProvider1 ) =
                         ( (newState.contentProviders |> List.length) == 1
                         , newState.contentProviders |> List.member contentProvider1
                         )
                 in
-                    Expect.equal (onlyOne && isContentProvider1) True
+                    Expect.equal (onlyOne && isProvider1) True
         ]

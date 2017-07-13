@@ -1,4 +1,4 @@
-module Controls.ContentProviderTopicContentTypeLinks exposing (..)
+module Controls.ProviderTopicContentTypeLinks exposing (..)
 
 import Domain.Core exposing (..)
 import Html exposing (..)
@@ -6,7 +6,7 @@ import Html.Attributes exposing (..)
 
 
 type alias Model =
-    ContentProvider
+    Provider
 
 
 
