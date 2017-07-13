@@ -1,6 +1,7 @@
 img.logo {
     width: 190px;
     height: 38px;
+    float: left;
 }
 
 img.profile {
@@ -98,6 +99,10 @@ table td, table td * {
     vertical-align: top;
 }
 
+td.login {
+    text-align: right;
+}
+
 tr.bio {
     text-align: center;
 }
@@ -107,6 +112,7 @@ label.title {
 }
 
 .signin {
+    margin-top: -13px;
     float:right;
     text-align: center;
 }

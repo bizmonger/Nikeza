@@ -81,17 +81,21 @@ view linksFrom model =
 
 requestAllContent : Linksfrom -> Id -> ContentType -> List Link -> List (Html Msg)
 requestAllContent linksFrom profileId contentType links =
-    List.append (linksUI links)
-        [ a [ href <| getUrl <| allContentUrl linksFrom profileId contentType ]
-            [ text <| "all", br [] [] ]
-        ]
+    let
+        totalLinks =
+            links |> List.length |> toString
+    in
+        List.append (linksUI links)
+            [ a [ href <| getUrl <| allContentUrl linksFrom profileId contentType ]
+                [ text <| ("All (" ++ totalLinks ++ ") links"), br [] [] ]
+            ]
 
 
 linksUI : List Link -> List (Html Msg)
 linksUI links =
     links
         |> List.take 5
-        |> List.map (\link -> a [ href <| getUrl link.url ] [ text <| getTitle link.title, br [] [] ])
+        |> List.map (\link -> a [ href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ])
 
 
 toggleFilter : Model -> ( Topic, Bool ) -> Model

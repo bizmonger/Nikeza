@@ -21,6 +21,16 @@ profileId3 =
     Id "profile_3"
 
 
+profileId4 : Id
+profileId4 =
+    Id "profile_4"
+
+
+profileId5 : Id
+profileId5 =
+    Id "profile_5"
+
+
 someTopic1 : Topic
 someTopic1 =
     Topic "WPF" True
@@ -56,6 +66,31 @@ someImageUrl =
     Url "http://www.ngu.edu/myimages/silhouette2230.jpg"
 
 
+profile1ImageUrl : Url
+profile1ImageUrl =
+    Url "Assets/ProfileImages/Bizmonger.png"
+
+
+profile2ImageUrl : Url
+profile2ImageUrl =
+    Url "Assets/ProfileImages/Pablo.jpg"
+
+
+profile3ImageUrl : Url
+profile3ImageUrl =
+    Url "Assets/ProfileImages/Adam.jpg"
+
+
+profile4ImageUrl : Url
+profile4ImageUrl =
+    Url "Assets/ProfileImages/Mitch.jpg"
+
+
+profile5ImageUrl : Url
+profile5ImageUrl =
+    Url "Assets/ProfileImages/Ody.jpg"
+
+
 contentProvider1Links : Links
 contentProvider1Links =
     Links (answers profileId1) (articles profileId1) (videos profileId1) (podcasts profileId1)
@@ -69,6 +104,16 @@ contentProvider2Links =
 contentProvider3Links : Links
 contentProvider3Links =
     Links (answers profileId3) (articles profileId3) (videos profileId3) (podcasts profileId3)
+
+
+contentProvider4Links : Links
+contentProvider4Links =
+    Links (answers profileId4) (articles profileId4) (videos profileId4) (podcasts profileId4)
+
+
+contentProvider5Links : Links
+contentProvider5Links =
+    Links (answers profileId5) (articles profileId5) (videos profileId5) (podcasts profileId5)
 
 
 someArticleTitle1 : Title
@@ -183,44 +228,69 @@ someEmail =
 
 profile1 : Profile
 profile1 =
-    Profile profileId1 (Name "Scott") (Name "Nimrod") someEmail someImageUrl someDescrtiption (profileId1 |> sources)
+    Profile profileId1 (Name "Scott") (Name "Nimrod") someEmail profile1ImageUrl someDescrtiption (profileId1 |> sources)
 
 
 profile2 : Profile
 profile2 =
-    Profile profileId2 (Name "Pablo") (Name "Rivera") someEmail someImageUrl someDescrtiption (profileId2 |> sources)
+    Profile profileId2 (Name "Pablo") (Name "Rivera") someEmail profile2ImageUrl someDescrtiption (profileId2 |> sources)
 
 
 profile3 : Profile
 profile3 =
-    Profile profileId3 (Name "Adam") (Name "Wright") someEmail someImageUrl someDescrtiption (profileId3 |> sources)
+    Profile profileId3 (Name "Adam") (Name "Wright") someEmail profile3ImageUrl someDescrtiption (profileId3 |> sources)
 
 
-subscribers : Id -> Subscribers
-subscribers profileId =
+profile4 : Profile
+profile4 =
+    Profile profileId4 (Name "Mitchell") (Name "Tilbrook") someEmail profile4ImageUrl someDescrtiption (profileId4 |> sources)
+
+
+profile5 : Profile
+profile5 =
+    Profile profileId5 (Name "Ody") (Name "Mbegbu") someEmail profile5ImageUrl someDescrtiption (profileId5 |> sources)
+
+
+subscriptions : Id -> Subscribers
+subscriptions profileId =
+    if profileId == profileId1 then
+        -- Weird error when we have contentProvider3
+        Subscribers [ contentProvider2 ]
+    else
+        Subscribers []
+
+
+followers : Id -> Subscribers
+followers profileId =
     if profileId == profileId1 then
         Subscribers [ contentProvider2, contentProvider3 ]
-    else if profileId == profileId2 then
-        Subscribers [ contentProvider1, contentProvider3 ]
-    else if profileId == profileId3 then
-        Subscribers [ contentProvider1, contentProvider2 ]
     else
         Subscribers []
 
 
 contentProvider1 : ContentProvider
 contentProvider1 =
-    ContentProvider profile1 topics contentProvider1Links subscribers
+    ContentProvider profile1 topics contentProvider1Links [] subscriptions followers
 
 
 contentProvider2 : ContentProvider
 contentProvider2 =
-    ContentProvider profile2 topics contentProvider2Links subscribers
+    ContentProvider profile2 topics contentProvider2Links [] subscriptions followers
 
 
 contentProvider3 : ContentProvider
 contentProvider3 =
-    ContentProvider profile3 topics contentProvider3Links subscribers
+    ContentProvider profile3 topics contentProvider3Links [] subscriptions followers
+
+
+contentProvider4 : ContentProvider
+contentProvider4 =
+    ContentProvider profile4 topics contentProvider4Links [] subscriptions followers
+
+
+contentProvider5 : ContentProvider
+contentProvider5 =
+    ContentProvider profile5 topics contentProvider5Links [] subscriptions followers
 
 
 
@@ -250,7 +320,7 @@ tryRegister form =
                 profile =
                     Profile profileId1 (Name form.firstName) (Name form.lastName) (Email form.email) someImageUrl "" []
             in
-                Ok <| ContentProvider profile [] initLinks subscribers
+                Ok <| ContentProvider profile [] initLinks [] subscriptions followers
         else
             Err "Registration failed"
 
@@ -411,6 +481,10 @@ contentProvider id =
         Just contentProvider2
     else if id == profileId3 then
         Just contentProvider3
+    else if id == profileId4 then
+        Just contentProvider4
+    else if id == profileId5 then
+        Just contentProvider5
     else
         Nothing
 
@@ -420,6 +494,8 @@ contentProviders =
     [ contentProvider1
     , contentProvider2
     , contentProvider3
+    , contentProvider4
+    , contentProvider5
     ]
 
 
@@ -468,6 +544,12 @@ usernameToId email =
         "profile_3" ->
             profileId3
 
+        "profile_4" ->
+            profileId4
+
+        "profile_5" ->
+            profileId5
+
         _ ->
             Id undefined
 
@@ -480,8 +562,3 @@ platforms =
     , Platform "Medium"
     , Platform "StackOverflow"
     ]
-
-
-followers : Id -> List ContentProvider
-followers profileId =
-    []

@@ -87,11 +87,11 @@ suggestedTopics search =
     []
 
 
-subscribers : Id -> Subscribers
-subscribers profileId =
+subscriptions : Id -> Subscribers
+subscriptions profileId =
     Subscribers []
 
 
-followers : Id -> List ContentProvider
+followers : Id -> Subscribers
 followers profileId =
-    []
+    Subscribers []
