@@ -10051,6 +10051,11 @@ var _user$project$Tests_TestAPI$someArticleTitle4 = _user$project$Domain_Core$Ti
 var _user$project$Tests_TestAPI$someArticleTitle3 = _user$project$Domain_Core$Title('Some F# Article');
 var _user$project$Tests_TestAPI$someArticleTitle2 = _user$project$Domain_Core$Title('Some Xamarin.Forms Article');
 var _user$project$Tests_TestAPI$someArticleTitle1 = _user$project$Domain_Core$Title('Some WPF Article');
+var _user$project$Tests_TestAPI$profile5ImageUrl = _user$project$Domain_Core$Url('Assets/ProfileImages/Ody.jpg');
+var _user$project$Tests_TestAPI$profile4ImageUrl = _user$project$Domain_Core$Url('Assets/ProfileImages/Mitch.jpg');
+var _user$project$Tests_TestAPI$profile3ImageUrl = _user$project$Domain_Core$Url('Assets/ProfileImages/Adam.jpg');
+var _user$project$Tests_TestAPI$profile2ImageUrl = _user$project$Domain_Core$Url('Assets/ProfileImages/Pablo.jpg');
+var _user$project$Tests_TestAPI$profile1ImageUrl = _user$project$Domain_Core$Url('Assets/ProfileImages/Bizmonger.png');
 var _user$project$Tests_TestAPI$someImageUrl = _user$project$Domain_Core$Url('http://www.ngu.edu/myimages/silhouette2230.jpg');
 var _user$project$Tests_TestAPI$someUrl = _user$project$Domain_Core$Url('http://some_url.com');
 var _user$project$Tests_TestAPI$someTopic5 = A2(_user$project$Domain_Core$Topic, 'unit-tests', false);
@@ -10091,6 +10096,26 @@ var _user$project$Tests_TestAPI$suggestedTopics = function (search) {
 		},
 		_user$project$Tests_TestAPI$topics) : {ctor: '[]'};
 };
+var _user$project$Tests_TestAPI$profileId5 = _user$project$Domain_Core$Id('profile_5');
+var _user$project$Tests_TestAPI$profile5 = A7(
+	_user$project$Domain_Core$Profile,
+	_user$project$Tests_TestAPI$profileId5,
+	_user$project$Domain_Core$Name('Ody'),
+	_user$project$Domain_Core$Name('Mbegbu'),
+	_user$project$Tests_TestAPI$someEmail,
+	_user$project$Tests_TestAPI$profile5ImageUrl,
+	_user$project$Tests_TestAPI$someDescrtiption,
+	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId5));
+var _user$project$Tests_TestAPI$profileId4 = _user$project$Domain_Core$Id('profile_4');
+var _user$project$Tests_TestAPI$profile4 = A7(
+	_user$project$Domain_Core$Profile,
+	_user$project$Tests_TestAPI$profileId4,
+	_user$project$Domain_Core$Name('Mitchell'),
+	_user$project$Domain_Core$Name('Tilbrook'),
+	_user$project$Tests_TestAPI$someEmail,
+	_user$project$Tests_TestAPI$profile4ImageUrl,
+	_user$project$Tests_TestAPI$someDescrtiption,
+	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId4));
 var _user$project$Tests_TestAPI$profileId3 = _user$project$Domain_Core$Id('profile_3');
 var _user$project$Tests_TestAPI$profile3 = A7(
 	_user$project$Domain_Core$Profile,
@@ -10098,7 +10123,7 @@ var _user$project$Tests_TestAPI$profile3 = A7(
 	_user$project$Domain_Core$Name('Adam'),
 	_user$project$Domain_Core$Name('Wright'),
 	_user$project$Tests_TestAPI$someEmail,
-	_user$project$Tests_TestAPI$someImageUrl,
+	_user$project$Tests_TestAPI$profile3ImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId3));
 var _user$project$Tests_TestAPI$profileId2 = _user$project$Domain_Core$Id('profile_2');
@@ -10108,7 +10133,7 @@ var _user$project$Tests_TestAPI$profile2 = A7(
 	_user$project$Domain_Core$Name('Pablo'),
 	_user$project$Domain_Core$Name('Rivera'),
 	_user$project$Tests_TestAPI$someEmail,
-	_user$project$Tests_TestAPI$someImageUrl,
+	_user$project$Tests_TestAPI$profile2ImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId2));
 var _user$project$Tests_TestAPI$profileId1 = _user$project$Domain_Core$Id('profile_1');
@@ -10118,7 +10143,7 @@ var _user$project$Tests_TestAPI$profile1 = A7(
 	_user$project$Domain_Core$Name('Scott'),
 	_user$project$Domain_Core$Name('Nimrod'),
 	_user$project$Tests_TestAPI$someEmail,
-	_user$project$Tests_TestAPI$someImageUrl,
+	_user$project$Tests_TestAPI$profile1ImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId1));
 var _user$project$Tests_TestAPI$linksToContent = F2(
@@ -10449,6 +10474,18 @@ var _user$project$Tests_TestAPI$contentProvider3Links = A4(
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId3),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId3),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId3));
+var _user$project$Tests_TestAPI$contentProvider4Links = A4(
+	_user$project$Domain_Core$Links,
+	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId4),
+	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId4),
+	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId4),
+	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId4));
+var _user$project$Tests_TestAPI$contentProvider5Links = A4(
+	_user$project$Domain_Core$Links,
+	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId5),
+	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId5),
+	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId5),
+	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId5));
 var _user$project$Tests_TestAPI$links = function (id) {
 	return {
 		answers: A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Answer, id),
@@ -10590,6 +10627,8 @@ var _user$project$Tests_TestAPI$subscriptions = function (profileId) {
 };
 var _user$project$Tests_TestAPI$contentProvider3 = A5(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile3, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider3Links, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
 var _user$project$Tests_TestAPI$contentProvider1 = A5(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile1, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider1Links, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
+var _user$project$Tests_TestAPI$contentProvider4 = A5(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile4, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider4Links, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
+var _user$project$Tests_TestAPI$contentProvider5 = A5(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile5, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider5Links, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
 var _user$project$Tests_TestAPI$contentProviders = {
 	ctor: '::',
 	_0: _user$project$Tests_TestAPI$contentProvider1,
@@ -10599,7 +10638,15 @@ var _user$project$Tests_TestAPI$contentProviders = {
 		_1: {
 			ctor: '::',
 			_0: _user$project$Tests_TestAPI$contentProvider3,
-			_1: {ctor: '[]'}
+			_1: {
+				ctor: '::',
+				_0: _user$project$Tests_TestAPI$contentProvider4,
+				_1: {
+					ctor: '::',
+					_0: _user$project$Tests_TestAPI$contentProvider5,
+					_1: {ctor: '[]'}
+				}
+			}
 		}
 	}
 };
@@ -10628,7 +10675,7 @@ var _user$project$Tests_TestAPI$tryRegister = function (form) {
 	}
 };
 var _user$project$Tests_TestAPI$contentProvider = function (id) {
-	return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider3) : _elm_lang$core$Maybe$Nothing));
+	return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider3) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId4) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider4) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId5) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider5) : _elm_lang$core$Maybe$Nothing))));
 };
 var _user$project$Tests_TestAPI$usernameToId = function (email) {
 	var _p3 = email;
@@ -10641,6 +10688,10 @@ var _user$project$Tests_TestAPI$usernameToId = function (email) {
 			return _user$project$Tests_TestAPI$profileId2;
 		case 'profile_3':
 			return _user$project$Tests_TestAPI$profileId3;
+		case 'profile_4':
+			return _user$project$Tests_TestAPI$profileId4;
+		case 'profile_5':
+			return _user$project$Tests_TestAPI$profileId5;
 		default:
 			return _user$project$Domain_Core$Id(_user$project$Domain_Core$undefined);
 	}
