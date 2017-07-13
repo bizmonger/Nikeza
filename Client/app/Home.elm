@@ -5,6 +5,7 @@ import Domain.Core as Domain exposing (..)
 import Domain.Provider as Provider exposing (..)
 import Controls.Login as Login exposing (..)
 import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
+import Controls.RecentProviderLinks as RecentProviderLinks exposing (..)
 import Controls.AddSource as AddSource exposing (..)
 import Controls.NewLinks as NewLinks exposing (..)
 import Controls.ProviderLinks as ProviderLinks exposing (..)
@@ -82,6 +83,7 @@ type Msg
     = UrlChange Navigation.Location
     | OnLogin Login.Msg
     | ProfileThumbnail ProfileThumbnail.Msg
+    | RecentProviderLinks RecentProviderLinks.Msg
     | SourceAdded AddSource.Msg
     | ViewSources
     | AddNewLink
@@ -128,6 +130,9 @@ update msg model =
                 text |> matchProviders model
 
             ProfileThumbnail subMsg ->
+                ( model, Cmd.none )
+
+            RecentProviderLinks subMsg ->
                 ( model, Cmd.none )
 
             ViewSources ->
@@ -783,7 +788,13 @@ footerContent =
 contentProvidersUI : List Provider -> Html Msg
 contentProvidersUI contentProviders =
     Html.map ProfileThumbnail <|
-        div [] (contentProviders |> List.map thumbnail)
+        div [] (contentProviders |> List.map ProfileThumbnail.thumbnail)
+
+
+recentProvidersUI : List Provider -> Html Msg
+recentProvidersUI contentProviders =
+    Html.map RecentProviderLinks <|
+        div [] (contentProviders |> List.map RecentProviderLinks.thumbnail)
 
 
 homePage : Model -> Html Msg
@@ -960,7 +971,11 @@ content contentToEmbed model =
                 contentProvider.profile.id |> filteredProvidersUI model.contentProviders "name"
 
             Domain.Recent ->
-                contentProvidersUI model.contentProviders
+                recentProvidersUI model.contentProviders
+
+
+
+--contentProvidersUI model.contentProviders
 
 
 removeProvider : Id -> List Provider -> List Provider
