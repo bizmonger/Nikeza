@@ -971,7 +971,29 @@ content contentToEmbed model =
                 provider.profile.id |> filteredProvidersUI model.providers "name"
 
             Domain.Recent ->
-                recentProvidersUI (model.providers |> List.filter (\p -> p.profile.id /= provider.profile.id))
+                model.providers |> recentLinksContent provider.profile.id
+
+
+providersWithRecentLinks : Id -> List Provider -> List Provider
+providersWithRecentLinks profileId providers =
+    providers
+        |> List.filter (\p -> p.profile.id /= profileId)
+        |> List.filter (\p -> p.recentLinks /= [])
+
+
+recentLinks : Id -> List Provider -> List Link
+recentLinks profileId providers =
+    providers
+        |> providersWithRecentLinks profileId
+        |> List.map (\p -> p.recentLinks)
+        |> List.concat
+
+
+recentLinksContent : Id -> List Provider -> Html Msg
+recentLinksContent profileId providers =
+    providers
+        |> providersWithRecentLinks profileId
+        |> recentProvidersUI
 
 
 removeProvider : Id -> List Provider -> List Provider
@@ -1012,8 +1034,11 @@ renderNavigation portal =
         sourcesText =
             "Sources " ++ "(" ++ (toString <| List.length profile.sources) ++ ")"
 
+        recentCount =
+            recentLinks profile.id runtime.providers |> List.length
+
         newText =
-            "Recent " ++ "(" ++ (toString <| 0) ++ ")"
+            "Recent " ++ "(" ++ (toString <| recentCount) ++ ")"
 
         ( linksText, followingText, membersText, linkText, profileText ) =
             ( "Showcase", "Following", "Members", "Link", "Profile" )
