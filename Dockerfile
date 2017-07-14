@@ -1,5 +1,6 @@
 FROM awright18/aspnetcore-build-mono:latest
 
+COPY Server/Nikeza.Wordpress/Nikeza.Wordpress.fsproj Server/Nikeza.Wordpress/Nikeza.Wordpress.fsproj
 COPY Server/Nikeza.YouTube/Nikeza.YouTube.fsproj Server/Nikeza.YouTube/Nikeza.YouTube.fsproj
 COPY Server/Nikeza.Server/Nikeza.Server.fsproj Server/Nikeza.Server/Nikeza.Server.fsproj
 RUN dotnet restore Server/Nikeza.Server/Nikeza.Server.fsproj 
