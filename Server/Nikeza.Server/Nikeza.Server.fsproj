@@ -35,6 +35,9 @@
   <ItemGroup>
     <Watch Include="**\*.cshtml" Exclude="bin\**\*" />
   </ItemGroup>
+   <ItemGroup>
+    <Watch Include="**\*.html" Exclude="bin\**\*" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Models.fs" />
     <Compile Include="Authentication.fs" />
@@ -44,6 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\*.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+     <Content Include="*.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
