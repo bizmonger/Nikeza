@@ -22,13 +22,13 @@ tryRegister form =
     Err "Registration failed"
 
 
-contentProviders : List Provider
-contentProviders =
+providers : List Provider
+providers =
     []
 
 
-contentProvider : Id -> Maybe Provider
-contentProvider id =
+provider : Id -> Maybe Provider
+provider id =
     Nothing
 
 

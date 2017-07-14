@@ -91,28 +91,28 @@ profile5ImageUrl =
     Url "Assets/ProfileImages/Ody.jpg"
 
 
-contentProvider1Links : Links
-contentProvider1Links =
+provider1Links : Links
+provider1Links =
     Links (answers profileId1) (articles profileId1) (videos profileId1) (podcasts profileId1)
 
 
-contentProvider2Links : Links
-contentProvider2Links =
+provider2Links : Links
+provider2Links =
     Links (answers profileId2) (articles profileId2) (videos profileId2) (podcasts profileId2)
 
 
-contentProvider3Links : Links
-contentProvider3Links =
+provider3Links : Links
+provider3Links =
     Links (answers profileId3) (articles profileId3) (videos profileId3) (podcasts profileId3)
 
 
-contentProvider4Links : Links
-contentProvider4Links =
+provider4Links : Links
+provider4Links =
     Links (answers profileId4) (articles profileId4) (videos profileId4) (podcasts profileId4)
 
 
-contentProvider5Links : Links
-contentProvider5Links =
+provider5Links : Links
+provider5Links =
     Links (answers profileId5) (articles profileId5) (videos profileId5) (podcasts profileId5)
 
 
@@ -141,6 +141,11 @@ someArticleTitle5 =
     Title "Some Unit Test Article"
 
 
+someArticleTitle6 : Title
+someArticleTitle6 =
+    Title "Some Docker Article"
+
+
 someVideoTitle1 : Title
 someVideoTitle1 =
     Title "Some WPF Video"
@@ -164,6 +169,11 @@ someVideoTitle4 =
 someVideoTitle5 : Title
 someVideoTitle5 =
     Title "Some Unit Test Video"
+
+
+someVideoTitle6 : Title
+someVideoTitle6 =
+    Title "Some .Net Core Video"
 
 
 somePodcastTitle1 : Title
@@ -191,29 +201,39 @@ somePodcastTitle5 =
     Title "Some Unit Test Podcast"
 
 
-someQuestionTitle1 : Title
-someQuestionTitle1 =
-    Title "Some WPF Question"
+somePodcastTitle6 : Title
+somePodcastTitle6 =
+    Title "Some .Net Core Podcast"
 
 
-someQuestionTitle2 : Title
-someQuestionTitle2 =
-    Title "Some Xamarin.Forms Question"
+someAnswerTitle1 : Title
+someAnswerTitle1 =
+    Title "Some WPF Answer"
 
 
-someQuestionTitle3 : Title
-someQuestionTitle3 =
-    Title "Some F# Question"
+someAnswerTitle2 : Title
+someAnswerTitle2 =
+    Title "Some Xamarin.Forms Answer"
 
 
-someQuestionTitle4 : Title
-someQuestionTitle4 =
-    Title "Some Elm Question"
+someAnswerTitle3 : Title
+someAnswerTitle3 =
+    Title "Some F# Answer"
 
 
-someQuestionTitle5 : Title
-someQuestionTitle5 =
-    Title "Some Unit Test Question"
+someAnswerTitle4 : Title
+someAnswerTitle4 =
+    Title "Some Elm Answer"
+
+
+someAnswerTitle5 : Title
+someAnswerTitle5 =
+    Title "Some Unit Test Answer"
+
+
+someAnswerTitle6 : Title
+someAnswerTitle6 =
+    Title "Some Property-based Testing Answer"
 
 
 someDescrtiption : String
@@ -254,8 +274,8 @@ profile5 =
 subscriptions : Id -> Subscribers
 subscriptions profileId =
     if profileId == profileId1 then
-        -- Weird error when we have contentProvider3
-        Subscribers [ contentProvider2 ]
+        -- Weird error when we have provider3
+        Subscribers [ provider2 ]
     else
         Subscribers []
 
@@ -263,34 +283,53 @@ subscriptions profileId =
 followers : Id -> Subscribers
 followers profileId =
     if profileId == profileId1 then
-        Subscribers [ contentProvider2, contentProvider3 ]
+        Subscribers [ provider2, provider3 ]
     else
         Subscribers []
 
 
-contentProvider1 : Provider
-contentProvider1 =
-    Provider profile1 topics contentProvider1Links [] subscriptions followers
+recentLinks1 : List Link
+recentLinks1 =
+    [ Link profile1 someVideoTitle6 someUrl Video [ someTopic1 ]
+    ]
 
 
-contentProvider2 : Provider
-contentProvider2 =
-    Provider profile2 topics contentProvider2Links [] subscriptions followers
+recentLinks2 : List Link
+recentLinks2 =
+    [ Link profile1 somePodcastTitle6 someUrl Video [ someTopic1 ]
+    , Link profile1 someAnswerTitle6 someUrl Video [ someTopic1 ]
+    ]
 
 
-contentProvider3 : Provider
-contentProvider3 =
-    Provider profile3 topics contentProvider3Links [] subscriptions followers
+recentLinks3 : List Link
+recentLinks3 =
+    [ Link profile1 someArticleTitle6 someUrl Video [ someTopic1 ]
+    ]
 
 
-contentProvider4 : Provider
-contentProvider4 =
-    Provider profile4 topics contentProvider4Links [] subscriptions followers
+provider1 : Provider
+provider1 =
+    Provider profile1 topics provider1Links recentLinks1 subscriptions followers
 
 
-contentProvider5 : Provider
-contentProvider5 =
-    Provider profile5 topics contentProvider5Links [] subscriptions followers
+provider2 : Provider
+provider2 =
+    Provider profile2 topics provider2Links recentLinks2 subscriptions followers
+
+
+provider3 : Provider
+provider3 =
+    Provider profile3 topics provider3Links recentLinks3 subscriptions followers
+
+
+provider4 : Provider
+provider4 =
+    Provider profile4 topics provider4Links [] subscriptions followers
+
+
+provider5 : Provider
+provider5 =
+    Provider profile5 topics provider5Links [] subscriptions followers
 
 
 
@@ -451,11 +490,11 @@ linksToContent contentType profileId =
             ]
 
         Answer ->
-            [ Link profile1 someQuestionTitle1 someUrl Answer [ someTopic1 ]
-            , Link profile1 someQuestionTitle2 someUrl Answer [ someTopic2 ]
-            , Link profile1 someQuestionTitle3 someUrl Answer [ someTopic3 ]
-            , Link profile1 someQuestionTitle4 someUrl Answer [ someTopic4 ]
-            , Link profile1 someQuestionTitle5 someUrl Answer [ someTopic5 ]
+            [ Link profile1 someAnswerTitle1 someUrl Answer [ someTopic1 ]
+            , Link profile1 someAnswerTitle2 someUrl Answer [ someTopic2 ]
+            , Link profile1 someAnswerTitle3 someUrl Answer [ someTopic3 ]
+            , Link profile1 someAnswerTitle4 someUrl Answer [ someTopic4 ]
+            , Link profile1 someAnswerTitle5 someUrl Answer [ someTopic5 ]
             ]
 
         All ->
@@ -473,29 +512,29 @@ suggestedTopics search =
         []
 
 
-contentProvider : Id -> Maybe Provider
-contentProvider id =
+provider : Id -> Maybe Provider
+provider id =
     if id == profileId1 then
-        Just contentProvider1
+        Just provider1
     else if id == profileId2 then
-        Just contentProvider2
+        Just provider2
     else if id == profileId3 then
-        Just contentProvider3
+        Just provider3
     else if id == profileId4 then
-        Just contentProvider4
+        Just provider4
     else if id == profileId5 then
-        Just contentProvider5
+        Just provider5
     else
         Nothing
 
 
-contentProviders : List Provider
-contentProviders =
-    [ contentProvider1
-    , contentProvider2
-    , contentProvider3
-    , contentProvider4
-    , contentProvider5
+providers : List Provider
+providers =
+    [ provider1
+    , provider2
+    , provider3
+    , provider4
+    , provider5
     ]
 
 

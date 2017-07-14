@@ -13,13 +13,13 @@ type Msg
 
 
 thumbnail : Provider -> Html Msg
-thumbnail contentProvider =
+thumbnail provider =
     let
         profile =
-            contentProvider.profile
+            provider.profile
 
         formatTopic topic =
-            a [ href <| getUrl <| contentProviderTopicUrl profile.id topic ] [ i [] [ text <| getTopic topic ] ]
+            a [ href <| getUrl <| providerTopicUrl profile.id topic ] [ i [] [ text <| getTopic topic ] ]
 
         concatTopics topic1 topic2 =
             span []
@@ -32,7 +32,7 @@ thumbnail contentProvider =
         topics =
             List.foldr concatTopics
                 (div [] [])
-                (contentProvider.topics
+                (provider.topics
                     |> List.filter (\t -> t.isFeatured)
                     |> List.map formatTopic
                 )
@@ -48,7 +48,7 @@ thumbnail contentProvider =
             [ table []
                 [ tr []
                     [ td []
-                        [ a [ href <| getUrl <| contentProviderUrl profile.id ]
+                        [ a [ href <| getUrl <| providerUrl profile.id ]
                             [ img [ src <| getUrl profile.imageUrl, width 50, height 50 ] [] ]
                         ]
                     , td [] [ nameAndTopics ]

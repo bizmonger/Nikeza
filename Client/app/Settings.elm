@@ -18,8 +18,8 @@ type Configuration
 type alias Dependencies =
     { tryLogin : Loginfunction
     , tryRegister : Registerfunction
-    , contentProvider : Providerfunction
-    , contentProviders : Providersfunction
+    , provider : Providerfunction
+    , providers : Providersfunction
     , links : Linksfunction
     , addLink : AddLinkfunction
     , removeLink : RemoveLinkfunction
@@ -43,8 +43,8 @@ runtime =
             Dependencies
                 Services.tryLogin
                 Services.tryRegister
-                Services.contentProvider
-                Services.contentProviders
+                Services.provider
+                Services.providers
                 Services.links
                 Services.addLink
                 Services.removeLink
@@ -63,8 +63,8 @@ runtime =
             Dependencies
                 TestAPI.tryLogin
                 TestAPI.tryRegister
-                TestAPI.contentProvider
-                TestAPI.contentProviders
+                TestAPI.provider
+                TestAPI.providers
                 TestAPI.links
                 TestAPI.addLink
                 TestAPI.removeLink

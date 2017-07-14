@@ -59,7 +59,7 @@ initProvider =
 
 
 type alias Portal =
-    { contentProvider : Provider
+    { provider : Provider
     , sourcesNavigation : Bool
     , addLinkNavigation : Bool
     , linksNavigation : Bool
@@ -71,7 +71,7 @@ type alias Portal =
 
 initPortal : Portal
 initPortal =
-    { contentProvider = initProvider
+    { provider = initProvider
     , sourcesNavigation = False
     , addLinkNavigation = False
     , linksNavigation = False
@@ -397,14 +397,14 @@ toTopicNames topics =
     topics |> List.map (\topic -> topic.name)
 
 
-contentProviderTopicUrl : Id -> Topic -> Url
-contentProviderTopicUrl id topic =
-    Url <| "/#/contentProvider/" ++ getId id ++ "/" ++ getTopic topic
+providerTopicUrl : Id -> Topic -> Url
+providerTopicUrl id topic =
+    Url <| "/#/provider/" ++ getId id ++ "/" ++ getTopic topic
 
 
-contentProviderUrl : Id -> Url
-contentProviderUrl id =
-    Url <| "/#/contentProvider/" ++ getId id
+providerUrl : Id -> Url
+providerUrl id =
+    Url <| "/#/provider/" ++ getId id
 
 
 toContentType : String -> ContentType
@@ -467,7 +467,7 @@ allContentUrl : Linksfrom -> Id -> ContentType -> Url
 allContentUrl linksFrom id contentType =
     case linksFrom of
         FromOther ->
-            Url <| "/#/contentProvider/" ++ getId id ++ "/all/" ++ (contentType |> contentTypeToText)
+            Url <| "/#/provider/" ++ getId id ++ "/all/" ++ (contentType |> contentTypeToText)
 
         FromPortal ->
             Url <| "/#/" ++ getId id ++ "/portal/all/" ++ (contentType |> contentTypeToText)
@@ -477,7 +477,7 @@ allTopicContentUrl : Linksfrom -> Id -> ContentType -> Topic -> Url
 allTopicContentUrl linksFrom id contentType topic =
     case linksFrom of
         FromOther ->
-            Url <| "/#/contentProvider/" ++ getId id ++ "/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)
+            Url <| "/#/provider/" ++ getId id ++ "/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)
 
         FromPortal ->
             Url <| "/#/" ++ getId id ++ "/portal/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)
