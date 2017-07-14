@@ -25,6 +25,10 @@
     <PackageReference Include="Giraffe.Razor" Version="0.1.0-*" />
     <PackageReference Include="System.Net.Http" Version="4.3.*" />
   </ItemGroup>
+<<<<<<< HEAD
+=======
+   
+>>>>>>> 633bc0b11aa09271dab4048b10fa8d3b002cef93
   <ItemGroup>
     <ProjectReference Include="../Nikeza.YouTube/Nikeza.YouTube.fsproj" />
     <ProjectReference Include="../Nikeza.Wordpress/Nikeza.Wordpress.fsproj" />
@@ -35,6 +39,13 @@
   <ItemGroup>
     <Watch Include="**\*.cshtml" Exclude="bin\**\*" />
   </ItemGroup>
+<<<<<<< HEAD
+=======
+   <ItemGroup>
+    <Watch Include="**\*.html" Exclude="bin\**\*" />
+  </ItemGroup>
+
+>>>>>>> 633bc0b11aa09271dab4048b10fa8d3b002cef93
   <ItemGroup>
     <Compile Include="Models.fs" />
     <Compile Include="Authentication.fs" />
@@ -44,6 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\*.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+     <Content Include="*.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
