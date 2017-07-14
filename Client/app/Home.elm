@@ -2,14 +2,15 @@ module Home exposing (..)
 
 import Settings exposing (runtime)
 import Domain.Core as Domain exposing (..)
-import Domain.ContentProvider as ContentProvider exposing (..)
+import Domain.Provider as Provider exposing (..)
 import Controls.Login as Login exposing (..)
 import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
+import Controls.RecentProviderLinks as RecentProviderLinks exposing (..)
 import Controls.AddSource as AddSource exposing (..)
 import Controls.NewLinks as NewLinks exposing (..)
-import Controls.ContentProviderLinks as ContentProviderLinks exposing (..)
-import Controls.ContentProviderContentTypeLinks as ContentProviderContentTypeLinks exposing (..)
-import Controls.ContentProviderTopicContentTypeLinks as ContentProviderTopicContentTypeLinks exposing (..)
+import Controls.ProviderLinks as ProviderLinks exposing (..)
+import Controls.ProviderContentTypeLinks as ProviderContentTypeLinks exposing (..)
+import Controls.ProviderTopicContentTypeLinks as ProviderTopicContentTypeLinks exposing (..)
 import Controls.Register as Registration exposing (..)
 import Controls.EditProfile as EditProfile exposing (..)
 import Html exposing (..)
@@ -42,33 +43,33 @@ type alias Model =
     , login : Login.Model
     , registration : Registration.Model
     , portal : Portal
-    , contentProviders : List ContentProvider
-    , selectedContentProvider : ContentProvider
+    , providers : List Provider
+    , selectedProvider : Provider
     }
 
 
 init : Navigation.Location -> ( Model, Cmd Msg )
 init location =
     let
-        contentProvider =
+        provider =
             case tokenizeUrl location.hash of
-                [ "contentProvider", id ] ->
-                    case runtime.contentProvider <| Id id of
-                        Just contentProvider ->
-                            contentProvider
+                [ "provider", id ] ->
+                    case runtime.provider <| Id id of
+                        Just provider ->
+                            provider
 
                         Nothing ->
-                            initContentProvider
+                            initProvider
 
                 _ ->
-                    initContentProvider
+                    initProvider
     in
         ( { currentRoute = location
           , login = Login.init
           , registration = Registration.model
           , portal = initPortal
-          , contentProviders = runtime.contentProviders
-          , selectedContentProvider = contentProvider
+          , providers = runtime.providers
+          , selectedProvider = provider
           }
         , Cmd.none
         )
@@ -82,6 +83,7 @@ type Msg
     = UrlChange Navigation.Location
     | OnLogin Login.Msg
     | ProfileThumbnail ProfileThumbnail.Msg
+    | RecentProviderLinks RecentProviderLinks.Msg
     | SourceAdded AddSource.Msg
     | ViewSources
     | AddNewLink
@@ -92,11 +94,11 @@ type Msg
     | ViewProviders
     | Recent
     | NewLink NewLinks.Msg
-    | ContentProviderLinksAction ContentProviderLinks.Msg
-    | PortalLinksAction ContentProviderLinks.Msg
+    | ProviderLinksAction ProviderLinks.Msg
+    | PortalLinksAction ProviderLinks.Msg
     | EditProfileAction EditProfile.Msg
-    | ContentProviderContentTypeLinksAction ContentProviderContentTypeLinks.Msg
-    | ContentProviderTopicContentTypeLinksAction ContentProviderTopicContentTypeLinks.Msg
+    | ProviderContentTypeLinksAction ProviderContentTypeLinks.Msg
+    | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
     | Search String
     | Register
     | OnRegistration Registration.Msg
@@ -122,12 +124,15 @@ update msg model =
                 onLogin subMsg model
 
             Search "" ->
-                ( { model | contentProviders = runtime.contentProviders }, Cmd.none )
+                ( { model | providers = runtime.providers }, Cmd.none )
 
             Search text ->
-                text |> matchContentProviders model
+                text |> matchProviders model
 
             ProfileThumbnail subMsg ->
+                ( model, Cmd.none )
+
+            RecentProviderLinks subMsg ->
                 ( model, Cmd.none )
 
             ViewSources ->
@@ -166,72 +171,72 @@ update msg model =
             PortalLinksAction subMsg ->
                 onPortalLinksAction subMsg model
 
-            ContentProviderLinksAction subMsg ->
-                onUpdateContentProviderLinks subMsg model FromOther
+            ProviderLinksAction subMsg ->
+                onUpdateProviderLinks subMsg model FromOther
 
-            ContentProviderContentTypeLinksAction subMsg ->
+            ProviderContentTypeLinksAction subMsg ->
                 case subMsg of
-                    ContentProviderContentTypeLinks.Toggle _ ->
+                    ProviderContentTypeLinks.Toggle _ ->
                         let
-                            contentProvider =
+                            provider =
                                 if model.portal.requested == Domain.ViewLinks then
-                                    ContentProviderContentTypeLinks.update subMsg model.portal.contentProvider
+                                    ProviderContentTypeLinks.update subMsg model.portal.provider
                                 else
-                                    ContentProviderContentTypeLinks.update subMsg model.selectedContentProvider
+                                    ProviderContentTypeLinks.update subMsg model.selectedProvider
                         in
                             if model.portal.requested == Domain.ViewLinks then
-                                ( { model | portal = { portal | contentProvider = contentProvider } }, Cmd.none )
+                                ( { model | portal = { portal | provider = provider } }, Cmd.none )
                             else
-                                ( { model | selectedContentProvider = contentProvider }, Cmd.none )
+                                ( { model | selectedProvider = provider }, Cmd.none )
 
-            ContentProviderTopicContentTypeLinksAction subMsg ->
+            ProviderTopicContentTypeLinksAction subMsg ->
                 ( model, Cmd.none )
 
 
-onUpdateContentProviderLinks : ContentProviderLinks.Msg -> Model -> Linksfrom -> ( Model, Cmd Msg )
-onUpdateContentProviderLinks subMsg model linksfrom =
+onUpdateProviderLinks : ProviderLinks.Msg -> Model -> Linksfrom -> ( Model, Cmd Msg )
+onUpdateProviderLinks subMsg model linksfrom =
     case subMsg of
-        ContentProviderLinks.Toggle _ ->
+        ProviderLinks.Toggle _ ->
             let
-                contentProvider =
+                provider =
                     case linksfrom of
                         FromPortal ->
-                            ContentProviderLinks.update subMsg model.portal.contentProvider
+                            ProviderLinks.update subMsg model.portal.provider
 
                         FromOther ->
-                            ContentProviderLinks.update subMsg model.selectedContentProvider
+                            ProviderLinks.update subMsg model.selectedProvider
             in
-                ( { model | selectedContentProvider = contentProvider }, Cmd.none )
+                ( { model | selectedProvider = provider }, Cmd.none )
 
 
-onPortalLinksAction : ContentProviderLinks.Msg -> Model -> ( Model, Cmd Msg )
+onPortalLinksAction : ProviderLinks.Msg -> Model -> ( Model, Cmd Msg )
 onPortalLinksAction subMsg model =
     case subMsg of
-        ContentProviderLinks.Toggle _ ->
+        ProviderLinks.Toggle _ ->
             let
-                contentProvider =
-                    ContentProviderLinks.update subMsg model.portal.contentProvider
+                provider =
+                    ProviderLinks.update subMsg model.portal.provider
 
                 pendingPortal =
                     model.portal
             in
-                ( { model | portal = { pendingPortal | contentProvider = contentProvider } }, Cmd.none )
+                ( { model | portal = { pendingPortal | provider = provider } }, Cmd.none )
 
 
 onEditProfile : EditProfile.Msg -> Model -> ( Model, Cmd Msg )
 onEditProfile subMsg model =
     let
         updatedProfile =
-            EditProfile.update subMsg model.portal.contentProvider.profile
+            EditProfile.update subMsg model.portal.provider.profile
 
         portal =
             model.portal
 
-        contentProvider =
-            model.portal.contentProvider
+        provider =
+            model.portal.provider
 
         newState =
-            { model | portal = { portal | contentProvider = { contentProvider | profile = updatedProfile } } }
+            { model | portal = { portal | provider = { provider | profile = updatedProfile } } }
     in
         case subMsg of
             EditProfile.FirstNameInput _ ->
@@ -250,9 +255,9 @@ onEditProfile subMsg model =
                 ( { model
                     | portal =
                         { portal
-                            | contentProvider = { contentProvider | profile = v }
+                            | provider = { provider | profile = v }
                             , sourcesNavigation = True
-                            , linksNavigation = not <| contentProvider.links == initLinks
+                            , linksNavigation = not <| provider.links == initLinks
                             , requested = Domain.ViewSources
                         }
                   }
@@ -291,7 +296,7 @@ onRegistration subMsg model =
                                     | registration = form
                                     , portal =
                                         { initPortal
-                                            | contentProvider = newUser
+                                            | provider = newUser
                                             , requested = Domain.EditProfile
                                             , linksNavigation = False
                                             , sourcesNavigation = False
@@ -307,11 +312,11 @@ onRegistration subMsg model =
 onRemove : Model -> Source -> ( Model, Cmd Msg )
 onRemove model sources =
     let
-        contentProvider =
-            model.portal.contentProvider
+        provider =
+            model.portal.provider
 
         profile =
-            contentProvider.profile
+            provider.profile
 
         sourcesLeft =
             profile.sources |> List.filter (\c -> c /= sources)
@@ -319,14 +324,14 @@ onRemove model sources =
         updatedProfile =
             { profile | sources = sourcesLeft }
 
-        updatedContentProvider =
-            { contentProvider | profile = updatedProfile }
+        updatedProvider =
+            { provider | profile = updatedProfile }
 
         pendingPortal =
             model.portal
 
         portal =
-            { pendingPortal | contentProvider = updatedContentProvider, newSource = initSource }
+            { pendingPortal | provider = updatedProvider, newSource = initSource }
 
         newState =
             { model | portal = portal }
@@ -334,11 +339,11 @@ onRemove model sources =
         ( newState, Cmd.none )
 
 
-refreshLinks : ContentProvider -> List Link -> Links
-refreshLinks contentProvider addedLinks =
+refreshLinks : Provider -> List Link -> Links
+refreshLinks provider addedLinks =
     let
         links =
-            contentProvider.links
+            provider.links
 
         articles =
             List.append links.articles (addedLinks |> List.filter (\l -> l.contentType == Article))
@@ -362,8 +367,8 @@ refreshLinks contentProvider addedLinks =
 onNewLink : NewLinks.Msg -> Model -> ( Model, Cmd Msg )
 onNewLink subMsg model =
     let
-        ( pendingPortal, contentProvider ) =
-            ( model.portal, model.portal.contentProvider )
+        ( pendingPortal, provider ) =
+            ( model.portal, model.portal.provider )
 
         newLinks =
             NewLinks.update subMsg pendingPortal.newLinks
@@ -399,7 +404,7 @@ onNewLink subMsg model =
                         { portal
                             | newLinks = updatedLinks
                             , linksNavigation = True
-                            , contentProvider = { contentProvider | links = refreshLinks contentProvider updatedLinks.added }
+                            , provider = { provider | links = refreshLinks provider updatedLinks.added }
                         }
                 in
                     ( { model | portal = updatedPortal }, Cmd.none )
@@ -408,17 +413,17 @@ onNewLink subMsg model =
 onAddedSource : AddSource.Msg -> Model -> ( Model, Cmd Msg )
 onAddedSource subMsg model =
     let
-        ( pendingPortal, contentProvider, updatedProfile ) =
-            ( model.portal, model.portal.contentProvider, model.portal.contentProvider.profile )
+        ( pendingPortal, provider, updatedProfile ) =
+            ( model.portal, model.portal.provider, model.portal.provider.profile )
 
         addSourceModel =
-            AddSource.update subMsg { source = pendingPortal.newSource, sources = contentProvider.profile.sources }
+            AddSource.update subMsg { source = pendingPortal.newSource, sources = provider.profile.sources }
 
-        updatedContentProvider =
-            { contentProvider | profile = { updatedProfile | sources = addSourceModel.sources } }
+        updatedProvider =
+            { provider | profile = { updatedProfile | sources = addSourceModel.sources } }
 
         portal =
-            { pendingPortal | newSource = addSourceModel.source, contentProvider = updatedContentProvider }
+            { pendingPortal | newSource = addSourceModel.source, provider = updatedProvider }
     in
         case subMsg of
             AddSource.InputUsername _ ->
@@ -431,7 +436,7 @@ onAddedSource subMsg model =
                 ( { model
                     | portal =
                         { portal
-                            | linksNavigation = linksExist contentProvider.links
+                            | linksNavigation = linksExist provider.links
                             , addLinkNavigation = True
                             , sourcesNavigation = True
                         }
@@ -443,7 +448,7 @@ onAddedSource subMsg model =
                 ( { model
                     | portal =
                         { portal
-                            | linksNavigation = linksExist portal.contentProvider.links
+                            | linksNavigation = linksExist portal.provider.links
                             , sourcesNavigation = True
                             , addLinkNavigation = True
                         }
@@ -452,27 +457,27 @@ onAddedSource subMsg model =
                 )
 
 
-filterContentProviders : List ContentProvider -> String -> List ContentProvider
-filterContentProviders contentProviders matchValue =
+filterProviders : List Provider -> String -> List Provider
+filterProviders providers matchValue =
     let
         isMatch name =
             name |> toLower |> contains (matchValue |> toLower)
 
-        onFirstName contentProvider =
-            contentProvider.profile.firstName |> getName |> isMatch
+        onFirstName provider =
+            provider.profile.firstName |> getName |> isMatch
 
-        onLastName contentProvider =
-            contentProvider.profile.lastName |> getName |> isMatch
+        onLastName provider =
+            provider.profile.lastName |> getName |> isMatch
 
-        onName contentProvider =
-            onFirstName contentProvider || onLastName contentProvider
+        onName provider =
+            onFirstName provider || onLastName provider
     in
-        contentProviders |> List.filter onName
+        providers |> List.filter onName
 
 
-matchContentProviders : Model -> String -> ( Model, Cmd Msg )
-matchContentProviders model matchValue =
-    ( { model | contentProviders = filterContentProviders runtime.contentProviders matchValue }, Cmd.none )
+matchProviders : Model -> String -> ( Model, Cmd Msg )
+matchProviders model matchValue =
+    ( { model | providers = filterProviders runtime.providers matchValue }, Cmd.none )
 
 
 onLogin : Login.Msg -> Model -> ( Model, Cmd Msg )
@@ -490,20 +495,20 @@ onLogin subMsg model =
                     latest =
                         runtime.tryLogin login
 
-                    contentProviderResult =
-                        runtime.contentProvider <| runtime.usernameToId latest.email
+                    providerResult =
+                        runtime.provider <| runtime.usernameToId latest.email
 
                     newState =
-                        case contentProviderResult of
-                            Just contentProvider ->
+                        case providerResult of
+                            Just provider ->
                                 { model
                                     | login = latest
                                     , portal =
                                         { pendingPortal
-                                            | contentProvider = contentProvider
+                                            | provider = provider
                                             , requested = Domain.Recent
-                                            , linksNavigation = linksExist contentProvider.links
-                                            , sourcesNavigation = not <| List.isEmpty contentProvider.profile.sources
+                                            , linksNavigation = linksExist provider.links
+                                            , sourcesNavigation = not <| List.isEmpty provider.profile.sources
                                         }
                                 }
 
@@ -511,7 +516,7 @@ onLogin subMsg model =
                                 { model | login = latest }
                 in
                     if newState.login.loggedIn then
-                        ( newState, Navigation.load <| "/#/" ++ getId newState.portal.contentProvider.profile.id ++ "/portal" )
+                        ( newState, Navigation.load <| "/#/" ++ getId newState.portal.provider.profile.id ++ "/portal" )
                     else
                         ( newState, Cmd.none )
 
@@ -542,60 +547,60 @@ view model =
             in
                 model |> renderPage content
 
-        [ "contentProvider", id ] ->
-            case runtime.contentProvider <| Id id of
+        [ "provider", id ] ->
+            case runtime.provider <| Id id of
                 Just _ ->
                     let
                         content =
-                            renderProfileBase model.selectedContentProvider <| Html.map ContentProviderLinksAction <| ContentProviderLinks.view FromOther model.selectedContentProvider
+                            renderProfileBase model.selectedProvider <| Html.map ProviderLinksAction <| ProviderLinks.view FromOther model.selectedProvider
                     in
                         model |> renderPage content
 
                 Nothing ->
                     pageNotFound
 
-        [ "contentProvider", id, topic ] ->
-            case runtime.contentProvider <| Id id of
+        [ "provider", id, topic ] ->
+            case runtime.provider <| Id id of
                 Just _ ->
                     let
                         content =
-                            contentProviderTopicPage FromOther model.selectedContentProvider
+                            providerTopicPage FromOther model.selectedProvider
                     in
                         model |> renderPage content
 
                 Nothing ->
                     pageNotFound
 
-        [ "contentProvider", id, "all", contentType ] ->
-            case runtime.contentProvider <| Id id of
+        [ "provider", id, "all", contentType ] ->
+            case runtime.provider <| Id id of
                 Just _ ->
                     let
-                        ( view, contentProvider ) =
-                            ( ContentProviderContentTypeLinks.view, model.selectedContentProvider )
+                        ( view, provider ) =
+                            ( ProviderContentTypeLinks.view, model.selectedProvider )
 
                         contentToEmbed =
-                            Html.map ContentProviderContentTypeLinksAction <| view contentProvider <| toContentType contentType
+                            Html.map ProviderContentTypeLinksAction <| view provider <| toContentType contentType
 
                         content =
-                            renderProfileBase model.selectedContentProvider <| contentToEmbed
+                            renderProfileBase model.selectedProvider <| contentToEmbed
                     in
                         model |> renderPage content
 
                 Nothing ->
                     pageNotFound
 
-        [ "contentProvider", id, topicName, "all", contentType ] ->
-            case runtime.contentProvider <| Id id of
+        [ "provider", id, topicName, "all", contentType ] ->
+            case runtime.provider <| Id id of
                 Just _ ->
                     let
                         topic =
                             Topic topicName False
 
                         contentToEmbed =
-                            Html.map ContentProviderTopicContentTypeLinksAction <| ContentProviderTopicContentTypeLinks.view model.selectedContentProvider topic <| toContentType contentType
+                            Html.map ProviderTopicContentTypeLinksAction <| ProviderTopicContentTypeLinks.view model.selectedProvider topic <| toContentType contentType
 
                         content =
-                            renderProfileBase model.selectedContentProvider <| contentToEmbed
+                            renderProfileBase model.selectedProvider <| contentToEmbed
                     in
                         model |> renderPage content
 
@@ -603,17 +608,17 @@ view model =
                     pageNotFound
 
         [ id, "portal", "edit-profile" ] ->
-            case runtime.contentProvider <| Id id of
+            case runtime.provider <| Id id of
                 Just _ ->
                     let
                         portal =
                             model.portal
 
                         profileView =
-                            Html.map EditProfileAction <| EditProfile.view model.portal.contentProvider.profile
+                            Html.map EditProfileAction <| EditProfile.view model.portal.provider.profile
 
                         contentToEmbed =
-                            render model.portal.contentProvider "" profileView model.portal
+                            render model.portal.provider "" profileView model.portal
 
                         mainContent =
                             model |> content (Just contentToEmbed)
@@ -627,7 +632,7 @@ view model =
                     pageNotFound
 
         [ id, "portal", "edit-sources" ] ->
-            case runtime.contentProvider <| Id id of
+            case runtime.provider <| Id id of
                 Just _ ->
                     let
                         portal =
@@ -638,12 +643,12 @@ view model =
                                 [ Html.map SourceAdded <|
                                     AddSource.view
                                         { source = model.portal.newSource
-                                        , sources = model.portal.contentProvider.profile.sources
+                                        , sources = model.portal.provider.profile.sources
                                         }
                                 ]
 
                         contentToEmbed =
-                            render model.portal.contentProvider "" sourcesView model.portal
+                            render model.portal.provider "" sourcesView model.portal
 
                         mainContent =
                             model |> content (Just contentToEmbed)
@@ -657,11 +662,11 @@ view model =
                     pageNotFound
 
         [ id, "portal", "all", contentType ] ->
-            case runtime.contentProvider <| Id id of
+            case runtime.provider <| Id id of
                 Just _ ->
                     let
                         linksContent =
-                            Html.map ContentProviderContentTypeLinksAction <| ContentProviderContentTypeLinks.view model.portal.contentProvider <| toContentType contentType
+                            Html.map ProviderContentTypeLinksAction <| ProviderContentTypeLinks.view model.portal.provider <| toContentType contentType
 
                         contentToEmbed =
                             linksContent |> applyToPortal id model contentType
@@ -690,14 +695,14 @@ view model =
             pageNotFound
 
 
-renderProfileBase : ContentProvider -> Html Msg -> Html Msg
-renderProfileBase contentProvider linksContent =
+renderProfileBase : Provider -> Html Msg -> Html Msg
+renderProfileBase provider linksContent =
     table []
         [ tr []
             [ table []
-                [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| getUrl <| contentProvider.profile.imageUrl ] [] ] ]
-                , tr [ class "bio" ] [ td [] [ text <| getName contentProvider.profile.firstName ++ " " ++ getName contentProvider.profile.lastName ] ]
-                , tr [ class "bio" ] [ td [] [ p [] [ text contentProvider.profile.bio ] ] ]
+                [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| getUrl <| provider.profile.imageUrl ] [] ] ]
+                , tr [ class "bio" ] [ td [] [ text <| getName provider.profile.firstName ++ " " ++ getName provider.profile.lastName ] ]
+                , tr [ class "bio" ] [ td [] [ p [] [ text provider.profile.bio ] ] ]
                 ]
             , td [] [ linksContent ]
             ]
@@ -710,24 +715,24 @@ applyToPortal profileId model contentType linksContent =
         portal =
             model.portal
     in
-        if portal.contentProvider == initContentProvider then
-            case runtime.contentProvider <| Id profileId of
-                Just contentProvider ->
-                    portal |> render contentProvider contentType linksContent
+        if portal.provider == initProvider then
+            case runtime.provider <| Id profileId of
+                Just provider ->
+                    portal |> render provider contentType linksContent
 
                 Nothing ->
                     pageNotFound
         else
-            portal |> render portal.contentProvider contentType linksContent
+            portal |> render portal.provider contentType linksContent
 
 
-render : ContentProvider -> String -> Html Msg -> Portal -> Html Msg
-render contentProvider contentType content portal =
+render : Provider -> String -> Html Msg -> Portal -> Html Msg
+render provider contentType content portal =
     table []
         [ tr []
             [ td []
                 [ table []
-                    [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| getUrl <| contentProvider.profile.imageUrl ] [] ] ]
+                    [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| getUrl <| provider.profile.imageUrl ] [] ] ]
                     , tr [] [ td [] <| renderNavigation portal ]
                     ]
                 ]
@@ -743,7 +748,7 @@ headerContent model =
         loginUI model =
             let
                 profileId =
-                    getId model.portal.contentProvider.profile.id
+                    getId model.portal.provider.profile.id
 
                 ( loggedIn, welcome, signout, profile, sources ) =
                     ( model.login.loggedIn
@@ -780,10 +785,16 @@ footerContent =
         ]
 
 
-contentProvidersUI : List ContentProvider -> Html Msg
-contentProvidersUI contentProviders =
+providersUI : List Provider -> Html Msg
+providersUI providers =
     Html.map ProfileThumbnail <|
-        div [] (contentProviders |> List.map thumbnail)
+        div [] (providers |> List.map ProfileThumbnail.thumbnail)
+
+
+recentProvidersUI : List Provider -> Html Msg
+recentProvidersUI providers =
+    Html.map RecentProviderLinks <|
+        div [] (providers |> List.map RecentProviderLinks.thumbnail)
 
 
 homePage : Model -> Html Msg
@@ -793,7 +804,7 @@ homePage model =
             table []
                 [ tr [] [ td [] [ input [ class "search", type_ "text", placeholder "name", onInput Search ] [] ] ]
                 , tr []
-                    [ td [] [ div [] [ contentProvidersUI model.contentProviders ] ]
+                    [ td [] [ div [] [ providersUI model.providers ] ]
                     , td []
                         [ table []
                             [ tr []
@@ -802,7 +813,7 @@ homePage model =
                                     [ ul [ class "featuresList" ]
                                         [ li [ class "joinReasons" ] [ text "Import links to your articles, videos, and answers" ]
                                         , li [ class "joinReasons" ] [ text "Set your featured links for viewers to see" ]
-                                        , li [ class "joinReasons" ] [ text "Subscribe to published links from your favorite thought leaders" ]
+                                        , li [ class "joinReasons" ] [ text "Subscribe to new links from your favorite thought leaders" ]
                                         ]
                                     ]
                                 ]
@@ -831,8 +842,8 @@ registerPage model =
         ]
 
 
-contentProviderTopicPage : Linksfrom -> ContentProvider.Model -> Html Msg
-contentProviderTopicPage linksfrom model =
+providerTopicPage : Linksfrom -> Provider.Model -> Html Msg
+providerTopicPage linksfrom model =
     let
         profileId =
             model.profile.id
@@ -883,8 +894,8 @@ content contentToEmbed model =
         portal =
             model.portal
 
-        contentProvider =
-            portal.contentProvider
+        provider =
+            portal.provider
     in
         case portal.requested of
             Domain.ViewSources ->
@@ -892,7 +903,7 @@ content contentToEmbed model =
                     [ Html.map SourceAdded <|
                         AddSource.view
                             { source = portal.newSource
-                            , sources = contentProvider.profile.sources
+                            , sources = provider.profile.sources
                             }
                     ]
 
@@ -904,12 +915,12 @@ content contentToEmbed model =
                                 v
 
                             Nothing ->
-                                div [] [ Html.map PortalLinksAction <| ContentProviderLinks.view FromPortal contentProvider ]
+                                div [] [ Html.map PortalLinksAction <| ProviderLinks.view FromPortal provider ]
                 in
                     contentToDisplay
 
             Domain.EditProfile ->
-                div [] [ Html.map EditProfileAction <| EditProfile.view contentProvider.profile ]
+                div [] [ Html.map EditProfileAction <| EditProfile.view provider.profile ]
 
             Domain.AddLink ->
                 let
@@ -939,47 +950,69 @@ content contentToEmbed model =
             Domain.ViewSubscriptions ->
                 let
                     following =
-                        contentProvider.subscriptions contentProvider.profile.id
+                        provider.subscriptions provider.profile.id
 
                     (Subscribers subscriptions) =
                         following
                 in
-                    subscriptions |> searchContentProvidersUI "name you're following"
+                    subscriptions |> searchProvidersUI "name you're following"
 
             Domain.ViewFollowers ->
                 let
                     followingYou =
-                        contentProvider.followers contentProvider.profile.id
+                        provider.followers provider.profile.id
 
                     (Subscribers followers) =
                         followingYou
                 in
-                    followers |> searchContentProvidersUI "name of subscriber"
+                    followers |> searchProvidersUI "name of subscriber"
 
             Domain.ViewProviders ->
-                contentProvider.profile.id |> filteredContentProvidersUI model.contentProviders "name"
+                provider.profile.id |> filteredProvidersUI model.providers "name"
 
             Domain.Recent ->
-                contentProvidersUI model.contentProviders
+                model.providers |> recentLinksContent provider.profile.id
 
 
-removeContentProvider : Id -> List ContentProvider -> List ContentProvider
-removeContentProvider profileId contentProviders =
-    contentProviders |> List.filter (\p -> p.profile.id /= profileId)
+providersWithRecentLinks : Id -> List Provider -> List Provider
+providersWithRecentLinks profileId providers =
+    providers
+        |> List.filter (\p -> p.profile.id /= profileId)
+        |> List.filter (\p -> p.recentLinks /= [])
 
 
-filteredContentProvidersUI : List ContentProvider -> String -> Id -> Html Msg
-filteredContentProvidersUI contentProviders placeHolder profileId =
-    contentProviders
-        |> removeContentProvider profileId
-        |> searchContentProvidersUI placeHolder
+recentLinks : Id -> List Provider -> List Link
+recentLinks profileId providers =
+    providers
+        |> providersWithRecentLinks profileId
+        |> List.map (\p -> p.recentLinks)
+        |> List.concat
 
 
-searchContentProvidersUI : String -> List ContentProvider -> Html Msg
-searchContentProvidersUI placeHolder contentProviders =
+recentLinksContent : Id -> List Provider -> Html Msg
+recentLinksContent profileId providers =
+    providers
+        |> providersWithRecentLinks profileId
+        |> recentProvidersUI
+
+
+removeProvider : Id -> List Provider -> List Provider
+removeProvider profileId providers =
+    providers |> List.filter (\p -> p.profile.id /= profileId)
+
+
+filteredProvidersUI : List Provider -> String -> Id -> Html Msg
+filteredProvidersUI providers placeHolder profileId =
+    providers
+        |> removeProvider profileId
+        |> searchProvidersUI placeHolder
+
+
+searchProvidersUI : String -> List Provider -> Html Msg
+searchProvidersUI placeHolder providers =
     table []
         [ tr [] [ td [] [ input [ class "search", type_ "text", placeholder placeHolder, onInput Search ] [] ] ]
-        , tr [] [ td [] [ div [] [ contentProvidersUI contentProviders ] ] ]
+        , tr [] [ td [] [ div [] [ providersUI providers ] ] ]
         ]
 
 
@@ -987,7 +1020,7 @@ renderNavigation : Portal -> List (Html Msg)
 renderNavigation portal =
     let
         links =
-            portal.contentProvider.links
+            portal.provider.links
 
         (Subscribers subscriptions) =
             runtime.subscriptions profile.id
@@ -996,13 +1029,16 @@ renderNavigation portal =
             runtime.followers profile.id
 
         profile =
-            portal.contentProvider.profile
+            portal.provider.profile
 
         sourcesText =
             "Sources " ++ "(" ++ (toString <| List.length profile.sources) ++ ")"
 
+        recentCount =
+            recentLinks profile.id runtime.providers |> List.length
+
         newText =
-            "Recent " ++ "(" ++ (toString <| 0) ++ ")"
+            "Recent " ++ "(" ++ (toString <| recentCount) ++ ")"
 
         ( linksText, followingText, membersText, linkText, profileText ) =
             ( "Showcase", "Following", "Members", "Link", "Profile" )
@@ -1254,36 +1290,36 @@ tokenizeUrl urlHash =
 navigate : Msg -> Model -> Location -> ( Model, Cmd Msg )
 navigate msg model location =
     case tokenizeUrl location.hash of
-        [ "contentProvider", id ] ->
-            case runtime.contentProvider <| Id id of
+        [ "provider", id ] ->
+            case runtime.provider <| Id id of
                 Just c ->
-                    ( { model | selectedContentProvider = c, currentRoute = location }, Cmd.none )
+                    ( { model | selectedProvider = c, currentRoute = location }, Cmd.none )
 
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
 
-        [ "contentProvider", id, "all", contentType ] ->
-            case runtime.contentProvider <| Id id of
+        [ "provider", id, "all", contentType ] ->
+            case runtime.provider <| Id id of
                 Just c ->
-                    ( { model | selectedContentProvider = c, currentRoute = location }, Cmd.none )
+                    ( { model | selectedProvider = c, currentRoute = location }, Cmd.none )
 
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
 
-        [ "contentProvider", id, topic ] ->
-            case runtime.contentProvider <| Id id of
-                Just contentProvider ->
+        [ "provider", id, topic ] ->
+            case runtime.provider <| Id id of
+                Just provider ->
                     let
-                        topicContentProvider =
-                            { contentProvider | topics = [ Topic topic False ] }
+                        topicProvider =
+                            { provider | topics = [ Topic topic False ] }
                     in
-                        ( { model | selectedContentProvider = topicContentProvider, currentRoute = location }, Cmd.none )
+                        ( { model | selectedProvider = topicProvider, currentRoute = location }, Cmd.none )
 
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
 
         [ id, "portal" ] ->
-            case runtime.contentProvider <| Id id of
+            case runtime.provider <| Id id of
                 Just c ->
                     let
                         portal =
@@ -1291,7 +1327,7 @@ navigate msg model location =
 
                         pendingPortal =
                             { portal
-                                | contentProvider = c
+                                | provider = c
                                 , sourcesNavigation = c.profile.sources |> List.isEmpty
                                 , addLinkNavigation = True
                                 , linksNavigation = linksExist c.links
@@ -1304,17 +1340,17 @@ navigate msg model location =
                     ( { model | currentRoute = location }, Cmd.none )
 
         [ id, "portal", topic ] ->
-            case runtime.contentProvider <| Id id of
-                Just contentProvider ->
+            case runtime.provider <| Id id of
+                Just provider ->
                     let
-                        topicContentProvider =
-                            { contentProvider | topics = [ Topic topic False ] }
+                        topicProvider =
+                            { provider | topics = [ Topic topic False ] }
 
                         portal =
                             model.portal
 
                         pendingPortal =
-                            { portal | contentProvider = topicContentProvider }
+                            { portal | provider = topicProvider }
                     in
                         ( { model | portal = pendingPortal, currentRoute = location }, Cmd.none )
 
@@ -1322,7 +1358,7 @@ navigate msg model location =
                     ( { model | currentRoute = location }, Cmd.none )
 
         [ id, "portal", "all", contentType ] ->
-            case runtime.contentProvider <| Id id of
+            case runtime.provider <| Id id of
                 Just c ->
                     let
                         portal =
@@ -1330,7 +1366,7 @@ navigate msg model location =
 
                         pendingPortal =
                             { portal
-                                | contentProvider = c
+                                | provider = c
                                 , sourcesNavigation = c.profile.sources |> List.isEmpty
                                 , addLinkNavigation = True
                                 , linksNavigation = linksExist c.links

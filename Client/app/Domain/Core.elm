@@ -34,7 +34,7 @@ type Linksfrom
     | FromPortal
 
 
-type alias ContentProvider =
+type alias Provider =
     { profile : Profile
     , topics : List Topic
     , links : Links
@@ -45,7 +45,7 @@ type alias ContentProvider =
 
 
 type Subscribers
-    = Subscribers (List ContentProvider)
+    = Subscribers (List Provider)
 
 
 initSubscription : Id -> Subscribers
@@ -53,17 +53,17 @@ initSubscription profileId =
     Subscribers []
 
 
-initContentProvider : ContentProvider
-initContentProvider =
-    ContentProvider initProfile initTopics initLinks [] initSubscription initSubscription
+initProvider : Provider
+initProvider =
+    Provider initProfile initTopics initLinks [] initSubscription initSubscription
 
 
 type alias Portal =
-    { contentProvider : ContentProvider
+    { provider : Provider
     , sourcesNavigation : Bool
     , addLinkNavigation : Bool
     , linksNavigation : Bool
-    , requested : ContentProviderRequest
+    , requested : ProviderRequest
     , newSource : Source
     , newLinks : NewLinks
     }
@@ -71,7 +71,7 @@ type alias Portal =
 
 initPortal : Portal
 initPortal =
-    { contentProvider = initContentProvider
+    { provider = initProvider
     , sourcesNavigation = False
     , addLinkNavigation = False
     , linksNavigation = False
@@ -242,7 +242,7 @@ initSource =
     Source "" "" 0
 
 
-type ContentProviderRequest
+type ProviderRequest
     = ViewSources
     | ViewLinks
     | AddLink
@@ -277,12 +277,12 @@ type alias RemoveLinkfunction =
     Id -> Link -> Result String Links
 
 
-type alias ContentProviderfunction =
-    Id -> Maybe ContentProvider
+type alias Providerfunction =
+    Id -> Maybe Provider
 
 
-type alias ContentProvidersfunction =
-    List ContentProvider
+type alias Providersfunction =
+    List Provider
 
 
 type alias Loginfunction =
@@ -290,7 +290,7 @@ type alias Loginfunction =
 
 
 type alias Registerfunction =
-    Register.Model -> Result String ContentProvider
+    Register.Model -> Result String Provider
 
 
 type alias Linksfunction =
@@ -397,14 +397,14 @@ toTopicNames topics =
     topics |> List.map (\topic -> topic.name)
 
 
-contentProviderTopicUrl : Id -> Topic -> Url
-contentProviderTopicUrl id topic =
-    Url <| "/#/contentProvider/" ++ getId id ++ "/" ++ getTopic topic
+providerTopicUrl : Id -> Topic -> Url
+providerTopicUrl id topic =
+    Url <| "/#/provider/" ++ getId id ++ "/" ++ getTopic topic
 
 
-contentProviderUrl : Id -> Url
-contentProviderUrl id =
-    Url <| "/#/contentProvider/" ++ getId id
+providerUrl : Id -> Url
+providerUrl id =
+    Url <| "/#/provider/" ++ getId id
 
 
 toContentType : String -> ContentType
@@ -467,7 +467,7 @@ allContentUrl : Linksfrom -> Id -> ContentType -> Url
 allContentUrl linksFrom id contentType =
     case linksFrom of
         FromOther ->
-            Url <| "/#/contentProvider/" ++ getId id ++ "/all/" ++ (contentType |> contentTypeToText)
+            Url <| "/#/provider/" ++ getId id ++ "/all/" ++ (contentType |> contentTypeToText)
 
         FromPortal ->
             Url <| "/#/" ++ getId id ++ "/portal/all/" ++ (contentType |> contentTypeToText)
@@ -477,7 +477,7 @@ allTopicContentUrl : Linksfrom -> Id -> ContentType -> Topic -> Url
 allTopicContentUrl linksFrom id contentType topic =
     case linksFrom of
         FromOther ->
-            Url <| "/#/contentProvider/" ++ getId id ++ "/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)
+            Url <| "/#/provider/" ++ getId id ++ "/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)
 
         FromPortal ->
             Url <| "/#/" ++ getId id ++ "/portal/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)

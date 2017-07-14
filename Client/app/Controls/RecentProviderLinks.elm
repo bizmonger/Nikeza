@@ -12,28 +12,32 @@ type Msg
     = None
 
 
-thumbnail : ContentProvider -> Html Msg
-thumbnail contentProvider =
+formatLink : Link -> Html Msg
+formatLink link =
+    div []
+        [ a [ href <| getUrl <| link.url ] [ i [] [ text <| getTitle link.title ] ]
+        , br [] []
+        ]
+
+
+thumbnail : Provider -> Html Msg
+thumbnail provider =
     let
         profile =
-            contentProvider.profile
+            provider.profile
 
         links =
-            contentProvider.recentLinks
+            provider.recentLinks
 
         nameAndLinks =
-            div []
-                [ label [] [ text <| (profile.firstName |> getName) ++ " " ++ (profile.lastName |> getName) ]
-                , br [] []
-                , links
-                ]
+            div [] (links |> List.map formatLink)
     in
         div []
             [ table []
                 [ tr []
                     [ td []
-                        [ a [ href <| getUrl <| contentProviderUrl profile.id ]
-                            [ img [ src <| getUrl profile.imageUrl, width 50, height 50 ] [] ]
+                        [ a [ href <| getUrl <| providerUrl profile.id ]
+                            [ img [ src <| getUrl profile.imageUrl, width 75, height 75 ] [] ]
                         ]
                     , td [] [ nameAndLinks ]
                     ]
