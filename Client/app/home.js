@@ -17270,13 +17270,7 @@ var _user$project$Home$view = function (model) {
 															portal,
 															{requested: _user$project$Domain_Core$EditProfile})
 													});
-												return A2(
-													_user$project$Home$renderPage,
-													A2(
-														_user$project$Home$content,
-														_elm_lang$core$Maybe$Just(contentToEmbed),
-														model),
-													updatedModel);
+												return A2(_user$project$Home$renderPage, contentToEmbed, updatedModel);
 											} else {
 												return _user$project$Home$pageNotFound;
 											}

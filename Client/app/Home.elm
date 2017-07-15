@@ -609,7 +609,8 @@ view model =
                         updatedModel =
                             { model | portal = { portal | requested = Domain.EditProfile } }
                     in
-                        updatedModel |> renderPage (model |> content (Just contentToEmbed))
+                        -- updatedModel |> renderPage (model |> content (Just contentToEmbed))
+                        updatedModel |> renderPage contentToEmbed
 
                 Nothing ->
                     pageNotFound
