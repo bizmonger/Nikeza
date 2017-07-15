@@ -29,7 +29,7 @@ thumbnail provider =
         links =
             provider.recentLinks
 
-        nameAndLinks =
+        linksUI =
             div [] (links |> List.map formatLink)
     in
         div []
@@ -39,7 +39,7 @@ thumbnail provider =
                         [ a [ href <| getUrl <| providerUrl profile.id ]
                             [ img [ src <| getUrl profile.imageUrl, width 75, height 75 ] [] ]
                         ]
-                    , td [] [ nameAndLinks ]
+                    , td [] [ linksUI ]
                     ]
                 ]
             ]

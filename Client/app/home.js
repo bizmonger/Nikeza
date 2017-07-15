@@ -12846,7 +12846,7 @@ var _user$project$Controls_RecentProviderLinks$formatLink = function (link) {
 };
 var _user$project$Controls_RecentProviderLinks$thumbnail = function (provider) {
 	var links = provider.recentLinks;
-	var nameAndLinks = A2(
+	var linksUI = A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		A2(_elm_lang$core$List$map, _user$project$Controls_RecentProviderLinks$formatLink, links));
@@ -12910,7 +12910,7 @@ var _user$project$Controls_RecentProviderLinks$thumbnail = function (provider) {
 									{ctor: '[]'},
 									{
 										ctor: '::',
-										_0: nameAndLinks,
+										_0: linksUI,
 										_1: {ctor: '[]'}
 									}),
 								_1: {ctor: '[]'}
