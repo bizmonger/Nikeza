@@ -55,6 +55,10 @@ button.selectedNavigationButton4 {
     background-color: lightblue;
 }
 
+button.subscribeButton {
+    font-size: 10px;
+}
+
 button.navigationButton3 {
     vertical-align: text-top;
     width:115px;

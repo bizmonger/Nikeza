@@ -12088,10 +12088,10 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (provider) {
 														_user$project$Domain_Core$getUrl(profile.imageUrl)),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$width(50),
+														_0: _elm_lang$html$Html_Attributes$width(58),
 														_1: {
 															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$height(50),
+															_0: _elm_lang$html$Html_Attributes$height(58),
 															_1: {ctor: '[]'}
 														}
 													}
@@ -12114,7 +12114,22 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = function (provider) {
 								_1: {ctor: '[]'}
 							}
 						}),
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('subscribeButton'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Subscribe'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
 				}),
 			_1: {ctor: '[]'}
 		});
