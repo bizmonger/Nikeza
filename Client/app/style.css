@@ -17,17 +17,23 @@ header {
     margin-bottom:2px;
 }
 
-input[type="text"].search{
+input[type="text"].search {
     margin-bottom: 0px;
     width:250px;
 }
 
-input[type="text"].addLinkText{
+input[type="text"].addLinkText {
     width:260px;
 }
 
-div.navigationpane{
+div.navigationpane {
     vertical-align: text-top;
+}
+
+div.RegistrationForm {
+    width: 200px;
+    height: 200px;
+    margin: 0px auto;
 }
 
 button.addLink {

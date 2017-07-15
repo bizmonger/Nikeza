@@ -9448,7 +9448,11 @@ var _user$project$Controls_Register$FirstNameInput = function (a) {
 var _user$project$Controls_Register$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
-		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('RegistrationForm'),
+			_1: {ctor: '[]'}
+		},
 		{
 			ctor: '::',
 			_0: A2(
@@ -9592,28 +9596,35 @@ var _user$project$Controls_Register$view = function (model) {
 												_1: {
 													ctor: '::',
 													_0: A2(
-														_elm_lang$html$Html$button,
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$class('register'),
-															_1: {
+														_elm_lang$html$Html$br,
+														{ctor: '[]'},
+														{ctor: '[]'}),
+													_1: {
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$button,
+															{
 																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$value('Create Account'),
+																_0: _elm_lang$html$Html_Attributes$class('register'),
 																_1: {
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Events$onClick(
-																		_user$project$Controls_Register$Submit(
-																			{firstName: model.firstName, lastName: model.lastName, email: model.email, password: model.password, confirm: model.confirm})),
-																	_1: {ctor: '[]'}
+																	_0: _elm_lang$html$Html_Attributes$value('Create Account'),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Events$onClick(
+																			_user$project$Controls_Register$Submit(
+																				{firstName: model.firstName, lastName: model.lastName, email: model.email, password: model.password, confirm: model.confirm})),
+																		_1: {ctor: '[]'}
+																	}
 																}
-															}
-														},
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html$text('Submit'),
-															_1: {ctor: '[]'}
-														}),
-													_1: {ctor: '[]'}
+															},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text('Join'),
+																_1: {ctor: '[]'}
+															}),
+														_1: {ctor: '[]'}
+													}
 												}
 											}
 										}
