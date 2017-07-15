@@ -13830,7 +13830,11 @@ var _user$project$Home$renderProfileBase = F2(
 														ctor: '::',
 														_0: A2(
 															_elm_lang$html$Html$button,
-															{ctor: '[]'},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$class('subscribeButton'),
+																_1: {ctor: '[]'}
+															},
 															{
 																ctor: '::',
 																_0: _elm_lang$html$Html$text('Follow'),
