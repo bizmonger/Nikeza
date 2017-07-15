@@ -679,6 +679,7 @@ renderProfileBase provider linksContent =
             [ table []
                 [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| getUrl <| provider.profile.imageUrl ] [] ] ]
                 , tr [ class "bio" ] [ td [] [ text <| getName provider.profile.firstName ++ " " ++ getName provider.profile.lastName ] ]
+                , tr [ class "bio" ] [ td [] [ button [] [ text "Subscribe" ] ] ]
                 , tr [ class "bio" ] [ td [] [ p [] [ text provider.profile.bio ] ] ]
                 ]
             , td [] [ linksContent ]
@@ -762,10 +763,10 @@ footerContent =
         ]
 
 
-providersUI : List Provider -> Html Msg
-providersUI providers =
+providersUI : Maybe Id -> List Provider -> Bool -> Html Msg
+providersUI profileId providers showSubscribe =
     Html.map ProfileThumbnail <|
-        div [] (providers |> List.map ProfileThumbnail.thumbnail)
+        div [] (providers |> List.map (ProfileThumbnail.thumbnail (profileId) showSubscribe))
 
 
 recentProvidersUI : List Provider -> Html Msg
@@ -781,7 +782,7 @@ homePage model =
             table []
                 [ tr [] [ td [] [ input [ class "search", type_ "text", placeholder "name", onInput Search ] [] ] ]
                 , tr []
-                    [ td [] [ div [] [ providersUI model.providers ] ]
+                    [ td [] [ div [] [ providersUI Nothing model.providers False ] ]
                     , td []
                         [ table []
                             [ tr []
@@ -924,7 +925,7 @@ content contentToEmbed model =
                     (Subscribers subscriptions) =
                         following
                 in
-                    subscriptions |> searchProvidersUI "name you're following"
+                    subscriptions |> searchProvidersUI (Just provider.profile.id) True "name you're following"
 
             Domain.ViewFollowers ->
                 let
@@ -934,7 +935,7 @@ content contentToEmbed model =
                     (Subscribers followers) =
                         followingYou
                 in
-                    followers |> searchProvidersUI "name of subscriber"
+                    followers |> searchProvidersUI (Just provider.profile.id) True "name of subscriber"
 
             Domain.ViewProviders ->
                 provider.profile.id |> filteredProvidersUI model.providers "name"
@@ -974,14 +975,14 @@ filteredProvidersUI : List Provider -> String -> Id -> Html Msg
 filteredProvidersUI providers placeHolder profileId =
     providers
         |> removeProvider profileId
-        |> searchProvidersUI placeHolder
+        |> searchProvidersUI (Just profileId) True placeHolder
 
 
-searchProvidersUI : String -> List Provider -> Html Msg
-searchProvidersUI placeHolder providers =
+searchProvidersUI : Maybe Id -> Bool -> String -> List Provider -> Html Msg
+searchProvidersUI profileId showSubscribe placeHolder providers =
     table []
         [ tr [] [ td [] [ input [ class "search", type_ "text", placeholder placeHolder, onInput Search ] [] ] ]
-        , tr [] [ td [] [ div [] [ providersUI providers ] ] ]
+        , tr [] [ td [] [ div [] [ providersUI (profileId) providers showSubscribe ] ] ]
         ]
 
 

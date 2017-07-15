@@ -12,8 +12,8 @@ type Msg
     = None
 
 
-thumbnail : Provider -> Html Msg
-thumbnail provider =
+thumbnail : Maybe Id -> Bool -> Provider -> Html Msg
+thumbnail profileId showSubscribe provider =
     let
         profile =
             provider.profile
@@ -43,6 +43,30 @@ thumbnail provider =
                 , br [] []
                 , topics
                 ]
+
+        subscriptionText =
+            case profileId of
+                Just id ->
+                    let
+                        (Subscribers followers) =
+                            provider.followers provider.profile.id
+
+                        isFollowing =
+                            followers |> List.any (\p -> p.profile.id == id)
+                    in
+                        if isFollowing then
+                            "Unsubscribe"
+                        else
+                            "Subscribe"
+
+                Nothing ->
+                    "Subscribe"
+
+        placeholder =
+            if showSubscribe then
+                button [ class "subscribeButton" ] [ text subscriptionText ]
+            else
+                div [] []
     in
         div []
             [ table []
@@ -53,6 +77,6 @@ thumbnail provider =
                         ]
                     , td [] [ nameAndTopics ]
                     ]
-                , button [ class "subscribeButton" ] [ text "Subscribe" ]
+                , placeholder
                 ]
             ]
