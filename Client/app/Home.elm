@@ -541,20 +541,16 @@ view model =
             homePage model
 
         [ "register" ] ->
-            let
-                content =
-                    registerPage model
-            in
-                model |> renderPage content
+            model |> renderPage (Html.map OnRegistration <| Registration.view model.registration)
 
         [ "provider", id ] ->
             case runtime.provider <| Id id of
                 Just _ ->
-                    let
-                        content =
-                            renderProfileBase model.selectedProvider <| Html.map ProviderLinksAction <| ProviderLinks.view FromOther model.selectedProvider
-                    in
-                        model |> renderPage content
+                    model
+                        |> renderPage
+                            (renderProfileBase model.selectedProvider <|
+                                Html.map ProviderLinksAction (ProviderLinks.view FromOther model.selectedProvider)
+                            )
 
                 Nothing ->
                     pageNotFound
@@ -562,11 +558,7 @@ view model =
         [ "provider", id, topic ] ->
             case runtime.provider <| Id id of
                 Just _ ->
-                    let
-                        content =
-                            providerTopicPage FromOther model.selectedProvider
-                    in
-                        model |> renderPage content
+                    model |> renderPage (providerTopicPage FromOther model.selectedProvider)
 
                 Nothing ->
                     pageNotFound
@@ -580,11 +572,8 @@ view model =
 
                         contentToEmbed =
                             Html.map ProviderContentTypeLinksAction <| view provider <| toContentType contentType
-
-                        content =
-                            renderProfileBase model.selectedProvider <| contentToEmbed
                     in
-                        model |> renderPage content
+                        model |> renderPage (renderProfileBase model.selectedProvider <| contentToEmbed)
 
                 Nothing ->
                     pageNotFound
@@ -598,11 +587,8 @@ view model =
 
                         contentToEmbed =
                             Html.map ProviderTopicContentTypeLinksAction <| ProviderTopicContentTypeLinks.view model.selectedProvider topic <| toContentType contentType
-
-                        content =
-                            renderProfileBase model.selectedProvider <| contentToEmbed
                     in
-                        model |> renderPage content
+                        model |> renderPage (renderProfileBase model.selectedProvider <| contentToEmbed)
 
                 Nothing ->
                     pageNotFound
@@ -620,13 +606,10 @@ view model =
                         contentToEmbed =
                             render model.portal.provider "" profileView model.portal
 
-                        mainContent =
-                            model |> content (Just contentToEmbed)
-
                         updatedModel =
                             { model | portal = { portal | requested = Domain.EditProfile } }
                     in
-                        updatedModel |> renderPage mainContent
+                        updatedModel |> renderPage (model |> content (Just contentToEmbed))
 
                 Nothing ->
                     pageNotFound
@@ -650,13 +633,10 @@ view model =
                         contentToEmbed =
                             render model.portal.provider "" sourcesView model.portal
 
-                        mainContent =
-                            model |> content (Just contentToEmbed)
-
                         updatedModel =
                             { model | portal = { portal | requested = Domain.ViewSources } }
                     in
-                        updatedModel |> renderPage mainContent
+                        updatedModel |> renderPage (model |> content (Just contentToEmbed))
 
                 Nothing ->
                     pageNotFound
@@ -670,11 +650,8 @@ view model =
 
                         contentToEmbed =
                             linksContent |> applyToPortal id model contentType
-
-                        mainContent =
-                            model |> content (Just contentToEmbed)
                     in
-                        model |> renderPage mainContent
+                        model |> renderPage (model |> content (Just contentToEmbed))
 
                 Nothing ->
                     pageNotFound
@@ -831,14 +808,6 @@ renderPage content model =
         [ headerContent model
         , content
         , footerContent
-        ]
-
-
-registerPage : Model -> Html Msg
-registerPage model =
-    div []
-        [ h3 [] [ text "Join" ]
-        , Html.map OnRegistration <| Registration.view model.registration
         ]
 
 

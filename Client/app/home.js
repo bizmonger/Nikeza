@@ -14417,30 +14417,6 @@ var _user$project$Home$Model = F6(
 var _user$project$Home$OnRegistration = function (a) {
 	return {ctor: 'OnRegistration', _0: a};
 };
-var _user$project$Home$registerPage = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$h3,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Join'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$map,
-					_user$project$Home$OnRegistration,
-					_user$project$Controls_Register$view(model.registration)),
-				_1: {ctor: '[]'}
-			}
-		});
-};
 var _user$project$Home$Register = {ctor: 'Register'};
 var _user$project$Home$Search = function (a) {
 	return {ctor: 'Search', _0: a};
@@ -17075,8 +17051,13 @@ var _user$project$Home$view = function (model) {
 						case 'home':
 							return _user$project$Home$homePage(model);
 						case 'register':
-							var content = _user$project$Home$registerPage(model);
-							return A2(_user$project$Home$renderPage, content, model);
+							return A2(
+								_user$project$Home$renderPage,
+								A2(
+									_elm_lang$html$Html$map,
+									_user$project$Home$OnRegistration,
+									_user$project$Controls_Register$view(model.registration)),
+								model);
 						default:
 							break _v28_11;
 					}
@@ -17097,10 +17078,6 @@ var _user$project$Home$view = function (model) {
 													_user$project$Home$EditProfileAction,
 													_user$project$Controls_EditProfile$view(model.portal.provider.profile));
 												var contentToEmbed = A4(_user$project$Home$render, model.portal.provider, '', profileView, model.portal);
-												var mainContent = A2(
-													_user$project$Home$content,
-													_elm_lang$core$Maybe$Just(contentToEmbed),
-													model);
 												var portal = model.portal;
 												var updatedModel = _elm_lang$core$Native_Utils.update(
 													model,
@@ -17109,7 +17086,13 @@ var _user$project$Home$view = function (model) {
 															portal,
 															{requested: _user$project$Domain_Core$EditProfile})
 													});
-												return A2(_user$project$Home$renderPage, mainContent, updatedModel);
+												return A2(
+													_user$project$Home$renderPage,
+													A2(
+														_user$project$Home$content,
+														_elm_lang$core$Maybe$Just(contentToEmbed),
+														model),
+													updatedModel);
 											} else {
 												return _user$project$Home$pageNotFound;
 											}
@@ -17134,10 +17117,6 @@ var _user$project$Home$view = function (model) {
 														_1: {ctor: '[]'}
 													});
 												var contentToEmbed = A4(_user$project$Home$render, model.portal.provider, '', sourcesView, model.portal);
-												var mainContent = A2(
-													_user$project$Home$content,
-													_elm_lang$core$Maybe$Just(contentToEmbed),
-													model);
 												var portal = model.portal;
 												var updatedModel = _elm_lang$core$Native_Utils.update(
 													model,
@@ -17146,7 +17125,13 @@ var _user$project$Home$view = function (model) {
 															portal,
 															{requested: _user$project$Domain_Core$ViewSources})
 													});
-												return A2(_user$project$Home$renderPage, mainContent, updatedModel);
+												return A2(
+													_user$project$Home$renderPage,
+													A2(
+														_user$project$Home$content,
+														_elm_lang$core$Maybe$Just(contentToEmbed),
+														model),
+													updatedModel);
 											} else {
 												return _user$project$Home$pageNotFound;
 											}
@@ -17180,8 +17165,10 @@ var _user$project$Home$view = function (model) {
 												model.selectedProvider,
 												topic,
 												_user$project$Domain_Core$toContentType(_p42._1._1._1._1._0)));
-										var content = A2(_user$project$Home$renderProfileBase, model.selectedProvider, contentToEmbed);
-										return A2(_user$project$Home$renderPage, content, model);
+										return A2(
+											_user$project$Home$renderPage,
+											A2(_user$project$Home$renderProfileBase, model.selectedProvider, contentToEmbed),
+											model);
 									} else {
 										return _user$project$Home$pageNotFound;
 									}
@@ -17204,8 +17191,10 @@ var _user$project$Home$view = function (model) {
 													view,
 													provider,
 													_user$project$Domain_Core$toContentType(_p42._1._1._1._0)));
-											var content = A2(_user$project$Home$renderProfileBase, model.selectedProvider, contentToEmbed);
-											return A2(_user$project$Home$renderPage, content, model);
+											return A2(
+												_user$project$Home$renderPage,
+												A2(_user$project$Home$renderProfileBase, model.selectedProvider, contentToEmbed),
+												model);
 										} else {
 											return _user$project$Home$pageNotFound;
 										}
@@ -17224,11 +17213,13 @@ var _user$project$Home$view = function (model) {
 														model.portal.provider,
 														_user$project$Domain_Core$toContentType(_p51)));
 												var contentToEmbed = A4(_user$project$Home$applyToPortal, _p52, model, _p51, linksContent);
-												var mainContent = A2(
-													_user$project$Home$content,
-													_elm_lang$core$Maybe$Just(contentToEmbed),
+												return A2(
+													_user$project$Home$renderPage,
+													A2(
+														_user$project$Home$content,
+														_elm_lang$core$Maybe$Just(contentToEmbed),
+														model),
 													model);
-												return A2(_user$project$Home$renderPage, mainContent, model);
 											} else {
 												return _user$project$Home$pageNotFound;
 											}
@@ -17246,14 +17237,16 @@ var _user$project$Home$view = function (model) {
 							var _p43 = _user$project$Settings$runtime.provider(
 								_user$project$Domain_Core$Id(_p42._1._0));
 							if (_p43.ctor === 'Just') {
-								var content = A2(
-									_user$project$Home$renderProfileBase,
-									model.selectedProvider,
+								return A2(
+									_user$project$Home$renderPage,
 									A2(
-										_elm_lang$html$Html$map,
-										_user$project$Home$ProviderLinksAction,
-										A2(_user$project$Controls_ProviderLinks$view, _user$project$Domain_Core$FromOther, model.selectedProvider)));
-								return A2(_user$project$Home$renderPage, content, model);
+										_user$project$Home$renderProfileBase,
+										model.selectedProvider,
+										A2(
+											_elm_lang$html$Html$map,
+											_user$project$Home$ProviderLinksAction,
+											A2(_user$project$Controls_ProviderLinks$view, _user$project$Domain_Core$FromOther, model.selectedProvider))),
+									model);
 							} else {
 								return _user$project$Home$pageNotFound;
 							}
@@ -17280,8 +17273,10 @@ var _user$project$Home$view = function (model) {
 		var _p44 = _user$project$Settings$runtime.provider(
 			_user$project$Domain_Core$Id(_p42._1._0));
 		if (_p44.ctor === 'Just') {
-			var content = A2(_user$project$Home$providerTopicPage, _user$project$Domain_Core$FromOther, model.selectedProvider);
-			return A2(_user$project$Home$renderPage, content, model);
+			return A2(
+				_user$project$Home$renderPage,
+				A2(_user$project$Home$providerTopicPage, _user$project$Domain_Core$FromOther, model.selectedProvider),
+				model);
 		} else {
 			return _user$project$Home$pageNotFound;
 		}
