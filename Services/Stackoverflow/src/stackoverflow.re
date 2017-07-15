@@ -1,4 +1,4 @@
-open Bs_fetch;
+open Axios;
 
 type tag = { 
   has_synonyms: bool,
@@ -19,12 +19,11 @@ type responce = {
 
 let tagApi = "https://api.stackexchange.com/2.2/tags?order=desc&sort=popular&site=stackoverflow";
 
-let tags = 
-  Js.Promise.(
-    fetch tagApi
-    |> then_ Response.text
-    |> then_ (fun text => print_endline text |> resolve)
-  );
+Js.Promise.(
+  get tagApi
+  |> then_ (fun resp => resolve (Js.log resp##data))
+  |> catch (fun err => resolve (Js.log err))
+)
 
 /*let api = Js.Promise.(
   fetch "/api/hellos/1"

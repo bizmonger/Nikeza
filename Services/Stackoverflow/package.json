@@ -2,6 +2,7 @@
   "name": "stackoverflow",
   "version": "0.1.0",
   "scripts": {
+    "start": "node ./lib/js/src/stackoverflow.js",
     "clean": "bsb -clean-world",
     "build": "bsb -make-world",
     "watch": "bsb -make-world -w"
@@ -14,6 +15,6 @@
     "bs-platform": "1.8.0"
   },
   "dependencies": {
-    "bs-fetch": "^0.1.1"
+    "bs-axios": "0.0.14"
   }
 }

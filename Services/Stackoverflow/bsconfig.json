@@ -7,6 +7,6 @@
     "src"
   ],
   "bs-dependencies" : [
-      "bs-fetch"
+      "bs-axios"
   ]
 }
