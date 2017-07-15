@@ -935,7 +935,7 @@ content contentToEmbed model =
                     (Subscribers followers) =
                         followingYou
                 in
-                    followers |> searchProvidersUI (Just provider.profile.id) True "name of subscriber"
+                    followers |> searchProvidersUI (Just provider.profile.id) False "name of subscriber"
 
             Domain.ViewProviders ->
                 provider.profile.id |> filteredProvidersUI model.providers "name"

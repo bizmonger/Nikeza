@@ -10687,16 +10687,34 @@ var _user$project$Tests_TestAPI$followers = function (profileId) {
 	return _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? _user$project$Domain_Core$Subscribers(
 		{
 			ctor: '::',
-			_0: _user$project$Tests_TestAPI$provider2,
+			_0: _user$project$Tests_TestAPI$provider4,
 			_1: {
 				ctor: '::',
-				_0: _user$project$Tests_TestAPI$provider3,
+				_0: _user$project$Tests_TestAPI$provider5,
+				_1: {ctor: '[]'}
+			}
+		}) : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId2) ? _user$project$Domain_Core$Subscribers(
+		{
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$provider1B,
+			_1: {
+				ctor: '::',
+				_0: _user$project$Tests_TestAPI$provider5,
+				_1: {ctor: '[]'}
+			}
+		}) : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId3) ? _user$project$Domain_Core$Subscribers(
+		{
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$provider4,
+			_1: {
+				ctor: '::',
+				_0: _user$project$Tests_TestAPI$provider5,
 				_1: {ctor: '[]'}
 			}
 		}) : _user$project$Domain_Core$Subscribers(
-		{ctor: '[]'});
+		{ctor: '[]'})));
 };
-var _user$project$Tests_TestAPI$provider2 = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile2, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider2Links, _user$project$Tests_TestAPI$recentLinks2, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
+var _user$project$Tests_TestAPI$provider1B = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile1, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider1Links, _user$project$Tests_TestAPI$recentLinks1, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
 var _user$project$Tests_TestAPI$subscriptions = function (profileId) {
 	return _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? _user$project$Domain_Core$Subscribers(
 		{
@@ -10706,8 +10724,7 @@ var _user$project$Tests_TestAPI$subscriptions = function (profileId) {
 		}) : _user$project$Domain_Core$Subscribers(
 		{ctor: '[]'});
 };
-var _user$project$Tests_TestAPI$provider3 = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile3, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider3Links, _user$project$Tests_TestAPI$recentLinks3, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
-var _user$project$Tests_TestAPI$provider1 = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile1, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider1Links, _user$project$Tests_TestAPI$recentLinks1, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
+var _user$project$Tests_TestAPI$provider2 = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile2, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider2Links, _user$project$Tests_TestAPI$recentLinks2, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
 var _user$project$Tests_TestAPI$provider4 = A6(
 	_user$project$Domain_Core$Provider,
 	_user$project$Tests_TestAPI$profile4,
@@ -10724,6 +10741,8 @@ var _user$project$Tests_TestAPI$provider5 = A6(
 	{ctor: '[]'},
 	_user$project$Tests_TestAPI$subscriptions,
 	_user$project$Tests_TestAPI$followers);
+var _user$project$Tests_TestAPI$provider1 = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile1, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider1Links, _user$project$Tests_TestAPI$recentLinks1, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
+var _user$project$Tests_TestAPI$provider3 = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile3, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider3Links, _user$project$Tests_TestAPI$recentLinks3, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
 var _user$project$Tests_TestAPI$providers = {
 	ctor: '::',
 	_0: _user$project$Tests_TestAPI$provider1,
@@ -11955,21 +11974,50 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 				return 'Subscribe';
 			}
 		}();
-		var placeholder = showSubscribe ? A2(
-			_elm_lang$html$Html$button,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('subscribeButton'),
-				_1: {ctor: '[]'}
-			},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text(subscriptionText),
-				_1: {ctor: '[]'}
-			}) : A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{ctor: '[]'});
+		var placeholder = function () {
+			var _p2 = profileId;
+			if (_p2.ctor === 'Just') {
+				var _p3 = provider.followers(provider.profile.id);
+				var followers = _p3._0;
+				var isFollowing = A2(
+					_elm_lang$core$List$any,
+					function (p) {
+						return _elm_lang$core$Native_Utils.eq(p.profile.id, _p2._0);
+					},
+					followers);
+				return ((!isFollowing) && showSubscribe) ? A2(
+					_elm_lang$html$Html$button,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('subscribeButton'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(subscriptionText),
+						_1: {ctor: '[]'}
+					}) : ((isFollowing && showSubscribe) ? A2(
+					_elm_lang$html$Html$button,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('unsubscribeButton'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(subscriptionText),
+						_1: {ctor: '[]'}
+					}) : A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{ctor: '[]'}));
+			} else {
+				return A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{ctor: '[]'});
+			}
+		}();
 		var concatTopics = F2(
 			function (topic1, topic2) {
 				return A2(
@@ -12120,10 +12168,10 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 															_user$project$Domain_Core$getUrl(profile.imageUrl)),
 														_1: {
 															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$width(58),
+															_0: _elm_lang$html$Html_Attributes$width(65),
 															_1: {
 																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$height(58),
+																_0: _elm_lang$html$Html_Attributes$height(65),
 																_1: {ctor: '[]'}
 															}
 														}
@@ -16757,7 +16805,7 @@ var _user$project$Home$content = F2(
 				return A4(
 					_user$project$Home$searchProvidersUI,
 					_elm_lang$core$Maybe$Just(provider.profile.id),
-					true,
+					false,
 					'name of subscriber',
 					followers);
 			case 'ViewProviders':

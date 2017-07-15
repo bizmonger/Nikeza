@@ -57,6 +57,14 @@ button.selectedNavigationButton4 {
 
 button.subscribeButton {
     font-size: 10px;
+    color: black;
+    background-color: #F7FCFD;
+}
+
+button.unsubscribeButton {
+    font-size: 10px;
+    color: black;
+    background-color: #FFF2F7;
 }
 
 button.navigationButton3 {

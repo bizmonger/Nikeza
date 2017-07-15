@@ -283,7 +283,11 @@ subscriptions profileId =
 followers : Id -> Subscribers
 followers profileId =
     if profileId == profileId1 then
-        Subscribers [ provider2, provider3 ]
+        Subscribers [ provider4, provider5 ]
+    else if profileId == profileId2 then
+        Subscribers [ provider1B, provider5 ]
+    else if profileId == profileId3 then
+        Subscribers [ provider4, provider5 ]
     else
         Subscribers []
 
@@ -309,6 +313,11 @@ recentLinks3 =
 
 provider1 : Provider
 provider1 =
+    Provider profile1 topics provider1Links recentLinks1 subscriptions followers
+
+
+provider1B : Provider
+provider1B =
     Provider profile1 topics provider1Links recentLinks1 subscriptions followers
 
 

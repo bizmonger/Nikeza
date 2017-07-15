@@ -63,17 +63,31 @@ thumbnail profileId showSubscribe provider =
                     "Subscribe"
 
         placeholder =
-            if showSubscribe then
-                button [ class "subscribeButton" ] [ text subscriptionText ]
-            else
-                div [] []
+            case profileId of
+                Just id ->
+                    let
+                        (Subscribers followers) =
+                            provider.followers provider.profile.id
+
+                        isFollowing =
+                            followers |> List.any (\p -> p.profile.id == id)
+                    in
+                        if not isFollowing && showSubscribe then
+                            button [ class "subscribeButton" ] [ text subscriptionText ]
+                        else if isFollowing && showSubscribe then
+                            button [ class "unsubscribeButton" ] [ text subscriptionText ]
+                        else
+                            div [] []
+
+                Nothing ->
+                    div [] []
     in
         div []
             [ table []
                 [ tr []
                     [ td []
                         [ a [ href <| getUrl <| providerUrl profile.id ]
-                            [ img [ src <| getUrl profile.imageUrl, width 58, height 58 ] [] ]
+                            [ img [ src <| getUrl profile.imageUrl, width 65, height 65 ] [] ]
                         ]
                     , td [] [ nameAndTopics ]
                     ]
