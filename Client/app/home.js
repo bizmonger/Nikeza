@@ -11969,9 +11969,9 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 						return _elm_lang$core$Native_Utils.eq(p.profile.id, _p0._0);
 					},
 					followers);
-				return isFollowing ? 'Unsubscribe' : 'Subscribe';
+				return isFollowing ? 'Unsubscribe' : 'Follow';
 			} else {
-				return 'Subscribe';
+				return 'Follow';
 			}
 		}();
 		var placeholder = function () {
@@ -13833,7 +13833,7 @@ var _user$project$Home$renderProfileBase = F2(
 															{ctor: '[]'},
 															{
 																ctor: '::',
-																_0: _elm_lang$html$Html$text('Subscribe'),
+																_0: _elm_lang$html$Html$text('Follow'),
 																_1: {ctor: '[]'}
 															}),
 														_1: {ctor: '[]'}
@@ -14608,7 +14608,7 @@ var _user$project$Home$renderNavigation = function (portal) {
 			_1: {ctor: '[]'}
 		};
 	};
-	var _p30 = {ctor: '_Tuple5', _0: 'Showcase', _1: 'Following', _2: 'Members', _3: 'Link', _4: 'Profile'};
+	var _p30 = {ctor: '_Tuple5', _0: 'Portfolio', _1: 'Subscriptions', _2: 'Members', _3: 'Link', _4: 'Profile'};
 	var linksText = _p30._0;
 	var followingText = _p30._1;
 	var membersText = _p30._2;
@@ -15092,7 +15092,7 @@ var _user$project$Home$renderNavigation = function (portal) {
 	var followers = _p33._0;
 	var followersText = A2(
 		_elm_lang$core$Basics_ops['++'],
-		'Subscribers ',
+		'Followers ',
 		A2(
 			_elm_lang$core$Basics_ops['++'],
 			'(',
@@ -17179,7 +17179,7 @@ var _user$project$Home$homePage = function (model) {
 																				},
 																				{
 																					ctor: '::',
-																					_0: _elm_lang$html$Html$text('Set your featured links for viewers to see'),
+																					_0: _elm_lang$html$Html$text('Set your featured links for other viewers to see'),
 																					_1: {ctor: '[]'}
 																				}),
 																			_1: {

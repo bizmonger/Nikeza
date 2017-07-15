@@ -679,7 +679,7 @@ renderProfileBase provider linksContent =
             [ table []
                 [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| getUrl <| provider.profile.imageUrl ] [] ] ]
                 , tr [ class "bio" ] [ td [] [ text <| getName provider.profile.firstName ++ " " ++ getName provider.profile.lastName ] ]
-                , tr [ class "bio" ] [ td [] [ button [] [ text "Subscribe" ] ] ]
+                , tr [ class "bio" ] [ td [] [ button [] [ text "Follow" ] ] ]
                 , tr [ class "bio" ] [ td [] [ p [] [ text provider.profile.bio ] ] ]
                 ]
             , td [] [ linksContent ]
@@ -793,7 +793,7 @@ homePage model =
                                 , td []
                                     [ ul [ class "featuresList" ]
                                         [ li [ class "joinReasons" ] [ text "Import links to your articles, videos, and answers" ]
-                                        , li [ class "joinReasons" ] [ text "Set your featured links for viewers to see" ]
+                                        , li [ class "joinReasons" ] [ text "Set your featured links for other viewers to see" ]
                                         , li [ class "joinReasons" ] [ text "Subscribe to new links from your favorite thought leaders" ]
                                         ]
                                     ]
@@ -1014,10 +1014,10 @@ renderNavigation portal =
             "Recent " ++ "(" ++ (toString <| recentCount) ++ ")"
 
         ( linksText, followingText, membersText, linkText, profileText ) =
-            ( "Showcase", "Following", "Members", "Link", "Profile" )
+            ( "Portfolio", "Subscriptions", "Members", "Link", "Profile" )
 
         followersText =
-            "Subscribers " ++ "(" ++ (toString <| List.length followers) ++ ")"
+            "Followers " ++ "(" ++ (toString <| List.length followers) ++ ")"
 
         allNavigation =
             case portal.requested of

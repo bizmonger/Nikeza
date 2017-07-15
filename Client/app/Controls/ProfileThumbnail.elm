@@ -57,10 +57,10 @@ thumbnail profileId showSubscribe provider =
                         if isFollowing then
                             "Unsubscribe"
                         else
-                            "Subscribe"
+                            "Follow"
 
                 Nothing ->
-                    "Subscribe"
+                    "Follow"
 
         placeholder =
             case profileId of
