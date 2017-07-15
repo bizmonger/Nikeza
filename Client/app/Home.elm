@@ -772,7 +772,10 @@ providersUI profileId providers showSubscribe =
 recentProvidersUI : List Provider -> Html Msg
 recentProvidersUI providers =
     Html.map RecentProviderLinks <|
-        div [] (providers |> List.map RecentProviderLinks.thumbnail)
+        div []
+            [ h3 [] [ text "Recent Links" ]
+            , div [] (providers |> List.map RecentProviderLinks.thumbnail)
+            ]
 
 
 homePage : Model -> Html Msg

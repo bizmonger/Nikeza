@@ -56,12 +56,18 @@ button.selectedNavigationButton4 {
 }
 
 button.subscribeButton {
+    width: 70px;
+    margin:0 auto;
+    display:block;
     font-size: 10px;
     color: black;
     background-color: #F7FCFD;
 }
 
 button.unsubscribeButton {
+    width: 70px;
+    margin:0 auto;
+    display:block;
     font-size: 10px;
     color: black;
     background-color: #FFF2F7;

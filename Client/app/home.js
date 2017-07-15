@@ -13002,11 +13002,33 @@ var _user$project$Controls_RecentProviderLinks$thumbnail = function (provider) {
 								ctor: '::',
 								_0: A2(
 									_elm_lang$html$Html$td,
-									{ctor: '[]'},
 									{
 										ctor: '::',
-										_0: linksUI,
+										_0: _elm_lang$html$Html_Attributes$class('bio'),
 										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$td,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text(
+													A2(
+														_elm_lang$core$Basics_ops['++'],
+														_user$project$Domain_Core$getName(provider.profile.firstName),
+														A2(
+															_elm_lang$core$Basics_ops['++'],
+															' ',
+															_user$project$Domain_Core$getName(provider.profile.lastName)))),
+												_1: {ctor: '[]'}
+											}),
+										_1: {
+											ctor: '::',
+											_0: linksUI,
+											_1: {ctor: '[]'}
+										}
 									}),
 								_1: {ctor: '[]'}
 							}
@@ -16538,7 +16560,25 @@ var _user$project$Home$recentProvidersUI = function (providers) {
 		A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
-			A2(_elm_lang$core$List$map, _user$project$Controls_RecentProviderLinks$thumbnail, providers)));
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$h3,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Recent Links'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{ctor: '[]'},
+						A2(_elm_lang$core$List$map, _user$project$Controls_RecentProviderLinks$thumbnail, providers)),
+					_1: {ctor: '[]'}
+				}
+			}));
 };
 var _user$project$Home$recentLinksContent = F2(
 	function (profileId, providers) {

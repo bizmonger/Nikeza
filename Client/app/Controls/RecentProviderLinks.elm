@@ -39,7 +39,10 @@ thumbnail provider =
                         [ a [ href <| getUrl <| providerUrl profile.id ]
                             [ img [ src <| getUrl profile.imageUrl, width 75, height 75 ] [] ]
                         ]
-                    , td [] [ linksUI ]
+                    , td [ class "bio" ]
+                        [ td [] [ text <| getName provider.profile.firstName ++ " " ++ getName provider.profile.lastName ]
+                        , linksUI
+                        ]
                     ]
                 ]
             ]
