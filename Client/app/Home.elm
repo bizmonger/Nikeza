@@ -636,7 +636,7 @@ view model =
                         updatedModel =
                             { model | portal = { portal | requested = Domain.ViewSources } }
                     in
-                        updatedModel |> renderPage (model |> content (Just contentToEmbed))
+                        updatedModel |> renderPage contentToEmbed
 
                 Nothing ->
                     pageNotFound
