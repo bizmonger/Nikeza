@@ -593,45 +593,6 @@ view model =
                 Nothing ->
                     pageNotFound
 
-        [ id, "portal", "edit-profile" ] ->
-            case runtime.provider <| Id id of
-                Just _ ->
-                    let
-                        profileView =
-                            Html.map EditProfileAction <| EditProfile.view model.portal.provider.profile
-
-                        contentToEmbed =
-                            profileView |> applyToPortal id model
-                    in
-                        model |> renderPage contentToEmbed
-
-                Nothing ->
-                    pageNotFound
-
-        [ id, "portal", "edit-sources" ] ->
-            case runtime.provider <| Id id of
-                Just _ ->
-                    let
-                        portal =
-                            model.portal
-
-                        sourcesView =
-                            div []
-                                [ Html.map SourceAdded <|
-                                    AddSource.view
-                                        { source = portal.newSource
-                                        , sources = portal.provider.profile.sources
-                                        }
-                                ]
-
-                        contentToEmbed =
-                            sourcesView |> applyToPortal id model
-                    in
-                        model |> renderPage contentToEmbed
-
-                Nothing ->
-                    pageNotFound
-
         [ id, "portal", "all", contentType ] ->
             case runtime.provider <| Id id of
                 Just _ ->
