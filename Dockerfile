@@ -6,9 +6,10 @@ RUN dotnet restore Server/Nikeza.Server/Nikeza.Server.fsproj
     
 
 COPY Client/app/*.json Client/app/
-RUN cd Client/app \
+RUN npm install -g yarn \
+    && cd Client/app \
     && npm install -g elm \
-    && npm install \
+    && yarn install \
     && elm-package install -y
 
 COPY . .
