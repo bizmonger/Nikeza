@@ -24,7 +24,8 @@ header {
 
 input[type="text"].search {
     margin-bottom: 0px;
-    width:250px;
+    margin-left: 3px;
+    width:255px;
 }
 
 input[type="text"].addLinkText {

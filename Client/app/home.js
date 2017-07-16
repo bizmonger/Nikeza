@@ -16676,8 +16676,14 @@ var _user$project$Home$content = F2(
 	function (contentToEmbed, model) {
 		var portal = model.portal;
 		var provider = portal.provider;
-		var _p37 = portal.requested;
-		switch (_p37.ctor) {
+		var followingYou = provider.followers(provider.profile.id);
+		var _p37 = followingYou;
+		var followers = _p37._0;
+		var following = provider.subscriptions(provider.profile.id);
+		var _p38 = following;
+		var subscriptions = _p38._0;
+		var _p39 = portal.requested;
+		switch (_p39.ctor) {
 			case 'ViewSources':
 				return A2(
 					_elm_lang$html$Html$div,
@@ -16693,9 +16699,9 @@ var _user$project$Home$content = F2(
 					});
 			case 'ViewLinks':
 				var contentToDisplay = function () {
-					var _p38 = contentToEmbed;
-					if (_p38.ctor === 'Just') {
-						return _p38._0;
+					var _p40 = contentToEmbed;
+					if (_p40.ctor === 'Just') {
+						return _p40._0;
 					} else {
 						return A2(
 							_elm_lang$html$Html$div,
@@ -16822,9 +16828,6 @@ var _user$project$Home$content = F2(
 						}
 					});
 			case 'ViewSubscriptions':
-				var following = provider.subscriptions(provider.profile.id);
-				var _p39 = following;
-				var subscriptions = _p39._0;
 				return A4(
 					_user$project$Home$searchProvidersUI,
 					_elm_lang$core$Maybe$Just(provider.profile.id),
@@ -16832,9 +16835,6 @@ var _user$project$Home$content = F2(
 					'name of subscription',
 					subscriptions);
 			case 'ViewFollowers':
-				var followingYou = provider.followers(provider.profile.id);
-				var _p40 = followingYou;
-				var followers = _p40._0;
 				return A4(
 					_user$project$Home$searchProvidersUI,
 					_elm_lang$core$Maybe$Just(provider.profile.id),
@@ -16844,7 +16844,7 @@ var _user$project$Home$content = F2(
 			case 'ViewProviders':
 				return A3(_user$project$Home$filteredProvidersUI, model.providers, 'name', provider.profile.id);
 			default:
-				return A2(_user$project$Home$recentLinksContent, provider.profile.id, model.providers);
+				return A2(_user$project$Home$recentLinksContent, provider.profile.id, subscriptions);
 		}
 	});
 var _user$project$Home$OnLogin = function (a) {
