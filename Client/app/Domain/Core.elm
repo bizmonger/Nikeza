@@ -250,7 +250,7 @@ type ProviderRequest
     | ViewSubscriptions
     | ViewFollowers
     | ViewProviders
-    | Recent
+    | ViewRecent
 
 
 
