@@ -11956,17 +11956,23 @@ var _user$project$Controls_NewLinks$view = function (model) {
 		});
 };
 
+var _user$project$Controls_ProfileThumbnail$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+	});
+var _user$project$Controls_ProfileThumbnail$UpdateSubscriptions = {ctor: 'UpdateSubscriptions'};
 var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 	function (profileId, showSubscribe, provider) {
 		var subscriptionText = function () {
-			var _p0 = profileId;
-			if (_p0.ctor === 'Just') {
-				var _p1 = provider.followers(provider.profile.id);
-				var followers = _p1._0;
+			var _p1 = profileId;
+			if (_p1.ctor === 'Just') {
+				var _p2 = provider.followers(provider.profile.id);
+				var followers = _p2._0;
 				var isFollowing = A2(
 					_elm_lang$core$List$any,
 					function (p) {
-						return _elm_lang$core$Native_Utils.eq(p.profile.id, _p0._0);
+						return _elm_lang$core$Native_Utils.eq(p.profile.id, _p1._0);
 					},
 					followers);
 				return isFollowing ? 'Unsubscribe' : 'Follow';
@@ -11975,39 +11981,35 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 			}
 		}();
 		var placeholder = function () {
-			var _p2 = profileId;
-			if (_p2.ctor === 'Just') {
-				var _p3 = provider.followers(provider.profile.id);
-				var followers = _p3._0;
+			var _p3 = profileId;
+			if (_p3.ctor === 'Just') {
+				var foo = function (className) {
+					return A2(
+						_elm_lang$html$Html$button,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class(className),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(_user$project$Controls_ProfileThumbnail$UpdateSubscriptions),
+								_1: {ctor: '[]'}
+							}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(subscriptionText),
+							_1: {ctor: '[]'}
+						});
+				};
+				var _p4 = provider.followers(provider.profile.id);
+				var followers = _p4._0;
 				var isFollowing = A2(
 					_elm_lang$core$List$any,
 					function (p) {
-						return _elm_lang$core$Native_Utils.eq(p.profile.id, _p2._0);
+						return _elm_lang$core$Native_Utils.eq(p.profile.id, _p3._0);
 					},
 					followers);
-				return ((!isFollowing) && showSubscribe) ? A2(
-					_elm_lang$html$Html$button,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('subscribeButton'),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(subscriptionText),
-						_1: {ctor: '[]'}
-					}) : ((isFollowing && showSubscribe) ? A2(
-					_elm_lang$html$Html$button,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('unsubscribeButton'),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(subscriptionText),
-						_1: {ctor: '[]'}
-					}) : A2(
+				return ((!isFollowing) && showSubscribe) ? foo('subscribeButton') : ((isFollowing && showSubscribe) ? foo('unsubscribeButton') : A2(
 					_elm_lang$html$Html$div,
 					{ctor: '[]'},
 					{ctor: '[]'}));
@@ -12203,7 +12205,6 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 				_1: {ctor: '[]'}
 			});
 	});
-var _user$project$Controls_ProfileThumbnail$None = {ctor: 'None'};
 
 var _user$project$Controls_ProviderContentTypeLinks$toggleFilter = F2(
 	function (model, _p0) {

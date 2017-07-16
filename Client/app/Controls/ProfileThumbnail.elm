@@ -3,13 +3,25 @@ module Controls.ProfileThumbnail exposing (..)
 import Domain.Core exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 
 
 -- Model
 
 
+type alias Model =
+    Provider
+
+
 type Msg
-    = None
+    = UpdateSubscriptions
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        UpdateSubscriptions ->
+            ( model, Cmd.none )
 
 
 thumbnail : Maybe Id -> Bool -> Provider -> Html Msg
@@ -71,11 +83,14 @@ thumbnail profileId showSubscribe provider =
 
                         isFollowing =
                             followers |> List.any (\p -> p.profile.id == id)
+
+                        foo className =
+                            button [ class className, onClick UpdateSubscriptions ] [ text subscriptionText ]
                     in
                         if not isFollowing && showSubscribe then
-                            button [ class "subscribeButton" ] [ text subscriptionText ]
+                            foo "subscribeButton"
                         else if isFollowing && showSubscribe then
-                            button [ class "unsubscribeButton" ] [ text subscriptionText ]
+                            foo "unsubscribeButton"
                         else
                             div [] []
 
