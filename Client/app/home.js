@@ -16863,7 +16863,6 @@ var _user$project$Home$OnLogin = function (a) {
 };
 var _user$project$Home$headerContent = function (model) {
 	var loginUI = function (model) {
-		var profileId = _user$project$Domain_Core$getId(model.portal.provider.profile.id);
 		var _p41 = {
 			ctor: '_Tuple5',
 			_0: model.login.loggedIn,
@@ -16883,12 +16882,12 @@ var _user$project$Home$headerContent = function (model) {
 				_elm_lang$html$Html$a,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$href(
-						A2(
-							_elm_lang$core$Basics_ops['++'],
-							'/#/',
-							A2(_elm_lang$core$Basics_ops['++'], profileId, '/portal/edit-profile'))),
-					_1: {ctor: '[]'}
+					_0: _elm_lang$html$Html_Attributes$class('ProfileSettings'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
+						_1: {ctor: '[]'}
+					}
 				},
 				{
 					ctor: '::',
@@ -16906,12 +16905,12 @@ var _user$project$Home$headerContent = function (model) {
 				_elm_lang$html$Html$a,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$href(
-						A2(
-							_elm_lang$core$Basics_ops['++'],
-							'/#/',
-							A2(_elm_lang$core$Basics_ops['++'], profileId, '/portal/edit-sources'))),
-					_1: {ctor: '[]'}
+					_0: _elm_lang$html$Html_Attributes$class('ProfileSettings'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
+						_1: {ctor: '[]'}
+					}
 				},
 				{
 					ctor: '::',
@@ -16950,6 +16949,7 @@ var _user$project$Home$headerContent = function (model) {
 		var signout = _p41._2;
 		var profile = _p41._3;
 		var sources = _p41._4;
+		var profileId = _user$project$Domain_Core$getId(model.portal.provider.profile.id);
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$OnLogin,

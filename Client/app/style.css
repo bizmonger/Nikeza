@@ -10,6 +10,11 @@ img.profile {
     margin-bottom: 14px;
 }
 
+a.ProfileSettings {
+    text-decoration: underline;
+    color: blue;
+}
+
 header {
     top:0;
     width:100%;

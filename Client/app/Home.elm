@@ -719,8 +719,8 @@ headerContent model =
                 ( loggedIn, welcome, signout, profile, sources ) =
                     ( model.login.loggedIn
                     , p [] [ text <| "Welcome " ++ model.login.email ++ "!" ]
-                    , a [ href ("/#/" ++ profileId ++ "/portal/edit-profile") ] [ label [] [ text "Profile" ] ]
-                    , a [ href ("/#/" ++ profileId ++ "/portal/edit-sources") ] [ label [] [ text "Sources" ] ]
+                    , a [ class "ProfileSettings", onClick EditProfile ] [ label [] [ text "Profile" ] ]
+                    , a [ class "ProfileSettings", onClick ViewSources ] [ label [] [ text "Sources" ] ]
                     , a [ href "" ] [ label [] [ text "Signout" ] ]
                     )
             in
