@@ -680,8 +680,8 @@ headerContent model =
                 ( loggedIn, welcome, signout, profile, sources ) =
                     ( model.login.loggedIn
                     , p [] [ text <| "Welcome " ++ model.login.email ++ "!" ]
-                    , a [ class "ProfileSettings", onClick EditProfile ] [ label [] [ text "Profile" ] ]
-                    , a [ class "ProfileSettings", onClick ViewSources ] [ label [] [ text "Sources" ] ]
+                    , label [ class "ProfileSettings", onClick EditProfile ] [ text "Profile" ]
+                    , label [ class "ProfileSettings", onClick ViewSources ] [ text "Sources" ]
                     , a [ href "" ] [ label [] [ text "Signout" ] ]
                     )
             in
@@ -707,9 +707,7 @@ headerContent model =
 footerContent : Html Msg
 footerContent =
     footer [ class "copyright" ]
-        [ label [] [ text "2017" ]
-        , a [ href "" ] [ text "GitHub" ]
-        ]
+        [ a [ href "" ] [ text "Lamba Cartel" ] ]
 
 
 providersUI : Maybe Id -> List Provider -> Bool -> Html Msg
@@ -877,7 +875,7 @@ content contentToEmbed model =
                     (Subscribers subscriptions) =
                         following
                 in
-                    subscriptions |> searchProvidersUI (Just provider.profile.id) True "name you're following"
+                    subscriptions |> searchProvidersUI (Just provider.profile.id) True "name of subscription"
 
             Domain.ViewFollowers ->
                 let
@@ -887,7 +885,7 @@ content contentToEmbed model =
                     (Subscribers followers) =
                         followingYou
                 in
-                    followers |> searchProvidersUI (Just provider.profile.id) False "name of subscriber"
+                    followers |> searchProvidersUI (Just provider.profile.id) False "name of follower"
 
             Domain.ViewProviders ->
                 provider.profile.id |> filteredProvidersUI model.providers "name"

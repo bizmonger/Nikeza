@@ -10,7 +10,7 @@ img.profile {
     margin-bottom: 14px;
 }
 
-a.ProfileSettings {
+label.ProfileSettings {
     text-decoration: underline;
     color: blue;
 }
