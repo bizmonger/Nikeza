@@ -303,7 +303,7 @@ onRegistration subMsg model =
                                         }
                                 }
                         in
-                            ( newState, Navigation.load <| "/#/" ++ getId newUser.profile.id ++ "/portal" )
+                            ( newState, Navigation.load <| "/#/portal/" ++ getId newUser.profile.id )
 
                     Err v ->
                         ( model, Cmd.none )
@@ -516,7 +516,7 @@ onLogin subMsg model =
                                 { model | login = latest }
                 in
                     if newState.login.loggedIn then
-                        ( newState, Navigation.load <| "/#/" ++ getId newState.portal.provider.profile.id ++ "/portal" )
+                        ( newState, Navigation.load <| "/#/portal/" ++ getId newState.portal.provider.profile.id )
                     else
                         ( newState, Cmd.none )
 
@@ -593,7 +593,7 @@ view model =
                 Nothing ->
                     pageNotFound
 
-        [ id, "portal", "all", contentType ] ->
+        [ "portal", id, "all", contentType ] ->
             case runtime.provider <| Id id of
                 Just _ ->
                     let
@@ -608,7 +608,7 @@ view model =
                 Nothing ->
                     pageNotFound
 
-        [ id, "portal" ] ->
+        [ "portal", id ] ->
             let
                 mainContent =
                     model
@@ -1236,7 +1236,7 @@ navigate msg model location =
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
 
-        [ id, "portal" ] ->
+        [ "portal", id ] ->
             case runtime.provider <| Id id of
                 Just c ->
                     let
@@ -1257,7 +1257,7 @@ navigate msg model location =
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
 
-        [ id, "portal", topic ] ->
+        [ "portal", id, topic ] ->
             case runtime.provider <| Id id of
                 Just provider ->
                     let
@@ -1275,7 +1275,7 @@ navigate msg model location =
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
 
-        [ id, "portal", "all", contentType ] ->
+        [ "portal", id, "all", contentType ] ->
             case runtime.provider <| Id id of
                 Just c ->
                     let

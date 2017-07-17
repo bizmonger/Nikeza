@@ -470,7 +470,7 @@ allContentUrl linksFrom id contentType =
             Url <| "/#/provider/" ++ getId id ++ "/all/" ++ (contentType |> contentTypeToText)
 
         FromPortal ->
-            Url <| "/#/" ++ getId id ++ "/portal/all/" ++ (contentType |> contentTypeToText)
+            Url <| "/#/portal/" ++ getId id ++ "/all/" ++ (contentType |> contentTypeToText)
 
 
 allTopicContentUrl : Linksfrom -> Id -> ContentType -> Topic -> Url
@@ -480,4 +480,4 @@ allTopicContentUrl linksFrom id contentType topic =
             Url <| "/#/provider/" ++ getId id ++ "/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)
 
         FromPortal ->
-            Url <| "/#/" ++ getId id ++ "/portal/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)
+            Url <| "/#/portal/" ++ getId id ++ "/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)
