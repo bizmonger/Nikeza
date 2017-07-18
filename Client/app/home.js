@@ -9830,31 +9830,68 @@ var _user$project$Domain_Core$topicUrl = F2(
 	function (id, topic) {
 		return _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined);
 	});
-var _user$project$Domain_Core$providerTopicUrl = F2(
-	function (id, topic) {
-		return _user$project$Domain_Core$Url(
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				'/#/provider/',
+var _user$project$Domain_Core$providerTopicUrl = F3(
+	function (clientId, providerId, topic) {
+		var _p8 = clientId;
+		if (_p8.ctor === 'Just') {
+			return _user$project$Domain_Core$Url(
 				A2(
 					_elm_lang$core$Basics_ops['++'],
-					_user$project$Domain_Core$getId(id),
+					'/#/portal/',
 					A2(
 						_elm_lang$core$Basics_ops['++'],
-						'/',
-						_user$project$Domain_Core$getTopic(topic)))));
+						_user$project$Domain_Core$getId(_p8._0),
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							'/provider/',
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								_user$project$Domain_Core$getId(providerId),
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									'/',
+									_user$project$Domain_Core$getTopic(topic)))))));
+		} else {
+			return _user$project$Domain_Core$Url(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'/#/provider/',
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_user$project$Domain_Core$getId(providerId),
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							'/',
+							_user$project$Domain_Core$getTopic(topic)))));
+		}
 	});
-var _user$project$Domain_Core$providerUrl = function (id) {
-	return _user$project$Domain_Core$Url(
-		A2(
-			_elm_lang$core$Basics_ops['++'],
-			'/#/provider/',
-			_user$project$Domain_Core$getId(id)));
-};
+var _user$project$Domain_Core$providerUrl = F2(
+	function (clientId, providerId) {
+		var _p9 = clientId;
+		if (_p9.ctor === 'Just') {
+			return _user$project$Domain_Core$Url(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'/#/portal/',
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_user$project$Domain_Core$getId(_p9._0),
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							'/provider/',
+							_user$project$Domain_Core$getId(providerId)))));
+		} else {
+			return _user$project$Domain_Core$Url(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'/#/provider/',
+					_user$project$Domain_Core$getId(providerId)));
+		}
+	});
 var _user$project$Domain_Core$allContentUrl = F3(
 	function (linksFrom, id, contentType) {
-		var _p8 = linksFrom;
-		if (_p8.ctor === 'FromOther') {
+		var _p10 = linksFrom;
+		if (_p10.ctor === 'FromOther') {
 			return _user$project$Domain_Core$Url(
 				A2(
 					_elm_lang$core$Basics_ops['++'],
@@ -9882,8 +9919,8 @@ var _user$project$Domain_Core$allContentUrl = F3(
 	});
 var _user$project$Domain_Core$allTopicContentUrl = F4(
 	function (linksFrom, id, contentType, topic) {
-		var _p9 = linksFrom;
-		if (_p9.ctor === 'FromOther') {
+		var _p11 = linksFrom;
+		if (_p11.ctor === 'FromOther') {
 			return _user$project$Domain_Core$Url(
 				A2(
 					_elm_lang$core$Basics_ops['++'],
@@ -9956,8 +9993,8 @@ var _user$project$Domain_Core$Podcast = {ctor: 'Podcast'};
 var _user$project$Domain_Core$Video = {ctor: 'Video'};
 var _user$project$Domain_Core$Article = {ctor: 'Article'};
 var _user$project$Domain_Core$toContentType = function (contentType) {
-	var _p10 = contentType;
-	switch (_p10) {
+	var _p12 = contentType;
+	switch (_p12) {
 		case 'Articles':
 			return _user$project$Domain_Core$Article;
 		case 'Article':
@@ -12065,7 +12102,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$href(
 						_user$project$Domain_Core$getUrl(
-							A2(_user$project$Domain_Core$providerTopicUrl, profile.id, topic))),
+							A3(_user$project$Domain_Core$providerTopicUrl, profileId, profile.id, topic))),
 					_1: {ctor: '[]'}
 				},
 				{
@@ -12157,7 +12194,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 												ctor: '::',
 												_0: _elm_lang$html$Html_Attributes$href(
 													_user$project$Domain_Core$getUrl(
-														_user$project$Domain_Core$providerUrl(profile.id))),
+														A2(_user$project$Domain_Core$providerUrl, profileId, profile.id))),
 												_1: {ctor: '[]'}
 											},
 											{
@@ -12940,105 +12977,109 @@ var _user$project$Controls_RecentProviderLinks$formatLink = function (link) {
 			}
 		});
 };
-var _user$project$Controls_RecentProviderLinks$thumbnail = function (provider) {
-	var links = provider.recentLinks;
-	var linksUI = A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		A2(_elm_lang$core$List$map, _user$project$Controls_RecentProviderLinks$formatLink, links));
-	var profile = provider.profile;
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$table,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$tr,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$td,
-								{ctor: '[]'},
-								{
+var _user$project$Controls_RecentProviderLinks$thumbnail = F2(
+	function (clientId, provider) {
+		var links = provider.recentLinks;
+		var linksUI = A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			A2(_elm_lang$core$List$map, _user$project$Controls_RecentProviderLinks$formatLink, links));
+		var profile = provider.profile;
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$table,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$tr,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$td,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$a,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$href(
+													_user$project$Domain_Core$getUrl(
+														A2(
+															_user$project$Domain_Core$providerUrl,
+															_elm_lang$core$Maybe$Just(clientId),
+															profile.id))),
+												_1: {ctor: '[]'}
+											},
+											{
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$img,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$src(
+															_user$project$Domain_Core$getUrl(profile.imageUrl)),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$width(75),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$height(75),
+																_1: {ctor: '[]'}
+															}
+														}
+													},
+													{ctor: '[]'}),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}),
+								_1: {
 									ctor: '::',
 									_0: A2(
-										_elm_lang$html$Html$a,
+										_elm_lang$html$Html$td,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$href(
-												_user$project$Domain_Core$getUrl(
-													_user$project$Domain_Core$providerUrl(profile.id))),
+											_0: _elm_lang$html$Html_Attributes$class('bio'),
 											_1: {ctor: '[]'}
 										},
 										{
 											ctor: '::',
 											_0: A2(
-												_elm_lang$html$Html$img,
+												_elm_lang$html$Html$td,
+												{ctor: '[]'},
 												{
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$src(
-														_user$project$Domain_Core$getUrl(profile.imageUrl)),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$width(75),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$height(75),
-															_1: {ctor: '[]'}
-														}
-													}
-												},
-												{ctor: '[]'}),
-											_1: {ctor: '[]'}
-										}),
-									_1: {ctor: '[]'}
-								}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$td,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('bio'),
-										_1: {ctor: '[]'}
-									},
-									{
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$td,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text(
-													A2(
-														_elm_lang$core$Basics_ops['++'],
-														_user$project$Domain_Core$getName(provider.profile.firstName),
+													_0: _elm_lang$html$Html$text(
 														A2(
 															_elm_lang$core$Basics_ops['++'],
-															' ',
-															_user$project$Domain_Core$getName(provider.profile.lastName)))),
+															_user$project$Domain_Core$getName(provider.profile.firstName),
+															A2(
+																_elm_lang$core$Basics_ops['++'],
+																' ',
+																_user$project$Domain_Core$getName(provider.profile.lastName)))),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
+												ctor: '::',
+												_0: linksUI,
 												_1: {ctor: '[]'}
-											}),
-										_1: {
-											ctor: '::',
-											_0: linksUI,
-											_1: {ctor: '[]'}
-										}
-									}),
-								_1: {ctor: '[]'}
-							}
-						}),
-					_1: {ctor: '[]'}
-				}),
-			_1: {ctor: '[]'}
-		});
-};
+											}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
 var _user$project$Controls_RecentProviderLinks$None = {ctor: 'None'};
 
 
@@ -16538,36 +16579,44 @@ var _user$project$Home$SourceAdded = function (a) {
 var _user$project$Home$RecentProviderLinks = function (a) {
 	return {ctor: 'RecentProviderLinks', _0: a};
 };
-var _user$project$Home$recentProvidersUI = function (providers) {
-	return A2(
-		_elm_lang$html$Html$map,
-		_user$project$Home$RecentProviderLinks,
-		A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$h3,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text('Recent Links'),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
+var _user$project$Home$recentProvidersUI = F2(
+	function (clientId, providers) {
+		return A2(
+			_elm_lang$html$Html$map,
+			_user$project$Home$RecentProviderLinks,
+			A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$div,
+						_elm_lang$html$Html$h3,
 						{ctor: '[]'},
-						A2(_elm_lang$core$List$map, _user$project$Controls_RecentProviderLinks$thumbnail, providers)),
-					_1: {ctor: '[]'}
-				}
-			}));
-};
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Recent Links'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							A2(
+								_elm_lang$core$List$map,
+								function (p) {
+									return A2(_user$project$Controls_RecentProviderLinks$thumbnail, clientId, p);
+								},
+								providers)),
+						_1: {ctor: '[]'}
+					}
+				}));
+	});
 var _user$project$Home$recentLinksContent = F2(
 	function (profileId, providers) {
-		return _user$project$Home$recentProvidersUI(
+		return A2(
+			_user$project$Home$recentProvidersUI,
+			profileId,
 			A2(_user$project$Home$providersWithRecentLinks, profileId, providers));
 	});
 var _user$project$Home$ProfileThumbnail = function (a) {
@@ -17190,7 +17239,7 @@ var _user$project$Home$homePage = function (model) {
 };
 var _user$project$Home$view = function (model) {
 	var _p42 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
-	_v28_9:
+	_v28_10:
 	do {
 		if (_p42.ctor === '[]') {
 			return _user$project$Home$homePage(model);
@@ -17208,106 +17257,10 @@ var _user$project$Home$view = function (model) {
 								_user$project$Controls_Register$view(model.registration)),
 							model);
 					default:
-						break _v28_9;
+						break _v28_10;
 				}
 			} else {
-				if (_p42._1._1.ctor === '::') {
-					if (_p42._1._1._1.ctor === '[]') {
-						if (_p42._0 === 'provider') {
-							var _p44 = _user$project$Settings$runtime.provider(
-								_user$project$Domain_Core$Id(_p42._1._0));
-							if (_p44.ctor === 'Just') {
-								return A2(
-									_user$project$Home$renderPage,
-									A2(_user$project$Home$providerTopicPage, _user$project$Domain_Core$FromOther, model.selectedProvider),
-									model);
-							} else {
-								return _user$project$Home$pageNotFound;
-							}
-						} else {
-							break _v28_9;
-						}
-					} else {
-						if (_p42._1._1._1._1.ctor === '::') {
-							if (((_p42._0 === 'provider') && (_p42._1._1._1._0 === 'all')) && (_p42._1._1._1._1._1.ctor === '[]')) {
-								var _p47 = _user$project$Settings$runtime.provider(
-									_user$project$Domain_Core$Id(_p42._1._0));
-								if (_p47.ctor === 'Just') {
-									var topic = A2(_user$project$Domain_Core$Topic, _p42._1._1._0, false);
-									var contentToEmbed = A2(
-										_elm_lang$html$Html$map,
-										_user$project$Home$ProviderTopicContentTypeLinksAction,
-										A3(
-											_user$project$Controls_ProviderTopicContentTypeLinks$view,
-											model.selectedProvider,
-											topic,
-											_user$project$Domain_Core$toContentType(_p42._1._1._1._1._0)));
-									return A2(
-										_user$project$Home$renderPage,
-										A2(_user$project$Home$renderProfileBase, model.selectedProvider, contentToEmbed),
-										model);
-								} else {
-									return _user$project$Home$pageNotFound;
-								}
-							} else {
-								break _v28_9;
-							}
-						} else {
-							if (_p42._1._1._0 === 'all') {
-								switch (_p42._0) {
-									case 'provider':
-										var _p45 = _user$project$Settings$runtime.provider(
-											_user$project$Domain_Core$Id(_p42._1._0));
-										if (_p45.ctor === 'Just') {
-											var _p46 = {ctor: '_Tuple2', _0: _user$project$Controls_ProviderContentTypeLinks$view, _1: model.selectedProvider};
-											var view = _p46._0;
-											var provider = _p46._1;
-											var contentToEmbed = A2(
-												_elm_lang$html$Html$map,
-												_user$project$Home$ProviderContentTypeLinksAction,
-												A2(
-													view,
-													provider,
-													_user$project$Domain_Core$toContentType(_p42._1._1._1._0)));
-											return A2(
-												_user$project$Home$renderPage,
-												A2(_user$project$Home$renderProfileBase, model.selectedProvider, contentToEmbed),
-												model);
-										} else {
-											return _user$project$Home$pageNotFound;
-										}
-									case 'portal':
-										var _p49 = _p42._1._0;
-										var _p48 = _user$project$Settings$runtime.provider(
-											_user$project$Domain_Core$Id(_p49));
-										if (_p48.ctor === 'Just') {
-											var linksContent = A2(
-												_elm_lang$html$Html$map,
-												_user$project$Home$ProviderContentTypeLinksAction,
-												A2(
-													_user$project$Controls_ProviderContentTypeLinks$view,
-													model.portal.provider,
-													_user$project$Domain_Core$toContentType(_p42._1._1._1._0)));
-											var contentToEmbed = A3(_user$project$Home$applyToPortal, _p49, model, linksContent);
-											return A2(
-												_user$project$Home$renderPage,
-												A2(
-													_user$project$Home$content,
-													_elm_lang$core$Maybe$Just(contentToEmbed),
-													model),
-												model);
-										} else {
-											return _user$project$Home$pageNotFound;
-										}
-									default:
-										break _v28_9;
-								}
-							} else {
-								break _v28_9;
-							}
-						}
-					}
-				} else {
+				if (_p42._1._1.ctor === '[]') {
 					switch (_p42._0) {
 						case 'provider':
 							var _p43 = _user$project$Settings$runtime.provider(
@@ -17334,7 +17287,133 @@ var _user$project$Home$view = function (model) {
 								A2(_user$project$Home$content, _elm_lang$core$Maybe$Nothing, model));
 							return A2(_user$project$Home$renderPage, mainContent, model);
 						default:
-							break _v28_9;
+							break _v28_10;
+					}
+				} else {
+					if (_p42._1._1._1.ctor === '[]') {
+						if (_p42._0 === 'provider') {
+							var _p44 = _user$project$Settings$runtime.provider(
+								_user$project$Domain_Core$Id(_p42._1._0));
+							if (_p44.ctor === 'Just') {
+								return A2(
+									_user$project$Home$renderPage,
+									A2(_user$project$Home$providerTopicPage, _user$project$Domain_Core$FromOther, model.selectedProvider),
+									model);
+							} else {
+								return _user$project$Home$pageNotFound;
+							}
+						} else {
+							break _v28_10;
+						}
+					} else {
+						if (_p42._1._1._1._1.ctor === '::') {
+							if (((_p42._0 === 'provider') && (_p42._1._1._1._0 === 'all')) && (_p42._1._1._1._1._1.ctor === '[]')) {
+								var _p47 = _user$project$Settings$runtime.provider(
+									_user$project$Domain_Core$Id(_p42._1._0));
+								if (_p47.ctor === 'Just') {
+									var topic = A2(_user$project$Domain_Core$Topic, _p42._1._1._0, false);
+									var contentToEmbed = A2(
+										_elm_lang$html$Html$map,
+										_user$project$Home$ProviderTopicContentTypeLinksAction,
+										A3(
+											_user$project$Controls_ProviderTopicContentTypeLinks$view,
+											model.selectedProvider,
+											topic,
+											_user$project$Domain_Core$toContentType(_p42._1._1._1._1._0)));
+									return A2(
+										_user$project$Home$renderPage,
+										A2(_user$project$Home$renderProfileBase, model.selectedProvider, contentToEmbed),
+										model);
+								} else {
+									return _user$project$Home$pageNotFound;
+								}
+							} else {
+								break _v28_10;
+							}
+						} else {
+							switch (_p42._0) {
+								case 'provider':
+									if (_p42._1._1._0 === 'all') {
+										var _p45 = _user$project$Settings$runtime.provider(
+											_user$project$Domain_Core$Id(_p42._1._0));
+										if (_p45.ctor === 'Just') {
+											var _p46 = {ctor: '_Tuple2', _0: _user$project$Controls_ProviderContentTypeLinks$view, _1: model.selectedProvider};
+											var view = _p46._0;
+											var provider = _p46._1;
+											var contentToEmbed = A2(
+												_elm_lang$html$Html$map,
+												_user$project$Home$ProviderContentTypeLinksAction,
+												A2(
+													view,
+													provider,
+													_user$project$Domain_Core$toContentType(_p42._1._1._1._0)));
+											return A2(
+												_user$project$Home$renderPage,
+												A2(_user$project$Home$renderProfileBase, model.selectedProvider, contentToEmbed),
+												model);
+										} else {
+											return _user$project$Home$pageNotFound;
+										}
+									} else {
+										break _v28_10;
+									}
+								case 'portal':
+									switch (_p42._1._1._0) {
+										case 'all':
+											var _p49 = _p42._1._0;
+											var _p48 = _user$project$Settings$runtime.provider(
+												_user$project$Domain_Core$Id(_p49));
+											if (_p48.ctor === 'Just') {
+												var linksContent = A2(
+													_elm_lang$html$Html$map,
+													_user$project$Home$ProviderContentTypeLinksAction,
+													A2(
+														_user$project$Controls_ProviderContentTypeLinks$view,
+														model.portal.provider,
+														_user$project$Domain_Core$toContentType(_p42._1._1._1._0)));
+												var contentToEmbed = A3(_user$project$Home$applyToPortal, _p49, model, linksContent);
+												return A2(
+													_user$project$Home$renderPage,
+													A2(
+														_user$project$Home$content,
+														_elm_lang$core$Maybe$Just(contentToEmbed),
+														model),
+													model);
+											} else {
+												return _user$project$Home$pageNotFound;
+											}
+										case 'provider':
+											var _p50 = _user$project$Settings$runtime.provider(
+												_user$project$Domain_Core$Id(_p42._1._1._1._0));
+											if (_p50.ctor === 'Just') {
+												var _p51 = _p50._0;
+												var contentLinks = A2(
+													_user$project$Home$renderProfileBase,
+													_p51,
+													A2(
+														_elm_lang$html$Html$map,
+														_user$project$Home$ProviderLinksAction,
+														A2(_user$project$Controls_ProviderLinks$view, _user$project$Domain_Core$FromOther, _p51)));
+												var portal = model.portal;
+												var updatedModel = _elm_lang$core$Native_Utils.update(
+													model,
+													{
+														selectedProvider: _p51,
+														portal: _elm_lang$core$Native_Utils.update(
+															portal,
+															{requested: _user$project$Domain_Core$ViewRecent})
+													});
+												return A2(_user$project$Home$renderPage, contentLinks, updatedModel);
+											} else {
+												return _user$project$Home$pageNotFound;
+											}
+										default:
+											break _v28_10;
+									}
+								default:
+									break _v28_10;
+							}
+						}
 					}
 				}
 			}
@@ -17352,7 +17431,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p50) {
+		subscriptions: function (_p52) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();

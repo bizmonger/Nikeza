@@ -20,8 +20,8 @@ formatLink link =
         ]
 
 
-thumbnail : Provider -> Html Msg
-thumbnail provider =
+thumbnail : Id -> Provider -> Html Msg
+thumbnail clientId provider =
     let
         profile =
             provider.profile
@@ -36,7 +36,7 @@ thumbnail provider =
             [ table []
                 [ tr []
                     [ td []
-                        [ a [ href <| getUrl <| providerUrl profile.id ]
+                        [ a [ href <| getUrl <| providerUrl (Just clientId) profile.id ]
                             [ img [ src <| getUrl profile.imageUrl, width 75, height 75 ] [] ]
                         ]
                     , td [ class "bio" ]

@@ -397,14 +397,24 @@ toTopicNames topics =
     topics |> List.map (\topic -> topic.name)
 
 
-providerTopicUrl : Id -> Topic -> Url
-providerTopicUrl id topic =
-    Url <| "/#/provider/" ++ getId id ++ "/" ++ getTopic topic
+providerTopicUrl : Maybe Id -> Id -> Topic -> Url
+providerTopicUrl clientId providerId topic =
+    case clientId of
+        Just idOfRequestor ->
+            Url <| "/#/portal/" ++ getId idOfRequestor ++ "/provider/" ++ getId providerId ++ "/" ++ getTopic topic
+
+        Nothing ->
+            Url <| "/#/provider/" ++ getId providerId ++ "/" ++ getTopic topic
 
 
-providerUrl : Id -> Url
-providerUrl id =
-    Url <| "/#/provider/" ++ getId id
+providerUrl : Maybe Id -> Id -> Url
+providerUrl clientId providerId =
+    case clientId of
+        Just idOfRequestor ->
+            Url <| "/#/portal/" ++ getId idOfRequestor ++ "/provider/" ++ getId providerId
+
+        Nothing ->
+            Url <| "/#/provider/" ++ getId providerId
 
 
 toContentType : String -> ContentType

@@ -31,7 +31,7 @@ thumbnail profileId showSubscribe provider =
             provider.profile
 
         formatTopic topic =
-            a [ href <| getUrl <| providerTopicUrl profile.id topic ] [ i [] [ text <| getTopic topic ] ]
+            a [ href <| getUrl <| providerTopicUrl profileId profile.id topic ] [ i [] [ text <| getTopic topic ] ]
 
         concatTopics topic1 topic2 =
             span []
@@ -101,7 +101,7 @@ thumbnail profileId showSubscribe provider =
             [ table []
                 [ tr []
                     [ td []
-                        [ a [ href <| getUrl <| providerUrl profile.id ]
+                        [ a [ href <| getUrl <| providerUrl profileId profile.id ]
                             [ img [ src <| getUrl profile.imageUrl, width 65, height 65 ] [] ]
                         ]
                     , td [] [ nameAndTopics ]

@@ -617,6 +617,26 @@ view model =
             in
                 model |> renderPage mainContent
 
+        [ "portal", clientId, "provider", id ] ->
+            case runtime.provider <| Id id of
+                Just selectedProvider ->
+                    let
+                        portal =
+                            model.portal
+
+                        updatedModel =
+                            { model | selectedProvider = selectedProvider, portal = { portal | requested = Domain.ViewRecent } }
+
+                        contentLinks =
+                            (renderProfileBase selectedProvider <|
+                                Html.map ProviderLinksAction (ProviderLinks.view FromOther selectedProvider)
+                            )
+                    in
+                        updatedModel |> renderPage contentLinks
+
+                Nothing ->
+                    pageNotFound
+
         _ ->
             pageNotFound
 
@@ -716,12 +736,12 @@ providersUI profileId providers showSubscribe =
         div [] (providers |> List.map (ProfileThumbnail.thumbnail (profileId) showSubscribe))
 
 
-recentProvidersUI : List Provider -> Html Msg
-recentProvidersUI providers =
+recentProvidersUI : Id -> List Provider -> Html Msg
+recentProvidersUI clientId providers =
     Html.map RecentProviderLinks <|
         div []
             [ h3 [] [ text "Recent Links" ]
-            , div [] (providers |> List.map RecentProviderLinks.thumbnail)
+            , div [] (providers |> List.map (\p -> RecentProviderLinks.thumbnail clientId p))
             ]
 
 
@@ -911,7 +931,7 @@ recentLinksContent : Id -> List Provider -> Html Msg
 recentLinksContent profileId providers =
     providers
         |> providersWithRecentLinks profileId
-        |> recentProvidersUI
+        |> recentProvidersUI profileId
 
 
 removeProvider : Id -> List Provider -> List Provider
