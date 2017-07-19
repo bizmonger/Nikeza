@@ -12,9 +12,9 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "bs-platform": "1.8.0"
+    "bs-platform": "1.8.1"
   },
   "dependencies": {
-    "bs-axios": "0.0.14"
+    "bs-axios": "0.0.16"
   }
 }
