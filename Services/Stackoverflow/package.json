@@ -15,6 +15,7 @@
     "bs-platform": "1.8.1"
   },
   "dependencies": {
-    "bs-axios": "0.0.16"
+    "bs-axios": "0.0.16",
+    "bs-node": "buckletypes/bs-node"
   }
 }

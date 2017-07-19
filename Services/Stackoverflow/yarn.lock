@@ -15,6 +15,10 @@ bs-axios@0.0.16:
   dependencies:
     axios "^0.16.1"
 
+bs-node@buckletypes/bs-node:
+  version "0.0.1"
+  resolved "https://codeload.github.com/buckletypes/bs-node/tar.gz/5d530de6b1aca8d58741c407e224bb47248d134f"
+
 bs-platform@1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-1.8.1.tgz#467beaa28756b0e67ddc340274de1759caba0429"
