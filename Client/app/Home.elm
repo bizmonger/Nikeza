@@ -18,6 +18,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
 import Navigation exposing (..)
 import String exposing (..)
+import Debug exposing (log)
 
 
 -- elm-live Home.elm --open --output=home.js
@@ -619,20 +620,14 @@ view model =
 
         [ "portal", clientId, "provider", id ] ->
             case runtime.provider <| Id id of
-                Just selectedProvider ->
+                Just _ ->
                     let
-                        portal =
-                            model.portal
-
-                        updatedModel =
-                            { model | selectedProvider = selectedProvider, portal = { portal | requested = Domain.ViewRecent } }
-
                         contentLinks =
-                            (renderProfileBase selectedProvider <|
-                                Html.map ProviderLinksAction (ProviderLinks.view FromOther selectedProvider)
+                            (renderProfileBase model.selectedProvider <|
+                                Html.map ProviderLinksAction (ProviderLinks.view FromOther model.selectedProvider)
                             )
                     in
-                        updatedModel |> renderPage contentLinks
+                        model |> renderPage contentLinks
 
                 Nothing ->
                     pageNotFound
@@ -1230,26 +1225,26 @@ navigate msg model location =
     case tokenizeUrl location.hash of
         [ "provider", id ] ->
             case runtime.provider <| Id id of
-                Just c ->
-                    ( { model | selectedProvider = c, currentRoute = location }, Cmd.none )
+                Just p ->
+                    ( { model | selectedProvider = p, currentRoute = location }, Cmd.none )
 
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
 
         [ "provider", id, "all", contentType ] ->
             case runtime.provider <| Id id of
-                Just c ->
-                    ( { model | selectedProvider = c, currentRoute = location }, Cmd.none )
+                Just p ->
+                    ( { model | selectedProvider = p, currentRoute = location }, Cmd.none )
 
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
 
         [ "provider", id, topic ] ->
             case runtime.provider <| Id id of
-                Just provider ->
+                Just p ->
                     let
                         topicProvider =
-                            { provider | topics = [ Topic topic False ] }
+                            { p | topics = [ Topic topic False ] }
                     in
                         ( { model | selectedProvider = topicProvider, currentRoute = location }, Cmd.none )
 
@@ -1258,17 +1253,17 @@ navigate msg model location =
 
         [ "portal", id ] ->
             case runtime.provider <| Id id of
-                Just c ->
+                Just p ->
                     let
                         portal =
                             model.portal
 
                         pendingPortal =
                             { portal
-                                | provider = c
-                                , sourcesNavigation = c.profile.sources |> List.isEmpty
+                                | provider = p
+                                , sourcesNavigation = p.profile.sources |> List.isEmpty
                                 , addLinkNavigation = True
-                                , linksNavigation = linksExist c.links
+                                , linksNavigation = linksExist p.links
                                 , requested = Domain.ViewRecent
                             }
                     in
@@ -1279,10 +1274,10 @@ navigate msg model location =
 
         [ "portal", id, topic ] ->
             case runtime.provider <| Id id of
-                Just provider ->
+                Just p ->
                     let
                         topicProvider =
-                            { provider | topics = [ Topic topic False ] }
+                            { p | topics = [ Topic topic False ] }
 
                         portal =
                             model.portal
@@ -1297,21 +1292,47 @@ navigate msg model location =
 
         [ "portal", id, "all", contentType ] ->
             case runtime.provider <| Id id of
-                Just c ->
+                Just p ->
                     let
                         portal =
                             model.portal
 
                         pendingPortal =
                             { portal
-                                | provider = c
-                                , sourcesNavigation = c.profile.sources |> List.isEmpty
+                                | provider = p
+                                , sourcesNavigation = p.profile.sources |> List.isEmpty
                                 , addLinkNavigation = True
-                                , linksNavigation = linksExist c.links
+                                , linksNavigation = linksExist p.links
                                 , requested = Domain.ViewLinks
                             }
                     in
                         ( { model | portal = pendingPortal, currentRoute = location }, Cmd.none )
+
+                Nothing ->
+                    ( { model | currentRoute = location }, Cmd.none )
+
+        [ "portal", clientId, "provider", id ] ->
+            case runtime.provider <| Id clientId of
+                Just portalProvider ->
+                    let
+                        portal =
+                            model.portal
+
+                        pendingPortal =
+                            { portal
+                                | provider = portalProvider
+                                , sourcesNavigation = portalProvider.profile.sources |> List.isEmpty
+                                , addLinkNavigation = True
+                                , linksNavigation = linksExist portalProvider.links
+                                , requested = Domain.ViewRecent
+                            }
+                    in
+                        case runtime.provider <| Id id of
+                            Just p ->
+                                ( { model | selectedProvider = p, portal = pendingPortal, currentRoute = location }, Cmd.none )
+
+                            Nothing ->
+                                ( { model | currentRoute = location }, Cmd.none )
 
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
