@@ -194,7 +194,12 @@ update msg model =
                 ( model, Cmd.none )
 
             Subscription update ->
-                ( model, Cmd.none )
+                case update of
+                    Subscribe clientId providerId ->
+                        ( model, Cmd.none )
+
+                    Unsubscribe clientId providerId ->
+                        ( model, Cmd.none )
 
 
 onUpdateProviderLinks : ProviderLinks.Msg -> Model -> Linksfrom -> ( Model, Cmd Msg )
