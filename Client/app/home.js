@@ -9787,6 +9787,14 @@ var _user$project$Domain_Core$Source = F3(
 var _user$project$Domain_Core$initSource = A3(_user$project$Domain_Core$Source, '', '', 0);
 var _user$project$Domain_Core$FromPortal = {ctor: 'FromPortal'};
 var _user$project$Domain_Core$FromOther = {ctor: 'FromOther'};
+var _user$project$Domain_Core$Unsubscribe = F2(
+	function (a, b) {
+		return {ctor: 'Unsubscribe', _0: a, _1: b};
+	});
+var _user$project$Domain_Core$Subscribe = F2(
+	function (a, b) {
+		return {ctor: 'Subscribe', _0: a, _1: b};
+	});
 var _user$project$Domain_Core$Subscribers = function (a) {
 	return {ctor: 'Subscribers', _0: a};
 };
@@ -14629,6 +14637,8 @@ var _user$project$Home$update = F2(
 						{selectedProvider: provider}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
+			case 'ProviderTopicContentTypeLinksAction':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			default:
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 		}
@@ -14658,6 +14668,9 @@ var _user$project$Home$Model = F6(
 	function (a, b, c, d, e, f) {
 		return {currentRoute: a, login: b, registration: c, portal: d, providers: e, selectedProvider: f};
 	});
+var _user$project$Home$Subscription = function (a) {
+	return {ctor: 'Subscription', _0: a};
+};
 var _user$project$Home$OnRegistration = function (a) {
 	return {ctor: 'OnRegistration', _0: a};
 };

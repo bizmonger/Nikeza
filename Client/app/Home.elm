@@ -18,7 +18,6 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
 import Navigation exposing (..)
 import String exposing (..)
-import Debug exposing (log)
 
 
 -- elm-live Home.elm --open --output=home.js
@@ -103,6 +102,7 @@ type Msg
     | Search String
     | Register
     | OnRegistration Registration.Msg
+    | Subscription SubscriptionUpdate
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -191,6 +191,9 @@ update msg model =
                                 ( { model | selectedProvider = provider }, Cmd.none )
 
             ProviderTopicContentTypeLinksAction subMsg ->
+                ( model, Cmd.none )
+
+            Subscription update ->
                 ( model, Cmd.none )
 
 

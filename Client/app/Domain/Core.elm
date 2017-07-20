@@ -34,6 +34,11 @@ type Linksfrom
     | FromPortal
 
 
+type SubscriptionUpdate
+    = Subscribe Id Id
+    | Unsubscribe Id Id
+
+
 type alias Provider =
     { profile : Profile
     , topics : List Topic
