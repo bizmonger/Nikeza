@@ -317,6 +317,14 @@ type alias Followersfunction =
     Id -> Subscribers
 
 
+type alias Followfunction =
+    Id -> Id -> Result String ()
+
+
+type alias Unsubscribefunction =
+    Id -> Id -> Result String ()
+
+
 type ContentType
     = Article
     | Video

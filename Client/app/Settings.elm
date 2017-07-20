@@ -33,6 +33,8 @@ type alias Dependencies =
     , suggestedTopics : SuggestedTopicsfunction
     , subscriptions : Subscriptionsfunction
     , followers : Followersfunction
+    , follow : Followfunction
+    , unsubscribe : Unsubscribefunction
     }
 
 
@@ -58,6 +60,8 @@ runtime =
                 Services.suggestedTopics
                 Services.subscriptions
                 Services.followers
+                Services.follow
+                Services.unsubscribe
 
         Isolation ->
             Dependencies
@@ -78,3 +82,5 @@ runtime =
                 TestAPI.suggestedTopics
                 TestAPI.subscriptions
                 TestAPI.followers
+                TestAPI.follow
+                TestAPI.unsubscribe

@@ -95,3 +95,13 @@ subscriptions profileId =
 followers : Id -> Subscribers
 followers profileId =
     Subscribers []
+
+
+follow : Id -> Id -> Result String ()
+follow clientId providerId =
+    Err "follow not implemented"
+
+
+unsubscribe : Id -> Id -> Result String ()
+unsubscribe clientId providerId =
+    Err "unsubscribe not implemented"
