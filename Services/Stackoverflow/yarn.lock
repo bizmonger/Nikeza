@@ -9,15 +9,19 @@ axios@^0.16.1:
     follow-redirects "^1.2.3"
     is-buffer "^1.1.5"
 
-bs-axios@0.0.14:
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/bs-axios/-/bs-axios-0.0.14.tgz#80a0f3e7907eefcb4f08ae9e723b8c6d6fa6ac83"
+bs-axios@0.0.16:
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/bs-axios/-/bs-axios-0.0.16.tgz#e7390435d998a03eb9f02b4edeb994b4fd2511ea"
   dependencies:
     axios "^0.16.1"
 
-bs-platform@1.8.0:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-1.8.0.tgz#d376f5fa2ebfe04451930633f0733f82ea39fbde"
+bs-node@buckletypes/bs-node:
+  version "0.0.1"
+  resolved "https://codeload.github.com/buckletypes/bs-node/tar.gz/5d530de6b1aca8d58741c407e224bb47248d134f"
+
+bs-platform@1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-1.8.1.tgz#467beaa28756b0e67ddc340274de1759caba0429"
 
 debug@^2.4.5:
   version "2.6.8"
