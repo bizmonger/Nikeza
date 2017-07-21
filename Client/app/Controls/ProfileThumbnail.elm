@@ -1,5 +1,6 @@
 module Controls.ProfileThumbnail exposing (..)
 
+import Settings exposing (..)
 import Domain.Core exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -14,14 +15,29 @@ type alias Model =
 
 
 type Msg
-    = UpdateSubscriptions
+    = UpdateSubscription SubscriptionUpdate
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        UpdateSubscriptions ->
-            ( model, Cmd.none )
+        UpdateSubscription update ->
+            case update of
+                Subscribe clientId providerId ->
+                    case runtime.follow clientId providerId of
+                        Ok _ ->
+                            ( model, Cmd.none )
+
+                        Err _ ->
+                            ( model, Cmd.none )
+
+                Unsubscribe clientId providerId ->
+                    case runtime.follow clientId providerId of
+                        Ok _ ->
+                            ( model, Cmd.none )
+
+                        Err _ ->
+                            ( model, Cmd.none )
 
 
 thumbnail : Maybe Id -> Bool -> Provider -> Html Msg
@@ -83,14 +99,11 @@ thumbnail profileId showSubscribe provider =
 
                         isFollowing =
                             followers |> List.any (\p -> p.profile.id == id)
-
-                        foo className =
-                            button [ class className, onClick UpdateSubscriptions ] [ text subscriptionText ]
                     in
                         if not isFollowing && showSubscribe then
-                            foo "subscribeButton"
+                            button [ class "subscribeButton", onClick (UpdateSubscription <| Subscribe id provider.profile.id) ] [ text "Follow" ]
                         else if isFollowing && showSubscribe then
-                            foo "unsubscribeButton"
+                            button [ class "unsubscribeButton", onClick (UpdateSubscription <| Unsubscribe id provider.profile.id) ] [ text "Unsubscribe" ]
                         else
                             div [] []
 
