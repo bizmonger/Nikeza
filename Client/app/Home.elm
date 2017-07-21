@@ -780,6 +780,7 @@ renderPage : Html Msg -> Model -> Html Msg
 renderPage content model =
     div []
         [ headerContent model
+        , input [ type_ "image", src "Assets/BackButton.png", width 25, height 25 ] []
         , content
         , footerContent
         ]

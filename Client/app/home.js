@@ -17173,11 +17173,34 @@ var _user$project$Home$renderPage = F2(
 				_0: _user$project$Home$headerContent(model),
 				_1: {
 					ctor: '::',
-					_0: content,
+					_0: A2(
+						_elm_lang$html$Html$input,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$type_('image'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$src('Assets/BackButton.png'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$width(25),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$height(25),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						},
+						{ctor: '[]'}),
 					_1: {
 						ctor: '::',
-						_0: _user$project$Home$footerContent,
-						_1: {ctor: '[]'}
+						_0: content,
+						_1: {
+							ctor: '::',
+							_0: _user$project$Home$footerContent,
+							_1: {ctor: '[]'}
+						}
 					}
 				}
 			});
