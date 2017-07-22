@@ -9768,9 +9768,9 @@ var _user$project$Domain_Core$Topic = F2(
 	function (a, b) {
 		return {name: a, isFeatured: b};
 	});
-var _user$project$Domain_Core$Link = F5(
-	function (a, b, c, d, e) {
-		return {profile: a, title: b, url: c, contentType: d, topics: e};
+var _user$project$Domain_Core$Link = F6(
+	function (a, b, c, d, e, f) {
+		return {profile: a, title: b, url: c, contentType: d, topics: e, isFeatured: f};
 	});
 var _user$project$Domain_Core$LinkToCreate = F2(
 	function (a, b) {
@@ -9983,7 +9983,8 @@ var _user$project$Domain_Core$initLink = {
 	title: _user$project$Domain_Core$Title(''),
 	url: _user$project$Domain_Core$Url(''),
 	contentType: _user$project$Domain_Core$Unknown,
-	topics: {ctor: '[]'}
+	topics: {ctor: '[]'},
+	isFeatured: false
 };
 var _user$project$Domain_Core$initLinkToCreate = {
 	base: _user$project$Domain_Core$initLink,
@@ -10223,7 +10224,7 @@ var _user$project$Tests_TestAPI$profile1 = A7(
 	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId1));
 var _user$project$Tests_TestAPI$recentLinks1 = {
 	ctor: '::',
-	_0: A5(
+	_0: A6(
 		_user$project$Domain_Core$Link,
 		_user$project$Tests_TestAPI$profile1,
 		_user$project$Tests_TestAPI$someVideoTitle6,
@@ -10233,12 +10234,13 @@ var _user$project$Tests_TestAPI$recentLinks1 = {
 			ctor: '::',
 			_0: _user$project$Tests_TestAPI$someTopic1,
 			_1: {ctor: '[]'}
-		}),
+		},
+		false),
 	_1: {ctor: '[]'}
 };
 var _user$project$Tests_TestAPI$recentLinks2 = {
 	ctor: '::',
-	_0: A5(
+	_0: A6(
 		_user$project$Domain_Core$Link,
 		_user$project$Tests_TestAPI$profile1,
 		_user$project$Tests_TestAPI$somePodcastTitle6,
@@ -10248,10 +10250,11 @@ var _user$project$Tests_TestAPI$recentLinks2 = {
 			ctor: '::',
 			_0: _user$project$Tests_TestAPI$someTopic1,
 			_1: {ctor: '[]'}
-		}),
+		},
+		false),
 	_1: {
 		ctor: '::',
-		_0: A5(
+		_0: A6(
 			_user$project$Domain_Core$Link,
 			_user$project$Tests_TestAPI$profile1,
 			_user$project$Tests_TestAPI$someAnswerTitle6,
@@ -10261,13 +10264,14 @@ var _user$project$Tests_TestAPI$recentLinks2 = {
 				ctor: '::',
 				_0: _user$project$Tests_TestAPI$someTopic1,
 				_1: {ctor: '[]'}
-			}),
+			},
+			false),
 		_1: {ctor: '[]'}
 	}
 };
 var _user$project$Tests_TestAPI$recentLinks3 = {
 	ctor: '::',
-	_0: A5(
+	_0: A6(
 		_user$project$Domain_Core$Link,
 		_user$project$Tests_TestAPI$profile1,
 		_user$project$Tests_TestAPI$someArticleTitle6,
@@ -10277,7 +10281,8 @@ var _user$project$Tests_TestAPI$recentLinks3 = {
 			ctor: '::',
 			_0: _user$project$Tests_TestAPI$someTopic1,
 			_1: {ctor: '[]'}
-		}),
+		},
+		false),
 	_1: {ctor: '[]'}
 };
 var _user$project$Tests_TestAPI$linksToContent = F2(
@@ -10287,7 +10292,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 			case 'Article':
 				return {
 					ctor: '::',
-					_0: A5(
+					_0: A6(
 						_user$project$Domain_Core$Link,
 						_user$project$Tests_TestAPI$profile1,
 						_user$project$Tests_TestAPI$someArticleTitle1,
@@ -10297,10 +10302,11 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 							ctor: '::',
 							_0: _user$project$Tests_TestAPI$someTopic1,
 							_1: {ctor: '[]'}
-						}),
+						},
+						false),
 					_1: {
 						ctor: '::',
-						_0: A5(
+						_0: A6(
 							_user$project$Domain_Core$Link,
 							_user$project$Tests_TestAPI$profile1,
 							_user$project$Tests_TestAPI$someArticleTitle2,
@@ -10310,10 +10316,11 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 								ctor: '::',
 								_0: _user$project$Tests_TestAPI$someTopic2,
 								_1: {ctor: '[]'}
-							}),
+							},
+							false),
 						_1: {
 							ctor: '::',
-							_0: A5(
+							_0: A6(
 								_user$project$Domain_Core$Link,
 								_user$project$Tests_TestAPI$profile1,
 								_user$project$Tests_TestAPI$someArticleTitle3,
@@ -10323,10 +10330,11 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 									ctor: '::',
 									_0: _user$project$Tests_TestAPI$someTopic3,
 									_1: {ctor: '[]'}
-								}),
+								},
+								false),
 							_1: {
 								ctor: '::',
-								_0: A5(
+								_0: A6(
 									_user$project$Domain_Core$Link,
 									_user$project$Tests_TestAPI$profile1,
 									_user$project$Tests_TestAPI$someArticleTitle4,
@@ -10336,10 +10344,11 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 										ctor: '::',
 										_0: _user$project$Tests_TestAPI$someTopic4,
 										_1: {ctor: '[]'}
-									}),
+									},
+									false),
 								_1: {
 									ctor: '::',
-									_0: A5(
+									_0: A6(
 										_user$project$Domain_Core$Link,
 										_user$project$Tests_TestAPI$profile1,
 										_user$project$Tests_TestAPI$someArticleTitle5,
@@ -10349,7 +10358,8 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 											ctor: '::',
 											_0: _user$project$Tests_TestAPI$someTopic5,
 											_1: {ctor: '[]'}
-										}),
+										},
+										false),
 									_1: {ctor: '[]'}
 								}
 							}
@@ -10359,7 +10369,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 			case 'Video':
 				return {
 					ctor: '::',
-					_0: A5(
+					_0: A6(
 						_user$project$Domain_Core$Link,
 						_user$project$Tests_TestAPI$profile1,
 						_user$project$Tests_TestAPI$someVideoTitle1,
@@ -10369,10 +10379,11 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 							ctor: '::',
 							_0: _user$project$Tests_TestAPI$someTopic1,
 							_1: {ctor: '[]'}
-						}),
+						},
+						false),
 					_1: {
 						ctor: '::',
-						_0: A5(
+						_0: A6(
 							_user$project$Domain_Core$Link,
 							_user$project$Tests_TestAPI$profile1,
 							_user$project$Tests_TestAPI$someVideoTitle2,
@@ -10382,10 +10393,11 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 								ctor: '::',
 								_0: _user$project$Tests_TestAPI$someTopic2,
 								_1: {ctor: '[]'}
-							}),
+							},
+							false),
 						_1: {
 							ctor: '::',
-							_0: A5(
+							_0: A6(
 								_user$project$Domain_Core$Link,
 								_user$project$Tests_TestAPI$profile1,
 								_user$project$Tests_TestAPI$someVideoTitle3,
@@ -10395,10 +10407,11 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 									ctor: '::',
 									_0: _user$project$Tests_TestAPI$someTopic3,
 									_1: {ctor: '[]'}
-								}),
+								},
+								false),
 							_1: {
 								ctor: '::',
-								_0: A5(
+								_0: A6(
 									_user$project$Domain_Core$Link,
 									_user$project$Tests_TestAPI$profile1,
 									_user$project$Tests_TestAPI$someVideoTitle4,
@@ -10408,10 +10421,11 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 										ctor: '::',
 										_0: _user$project$Tests_TestAPI$someTopic4,
 										_1: {ctor: '[]'}
-									}),
+									},
+									false),
 								_1: {
 									ctor: '::',
-									_0: A5(
+									_0: A6(
 										_user$project$Domain_Core$Link,
 										_user$project$Tests_TestAPI$profile1,
 										_user$project$Tests_TestAPI$someVideoTitle5,
@@ -10421,7 +10435,8 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 											ctor: '::',
 											_0: _user$project$Tests_TestAPI$someTopic5,
 											_1: {ctor: '[]'}
-										}),
+										},
+										false),
 									_1: {ctor: '[]'}
 								}
 							}
@@ -10431,7 +10446,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 			case 'Podcast':
 				return {
 					ctor: '::',
-					_0: A5(
+					_0: A6(
 						_user$project$Domain_Core$Link,
 						_user$project$Tests_TestAPI$profile1,
 						_user$project$Tests_TestAPI$somePodcastTitle1,
@@ -10441,10 +10456,11 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 							ctor: '::',
 							_0: _user$project$Tests_TestAPI$someTopic1,
 							_1: {ctor: '[]'}
-						}),
+						},
+						false),
 					_1: {
 						ctor: '::',
-						_0: A5(
+						_0: A6(
 							_user$project$Domain_Core$Link,
 							_user$project$Tests_TestAPI$profile1,
 							_user$project$Tests_TestAPI$somePodcastTitle2,
@@ -10454,10 +10470,11 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 								ctor: '::',
 								_0: _user$project$Tests_TestAPI$someTopic2,
 								_1: {ctor: '[]'}
-							}),
+							},
+							false),
 						_1: {
 							ctor: '::',
-							_0: A5(
+							_0: A6(
 								_user$project$Domain_Core$Link,
 								_user$project$Tests_TestAPI$profile1,
 								_user$project$Tests_TestAPI$somePodcastTitle3,
@@ -10467,10 +10484,11 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 									ctor: '::',
 									_0: _user$project$Tests_TestAPI$someTopic3,
 									_1: {ctor: '[]'}
-								}),
+								},
+								false),
 							_1: {
 								ctor: '::',
-								_0: A5(
+								_0: A6(
 									_user$project$Domain_Core$Link,
 									_user$project$Tests_TestAPI$profile1,
 									_user$project$Tests_TestAPI$somePodcastTitle4,
@@ -10480,10 +10498,11 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 										ctor: '::',
 										_0: _user$project$Tests_TestAPI$someTopic4,
 										_1: {ctor: '[]'}
-									}),
+									},
+									false),
 								_1: {
 									ctor: '::',
-									_0: A5(
+									_0: A6(
 										_user$project$Domain_Core$Link,
 										_user$project$Tests_TestAPI$profile1,
 										_user$project$Tests_TestAPI$somePodcastTitle5,
@@ -10493,7 +10512,8 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 											ctor: '::',
 											_0: _user$project$Tests_TestAPI$someTopic5,
 											_1: {ctor: '[]'}
-										}),
+										},
+										false),
 									_1: {ctor: '[]'}
 								}
 							}
@@ -10503,7 +10523,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 			case 'Answer':
 				return {
 					ctor: '::',
-					_0: A5(
+					_0: A6(
 						_user$project$Domain_Core$Link,
 						_user$project$Tests_TestAPI$profile1,
 						_user$project$Tests_TestAPI$someAnswerTitle1,
@@ -10513,10 +10533,11 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 							ctor: '::',
 							_0: _user$project$Tests_TestAPI$someTopic1,
 							_1: {ctor: '[]'}
-						}),
+						},
+						false),
 					_1: {
 						ctor: '::',
-						_0: A5(
+						_0: A6(
 							_user$project$Domain_Core$Link,
 							_user$project$Tests_TestAPI$profile1,
 							_user$project$Tests_TestAPI$someAnswerTitle2,
@@ -10526,10 +10547,11 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 								ctor: '::',
 								_0: _user$project$Tests_TestAPI$someTopic2,
 								_1: {ctor: '[]'}
-							}),
+							},
+							false),
 						_1: {
 							ctor: '::',
-							_0: A5(
+							_0: A6(
 								_user$project$Domain_Core$Link,
 								_user$project$Tests_TestAPI$profile1,
 								_user$project$Tests_TestAPI$someAnswerTitle3,
@@ -10539,10 +10561,11 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 									ctor: '::',
 									_0: _user$project$Tests_TestAPI$someTopic3,
 									_1: {ctor: '[]'}
-								}),
+								},
+								false),
 							_1: {
 								ctor: '::',
-								_0: A5(
+								_0: A6(
 									_user$project$Domain_Core$Link,
 									_user$project$Tests_TestAPI$profile1,
 									_user$project$Tests_TestAPI$someAnswerTitle4,
@@ -10552,10 +10575,11 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 										ctor: '::',
 										_0: _user$project$Tests_TestAPI$someTopic4,
 										_1: {ctor: '[]'}
-									}),
+									},
+									false),
 								_1: {
 									ctor: '::',
-									_0: A5(
+									_0: A6(
 										_user$project$Domain_Core$Link,
 										_user$project$Tests_TestAPI$profile1,
 										_user$project$Tests_TestAPI$someAnswerTitle5,
@@ -10565,7 +10589,8 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 											ctor: '::',
 											_0: _user$project$Tests_TestAPI$someTopic5,
 											_1: {ctor: '[]'}
-										}),
+										},
+										false),
 									_1: {ctor: '[]'}
 								}
 							}
@@ -12432,8 +12457,37 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F2(
 						}
 					});
 			});
+		var featuredClass = 'featured';
 		var createLink = function (link) {
-			var linkElement = A2(
+			var linkElement = link.isFeatured ? A2(
+				_elm_lang$html$Html$a,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class(featuredClass),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$href(
+							_user$project$Domain_Core$getUrl(link.url)),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$target('_blank'),
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_user$project$Domain_Core$getTitle(link.title)),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
+				}) : A2(
 				_elm_lang$html$Html$a,
 				{
 					ctor: '::',

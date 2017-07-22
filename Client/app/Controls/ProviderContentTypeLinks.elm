@@ -43,10 +43,16 @@ view model contentType =
         posts =
             links |> getPosts contentType
 
+        featuredClass =
+            "featured"
+
         createLink link =
             let
                 linkElement =
-                    a [ href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]
+                    if link.isFeatured then
+                        a [ class featuredClass, href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]
+                    else
+                        a [ href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]
             in
                 addCheckbox link linkElement
 

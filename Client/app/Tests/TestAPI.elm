@@ -294,20 +294,20 @@ followers profileId =
 
 recentLinks1 : List Link
 recentLinks1 =
-    [ Link profile1 someVideoTitle6 someUrl Video [ someTopic1 ]
+    [ Link profile1 someVideoTitle6 someUrl Video [ someTopic1 ] False
     ]
 
 
 recentLinks2 : List Link
 recentLinks2 =
-    [ Link profile1 somePodcastTitle6 someUrl Video [ someTopic1 ]
-    , Link profile1 someAnswerTitle6 someUrl Video [ someTopic1 ]
+    [ Link profile1 somePodcastTitle6 someUrl Video [ someTopic1 ] False
+    , Link profile1 someAnswerTitle6 someUrl Video [ someTopic1 ] False
     ]
 
 
 recentLinks3 : List Link
 recentLinks3 =
-    [ Link profile1 someArticleTitle6 someUrl Video [ someTopic1 ]
+    [ Link profile1 someArticleTitle6 someUrl Video [ someTopic1 ] False
     ]
 
 
@@ -475,35 +475,35 @@ linksToContent contentType profileId =
     -- NOTE !!! We're hardcoding a profile here due to some unresolved bug
     case contentType of
         Article ->
-            [ Link profile1 someArticleTitle1 someUrl Article [ someTopic1 ]
-            , Link profile1 someArticleTitle2 someUrl Article [ someTopic2 ]
-            , Link profile1 someArticleTitle3 someUrl Article [ someTopic3 ]
-            , Link profile1 someArticleTitle4 someUrl Article [ someTopic4 ]
-            , Link profile1 someArticleTitle5 someUrl Article [ someTopic5 ]
+            [ Link profile1 someArticleTitle1 someUrl Article [ someTopic1 ] False
+            , Link profile1 someArticleTitle2 someUrl Article [ someTopic2 ] False
+            , Link profile1 someArticleTitle3 someUrl Article [ someTopic3 ] False
+            , Link profile1 someArticleTitle4 someUrl Article [ someTopic4 ] False
+            , Link profile1 someArticleTitle5 someUrl Article [ someTopic5 ] False
             ]
 
         Video ->
-            [ Link profile1 someVideoTitle1 someUrl Video [ someTopic1 ]
-            , Link profile1 someVideoTitle2 someUrl Video [ someTopic2 ]
-            , Link profile1 someVideoTitle3 someUrl Video [ someTopic3 ]
-            , Link profile1 someVideoTitle4 someUrl Video [ someTopic4 ]
-            , Link profile1 someVideoTitle5 someUrl Video [ someTopic5 ]
+            [ Link profile1 someVideoTitle1 someUrl Video [ someTopic1 ] False
+            , Link profile1 someVideoTitle2 someUrl Video [ someTopic2 ] False
+            , Link profile1 someVideoTitle3 someUrl Video [ someTopic3 ] False
+            , Link profile1 someVideoTitle4 someUrl Video [ someTopic4 ] False
+            , Link profile1 someVideoTitle5 someUrl Video [ someTopic5 ] False
             ]
 
         Podcast ->
-            [ Link profile1 somePodcastTitle1 someUrl Podcast [ someTopic1 ]
-            , Link profile1 somePodcastTitle2 someUrl Podcast [ someTopic2 ]
-            , Link profile1 somePodcastTitle3 someUrl Podcast [ someTopic3 ]
-            , Link profile1 somePodcastTitle4 someUrl Podcast [ someTopic4 ]
-            , Link profile1 somePodcastTitle5 someUrl Podcast [ someTopic5 ]
+            [ Link profile1 somePodcastTitle1 someUrl Podcast [ someTopic1 ] False
+            , Link profile1 somePodcastTitle2 someUrl Podcast [ someTopic2 ] False
+            , Link profile1 somePodcastTitle3 someUrl Podcast [ someTopic3 ] False
+            , Link profile1 somePodcastTitle4 someUrl Podcast [ someTopic4 ] False
+            , Link profile1 somePodcastTitle5 someUrl Podcast [ someTopic5 ] False
             ]
 
         Answer ->
-            [ Link profile1 someAnswerTitle1 someUrl Answer [ someTopic1 ]
-            , Link profile1 someAnswerTitle2 someUrl Answer [ someTopic2 ]
-            , Link profile1 someAnswerTitle3 someUrl Answer [ someTopic3 ]
-            , Link profile1 someAnswerTitle4 someUrl Answer [ someTopic4 ]
-            , Link profile1 someAnswerTitle5 someUrl Answer [ someTopic5 ]
+            [ Link profile1 someAnswerTitle1 someUrl Answer [ someTopic1 ] False
+            , Link profile1 someAnswerTitle2 someUrl Answer [ someTopic2 ] False
+            , Link profile1 someAnswerTitle3 someUrl Answer [ someTopic3 ] False
+            , Link profile1 someAnswerTitle4 someUrl Answer [ someTopic4 ] False
+            , Link profile1 someAnswerTitle5 someUrl Answer [ someTopic5 ] False
             ]
 
         All ->

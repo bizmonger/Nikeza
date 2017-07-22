@@ -202,6 +202,7 @@ type alias Link =
     , url : Url
     , contentType : ContentType
     , topics : List Topic
+    , isFeatured : Bool
     }
 
 
@@ -216,6 +217,7 @@ initLink =
     , url = Url ""
     , contentType = Unknown
     , topics = []
+    , isFeatured = False
     }
 
 
