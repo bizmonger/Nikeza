@@ -191,7 +191,7 @@ update msg model =
                                 ( { model | selectedProvider = provider }, Cmd.none )
 
                         ProviderContentTypeLinks.Featured _ ->
-                            ( { model | selectedProvider = provider }, Cmd.none )
+                            ( { model | portal = { portal | provider = provider } }, Cmd.none )
 
             ProviderTopicContentTypeLinksAction subMsg ->
                 ( model, Cmd.none )
@@ -583,7 +583,7 @@ view model =
                             ( ProviderContentTypeLinks.view, model.selectedProvider )
 
                         contentToEmbed =
-                            Html.map ProviderContentTypeLinksAction <| view provider <| toContentType contentType
+                            Html.map ProviderContentTypeLinksAction <| view provider (toContentType contentType) False
                     in
                         model |> renderPage (renderProfileBase model.selectedProvider <| contentToEmbed)
 
@@ -610,7 +610,7 @@ view model =
                 Just _ ->
                     let
                         linksContent =
-                            Html.map ProviderContentTypeLinksAction <| ProviderContentTypeLinks.view model.portal.provider <| toContentType contentType
+                            Html.map ProviderContentTypeLinksAction <| ProviderContentTypeLinks.view model.portal.provider (toContentType contentType) True
 
                         contentToEmbed =
                             linksContent |> applyToPortal id model

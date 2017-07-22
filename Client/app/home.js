@@ -12476,8 +12476,8 @@ var _user$project$Controls_ProviderContentTypeLinks$toCheckbox = function (topic
 			}
 		});
 };
-var _user$project$Controls_ProviderContentTypeLinks$view = F2(
-	function (model, contentType) {
+var _user$project$Controls_ProviderContentTypeLinks$view = F3(
+	function (model, contentType, isOwner) {
 		var checkbox = function (link) {
 			return A2(
 				_elm_lang$html$Html$input,
@@ -12521,7 +12521,7 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F2(
 		var featuredClass = _p6._2;
 		var posts = A2(_user$project$Domain_Core$getPosts, contentType, links);
 		var createLink = function (link) {
-			var linkElement = link.isFeatured ? A2(
+			var linkElement = (isOwner && link.isFeatured) ? A2(
 				_elm_lang$html$Html$b,
 				{ctor: '[]'},
 				{
@@ -12581,7 +12581,7 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F2(
 						_1: {ctor: '[]'}
 					}
 				});
-			return A2(addCheckbox, link, linkElement);
+			return isOwner ? A2(addCheckbox, link, linkElement) : linkElement;
 		};
 		return A2(
 			_elm_lang$html$Html$table,
@@ -14839,7 +14839,11 @@ var _user$project$Home$update = F2(
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{selectedProvider: provider}),
+							{
+								portal: _elm_lang$core$Native_Utils.update(
+									portal,
+									{provider: provider})
+							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				}
@@ -17691,10 +17695,11 @@ var _user$project$Home$view = function (model) {
 											var contentToEmbed = A2(
 												_elm_lang$html$Html$map,
 												_user$project$Home$ProviderContentTypeLinksAction,
-												A2(
+												A3(
 													view,
 													provider,
-													_user$project$Domain_Core$toContentType(_p47._1._1._1._0)));
+													_user$project$Domain_Core$toContentType(_p47._1._1._1._0),
+													false));
 											return A2(
 												_user$project$Home$renderPage,
 												A2(_user$project$Home$renderProfileBase, model.selectedProvider, contentToEmbed),
@@ -17715,10 +17720,11 @@ var _user$project$Home$view = function (model) {
 												var linksContent = A2(
 													_elm_lang$html$Html$map,
 													_user$project$Home$ProviderContentTypeLinksAction,
-													A2(
+													A3(
 														_user$project$Controls_ProviderContentTypeLinks$view,
 														model.portal.provider,
-														_user$project$Domain_Core$toContentType(_p47._1._1._1._0)));
+														_user$project$Domain_Core$toContentType(_p47._1._1._1._0),
+														true));
 												var contentToEmbed = A3(_user$project$Home$applyToPortal, _p54, model, linksContent);
 												return A2(
 													_user$project$Home$renderPage,

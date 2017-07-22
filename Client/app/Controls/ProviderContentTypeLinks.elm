@@ -81,8 +81,8 @@ update msg model =
 -- VIEW
 
 
-view : Model -> ContentType -> Html Msg
-view model contentType =
+view : Model -> ContentType -> Bool -> Html Msg
+view model contentType isOwner =
     let
         ( topics, links, featuredClass ) =
             ( model.topics, model.links, "featured" )
@@ -93,12 +93,15 @@ view model contentType =
         createLink link =
             let
                 linkElement =
-                    if link.isFeatured then
+                    if isOwner && link.isFeatured then
                         b [] [ a [ class featuredClass, href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ] ]
                     else
                         a [ href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]
             in
-                addCheckbox link linkElement
+                if isOwner then
+                    addCheckbox link linkElement
+                else
+                    linkElement
 
         checkbox link =
             input [ type_ "checkbox", checked False, onCheck (\b -> Featured ( link, b )) ] []
