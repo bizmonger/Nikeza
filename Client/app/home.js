@@ -12337,11 +12337,18 @@ var _user$project$Controls_ProviderContentTypeLinks$toggleFilter = F2(
 var _user$project$Controls_ProviderContentTypeLinks$update = F2(
 	function (msg, model) {
 		var _p3 = msg;
-		return A2(
-			_user$project$Controls_ProviderContentTypeLinks$toggleFilter,
-			model,
-			{ctor: '_Tuple2', _0: _p3._0._0, _1: _p3._0._1});
+		if (_p3.ctor === 'Toggle') {
+			return A2(
+				_user$project$Controls_ProviderContentTypeLinks$toggleFilter,
+				model,
+				{ctor: '_Tuple2', _0: _p3._0._0, _1: _p3._0._1});
+		} else {
+			return model;
+		}
 	});
+var _user$project$Controls_ProviderContentTypeLinks$Featured = function (a) {
+	return {ctor: 'Featured', _0: a};
+};
 var _user$project$Controls_ProviderContentTypeLinks$Toggle = function (a) {
 	return {ctor: 'Toggle', _0: a};
 };
@@ -12388,6 +12395,71 @@ var _user$project$Controls_ProviderContentTypeLinks$toCheckbox = function (topic
 };
 var _user$project$Controls_ProviderContentTypeLinks$view = F2(
 	function (model, contentType) {
+		var checkbox = function (link) {
+			return A2(
+				_elm_lang$html$Html$input,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$checked(false),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onCheck(
+								function (b) {
+									return _user$project$Controls_ProviderContentTypeLinks$Featured(
+										{ctor: '_Tuple2', _0: link, _1: b});
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				{ctor: '[]'});
+		};
+		var addCheckbox = F2(
+			function (link, element) {
+				return A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: checkbox(link),
+						_1: {
+							ctor: '::',
+							_0: element,
+							_1: {ctor: '[]'}
+						}
+					});
+			});
+		var createLink = function (link) {
+			var linkElement = A2(
+				_elm_lang$html$Html$a,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$href(
+						_user$project$Domain_Core$getUrl(link.url)),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$target('_blank'),
+						_1: {ctor: '[]'}
+					}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_user$project$Domain_Core$getTitle(link.title)),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
+				});
+			return A2(addCheckbox, link, linkElement);
+		};
 		var _p4 = {ctor: '_Tuple2', _0: model.topics, _1: model.links};
 		var topics = _p4._0;
 		var links = _p4._1;
@@ -12451,36 +12523,7 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F2(
 										_0: A2(
 											_elm_lang$html$Html$div,
 											{ctor: '[]'},
-											A2(
-												_elm_lang$core$List$map,
-												function (link) {
-													return A2(
-														_elm_lang$html$Html$a,
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$href(
-																_user$project$Domain_Core$getUrl(link.url)),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$target('_blank'),
-																_1: {ctor: '[]'}
-															}
-														},
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html$text(
-																_user$project$Domain_Core$getTitle(link.title)),
-															_1: {
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$br,
-																	{ctor: '[]'},
-																	{ctor: '[]'}),
-																_1: {ctor: '[]'}
-															}
-														});
-												},
-												posts)),
+											A2(_elm_lang$core$List$map, createLink, posts)),
 										_1: {ctor: '[]'}
 									}),
 								_1: {ctor: '[]'}
@@ -14653,24 +14696,28 @@ var _user$project$Home$update = F2(
 			case 'ProviderContentTypeLinksAction':
 				var _p30 = _p28._0;
 				var _p29 = _p30;
-				var provider = _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? A2(_user$project$Controls_ProviderContentTypeLinks$update, _p30, model.portal.provider) : A2(_user$project$Controls_ProviderContentTypeLinks$update, _p30, model.selectedProvider);
-				return _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							portal: _elm_lang$core$Native_Utils.update(
-								portal,
-								{provider: provider})
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				} : {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{selectedProvider: provider}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
+				if (_p29.ctor === 'Toggle') {
+					var provider = _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? A2(_user$project$Controls_ProviderContentTypeLinks$update, _p30, model.portal.provider) : A2(_user$project$Controls_ProviderContentTypeLinks$update, _p30, model.selectedProvider);
+					return _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								portal: _elm_lang$core$Native_Utils.update(
+									portal,
+									{provider: provider})
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					} : {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{selectedProvider: provider}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
 			case 'ProviderTopicContentTypeLinksAction':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			default:

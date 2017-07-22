@@ -190,6 +190,9 @@ update msg model =
                             else
                                 ( { model | selectedProvider = provider }, Cmd.none )
 
+                    ProviderContentTypeLinks.Featured _ ->
+                        ( model, Cmd.none )
+
             ProviderTopicContentTypeLinksAction subMsg ->
                 ( model, Cmd.none )
 

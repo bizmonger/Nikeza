@@ -17,6 +17,7 @@ type alias Model =
 
 type Msg
     = Toggle ( Topic, Bool )
+    | Featured ( Link, Bool )
 
 
 update : Msg -> Model -> Model
@@ -24,6 +25,9 @@ update msg model =
     case msg of
         Toggle ( topic, include ) ->
             ( topic, include ) |> toggleFilter model
+
+        Featured ( link, isFeatured ) ->
+            model
 
 
 
@@ -38,13 +42,29 @@ view model contentType =
 
         posts =
             links |> getPosts contentType
+
+        createLink link =
+            let
+                linkElement =
+                    a [ href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]
+            in
+                addCheckbox link linkElement
+
+        checkbox link =
+            input [ type_ "checkbox", checked False, onCheck (\b -> Featured ( link, b )) ] []
+
+        addCheckbox link element =
+            div []
+                [ (checkbox link)
+                , element
+                ]
     in
         table []
             [ tr []
                 [ td [] [ h2 [] [ text <| "All " ++ (contentType |> contentTypeToText) ] ] ]
             , tr []
                 [ td [] [ div [] (topics |> List.map toCheckbox) ]
-                , td [] [ div [] <| List.map (\link -> a [ href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]) posts ]
+                , td [] [ div [] <| List.map createLink posts ]
                 ]
             ]
 
