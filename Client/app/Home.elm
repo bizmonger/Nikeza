@@ -176,22 +176,22 @@ update msg model =
                 onUpdateProviderLinks subMsg model FromOther
 
             ProviderContentTypeLinksAction subMsg ->
-                case subMsg of
-                    ProviderContentTypeLinks.Toggle _ ->
-                        let
-                            provider =
-                                if model.portal.requested == Domain.ViewLinks then
-                                    ProviderContentTypeLinks.update subMsg model.portal.provider
-                                else
-                                    ProviderContentTypeLinks.update subMsg model.selectedProvider
-                        in
+                let
+                    provider =
+                        if model.portal.requested == Domain.ViewLinks then
+                            ProviderContentTypeLinks.update subMsg model.portal.provider
+                        else
+                            ProviderContentTypeLinks.update subMsg model.selectedProvider
+                in
+                    case subMsg of
+                        ProviderContentTypeLinks.Toggle _ ->
                             if model.portal.requested == Domain.ViewLinks then
                                 ( { model | portal = { portal | provider = provider } }, Cmd.none )
                             else
                                 ( { model | selectedProvider = provider }, Cmd.none )
 
-                    ProviderContentTypeLinks.Featured _ ->
-                        ( model, Cmd.none )
+                        ProviderContentTypeLinks.Featured _ ->
+                            ( { model | selectedProvider = provider }, Cmd.none )
 
             ProviderTopicContentTypeLinksAction subMsg ->
                 ( model, Cmd.none )
@@ -781,12 +781,27 @@ homePage model =
 
 renderPage : Html Msg -> Model -> Html Msg
 renderPage content model =
-    div []
-        [ headerContent model
-        , input [ type_ "image", src "Assets/BackButton.png", width 25, height 25 ] []
-        , content
-        , footerContent
-        ]
+    let
+        placeHolder =
+            case model.currentRoute.hash |> tokenizeUrl of
+                [] ->
+                    div [] []
+
+                [ "home" ] ->
+                    div [] []
+
+                [ "portal", _ ] ->
+                    div [] []
+
+                _ ->
+                    input [ class "backbutton", type_ "image", src "Assets/BackButton.jpg" ] []
+    in
+        div []
+            [ headerContent model
+            , placeHolder
+            , content
+            , footerContent
+            ]
 
 
 providerTopicPage : Linksfrom -> Provider.Model -> Html Msg

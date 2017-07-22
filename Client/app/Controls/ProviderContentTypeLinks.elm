@@ -5,6 +5,7 @@ import Domain.Core exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
+import Dict exposing (..)
 
 
 type alias Model =
@@ -27,7 +28,53 @@ update msg model =
             ( topic, include ) |> toggleFilter model
 
         Featured ( link, isFeatured ) ->
-            model
+            let
+                pendingLinks =
+                    model.links
+
+                removeLink linkToRemove links =
+                    links |> List.filter (\l -> l.title /= linkToRemove.title)
+
+                setFeaturedLink l =
+                    if l.title /= link.title then
+                        l
+                    else
+                        { link | isFeatured = isFeatured }
+            in
+                case link.contentType of
+                    Article ->
+                        let
+                            links =
+                                model.links.articles |> List.map setFeaturedLink
+                        in
+                            { model | links = { pendingLinks | articles = links } }
+
+                    Video ->
+                        let
+                            links =
+                                model.links.videos |> List.map setFeaturedLink
+                        in
+                            { model | links = { pendingLinks | videos = links } }
+
+                    Podcast ->
+                        let
+                            links =
+                                model.links.podcasts |> List.map setFeaturedLink
+                        in
+                            { model | links = { pendingLinks | podcasts = links } }
+
+                    Answer ->
+                        let
+                            links =
+                                model.links.answers |> List.map setFeaturedLink
+                        in
+                            { model | links = { pendingLinks | answers = links } }
+
+                    All ->
+                        model
+
+                    Unknown ->
+                        model
 
 
 
@@ -37,20 +84,17 @@ update msg model =
 view : Model -> ContentType -> Html Msg
 view model contentType =
     let
-        ( topics, links ) =
-            ( model.topics, model.links )
+        ( topics, links, featuredClass ) =
+            ( model.topics, model.links, "featured" )
 
         posts =
             links |> getPosts contentType
-
-        featuredClass =
-            "featured"
 
         createLink link =
             let
                 linkElement =
                     if link.isFeatured then
-                        a [ class featuredClass, href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]
+                        b [] [ a [ class featuredClass, href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ] ]
                     else
                         a [ href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]
             in
