@@ -27,10 +27,10 @@ let tagsRequest page : responcePromise =>
     get (tagEndpoint page)
     |> then_ (fun resp => resp##data) 
     |> then_ (fun data => resolve ({
-        items: data##items,
-        has_more: data##has_more,
-        quota_max: data##quota_max,
-        quota_remaining: data##quota_remaining
+        items: data.items,
+        has_more: data.has_more,
+        quota_max: data.quota_max,
+        quota_remaining: data.quota_remaining
       })
     )
   );
