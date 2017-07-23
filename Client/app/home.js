@@ -11273,11 +11273,15 @@ var _user$project$Controls_AddSource$view = function (model) {
 		A2(_elm_lang$core$List$map, _user$project$Controls_AddSource$sourceUI, model.sources));
 	return A2(
 		_elm_lang$html$Html$div,
-		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('mainContent'),
+			_1: {ctor: '[]'}
+		},
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$h2,
+				_elm_lang$html$Html$h3,
 				{ctor: '[]'},
 				{
 					ctor: '::',
