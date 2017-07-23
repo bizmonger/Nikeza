@@ -745,9 +745,9 @@ providersUI profileId providers showSubscribe =
 recentProvidersUI : Id -> List Provider -> Html Msg
 recentProvidersUI clientId providers =
     Html.map RecentProviderLinks <|
-        div []
+        div [ class "mainContent" ]
             [ h3 [] [ text "Recent Links" ]
-            , div [] (providers |> List.map (\p -> RecentProviderLinks.thumbnail clientId p))
+            , div [ class "mainContent" ] (providers |> List.map (\p -> RecentProviderLinks.thumbnail clientId p))
             ]
 
 

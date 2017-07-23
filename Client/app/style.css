@@ -15,6 +15,10 @@ label.ProfileSettings {
     color: blue;
 }
 
+div.mainContent {
+    margin-top: -15px;
+}
+
 header {
     top:0;
     width:100%;

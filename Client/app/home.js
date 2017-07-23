@@ -11343,11 +11343,15 @@ var _user$project$Controls_EditProfile$FirstNameInput = function (a) {
 var _user$project$Controls_EditProfile$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
-		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('mainContent'),
+			_1: {ctor: '[]'}
+		},
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$h2,
+				_elm_lang$html$Html$h3,
 				{ctor: '[]'},
 				{
 					ctor: '::',
@@ -16886,7 +16890,11 @@ var _user$project$Home$recentProvidersUI = F2(
 			_user$project$Home$RecentProviderLinks,
 			A2(
 				_elm_lang$html$Html$div,
-				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('mainContent'),
+					_1: {ctor: '[]'}
+				},
 				{
 					ctor: '::',
 					_0: A2(
@@ -16901,7 +16909,11 @@ var _user$project$Home$recentProvidersUI = F2(
 						ctor: '::',
 						_0: A2(
 							_elm_lang$html$Html$div,
-							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('mainContent'),
+								_1: {ctor: '[]'}
+							},
 							A2(
 								_elm_lang$core$List$map,
 								function (p) {
