@@ -10235,7 +10235,7 @@ var _user$project$Tests_TestAPI$recentLinks1 = {
 			_0: _user$project$Tests_TestAPI$someTopic1,
 			_1: {ctor: '[]'}
 		},
-		false),
+		true),
 	_1: {ctor: '[]'}
 };
 var _user$project$Tests_TestAPI$recentLinks2 = {
@@ -10251,7 +10251,7 @@ var _user$project$Tests_TestAPI$recentLinks2 = {
 			_0: _user$project$Tests_TestAPI$someTopic1,
 			_1: {ctor: '[]'}
 		},
-		false),
+		true),
 	_1: {
 		ctor: '::',
 		_0: A6(
@@ -10265,7 +10265,7 @@ var _user$project$Tests_TestAPI$recentLinks2 = {
 				_0: _user$project$Tests_TestAPI$someTopic1,
 				_1: {ctor: '[]'}
 			},
-			false),
+			true),
 		_1: {ctor: '[]'}
 	}
 };
@@ -10282,7 +10282,7 @@ var _user$project$Tests_TestAPI$recentLinks3 = {
 			_0: _user$project$Tests_TestAPI$someTopic1,
 			_1: {ctor: '[]'}
 		},
-		false),
+		true),
 	_1: {ctor: '[]'}
 };
 var _user$project$Tests_TestAPI$linksToContent = F2(
@@ -10317,7 +10317,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 								_0: _user$project$Tests_TestAPI$someTopic2,
 								_1: {ctor: '[]'}
 							},
-							false),
+							true),
 						_1: {
 							ctor: '::',
 							_0: A6(
@@ -10345,7 +10345,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 										_0: _user$project$Tests_TestAPI$someTopic4,
 										_1: {ctor: '[]'}
 									},
-									false),
+									true),
 								_1: {
 									ctor: '::',
 									_0: A6(
@@ -10394,7 +10394,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 								_0: _user$project$Tests_TestAPI$someTopic2,
 								_1: {ctor: '[]'}
 							},
-							false),
+							true),
 						_1: {
 							ctor: '::',
 							_0: A6(
@@ -10422,7 +10422,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 										_0: _user$project$Tests_TestAPI$someTopic4,
 										_1: {ctor: '[]'}
 									},
-									false),
+									true),
 								_1: {
 									ctor: '::',
 									_0: A6(
@@ -10471,7 +10471,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 								_0: _user$project$Tests_TestAPI$someTopic2,
 								_1: {ctor: '[]'}
 							},
-							false),
+							true),
 						_1: {
 							ctor: '::',
 							_0: A6(
@@ -10499,7 +10499,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 										_0: _user$project$Tests_TestAPI$someTopic4,
 										_1: {ctor: '[]'}
 									},
-									false),
+									true),
 								_1: {
 									ctor: '::',
 									_0: A6(
@@ -10548,7 +10548,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 								_0: _user$project$Tests_TestAPI$someTopic2,
 								_1: {ctor: '[]'}
 							},
-							false),
+							true),
 						_1: {
 							ctor: '::',
 							_0: A6(
@@ -10576,7 +10576,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 										_0: _user$project$Tests_TestAPI$someTopic4,
 										_1: {ctor: '[]'}
 									},
-									false),
+									true),
 								_1: {
 									ctor: '::',
 									_0: A6(
@@ -11791,11 +11791,15 @@ var _user$project$Controls_NewLinks$view = function (model) {
 	};
 	return A2(
 		_elm_lang$html$Html$div,
-		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('mainContent'),
+			_1: {ctor: '[]'}
+		},
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$h2,
+				_elm_lang$html$Html$h3,
 				{ctor: '[]'},
 				{
 					ctor: '::',
@@ -12607,7 +12611,7 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 							{
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$h2,
+									_elm_lang$html$Html$h3,
 									{ctor: '[]'},
 									{
 										ctor: '::',
@@ -12690,35 +12694,66 @@ var _user$project$Controls_ProviderLinks$toggleFilter = F2(
 			});
 		return newState;
 	});
+var _user$project$Controls_ProviderLinks$decorate = function (link) {
+	return (!link.isFeatured) ? A2(
+		_elm_lang$html$Html$a,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$href(
+				_user$project$Domain_Core$getUrl(link.url)),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$target('_blank'),
+				_1: {ctor: '[]'}
+			}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(
+				_user$project$Domain_Core$getTitle(link.title)),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$br,
+					{ctor: '[]'},
+					{ctor: '[]'}),
+				_1: {ctor: '[]'}
+			}
+		}) : A2(
+		_elm_lang$html$Html$a,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('featured'),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$href(
+					_user$project$Domain_Core$getUrl(link.url)),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$target('_blank'),
+					_1: {ctor: '[]'}
+				}
+			}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(
+				_user$project$Domain_Core$getTitle(link.title)),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$br,
+					{ctor: '[]'},
+					{ctor: '[]'}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
 var _user$project$Controls_ProviderLinks$linksUI = function (links) {
 	return A2(
 		_elm_lang$core$List$map,
 		function (link) {
-			return A2(
-				_elm_lang$html$Html$a,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$href(
-						_user$project$Domain_Core$getUrl(link.url)),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$target('_blank'),
-						_1: {ctor: '[]'}
-					}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(
-						_user$project$Domain_Core$getTitle(link.title)),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
-						_1: {ctor: '[]'}
-					}
-				});
+			return _user$project$Controls_ProviderLinks$decorate(link);
 		},
 		A2(_elm_lang$core$List$take, 5, links));
 };
@@ -13102,7 +13137,7 @@ var _user$project$Controls_ProviderTopicContentTypeLinks$view = F3(
 							{
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$h2,
+									_elm_lang$html$Html$h3,
 									{ctor: '[]'},
 									{
 										ctor: '::',

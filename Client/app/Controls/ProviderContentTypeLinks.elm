@@ -114,7 +114,7 @@ view model contentType isOwner =
     in
         table []
             [ tr []
-                [ td [] [ h2 [] [ text <| "All " ++ (contentType |> contentTypeToText) ] ] ]
+                [ td [] [ h3 [] [ text <| "All " ++ (contentType |> contentTypeToText) ] ] ]
             , tr []
                 [ td [] [ div [] (topics |> List.map toCheckbox) ]
                 , td [] [ div [] <| List.map createLink posts ]
