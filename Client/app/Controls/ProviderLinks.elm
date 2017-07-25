@@ -96,7 +96,7 @@ decorate link =
     if not link.isFeatured then
         a [ href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]
     else
-        a [ class "featured", href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]
+        b [] [ a [ class "featured", href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ] ]
 
 
 linksUI : List Link -> List (Html Msg)

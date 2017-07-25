@@ -12720,33 +12720,40 @@ var _user$project$Controls_ProviderLinks$decorate = function (link) {
 				_1: {ctor: '[]'}
 			}
 		}) : A2(
-		_elm_lang$html$Html$a,
+		_elm_lang$html$Html$b,
+		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('featured'),
-			_1: {
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$href(
-					_user$project$Domain_Core$getUrl(link.url)),
-				_1: {
+			_0: A2(
+				_elm_lang$html$Html$a,
+				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$target('_blank'),
-					_1: {ctor: '[]'}
-				}
-			}
-		},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text(
-				_user$project$Domain_Core$getTitle(link.title)),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$br,
-					{ctor: '[]'},
-					{ctor: '[]'}),
-				_1: {ctor: '[]'}
-			}
+					_0: _elm_lang$html$Html_Attributes$class('featured'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$href(
+							_user$project$Domain_Core$getUrl(link.url)),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$target('_blank'),
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_user$project$Domain_Core$getTitle(link.title)),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {ctor: '[]'}
 		});
 };
 var _user$project$Controls_ProviderLinks$linksUI = function (links) {
