@@ -23,6 +23,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="Giraffe" Version="0.1.0-*" />
     <PackageReference Include="Giraffe.Razor" Version="0.1.0-*" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.3.1" />
     <PackageReference Include="System.Net.Http" Version="4.3.*" />
   </ItemGroup>
   <ItemGroup>
@@ -35,23 +36,24 @@
   <ItemGroup>
     <Watch Include="**\*.cshtml" Exclude="bin\**\*" />
   </ItemGroup>
-   <ItemGroup>
+  <ItemGroup>
     <Watch Include="**\*.html" Exclude="bin\**\*" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models.fs" />
+    <Compile Include="Db.fs"/>
     <Compile Include="Authentication.fs" />
     <Compile Include="Youtube.fs" />
     <Compile Include="Wordpress.fs" />
-    <Compile Include="Routes.fs"/>
-    <Compile Include="Startup.fs"/>
+    <Compile Include="Routes.fs" />
+    <Compile Include="Startup.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\*.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-     <Content Include="*.html">
+    <Content Include="*.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
