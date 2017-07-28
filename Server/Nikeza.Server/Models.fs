@@ -1,14 +1,15 @@
 namespace Nikeza.Server.Models
 
-[<CLIMutable>]
-type Message =
-    {
-        Text : string
-    }
+open System
 
-[<CLIMutable>]
-type YoutubeView =
-    {
-        ApiKey : string
-        ChannelId : string
-    }
+
+
+type Profile = {
+    ProfileId: int
+    FirstName: string
+    LastName: string
+    Email: string
+    ImageUrl: string
+    Bio: string
+    Created: DateTime
+}
