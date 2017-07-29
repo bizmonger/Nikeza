@@ -1,7 +1,7 @@
 module Nikeza.Server.DB
 
-open Nikeza.Server.Models
 open System
+open Nikeza.Server.Models
 open System.Data.SqlClient
 
 let findUser (connString: string) email passwordHash =
@@ -24,7 +24,9 @@ let findUser (connString: string) email passwordHash =
                     Email = reader.["Email"].ToString()
                     ImageUrl = reader.["ImageUrl"].ToString()
                     Bio = reader.["Bio"].ToString()
-                    Created = DateTime.Parse(reader.["Created"].ToString())
-                } 
+                    Created = DateTime.Parse(reader.["Created"].ToString()) 
+                }
         }
-    profiles |> Seq.tryHead
+        
+    profiles 
+    |> Seq.tryHead
