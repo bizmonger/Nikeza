@@ -2,8 +2,6 @@ namespace Nikeza.Server.Models
 
 open System
 
-
-
 type Profile = {
     ProfileId: int
     FirstName: string

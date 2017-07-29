@@ -16,9 +16,9 @@ open Nikeza.Server.Routes
 // Error handler
 // ---------------------------------
 
-let errorHandler (ex : Exception) (logger : ILogger) (ctx : HttpContext) =
+let errorHandler (ex : Exception) (logger : ILogger) (context : HttpContext) =
     logger.LogError(EventId(0), ex, "An unhandled exception has occurred while executing the request.")
-    ctx |> (clearResponse >=> setStatusCode 500 >=> text ex.Message)
+    context |> (clearResponse >=> setStatusCode 500 >=> text ex.Message)
 
 // ---------------------------------
 // Config and Main
@@ -43,8 +43,8 @@ let configureServices (services : IServiceCollection) =
     let sp  = services.BuildServiceProvider()
     let env = sp.GetService<IHostingEnvironment>()
     let viewsFolderPath = IO.Path.Combine(env.ContentRootPath, "Views")
-    services.AddAuthentication() |> ignore
     services.AddRazorEngine viewsFolderPath |> ignore
+    services.AddAuthentication()            |> ignore
 
 let configureLogging (loggerFactory : ILoggerFactory) =
     loggerFactory.AddConsole(LogLevel.Trace).AddDebug() |> ignore
