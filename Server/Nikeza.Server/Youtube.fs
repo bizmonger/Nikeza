@@ -9,5 +9,4 @@ let getVideos youtube parameters =
         let    out =    videos |> Seq.map(fun video -> sprintf "Title: %s\nVideoId: %s\n" video.title video.videoId)
                                |> Seq.reduce(+)
         return out
-    } 
-    |> Async.RunSynchronously
+    }   |> Async.RunSynchronously
