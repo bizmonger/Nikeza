@@ -18,26 +18,22 @@ let registrationHandler =
     fun(ctx: HttpContext) -> 
         async {
             let! data = ctx.BindJson<RegistrationRequest>()
-            let status = register data
-            let response = match status with 
-                            | Success -> "Registered"
-                            | Failure -> "Not Registered"
+            let response = register data |> function
+                                         | Success -> "Registered"
+                                         | Failure -> "Not Registered"
             return! text response ctx 
         }
 
             
 let loginHandler  (authFailedHandler : HttpHandler) = 
-    fun(ctx: HttpContext) -> 
+    fun(context: HttpContext) -> 
         async {
-            let! data = ctx.BindJson<LogInRequest>()
-            let isAuthenticated = authenticate data.UserName data.Password
-            if isAuthenticated
-            then
-                let user = getUserClaims data.UserName authScheme
-                do! ctx.Authentication.SignInAsync(authScheme, user) |> Async.AwaitTask 
-                return Some ctx 
-            else 
-                return! authFailedHandler ctx                                                           
+            let! data = context.BindJson<LogInRequest>()
+            if  authenticate data.UserName data.Password
+                then let user = getUserClaims data.UserName authScheme
+                     do! context.Authentication.SignInAsync(authScheme, user) |> Async.AwaitTask 
+                     return Some context 
+                else return! authFailedHandler context                                                           
         } 
 
 let setCode (handler:HttpHandler)= 
@@ -51,12 +47,11 @@ let setCode (handler:HttpHandler)=
 
 let fetchYoutube (apiKey, channelId) (ctx : HttpContext) = 
     async {
-        let youtube = youTubeService apiKey
-        let! videos = uploadList youtube <| ChannelId channelId
+        let  youtube = youTubeService apiKey
+        let! videos =  uploadList youtube <| ChannelId channelId
         return! json videos ctx
     }
 
-// Wordpress
 let fetchWordpress (feedUrl) (ctx : HttpContext) =
     async {
         let! response = jsonRssFeed feedUrl
@@ -77,7 +72,7 @@ let webApp : HttpContext -> HttpHandlerResult =
         POST >=> 
             choose [
                 route "/register" >=> registrationHandler 
-                route "/login" >=> loginHandler (setStatusCode 401 >=> text "invalid credentials")
-                route "/logout" >=> signOff authScheme >=> text "logged out"
+                route "/login"    >=> loginHandler (setStatusCode 401 >=> text "invalid credentials")
+                route "/logout"   >=> signOff authScheme >=> text "logged out"
             ]
         setStatusCode 404 >=> text "Not Found" ]
