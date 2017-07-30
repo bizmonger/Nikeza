@@ -345,6 +345,16 @@ type ContentType
 -- FUNCTIONS
 
 
+compareLinks : Link -> Link -> Order
+compareLinks a b =
+    if a.isFeatured then
+        LT
+    else if b.isFeatured then
+        GT
+    else
+        LT
+
+
 getPosts : ContentType -> Links -> List Link
 getPosts contentType links =
     case contentType of

@@ -88,13 +88,13 @@ view model contentType isOwner =
             ( model.topics, model.links, "featured" )
 
         posts =
-            links |> getPosts contentType
+            links |> getPosts contentType |> List.sortWith compareLinks
 
         createLink link =
             let
                 linkElement =
                     if isOwner && link.isFeatured then
-                        b [] [ a [ class featuredClass, href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ] ]
+                        a [ class featuredClass, href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]
                     else
                         a [ href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]
             in

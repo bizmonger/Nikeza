@@ -96,13 +96,14 @@ decorate link =
     if not link.isFeatured then
         a [ href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]
     else
-        b [] [ a [ class "featured", href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ] ]
+        a [ class "featured", href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]
 
 
 linksUI : List Link -> List (Html Msg)
 linksUI links =
     links
         |> List.take 5
+        |> List.sortWith compareLinks
         |> List.map (\link -> decorate link)
 
 

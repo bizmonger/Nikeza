@@ -9695,6 +9695,10 @@ var _user$project$Domain_Core$getPosts = F2(
 				return {ctor: '[]'};
 		}
 	});
+var _user$project$Domain_Core$compareLinks = F2(
+	function (a, b) {
+		return a.isFeatured ? _elm_lang$core$Basics$LT : (b.isFeatured ? _elm_lang$core$Basics$GT : _elm_lang$core$Basics$LT);
+	});
 var _user$project$Domain_Core$getPlatform = function (platform) {
 	var _p2 = platform;
 	var value = _p2._0;
@@ -12531,43 +12535,39 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 		var topics = _p6._0;
 		var links = _p6._1;
 		var featuredClass = _p6._2;
-		var posts = A2(_user$project$Domain_Core$getPosts, contentType, links);
+		var posts = A2(
+			_elm_lang$core$List$sortWith,
+			_user$project$Domain_Core$compareLinks,
+			A2(_user$project$Domain_Core$getPosts, contentType, links));
 		var createLink = function (link) {
 			var linkElement = (isOwner && link.isFeatured) ? A2(
-				_elm_lang$html$Html$b,
-				{ctor: '[]'},
+				_elm_lang$html$Html$a,
 				{
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$a,
-						{
+					_0: _elm_lang$html$Html_Attributes$class(featuredClass),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$href(
+							_user$project$Domain_Core$getUrl(link.url)),
+						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class(featuredClass),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$href(
-									_user$project$Domain_Core$getUrl(link.url)),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$target('_blank'),
-									_1: {ctor: '[]'}
-								}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(
-								_user$project$Domain_Core$getTitle(link.title)),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$br,
-									{ctor: '[]'},
-									{ctor: '[]'}),
-								_1: {ctor: '[]'}
-							}
-						}),
-					_1: {ctor: '[]'}
+							_0: _elm_lang$html$Html_Attributes$target('_blank'),
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_user$project$Domain_Core$getTitle(link.title)),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
 				}) : A2(
 				_elm_lang$html$Html$a,
 				{
@@ -12720,40 +12720,33 @@ var _user$project$Controls_ProviderLinks$decorate = function (link) {
 				_1: {ctor: '[]'}
 			}
 		}) : A2(
-		_elm_lang$html$Html$b,
-		{ctor: '[]'},
+		_elm_lang$html$Html$a,
 		{
 			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$a,
-				{
+			_0: _elm_lang$html$Html_Attributes$class('featured'),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$href(
+					_user$project$Domain_Core$getUrl(link.url)),
+				_1: {
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('featured'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$href(
-							_user$project$Domain_Core$getUrl(link.url)),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$target('_blank'),
-							_1: {ctor: '[]'}
-						}
-					}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(
-						_user$project$Domain_Core$getTitle(link.title)),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
-						_1: {ctor: '[]'}
-					}
-				}),
-			_1: {ctor: '[]'}
+					_0: _elm_lang$html$Html_Attributes$target('_blank'),
+					_1: {ctor: '[]'}
+				}
+			}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(
+				_user$project$Domain_Core$getTitle(link.title)),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$br,
+					{ctor: '[]'},
+					{ctor: '[]'}),
+				_1: {ctor: '[]'}
+			}
 		});
 };
 var _user$project$Controls_ProviderLinks$linksUI = function (links) {
@@ -12762,7 +12755,10 @@ var _user$project$Controls_ProviderLinks$linksUI = function (links) {
 		function (link) {
 			return _user$project$Controls_ProviderLinks$decorate(link);
 		},
-		A2(_elm_lang$core$List$take, 5, links));
+		A2(
+			_elm_lang$core$List$sortWith,
+			_user$project$Domain_Core$compareLinks,
+			A2(_elm_lang$core$List$take, 5, links)));
 };
 var _user$project$Controls_ProviderLinks$requestAllContent = F4(
 	function (linksFrom, profileId, contentType, links) {
