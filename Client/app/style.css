@@ -61,6 +61,15 @@ button.addLink {
     margin-top: 8px;
 }
 
+label.topicAdded {
+     /* margin: 3px;  */
+}
+
+button.removeTopic {
+     /* margin: 3px; */
+     float: right;
+}
+
 button.navigationButton4 {
     vertical-align: text-top;
     width:115px;

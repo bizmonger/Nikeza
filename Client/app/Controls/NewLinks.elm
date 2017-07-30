@@ -83,7 +83,18 @@ view model =
                 )
 
         selectedTopicsUI =
-            current.base.topics |> List.map (\t -> label [] [ text <| getTopic t, button [ class "remove", onClick <| RemoveTopic t ] [ text "Remove" ], br [] [] ])
+            current.base.topics
+                |> List.map
+                    (\t ->
+                        div []
+                            [ label [ class "topicAdded" ]
+                                [ text <| getTopic t
+                                , button [ class "removeTopic", onClick <| RemoveTopic t ] [ text "Remove" ]
+                                , br [] []
+                                , br [] []
+                                ]
+                            ]
+                    )
 
         ( current, base ) =
             ( model.current, model.current.base )

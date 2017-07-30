@@ -11716,40 +11716,58 @@ var _user$project$Controls_NewLinks$view = function (model) {
 		_elm_lang$core$List$map,
 		function (t) {
 			return A2(
-				_elm_lang$html$Html$label,
+				_elm_lang$html$Html$div,
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text(
-						_user$project$Domain_Core$getTopic(t)),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$button,
-							{
+					_0: A2(
+						_elm_lang$html$Html$label,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('topicAdded'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								_user$project$Domain_Core$getTopic(t)),
+							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('remove'),
+								_0: A2(
+									_elm_lang$html$Html$button,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('removeTopic'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(
+												_user$project$Controls_NewLinks$RemoveTopic(t)),
+											_1: {ctor: '[]'}
+										}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Remove'),
+										_1: {ctor: '[]'}
+									}),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(
-										_user$project$Controls_NewLinks$RemoveTopic(t)),
-									_1: {ctor: '[]'}
+									_0: A2(
+										_elm_lang$html$Html$br,
+										{ctor: '[]'},
+										{ctor: '[]'}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$br,
+											{ctor: '[]'},
+											{ctor: '[]'}),
+										_1: {ctor: '[]'}
+									}
 								}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('Remove'),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$br,
-								{ctor: '[]'},
-								{ctor: '[]'}),
-							_1: {ctor: '[]'}
-						}
-					}
+							}
+						}),
+					_1: {ctor: '[]'}
 				});
 		},
 		current.base.topics);
