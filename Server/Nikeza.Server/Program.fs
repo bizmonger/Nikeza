@@ -81,6 +81,7 @@ let webApp =
     choose [
         GET >=>
             choose [
+                route "/ping" >=> text "pong"
                 route "/" >=> htmlFile "/home.html"
                 routef "/youtube/%s/%s" fetchYoutube 
                 routef "/wordpress/%s"  fetchWordpress
@@ -118,8 +119,9 @@ let cookieAuth =
 let configureApp (app : IApplicationBuilder) = 
     app.UseGiraffeErrorHandler errorHandler
     app.UseCookieAuthentication cookieAuth |> ignore
+    app.UseStaticFiles() |> ignore
     app.UseGiraffe webApp
-
+  
 let configureServices (services : IServiceCollection) =
     let sp  = services.BuildServiceProvider()
     let env = sp.GetService<IHostingEnvironment>()
@@ -132,17 +134,13 @@ let configureLogging (loggerFactory : ILoggerFactory) =
 
 [<EntryPoint>]
 let main argv =              
-    let contentRoot = Directory.GetCurrentDirectory()
-    let webRoot = Path.Combine(contentRoot, "wwwroot")                  
+    let contentRoot = Directory.GetCurrentDirectory()             
     WebHostBuilder()
         .UseKestrel()
         .UseContentRoot(contentRoot)
-        .UseWebRoot(webRoot)
         .Configure(Action<IApplicationBuilder> configureApp)
         .ConfigureServices(Action<IServiceCollection> configureServices)
         .ConfigureLogging(Action<ILoggerFactory> configureLogging)
-        // '0.0.0.0' must be used since 'localhost' does not work in docker.
-        .UseUrls("http://0.0.0.0:5000") 
         .Build()
         .Run()
     0

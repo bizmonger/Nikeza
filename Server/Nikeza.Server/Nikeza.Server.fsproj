@@ -15,6 +15,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="1.1.*" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.*" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.*" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.*" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.*" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.*" />
@@ -27,6 +28,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../Nikeza.YouTube/Nikeza.YouTube.fsproj" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="../Nikeza.Wordpress/Nikeza.Wordpress.fsproj" />
   </ItemGroup>
   <ItemGroup>
