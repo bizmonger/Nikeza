@@ -103,6 +103,7 @@ type Msg
     | Register
     | OnRegistration Registration.Msg
     | Subscription SubscriptionUpdate
+    | NavigateBack
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -203,6 +204,9 @@ update msg model =
 
                     Unsubscribe clientId providerId ->
                         ( model, Cmd.none )
+
+            NavigateBack ->
+                ( model, Navigation.back 1 )
 
 
 onUpdateProviderLinks : ProviderLinks.Msg -> Model -> Linksfrom -> ( Model, Cmd Msg )
@@ -794,7 +798,7 @@ renderPage content model =
                     div [] []
 
                 _ ->
-                    input [ class "backbutton", type_ "image", src "Assets/BackButton.jpg" ] []
+                    input [ class "backbutton", type_ "image", src "Assets/BackButton.jpg", onClick NavigateBack ] []
     in
         div []
             [ headerContent model

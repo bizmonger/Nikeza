@@ -14895,13 +14895,19 @@ var _user$project$Home$update = F2(
 				}
 			case 'ProviderTopicContentTypeLinksAction':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			default:
+			case 'Subscription':
 				var _p31 = _p28._0;
 				if (_p31.ctor === 'Subscribe') {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _elm_lang$navigation$Navigation$back(1)
+				};
 		}
 	});
 var _user$project$Home$init = function (location) {
@@ -14929,6 +14935,7 @@ var _user$project$Home$Model = F6(
 	function (a, b, c, d, e, f) {
 		return {currentRoute: a, login: b, registration: c, portal: d, providers: e, selectedProvider: f};
 	});
+var _user$project$Home$NavigateBack = {ctor: 'NavigateBack'};
 var _user$project$Home$Subscription = function (a) {
 	return {ctor: 'Subscription', _0: a};
 };
@@ -17437,7 +17444,11 @@ var _user$project$Home$renderPage = F2(
 						_1: {
 							ctor: '::',
 							_0: _elm_lang$html$Html_Attributes$src('Assets/BackButton.jpg'),
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$NavigateBack),
+								_1: {ctor: '[]'}
+							}
 						}
 					}
 				},
