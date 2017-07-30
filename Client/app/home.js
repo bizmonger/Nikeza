@@ -9697,7 +9697,7 @@ var _user$project$Domain_Core$getPosts = F2(
 	});
 var _user$project$Domain_Core$compareLinks = F2(
 	function (a, b) {
-		return a.isFeatured ? _elm_lang$core$Basics$LT : (b.isFeatured ? _elm_lang$core$Basics$GT : _elm_lang$core$Basics$LT);
+		return a.isFeatured ? _elm_lang$core$Basics$LT : (b.isFeatured ? _elm_lang$core$Basics$GT : _elm_lang$core$Basics$EQ);
 	});
 var _user$project$Domain_Core$getPlatform = function (platform) {
 	var _p2 = platform;
@@ -12694,7 +12694,7 @@ var _user$project$Controls_ProviderLinks$toggleFilter = F2(
 			});
 		return newState;
 	});
-var _user$project$Controls_ProviderLinks$decorate = function (link) {
+var _user$project$Controls_ProviderLinks$decorateIfFeatured = function (link) {
 	return (!link.isFeatured) ? A2(
 		_elm_lang$html$Html$a,
 		{
@@ -12753,12 +12753,12 @@ var _user$project$Controls_ProviderLinks$linksUI = function (links) {
 	return A2(
 		_elm_lang$core$List$map,
 		function (link) {
-			return _user$project$Controls_ProviderLinks$decorate(link);
+			return _user$project$Controls_ProviderLinks$decorateIfFeatured(link);
 		},
 		A2(
-			_elm_lang$core$List$sortWith,
-			_user$project$Domain_Core$compareLinks,
-			A2(_elm_lang$core$List$take, 5, links)));
+			_elm_lang$core$List$take,
+			5,
+			A2(_elm_lang$core$List$sortWith, _user$project$Domain_Core$compareLinks, links)));
 };
 var _user$project$Controls_ProviderLinks$requestAllContent = F4(
 	function (linksFrom, profileId, contentType, links) {

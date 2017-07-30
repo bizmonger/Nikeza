@@ -352,7 +352,7 @@ compareLinks a b =
     else if b.isFeatured then
         GT
     else
-        LT
+        EQ
 
 
 getPosts : ContentType -> Links -> List Link
