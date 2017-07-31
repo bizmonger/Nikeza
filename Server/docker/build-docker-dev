@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -f Dockerfile.dev -t nikeza-server-dev .
+cd .. && docker build -f ./docker/Dockerfile.dev -t nikeza-server-dev .

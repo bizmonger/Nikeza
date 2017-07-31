@@ -2,7 +2,8 @@
 
 docker run -p 5000:5000 \
     --rm \
-    -v `pwd`:/opt/app \
-    -v `pwd`/docker-cache/.nuget:/root/.nuget \
+    -v `pwd`/../:/opt/app \
+    -v `pwd`/../docker-cache/.nuget:/root/.nuget \
+    -v `pwd`/build-app-release:/opt/app/build-app-release \
     nikeza-server-dev \
     ./build-app-release

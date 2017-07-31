@@ -2,7 +2,9 @@
 
 docker run -p 5000:5000 \
     --rm \
-    -v `pwd`:/opt/app \
-    -v `pwd`/docker-cache/.nuget:/root/.nuget \
+    -v `pwd`/..:/opt/app \
+    -v `pwd`/../docker-cache/.nuget:/root/.nuget \
+    -v `pwd`/run-app-dev:/opt/app/run-app-dev \
+    -e ASPNETCORE_URLS="http://0.0.0.0:5000" \
     nikeza-server-dev \
     ./run-app-dev
