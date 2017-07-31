@@ -27,7 +27,7 @@ header {
 }
 
 a.featured {
-    background: #F7FCFD;
+    background: #EEEEEE;
 }
 
 input[type="image"].backbutton {
@@ -59,6 +59,15 @@ div.RegistrationForm {
 button.addLink {
     height: 40px;
     margin-top: 8px;
+}
+
+label.topicAdded {
+     /* margin: 3px;  */
+}
+
+button.removeTopic {
+     /* margin: 3px; */
+     float: right;
 }
 
 button.navigationButton4 {

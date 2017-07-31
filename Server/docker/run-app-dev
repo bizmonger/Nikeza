@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd ..
+
 dotnet restore Nikeza.YouTube
 dotnet build Nikeza.YouTube/Nikeza.YouTube.fsproj
 dotnet restore Nikeza.Server

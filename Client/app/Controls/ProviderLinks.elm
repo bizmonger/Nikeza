@@ -91,19 +91,20 @@ requestAllContent linksFrom profileId contentType links =
             ]
 
 
-decorate : Link -> Html Msg
-decorate link =
+decorateIfFeatured : Link -> Html Msg
+decorateIfFeatured link =
     if not link.isFeatured then
         a [ href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]
     else
-        b [] [ a [ class "featured", href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ] ]
+        a [ class "featured", href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]
 
 
 linksUI : List Link -> List (Html Msg)
 linksUI links =
     links
+        |> List.sortWith compareLinks
         |> List.take 5
-        |> List.map (\link -> decorate link)
+        |> List.map (\link -> decorateIfFeatured link)
 
 
 toggleFilter : Model -> ( Topic, Bool ) -> Model

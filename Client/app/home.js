@@ -9695,6 +9695,10 @@ var _user$project$Domain_Core$getPosts = F2(
 				return {ctor: '[]'};
 		}
 	});
+var _user$project$Domain_Core$compareLinks = F2(
+	function (a, b) {
+		return a.isFeatured ? _elm_lang$core$Basics$LT : (b.isFeatured ? _elm_lang$core$Basics$GT : _elm_lang$core$Basics$EQ);
+	});
 var _user$project$Domain_Core$getPlatform = function (platform) {
 	var _p2 = platform;
 	var value = _p2._0;
@@ -11712,40 +11716,58 @@ var _user$project$Controls_NewLinks$view = function (model) {
 		_elm_lang$core$List$map,
 		function (t) {
 			return A2(
-				_elm_lang$html$Html$label,
+				_elm_lang$html$Html$div,
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text(
-						_user$project$Domain_Core$getTopic(t)),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$button,
-							{
+					_0: A2(
+						_elm_lang$html$Html$label,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('topicAdded'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								_user$project$Domain_Core$getTopic(t)),
+							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('remove'),
+								_0: A2(
+									_elm_lang$html$Html$button,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('removeTopic'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(
+												_user$project$Controls_NewLinks$RemoveTopic(t)),
+											_1: {ctor: '[]'}
+										}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Remove'),
+										_1: {ctor: '[]'}
+									}),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(
-										_user$project$Controls_NewLinks$RemoveTopic(t)),
-									_1: {ctor: '[]'}
+									_0: A2(
+										_elm_lang$html$Html$br,
+										{ctor: '[]'},
+										{ctor: '[]'}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$br,
+											{ctor: '[]'},
+											{ctor: '[]'}),
+										_1: {ctor: '[]'}
+									}
 								}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('Remove'),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$br,
-								{ctor: '[]'},
-								{ctor: '[]'}),
-							_1: {ctor: '[]'}
-						}
-					}
+							}
+						}),
+					_1: {ctor: '[]'}
 				});
 		},
 		current.base.topics);
@@ -12531,43 +12553,39 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 		var topics = _p6._0;
 		var links = _p6._1;
 		var featuredClass = _p6._2;
-		var posts = A2(_user$project$Domain_Core$getPosts, contentType, links);
+		var posts = A2(
+			_elm_lang$core$List$sortWith,
+			_user$project$Domain_Core$compareLinks,
+			A2(_user$project$Domain_Core$getPosts, contentType, links));
 		var createLink = function (link) {
 			var linkElement = (isOwner && link.isFeatured) ? A2(
-				_elm_lang$html$Html$b,
-				{ctor: '[]'},
+				_elm_lang$html$Html$a,
 				{
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$a,
-						{
+					_0: _elm_lang$html$Html_Attributes$class(featuredClass),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$href(
+							_user$project$Domain_Core$getUrl(link.url)),
+						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class(featuredClass),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$href(
-									_user$project$Domain_Core$getUrl(link.url)),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$target('_blank'),
-									_1: {ctor: '[]'}
-								}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(
-								_user$project$Domain_Core$getTitle(link.title)),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$br,
-									{ctor: '[]'},
-									{ctor: '[]'}),
-								_1: {ctor: '[]'}
-							}
-						}),
-					_1: {ctor: '[]'}
+							_0: _elm_lang$html$Html_Attributes$target('_blank'),
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_user$project$Domain_Core$getTitle(link.title)),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
 				}) : A2(
 				_elm_lang$html$Html$a,
 				{
@@ -12694,7 +12712,7 @@ var _user$project$Controls_ProviderLinks$toggleFilter = F2(
 			});
 		return newState;
 	});
-var _user$project$Controls_ProviderLinks$decorate = function (link) {
+var _user$project$Controls_ProviderLinks$decorateIfFeatured = function (link) {
 	return (!link.isFeatured) ? A2(
 		_elm_lang$html$Html$a,
 		{
@@ -12720,49 +12738,45 @@ var _user$project$Controls_ProviderLinks$decorate = function (link) {
 				_1: {ctor: '[]'}
 			}
 		}) : A2(
-		_elm_lang$html$Html$b,
-		{ctor: '[]'},
+		_elm_lang$html$Html$a,
 		{
 			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$a,
-				{
+			_0: _elm_lang$html$Html_Attributes$class('featured'),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$href(
+					_user$project$Domain_Core$getUrl(link.url)),
+				_1: {
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('featured'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$href(
-							_user$project$Domain_Core$getUrl(link.url)),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$target('_blank'),
-							_1: {ctor: '[]'}
-						}
-					}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(
-						_user$project$Domain_Core$getTitle(link.title)),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
-						_1: {ctor: '[]'}
-					}
-				}),
-			_1: {ctor: '[]'}
+					_0: _elm_lang$html$Html_Attributes$target('_blank'),
+					_1: {ctor: '[]'}
+				}
+			}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(
+				_user$project$Domain_Core$getTitle(link.title)),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$br,
+					{ctor: '[]'},
+					{ctor: '[]'}),
+				_1: {ctor: '[]'}
+			}
 		});
 };
 var _user$project$Controls_ProviderLinks$linksUI = function (links) {
 	return A2(
 		_elm_lang$core$List$map,
 		function (link) {
-			return _user$project$Controls_ProviderLinks$decorate(link);
+			return _user$project$Controls_ProviderLinks$decorateIfFeatured(link);
 		},
-		A2(_elm_lang$core$List$take, 5, links));
+		A2(
+			_elm_lang$core$List$take,
+			5,
+			A2(_elm_lang$core$List$sortWith, _user$project$Domain_Core$compareLinks, links)));
 };
 var _user$project$Controls_ProviderLinks$requestAllContent = F4(
 	function (linksFrom, profileId, contentType, links) {
@@ -14899,13 +14913,19 @@ var _user$project$Home$update = F2(
 				}
 			case 'ProviderTopicContentTypeLinksAction':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			default:
+			case 'Subscription':
 				var _p31 = _p28._0;
 				if (_p31.ctor === 'Subscribe') {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _elm_lang$navigation$Navigation$back(1)
+				};
 		}
 	});
 var _user$project$Home$init = function (location) {
@@ -14933,6 +14953,7 @@ var _user$project$Home$Model = F6(
 	function (a, b, c, d, e, f) {
 		return {currentRoute: a, login: b, registration: c, portal: d, providers: e, selectedProvider: f};
 	});
+var _user$project$Home$NavigateBack = {ctor: 'NavigateBack'};
 var _user$project$Home$Subscription = function (a) {
 	return {ctor: 'Subscription', _0: a};
 };
@@ -17441,7 +17462,11 @@ var _user$project$Home$renderPage = F2(
 						_1: {
 							ctor: '::',
 							_0: _elm_lang$html$Html_Attributes$src('Assets/BackButton.jpg'),
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$NavigateBack),
+								_1: {ctor: '[]'}
+							}
 						}
 					}
 				},
