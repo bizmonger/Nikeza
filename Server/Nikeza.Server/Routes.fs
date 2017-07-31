@@ -15,13 +15,13 @@ open Nikeza.Server.Wordpress
 // ---------------------------------
 let authScheme = "Cookie"
 let registrationHandler = 
-    fun(ctx: HttpContext) -> 
+    fun(context: HttpContext) -> 
         async {
-            let! data = ctx.BindJson<RegistrationRequest>()
+            let! data = context.BindJson<RegistrationRequest>()
             let response = register data |> function
                                          | Success -> "Registered"
                                          | Failure -> "Not Registered"
-            return! text response ctx 
+            return! text response context 
         }
 
             
@@ -37,25 +37,25 @@ let loginHandler  (authFailedHandler : HttpHandler) =
         } 
 
 let setCode (handler:HttpHandler)= 
-    fun(ctx: HttpContext) ->     
+    fun(context: HttpContext) ->     
         let response =
-             if ctx.Response.Body.ToString() = ""
+             if context.Response.Body.ToString() = ""
                 then setStatusCode 401
                 else handler
-        response ctx
+        response context
 
 
-let fetchYoutube (apiKey, channelId) (ctx : HttpContext) = 
+let fetchYoutube (apiKey, channelId) (context : HttpContext) = 
     async {
         let  youtube = youTubeService apiKey
         let! videos =  uploadList youtube <| ChannelId channelId
-        return! json videos ctx
+        return! json videos context
     }
 
-let fetchWordpress (feedUrl) (ctx : HttpContext) =
+let fetchWordpress (feedUrl) (context : HttpContext) =
     async {
         let! response = jsonRssFeed feedUrl
-        return! json response ctx
+        return! json response context
     }
 
 let webApp : HttpContext -> HttpHandlerResult = 
@@ -67,7 +67,6 @@ let webApp : HttpContext -> HttpHandlerResult =
                 //route "/" >=> htmlFile "/home.html"
                 routef "/youtube/%s/%s" fetchYoutube
                 routef "/wordpress/%s"  fetchWordpress
-
             ]
         POST >=> 
             choose [
