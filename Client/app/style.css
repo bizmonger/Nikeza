@@ -10,6 +10,15 @@ img.profile {
     margin-bottom: 14px;
 }
 
+label.ProfileSettings {
+    text-decoration: underline;
+    color: blue;
+}
+
+div.mainContent {
+    margin-top: -15px;
+}
+
 header {
     top:0;
     width:100%;
@@ -17,17 +26,34 @@ header {
     margin-bottom:2px;
 }
 
-input[type="text"].search{
-    margin-bottom: 0px;
-    width:250px;
+a.featured {
+    background: #F7FCFD;
 }
 
-input[type="text"].addLinkText{
+input[type="image"].backbutton {
+    margin-left: 6px;
+    width:25px;
+    height: 25px;
+}
+
+input[type="text"].search {
+    margin-bottom: 0px;
+    margin-left: 3px;
+    width:255px;
+}
+
+input[type="text"].addLinkText {
     width:260px;
 }
 
-div.navigationpane{
+div.navigationpane {
     vertical-align: text-top;
+}
+
+div.RegistrationForm {
+    width: 200px;
+    height: 200px;
+    margin: 0px auto;
 }
 
 button.addLink {
@@ -47,6 +73,24 @@ button.selectedNavigationButton4 {
     width:115px;
     height:25px;
     background-color: lightblue;
+}
+
+button.subscribeButton {
+    width: 70px;
+    margin:0 auto;
+    display:block;
+    font-size: 10px;
+    color: black;
+    background-color: #F7FCFD;
+}
+
+button.unsubscribeButton {
+    width: 70px;
+    margin:0 auto;
+    display:block;
+    font-size: 10px;
+    color: black;
+    background-color: #FFF2F7;
 }
 
 button.navigationButton3 {

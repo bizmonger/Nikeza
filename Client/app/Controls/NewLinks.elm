@@ -97,8 +97,8 @@ view model =
                 , option [ value "Podcast" ] [ text "Podcast" ]
                 ]
     in
-        div []
-            [ h2 [] [ text "Link" ]
+        div [ class "mainContent" ]
+            [ h3 [] [ text "Link" ]
             , table []
                 [ tr []
                     [ td []

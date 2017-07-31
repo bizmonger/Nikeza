@@ -20,8 +20,8 @@ formatLink link =
         ]
 
 
-thumbnail : Provider -> Html Msg
-thumbnail provider =
+thumbnail : Id -> Provider -> Html Msg
+thumbnail clientId provider =
     let
         profile =
             provider.profile
@@ -29,17 +29,20 @@ thumbnail provider =
         links =
             provider.recentLinks
 
-        nameAndLinks =
+        linksUI =
             div [] (links |> List.map formatLink)
     in
         div []
             [ table []
                 [ tr []
                     [ td []
-                        [ a [ href <| getUrl <| providerUrl profile.id ]
+                        [ a [ href <| getUrl <| providerUrl (Just clientId) profile.id ]
                             [ img [ src <| getUrl profile.imageUrl, width 75, height 75 ] [] ]
                         ]
-                    , td [] [ nameAndLinks ]
+                    , td [ class "bio" ]
+                        [ td [] [ text <| getName provider.profile.firstName ++ " " ++ getName provider.profile.lastName ]
+                        , linksUI
+                        ]
                     ]
                 ]
             ]

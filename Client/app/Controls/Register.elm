@@ -63,7 +63,7 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div []
+    div [ class "RegistrationForm" ]
         [ input [ type_ "text", placeholder "first name", onInput FirstNameInput, value model.firstName ] []
         , br [] []
         , input [ type_ "text", placeholder "last name", onInput LastNameInput, value model.lastName ] []
@@ -73,6 +73,7 @@ view model =
         , input [ type_ "password", placeholder "password", onInput PasswordInput, value model.password ] []
         , br [] []
         , input [ type_ "password", placeholder "confirm", onInput ConfirmInput, value model.confirm ] []
+        , br [] []
         , br [] []
         , button
             [ class "register"
@@ -86,5 +87,5 @@ view model =
                     , confirm = model.confirm
                     }
             ]
-            [ text "Submit" ]
+            [ text "Join" ]
         ]

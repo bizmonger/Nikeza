@@ -69,8 +69,8 @@ view model =
         tableRecords =
             List.append records (model.sources |> List.map sourceUI)
     in
-        div []
-            [ h2 [] [ text "Sources" ]
+        div [ class "mainContent" ]
+            [ h3 [] [ text "Sources" ]
             , table [] tableRecords
             ]
 

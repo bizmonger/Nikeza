@@ -34,6 +34,11 @@ type Linksfrom
     | FromPortal
 
 
+type SubscriptionUpdate
+    = Subscribe Id Id
+    | Unsubscribe Id Id
+
+
 type alias Provider =
     { profile : Profile
     , topics : List Topic
@@ -197,6 +202,7 @@ type alias Link =
     , url : Url
     , contentType : ContentType
     , topics : List Topic
+    , isFeatured : Bool
     }
 
 
@@ -211,6 +217,7 @@ initLink =
     , url = Url ""
     , contentType = Unknown
     , topics = []
+    , isFeatured = False
     }
 
 
@@ -250,7 +257,7 @@ type ProviderRequest
     | ViewSubscriptions
     | ViewFollowers
     | ViewProviders
-    | Recent
+    | ViewRecent
 
 
 
@@ -315,6 +322,14 @@ type alias Subscriptionsfunction =
 
 type alias Followersfunction =
     Id -> Subscribers
+
+
+type alias Followfunction =
+    Id -> Id -> Result String ()
+
+
+type alias Unsubscribefunction =
+    Id -> Id -> Result String ()
 
 
 type ContentType
@@ -397,14 +412,24 @@ toTopicNames topics =
     topics |> List.map (\topic -> topic.name)
 
 
-providerTopicUrl : Id -> Topic -> Url
-providerTopicUrl id topic =
-    Url <| "/#/provider/" ++ getId id ++ "/" ++ getTopic topic
+providerTopicUrl : Maybe Id -> Id -> Topic -> Url
+providerTopicUrl clientId providerId topic =
+    case clientId of
+        Just idOfRequestor ->
+            Url <| "/#/portal/" ++ getId idOfRequestor ++ "/provider/" ++ getId providerId ++ "/" ++ getTopic topic
+
+        Nothing ->
+            Url <| "/#/provider/" ++ getId providerId ++ "/" ++ getTopic topic
 
 
-providerUrl : Id -> Url
-providerUrl id =
-    Url <| "/#/provider/" ++ getId id
+providerUrl : Maybe Id -> Id -> Url
+providerUrl clientId providerId =
+    case clientId of
+        Just idOfRequestor ->
+            Url <| "/#/portal/" ++ getId idOfRequestor ++ "/provider/" ++ getId providerId
+
+        Nothing ->
+            Url <| "/#/provider/" ++ getId providerId
 
 
 toContentType : String -> ContentType
@@ -470,7 +495,7 @@ allContentUrl linksFrom id contentType =
             Url <| "/#/provider/" ++ getId id ++ "/all/" ++ (contentType |> contentTypeToText)
 
         FromPortal ->
-            Url <| "/#/" ++ getId id ++ "/portal/all/" ++ (contentType |> contentTypeToText)
+            Url <| "/#/portal/" ++ getId id ++ "/all/" ++ (contentType |> contentTypeToText)
 
 
 allTopicContentUrl : Linksfrom -> Id -> ContentType -> Topic -> Url
@@ -480,4 +505,4 @@ allTopicContentUrl linksFrom id contentType topic =
             Url <| "/#/provider/" ++ getId id ++ "/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)
 
         FromPortal ->
-            Url <| "/#/" ++ getId id ++ "/portal/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)
+            Url <| "/#/portal/" ++ getId id ++ "/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)

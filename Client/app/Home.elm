@@ -92,7 +92,7 @@ type Msg
     | ViewSubscriptions
     | ViewFollowers
     | ViewProviders
-    | Recent
+    | ViewRecent
     | NewLink NewLinks.Msg
     | ProviderLinksAction ProviderLinks.Msg
     | PortalLinksAction ProviderLinks.Msg
@@ -102,6 +102,7 @@ type Msg
     | Search String
     | Register
     | OnRegistration Registration.Msg
+    | Subscription SubscriptionUpdate
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -156,8 +157,8 @@ update msg model =
             ViewProviders ->
                 ( { model | portal = { portal | requested = Domain.ViewProviders } }, Cmd.none )
 
-            Recent ->
-                ( { model | portal = { portal | requested = Domain.Recent } }, Cmd.none )
+            ViewRecent ->
+                ( { model | portal = { portal | requested = Domain.ViewRecent } }, Cmd.none )
 
             SourceAdded subMsg ->
                 onAddedSource subMsg model
@@ -175,22 +176,33 @@ update msg model =
                 onUpdateProviderLinks subMsg model FromOther
 
             ProviderContentTypeLinksAction subMsg ->
-                case subMsg of
-                    ProviderContentTypeLinks.Toggle _ ->
-                        let
-                            provider =
-                                if model.portal.requested == Domain.ViewLinks then
-                                    ProviderContentTypeLinks.update subMsg model.portal.provider
-                                else
-                                    ProviderContentTypeLinks.update subMsg model.selectedProvider
-                        in
+                let
+                    provider =
+                        if model.portal.requested == Domain.ViewLinks then
+                            ProviderContentTypeLinks.update subMsg model.portal.provider
+                        else
+                            ProviderContentTypeLinks.update subMsg model.selectedProvider
+                in
+                    case subMsg of
+                        ProviderContentTypeLinks.Toggle _ ->
                             if model.portal.requested == Domain.ViewLinks then
                                 ( { model | portal = { portal | provider = provider } }, Cmd.none )
                             else
                                 ( { model | selectedProvider = provider }, Cmd.none )
 
+                        ProviderContentTypeLinks.Featured _ ->
+                            ( { model | portal = { portal | provider = provider } }, Cmd.none )
+
             ProviderTopicContentTypeLinksAction subMsg ->
                 ( model, Cmd.none )
+
+            Subscription update ->
+                case update of
+                    Subscribe clientId providerId ->
+                        ( model, Cmd.none )
+
+                    Unsubscribe clientId providerId ->
+                        ( model, Cmd.none )
 
 
 onUpdateProviderLinks : ProviderLinks.Msg -> Model -> Linksfrom -> ( Model, Cmd Msg )
@@ -303,7 +315,7 @@ onRegistration subMsg model =
                                         }
                                 }
                         in
-                            ( newState, Navigation.load <| "/#/" ++ getId newUser.profile.id ++ "/portal" )
+                            ( newState, Navigation.load <| "/#/portal/" ++ getId newUser.profile.id )
 
                     Err v ->
                         ( model, Cmd.none )
@@ -506,7 +518,7 @@ onLogin subMsg model =
                                     , portal =
                                         { pendingPortal
                                             | provider = provider
-                                            , requested = Domain.Recent
+                                            , requested = Domain.ViewRecent
                                             , linksNavigation = linksExist provider.links
                                             , sourcesNavigation = not <| List.isEmpty provider.profile.sources
                                         }
@@ -516,7 +528,7 @@ onLogin subMsg model =
                                 { model | login = latest }
                 in
                     if newState.login.loggedIn then
-                        ( newState, Navigation.load <| "/#/" ++ getId newState.portal.provider.profile.id ++ "/portal" )
+                        ( newState, Navigation.load <| "/#/portal/" ++ getId newState.portal.provider.profile.id )
                     else
                         ( newState, Cmd.none )
 
@@ -541,20 +553,16 @@ view model =
             homePage model
 
         [ "register" ] ->
-            let
-                content =
-                    registerPage model
-            in
-                model |> renderPage content
+            model |> renderPage (Html.map OnRegistration <| Registration.view model.registration)
 
         [ "provider", id ] ->
             case runtime.provider <| Id id of
                 Just _ ->
-                    let
-                        content =
-                            renderProfileBase model.selectedProvider <| Html.map ProviderLinksAction <| ProviderLinks.view FromOther model.selectedProvider
-                    in
-                        model |> renderPage content
+                    model
+                        |> renderPage
+                            (renderProfileBase model.selectedProvider <|
+                                Html.map ProviderLinksAction (ProviderLinks.view FromOther model.selectedProvider)
+                            )
 
                 Nothing ->
                     pageNotFound
@@ -562,11 +570,7 @@ view model =
         [ "provider", id, topic ] ->
             case runtime.provider <| Id id of
                 Just _ ->
-                    let
-                        content =
-                            providerTopicPage FromOther model.selectedProvider
-                    in
-                        model |> renderPage content
+                    model |> renderPage (providerTopicPage FromOther model.selectedProvider)
 
                 Nothing ->
                     pageNotFound
@@ -579,12 +583,9 @@ view model =
                             ( ProviderContentTypeLinks.view, model.selectedProvider )
 
                         contentToEmbed =
-                            Html.map ProviderContentTypeLinksAction <| view provider <| toContentType contentType
-
-                        content =
-                            renderProfileBase model.selectedProvider <| contentToEmbed
+                            Html.map ProviderContentTypeLinksAction <| view provider (toContentType contentType) False
                     in
-                        model |> renderPage content
+                        model |> renderPage (renderProfileBase model.selectedProvider <| contentToEmbed)
 
                 Nothing ->
                     pageNotFound
@@ -598,98 +599,49 @@ view model =
 
                         contentToEmbed =
                             Html.map ProviderTopicContentTypeLinksAction <| ProviderTopicContentTypeLinks.view model.selectedProvider topic <| toContentType contentType
-
-                        content =
-                            renderProfileBase model.selectedProvider <| contentToEmbed
                     in
-                        model |> renderPage content
+                        model |> renderPage (renderProfileBase model.selectedProvider <| contentToEmbed)
 
                 Nothing ->
                     pageNotFound
 
-        [ id, "portal", "edit-profile" ] ->
-            case runtime.provider <| Id id of
-                Just _ ->
-                    let
-                        portal =
-                            model.portal
-
-                        profileView =
-                            Html.map EditProfileAction <| EditProfile.view model.portal.provider.profile
-
-                        contentToEmbed =
-                            render model.portal.provider "" profileView model.portal
-
-                        mainContent =
-                            model |> content (Just contentToEmbed)
-
-                        updatedModel =
-                            { model | portal = { portal | requested = Domain.EditProfile } }
-                    in
-                        updatedModel |> renderPage mainContent
-
-                Nothing ->
-                    pageNotFound
-
-        [ id, "portal", "edit-sources" ] ->
-            case runtime.provider <| Id id of
-                Just _ ->
-                    let
-                        portal =
-                            model.portal
-
-                        sourcesView =
-                            div []
-                                [ Html.map SourceAdded <|
-                                    AddSource.view
-                                        { source = model.portal.newSource
-                                        , sources = model.portal.provider.profile.sources
-                                        }
-                                ]
-
-                        contentToEmbed =
-                            render model.portal.provider "" sourcesView model.portal
-
-                        mainContent =
-                            model |> content (Just contentToEmbed)
-
-                        updatedModel =
-                            { model | portal = { portal | requested = Domain.ViewSources } }
-                    in
-                        updatedModel |> renderPage mainContent
-
-                Nothing ->
-                    pageNotFound
-
-        [ id, "portal", "all", contentType ] ->
+        [ "portal", id, "all", contentType ] ->
             case runtime.provider <| Id id of
                 Just _ ->
                     let
                         linksContent =
-                            Html.map ProviderContentTypeLinksAction <| ProviderContentTypeLinks.view model.portal.provider <| toContentType contentType
+                            Html.map ProviderContentTypeLinksAction <| ProviderContentTypeLinks.view model.portal.provider (toContentType contentType) True
 
                         contentToEmbed =
-                            linksContent |> applyToPortal id model contentType
-
-                        mainContent =
-                            model |> content (Just contentToEmbed)
+                            linksContent |> applyToPortal id model
                     in
-                        model |> renderPage mainContent
+                        model |> renderPage (model |> content (Just contentToEmbed))
 
                 Nothing ->
                     pageNotFound
 
-        [ id, "portal" ] ->
+        [ "portal", id ] ->
             let
-                ( portal, contentType ) =
-                    ( model.portal, "all" )
-
                 mainContent =
                     model
                         |> content Nothing
-                        |> applyToPortal id model contentType
+                        |> applyToPortal id model
             in
                 model |> renderPage mainContent
+
+        [ "portal", clientId, "provider", id ] ->
+            case runtime.provider <| Id id of
+                Just _ ->
+                    let
+                        contentLinks =
+                            (renderProfileBase model.selectedProvider <|
+                                Html.map ProviderLinksAction (ProviderLinks.view FromOther model.selectedProvider)
+                            )
+                    in
+                        model |> renderPage contentLinks
+
+                Nothing ->
+                    pageNotFound
 
         _ ->
             pageNotFound
@@ -702,6 +654,7 @@ renderProfileBase provider linksContent =
             [ table []
                 [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| getUrl <| provider.profile.imageUrl ] [] ] ]
                 , tr [ class "bio" ] [ td [] [ text <| getName provider.profile.firstName ++ " " ++ getName provider.profile.lastName ] ]
+                , tr [ class "bio" ] [ td [] [ button [ class "subscribeButton" ] [ text "Follow" ] ] ]
                 , tr [ class "bio" ] [ td [] [ p [] [ text provider.profile.bio ] ] ]
                 ]
             , td [] [ linksContent ]
@@ -709,8 +662,8 @@ renderProfileBase provider linksContent =
         ]
 
 
-applyToPortal : String -> Model -> String -> Html Msg -> Html Msg
-applyToPortal profileId model contentType linksContent =
+applyToPortal : String -> Model -> Html Msg -> Html Msg
+applyToPortal profileId model content =
     let
         portal =
             model.portal
@@ -718,16 +671,16 @@ applyToPortal profileId model contentType linksContent =
         if portal.provider == initProvider then
             case runtime.provider <| Id profileId of
                 Just provider ->
-                    portal |> render provider contentType linksContent
+                    portal |> render provider content
 
                 Nothing ->
                     pageNotFound
         else
-            portal |> render portal.provider contentType linksContent
+            portal |> render portal.provider content
 
 
-render : Provider -> String -> Html Msg -> Portal -> Html Msg
-render provider contentType content portal =
+render : Provider -> Html Msg -> Portal -> Html Msg
+render provider content portal =
     table []
         [ tr []
             [ td []
@@ -753,8 +706,8 @@ headerContent model =
                 ( loggedIn, welcome, signout, profile, sources ) =
                     ( model.login.loggedIn
                     , p [] [ text <| "Welcome " ++ model.login.email ++ "!" ]
-                    , a [ href ("/#/" ++ profileId ++ "/portal/edit-profile") ] [ label [] [ text "Profile" ] ]
-                    , a [ href ("/#/" ++ profileId ++ "/portal/edit-sources") ] [ label [] [ text "Sources" ] ]
+                    , label [ class "ProfileSettings", onClick EditProfile ] [ text "Profile" ]
+                    , label [ class "ProfileSettings", onClick ViewSources ] [ text "Sources" ]
                     , a [ href "" ] [ label [] [ text "Signout" ] ]
                     )
             in
@@ -780,21 +733,22 @@ headerContent model =
 footerContent : Html Msg
 footerContent =
     footer [ class "copyright" ]
-        [ label [] [ text "2017" ]
-        , a [ href "" ] [ text "GitHub" ]
-        ]
+        [ a [ href "" ] [ text "Lamba Cartel" ] ]
 
 
-providersUI : List Provider -> Html Msg
-providersUI providers =
+providersUI : Maybe Id -> List Provider -> Bool -> Html Msg
+providersUI profileId providers showSubscribe =
     Html.map ProfileThumbnail <|
-        div [] (providers |> List.map ProfileThumbnail.thumbnail)
+        div [] (providers |> List.map (ProfileThumbnail.thumbnail (profileId) showSubscribe))
 
 
-recentProvidersUI : List Provider -> Html Msg
-recentProvidersUI providers =
+recentProvidersUI : Id -> List Provider -> Html Msg
+recentProvidersUI clientId providers =
     Html.map RecentProviderLinks <|
-        div [] (providers |> List.map RecentProviderLinks.thumbnail)
+        div [ class "mainContent" ]
+            [ h3 [] [ text "Recent Links" ]
+            , div [ class "mainContent" ] (providers |> List.map (\p -> RecentProviderLinks.thumbnail clientId p))
+            ]
 
 
 homePage : Model -> Html Msg
@@ -804,7 +758,7 @@ homePage model =
             table []
                 [ tr [] [ td [] [ input [ class "search", type_ "text", placeholder "name", onInput Search ] [] ] ]
                 , tr []
-                    [ td [] [ div [] [ providersUI model.providers ] ]
+                    [ td [] [ div [] [ providersUI Nothing model.providers False ] ]
                     , td []
                         [ table []
                             [ tr []
@@ -812,7 +766,7 @@ homePage model =
                                 , td []
                                     [ ul [ class "featuresList" ]
                                         [ li [ class "joinReasons" ] [ text "Import links to your articles, videos, and answers" ]
-                                        , li [ class "joinReasons" ] [ text "Set your featured links for viewers to see" ]
+                                        , li [ class "joinReasons" ] [ text "Set your featured links for other viewers to see" ]
                                         , li [ class "joinReasons" ] [ text "Subscribe to new links from your favorite thought leaders" ]
                                         ]
                                     ]
@@ -827,19 +781,27 @@ homePage model =
 
 renderPage : Html Msg -> Model -> Html Msg
 renderPage content model =
-    div []
-        [ headerContent model
-        , content
-        , footerContent
-        ]
+    let
+        placeHolder =
+            case model.currentRoute.hash |> tokenizeUrl of
+                [] ->
+                    div [] []
 
+                [ "home" ] ->
+                    div [] []
 
-registerPage : Model -> Html Msg
-registerPage model =
-    div []
-        [ h3 [] [ text "Join" ]
-        , Html.map OnRegistration <| Registration.view model.registration
-        ]
+                [ "portal", _ ] ->
+                    div [] []
+
+                _ ->
+                    input [ class "backbutton", type_ "image", src "Assets/BackButton.jpg" ] []
+    in
+        div []
+            [ headerContent model
+            , placeHolder
+            , content
+            , footerContent
+            ]
 
 
 providerTopicPage : Linksfrom -> Provider.Model -> Html Msg
@@ -896,6 +858,18 @@ content contentToEmbed model =
 
         provider =
             portal.provider
+
+        followingYou =
+            provider.followers provider.profile.id
+
+        (Subscribers followers) =
+            followingYou
+
+        following =
+            provider.subscriptions provider.profile.id
+
+        (Subscribers subscriptions) =
+            following
     in
         case portal.requested of
             Domain.ViewSources ->
@@ -948,30 +922,16 @@ content contentToEmbed model =
                         ]
 
             Domain.ViewSubscriptions ->
-                let
-                    following =
-                        provider.subscriptions provider.profile.id
-
-                    (Subscribers subscriptions) =
-                        following
-                in
-                    subscriptions |> searchProvidersUI "name you're following"
+                subscriptions |> searchProvidersUI (Just provider.profile.id) True "name of subscription"
 
             Domain.ViewFollowers ->
-                let
-                    followingYou =
-                        provider.followers provider.profile.id
-
-                    (Subscribers followers) =
-                        followingYou
-                in
-                    followers |> searchProvidersUI "name of subscriber"
+                followers |> searchProvidersUI (Just provider.profile.id) False "name of follower"
 
             Domain.ViewProviders ->
                 provider.profile.id |> filteredProvidersUI model.providers "name"
 
-            Domain.Recent ->
-                model.providers |> recentLinksContent provider.profile.id
+            Domain.ViewRecent ->
+                subscriptions |> recentLinksContent provider.profile.id
 
 
 providersWithRecentLinks : Id -> List Provider -> List Provider
@@ -993,7 +953,7 @@ recentLinksContent : Id -> List Provider -> Html Msg
 recentLinksContent profileId providers =
     providers
         |> providersWithRecentLinks profileId
-        |> recentProvidersUI
+        |> recentProvidersUI profileId
 
 
 removeProvider : Id -> List Provider -> List Provider
@@ -1005,14 +965,14 @@ filteredProvidersUI : List Provider -> String -> Id -> Html Msg
 filteredProvidersUI providers placeHolder profileId =
     providers
         |> removeProvider profileId
-        |> searchProvidersUI placeHolder
+        |> searchProvidersUI (Just profileId) True placeHolder
 
 
-searchProvidersUI : String -> List Provider -> Html Msg
-searchProvidersUI placeHolder providers =
+searchProvidersUI : Maybe Id -> Bool -> String -> List Provider -> Html Msg
+searchProvidersUI profileId showSubscribe placeHolder providers =
     table []
         [ tr [] [ td [] [ input [ class "search", type_ "text", placeholder placeHolder, onInput Search ] [] ] ]
-        , tr [] [ td [] [ div [] [ providersUI providers ] ] ]
+        , tr [] [ td [] [ div [] [ providersUI (profileId) providers showSubscribe ] ] ]
         ]
 
 
@@ -1040,24 +1000,24 @@ renderNavigation portal =
         newText =
             "Recent " ++ "(" ++ (toString <| recentCount) ++ ")"
 
-        ( linksText, followingText, membersText, linkText, profileText ) =
-            ( "Showcase", "Following", "Members", "Link", "Profile" )
+        ( portfolioText, subscriptionsText, membersText, linkText, profileText ) =
+            ( "Portfolio", "Subscriptions", "Members", "Link", "Profile" )
 
         followersText =
-            "Subscribers " ++ "(" ++ (toString <| List.length followers) ++ ")"
+            "Followers " ++ "(" ++ (toString <| List.length followers) ++ ")"
 
         allNavigation =
             case portal.requested of
-                Domain.Recent ->
-                    [ button [ class "selectedNavigationButton4", onClick Recent ] [ text newText ]
+                Domain.ViewRecent ->
+                    [ button [ class "selectedNavigationButton4", onClick ViewRecent ] [ text newText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , button [ class "navigationButton4", onClick ViewLinks ] [ text portfolioText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text subscriptionsText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
@@ -1065,15 +1025,15 @@ renderNavigation portal =
                     ]
 
                 Domain.ViewSources ->
-                    [ button [ class "navigationButton4", onClick Recent ] [ text newText ]
+                    [ button [ class "navigationButton4", onClick ViewRecent ] [ text newText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , button [ class "navigationButton4", onClick ViewLinks ] [ text portfolioText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text subscriptionsText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
@@ -1081,15 +1041,15 @@ renderNavigation portal =
                     ]
 
                 Domain.ViewLinks ->
-                    [ button [ class "navigationButton4", onClick Recent ] [ text newText ]
+                    [ button [ class "navigationButton4", onClick ViewRecent ] [ text newText ]
                     , br [] []
                     , br [] []
-                    , button [ class "selectedNavigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , button [ class "selectedNavigationButton4", onClick ViewLinks ] [ text portfolioText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text subscriptionsText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
@@ -1097,15 +1057,15 @@ renderNavigation portal =
                     ]
 
                 Domain.AddLink ->
-                    [ button [ class "navigationButton4", onClick Recent ] [ text newText ]
+                    [ button [ class "navigationButton4", onClick ViewRecent ] [ text newText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , button [ class "navigationButton4", onClick ViewLinks ] [ text portfolioText ]
                     , br [] []
                     , button [ class "selectedNavigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text subscriptionsText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
@@ -1113,15 +1073,15 @@ renderNavigation portal =
                     ]
 
                 Domain.EditProfile ->
-                    [ button [ class "navigationButton4", onClick Recent ] [ text newText ]
+                    [ button [ class "navigationButton4", onClick ViewRecent ] [ text newText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , button [ class "navigationButton4", onClick ViewLinks ] [ text portfolioText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text subscriptionsText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
@@ -1129,15 +1089,15 @@ renderNavigation portal =
                     ]
 
                 Domain.ViewSubscriptions ->
-                    [ button [ class "navigationButton4", onClick Recent ] [ text newText ]
+                    [ button [ class "navigationButton4", onClick ViewRecent ] [ text newText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , button [ class "navigationButton4", onClick ViewLinks ] [ text portfolioText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , br [] []
-                    , button [ class "selectedNavigationButton4", onClick ViewSubscriptions ] [ text followingText ]
+                    , button [ class "selectedNavigationButton4", onClick ViewSubscriptions ] [ text subscriptionsText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
@@ -1147,15 +1107,15 @@ renderNavigation portal =
                     ]
 
                 Domain.ViewFollowers ->
-                    [ button [ class "navigationButton4", onClick Recent ] [ text newText ]
+                    [ button [ class "navigationButton4", onClick ViewRecent ] [ text newText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , button [ class "navigationButton4", onClick ViewLinks ] [ text portfolioText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text subscriptionsText ]
                     , br [] []
                     , button [ class "selectedNavigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
@@ -1163,15 +1123,15 @@ renderNavigation portal =
                     ]
 
                 Domain.ViewProviders ->
-                    [ button [ class "navigationButton4", onClick Recent ] [ text newText ]
+                    [ button [ class "navigationButton4", onClick ViewRecent ] [ text newText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewLinks ] [ text linksText ]
+                    , button [ class "navigationButton4", onClick ViewLinks ] [ text portfolioText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text followingText ]
+                    , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text subscriptionsText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
@@ -1217,7 +1177,7 @@ renderNavigation portal =
                     Domain.ViewProviders ->
                         noSelectedButton
 
-                    Domain.Recent ->
+                    Domain.ViewRecent ->
                         noSelectedButton
 
         noSourcesNoLinks =
@@ -1292,46 +1252,46 @@ navigate msg model location =
     case tokenizeUrl location.hash of
         [ "provider", id ] ->
             case runtime.provider <| Id id of
-                Just c ->
-                    ( { model | selectedProvider = c, currentRoute = location }, Cmd.none )
+                Just p ->
+                    ( { model | selectedProvider = p, currentRoute = location }, Cmd.none )
 
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
 
         [ "provider", id, "all", contentType ] ->
             case runtime.provider <| Id id of
-                Just c ->
-                    ( { model | selectedProvider = c, currentRoute = location }, Cmd.none )
+                Just p ->
+                    ( { model | selectedProvider = p, currentRoute = location }, Cmd.none )
 
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
 
         [ "provider", id, topic ] ->
             case runtime.provider <| Id id of
-                Just provider ->
+                Just p ->
                     let
                         topicProvider =
-                            { provider | topics = [ Topic topic False ] }
+                            { p | topics = [ Topic topic False ] }
                     in
                         ( { model | selectedProvider = topicProvider, currentRoute = location }, Cmd.none )
 
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
 
-        [ id, "portal" ] ->
+        [ "portal", id ] ->
             case runtime.provider <| Id id of
-                Just c ->
+                Just p ->
                     let
                         portal =
                             model.portal
 
                         pendingPortal =
                             { portal
-                                | provider = c
-                                , sourcesNavigation = c.profile.sources |> List.isEmpty
+                                | provider = p
+                                , sourcesNavigation = p.profile.sources |> List.isEmpty
                                 , addLinkNavigation = True
-                                , linksNavigation = linksExist c.links
-                                , requested = Domain.Recent
+                                , linksNavigation = linksExist p.links
+                                , requested = Domain.ViewRecent
                             }
                     in
                         ( { model | portal = pendingPortal, currentRoute = location }, Cmd.none )
@@ -1339,12 +1299,12 @@ navigate msg model location =
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
 
-        [ id, "portal", topic ] ->
+        [ "portal", id, topic ] ->
             case runtime.provider <| Id id of
-                Just provider ->
+                Just p ->
                     let
                         topicProvider =
-                            { provider | topics = [ Topic topic False ] }
+                            { p | topics = [ Topic topic False ] }
 
                         portal =
                             model.portal
@@ -1357,23 +1317,49 @@ navigate msg model location =
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )
 
-        [ id, "portal", "all", contentType ] ->
+        [ "portal", id, "all", contentType ] ->
             case runtime.provider <| Id id of
-                Just c ->
+                Just p ->
                     let
                         portal =
                             model.portal
 
                         pendingPortal =
                             { portal
-                                | provider = c
-                                , sourcesNavigation = c.profile.sources |> List.isEmpty
+                                | provider = p
+                                , sourcesNavigation = p.profile.sources |> List.isEmpty
                                 , addLinkNavigation = True
-                                , linksNavigation = linksExist c.links
+                                , linksNavigation = linksExist p.links
                                 , requested = Domain.ViewLinks
                             }
                     in
                         ( { model | portal = pendingPortal, currentRoute = location }, Cmd.none )
+
+                Nothing ->
+                    ( { model | currentRoute = location }, Cmd.none )
+
+        [ "portal", clientId, "provider", id ] ->
+            case runtime.provider <| Id clientId of
+                Just portalProvider ->
+                    let
+                        portal =
+                            model.portal
+
+                        pendingPortal =
+                            { portal
+                                | provider = portalProvider
+                                , sourcesNavigation = portalProvider.profile.sources |> List.isEmpty
+                                , addLinkNavigation = True
+                                , linksNavigation = linksExist portalProvider.links
+                                , requested = Domain.ViewRecent
+                            }
+                    in
+                        case runtime.provider <| Id id of
+                            Just p ->
+                                ( { model | selectedProvider = p, portal = pendingPortal, currentRoute = location }, Cmd.none )
+
+                            Nothing ->
+                                ( { model | currentRoute = location }, Cmd.none )
 
                 Nothing ->
                     ( { model | currentRoute = location }, Cmd.none )

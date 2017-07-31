@@ -51,8 +51,8 @@ suite =
 
                     -- Verify
                     ( onlyOne, isProvider1 ) =
-                        ( (newState.contentProviders |> List.length) == 1
-                        , newState.contentProviders |> List.member contentProvider1
+                        ( (newState.providers |> List.length) == 1
+                        , newState.providers |> List.member provider1
                         )
                 in
                     Expect.equal (onlyOne && isProvider1) True

@@ -18,12 +18,12 @@ We are using the official jessie [dotnet core image](https://hub.docker.com/r/mi
 
 The dev images use the SDK variant of the official Microsoft. To use the dev image you need to build the Docker container
 ```
-./build-docker-dev
+./docker/build-docker-dev
 ```
 
 Once that's done you can run the helper script to boot the image, compile and start the server.
 ```
-./run-docker-dev
+./docker/run-docker-dev
 ```
 
 ## Production 
@@ -33,13 +33,13 @@ Once that's done you can run the helper script to boot the image, compile and st
 At some point, we will distribute a packages docker image using Docker hub. For now, you can compile your own. To make this simpler, you can use the helper scripts
 
 ```
-./build-docker-dev
-./run-docker-build
+./docker/build-docker-dev
+./docker/run-docker-build
 ```
 
 Finally, we can run the release image
 ```
-./run-docker-prod
+./docker/run-docker-prod
 ```
 
 You can also execute the build artifact by running
