@@ -33,42 +33,46 @@ let findUser email passwordHash =
         
     profiles |> Seq.tryHead
 
+let private follow (info:FollowRequest) =
+    let sql = @"INSERT INTO [dbo].[Subscription]
+                        ([ProfileId]
+                        ,[ProviderId])
+                  VALUES
+                         @ProfileId
+                        ,@ProviderId"
+
+    use connection = new SqlConnection(ConnectionString)
+    use command =    new SqlCommand(sql,connection)
+
+    command.Parameters.AddWithValue("@ProfileId",  info.SubscriberId) |> ignore
+    command.Parameters.AddWithValue("@ProviderId", info.ProviderId)   |> ignore
+    command.ExecuteNonQuery() |> ignore
+
+let private unsubscribe(info:UnsubscribeRequest) =
+    let sql = @"DELETE FROM [dbo].[Subscription]
+                WHERE ProfileId  = @ProfileId AND
+                      ProviderId = @ProviderId"
+
+    use connection = new SqlConnection(ConnectionString)
+    use command =    new SqlCommand(sql,connection)
+
+    command.Parameters.AddWithValue("@ProfileId",  info.SubscriberId) |> ignore
+    command.Parameters.AddWithValue("@ProviderId", info.ProviderId)   |> ignore
+    command.ExecuteNonQuery() |> ignore
+
+let private featureLink (info:FeatureLinkRequest) =
+    let sql = @"UPDATE [dbo].[Link]
+                SET [IsFeatured] = @Enabled
+                WHERE Id = @Id"
+
+    use connection = new SqlConnection(ConnectionString)
+    use command =    new SqlCommand(sql,connection)
+
+    command.Parameters.AddWithValue("@Id"     , info.LinkId)  |> ignore
+    command.Parameters.AddWithValue("@Enabled", info.Enabled) |> ignore
+    command.ExecuteNonQuery() |> ignore
+
 let execute = function
-    | Follow r ->
-        let sql = @"INSERT INTO [dbo].[Subscription]
-                            ([ProfileId]
-                            ,[ProviderId])
-                      VALUES
-                             @ProfileId
-                            ,@ProviderId"
-
-        use connection = new SqlConnection(ConnectionString)
-        use command =    new SqlCommand(sql,connection)
-
-        command.Parameters.AddWithValue("@ProfileId",  r.SubscriberId) |> ignore
-        command.Parameters.AddWithValue("@ProviderId", r.ProviderId)   |> ignore
-        command.ExecuteNonQuery() |> ignore
-
-    | Unsubscribe r -> 
-        let sql = @"DELETE FROM [dbo].[Subscription]
-                    WHERE ProfileId  = @ProfileId AND
-                          ProviderId = @ProviderId"
-
-        use connection = new SqlConnection(ConnectionString)
-        use command =    new SqlCommand(sql,connection)
-
-        command.Parameters.AddWithValue("@ProfileId",  r.SubscriberId) |> ignore
-        command.Parameters.AddWithValue("@ProviderId", r.ProviderId)   |> ignore
-        command.ExecuteNonQuery() |> ignore
-
-    | FeatureLink r ->
-        let sql = @"UPDATE [dbo].[Link]
-                    SET [IsFeatured] = @Enabled
-                    WHERE Id = @Id"
-
-        use connection = new SqlConnection(ConnectionString)
-        use command =    new SqlCommand(sql,connection)
-
-        command.Parameters.AddWithValue("@Id"     , r.LinkId)  |> ignore
-        command.Parameters.AddWithValue("@Enabled", r.Enabled) |> ignore
-        command.ExecuteNonQuery() |> ignore
+    | Follow      info -> follow      info
+    | Unsubscribe info -> unsubscribe info
+    | FeatureLink info -> featureLink info
