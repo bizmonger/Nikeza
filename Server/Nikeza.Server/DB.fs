@@ -30,3 +30,7 @@ let findUser (connString: string) email passwordHash =
         
     profiles 
     |> Seq.tryHead
+
+let follow request =      () // TO BE IMPLEMENTED
+let unsubscribe request = () // TO BE IMPLEMENTED
+let featureLink request = () // TO BE IMPLEMENTED

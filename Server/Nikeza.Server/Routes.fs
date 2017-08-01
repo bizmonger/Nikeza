@@ -9,6 +9,7 @@ open Nikeza.Server.Models
 open Nikeza.YouTube.Data
 open Nikeza.YouTube.Data.Authentication
 open Nikeza.Server.Wordpress
+open Nikeza.Server.DB
 
 // ---------------------------------
 // Web app
@@ -24,7 +25,6 @@ let registrationHandler =
             return! text response context 
         }
 
-            
 let loginHandler  (authFailedHandler : HttpHandler) = 
     fun(context: HttpContext) -> 
         async {
@@ -34,6 +34,30 @@ let loginHandler  (authFailedHandler : HttpHandler) =
                      do! context.Authentication.SignInAsync(authScheme, user) |> Async.AwaitTask 
                      return Some context 
                 else return! authFailedHandler context                                                           
+        }
+
+let followHandler = 
+    fun(context: HttpContext) -> 
+        async {
+            let! data = context.BindJson<FollowRequest>()
+            follow data
+            return Some context
+        } 
+
+let unsubscribeHandler = 
+    fun(context: HttpContext) -> 
+        async {
+            let! data = context.BindJson<UnsubscribeRequest>()
+            unsubscribe data
+            return Some context                  
+        } 
+
+let featureLinkHandler = 
+    fun(context: HttpContext) -> 
+        async {
+            let! data = context.BindJson<FeatureLinkRequest>()
+            featureLink data
+            return Some context
         } 
 
 let setCode (handler:HttpHandler)= 
@@ -70,8 +94,11 @@ let webApp : HttpContext -> HttpHandlerResult =
             ]
         POST >=> 
             choose [
-                route "/register" >=> registrationHandler 
-                route "/login"    >=> loginHandler (setStatusCode 401 >=> text "invalid credentials")
-                route "/logout"   >=> signOff authScheme >=> text "logged out"
+                route "/register"    >=> registrationHandler 
+                route "/login"       >=> loginHandler (setStatusCode 401 >=> text "invalid credentials")
+                route "/logout"      >=> signOff authScheme >=> text "logged out"
+                route "/follow"      >=> followHandler
+                route "/unsubscribe" >=> unsubscribeHandler
+                route "/featurelink" >=> featureLinkHandler
             ]
         setStatusCode 404 >=> text "Not Found" ]

@@ -1,35 +1,34 @@
 namespace Nikeza.Server.Models
+    open System
     open System.Security.Claims 
 
     [<CLIMutable>]
     type RegistrationRequest = 
         {
             UserName: string 
-            Password : string 
+            Password: string 
         }
     [<CLIMutable>]
     type UserRegistration = 
         {
-            UserName: string 
-            Salt : byte[] 
-            PasswordHash : string 
+            UserName:     string 
+            Salt:         byte[] 
+            PasswordHash: string 
         }      
     [<CLIMutable>]
     type LogInRequest = 
         {
             UserName: string
             Password: string 
-        }  
+        }
+    type LoginResponse = 
+        | Authenticated of ClaimsPrincipal
+        | UnAuthenticated 
 
-        type LoginRespone = 
-            | Authenticated of ClaimsPrincipal
-            | UnAuthenticated 
-
-        type RegistrationStatus = 
-            | Success   
-            | Failure 
-        
-
+    type RegistrationStatus = 
+        | Success   
+        | Failure 
+    
     module Authentication = 
         open Newtonsoft.Json
         open System.IO
@@ -69,26 +68,23 @@ namespace Nikeza.Server.Models
 
         let authenticate username password = 
             if userFileExists username
-            then 
-                let userFile = getUserFileName username
-            
-                let userRegistrationJson = File.ReadAllText(userFile)
-                let user = JsonConvert.DeserializeObject<UserRegistration>(userRegistrationJson)
-                let hashedPassword = getPasswordHash password user.Salt
-                let matches = hashedPassword = user.PasswordHash
-                matches
-            else 
-                false
+            then let userFile = getUserFileName username
+                 let userRegistrationJson = File.ReadAllText(userFile)
+                 let user = JsonConvert.DeserializeObject<UserRegistration>(userRegistrationJson)
+                 let hashedPassword = getPasswordHash password user.Salt
+                 let matches = hashedPassword = user.PasswordHash
+                 matches
+
+            else false
                 
         let register (r:RegistrationRequest) =            
             if userFileExists r.UserName
             then Failure
-            else 
-            let salt = generateSalt
-            let hashedPassword = getPasswordHash r.Password salt
-            let userRegistration = { UserName = r.UserName; Salt = salt; PasswordHash = hashedPassword }    
-            createUserFile userRegistration
-            Success
+            else let salt = generateSalt
+                 let hashedPassword = getPasswordHash r.Password salt
+                 let userRegistration = { UserName = r.UserName; Salt = salt; PasswordHash = hashedPassword }    
+                 createUserFile userRegistration
+                 Success
         
         let getUserClaims userName authScheme =
             let issuer = "http://localhost:5000"

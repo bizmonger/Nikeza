@@ -2,6 +2,7 @@ namespace Nikeza.Server.Models
 
 open System
 
+[<CLIMutable>]
 type Profile = {
     ProfileId: int
     FirstName: string
@@ -10,4 +11,21 @@ type Profile = {
     ImageUrl: string
     Bio: string
     Created: DateTime
+}
+
+[<CLIMutable>]
+type FollowRequest = {
+    SubscriberId: int 
+    ProviderId:   int
+}
+
+[<CLIMutable>]
+type UnsubscribeRequest = {
+    SubscriberId: int 
+    ProviderId:   int 
+}
+
+[<CLIMutable>]
+type FeatureLinkRequest = {
+    LinkId: int
 }
