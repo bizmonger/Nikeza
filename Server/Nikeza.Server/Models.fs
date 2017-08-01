@@ -30,3 +30,8 @@ type FeatureLinkRequest = {
     LinkId:  int
     Enabled: bool
 }
+
+type Command =
+    | Follow      of FollowRequest
+    | Unsubscribe of UnsubscribeRequest
+    | FeatureLink of FeatureLinkRequest

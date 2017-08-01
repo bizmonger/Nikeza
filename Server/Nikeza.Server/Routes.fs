@@ -40,7 +40,7 @@ let followHandler =
     fun(context: HttpContext) -> 
         async {
             let! data = context.BindJson<FollowRequest>()
-            follow data
+            execute <| Follow data
             return Some context
         } 
 
@@ -48,7 +48,7 @@ let unsubscribeHandler =
     fun(context: HttpContext) -> 
         async {
             let! data = context.BindJson<UnsubscribeRequest>()
-            unsubscribe data
+            execute <| Unsubscribe data
             return Some context                  
         } 
 
@@ -56,7 +56,7 @@ let featureLinkHandler =
     fun(context: HttpContext) -> 
         async {
             let! data = context.BindJson<FeatureLinkRequest>()
-            featureLink data
+            execute <| FeatureLink data
             return Some context
         } 
 
