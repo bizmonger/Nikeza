@@ -62,8 +62,8 @@ let private unsubscribe(info:UnsubscribeRequest) =
 
 let private featureLink (info:FeatureLinkRequest) =
     let sql = @"UPDATE [dbo].[Link]
-                SET [IsFeatured] = @Enabled
-                WHERE Id = @Id"
+                SET    [IsFeatured] = @Enabled
+                WHERE  Id = @Id"
 
     use connection = new SqlConnection(ConnectionString)
     use command =    new SqlCommand(sql,connection)
@@ -72,8 +72,22 @@ let private featureLink (info:FeatureLinkRequest) =
     command.Parameters.AddWithValue("@Enabled", info.Enabled) |> ignore
     command.ExecuteNonQuery() |> ignore
 
+let private updateProfile (info:UpdateProfileRequest) =
+    let sql = @"UPDATE [dbo].[Provider]
+                SET    [Bio] =   @bio
+                       [Email] = @email
+                WHERE  Id =      @Id"
+
+    use connection = new SqlConnection(ConnectionString)
+    use command =    new SqlCommand(sql,connection)
+
+    command.Parameters.AddWithValue("@Id" ,   info.ProviderId) |> ignore
+    command.Parameters.AddWithValue("@bio",   info.Bio)        |> ignore
+    command.Parameters.AddWithValue("@email", info.Email)      |> ignore
+    command.ExecuteNonQuery() |> ignore
+
 let execute = function
-    | Follow        info -> follow      info
-    | Unsubscribe   info -> unsubscribe info
-    | FeatureLink   info -> featureLink info
-    | UpdateProfile info -> () // TODO
+    | Follow        info -> follow        info
+    | Unsubscribe   info -> unsubscribe   info
+    | FeatureLink   info -> featureLink   info
+    | UpdateProfile info -> updateProfile info
