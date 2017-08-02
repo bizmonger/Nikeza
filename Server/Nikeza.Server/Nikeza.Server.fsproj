@@ -45,9 +45,9 @@
     <Watch Include="**\*.html" Exclude="bin\**\*" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Tests/Integration.fs" />
     <Compile Include="Models.fs" />
     <Compile Include="DataAccess.fs" />
+    <Compile Include="IntegrationTests.fs" />
     <Compile Include="Authentication.fs" />
     <Compile Include="Youtube.fs" />
     <Compile Include="Wordpress.fs" />
