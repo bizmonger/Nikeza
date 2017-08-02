@@ -1,60 +1,60 @@
-// module Integration
+module Integration
 
-// open FsUnit
-// open NUnit.Framework
+open FsUnit
+open NUnit.Framework
 
-// [<Test>]
-// let ``Follow`` () = ()
-//     // Setup
+[<Test>]
+let ``Follow`` () = ()
+    // Setup
 
-//     // Test
+    // Test
 
-//     // Verify
+    // Verify
 
-// [<Test>]
-// let ``Unsubscribe`` () = ()
-//     // Setup
+[<Test>]
+let ``Unsubscribe`` () = ()
+    // Setup
 
-//     // Test
+    // Test
 
-//     // Verify
+    // Verify
 
-// [<Test>]
-// let ``Feature Link`` () = ()
-//     // Setup
+[<Test>]
+let ``Feature Link`` () = ()
+    // Setup
 
-//     // Test
+    // Test
 
-//     // Verify
+    // Verify
 
-// [<Test>]
-// let ``Unfeature Link`` () = ()
-//     // Setup
+[<Test>]
+let ``Unfeature Link`` () = ()
+    // Setup
 
-//     // Test
+    // Test
 
-//     // Verify
+    // Verify
 
-// [<Test>]
-// let ``Registration`` () = ()
-//     // Setup
+[<Test>]
+let ``Registration`` () = ()
+    // Setup
 
-//     // Test
+    // Test
 
-//     // 
+    // 
 
-// [<Test>]
-// let ``Signin`` () = ()
-//     // Setup
+[<Test>]
+let ``Signin`` () = ()
+    // Setup
 
-//     // Test
+    // Test
 
-//     // Verify
+    // Verify
 
-// [<Test>]
-// let ``Update profile`` () = ()
-//     // Setup
+[<Test>]
+let ``Update profile`` () = ()
+    // Setup
 
-//     // Test
+    // Test
 
-//     // Verify
+    // Verify
