@@ -104,7 +104,7 @@ view model contentType isOwner =
                     linkElement
 
         checkbox link =
-            input [ type_ "checkbox", checked False, onCheck (\b -> Featured ( link, b )) ] []
+            input [ type_ "checkbox", checked link.isFeatured, onCheck (\b -> Featured ( link, b )) ] []
 
         addCheckbox link element =
             div []
