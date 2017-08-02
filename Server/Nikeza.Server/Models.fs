@@ -31,7 +31,15 @@ type FeatureLinkRequest = {
     Enabled: bool
 }
 
+[<CLIMutable>]
+type UpdateProfileRequest = {
+    ProviderId: int
+    Bio:        string
+    Email:      string
+}
+
 type Command =
-    | Follow      of FollowRequest
-    | Unsubscribe of UnsubscribeRequest
-    | FeatureLink of FeatureLinkRequest
+    | Follow        of FollowRequest
+    | Unsubscribe   of UnsubscribeRequest
+    | FeatureLink   of FeatureLinkRequest
+    | UpdateProfile of UpdateProfileRequest

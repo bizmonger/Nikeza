@@ -34,3 +34,27 @@
 //     // Test
 
 //     // Verify
+
+// [<Test>]
+// let ``Registration`` () = ()
+//     // Setup
+
+//     // Test
+
+//     // 
+
+// [<Test>]
+// let ``Signin`` () = ()
+//     // Setup
+
+//     // Test
+
+//     // Verify
+
+// [<Test>]
+// let ``Update profile`` () = ()
+//     // Setup
+
+//     // Test
+
+//     // Verify

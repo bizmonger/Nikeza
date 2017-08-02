@@ -58,7 +58,15 @@ let featureLinkHandler =
             let! data = context.BindJson<FeatureLinkRequest>()
             execute <| FeatureLink data
             return Some context
-        } 
+        }
+
+let updateProfileHandler = 
+    fun(context: HttpContext) -> 
+        async {
+            let! data = context.BindJson<UpdateProfileRequest>()
+            execute <| UpdateProfile data
+            return Some context
+        }
 
 let setCode (handler:HttpHandler)= 
     fun(context: HttpContext) ->     
@@ -67,7 +75,6 @@ let setCode (handler:HttpHandler)=
                 then setStatusCode 401
                 else handler
         response context
-
 
 let fetchYoutube (apiKey, channelId) (context : HttpContext) = 
     async {
@@ -94,11 +101,12 @@ let webApp : HttpContext -> HttpHandlerResult =
             ]
         POST >=> 
             choose [
-                route "/register"    >=> registrationHandler 
-                route "/login"       >=> loginHandler (setStatusCode 401 >=> text "invalid credentials")
-                route "/logout"      >=> signOff authScheme >=> text "logged out"
-                route "/follow"      >=> followHandler
-                route "/unsubscribe" >=> unsubscribeHandler
-                route "/featurelink" >=> featureLinkHandler
+                route "/register"      >=> registrationHandler 
+                route "/login"         >=> loginHandler (setStatusCode 401 >=> text "invalid credentials")
+                route "/logout"        >=> signOff authScheme >=> text "logged out"
+                route "/follow"        >=> followHandler
+                route "/unsubscribe"   >=> unsubscribeHandler
+                route "/featurelink"   >=> featureLinkHandler
+                route "/updateprofile" >=> updateProfileHandler
             ]
         setStatusCode 404 >=> text "Not Found" ]

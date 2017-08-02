@@ -73,6 +73,7 @@ let private featureLink (info:FeatureLinkRequest) =
     command.ExecuteNonQuery() |> ignore
 
 let execute = function
-    | Follow      info -> follow      info
-    | Unsubscribe info -> unsubscribe info
-    | FeatureLink info -> featureLink info
+    | Follow        info -> follow      info
+    | Unsubscribe   info -> unsubscribe info
+    | FeatureLink   info -> featureLink info
+    | UpdateProfile info -> () // TODO
