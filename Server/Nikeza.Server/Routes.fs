@@ -6,10 +6,10 @@ open Giraffe.HttpContextExtensions
 open Giraffe.HttpHandlers
 open Nikeza.Server.Models.Authentication
 open Nikeza.Server.Models
-open Nikeza.YouTube.Data
-open Nikeza.YouTube.Data.Authentication
+open Nikeza.Server.YouTube.Data
+open Nikeza.Server.YouTube.Data.Authentication
 open Nikeza.Server.Wordpress
-open Nikeza.Server.DB
+open Nikeza.Server.DataAccess
 
 // ---------------------------------
 // Web app

@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models.fs" />
-    <Compile Include="DB.fs"/>
+    <Compile Include="DataAccess.fs"/>
     <Compile Include="Authentication.fs" />
     <Compile Include="Youtube.fs" />
     <Compile Include="Wordpress.fs" />

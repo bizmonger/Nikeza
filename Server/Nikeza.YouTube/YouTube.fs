@@ -1,4 +1,4 @@
-module Nikeza.YouTube.Data
+module Nikeza.Server.YouTube.Data
 
 open System
 open System.IO
