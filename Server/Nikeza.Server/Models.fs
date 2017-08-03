@@ -27,8 +27,8 @@ type UnsubscribeRequest = {
 
 [<CLIMutable>]
 type FeatureLinkRequest = {
-    LinkId:  int
-    Enabled: bool
+    LinkId:     int
+    IsFeatured: bool
 }
 
 [<CLIMutable>]

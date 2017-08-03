@@ -62,14 +62,14 @@ let private unsubscribe(info:UnsubscribeRequest) =
 
 let private featureLink (info:FeatureLinkRequest) =
     let sql = @"UPDATE [dbo].[Link]
-                SET    [IsFeatured] = @Enabled
+                SET    [IsFeatured] = @IsFeatured
                 WHERE  Id = @Id"
 
     use connection = new SqlConnection(ConnectionString)
     use command =    new SqlCommand(sql,connection)
 
-    command.Parameters.AddWithValue("@Id"     , info.LinkId)  |> ignore
-    command.Parameters.AddWithValue("@Enabled", info.Enabled) |> ignore
+    command.Parameters.AddWithValue("@Id"     , info.LinkId)     |> ignore
+    command.Parameters.AddWithValue("@IsFeatured", info.IsFeatured) |> ignore
     command.ExecuteNonQuery() |> ignore
 
 let private updateProfile (info:UpdateProfileRequest) =

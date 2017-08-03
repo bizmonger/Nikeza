@@ -39,6 +39,9 @@ let ``Follow`` () =
 
     entryAdded |> should equal true
 
+    // Teardown
+    (* Todo *)
+
 [<Test>]
 let ``Unsubscribe`` () =
     // Setup
@@ -60,21 +63,58 @@ let ``Unsubscribe`` () =
     let reader = command.ExecuteReader()
     reader.Read() |> should equal false
 
+    // Teardown
+    (* Todo *)
+
 [<Test>]
 let ``Feature Link`` () =
+    //Setup
+    let data = { LinkId = 0; IsFeatured = true }
+
     // Test
-    execute <| FeatureLink { LinkId = 0; Enabled=true }
+    execute <| FeatureLink data
 
     // Verify
-    (*Assert entry in datastore*)
+    let sql = @"SELECT Id, IsFeatured
+                FROM   [dbo].[Link]
+                WHERE  Id  = @id
+                AND    IsFeatured = @IsFeatured"
+
+    use command = createCommand(sql)
+    command.Parameters.AddWithValue("@id",      data.LinkId)     |> ignore
+    command.Parameters.AddWithValue("@Enabled", data.IsFeatured) |> ignore
+
+    let reader = command.ExecuteReader()
+    let isFeatured = reader.GetBoolean(6)
+    isFeatured |> should equal true
+
+    // Teardown
+    (* Todo *)
 
 [<Test>]
 let ``Unfeature Link`` () =
+    //Setup
+    let data = { LinkId = 0; IsFeatured = false }
+
     // Test
-    execute <| FeatureLink { LinkId = 0; Enabled=false }
+    execute <| FeatureLink data
 
     // Verify
-    (*Assert entry in datastore*)
+    let sql = @"SELECT Id, IsFeatured
+                FROM   [dbo].[Link]
+                WHERE  Id  = @id
+                AND    IsFeatured = @IsFeatured"
+
+    use command = createCommand(sql)
+    command.Parameters.AddWithValue("@id",      data.LinkId)     |> ignore
+    command.Parameters.AddWithValue("@Enabled", data.IsFeatured) |> ignore
+
+    let reader = command.ExecuteReader()
+    let isFeatured = reader.GetBoolean(6)
+    isFeatured |> should equal false
+
+    // Teardown
+    (* Todo *)
 
 [<Test>]
 let ``Registration`` () = ()
@@ -84,6 +124,8 @@ let ``Registration`` () = ()
 
     // Verify
 
+    // Teardown
+
 [<Test>]
 let ``Signin`` () = ()
     // Setup
@@ -92,6 +134,8 @@ let ``Signin`` () = ()
 
     // Verify
 
+    // Teardown
+
 [<Test>]
 let ``Update profile`` () = ()
     // Setup
@@ -99,3 +143,5 @@ let ``Update profile`` () = ()
     // Test
 
     // Verify
+
+    // Teardown
