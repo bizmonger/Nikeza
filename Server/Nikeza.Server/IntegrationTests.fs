@@ -7,6 +7,8 @@ open Nikeza.Server.DataAccess
 open System.Data.SqlClient
 open Nikeza.TestAPI
 
+// https://github.com/nunit/dotnet-test-nunit
+
 [<Test>]
 let ``Follow`` () =
     // Setup
