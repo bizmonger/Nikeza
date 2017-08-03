@@ -5,16 +5,7 @@ open NUnit.Framework
 open Nikeza.Server.Models
 open Nikeza.Server.DataAccess
 open System.Data.SqlClient
-
-let createCommand sql =
-    use connection = new SqlConnection(ConnectionString)
-    new SqlCommand(sql,connection)
-
-open System.Data.SqlClient
-let prepareReader (command:SqlCommand) =
-    let reader = command.ExecuteReader()
-    reader.Read() |> ignore
-    reader
+open Nikeza.TestAPI
 
 [<Test>]
 let ``Follow`` () =
