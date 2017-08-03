@@ -23,7 +23,8 @@ let ``Follow`` () =
                 WHERE  ProfileId  = @ProfileId
                 AND    ProviderId = @ProviderId"
 
-    use command = createCommand(sql)
+    let (connection,command) = createCommand(sql)
+
     command.Parameters.AddWithValue("@ProfileId",  data.SubscriberId) |> ignore
     command.Parameters.AddWithValue("@ProviderId", data.ProviderId)   |> ignore
 
@@ -33,7 +34,7 @@ let ``Follow`` () =
     entryAdded |> should equal true
 
     // Teardown
-    (* Todo *)
+    dispose connection command
 
 [<Test>]
 let ``Unsubscribe`` () =
@@ -49,7 +50,8 @@ let ``Unsubscribe`` () =
                 WHERE  ProfileId  = @ProfileId
                 AND    ProviderId = @ProviderId"
 
-    use command = createCommand(sql)
+    let (connection,command) = createCommand(sql)
+
     command.Parameters.AddWithValue("@ProfileId",  data.SubscriberId) |> ignore
     command.Parameters.AddWithValue("@ProviderId", data.ProviderId)   |> ignore
 
@@ -57,7 +59,7 @@ let ``Unsubscribe`` () =
     reader.Read() |> should equal false
 
     // Teardown
-    (* Todo *)
+    dispose connection command
 
 [<Test>]
 let ``Feature Link`` () =
@@ -71,18 +73,19 @@ let ``Feature Link`` () =
     let sql = @"SELECT Id, IsFeatured
                 FROM   [dbo].[Link]
                 WHERE  Id  = @id
-                AND    IsFeatured = @IsFeatured"
+                AND    IsFeatured = @isFeatured"
 
-    use command = createCommand(sql)
-    command.Parameters.AddWithValue("@id",      data.LinkId)     |> ignore
-    command.Parameters.AddWithValue("@Enabled", data.IsFeatured) |> ignore
+    let (connection,command) = createCommand(sql)
+
+    command.Parameters.AddWithValue("@id",         data.LinkId)     |> ignore
+    command.Parameters.AddWithValue("@isFeatured", data.IsFeatured) |> ignore
 
     let reader = command.ExecuteReader()
     let isFeatured = reader.GetBoolean(6)
     isFeatured |> should equal true
 
     // Teardown
-    (* Todo *)
+    dispose connection command
 
 [<Test>]
 let ``Unfeature Link`` () =
@@ -98,7 +101,8 @@ let ``Unfeature Link`` () =
                 WHERE  Id  = @id
                 AND    IsFeatured = @IsFeatured"
 
-    use command = createCommand(sql)
+    let (connection,command) = createCommand(sql)
+
     command.Parameters.AddWithValue("@id",      data.LinkId)     |> ignore
     command.Parameters.AddWithValue("@Enabled", data.IsFeatured) |> ignore
 
@@ -107,34 +111,34 @@ let ``Unfeature Link`` () =
     isFeatured |> should equal false
 
     // Teardown
-    (* Todo *)
+    dispose connection command
 
-[<Test>]
-let ``Registration`` () = ()
-    // Setup
+// [<Test>]
+// let ``Registration`` () = ()
+//     // Setup
 
-    // Test
+//     // Test
 
-    // Verify
+//     // Verify
 
-    // Teardown
+//     // Teardown
 
-[<Test>]
-let ``Signin`` () = ()
-    // Setup
+// [<Test>]
+// let ``Signin`` () = ()
+//     // Setup
 
-    // Test
+//     // Test
 
-    // Verify
+//     // Verify
 
-    // Teardown
+//     // Teardown
 
-[<Test>]
-let ``Update profile`` () = ()
-    // Setup
+// [<Test>]
+// let ``Update profile`` () = ()
+//     // Setup
 
-    // Test
+//     // Test
 
-    // Verify
+//     // Verify
 
-    // Teardown
+//     // Teardown
