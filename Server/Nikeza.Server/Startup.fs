@@ -6,6 +6,7 @@ open Microsoft.AspNetCore.Hosting
 open Microsoft.AspNetCore.Http
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
+open Microsoft.Extensions.Configuration
 open Giraffe.HttpHandlers
 open Giraffe.Middleware
 open Giraffe.Razor.Middleware

@@ -10,8 +10,7 @@ open Microsoft.Extensions.DependencyInjection
 open Nikeza.Server.Startup
 
 [<EntryPoint>]
-let main argv =              
-    let contentRoot = Directory.GetCurrentDirectory()             
+let main argv =                         
     WebHostBuilder()
         .UseKestrel()
         .UseContentRoot(Directory.GetCurrentDirectory())
