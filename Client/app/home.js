@@ -12520,7 +12520,7 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 					_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$checked(false),
+						_0: _elm_lang$html$Html_Attributes$checked(link.isFeatured),
 						_1: {
 							ctor: '::',
 							_0: _elm_lang$html$Html_Events$onCheck(
@@ -17397,7 +17397,7 @@ var _user$project$Home$headerContent = function (model) {
 							_0: _elm_lang$html$Html_Attributes$class('logo'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$src('assets/Nikeza_thin_2.png'),
+								_0: _elm_lang$html$Html_Attributes$src('Assets/Nikeza_thin_2.png'),
 								_1: {ctor: '[]'}
 							}
 						},

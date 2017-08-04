@@ -6,16 +6,16 @@ open Giraffe.HttpContextExtensions
 open Giraffe.HttpHandlers
 open Nikeza.Server.Models.Authentication
 open Nikeza.Server.Models
-open Nikeza.YouTube.Data
-open Nikeza.YouTube.Data.Authentication
+open Nikeza.Server.YouTube.Data
+open Nikeza.Server.YouTube.Data.Authentication
 open Nikeza.Server.Wordpress
-open Nikeza.Server.DB
+open Nikeza.Server.DataAccess
 
 // ---------------------------------
 // Web app
 // ---------------------------------
 let authScheme = "Cookie"
-let registrationHandler = 
+let private registrationHandler = 
     fun(context: HttpContext) -> 
         async {
             let! data = context.BindJson<RegistrationRequest>()
@@ -25,7 +25,7 @@ let registrationHandler =
             return! text response context 
         }
 
-let loginHandler  (authFailedHandler : HttpHandler) = 
+let private loginHandler  (authFailedHandler : HttpHandler) = 
     fun(context: HttpContext) -> 
         async {
             let! data = context.BindJson<LogInRequest>()
@@ -36,7 +36,7 @@ let loginHandler  (authFailedHandler : HttpHandler) =
                 else return! authFailedHandler context                                                           
         }
 
-let followHandler = 
+let private followHandler = 
     fun(context: HttpContext) -> 
         async {
             let! data = context.BindJson<FollowRequest>()
@@ -44,7 +44,7 @@ let followHandler =
             return Some context
         } 
 
-let unsubscribeHandler = 
+let private unsubscribeHandler = 
     fun(context: HttpContext) -> 
         async {
             let! data = context.BindJson<UnsubscribeRequest>()
@@ -52,15 +52,23 @@ let unsubscribeHandler =
             return Some context                  
         } 
 
-let featureLinkHandler = 
+let private featureLinkHandler = 
     fun(context: HttpContext) -> 
         async {
             let! data = context.BindJson<FeatureLinkRequest>()
             execute <| FeatureLink data
             return Some context
-        } 
+        }
 
-let setCode (handler:HttpHandler)= 
+let private updateProfileHandler = 
+    fun(context: HttpContext) -> 
+        async {
+            let! data = context.BindJson<UpdateProfileRequest>()
+            execute <| UpdateProfile data
+            return Some context
+        }
+
+let private setCode (handler:HttpHandler)= 
     fun(context: HttpContext) ->     
         let response =
              if context.Response.Body.ToString() = ""
@@ -68,18 +76,30 @@ let setCode (handler:HttpHandler)=
                 else handler
         response context
 
-
-let fetchYoutube (apiKey, channelId) (context : HttpContext) = 
+let private fetchYoutube (apiKey, channelId) (context : HttpContext) = 
     async {
         let  youtube = youTubeService apiKey
         let! videos =  uploadList youtube <| ChannelId channelId
         return! json videos context
     }
 
-let fetchWordpress (feedUrl) (context : HttpContext) =
+let private fetchWordpress (feedUrl) (context : HttpContext) =
     async {
         let! response = jsonRssFeed feedUrl
         return! json response context
+    }
+
+let private fetchLinks (providerId) (context : HttpContext) =
+    async {
+        return Some context // TODO
+    }
+let private fetchFollowers (providerId) (context : HttpContext) =
+    async {
+        return Some context // TODO
+    }
+let private fetchSubscriptions (providerId) (context : HttpContext) =
+    async {
+        return Some context // TODO
     }
 
 let webApp : HttpContext -> HttpHandlerResult = 
@@ -94,11 +114,12 @@ let webApp : HttpContext -> HttpHandlerResult =
             ]
         POST >=> 
             choose [
-                route "/register"    >=> registrationHandler 
-                route "/login"       >=> loginHandler (setStatusCode 401 >=> text "invalid credentials")
-                route "/logout"      >=> signOff authScheme >=> text "logged out"
-                route "/follow"      >=> followHandler
-                route "/unsubscribe" >=> unsubscribeHandler
-                route "/featurelink" >=> featureLinkHandler
+                route "/register"      >=> registrationHandler 
+                route "/login"         >=> loginHandler (setStatusCode 401 >=> text "invalid credentials")
+                route "/logout"        >=> signOff authScheme >=> text "logged out"
+                route "/follow"        >=> followHandler
+                route "/unsubscribe"   >=> unsubscribeHandler
+                route "/featurelink"   >=> featureLinkHandler
+                route "/updateprofile" >=> updateProfileHandler
             ]
         setStatusCode 404 >=> text "Not Found" ]

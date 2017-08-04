@@ -1,7 +1,7 @@
 module Nikeza.Server.YouTube
 
 open System
-open Nikeza.YouTube.Data
+open Nikeza.Server.YouTube.Data
 
 let getVideos youtube parameters = 
     async {
