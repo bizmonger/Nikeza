@@ -4,6 +4,7 @@ open System
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
 open Microsoft.AspNetCore.Http
+open Microsoft.AspNetCore.StaticFiles
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Configuration
@@ -38,14 +39,16 @@ let cookieAuth =
 let configureApp (app : IApplicationBuilder) = 
     app.UseGiraffeErrorHandler errorHandler
     app.UseCookieAuthentication cookieAuth |> ignore
+    app.UseStaticFiles() |> ignore
     app.UseGiraffe webApp
+ 
 
 let configureServices (services : IServiceCollection) =
     let sp  = services.BuildServiceProvider()
     let env = sp.GetService<IHostingEnvironment>()
     let viewsFolderPath = IO.Path.Combine(env.ContentRootPath, "Views")
     services.AddRazorEngine viewsFolderPath |> ignore
-    services.AddAuthentication()            |> ignore
+    services.AddAuthentication() |> ignore
 
 let configureLogging (loggerFactory : ILoggerFactory) =
     loggerFactory.AddConsole(LogLevel.Trace).AddDebug() |> ignore

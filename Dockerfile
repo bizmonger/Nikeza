@@ -24,4 +24,5 @@ RUN cd Client/app \
 FROM microsoft/aspnetcore
 WORKDIR app/
 COPY --from=builder /app .
+EXPOSE 80
 ENTRYPOINT ["dotnet", "Nikeza.Server.dll"]
