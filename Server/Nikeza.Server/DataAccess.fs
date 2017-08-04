@@ -4,8 +4,7 @@ open System
 open Nikeza.Server.Models
 open System.Data.SqlClient
 
-[<Literal>]
-let ConnectionString = @"Data Source=DESKTOP-GE7O8JT\SQLEXPRESS;Initial Catalog=Nikeza;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+let ConnectionString = Configuration.ConnectionString
 
 let createCommand sql =
     let connection = new SqlConnection(ConnectionString)
@@ -39,6 +38,7 @@ let findUser email passwordHash =
                     ImageUrl =     reader.["ImageUrl"].ToString()
                     Bio =          reader.["Bio"].ToString()
                     PasswordHash = reader.["PasswordHash"].ToString()
+                    Salt =         reader.["Salt"].ToString()
                     Created =      DateTime.Parse(reader.["Created"].ToString()) 
                 }
         }
@@ -54,6 +54,7 @@ let private register (info:Profile) =
                       , ImgUrl
                       , Bio
                       , PasswordHash
+                      , Salt
                       , Created )
                 VALUES
                        ( @FirstName
@@ -62,6 +63,7 @@ let private register (info:Profile) =
                        , @ImageUrl
                        , @Bio
                        , @PasswordHash
+                       , @Salt
                        , @Created
                        )"
 
@@ -73,6 +75,7 @@ let private register (info:Profile) =
     command.Parameters.AddWithValue("@ImageUrl",     info.ImageUrl)     |> ignore
     command.Parameters.AddWithValue("@Bio",          info.Bio)          |> ignore
     command.Parameters.AddWithValue("@PasswordHash", info.PasswordHash) |> ignore
+    command.Parameters.AddWithValue("@Salt",         info.Salt)         |> ignore
     command.Parameters.AddWithValue("@Created",      info.Created)      |> ignore
 
     command.ExecuteNonQuery() |> ignore
@@ -81,8 +84,8 @@ let private register (info:Profile) =
 
 let private follow (info:FollowRequest) =
     let sql = @"INSERT INTO [dbo].[Subscription]
-                       ProfileId
-                      ,ProviderId
+                      (ProfileId
+                      ,ProviderId)
                 VALUES
                        ( 9 
                        , 9

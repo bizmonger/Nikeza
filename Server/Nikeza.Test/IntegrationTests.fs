@@ -22,6 +22,7 @@ let ``Follow`` () =
         ImageUrl =      "some_url_.com"
         Bio =           "Some Bio"
         PasswordHash =  "XXX"
+        Salt =          "XXX"
         Created =       DateTime.Now
     }
 
@@ -142,6 +143,7 @@ let ``Registration`` () =
         ImageUrl =      "some_url_.com"
         Bio =           "Some Bio"
         PasswordHash =  "XXX"
+        Salt =          "XXX"
         Created =       DateTime.Now
     }
 

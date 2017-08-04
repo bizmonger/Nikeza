@@ -7,6 +7,7 @@ open Microsoft.AspNetCore.Http
 open Microsoft.AspNetCore.StaticFiles
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
+open Microsoft.Extensions.Configuration
 open Giraffe.HttpHandlers
 open Giraffe.Middleware
 open Giraffe.Razor.Middleware
