@@ -109,8 +109,11 @@ let webApp : HttpContext -> HttpHandlerResult =
             choose [
                 //route "/" >=> htmlFile "/hostingstart.html"
                 route "/" >=> htmlFile "/home.html"
-                routef "/youtube/%s/%s" fetchYoutube
-                routef "/wordpress/%s"  fetchWordpress
+                routef "/youtube/%s/%s"    fetchYoutube
+                routef "/wordpress/%s"     fetchWordpress
+                routef "/links/%s"         fetchLinks
+                routef "/followers/%s"     fetchFollowers
+                routef "/subscriptions/%s" fetchSubscriptions
             ]
         POST >=> 
             choose [
