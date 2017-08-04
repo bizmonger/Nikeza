@@ -38,7 +38,6 @@ let findUser email passwordHash =
                     ImageUrl =     reader.["ImageUrl"].ToString()
                     Bio =          reader.["Bio"].ToString()
                     PasswordHash = reader.["PasswordHash"].ToString()
-                    Salt =         reader.["Salt"].ToString()
                     Created =      DateTime.Parse(reader.["Created"].ToString()) 
                 }
         }
@@ -54,7 +53,6 @@ let private register (info:Profile) =
                       , ImgUrl
                       , Bio
                       , PasswordHash
-                      , Salt
                       , Created )
                 VALUES
                        ( @FirstName
@@ -63,7 +61,6 @@ let private register (info:Profile) =
                        , @ImageUrl
                        , @Bio
                        , @PasswordHash
-                       , @Salt
                        , @Created
                        )"
 
@@ -75,7 +72,6 @@ let private register (info:Profile) =
     command.Parameters.AddWithValue("@ImageUrl",     info.ImageUrl)     |> ignore
     command.Parameters.AddWithValue("@Bio",          info.Bio)          |> ignore
     command.Parameters.AddWithValue("@PasswordHash", info.PasswordHash) |> ignore
-    command.Parameters.AddWithValue("@Salt",         info.Salt)         |> ignore
     command.Parameters.AddWithValue("@Created",      info.Created)      |> ignore
 
     command.ExecuteNonQuery() |> ignore
