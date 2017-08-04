@@ -1,5 +1,6 @@
 module Integration
 
+open System
 open FsUnit
 open NUnit.Framework
 open Nikeza.Server.Models
@@ -11,8 +12,22 @@ open Nikeza.TestAPI
 
 [<Test>]
 let ``Follow`` () =
+
     // Setup
-    let data = { FollowRequest.SubscriberId = 0; FollowRequest.ProviderId=0 }
+    let profile = { 
+        ProfileId =     0
+        FirstName =     "Scott"
+        LastName =      "Nimrod"
+        Email =         "abc@abc.com"
+        ImageUrl =      "some_url_.com"
+        Bio =           "Some Bio"
+        PasswordHash =  "XXX"
+        Created =       DateTime.Now
+    }
+
+    execute <| Register profile
+
+    let data = { FollowRequest.SubscriberId = 0; FollowRequest.ProviderId = 0 }
 
     // Test
     execute <| Follow data
@@ -38,6 +53,7 @@ let ``Follow`` () =
 
 [<Test>]
 let ``Unsubscribe`` () =
+
     // Setup
     let data = { SubscriberId = 0; ProviderId=0 }
 
@@ -61,67 +77,80 @@ let ``Unsubscribe`` () =
     // Teardown
     dispose connection command
 
-[<Test>]
-let ``Feature Link`` () =
-    //Setup
-    let data = { LinkId = 0; IsFeatured = true }
-
-    // Test
-    execute <| FeatureLink data
-
-    // Verify
-    let sql = @"SELECT Id, IsFeatured
-                FROM   [dbo].[Link]
-                WHERE  Id  = @id
-                AND    IsFeatured = @isFeatured"
-
-    let (connection,command) = createCommand(sql)
-
-    command.Parameters.AddWithValue("@id",         data.LinkId)     |> ignore
-    command.Parameters.AddWithValue("@isFeatured", data.IsFeatured) |> ignore
-
-    let reader = command.ExecuteReader()
-    let isFeatured = reader.GetBoolean(6)
-    isFeatured |> should equal true
-
-    // Teardown
-    dispose connection command
-
-[<Test>]
-let ``Unfeature Link`` () =
-    //Setup
-    let data = { LinkId = 0; IsFeatured = false }
-
-    // Test
-    execute <| FeatureLink data
-
-    // Verify
-    let sql = @"SELECT Id, IsFeatured
-                FROM   [dbo].[Link]
-                WHERE  Id  = @id
-                AND    IsFeatured = @IsFeatured"
-
-    let (connection,command) = createCommand(sql)
-
-    command.Parameters.AddWithValue("@id",      data.LinkId)     |> ignore
-    command.Parameters.AddWithValue("@Enabled", data.IsFeatured) |> ignore
-
-    let reader = command.ExecuteReader()
-    let isFeatured = reader.GetBoolean(6)
-    isFeatured |> should equal false
-
-    // Teardown
-    dispose connection command
-
 // [<Test>]
-// let ``Registration`` () = ()
-//     // Setup
+// let ``Feature Link`` () =
+
+//     //Setup
+//     let data = { LinkId = 0; IsFeatured = true }
 
 //     // Test
+//     execute <| FeatureLink data
 
 //     // Verify
+//     let sql = @"SELECT Id, IsFeatured
+//                 FROM   [dbo].[Link]
+//                 WHERE  Id  = @id
+//                 AND    IsFeatured = @isFeatured"
+
+//     let (connection,command) = createCommand(sql)
+
+//     command.Parameters.AddWithValue("@id",         data.LinkId)     |> ignore
+//     command.Parameters.AddWithValue("@isFeatured", data.IsFeatured) |> ignore
+
+//     let reader = command.ExecuteReader()
+//     let isFeatured = reader.GetBoolean(6)
+//     isFeatured |> should equal true
 
 //     // Teardown
+//     dispose connection command
+
+// [<Test>]
+// let ``Unfeature Link`` () =
+//     //Setup
+//     let data = { LinkId = 0; IsFeatured = false }
+
+//     // Test
+//     execute <| FeatureLink data
+
+//     // Verify
+//     let sql = @"SELECT Id, IsFeatured
+//                 FROM   [dbo].[Link]
+//                 WHERE  Id  = @id
+//                 AND    IsFeatured = @IsFeatured"
+
+//     let (connection,command) = createCommand(sql)
+
+//     command.Parameters.AddWithValue("@id",      data.LinkId)     |> ignore
+//     command.Parameters.AddWithValue("@Enabled", data.IsFeatured) |> ignore
+
+//     let reader = command.ExecuteReader()
+//     let isFeatured = reader.GetBoolean(6)
+//     isFeatured |> should equal false
+
+//     // Teardown
+//     dispose connection command
+
+[<Test>]
+let ``Registration`` () =
+
+    // Setup
+    let data = { 
+        ProfileId =     0
+        FirstName =     "Scott"
+        LastName =      "Nimrod"
+        Email =         "abc@abc.com"
+        ImageUrl =      "some_url_.com"
+        Bio =           "Some Bio"
+        PasswordHash =  "XXX"
+        Created =       DateTime.Now
+    }
+
+    // Test
+    execute <| Register data
+
+    // Verify
+
+    // Teardown
 
 // [<Test>]
 // let ``Signin`` () = ()

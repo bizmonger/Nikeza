@@ -10,6 +10,7 @@ type Profile = {
     Email: string
     ImageUrl: string
     Bio: string
+    PasswordHash:string
     Created: DateTime
 }
 
@@ -33,6 +34,7 @@ type UpdateProfileRequest = {
 type LinksRequest = { ProviderId: int }
 
 type Command =
+    | Register      of Profile
     | Follow        of FollowRequest
     | Unsubscribe   of UnsubscribeRequest
     | FeatureLink   of FeatureLinkRequest

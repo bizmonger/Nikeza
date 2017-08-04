@@ -32,25 +32,61 @@ let findUser email passwordHash =
         seq {
             while reader.Read() do 
                 yield { 
-                    ProfileId = reader.["Id"].ToString() |> int
-                    FirstName = reader.["FirstName"].ToString()
-                    LastName =  reader.["LastName"].ToString()
-                    Email =     reader.["Email"].ToString()
-                    ImageUrl =  reader.["ImageUrl"].ToString()
-                    Bio =       reader.["Bio"].ToString()
-                    Created =   DateTime.Parse(reader.["Created"].ToString()) 
+                    ProfileId =    reader.["Id"].ToString() |> int
+                    FirstName =    reader.["FirstName"].ToString()
+                    LastName =     reader.["LastName"].ToString()
+                    Email =        reader.["Email"].ToString()
+                    ImageUrl =     reader.["ImageUrl"].ToString()
+                    Bio =          reader.["Bio"].ToString()
+                    PasswordHash = reader.["PasswordHash"].ToString()
+                    Created =      DateTime.Parse(reader.["Created"].ToString()) 
                 }
         }
         
     profiles |> Seq.tryHead
 
+let private register (info:Profile) =
+
+    let sql = @"INSERT INTO [dbo].[Profile]
+                      ( FirstName
+                      , LastName
+                      , Email
+                      , ImgUrl
+                      , Bio
+                      , PasswordHash
+                      , Created )
+                VALUES
+                       ( @FirstName
+                       , @LastName
+                       , @Email
+                       , @ImageUrl
+                       , @Bio
+                       , @PasswordHash
+                       , @Created
+                       )"
+
+    let (connection,command) = createCommand(sql)
+
+    command.Parameters.AddWithValue("@FirstName",    info.FirstName)    |> ignore
+    command.Parameters.AddWithValue("@LastName",     info.LastName)     |> ignore
+    command.Parameters.AddWithValue("@Email",        info.Email)        |> ignore
+    command.Parameters.AddWithValue("@ImageUrl",     info.ImageUrl)     |> ignore
+    command.Parameters.AddWithValue("@Bio",          info.Bio)          |> ignore
+    command.Parameters.AddWithValue("@PasswordHash", info.PasswordHash) |> ignore
+    command.Parameters.AddWithValue("@Created",      info.Created)      |> ignore
+
+    command.ExecuteNonQuery() |> ignore
+
+    dispose connection command
+
 let private follow (info:FollowRequest) =
     let sql = @"INSERT INTO [dbo].[Subscription]
-                        ([ProfileId]
-                        ,[ProviderId])
-                  VALUES
-                         @ProfileId
-                        ,@ProviderId"
+                       ProfileId
+                      ,ProviderId
+                VALUES
+                       ( 9 
+                       , 9
+                       )"
 
     let (connection,command) = createCommand(sql)
 
@@ -102,6 +138,7 @@ let private updateProfile (info:UpdateProfileRequest) =
     dispose connection command
 
 let execute = function
+    | Register      info -> register      info
     | Follow        info -> follow        info
     | Unsubscribe   info -> unsubscribe   info
     | FeatureLink   info -> featureLink   info
