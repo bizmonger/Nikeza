@@ -14,6 +14,7 @@ let main argv =
     WebHostBuilder()
         .UseKestrel()
         .UseContentRoot(Directory.GetCurrentDirectory())
+        .UseIISIntegration()
         .Configure(Action<IApplicationBuilder> configureApp)
         .ConfigureServices(Action<IServiceCollection> configureServices)
         .ConfigureLogging(Action<ILoggerFactory> configureLogging)
