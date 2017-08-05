@@ -10,5 +10,4 @@ build_script:
   - dotnet --version
   - dotnet restore Server.sln
   - dotnet build Server.sln
-  - cd Nikeza.Test
-  - dotnet test Nikeza.Test.fsproj
+test: off  
