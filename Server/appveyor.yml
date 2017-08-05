@@ -1,0 +1,16 @@
+version: 0.1.0-{build}
+image: Visual Studio 2017
+environment:
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+init:
+  - git config --global core.autocrlf true
+build: off
+build_script:
+  - pushd Nikeza.Server
+  - dotnet restore | dotnet build
+  - popd
+test: on
+test_script: 
+  - pushd Nikeza.Test
+  - dotnet test
+  - popd
