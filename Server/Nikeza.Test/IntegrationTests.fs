@@ -75,8 +75,8 @@ let ``Feature Link`` () =
     //Setup
     DataStore.execute <| Register someProfile
     DataStore.execute <| AddLink  someLink
-    let lastId = getLastId "Link"
-    let data = { LinkId=lastId; IsFeatured=true }
+    let lastId =  getLastId "Link"
+    let data =  { LinkId=lastId; IsFeatured=true }
 
     // Test
     DataStore.execute <| FeatureLink data

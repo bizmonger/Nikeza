@@ -54,22 +54,19 @@ let cleanup command connection =
 
 let getLastId tableName =
 
-    let rec getIds (reader:SqlDataReader) (ids: int list) =
-        if reader.Read()
-        then getIds reader (reader.GetInt32(0)::ids)
-        else ids
+    let rec getIds (reader:SqlDataReader) ids dataAvailable =
 
-    let sql = @"SELECT Id From @table"
+        if    dataAvailable
+        then  let ids' = reader.GetInt32(0)::ids
+              getIds reader ids' (reader.Read())
+
+        else  ids
+
+    let sql = @"SELECT Id From [dbo].[" + tableName + "]"
     let (connection,command) = createCommand(sql)
 
-    command.Parameters.AddWithValue("@table", tableName) |> ignore
     let reader = command.ExecuteReader()
-    let idsFound = []
 
+    let ids = getIds reader [] (reader.Read())
     dispose connection command |> ignore
-    getIds  reader idsFound    |> List.max
-
-    
-
-    
-
+    ids |> List.max

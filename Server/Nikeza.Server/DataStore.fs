@@ -19,8 +19,6 @@ let PODCAST = 3
 [<Literal>] 
 let UNKNOWN = 4
 
-type Table = Link | Subscription | Profile
-
 let createCommand sql =
     let connection = new SqlConnection(ConnectionString)
     connection.Open()
