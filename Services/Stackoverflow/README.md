@@ -4,15 +4,25 @@ Hello! This project allows you to quickly get started with Reason and BuckleScri
 
 # Build
 ```
-npm run build
+yarn build
 ```
 
 # Build + Watch
 
 ```
-npm run watch
+yarn watch
 ```
 
+# Run
+```
+yarn serve
+```
+
+# Test API
+Postman works well here or if you want something simpler.
+```
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://127.0.0.1:3000/tags/and
+```
 
 # Editor
 If you use `vscode`, Press `Windows + Shift + B` it will build automatically

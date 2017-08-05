@@ -8,6 +8,7 @@
   ],
   "bs-dependencies" : [
       "bs-axios",
-      "bs-node"
+      "bs-node",
+      "bs-json"
   ]
 }
