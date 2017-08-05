@@ -51,3 +51,25 @@ let cleanDataStore =
 let cleanup command connection =
     dispose connection command
     cleanDataStore
+
+let getLastId tableName =
+
+    let rec getIds (reader:SqlDataReader) (ids: int list) =
+        if reader.Read()
+        then getIds reader (reader.GetInt32(0)::ids)
+        else ids
+
+    let sql = @"SELECT Id From @table"
+    let (connection,command) = createCommand(sql)
+
+    command.Parameters.AddWithValue("@table", tableName) |> ignore
+    let reader = command.ExecuteReader()
+    let idsFound = []
+
+    dispose connection command |> ignore
+    getIds  reader idsFound    |> List.max
+
+    
+
+    
+
