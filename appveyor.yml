@@ -6,11 +6,9 @@ init:
   - git config --global core.autocrlf true
 build: off
 build_script:
-  - pushd Nikeza.Server
-  - dotnet restore | dotnet build
-  - popd
-test: on
-test_script: 
-  - pushd Nikeza.Test
-  - dotnet test
-  - popd
+  - pushd Server
+  - dotnet --version
+  - dotnet restore Server.sln
+  - dotnet build Server.sln
+  - cd Nikeza.Test
+  - dotnet test Nikeza.Test.fsproj
