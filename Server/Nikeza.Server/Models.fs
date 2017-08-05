@@ -21,6 +21,15 @@ type FollowRequest = { SubscriberId: int; ProviderId: int }
 type UnsubscribeRequest = { SubscriberId: int; ProviderId:   int }
 
 [<CLIMutable>]
+type AddLinkRequest = { 
+    Title:       String
+    Description: String
+    Url:         string
+    IsFeatured:  bool
+    ContentType: string
+}
+
+[<CLIMutable>]
 type FeatureLinkRequest = { LinkId: int; IsFeatured: bool }
 
 [<CLIMutable>]
@@ -37,6 +46,7 @@ type Command =
     | Register      of Profile
     | Follow        of FollowRequest
     | Unsubscribe   of UnsubscribeRequest
+    | AddLink       of AddLinkRequest
     | FeatureLink   of FeatureLinkRequest
     | UpdateProfile of UpdateProfileRequest
 

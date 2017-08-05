@@ -78,18 +78,20 @@ let private register (info:Profile) =
 
     dispose connection command
 
+let private addLink (info:AddLinkRequest) = () // TODO
+
 let private follow (info:FollowRequest) =
     let sql = @"INSERT INTO [dbo].[Subscription]
-                      (ProfileId
+                      (SubscriberId
                       ,ProviderId)
                 VALUES
-                       ( 9 
-                       , 9
+                       ( @SubscriberId 
+                       , @ProviderId
                        )"
 
     let (connection,command) = createCommand(sql)
 
-    command.Parameters.AddWithValue("@ProfileId",  info.SubscriberId) |> ignore
+    command.Parameters.AddWithValue("@SubscriberId",  info.SubscriberId) |> ignore
     command.Parameters.AddWithValue("@ProviderId", info.ProviderId)   |> ignore
     command.ExecuteNonQuery() |> ignore
 
@@ -97,12 +99,12 @@ let private follow (info:FollowRequest) =
 
 let private unsubscribe(info:UnsubscribeRequest) =
     let sql = @"DELETE FROM [dbo].[Subscription]
-                WHERE ProfileId  = @ProfileId AND
-                      ProviderId = @ProviderId"
+                WHERE SubscriberId  = @SubscriberId AND
+                      ProviderId =    @ProviderId"
 
     let (connection,command) = createCommand(sql)
 
-    command.Parameters.AddWithValue("@ProfileId",  info.SubscriberId) |> ignore
+    command.Parameters.AddWithValue("@SubscriberId",  info.SubscriberId) |> ignore
     command.Parameters.AddWithValue("@ProviderId", info.ProviderId)   |> ignore
     command.ExecuteNonQuery() |> ignore
 
@@ -140,5 +142,6 @@ let execute = function
     | Register      info -> register      info
     | Follow        info -> follow        info
     | Unsubscribe   info -> unsubscribe   info
+    | AddLink       info -> addLink       info
     | FeatureLink   info -> featureLink   info
     | UpdateProfile info -> updateProfile info

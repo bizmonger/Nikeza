@@ -48,6 +48,7 @@ dotnet ./dist/Nikeza.Server.dll
 ```
 
 ## Helper scripts
+* `create_nikeza_db.sql` - SQL script for creating Nikeza database
 * `build-app` - runs dotnet restore & build on each project.
 * `build-app-release` - restores, builds, and publishes a release build framework dependent variant to the dist folder.
 * `build-docker-dev` - builds a docker image named `nikeza-server-dev` used for development and building releases.
