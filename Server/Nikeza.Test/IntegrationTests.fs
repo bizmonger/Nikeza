@@ -8,17 +8,19 @@ open Nikeza.Server.DataAccess
 open System.Data.SqlClient
 open Nikeza.TestAPI
 
+module DataAccess = Nikeza.Server.DataAccess
+
 // https://github.com/nunit/dotnet-test-nunit
 
 [<Test>]
 let ``Follow`` () =
 
     // Setup
-    execute <| Register someProfile
+    DataAccess.execute <| Register someProfile
     let data = { FollowRequest.SubscriberId=someSubscriberId; FollowRequest.ProviderId=someProviderId }
 
     // Test
-    execute <| Follow data
+    DataAccess.execute <| Follow data
 
     // Verify
     let sql = @"SELECT SubscriberId, ProviderId
@@ -37,17 +39,18 @@ let ``Follow`` () =
     entryAdded |> should equal true
 
     // Teardown
-    dispose connection command
+    cleanup command connection
+
 
 [<Test>]
 let ``Unsubscribe`` () =
 
     // Setup
-    execute <| Register someProfile
+    DataAccess.execute <| Register someProfile
     let data = { SubscriberId=someSubscriberId; ProviderId=someProviderId }
 
     // Test
-    execute <| Unsubscribe data
+    DataAccess.execute <| Unsubscribe data
 
     // Verify
     let sql = @"SELECT SubscriberId, ProviderId
@@ -64,17 +67,18 @@ let ``Unsubscribe`` () =
     reader.Read() |> should equal false
 
     // Teardown
-    dispose connection command
+    cleanup command connection
 
 [<Test>]
 let ``Feature Link`` () =
 
     //Setup
-    execute <| Register someProfile
+    DataAccess.execute <| Register someProfile
+    DataAccess.execute <| AddLink  someLink
     let data = { LinkId=someLinkId; IsFeatured=true }
 
     // Test
-    execute <| FeatureLink data
+    DataAccess.execute <| FeatureLink data
 
     // Verify
     let sql = @"SELECT Id, IsFeatured
@@ -92,17 +96,17 @@ let ``Feature Link`` () =
     isFeatured |> should equal true
 
     // Teardown
-    dispose connection command
+    cleanup command connection
 
 [<Test>]
 let ``Unfeature Link`` () =
     
     //Setup
-    execute <| Register someProfile
+    DataAccess.execute <| Register someProfile
     let data = { LinkId=someLinkId; IsFeatured=false }
 
     // Test
-    execute <| FeatureLink data
+    DataAccess.execute <| FeatureLink data
 
     // Verify
     let sql = @"SELECT Id, IsFeatured
@@ -120,7 +124,7 @@ let ``Unfeature Link`` () =
     isFeatured |> should equal false
 
     // Teardown
-    dispose connection command
+    cleanup command connection
 
 [<Test>]
 let ``Registration`` () =
@@ -129,7 +133,7 @@ let ``Registration`` () =
     let data = { someProfile with FirstName="Scott"; LastName="Nimrod" }
 
     // Test
-    execute <| Register data
+    DataAccess.execute <| Register data
 
     // Verify
     let sql = @"SELECT (FirstName, LastName)
@@ -146,14 +150,14 @@ let ``Registration`` () =
     isRegistered |> should equal true
 
     // Teardown
-    dispose connection command
+    cleanup command connection
 
 [<Test>]
 let ``Update profile`` () =
     
     // Setup
     let data = { someProfile with FirstName="Scott"; LastName="Nimrod" }
-    execute <| Register data
+    DataAccess.execute <| Register data
     
     // Test
     let sql = @"Update [dbo].[Profile]
@@ -171,7 +175,7 @@ let ``Update profile`` () =
                 FROM   [dbo].[Profile]
                 WHERE  FirstName = @Scott"
 
-    let (connection,readCommand) = createCommand(sql)
+    let (readConnection,readCommand) = createCommand(sql)
     readCommand.Parameters.AddWithValue("@FirstName", "MODIFIED_NAME") |> ignore
     
     use reader = readCommand |> prepareReader
@@ -179,6 +183,7 @@ let ``Update profile`` () =
 
     // Teardown
     dispose connection command
+    cleanup command readConnection
 
 // [<Test>]
 // let ``Signin`` () = ()

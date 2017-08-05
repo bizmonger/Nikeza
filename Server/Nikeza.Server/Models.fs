@@ -22,11 +22,12 @@ type UnsubscribeRequest = { SubscriberId: int; ProviderId:   int }
 
 [<CLIMutable>]
 type AddLinkRequest = { 
-    Title:       String
-    Description: String
-    Url:         string
-    IsFeatured:  bool
-    ContentType: string
+    ProviderId:    int
+    Title:         String
+    Description:   String
+    Url:           string
+    IsFeatured:    bool
+    ContentType:   string
 }
 
 [<CLIMutable>]

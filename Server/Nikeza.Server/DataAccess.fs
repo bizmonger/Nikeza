@@ -6,6 +6,21 @@ open System.Data.SqlClient
 
 let ConnectionString = Configuration.ConnectionString
 
+[<Literal>] 
+let ARTICLE = 0
+
+[<Literal>] 
+let VIDEO = 1
+
+[<Literal>] 
+let ANSWER = 2
+[<Literal>] 
+let PODCAST = 3
+[<Literal>] 
+let UNKNOWN = 4
+
+type Table = Link | Subscription | Profile
+
 let createCommand sql =
     let connection = new SqlConnection(ConnectionString)
     connection.Open()
@@ -78,7 +93,45 @@ let private register (info:Profile) =
 
     dispose connection command
 
-let private addLink (info:AddLinkRequest) = () // TODO
+
+let toContentTypeId = function
+    | "article" -> ARTICLE
+    | "video"   -> VIDEO
+    | "answer"  -> ANSWER
+    | "podcast" -> PODCAST
+    | _         -> UNKNOWN
+
+let private addLink (info:AddLinkRequest) =
+    let sql = @"INSERT INTO [dbo].[Link]
+                      (ProviderId
+                      ,Title
+                      ,Description
+                      ,Url
+                      ,ContentTypeId
+                      ,IsFeatured
+                      ,Created)
+                VALUES
+                      (@ProviderId
+                      ,@Title
+                      ,@Description
+                      ,@Url
+                      ,@ContentTypeId
+                      ,@IsFeatured
+                      ,@Created)"
+
+    let (connection,command) = createCommand(sql)
+
+    command.Parameters.AddWithValue("@ProviderId",  info.ProviderId)    |> ignore
+    command.Parameters.AddWithValue("@Title",       info.Title)         |> ignore
+    command.Parameters.AddWithValue("@Description", info.Description)   |> ignore
+    command.Parameters.AddWithValue("@Url",         info.Url)           |> ignore
+    command.Parameters.AddWithValue("@ContentTypeId", (info.ContentType |> toContentTypeId)) 
+                                                                        |> ignore 
+    command.Parameters.AddWithValue("@IsFeatured",  info.IsFeatured)    |> ignore
+    command.Parameters.AddWithValue("@Created",     DateTime.Now)       |> ignore
+    command.ExecuteNonQuery() |> ignore
+
+    dispose connection command
 
 let private follow (info:FollowRequest) =
     let sql = @"INSERT INTO [dbo].[Subscription]
@@ -91,8 +144,8 @@ let private follow (info:FollowRequest) =
 
     let (connection,command) = createCommand(sql)
 
-    command.Parameters.AddWithValue("@SubscriberId",  info.SubscriberId) |> ignore
-    command.Parameters.AddWithValue("@ProviderId", info.ProviderId)   |> ignore
+    command.Parameters.AddWithValue("@SubscriberId", info.SubscriberId) |> ignore
+    command.Parameters.AddWithValue("@ProviderId",   info.ProviderId)   |> ignore
     command.ExecuteNonQuery() |> ignore
 
     dispose connection command
