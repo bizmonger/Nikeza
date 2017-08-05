@@ -21,8 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Nikeza.YouTube/Nikeza.YouTube.fsproj" />
-    <ProjectReference Include="../Nikeza.Wordpress/Nikeza.Wordpress.fsproj" />
     <ProjectReference Include="../Nikeza.Server/Nikeza.Server.fsproj" />
   </ItemGroup>
 

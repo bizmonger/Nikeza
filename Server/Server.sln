@@ -7,8 +7,6 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nikeza.Server", "Nikeza.Ser
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nikeza.Test", "Nikeza.Test\Nikeza.Test.fsproj", "{6E2F19F2-5C36-4524-832E-7F80838F6EE7}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nikeza.YouTube", "Nikeza.YouTube/Nikeza.YouTube.fsproj", "{30D28C83-97B8-4FA5-8D99-EC27E4CFF0E3}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
