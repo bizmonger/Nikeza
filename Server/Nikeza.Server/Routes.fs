@@ -6,8 +6,8 @@ open Giraffe.HttpContextExtensions
 open Giraffe.HttpHandlers
 open Nikeza.Server.Models.Authentication
 open Nikeza.Server.Models
-open Nikeza.Server.YouTube.Data
-open Nikeza.Server.YouTube.Data.Authentication
+open Nikeza.Server.YouTube
+open Nikeza.Server.YouTube.Authentication
 open Nikeza.Server.Wordpress
 open Nikeza.Server.DataAccess
 
