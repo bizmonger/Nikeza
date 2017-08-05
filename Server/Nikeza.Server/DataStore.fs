@@ -1,4 +1,4 @@
-module Nikeza.Server.DataAccess
+module Nikeza.Server.DataStore
 
 open System
 open Nikeza.Server.Models

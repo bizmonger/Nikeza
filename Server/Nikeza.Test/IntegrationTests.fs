@@ -4,11 +4,11 @@ open System
 open FsUnit
 open NUnit.Framework
 open Nikeza.Server.Models
-open Nikeza.Server.DataAccess
+open Nikeza.Server.DataStore
 open System.Data.SqlClient
 open Nikeza.TestAPI
 
-module DataAccess = Nikeza.Server.DataAccess
+module DataStore = Nikeza.Server.DataStore
 
 // https://github.com/nunit/dotnet-test-nunit
 
@@ -16,11 +16,11 @@ module DataAccess = Nikeza.Server.DataAccess
 let ``Follow`` () =
 
     // Setup
-    DataAccess.execute <| Register someProfile
+    DataStore.execute <| Register someProfile
     let data = { FollowRequest.SubscriberId=someSubscriberId; FollowRequest.ProviderId=someProviderId }
 
     // Test
-    DataAccess.execute <| Follow data
+    DataStore.execute <| Follow data
 
     // Verify
     let sql = @"SELECT SubscriberId, ProviderId
@@ -46,11 +46,11 @@ let ``Follow`` () =
 let ``Unsubscribe`` () =
 
     // Setup
-    DataAccess.execute <| Register someProfile
+    DataStore.execute <| Register someProfile
     let data = { SubscriberId=someSubscriberId; ProviderId=someProviderId }
 
     // Test
-    DataAccess.execute <| Unsubscribe data
+    DataStore.execute <| Unsubscribe data
 
     // Verify
     let sql = @"SELECT SubscriberId, ProviderId
@@ -73,12 +73,12 @@ let ``Unsubscribe`` () =
 let ``Feature Link`` () =
 
     //Setup
-    DataAccess.execute <| Register someProfile
-    DataAccess.execute <| AddLink  someLink
+    DataStore.execute <| Register someProfile
+    DataStore.execute <| AddLink  someLink
     let data = { LinkId=someLinkId; IsFeatured=true }
 
     // Test
-    DataAccess.execute <| FeatureLink data
+    DataStore.execute <| FeatureLink data
 
     // Verify
     let sql = @"SELECT Id, IsFeatured
@@ -102,11 +102,11 @@ let ``Feature Link`` () =
 let ``Unfeature Link`` () =
     
     //Setup
-    DataAccess.execute <| Register someProfile
+    DataStore.execute <| Register someProfile
     let data = { LinkId=someLinkId; IsFeatured=false }
 
     // Test
-    DataAccess.execute <| FeatureLink data
+    DataStore.execute <| FeatureLink data
 
     // Verify
     let sql = @"SELECT Id, IsFeatured
@@ -133,7 +133,7 @@ let ``Registration`` () =
     let data = { someProfile with FirstName="Scott"; LastName="Nimrod" }
 
     // Test
-    DataAccess.execute <| Register data
+    DataStore.execute <| Register data
 
     // Verify
     let sql = @"SELECT (FirstName, LastName)
@@ -157,7 +157,7 @@ let ``Update profile`` () =
     
     // Setup
     let data = { someProfile with FirstName="Scott"; LastName="Nimrod" }
-    DataAccess.execute <| Register data
+    DataStore.execute <| Register data
     
     // Test
     let sql = @"Update [dbo].[Profile]

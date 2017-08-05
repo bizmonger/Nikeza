@@ -2,7 +2,7 @@ module Nikeza.TestAPI
 
 open System
 open System.Data.SqlClient
-open Nikeza.Server.DataAccess
+open Nikeza.Server.DataStore
 open Nikeza.Server.Models
 
 let prepareReader (command:SqlCommand) =

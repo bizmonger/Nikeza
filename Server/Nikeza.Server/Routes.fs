@@ -9,7 +9,7 @@ open Nikeza.Server.Models
 open Nikeza.Server.YouTube
 open Nikeza.Server.YouTube.Authentication
 open Nikeza.Server.Wordpress
-open Nikeza.Server.DataAccess
+open Nikeza.Server.DataStore
 
 // ---------------------------------
 // Web app
