@@ -6,18 +6,52 @@ open System.Data.SqlClient
 
 let ConnectionString = Configuration.ConnectionString
 
-[<Literal>] 
-let ARTICLE = 0
+module private Store = 
+    let private executeNonQuery (command: SqlCommand) = command.ExecuteNonQuery() |> ignore
+    
+    let execute connectionString sql commandFunc = 
+        use connection = new SqlConnection(connectionString)
+        use command = (new SqlCommand(sql,connection)) |> commandFunc
+        executeNonQuery command
 
-[<Literal>] 
-let VIDEO = 1
+type ContentType = 
+    | Article
+    | Video
+    | Answer
+    | Podcast
+    | Unknown
 
-[<Literal>] 
-let ANSWER = 2
-[<Literal>] 
-let PODCAST = 3
-[<Literal>] 
-let UNKNOWN = 4
+type RawContentType = string
+
+let contentTypeFromString = function
+    | "article" -> Article
+    | "video"   -> Video
+    | "answer"  -> Answer
+    | "podcast" -> Podcast
+    | _         -> Unknown
+
+let contentTypeToString = function
+    | Article -> "article"
+    | Video -> "video"  
+    | Answer -> "answer" 
+    | Podcast -> "podcast"
+    | Unknown -> "unknown"        
+
+let addWithValue paramName obj (command: SqlCommand) =
+    command.Parameters.AddWithValue(paramName,  obj) |> ignore
+    command
+
+let readCommand (connection: SqlConnection) (command: SqlCommand) readerFunc =
+    connection.Open()
+    let reader = command.ExecuteReader()
+    let data = seq {
+        while reader.Read() do yield readerFunc(reader)
+    }
+    let result = data |> Seq.tryHead
+    connection.Close() |> ignore
+    result
+
+let executeNonQuery (command: SqlCommand) = command.ExecuteNonQuery() |> ignore
 
 let createCommand sql =
     let connection = new SqlConnection(ConnectionString)
@@ -30,32 +64,28 @@ let dispose (connection:SqlConnection) (command:SqlCommand) =
     connection.Dispose()
     command.Dispose()
 
-let findUser email passwordHash =
+let findUser email passwordHash: (Profile option) =
     let query = "SELECT * FROM Profile Where Email = @email AND PasswordHash = @hash"
     use connection = new SqlConnection(ConnectionString)
 
     use command = new SqlCommand(query,connection)
-    command.Parameters.AddWithValue("@email", email)       |> ignore
-    command.Parameters.AddWithValue("@hash", passwordHash) |> ignore
+    command
+    |> addWithValue "@email"  email
+    |> addWithValue "@hash"   passwordHash
+    |> ignore
 
-    connection.Open()
-    let reader = command.ExecuteReader()
-    let profiles = 
-        seq {
-            while reader.Read() do 
-                yield { 
-                    ProfileId =    reader.["Id"].ToString() |> int
-                    FirstName =    reader.["FirstName"].ToString()
-                    LastName =     reader.["LastName"].ToString()
-                    Email =        reader.["Email"].ToString()
-                    ImageUrl =     reader.["ImageUrl"].ToString()
-                    Bio =          reader.["Bio"].ToString()
-                    PasswordHash = reader.["PasswordHash"].ToString()
-                    Created =      DateTime.Parse(reader.["Created"].ToString()) 
-                }
-        }
-        
-    profiles |> Seq.tryHead
+    let sqlReader (reader: SqlDataReader) = { 
+        ProfileId =    reader.["Id"].ToString() |> int
+        FirstName =    reader.["FirstName"].ToString()
+        LastName =     reader.["LastName"].ToString()
+        Email =        reader.["Email"].ToString()
+        ImageUrl =     reader.["ImageUrl"].ToString()
+        Bio =          reader.["Bio"].ToString()
+        PasswordHash = reader.["PasswordHash"].ToString()
+        Created =      DateTime.Parse(reader.["Created"].ToString()) 
+    }
+
+    readCommand connection command sqlReader
 
 let private register (info:Profile) =
 
@@ -79,25 +109,17 @@ let private register (info:Profile) =
 
     let (connection,command) = createCommand(sql)
 
-    command.Parameters.AddWithValue("@FirstName",    info.FirstName)    |> ignore
-    command.Parameters.AddWithValue("@LastName",     info.LastName)     |> ignore
-    command.Parameters.AddWithValue("@Email",        info.Email)        |> ignore
-    command.Parameters.AddWithValue("@ImageUrl",     info.ImageUrl)     |> ignore
-    command.Parameters.AddWithValue("@Bio",          info.Bio)          |> ignore
-    command.Parameters.AddWithValue("@PasswordHash", info.PasswordHash) |> ignore
-    command.Parameters.AddWithValue("@Created",      info.Created)      |> ignore
-
-    command.ExecuteNonQuery() |> ignore
+    command
+    |> addWithValue "@FirstName"     info.FirstName
+    |> addWithValue "@LastName"      info.LastName
+    |> addWithValue "@Email"         info.Email
+    |> addWithValue "@ImageUrl"      info.ImageUrl
+    |> addWithValue "@Bio"           info.Bio
+    |> addWithValue "@PasswordHash"  info.PasswordHash
+    |> addWithValue "@Created"       info.Created
+    |> executeNonQuery
 
     dispose connection command
-
-
-let toContentTypeId = function
-    | "article" -> ARTICLE
-    | "video"   -> VIDEO
-    | "answer"  -> ANSWER
-    | "podcast" -> PODCAST
-    | _         -> UNKNOWN
 
 let private addLink (info:AddLinkRequest) =
     let sql = @"INSERT INTO [dbo].[Link]
@@ -119,15 +141,15 @@ let private addLink (info:AddLinkRequest) =
 
     let (connection,command) = createCommand(sql)
 
-    command.Parameters.AddWithValue("@ProviderId",  info.ProviderId)    |> ignore
-    command.Parameters.AddWithValue("@Title",       info.Title)         |> ignore
-    command.Parameters.AddWithValue("@Description", info.Description)   |> ignore
-    command.Parameters.AddWithValue("@Url",         info.Url)           |> ignore
-    command.Parameters.AddWithValue("@ContentTypeId", (info.ContentType |> toContentTypeId)) 
-                                                                        |> ignore 
-    command.Parameters.AddWithValue("@IsFeatured",  info.IsFeatured)    |> ignore
-    command.Parameters.AddWithValue("@Created",     DateTime.Now)       |> ignore
-    command.ExecuteNonQuery() |> ignore
+    command
+    |> addWithValue "@ProviderId"   info.ProviderId
+    |> addWithValue "@Title"        info.Title
+    |> addWithValue "@Description"  info.Description
+    |> addWithValue "@Url"          info.Url
+    |> addWithValue "@ContentTypeId"info.ContentType 
+    |> addWithValue "@IsFeatured"   info.IsFeatured
+    |> addWithValue "@Created"      DateTime.Now
+    |> executeNonQuery
 
     dispose connection command
 
@@ -142,24 +164,26 @@ let private follow (info:FollowRequest) =
 
     let (connection,command) = createCommand(sql)
 
-    command.Parameters.AddWithValue("@SubscriberId", info.SubscriberId) |> ignore
-    command.Parameters.AddWithValue("@ProviderId",   info.ProviderId)   |> ignore
-    command.ExecuteNonQuery() |> ignore
+    command
+    |> addWithValue "@SubscriberId"  info.SubscriberId
+    |> addWithValue "@ProviderId"    info.ProviderId
+    |> executeNonQuery
 
     dispose connection command
 
-let private unsubscribe(info:UnsubscribeRequest) =
+
+    
+
+let private unsubscribe (info:UnsubscribeRequest) =
     let sql = @"DELETE FROM [dbo].[Subscription]
                 WHERE SubscriberId  = @SubscriberId AND
                       ProviderId =    @ProviderId"
+    let commandFunc (command: SqlCommand) = 
+        command 
+        |> addWithValue "@SubscriberId"  info.SubscriberId
+        |> addWithValue "@ProviderId"    info.ProviderId
 
-    let (connection,command) = createCommand(sql)
-
-    command.Parameters.AddWithValue("@SubscriberId",  info.SubscriberId) |> ignore
-    command.Parameters.AddWithValue("@ProviderId", info.ProviderId)   |> ignore
-    command.ExecuteNonQuery() |> ignore
-
-    dispose connection command
+    Store.execute ConnectionString sql commandFunc
 
 let private featureLink (info:FeatureLinkRequest) =
     let sql = @"UPDATE [dbo].[Link]
@@ -168,9 +192,10 @@ let private featureLink (info:FeatureLinkRequest) =
 
     let (connection,command) = createCommand(sql)
 
-    command.Parameters.AddWithValue("@Id"     , info.LinkId)     |> ignore
-    command.Parameters.AddWithValue("@IsFeatured", info.IsFeatured) |> ignore
-    command.ExecuteNonQuery() |> ignore
+    command
+    |> addWithValue "@Id"          info.LinkId
+    |> addWithValue "@IsFeatured"  info.IsFeatured
+    |> executeNonQuery
 
     dispose connection command
 
@@ -182,10 +207,11 @@ let private updateProfile (info:UpdateProfileRequest) =
 
     let (connection,command) = createCommand(sql)
 
-    command.Parameters.AddWithValue("@Id" ,   info.ProviderId) |> ignore
-    command.Parameters.AddWithValue("@bio",   info.Bio)        |> ignore
-    command.Parameters.AddWithValue("@email", info.Email)      |> ignore
-    command.ExecuteNonQuery() |> ignore
+    command
+    |> addWithValue "@Id"     info.ProviderId
+    |> addWithValue "@bio"    info.Bio
+    |> addWithValue "@email"  info.Email
+    |> executeNonQuery
 
     dispose connection command
 
