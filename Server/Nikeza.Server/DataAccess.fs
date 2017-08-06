@@ -7,40 +7,40 @@ open System.Data.SqlClient
 [<Literal>]
 let ConnectionString = @"Data Source=DESKTOP-GE7O8JT\SQLEXPRESS;Initial Catalog=Nikeza;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
 
+let sqlConnection connectionStr = new SqlConnection(ConnectionString)
+
 let addWithValue paramName obj (command: SqlCommand) =
     command.Parameters.AddWithValue(paramName,  obj) |> ignore
     command
 
-let executeNonQuery (command: SqlCommand) = 
-    command.ExecuteNonQuery() |> ignore 
-    command
+let executeNonQuery (command: SqlCommand) = command.ExecuteNonQuery() |> ignore
 
+let readCommand (connection: SqlConnection) (command: SqlCommand) readerFunc =
+    connection.Open()
+    let reader = command.ExecuteReader()
+    let data = seq {
+        while reader.Read() do yield readerFunc(reader)
+    }
+    let result = data |> Seq.tryHead
+    connection.Close() |> ignore
+    result
 let findUser email passwordHash =
     let query = "SELECT * FROM Profile Where Email = @email AND PasswordHash = @hash"
-    use connection = new SqlConnection(ConnectionString)
-
+    use connection = sqlConnection(ConnectionString)
     use command = (new SqlCommand(query,connection)
         |> addWithValue "@email" email 
         |> addWithValue "@hash"  passwordHash
     )
-
-    connection.Open()
-    let reader = command.ExecuteReader()
-    let profiles = 
-        seq {
-            while reader.Read() do 
-                yield { 
-                    ProfileId = reader.["Id"].ToString() |> int
-                    FirstName = reader.["FirstName"].ToString()
-                    LastName =  reader.["LastName"].ToString()
-                    Email =     reader.["Email"].ToString()
-                    ImageUrl =  reader.["ImageUrl"].ToString()
-                    Bio =       reader.["Bio"].ToString()
-                    Created =   DateTime.Parse(reader.["Created"].ToString()) 
-                }
-        }
-        
-    profiles |> Seq.tryHead
+    let sqlReader (reader: SqlDataReader) = { 
+        ProfileId = reader.["Id"].ToString() |> int
+        FirstName = reader.["FirstName"].ToString()
+        LastName =  reader.["LastName"].ToString()
+        Email =     reader.["Email"].ToString()
+        ImageUrl =  reader.["ImageUrl"].ToString()
+        Bio =       reader.["Bio"].ToString()
+        Created =   DateTime.Parse(reader.["Created"].ToString()) 
+    }
+    readCommand connection command sqlReader
 
 let private follow (info:FollowRequest) =
     let sql = @"INSERT INTO [dbo].[Subscription]
@@ -51,12 +51,11 @@ let private follow (info:FollowRequest) =
                         ,@ProviderId"
 
     use connection = new SqlConnection(ConnectionString)
-    use command =    (new SqlCommand(sql,connection)
+    (new SqlCommand(sql,connection)
         |> addWithValue "@ProfileId"  info.SubscriberId
         |> addWithValue "@ProviderId" info.ProviderId
     )
-   
-    command.ExecuteNonQuery() |> ignore
+    |> executeNonQuery
 
 let private unsubscribe(info:UnsubscribeRequest) =
     let sql = @"DELETE FROM [dbo].[Subscription]
@@ -69,7 +68,6 @@ let private unsubscribe(info:UnsubscribeRequest) =
         |> addWithValue "@ProviderId" info.ProviderId
     )
     |> executeNonQuery
-    |> ignore
 
 let private featureLink (info:FeatureLinkRequest) =
     let sql = @"UPDATE [dbo].[Link]
@@ -82,7 +80,6 @@ let private featureLink (info:FeatureLinkRequest) =
         |> addWithValue "@IsFeatured" info.IsFeatured
     )
     |> executeNonQuery
-    |> ignore
 
 let private updateProfile (info:UpdateProfileRequest) =
     let sql = @"UPDATE [dbo].[Provider]
@@ -97,7 +94,6 @@ let private updateProfile (info:UpdateProfileRequest) =
         |> addWithValue "@email" info.Email
     )
     |> executeNonQuery
-    |> ignore
 
 let execute = function
     | Follow        info -> follow        info
