@@ -7,13 +7,22 @@ open System.Data.SqlClient
 [<Literal>]
 let ConnectionString = @"Data Source=DESKTOP-GE7O8JT\SQLEXPRESS;Initial Catalog=Nikeza;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
 
+let addWithValue paramName obj (command: SqlCommand) =
+    command.Parameters.AddWithValue(paramName,  obj) |> ignore
+    command
+
+let executeNonQuery (command: SqlCommand) = 
+    command.ExecuteNonQuery() |> ignore 
+    command
+
 let findUser email passwordHash =
     let query = "SELECT * FROM Profile Where Email = @email AND PasswordHash = @hash"
     use connection = new SqlConnection(ConnectionString)
 
-    use command = new SqlCommand(query,connection)
-    command.Parameters.AddWithValue("@email", email)       |> ignore
-    command.Parameters.AddWithValue("@hash", passwordHash) |> ignore
+    use command = (new SqlCommand(query,connection)
+        |> addWithValue "@email" email 
+        |> addWithValue "@hash"  passwordHash
+    )
 
     connection.Open()
     let reader = command.ExecuteReader()
@@ -42,10 +51,11 @@ let private follow (info:FollowRequest) =
                         ,@ProviderId"
 
     use connection = new SqlConnection(ConnectionString)
-    use command =    new SqlCommand(sql,connection)
-
-    command.Parameters.AddWithValue("@ProfileId",  info.SubscriberId) |> ignore
-    command.Parameters.AddWithValue("@ProviderId", info.ProviderId)   |> ignore
+    use command =    (new SqlCommand(sql,connection)
+        |> addWithValue "@ProfileId"  info.SubscriberId
+        |> addWithValue "@ProviderId" info.ProviderId
+    )
+   
     command.ExecuteNonQuery() |> ignore
 
 let private unsubscribe(info:UnsubscribeRequest) =
@@ -54,11 +64,12 @@ let private unsubscribe(info:UnsubscribeRequest) =
                       ProviderId = @ProviderId"
 
     use connection = new SqlConnection(ConnectionString)
-    use command =    new SqlCommand(sql,connection)
-
-    command.Parameters.AddWithValue("@ProfileId",  info.SubscriberId) |> ignore
-    command.Parameters.AddWithValue("@ProviderId", info.ProviderId)   |> ignore
-    command.ExecuteNonQuery() |> ignore
+    (new SqlCommand(sql,connection)
+        |> addWithValue "@ProfileId"  info.SubscriberId
+        |> addWithValue "@ProviderId" info.ProviderId
+    )
+    |> executeNonQuery
+    |> ignore
 
 let private featureLink (info:FeatureLinkRequest) =
     let sql = @"UPDATE [dbo].[Link]
@@ -66,11 +77,12 @@ let private featureLink (info:FeatureLinkRequest) =
                 WHERE  Id = @Id"
 
     use connection = new SqlConnection(ConnectionString)
-    use command =    new SqlCommand(sql,connection)
-
-    command.Parameters.AddWithValue("@Id"     , info.LinkId)     |> ignore
-    command.Parameters.AddWithValue("@IsFeatured", info.IsFeatured) |> ignore
-    command.ExecuteNonQuery() |> ignore
+    (new SqlCommand(sql,connection)
+        |> addWithValue "@Id"         info.LinkId
+        |> addWithValue "@IsFeatured" info.IsFeatured
+    )
+    |> executeNonQuery
+    |> ignore
 
 let private updateProfile (info:UpdateProfileRequest) =
     let sql = @"UPDATE [dbo].[Provider]
@@ -79,12 +91,13 @@ let private updateProfile (info:UpdateProfileRequest) =
                 WHERE  Id =      @Id"
 
     use connection = new SqlConnection(ConnectionString)
-    use command =    new SqlCommand(sql,connection)
-
-    command.Parameters.AddWithValue("@Id" ,   info.ProviderId) |> ignore
-    command.Parameters.AddWithValue("@bio",   info.Bio)        |> ignore
-    command.Parameters.AddWithValue("@email", info.Email)      |> ignore
-    command.ExecuteNonQuery() |> ignore
+    (new SqlCommand(sql,connection)
+        |> addWithValue "@Id"    info.ProviderId
+        |> addWithValue "@bio"   info.Bio
+        |> addWithValue "@email" info.Email
+    )
+    |> executeNonQuery
+    |> ignore
 
 let execute = function
     | Follow        info -> follow        info
