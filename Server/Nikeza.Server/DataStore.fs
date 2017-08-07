@@ -32,8 +32,8 @@ let contentTypeFromString = function
 
 let contentTypeToString = function
     | Article -> "article"
-    | Video -> "video"  
-    | Answer -> "answer" 
+    | Video   -> "video"  
+    | Answer  -> "answer" 
     | Podcast -> "podcast"
     | Unknown -> "unknown"        
 
@@ -170,9 +170,6 @@ let private follow (info:FollowRequest) =
     |> executeNonQuery
 
     dispose connection command
-
-
-    
 
 let private unsubscribe (info:UnsubscribeRequest) =
     let sql = @"DELETE FROM [dbo].[Subscription]
