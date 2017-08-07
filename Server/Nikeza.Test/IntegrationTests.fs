@@ -16,7 +16,8 @@ module DataStore = Nikeza.Server.DataStore
 let ``Follow`` () =
 
     // Setup
-    DataStore.execute <| Register someProfile
+    DataStore.execute <| Register someProvider
+    DataStore.execute <| Register someSubscriber
     let data = { FollowRequest.SubscriberId=someSubscriberId; FollowRequest.ProviderId=someProviderId }
 
     // Test

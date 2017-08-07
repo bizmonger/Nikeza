@@ -22,8 +22,19 @@ let someLink = {
     ContentType= "article"
 }
 
-let someProfile = { 
+let someProvider = { 
     ProfileId =     someProviderId
+    FirstName =     "Scott"
+    LastName =      "Nimrod"
+    Email =         "abc@abc.com"
+    ImageUrl =      "some_url_.com"
+    Bio =           "Some Bio"
+    PasswordHash =  "XXX"
+    Created =       DateTime.Now
+}
+
+let someSubscriber = { 
+    ProfileId =     someSubscriberId
     FirstName =     "Scott"
     LastName =      "Nimrod"
     Email =         "abc@abc.com"
