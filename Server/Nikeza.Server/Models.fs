@@ -15,10 +15,10 @@ type Profile = {
 }
 
 [<CLIMutable>]
-type FollowRequest = { SubscriberId: int; ProviderId: int }
+type FollowRequest =      { SubscriberId: int; ProviderId: int }
 
 [<CLIMutable>]
-type UnsubscribeRequest = { SubscriberId: int; ProviderId:   int }
+type UnsubscribeRequest = { SubscriberId: int; ProviderId: int }
 
 [<CLIMutable>]
 type AddLinkRequest = { 

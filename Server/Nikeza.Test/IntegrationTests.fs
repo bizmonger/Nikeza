@@ -13,7 +13,7 @@ module DataStore = Nikeza.Server.DataStore
 // https://github.com/nunit/dotnet-test-nunit
 
 [<Test>]
-let ``Follow`` () =
+let ``Follow Provider`` () =
 
     // Setup
     DataStore.execute <| Register someProvider
@@ -22,10 +22,8 @@ let ``Follow`` () =
     DataStore.execute <| Register someSubscriber
     let subscriberId = getLastId "Profile"
 
-    let data = { FollowRequest.SubscriberId= providerId
-                 FollowRequest.ProviderId=   subscriberId }
     // Test
-    DataStore.execute <| Follow data
+    DataStore.execute <| Follow { FollowRequest.SubscriberId= providerId; FollowRequest.ProviderId=   subscriberId }
 
     // Verify
     let sql = @"SELECT SubscriberId, ProviderId
@@ -35,8 +33,8 @@ let ``Follow`` () =
 
     let (connection,command) = createCommand(sql)
 
-    command.Parameters.AddWithValue("@SubscriberId", data.SubscriberId) |> ignore
-    command.Parameters.AddWithValue("@ProviderId",   data.ProviderId)   |> ignore
+    command.Parameters.AddWithValue("@SubscriberId", subscriberId) |> ignore
+    command.Parameters.AddWithValue("@ProviderId",   providerId)   |> ignore
 
     use reader = command |> prepareReader
     let entryAdded = reader.GetInt32(0) = providerId && reader.GetInt32(1) = subscriberId
@@ -47,32 +45,37 @@ let ``Follow`` () =
     cleanup command connection
 
 
-// [<Test>]
-// let ``Unsubscribe`` () =
+[<Test>]
+let ``Unsubscribe from Provider`` () =
 
-//     // Setup
-//     DataStore.execute <| Register someProfile
-//     let data = { SubscriberId=someSubscriberId; ProviderId=someProviderId }
+    // Setup
+    DataStore.execute <| Register someProvider
+    let providerId =   getLastId "Profile"
+    
+    DataStore.execute <| Register someSubscriber
+    let subscriberId = getLastId "Profile"
 
-//     // Test
-//     DataStore.execute <| Unsubscribe data
+    DataStore.execute <| Follow { FollowRequest.SubscriberId= providerId; FollowRequest.ProviderId=   subscriberId }
 
-//     // Verify
-//     let sql = @"SELECT SubscriberId, ProviderId
-//                 FROM   [dbo].[Subscription]
-//                 WHERE  SubscriberId = @SubscriberId
-//                 AND    ProviderId =   @ProviderId"
+    // Test
+    DataStore.execute <| Unsubscribe { UnsubscribeRequest.SubscriberId= providerId; UnsubscribeRequest.ProviderId=   subscriberId }
 
-//     let (connection,command) = createCommand(sql)
+    // Verify
+    let sql = @"SELECT SubscriberId, ProviderId
+                FROM   [dbo].[Subscription]
+                WHERE  SubscriberId = @SubscriberId
+                AND    ProviderId =   @ProviderId"
 
-//     command.Parameters.AddWithValue("@SubscriberId", data.SubscriberId) |> ignore
-//     command.Parameters.AddWithValue("@ProviderId",   data.ProviderId)   |> ignore
+    let (connection,command) = createCommand(sql)
 
-//     let reader = command.ExecuteReader()
-//     reader.Read() |> should equal false
+    command.Parameters.AddWithValue("@SubscriberId", subscriberId) |> ignore
+    command.Parameters.AddWithValue("@ProviderId",   providerId)   |> ignore
 
-//     // Teardown
-//     cleanup command connection
+    let reader = command.ExecuteReader()
+    reader.Read() |> should equal false
+
+    // Teardown
+    cleanup command connection
 
 // [<Test>]
 // let ``Feature Link`` () =
