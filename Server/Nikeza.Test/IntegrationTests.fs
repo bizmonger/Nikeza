@@ -13,6 +13,10 @@ module DataStore = Nikeza.Server.DataStore
 // https://github.com/nunit/dotnet-test-nunit
 
 [<Test>]
+let ``Clean database`` () =
+    cleanDataStore()
+
+[<Test>]
 let ``Follow Provider`` () =
 
     // Setup
@@ -45,37 +49,37 @@ let ``Follow Provider`` () =
     cleanup command connection
 
 
-[<Test>]
-let ``Unsubscribe from Provider`` () =
+// [<Test>]
+// let ``Unsubscribe from Provider`` () =
 
-    // Setup
-    DataStore.execute <| Register someProvider
-    let providerId =   getLastId "Profile"
+//     // Setup
+//     DataStore.execute <| Register someProvider
+//     let providerId =   getLastId "Profile"
     
-    DataStore.execute <| Register someSubscriber
-    let subscriberId = getLastId "Profile"
+//     DataStore.execute <| Register someSubscriber
+//     let subscriberId = getLastId "Profile"
 
-    DataStore.execute <| Follow { FollowRequest.SubscriberId= providerId; FollowRequest.ProviderId=   subscriberId }
+//     DataStore.execute <| Follow { FollowRequest.SubscriberId= providerId; FollowRequest.ProviderId=   subscriberId }
 
-    // Test
-    DataStore.execute <| Unsubscribe { UnsubscribeRequest.SubscriberId= providerId; UnsubscribeRequest.ProviderId=   subscriberId }
+//     // Test
+//     DataStore.execute <| Unsubscribe { UnsubscribeRequest.SubscriberId= providerId; UnsubscribeRequest.ProviderId=   subscriberId }
 
-    // Verify
-    let sql = @"SELECT SubscriberId, ProviderId
-                FROM   [dbo].[Subscription]
-                WHERE  SubscriberId = @SubscriberId
-                AND    ProviderId =   @ProviderId"
+//     // Verify
+//     let sql = @"SELECT SubscriberId, ProviderId
+//                 FROM   [dbo].[Subscription]
+//                 WHERE  SubscriberId = @SubscriberId
+//                 AND    ProviderId =   @ProviderId"
 
-    let (connection,command) = createCommand(sql)
+//     let (connection,command) = createCommand(sql)
 
-    command.Parameters.AddWithValue("@SubscriberId", subscriberId) |> ignore
-    command.Parameters.AddWithValue("@ProviderId",   providerId)   |> ignore
+//     command.Parameters.AddWithValue("@SubscriberId", subscriberId) |> ignore
+//     command.Parameters.AddWithValue("@ProviderId",   providerId)   |> ignore
 
-    let reader = command.ExecuteReader()
-    reader.Read() |> should equal false
+//     let reader = command.ExecuteReader()
+//     reader.Read() |> should equal false
 
-    // Teardown
-    cleanup command connection
+//     // Teardown
+//     cleanup command connection
 
 // [<Test>]
 // let ``Feature Link`` () =

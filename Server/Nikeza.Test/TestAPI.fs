@@ -49,7 +49,7 @@ let execute sql =
     command.ExecuteNonQuery()  |> ignore
     dispose connection command
 
-let cleanDataStore =
+let cleanDataStore() =
     execute @"DELETE FROM [dbo].[Link]"
     execute @"DELETE FROM [dbo].[Topic]"
     execute @"DELETE FROM [dbo].[Source]"
@@ -61,7 +61,7 @@ let cleanDataStore =
 
 let cleanup command connection =
     dispose connection command
-    cleanDataStore
+    cleanDataStore()
 
 let getLastId tableName =
 
