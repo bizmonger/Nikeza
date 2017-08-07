@@ -17,9 +17,13 @@ let ``Follow`` () =
 
     // Setup
     DataStore.execute <| Register someProvider
+    let providerId =   getLastId "Profile"
+    
     DataStore.execute <| Register someSubscriber
-    let data = { FollowRequest.SubscriberId=someSubscriberId; FollowRequest.ProviderId=someProviderId }
+    let subscriberId = getLastId "Profile"
 
+    let data = { FollowRequest.SubscriberId= providerId
+                 FollowRequest.ProviderId=   subscriberId }
     // Test
     DataStore.execute <| Follow data
 
@@ -35,7 +39,7 @@ let ``Follow`` () =
     command.Parameters.AddWithValue("@ProviderId",   data.ProviderId)   |> ignore
 
     use reader = command |> prepareReader
-    let entryAdded = reader.GetInt32(0) = someSubscriberId && reader.GetInt32(1) = someProviderId
+    let entryAdded = reader.GetInt32(0) = providerId && reader.GetInt32(1) = subscriberId
 
     entryAdded |> should equal true
 
