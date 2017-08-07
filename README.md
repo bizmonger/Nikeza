@@ -18,7 +18,5 @@ Streamline all links from articles, videos, podcasts, and answered questions fro
 
 ## Daily VSTS Builds/Release
 |Platform| Deploy Status |
-|------- | -----        |
-|Client  | ![Client Build](https://lambdacartel.visualstudio.com/_apis/public/build/definitions/b1ffd400-fa75-4529-a3a9-dadf020b2150/1/badge) |
-|Server  | ![Server Build](https://lambdacartel.visualstudio.com/_apis/public/build/definitions/b1ffd400-fa75-4529-a3a9-dadf020b2150/3/badge)  |
-||
+|------- | -----         |
+|[Azure](https://nikeza.azurewebsites.net)   | ![Azure](https://lambdacartel.visualstudio.com/_apis/public/build/definitions/b1ffd400-fa75-4529-a3a9-dadf020b2150/3/badge)
