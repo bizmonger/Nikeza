@@ -13,10 +13,6 @@ module DataStore = Nikeza.Server.DataStore
 // https://github.com/nunit/dotnet-test-nunit
 
 [<Test>]
-let ``Clean database`` () =
-    cleanDataStore()
-
-[<Test>]
 let ``Follow Provider`` () =
 
     // Setup
@@ -27,7 +23,7 @@ let ``Follow Provider`` () =
     let subscriberId = getLastId "Profile"
 
     // Test
-    DataStore.execute <| Follow { FollowRequest.SubscriberId= providerId; FollowRequest.ProviderId=   subscriberId }
+    DataStore.execute <| Follow { FollowRequest.ProviderId= providerId; FollowRequest.SubscriberId= subscriberId }
 
     // Verify
     let sql = @"SELECT SubscriberId, ProviderId
@@ -41,7 +37,8 @@ let ``Follow Provider`` () =
     command.Parameters.AddWithValue("@ProviderId",   providerId)   |> ignore
 
     use reader = command |> prepareReader
-    let entryAdded = reader.GetInt32(0) = providerId && reader.GetInt32(1) = subscriberId
+    let entryAdded = reader.GetInt32(0) = subscriberId && 
+                     reader.GetInt32(1) = providerId
 
     entryAdded |> should equal true
 
