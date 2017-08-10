@@ -32,6 +32,13 @@ let contentTypeFromString = function
     | "podcast" -> Podcast
     | _         -> Unknown
 
+let contentTypeToId = function
+    | "article" -> 0
+    | "video"   -> 1
+    | "answer"  -> 2
+    | "podcast" -> 3
+    | _         -> -1
+
 let contentTypeToString = function
     | Article -> "article"
     | Video   -> "video"  
@@ -144,14 +151,14 @@ let private addLink (info:AddLinkRequest) =
 
     let (connection,command) = createCommand(sql)
 
-    command
-    |> addWithValue "@ProviderId"   info.ProviderId
-    |> addWithValue "@Title"        info.Title
-    |> addWithValue "@Description"  info.Description
-    |> addWithValue "@Url"          info.Url
-    |> addWithValue "@ContentTypeId"info.ContentType 
-    |> addWithValue "@IsFeatured"   info.IsFeatured
-    |> addWithValue "@Created"      DateTime.Now
+    command 
+    |> addWithValue "@ProviderId"    info.ProviderId
+    |> addWithValue "@Title"         info.Title
+    |> addWithValue "@Description"   info.Description
+    |> addWithValue "@Url"           info.Url
+    |> addWithValue "@ContentTypeId" (info.ContentType |> contentTypeToId)
+    |> addWithValue "@IsFeatured"    info.IsFeatured
+    |> addWithValue "@Created"       DateTime.Now
     |> executeNonQuery
 
     dispose connection command

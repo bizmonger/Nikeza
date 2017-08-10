@@ -76,63 +76,61 @@ let ``Unsubscribe from Provider`` () =
     use reader = command.ExecuteReader()
     reader.Read() |> should equal false
 
-// [<Test>]
-// let ``Feature Link`` () =
+[<Test>]
+let ``Feature Link`` () =
 
-//     //Setup
-//     DataStore.execute <| Register someProfile
-//     DataStore.execute <| AddLink  someLink
-//     let lastId =  getLastId "Link"
-//     let data =  { LinkId=lastId; IsFeatured=true }
-
-//     // Test
-//     DataStore.execute <| FeatureLink data
-
-//     // Verify
-//     let sql = @"SELECT Id, IsFeatured
-//                 FROM   [dbo].[Link]
-//                 WHERE  Id  = @id
-//                 AND    IsFeatured = @isFeatured"
-
-//     let (connection,command) = createCommand(sql)
-
-//     command.Parameters.AddWithValue("@id",         data.LinkId)     |> ignore
-//     command.Parameters.AddWithValue("@isFeatured", data.IsFeatured) |> ignore
-
-//     let reader = command.ExecuteReader()
-//     let isFeatured = reader.GetBoolean(6)
-//     isFeatured |> should equal true
-
-//     // Teardown
-//     cleanup command connection
-
-// [<Test>]
-// let ``Unfeature Link`` () =
+    //Setup
+    DataStore.execute <| Register someProvider
+    DataStore.execute <| AddLink  someLink
     
-//     //Setup
-//     DataStore.execute <| Register someProfile
-//     let data = { LinkId=someLinkId; IsFeatured=false }
+    let lastId =  getLastId "Link"
+    let data =  { LinkId=lastId; IsFeatured=true }
 
-//     // Test
-//     DataStore.execute <| FeatureLink data
+    // Test
+    DataStore.execute <| FeatureLink data
 
-//     // Verify
-//     let sql = @"SELECT Id, IsFeatured
-//                 FROM   [dbo].[Link]
-//                 WHERE  Id  = @id
-//                 AND    IsFeatured = @IsFeatured"
+    // Verify
+    let sql = @"SELECT Id, IsFeatured
+                FROM   [dbo].[Link]
+                WHERE  Id  = @id
+                AND    IsFeatured = @isFeatured"
 
-//     let (connection,command) = createCommand(sql)
+    let (connection,command) = createCommand(sql)
 
-//     command.Parameters.AddWithValue("@id",      data.LinkId)     |> ignore
-//     command.Parameters.AddWithValue("@Enabled", data.IsFeatured) |> ignore
+    command.Parameters.AddWithValue("@id",         data.LinkId)     |> ignore
+    command.Parameters.AddWithValue("@isFeatured", data.IsFeatured) |> ignore
 
-//     let reader = command.ExecuteReader()
-//     let isFeatured = reader.GetBoolean(6)
-//     isFeatured |> should equal false
+    use reader = command |> prepareReader
+    let isFeatured = reader.GetBoolean(1)
+    isFeatured |> should equal true
 
-//     // Teardown
-//     cleanup command connection
+[<Test>]
+let ``Unfeature Link`` () =
+    
+    //Setup
+    DataStore.execute <| Register someProvider
+    DataStore.execute <| AddLink  someLink
+
+    let lastId =  getLastId "Link"
+    let data =  { LinkId=lastId; IsFeatured=false }
+
+    // Test
+    DataStore.execute <| FeatureLink data
+
+    // Verify
+    let sql = @"SELECT Id, IsFeatured
+                FROM   [dbo].[Link]
+                WHERE  Id  = @id
+                AND    IsFeatured = @isFeatured"
+
+    let (connection,command) = createCommand(sql)
+
+    command.Parameters.AddWithValue("@id",         data.LinkId)     |> ignore
+    command.Parameters.AddWithValue("@isFeatured", data.IsFeatured) |> ignore
+
+    use reader = command |> prepareReader
+    let isFeatured = reader.GetBoolean(1)
+    isFeatured |> should equal false
 
 // [<Test>]
 // let ``Registration`` () =
@@ -207,5 +205,5 @@ let ``Unsubscribe from Provider`` () =
 [<EntryPoint>]
 let main argv =
     cleanDataStore()                      
-    ``Unsubscribe from Provider`` ()
+    ``Feature Link`` ()
     0
