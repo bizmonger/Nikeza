@@ -11,6 +11,8 @@ module private Store =
     
     let execute connectionString sql commandFunc = 
         use connection = new SqlConnection(connectionString)
+        connection.Open()
+
         use command = (new SqlCommand(sql,connection)) |> commandFunc
         executeNonQuery command
 
@@ -54,7 +56,8 @@ let readCommand (connection: SqlConnection) (command: SqlCommand) readerFunc =
 let executeNonQuery (command: SqlCommand) = command.ExecuteNonQuery() |> ignore
 
 let createCommand sql =
-    let connection = new SqlConnection(ConnectionString)
+    // let connection = new SqlConnection(ConnectionString)
+    let connection = new SqlConnection("Data Source=DESKTOP-GE7O8JT\\SQLEXPRESS;Initial Catalog=Nikeza;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False")
     connection.Open()
 
     let command = new SqlCommand(sql,connection)
@@ -180,7 +183,7 @@ let private unsubscribe (info:UnsubscribeRequest) =
         |> addWithValue "@SubscriberId"  info.SubscriberId
         |> addWithValue "@ProviderId"    info.ProviderId
 
-    Store.execute ConnectionString sql commandFunc
+    Store.execute "Data Source=DESKTOP-GE7O8JT\\SQLEXPRESS;Initial Catalog=Nikeza;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" sql commandFunc
 
 let private featureLink (info:FeatureLinkRequest) =
     let sql = @"UPDATE [dbo].[Link]
