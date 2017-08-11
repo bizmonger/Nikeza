@@ -33,6 +33,14 @@ let someProvider = {
     Created =       DateTime.Now
 }
 
+let someUpdatedProvider = { 
+    UpdateProfileRequest.ProviderId = someProviderId
+    UpdateProfileRequest.FirstName = "Scott"
+    UpdateProfileRequest.LastName =  "Nimrod"
+    UpdateProfileRequest.Email =     "abc@abc.com"
+    UpdateProfileRequest.Bio =       "Some Bio"
+}
+
 let someSubscriber = { 
     ProfileId =     someSubscriberId
     FirstName =     "Scott"

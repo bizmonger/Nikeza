@@ -46,6 +46,9 @@ let ``Follow Provider`` () =
 
     entryAdded |> should equal true
 
+    // Teardown
+    dispose connection command
+
 
 [<Test>]
 let ``Unsubscribe from Provider`` () =
@@ -76,13 +79,16 @@ let ``Unsubscribe from Provider`` () =
     use reader = command.ExecuteReader()
     reader.Read() |> should equal false
 
+    // Teardown
+    dispose connection command
+
 [<Test>]
 let ``Feature Link`` () =
 
     //Setup
     DataStore.execute <| Register someProvider
     DataStore.execute <| AddLink  someLink
-    
+
     let lastId =  getLastId "Link"
     let data =  { LinkId=lastId; IsFeatured=true }
 
@@ -103,6 +109,9 @@ let ``Feature Link`` () =
     use reader = command |> prepareReader
     let isFeatured = reader.GetBoolean(1)
     isFeatured |> should equal true
+
+    // Teardown
+    dispose connection command
 
 [<Test>]
 let ``Unfeature Link`` () =
@@ -132,64 +141,69 @@ let ``Unfeature Link`` () =
     let isFeatured = reader.GetBoolean(1)
     isFeatured |> should equal false
 
-// [<Test>]
-// let ``Registration`` () =
+    // Teardown
+    dispose connection command
 
-//     // Setup
-//     let data = { someProfile with FirstName="Scott"; LastName="Nimrod" }
+[<Test>]
+let ``Register Profile`` () =
 
-//     // Test
-//     DataStore.execute <| Register data
+    // Setup
+    let data = { someProvider with FirstName="Scott"; LastName="Nimrod" }
 
-//     // Verify
-//     let sql = @"SELECT (FirstName, LastName)
-//                 FROM   [dbo].[Profile]
-//                 WHERE  FirstName = @Scott
-//                 AND    LastName  = @Nimrod"
+    // Test
+    DataStore.execute <| Register data
 
-//     let (connection,command) = createCommand(sql)
-//     command.Parameters.AddWithValue("@FirstName", data.FirstName) |> ignore
-//     command.Parameters.AddWithValue("@LastName",  data.LastName)  |> ignore
+    // Verify
+    let sql = @"SELECT FirstName, LastName
+                FROM   [dbo].[Profile]
+                WHERE  FirstName = @FirstName
+                AND    LastName  = @LastName"
+
+    let (connection,command) = createCommand(sql)
+    command.Parameters.AddWithValue("@FirstName", data.FirstName) |> ignore
+    command.Parameters.AddWithValue("@LastName",  data.LastName)  |> ignore
     
-//     let reader = command.ExecuteReader()
-//     let isRegistered = (data.FirstName, data.LastName) = (reader.GetString(0), reader.GetString(1))
-//     isRegistered |> should equal true
+    use reader = command |> prepareReader
+    let isRegistered = (data.FirstName, data.LastName) = (reader.GetString(0), reader.GetString(1))
+    isRegistered |> should equal true
 
-//     // Teardown
-//     cleanup command connection
+    // Teardown
+    dispose connection command
 
-// [<Test>]
-// let ``Update profile`` () =
+[<Test>]
+let ``Update profile`` () =
     
-//     // Setup
-//     let data = { someProfile with FirstName="Scott"; LastName="Nimrod" }
-//     DataStore.execute <| Register data
+    // Setup
+    let modifiedName = "MODIFIED_NAME"
+    let data = { someProvider with FirstName="Scott"; LastName="Nimrod" }
+    DataStore.execute <| Register data
+
+    let lastId =  getLastId "Profile"
+
+    // Test
+    let updateData = { 
+        ProviderId = lastId
+        FirstName =  data.FirstName
+        LastName =   modifiedName
+        Bio =        data.Bio
+        Email =      data.Email 
+    }
+
+    DataStore.execute <| UpdateProfile updateData
+
+    // Verify
+    let sql = @"SELECT LastName
+                FROM   [dbo].[Profile]
+                WHERE  Id = @Id"
+
+    let (readConnection,readCommand) = createCommand(sql)
+    readCommand.Parameters.AddWithValue("@Id", lastId) |> ignore
     
-//     // Test
-//     let sql = @"Update [dbo].[Profile]
-//                 Set    [dbo].[FirstName] = 'MODIFIED_NAME'
-//                 WHERE  FirstName = @Scott
-//                 AND    LastName  = @Nimrod"
+    use reader = readCommand |> prepareReader
+    reader.GetString(0) = modifiedName |> should equal true
 
-//     let (connection,command) = createCommand(sql)
-//     command.Parameters.AddWithValue("@FirstName", data.FirstName) |> ignore
-//     command.Parameters.AddWithValue("@LastName",  data.LastName)  |> ignore
-//     command.ExecuteNonQuery() |> ignore
-
-//     // Verify
-//     let sql = @"SELECT (FirstName)
-//                 FROM   [dbo].[Profile]
-//                 WHERE  FirstName = @Scott"
-
-//     let (readConnection,readCommand) = createCommand(sql)
-//     readCommand.Parameters.AddWithValue("@FirstName", "MODIFIED_NAME") |> ignore
-    
-//     use reader = readCommand |> prepareReader
-//     reader.GetString(0) = "MODIFIED_NAME" |> should equal true
-
-//     // Teardown
-//     dispose connection command
-//     cleanup command readConnection
+    // Teardown
+    dispose readConnection readCommand
 
 // [<Test>]
 // let ``Signin`` () = ()
@@ -205,5 +219,5 @@ let ``Unfeature Link`` () =
 [<EntryPoint>]
 let main argv =
     cleanDataStore()                      
-    ``Feature Link`` ()
+    ``Update profile`` ()
     0

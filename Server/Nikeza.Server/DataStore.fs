@@ -207,25 +207,29 @@ let private featureLink (info:FeatureLinkRequest) =
     dispose connection command
 
 let private updateProfile (info:UpdateProfileRequest) =
-    let sql = @"UPDATE [dbo].[Provider]
-                SET    [Bio] =   @bio
-                       [Email] = @email
-                WHERE  Id =      @Id"
+    let sql = @"UPDATE [dbo].[Profile]
+                SET    [FirstName] = @FirstName,
+                       [LastName] =  @LastName,
+                       [Bio] =       @bio,
+                       [Email] =     @email
+                WHERE  Id =          @Id"
 
     let (connection,command) = createCommand(sql)
 
     command
-    |> addWithValue "@Id"     info.ProviderId
-    |> addWithValue "@bio"    info.Bio
-    |> addWithValue "@email"  info.Email
+    |> addWithValue "@Id"        info.ProviderId
+    |> addWithValue "@FirstName" info.FirstName
+    |> addWithValue "@LastName"  info.LastName
+    |> addWithValue "@bio"       info.Bio
+    |> addWithValue "@email"     info.Email
     |> executeNonQuery
 
     dispose connection command
 
 let execute = function
     | Register      info -> register      info
+    | UpdateProfile info -> updateProfile info
     | Follow        info -> follow        info
     | Unsubscribe   info -> unsubscribe   info
     | AddLink       info -> addLink       info
     | FeatureLink   info -> featureLink   info
-    | UpdateProfile info -> updateProfile info
