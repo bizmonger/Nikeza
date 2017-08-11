@@ -181,21 +181,13 @@ let ``Update profile`` () =
     let lastId =  getLastId "Profile"
 
     // Test
-    let updateData = { 
-        ProviderId = lastId
-        FirstName =  data.FirstName
-        LastName =   modifiedName
-        Bio =        data.Bio
-        Email =      data.Email 
-    }
-
-    DataStore.execute <| UpdateProfile updateData
-
+    DataStore.execute <| UpdateProfile { ProviderId = lastId
+                                         FirstName =  data.FirstName
+                                         LastName =   modifiedName
+                                         Bio =        data.Bio
+                                         Email =      data.Email }
     // Verify
-    let sql = @"SELECT LastName
-                FROM   [dbo].[Profile]
-                WHERE  Id = @Id"
-
+    let sql = @"SELECT LastName FROM   [dbo].[Profile] WHERE  Id = @Id"
     let (readConnection,readCommand) = createCommand(sql)
     readCommand.Parameters.AddWithValue("@Id", lastId) |> ignore
     
