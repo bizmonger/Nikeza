@@ -29,9 +29,9 @@ module private Store =
     let query connectionString sql commandFunc = 
         let connection = createOpenConnection connectionString
         use command = (new SqlCommand(sql,connection)) |> commandFunc
-        let results = executeQuery command
-        dispose connection command
-        results
+        let reader = executeQuery command
+        
+        (reader,connection)
 
 type ContentType = 
     | Article
@@ -50,10 +50,10 @@ let contentTypeFromString = function
     | _         -> Unknown
 
 let contentTypeToId = function
-    | "article" -> 0
-    | "video"   -> 1
-    | "answer"  -> 2
-    | "podcast" -> 3
+    | "article" ->  0
+    | "video"   ->  1
+    | "answer"  ->  2
+    | "podcast" ->  3
     | _         -> -1
 
 let contentTypeToString = function
@@ -61,7 +61,14 @@ let contentTypeToString = function
     | Video   -> "video"  
     | Answer  -> "answer" 
     | Podcast -> "podcast"
-    | Unknown -> "unknown"        
+    | Unknown -> "unknown"    
+
+let contentTypeIdToString = function
+    | 0 -> "article"
+    | 1 -> "video"  
+    | 2 -> "answer" 
+    | 3 -> "podcast"
+    | _ -> "unknown"        
 
 let addWithValue paramName obj (command: SqlCommand) =
     command.Parameters.AddWithValue(paramName,  obj) |> ignore
@@ -256,8 +263,22 @@ let private getLinks profileId =
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue "@ProviderId" profileId
 
-    let reader = Store.query connectionString sql commandFunc
-    seq []
+    let (reader, connection) = Store.query connectionString sql commandFunc
+    reader.Read() |> ignore
+
+    let link = { 
+        Id = reader.GetInt32(0)
+        ProviderId = reader.GetInt32(1)
+        Title = reader.GetString(2)
+        Description = reader.GetString(3)
+        Url = reader.GetString(4)
+        ContentType = reader.GetInt32(5) |> contentTypeIdToString
+        IsFeatured = reader.GetBoolean(6)
+    }
+
+    connection.Close()
+
+    seq [link]
 
 let private getFollowers     profileId = seq []
 let private getSubscriptions profileId = seq []
