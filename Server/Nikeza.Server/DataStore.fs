@@ -16,11 +16,11 @@ module private Store =
 
     let createOpenConnection connectionString =
         let connection = new SqlConnection(connectionString)
-        connection.Open()
         connection
 
     let execute connectionString sql commandFunc = 
         let connection = createOpenConnection connectionString
+        connection.Open()
 
         use command = (new SqlCommand(sql,connection)) |> commandFunc
         executeNonQuery command
@@ -28,6 +28,8 @@ module private Store =
 
     let query connectionString sql commandFunc = 
         let connection = createOpenConnection connectionString
+        connection.Open()
+        
         use command = (new SqlCommand(sql,connection)) |> commandFunc
         let reader = executeQuery command
         
@@ -247,6 +249,24 @@ let private updateProfile (info:UpdateProfileRequest) =
 
     dispose connection command
 
+let rec readInLinks links (reader:SqlDataReader) : Link list =
+
+    if reader.Read() then
+    
+        let link = { 
+              Id =            reader.GetInt32  (0)
+              ProviderId =    reader.GetInt32  (1)
+              Title =         reader.GetString (2)
+              Description =   reader.GetString (3)
+              Url =           reader.GetString (4)
+              ContentType =   reader.GetInt32  (5) |> contentTypeIdToString
+              IsFeatured =    reader.GetBoolean(6)
+        }
+
+        readInLinks (link::links) reader
+
+    else links
+    
 let private getLinks profileId =
     let sql = "SELECT Id, 
                       ProviderId, 
@@ -264,24 +284,15 @@ let private getLinks profileId =
         command |> addWithValue "@ProviderId" profileId
 
     let (reader, connection) = Store.query connectionString sql commandFunc
-    reader.Read() |> ignore
 
-    let link = { 
-        Id = reader.GetInt32(0)
-        ProviderId = reader.GetInt32(1)
-        Title = reader.GetString(2)
-        Description = reader.GetString(3)
-        Url = reader.GetString(4)
-        ContentType = reader.GetInt32(5) |> contentTypeIdToString
-        IsFeatured = reader.GetBoolean(6)
-    }
+    let links = readInLinks [] reader
 
     connection.Close()
 
-    seq [link]
+    links
 
-let private getFollowers     profileId = seq []
-let private getSubscriptions profileId = seq []
+let private getFollowers     profileId = []
+let private getSubscriptions profileId = []
 
 let execute = function
     | Register      info -> register      info
