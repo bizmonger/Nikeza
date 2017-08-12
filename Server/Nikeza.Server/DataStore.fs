@@ -4,7 +4,7 @@ open System
 open Nikeza.Server.Models
 open System.Data.SqlClient
 
-let ConnectionString = Configuration.ConnectionString
+let connectionString = "Data Source=DESKTOP-GE7O8JT\\SQLEXPRESS;Initial Catalog=Nikeza;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
 
 module private Store = 
     let private executeNonQuery (command: SqlCommand) = command.ExecuteNonQuery() |> ignore
@@ -63,8 +63,7 @@ let readCommand (connection: SqlConnection) (command: SqlCommand) readerFunc =
 let executeNonQuery (command: SqlCommand) = command.ExecuteNonQuery() |> ignore
 
 let createCommand sql =
-    // let connection = new SqlConnection(ConnectionString)
-    let connection = new SqlConnection("Data Source=DESKTOP-GE7O8JT\\SQLEXPRESS;Initial Catalog=Nikeza;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False")
+    let connection = new SqlConnection(connectionString)
     connection.Open()
 
     let command = new SqlCommand(sql,connection)
@@ -76,7 +75,7 @@ let dispose (connection:SqlConnection) (command:SqlCommand) =
 
 let findUser email passwordHash: (Profile option) =
     let query = "SELECT * FROM Profile Where Email = @email AND PasswordHash = @hash"
-    use connection = new SqlConnection(ConnectionString)
+    use connection = new SqlConnection(connectionString)
 
     use command = new SqlCommand(query,connection)
     command
@@ -190,7 +189,7 @@ let private unsubscribe (info:UnsubscribeRequest) =
         |> addWithValue "@SubscriberId"  info.SubscriberId
         |> addWithValue "@ProviderId"    info.ProviderId
 
-    Store.execute "Data Source=DESKTOP-GE7O8JT\\SQLEXPRESS;Initial Catalog=Nikeza;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" sql commandFunc
+    Store.execute connectionString sql commandFunc
 
 let private featureLink (info:FeatureLinkRequest) =
     let sql = @"UPDATE [dbo].[Link]
