@@ -45,26 +45,19 @@ type Link = {
 type FeatureLinkRequest = { LinkId: int; IsFeatured: bool }
 
 [<CLIMutable>]
-type UpdateProfileRequest = {
+type ProfileRequest = {
     ProviderId: int
     FirstName:  string
     LastName:   string
     Bio:        string
     Email:      string
+    ImageUrl:   string
 }
-
-[<CLIMutable>]
-type RequestInfo = { ProviderId: int }
 
 type Command =
     | Register      of Profile
-    | UpdateProfile of UpdateProfileRequest
+    | UpdateProfile of ProfileRequest
     | Follow        of FollowRequest
     | Unsubscribe   of UnsubscribeRequest    
     | AddLink       of AddLinkRequest
     | FeatureLink   of FeatureLinkRequest
-
-type Request =
-    | GetLinks         of RequestInfo
-    | GetFollowers     of RequestInfo
-    | GetSubscriptions of RequestInfo

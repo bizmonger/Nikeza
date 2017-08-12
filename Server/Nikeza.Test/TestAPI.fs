@@ -34,11 +34,12 @@ let someProvider = {
 }
 
 let someUpdatedProvider = { 
-    UpdateProfileRequest.ProviderId = someProviderId
-    UpdateProfileRequest.FirstName = "Scott"
-    UpdateProfileRequest.LastName =  "Nimrod"
-    UpdateProfileRequest.Email =     "abc@abc.com"
-    UpdateProfileRequest.Bio =       "Some Bio"
+    ProfileRequest.ProviderId = someProviderId
+    ProfileRequest.FirstName = "Scott"
+    ProfileRequest.LastName =  "Nimrod"
+    ProfileRequest.Email =     "abc@abc.com"
+    ProfileRequest.ImageUrl =  "someUrl.com"
+    ProfileRequest.Bio =       "Some Bio"
 }
 
 let someSubscriber = { 

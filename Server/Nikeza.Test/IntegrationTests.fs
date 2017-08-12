@@ -186,7 +186,9 @@ let ``Update profile`` () =
                                          FirstName =  data.FirstName
                                          LastName =   modifiedName
                                          Bio =        data.Bio
-                                         Email =      data.Email }
+                                         Email =      data.Email
+                                         ImageUrl=    data.ImageUrl
+                                       }
     // Verify
     let sql = @"SELECT LastName FROM   [dbo].[Profile] WHERE  Id = @Id"
     let (readConnection,readCommand) = createCommand(sql)
@@ -206,18 +208,34 @@ let ``get links`` () =
     DataStore.execute <| Register someProvider
     DataStore.execute <| AddLink  someLink
 
-    let request = GetLinks { ProviderId = someProvider.ProfileId }
-
     // Test
-    let links = respondTo request
+    let links = getLinks someProvider.ProfileId
 
     // Verify
     let linkFound = links |> Seq.head
     linkFound.ProviderId  |> should equal someProvider.ProfileId
 
+[<Test>]
+let ``Get subscribers`` () =
+
+    // Setup
+    DataStore.execute <| Register someProvider
+    let providerId =   getLastId "Profile"
+    
+    DataStore.execute <| Register someSubscriber
+    let subscriberId = getLastId "Profile"
+
+    DataStore.execute <| Follow { FollowRequest.ProviderId= providerId; FollowRequest.SubscriberId= subscriberId }
+
+    // Test
+    let followers = DataStore.getFollowers providerId
+
+    // Verify
+    let follower = followers |> List.head
+    follower.ProviderId |> should equal subscriberId
 
 [<EntryPoint>]
 let main argv =
     cleanDataStore()                      
-    ``Add featured link`` ()
+    ``Get subscribers`` () 
     0

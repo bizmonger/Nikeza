@@ -85,7 +85,7 @@ let readCommand (connection: SqlConnection) (command: SqlCommand) readerFunc =
     connection.Close() |> ignore
     data
 
-let executeNonQuery (command: SqlCommand) = command.ExecuteNonQuery() |> ignore
+let private executeNonQuery (command: SqlCommand) = command.ExecuteNonQuery() |> ignore
 
 let createCommand sql =
     let connection = new SqlConnection(connectionString)
@@ -122,7 +122,7 @@ let private register (info:Profile) =
                       ( FirstName
                       , LastName
                       , Email
-                      , ImgUrl
+                      , ImageUrl
                       , Bio
                       , PasswordHash
                       , Created )
@@ -230,7 +230,7 @@ let private featureLink (info:FeatureLinkRequest) =
 
     dispose connection command
 
-let private updateProfile (info:UpdateProfileRequest) =
+let private updateProfile (info:ProfileRequest) =
     let sql = @"UPDATE [dbo].[Profile]
                 SET    [FirstName] = @FirstName,
                        [LastName] =  @LastName,
@@ -251,7 +251,7 @@ let private updateProfile (info:UpdateProfileRequest) =
 
     dispose connection command
 
-let rec readInLinks links (reader:SqlDataReader) : Link list =
+let rec readInLinks links (reader:SqlDataReader) =
 
     if reader.Read() then
     
@@ -268,8 +268,26 @@ let rec readInLinks links (reader:SqlDataReader) : Link list =
         readInLinks (link::links) reader
 
     else links
+
+let rec readInFollowers subscribers (reader:SqlDataReader) =
+
+    if reader.Read() then
     
-let private getLinks profileId =
+        let subscriber = {
+            ProfileRequest.ProviderId= reader.GetInt32 (0)
+            ProfileRequest.FirstName=  reader.GetString(1)
+            ProfileRequest.LastName=   reader.GetString(2)
+            ProfileRequest.Email=      reader.GetString(3)
+            ProfileRequest.ImageUrl=   reader.GetString(4)
+            ProfileRequest.Bio=        reader.GetString(5)
+        }
+
+        readInFollowers (subscriber::subscribers) reader
+
+    else subscribers
+    
+let getLinks providerId =
+
     let sql = "SELECT Id, 
                       ProviderId, 
                       Title, 
@@ -283,7 +301,7 @@ let private getLinks profileId =
                WHERE  ProviderId = @ProviderId"
 
     let commandFunc (command: SqlCommand) = 
-        command |> addWithValue "@ProviderId" profileId
+        command |> addWithValue "@ProviderId" providerId
 
     let (reader, connection) = Store.query connectionString sql commandFunc
 
@@ -293,8 +311,32 @@ let private getLinks profileId =
 
     links
 
-let private getFollowers     profileId = []
-let private getSubscriptions profileId = []
+let getFollowers providerId =
+
+    let sql = @"SELECT     Profile.Id,
+                           Profile.FirstName,
+                           Profile.LastName,
+                           Profile.Email,
+                           Profile.ImageUrl,
+                           Profile.Bio
+
+                FROM       Profile
+                INNER JOIN Subscription
+                ON         Subscription.SubscriberId = Profile.Id
+                WHERE      Subscription.ProviderId = @ProviderId"
+
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue "@ProviderId" providerId
+        
+    let (reader, connection) = Store.query connectionString sql commandFunc
+
+    let subscribers = readInFollowers [] reader
+
+    connection.Close()
+
+    subscribers
+
+let getSubscriptions profileId = []
 
 let execute = function
     | Register      info -> register      info
@@ -303,8 +345,3 @@ let execute = function
     | Unsubscribe   info -> unsubscribe   info
     | AddLink       info -> addLink       info
     | FeatureLink   info -> featureLink   info
-
-let respondTo = function
-    | GetLinks         info -> getLinks         info.ProviderId
-    | GetFollowers     info -> getFollowers     info.ProviderId // TODO
-    | GetSubscriptions info -> getSubscriptions info.ProviderId // TODO
