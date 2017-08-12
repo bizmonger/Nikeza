@@ -14,22 +14,22 @@ module private Store =
     let private executeNonQuery (command: SqlCommand) = command.ExecuteNonQuery() |> ignore
     let private executeQuery (command: SqlCommand) = command.ExecuteReader()
 
-    let createOpenConnection connectionString =
+    let createConnection connectionString =
         let connection = new SqlConnection(connectionString)
         connection
 
     let execute connectionString sql commandFunc = 
-        let connection = createOpenConnection connectionString
+        use connection = createConnection connectionString
         connection.Open()
 
         use command = (new SqlCommand(sql,connection)) |> commandFunc
         executeNonQuery command
-        dispose connection command
 
-    let query connectionString sql commandFunc = 
-        let connection = createOpenConnection connectionString
+    let query connectionString sql commandFunc =
+
+        let connection = createConnection connectionString
         connection.Open()
-        
+
         use command = (new SqlCommand(sql,connection)) |> commandFunc
         let reader = executeQuery command
         
@@ -81,9 +81,7 @@ let readCommand (connection: SqlConnection) (command: SqlCommand) readerFunc =
     then connection.Open()
 
     let reader = command.ExecuteReader()
-    let data = seq {
-        while reader.Read() do yield readerFunc(reader)
-    }
+    let data = seq { while reader.Read() do yield readerFunc(reader) }
     connection.Close() |> ignore
     data
 
@@ -91,9 +89,7 @@ let executeNonQuery (command: SqlCommand) = command.ExecuteNonQuery() |> ignore
 
 let createCommand sql =
     let connection = new SqlConnection(connectionString)
-    connection.Open()
-
-    let command = new SqlCommand(sql,connection)
+    let command =    new SqlCommand(sql,connection)
     (connection, command)
 
 let findUser email passwordHash: (Profile option) =
@@ -141,7 +137,9 @@ let private register (info:Profile) =
                        )"
 
     let (connection,command) = createCommand(sql)
-
+    
+    connection.Open()
+    
     command
     |> addWithValue "@FirstName"     info.FirstName
     |> addWithValue "@LastName"      info.LastName
@@ -173,6 +171,7 @@ let private addLink (info:AddLinkRequest) =
                       ,@Created)"
 
     let (connection,command) = createCommand(sql)
+    connection.Open()
 
     command 
     |> addWithValue "@ProviderId"    info.ProviderId
@@ -196,6 +195,7 @@ let private follow (info:FollowRequest) =
                        )"
 
     let (connection,command) = createCommand(sql)
+    connection.Open()
 
     command
     |> addWithValue "@SubscriberId"  info.SubscriberId
@@ -221,6 +221,7 @@ let private featureLink (info:FeatureLinkRequest) =
                 WHERE  Id = @Id"
 
     let (connection,command) = createCommand(sql)
+    connection.Open()
 
     command
     |> addWithValue "@Id"          info.LinkId
@@ -238,6 +239,7 @@ let private updateProfile (info:UpdateProfileRequest) =
                 WHERE  Id =          @Id"
 
     let (connection,command) = createCommand(sql)
+    connection.Open()
 
     command
     |> addWithValue "@Id"        info.ProviderId

@@ -36,7 +36,7 @@ let ``Follow Provider`` () =
                 AND    ProviderId =   @ProviderId"
 
     let (connection,command) = createCommand(sql)
-
+    connection.Open()
     command.Parameters.AddWithValue("@SubscriberId", subscriberId) |> ignore
     command.Parameters.AddWithValue("@ProviderId",   providerId)   |> ignore
 
@@ -72,7 +72,7 @@ let ``Unsubscribe from Provider`` () =
                 AND    ProviderId =   @ProviderId"
 
     let (connection,command) = createCommand(sql)
-
+    connection.Open()
     command.Parameters.AddWithValue("@SubscriberId", subscriberId) |> ignore
     command.Parameters.AddWithValue("@ProviderId",   providerId)   |> ignore
 
@@ -102,7 +102,7 @@ let ``Add featured link`` () =
                 AND    IsFeatured = @isFeatured"
 
     let (connection,command) = createCommand(sql)
-
+    connection.Open()
     command.Parameters.AddWithValue("@id",         data.LinkId)     |> ignore
     command.Parameters.AddWithValue("@isFeatured", data.IsFeatured) |> ignore
 
@@ -133,7 +133,7 @@ let ``Unfeature Link`` () =
                 AND    IsFeatured = @isFeatured"
 
     let (connection,command) = createCommand(sql)
-
+    connection.Open()
     command.Parameters.AddWithValue("@id",         data.LinkId)     |> ignore
     command.Parameters.AddWithValue("@isFeatured", data.IsFeatured) |> ignore
 
@@ -160,6 +160,7 @@ let ``Register Profile`` () =
                 AND    LastName  = @LastName"
 
     let (connection,command) = createCommand(sql)
+    connection.Open()
     command.Parameters.AddWithValue("@FirstName", data.FirstName) |> ignore
     command.Parameters.AddWithValue("@LastName",  data.LastName)  |> ignore
     
@@ -189,6 +190,7 @@ let ``Update profile`` () =
     // Verify
     let sql = @"SELECT LastName FROM   [dbo].[Profile] WHERE  Id = @Id"
     let (readConnection,readCommand) = createCommand(sql)
+    readConnection.Open()
     readCommand.Parameters.AddWithValue("@Id", lastId) |> ignore
     
     use reader = readCommand |> prepareReader
@@ -217,5 +219,5 @@ let ``get links`` () =
 [<EntryPoint>]
 let main argv =
     cleanDataStore()                      
-    ``get links`` ()
+    ``Add featured link`` ()
     0

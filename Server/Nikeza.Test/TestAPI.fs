@@ -54,6 +54,10 @@ let someSubscriber = {
 
 let execute sql =
     let (connection,command) = createCommand(sql)
+
+    if connection.State = System.Data.ConnectionState.Closed
+    then connection.Open()
+
     command.ExecuteNonQuery()  |> ignore
     dispose connection command
 
@@ -83,7 +87,7 @@ let getLastId tableName =
 
     let sql = @"SELECT Id From [dbo].[" + tableName + "]"
     let (connection,command) = createCommand(sql)
-
+    connection.Open()
     let reader = command.ExecuteReader()
 
     let ids = getIds reader [] (reader.Read())
