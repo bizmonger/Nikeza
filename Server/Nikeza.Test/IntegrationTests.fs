@@ -83,7 +83,7 @@ let ``Unsubscribe from Provider`` () =
     dispose connection command
 
 [<Test>]
-let ``Feature Link`` () =
+let ``Add featured link`` () =
 
     //Setup
     DataStore.execute <| Register someProvider
@@ -197,6 +197,23 @@ let ``Update profile`` () =
     // Teardown
     dispose readConnection readCommand
 
+[<Test>]
+let ``get links`` () =
+
+    //Setup
+    DataStore.execute <| Register someProvider
+    DataStore.execute <| AddLink  someLink
+
+    let request = GetLinks { ProviderId = someProvider.ProfileId }
+
+    // Test
+    let links = respondTo request
+
+    // Verify
+    let linkFound = links |> Seq.head
+    linkFound.ProviderId  |> should equal someProvider.ProfileId
+
+
 // [<Test>]
 // let ``Signin`` () = ()
 //     // Setup
@@ -211,5 +228,5 @@ let ``Update profile`` () =
 [<EntryPoint>]
 let main argv =
     cleanDataStore()                      
-    ``Update profile`` ()
+    ``get links`` ()
     0

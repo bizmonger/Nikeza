@@ -6,15 +6,32 @@ open System.Data.SqlClient
 
 let connectionString = "Data Source=DESKTOP-GE7O8JT\\SQLEXPRESS;Initial Catalog=Nikeza;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
 
+let dispose (connection:SqlConnection) (command:SqlCommand) =
+    connection.Dispose()
+    command.Dispose()
+    
 module private Store = 
     let private executeNonQuery (command: SqlCommand) = command.ExecuteNonQuery() |> ignore
-    
-    let execute connectionString sql commandFunc = 
-        use connection = new SqlConnection(connectionString)
+    let private executeQuery (command: SqlCommand) = command.ExecuteReader()
+
+    let createOpenConnection connectionString =
+        let connection = new SqlConnection(connectionString)
         connection.Open()
+        connection
+
+    let execute connectionString sql commandFunc = 
+        let connection = createOpenConnection connectionString
 
         use command = (new SqlCommand(sql,connection)) |> commandFunc
         executeNonQuery command
+        dispose connection command
+
+    let query connectionString sql commandFunc = 
+        let connection = createOpenConnection connectionString
+        use command = (new SqlCommand(sql,connection)) |> commandFunc
+        let results = executeQuery command
+        dispose connection command
+        results
 
 type ContentType = 
     | Article
@@ -51,14 +68,15 @@ let addWithValue paramName obj (command: SqlCommand) =
     command
 
 let readCommand (connection: SqlConnection) (command: SqlCommand) readerFunc =
-    connection.Open()
+    if connection.State = System.Data.ConnectionState.Closed
+    then connection.Open()
+
     let reader = command.ExecuteReader()
     let data = seq {
         while reader.Read() do yield readerFunc(reader)
     }
-    let result = data |> Seq.tryHead
     connection.Close() |> ignore
-    result
+    data
 
 let executeNonQuery (command: SqlCommand) = command.ExecuteNonQuery() |> ignore
 
@@ -68,10 +86,6 @@ let createCommand sql =
 
     let command = new SqlCommand(sql,connection)
     (connection, command)
-
-let dispose (connection:SqlConnection) (command:SqlCommand) =
-    connection.Dispose()
-    command.Dispose()
 
 let findUser email passwordHash: (Profile option) =
     let query = "SELECT * FROM Profile Where Email = @email AND PasswordHash = @hash"
@@ -94,7 +108,8 @@ let findUser email passwordHash: (Profile option) =
         Created =      DateTime.Parse(reader.["Created"].ToString()) 
     }
 
-    readCommand connection command sqlReader
+    readCommand connection command sqlReader |> Seq.tryHead
+    
 
 let private register (info:Profile) =
 
@@ -225,7 +240,7 @@ let private updateProfile (info:UpdateProfileRequest) =
 
     dispose connection command
 
-let getLinks profileId =
+let private getLinks profileId =
     let sql = "SELECT Id, 
                       ProviderId, 
                       Title, 
@@ -238,20 +253,14 @@ let getLinks profileId =
                FROM   [dbo].[Link]
                WHERE  ProviderId = @ProviderId"
 
-    let (connection,command) = createCommand(sql)
-    command.Parameters.AddWithValue("@ProviderId", profileId) |> ignore
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue "@ProviderId" profileId
 
-    let result = readCommand connection command (fun reader ->
-                                                    { Id = reader.GetInt32(0)
-                                                      ProviderId = reader.GetInt32(1)
-                                                      Title=       reader.GetString(2)
-                                                      Description= reader.GetString(3)
-                                                      Url=         reader.GetString(4)
-                                                      IsFeatured=  reader.GetBoolean(5)
-                                                      ContentType= reader.GetString(6)
-                                                    }
-                                                )
-    result
+    let reader = Store.query connectionString sql commandFunc
+    seq []
+
+let private getFollowers     profileId = seq []
+let private getSubscriptions profileId = seq []
 
 let execute = function
     | Register      info -> register      info
@@ -260,3 +269,8 @@ let execute = function
     | Unsubscribe   info -> unsubscribe   info
     | AddLink       info -> addLink       info
     | FeatureLink   info -> featureLink   info
+
+let respondTo = function
+    | GetLinks         info -> getLinks         info.ProviderId
+    | GetFollowers     info -> getFollowers     info.ProviderId // TODO
+    | GetSubscriptions info -> getSubscriptions info.ProviderId // TODO

@@ -54,7 +54,7 @@ type UpdateProfileRequest = {
 }
 
 [<CLIMutable>]
-type LinksRequest = { ProviderId: int }
+type RequestInfo = { ProviderId: int }
 
 type Command =
     | Register      of Profile
@@ -65,6 +65,6 @@ type Command =
     | FeatureLink   of FeatureLinkRequest
 
 type Request =
-    | GetLinks         of LinksRequest
-    | GetFollowers     of Profile
-    | GetSubscriptions of Profile
+    | GetLinks         of RequestInfo
+    | GetFollowers     of RequestInfo
+    | GetSubscriptions of RequestInfo
