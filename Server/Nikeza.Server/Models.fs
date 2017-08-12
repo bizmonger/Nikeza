@@ -31,6 +31,17 @@ type AddLinkRequest = {
 }
 
 [<CLIMutable>]
+type Link = { 
+    Id:            int
+    ProviderId:    int
+    Title:         String
+    Description:   String
+    Url:           string
+    IsFeatured:    bool
+    ContentType:   string
+}
+
+[<CLIMutable>]
 type FeatureLinkRequest = { LinkId: int; IsFeatured: bool }
 
 [<CLIMutable>]

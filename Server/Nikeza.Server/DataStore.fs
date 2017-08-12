@@ -225,6 +225,34 @@ let private updateProfile (info:UpdateProfileRequest) =
 
     dispose connection command
 
+let getLinks profileId =
+    let sql = "SELECT Id, 
+                      ProviderId, 
+                      Title, 
+                      Description, 
+                      Url, 
+                      ContentTypeId, 
+                      IsFeatured, 
+                      Created
+
+               FROM   [dbo].[Link]
+               WHERE  ProviderId = @ProviderId"
+
+    let (connection,command) = createCommand(sql)
+    command.Parameters.AddWithValue("@ProviderId", profileId) |> ignore
+
+    let result = readCommand connection command (fun reader ->
+                                                    { Id = reader.GetInt32(0)
+                                                      ProviderId = reader.GetInt32(1)
+                                                      Title=       reader.GetString(2)
+                                                      Description= reader.GetString(3)
+                                                      Url=         reader.GetString(4)
+                                                      IsFeatured=  reader.GetBoolean(5)
+                                                      ContentType= reader.GetString(6)
+                                                    }
+                                                )
+    result
+
 let execute = function
     | Register      info -> register      info
     | UpdateProfile info -> updateProfile info
