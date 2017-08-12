@@ -214,17 +214,6 @@ let ``get links`` () =
     linkFound.ProviderId  |> should equal someProvider.ProfileId
 
 
-// [<Test>]
-// let ``Signin`` () = ()
-//     // Setup
-
-//     // Test
-
-//     // Verify
-
-//     // Teardown
-
-
 [<EntryPoint>]
 let main argv =
     cleanDataStore()                      
