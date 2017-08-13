@@ -269,6 +269,18 @@ let ``Get providers`` () =
     providers |> List.length |> should equal 2
 
 [<Test>]
+let ``Get provider`` () =
+
+    // Setup
+    execute <| Register someProvider
+    let id = getLastId "Profile"
+
+    // Test
+    match getProvider id with
+    | Some p -> ()
+    | None   -> Assert.Fail()
+
+[<Test>]
 let ``Get platforms`` () =
 
     // Test

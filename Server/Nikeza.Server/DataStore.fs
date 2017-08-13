@@ -383,6 +383,27 @@ let getProviders () =
 
     providers
 
+let getProvider providerId =
+    let sql = @"SELECT     Profile.Id,
+                           Profile.FirstName,
+                           Profile.LastName,
+                           Profile.Email,
+                           Profile.ImageUrl,
+                           Profile.Bio
+
+                FROM       Profile
+                WHERE      Id = @ProviderId"
+
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue "@ProviderId" providerId
+        
+    let (reader, connection) = Store.query connectionString sql commandFunc
+    let providers = readInProfiles [] reader
+
+    connection.Close()
+
+    providers |> List.tryHead
+
 let getPlatforms () =
     let sql = @"SELECT     Name
                 FROM       Platform"
