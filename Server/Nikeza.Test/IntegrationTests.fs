@@ -236,8 +236,27 @@ let ``Get followers`` () =
     // Verify
     follower.ProviderId |> should equal subscriberId
 
+[<Test>]
+let ``Get subscriptions`` () =
+
+    // Setup
+    execute <| Register someProvider
+    let providerId =   getLastId "Profile"
+    
+    execute <| Register someSubscriber
+    let subscriberId = getLastId "Profile"
+
+    execute <| Follow { FollowRequest.ProviderId=   providerId; 
+                        FollowRequest.SubscriberId= subscriberId }
+
+    // Test
+    let subscription = subscriberId |> getSubscriptions |> List.head
+    
+    // Verify
+    subscription.ProviderId |> should equal providerId
+
 [<EntryPoint>]
 let main argv =
     cleanDataStore()                      
-    ``Get followers`` () 
+    ``Get subscriptions`` ()
     0

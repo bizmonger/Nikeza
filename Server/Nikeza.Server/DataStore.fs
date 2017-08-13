@@ -269,11 +269,11 @@ let rec readInLinks links (reader:SqlDataReader) =
 
     else links
 
-let rec readInFollowers subscribers (reader:SqlDataReader) =
+let rec readInProfiles profiles (reader:SqlDataReader) =
 
     if reader.Read() then
     
-        let subscriber = {
+        let profile = {
             ProfileRequest.ProviderId= reader.GetInt32 (0)
             ProfileRequest.FirstName=  reader.GetString(1)
             ProfileRequest.LastName=   reader.GetString(2)
@@ -282,9 +282,9 @@ let rec readInFollowers subscribers (reader:SqlDataReader) =
             ProfileRequest.Bio=        reader.GetString(5)
         }
 
-        readInFollowers (subscriber::subscribers) reader
+        readInProfiles (profile::profiles) reader
 
-    else subscribers
+    else profiles
     
 let getLinks providerId =
 
@@ -329,13 +329,34 @@ let getFollowers providerId =
         command |> addWithValue "@ProviderId" providerId
         
     let (reader, connection) = Store.query connectionString sql commandFunc
-    let followers =            readInFollowers [] reader
+    let followers =            readInProfiles [] reader
 
     connection.Close()
 
     followers
 
-let getSubscriptions profileId = []
+let getSubscriptions subscriberId =
+    let sql = @"SELECT     Profile.Id,
+                           Profile.FirstName,
+                           Profile.LastName,
+                           Profile.Email,
+                           Profile.ImageUrl,
+                           Profile.Bio
+
+                FROM       Profile
+                INNER JOIN Subscription
+                ON         Subscription.ProviderId =   Profile.Id
+                WHERE      Subscription.SubscriberId = @SubscriberId"
+
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue "@SubscriberId" subscriberId
+        
+    let (reader, connection) = Store.query connectionString sql commandFunc
+    let subscriptions = readInProfiles [] reader
+
+    connection.Close()
+
+    subscriptions
 
 let execute = function
     | Register      info -> register      info
