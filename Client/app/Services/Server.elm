@@ -72,11 +72,6 @@ removeSource profileId connection =
     Err "Not implemented"
 
 
-topics : List Topic
-topics =
-    []
-
-
 platforms : List Platform
 platforms =
     []

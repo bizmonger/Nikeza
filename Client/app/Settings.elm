@@ -29,7 +29,6 @@ type alias Dependencies =
     , addSource : AddSourcefunction
     , removeSource : RemoveSourcefunction
     , platforms : List Platform
-    , topics : List Topic
     , suggestedTopics : SuggestedTopicsfunction
     , subscriptions : Subscriptionsfunction
     , followers : Followersfunction
@@ -56,7 +55,6 @@ runtime =
                 Services.addSource
                 Services.removeSource
                 Services.platforms
-                Services.topics
                 Services.suggestedTopics
                 Services.subscriptions
                 Services.followers
@@ -78,7 +76,6 @@ runtime =
                 TestAPI.addSource
                 TestAPI.removeSource
                 TestAPI.platforms
-                TestAPI.topics
                 TestAPI.suggestedTopics
                 TestAPI.subscriptions
                 TestAPI.followers

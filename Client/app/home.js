@@ -10914,7 +10914,6 @@ var _user$project$Services_Server$suggestedTopics = function (search) {
 	return {ctor: '[]'};
 };
 var _user$project$Services_Server$platforms = {ctor: '[]'};
-var _user$project$Services_Server$topics = {ctor: '[]'};
 var _user$project$Services_Server$removeSource = F2(
 	function (profileId, connection) {
 		return _elm_lang$core$Result$Err('Not implemented');
@@ -10978,9 +10977,7 @@ var _user$project$Settings$Dependencies = function (a) {
 															return function (p) {
 																return function (q) {
 																	return function (r) {
-																		return function (s) {
-																			return {tryLogin: a, tryRegister: b, provider: c, providers: d, links: e, addLink: f, removeLink: g, topicLinks: h, usernameToId: i, sources: j, addSource: k, removeSource: l, platforms: m, topics: n, suggestedTopics: o, subscriptions: p, followers: q, follow: r, unsubscribe: s};
-																		};
+																		return {tryLogin: a, tryRegister: b, provider: c, providers: d, links: e, addLink: f, removeLink: g, topicLinks: h, usernameToId: i, sources: j, addSource: k, removeSource: l, platforms: m, suggestedTopics: n, subscriptions: o, followers: p, follow: q, unsubscribe: r};
 																	};
 																};
 															};
@@ -11004,9 +11001,9 @@ var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return _user$project$Settings$Dependencies(_user$project$Services_Server$tryLogin)(_user$project$Services_Server$tryRegister)(_user$project$Services_Server$provider)(_user$project$Services_Server$providers)(_user$project$Services_Server$links)(_user$project$Services_Server$addLink)(_user$project$Services_Server$removeLink)(_user$project$Services_Server$topicLinks)(_user$project$Services_Server$usernameToId)(_user$project$Services_Server$sources)(_user$project$Services_Server$addSource)(_user$project$Services_Server$removeSource)(_user$project$Services_Server$platforms)(_user$project$Services_Server$topics)(_user$project$Services_Server$suggestedTopics)(_user$project$Services_Server$subscriptions)(_user$project$Services_Server$followers)(_user$project$Services_Server$follow)(_user$project$Services_Server$unsubscribe);
+		return _user$project$Settings$Dependencies(_user$project$Services_Server$tryLogin)(_user$project$Services_Server$tryRegister)(_user$project$Services_Server$provider)(_user$project$Services_Server$providers)(_user$project$Services_Server$links)(_user$project$Services_Server$addLink)(_user$project$Services_Server$removeLink)(_user$project$Services_Server$topicLinks)(_user$project$Services_Server$usernameToId)(_user$project$Services_Server$sources)(_user$project$Services_Server$addSource)(_user$project$Services_Server$removeSource)(_user$project$Services_Server$platforms)(_user$project$Services_Server$suggestedTopics)(_user$project$Services_Server$subscriptions)(_user$project$Services_Server$followers)(_user$project$Services_Server$follow)(_user$project$Services_Server$unsubscribe);
 	} else {
-		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$links)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$usernameToId)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$platforms)(_user$project$Tests_TestAPI$topics)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe);
+		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$links)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$usernameToId)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$platforms)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe);
 	}
 }();
 var _user$project$Settings$Integration = {ctor: 'Integration'};
