@@ -34,7 +34,7 @@ let someProvider = {
 }
 
 let someUpdatedProvider = { 
-    ProfileRequest.ProviderId = someProviderId
+    ProfileRequest.ProfileId = someProviderId
     ProfileRequest.FirstName = "Scott"
     ProfileRequest.LastName =  "Nimrod"
     ProfileRequest.Email =     "abc@abc.com"

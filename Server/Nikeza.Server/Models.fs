@@ -46,7 +46,7 @@ type FeatureLinkRequest = { LinkId: int; IsFeatured: bool }
 
 [<CLIMutable>]
 type ProfileRequest = {
-    ProviderId: int
+    ProfileId: int
     FirstName:  string
     LastName:   string
     Bio:        string

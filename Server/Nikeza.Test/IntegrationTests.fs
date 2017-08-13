@@ -181,7 +181,7 @@ let ``Update profile`` () =
     let lastId =  getLastId "Profile"
 
     // Test
-    execute <| UpdateProfile { ProviderId = lastId
+    execute <| UpdateProfile { ProfileId =  lastId
                                FirstName =  data.FirstName
                                LastName =   modifiedName
                                Bio =        data.Bio
@@ -234,7 +234,7 @@ let ``Get followers`` () =
     let follower = providerId |> getFollowers |> List.head
     
     // Verify
-    follower.ProviderId |> should equal subscriberId
+    follower.ProfileId |> should equal subscriberId
 
 [<Test>]
 let ``Get subscriptions`` () =
@@ -253,7 +253,7 @@ let ``Get subscriptions`` () =
     let subscription = subscriberId |> getSubscriptions |> List.head
     
     // Verify
-    subscription.ProviderId |> should equal providerId
+    subscription.ProfileId |> should equal providerId
 
 [<EntryPoint>]
 let main argv =

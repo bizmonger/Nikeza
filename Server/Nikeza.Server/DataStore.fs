@@ -242,7 +242,7 @@ let private updateProfile (info:ProfileRequest) =
     connection.Open()
 
     command
-    |> addWithValue "@Id"        info.ProviderId
+    |> addWithValue "@Id"        info.ProfileId
     |> addWithValue "@FirstName" info.FirstName
     |> addWithValue "@LastName"  info.LastName
     |> addWithValue "@bio"       info.Bio
@@ -274,7 +274,7 @@ let rec readInProfiles profiles (reader:SqlDataReader) =
     if reader.Read() then
     
         let profile = {
-            ProfileRequest.ProviderId= reader.GetInt32 (0)
+            ProfileRequest.ProfileId= reader.GetInt32 (0)
             ProfileRequest.FirstName=  reader.GetString(1)
             ProfileRequest.LastName=   reader.GetString(2)
             ProfileRequest.Email=      reader.GetString(3)
