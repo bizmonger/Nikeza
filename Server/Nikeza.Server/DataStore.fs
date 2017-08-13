@@ -329,12 +329,11 @@ let getFollowers providerId =
         command |> addWithValue "@ProviderId" providerId
         
     let (reader, connection) = Store.query connectionString sql commandFunc
-
-    let subscribers = readInFollowers [] reader
+    let followers =            readInFollowers [] reader
 
     connection.Close()
 
-    subscribers
+    followers
 
 let getSubscriptions profileId = []
 

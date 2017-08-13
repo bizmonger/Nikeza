@@ -53,7 +53,7 @@ let someSubscriber = {
     Created =       DateTime.Now
 }
 
-let execute sql =
+let executeCommand sql =
     let (connection,command) = createCommand(sql)
 
     if connection.State = System.Data.ConnectionState.Closed
@@ -63,14 +63,14 @@ let execute sql =
     dispose connection command
 
 let cleanDataStore() =
-    execute @"DELETE FROM [dbo].[Link]"
-    execute @"DELETE FROM [dbo].[Topic]"
-    execute @"DELETE FROM [dbo].[Source]"
-    execute @"DELETE FROM [dbo].[Subscription]"
-    execute @"DELETE FROM [dbo].[ProfileLinks]"
-    execute @"DELETE FROM [dbo].[ProfileTopics]"
-    execute @"DELETE FROM [dbo].[ProviderSources]"
-    execute @"DELETE FROM [dbo].[Profile]"
+    executeCommand @"DELETE FROM [dbo].[Link]"
+    executeCommand @"DELETE FROM [dbo].[Topic]"
+    executeCommand @"DELETE FROM [dbo].[Source]"
+    executeCommand @"DELETE FROM [dbo].[Subscription]"
+    executeCommand @"DELETE FROM [dbo].[ProfileLinks]"
+    executeCommand @"DELETE FROM [dbo].[ProfileTopics]"
+    executeCommand @"DELETE FROM [dbo].[ProviderSources]"
+    executeCommand @"DELETE FROM [dbo].[Profile]"
 
 let cleanup command connection =
     dispose connection command

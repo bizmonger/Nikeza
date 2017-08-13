@@ -20,14 +20,14 @@ let teardown() =
 let ``Follow Provider`` () =
 
     // Setup
-    DataStore.execute <| Register someProvider
+    execute <| Register someProvider
     let providerId =   getLastId "Profile"
     
-    DataStore.execute <| Register someSubscriber
+    execute <| Register someSubscriber
     let subscriberId = getLastId "Profile"
 
     // Test
-    DataStore.execute <| Follow { FollowRequest.ProviderId= providerId; FollowRequest.SubscriberId= subscriberId }
+    execute <| Follow { FollowRequest.ProviderId= providerId; FollowRequest.SubscriberId= subscriberId }
 
     // Verify
     let sql = @"SELECT SubscriberId, ProviderId
@@ -54,16 +54,16 @@ let ``Follow Provider`` () =
 let ``Unsubscribe from Provider`` () =
 
     // Setup
-    DataStore.execute <| Register someProvider
+    execute <| Register someProvider
     let providerId =   getLastId "Profile"
     
-    DataStore.execute <| Register someSubscriber
+    execute <| Register someSubscriber
     let subscriberId = getLastId "Profile"
 
-    DataStore.execute <| Follow { FollowRequest.ProviderId= providerId; FollowRequest.SubscriberId= subscriberId }
+    execute <| Follow { FollowRequest.ProviderId= providerId; FollowRequest.SubscriberId= subscriberId }
 
     // Test
-    DataStore.execute <| Unsubscribe { UnsubscribeRequest.SubscriberId= subscriberId; UnsubscribeRequest.ProviderId= providerId }
+    execute <| Unsubscribe { UnsubscribeRequest.SubscriberId= subscriberId; UnsubscribeRequest.ProviderId= providerId }
 
     // Verify
     let sql = @"SELECT SubscriberId, ProviderId
@@ -86,14 +86,14 @@ let ``Unsubscribe from Provider`` () =
 let ``Add featured link`` () =
 
     //Setup
-    DataStore.execute <| Register someProvider
-    DataStore.execute <| AddLink  someLink
+    execute <| Register someProvider
+    execute <| AddLink  someLink
 
     let lastId =  getLastId "Link"
     let data =  { LinkId=lastId; IsFeatured=true }
 
     // Test
-    DataStore.execute <| FeatureLink data
+    execute <| FeatureLink data
 
     // Verify
     let sql = @"SELECT Id, IsFeatured
@@ -117,14 +117,13 @@ let ``Add featured link`` () =
 let ``Unfeature Link`` () =
     
     //Setup
-    DataStore.execute <| Register someProvider
-    DataStore.execute <| AddLink  someLink
+    execute <| Register someProvider
+    execute <| AddLink  someLink
 
-    let lastId =  getLastId "Link"
-    let data =  { LinkId=lastId; IsFeatured=false }
+    let data = { LinkId=getLastId "Link"; IsFeatured=false }
 
     // Test
-    DataStore.execute <| FeatureLink data
+    execute <| FeatureLink data
 
     // Verify
     let sql = @"SELECT Id, IsFeatured
@@ -151,7 +150,7 @@ let ``Register Profile`` () =
     let data = { someProvider with FirstName="Scott"; LastName="Nimrod" }
 
     // Test
-    DataStore.execute <| Register data
+    execute <| Register data
 
     // Verify
     let sql = @"SELECT FirstName, LastName
@@ -177,18 +176,18 @@ let ``Update profile`` () =
     // Setup
     let modifiedName = "MODIFIED_NAME"
     let data = { someProvider with FirstName="Scott"; LastName="Nimrod" }
-    DataStore.execute <| Register data
+    execute <| Register data
 
     let lastId =  getLastId "Profile"
 
     // Test
-    DataStore.execute <| UpdateProfile { ProviderId = lastId
-                                         FirstName =  data.FirstName
-                                         LastName =   modifiedName
-                                         Bio =        data.Bio
-                                         Email =      data.Email
-                                         ImageUrl=    data.ImageUrl
-                                       }
+    execute <| UpdateProfile { ProviderId = lastId
+                               FirstName =  data.FirstName
+                               LastName =   modifiedName
+                               Bio =        data.Bio
+                               Email =      data.Email
+                               ImageUrl=    data.ImageUrl
+                             }
     // Verify
     let sql = @"SELECT LastName FROM   [dbo].[Profile] WHERE  Id = @Id"
     let (readConnection,readCommand) = createCommand(sql)
@@ -205,37 +204,40 @@ let ``Update profile`` () =
 let ``get links`` () =
 
     //Setup
-    DataStore.execute <| Register someProvider
-    DataStore.execute <| AddLink  someLink
+    execute <| Register someProvider
 
+    let providerId = getLastId "Profile"
+
+    execute <| AddLink  { someLink with ProviderId= providerId }
+    
     // Test
-    let links = getLinks someProvider.ProfileId
+    let links = providerId |> getLinks
 
     // Verify
     let linkFound = links |> Seq.head
-    linkFound.ProviderId  |> should equal someProvider.ProfileId
+    linkFound.ProviderId  |> should equal providerId
 
 [<Test>]
-let ``Get subscribers`` () =
+let ``Get followers`` () =
 
     // Setup
-    DataStore.execute <| Register someProvider
+    execute <| Register someProvider
     let providerId =   getLastId "Profile"
     
-    DataStore.execute <| Register someSubscriber
+    execute <| Register someSubscriber
     let subscriberId = getLastId "Profile"
 
-    DataStore.execute <| Follow { FollowRequest.ProviderId= providerId; FollowRequest.SubscriberId= subscriberId }
+    execute <| Follow { FollowRequest.ProviderId=   providerId; 
+                        FollowRequest.SubscriberId= subscriberId }
 
     // Test
-    let followers = DataStore.getFollowers providerId
-
+    let follower = providerId |> getFollowers |> List.head
+    
     // Verify
-    let follower = followers |> List.head
     follower.ProviderId |> should equal subscriberId
 
 [<EntryPoint>]
 let main argv =
     cleanDataStore()                      
-    ``Get subscribers`` () 
+    ``Get followers`` () 
     0
