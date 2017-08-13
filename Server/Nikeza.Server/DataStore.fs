@@ -358,6 +358,25 @@ let getSubscriptions subscriberId =
 
     subscriptions
 
+let getProviders () =
+    let sql = @"SELECT     Profile.Id,
+                           Profile.FirstName,
+                           Profile.LastName,
+                           Profile.Email,
+                           Profile.ImageUrl,
+                           Profile.Bio
+
+                FROM       Profile"
+
+    let commandFunc (command: SqlCommand) = command
+        
+    let (reader, connection) = Store.query connectionString sql commandFunc
+    let subscriptions = readInProfiles [] reader
+
+    connection.Close()
+
+    subscriptions
+
 let execute = function
     | Register      info -> register      info
     | UpdateProfile info -> updateProfile info

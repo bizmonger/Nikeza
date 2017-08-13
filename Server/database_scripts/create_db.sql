@@ -1,7 +1,7 @@
 USE [master]
 GO
 
-/****** Object:  Database [Nikeza]    Script Date: 8/5/2017 7:34:30 AM ******/
+/****** Object:  Database [Nikeza]    Script Date: 8/13/2017 1:15:08 PM ******/
 CREATE DATABASE [Nikeza]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -138,4 +138,3 @@ GO
 
 ALTER DATABASE [Nikeza] SET  READ_WRITE 
 GO
-

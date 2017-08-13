@@ -255,6 +255,19 @@ let ``Get subscriptions`` () =
     // Verify
     subscription.ProfileId |> should equal providerId
 
+[<Test>]
+let ``Get providers`` () =
+
+    // Setup
+    execute <| Register { someProvider with FirstName= "Provider1" }
+    execute <| Register { someProvider with FirstName= "Provider2" }
+
+    // Test
+    let providers = getProviders()
+    
+    // Verify
+    providers |> List.length |> should equal 2
+
 [<EntryPoint>]
 let main argv =
     cleanDataStore()                      
