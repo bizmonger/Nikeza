@@ -268,6 +268,15 @@ let ``Get providers`` () =
     // Verify
     providers |> List.length |> should equal 2
 
+[<Test>]
+let ``Get platforms`` () =
+
+    // Test
+    let platforms = getPlatforms()
+    
+    // Verify
+    platforms |> List.isEmpty |> should equal false
+
 [<EntryPoint>]
 let main argv =
     cleanDataStore()                      

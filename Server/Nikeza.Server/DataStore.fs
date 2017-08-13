@@ -274,7 +274,7 @@ let rec readInProfiles profiles (reader:SqlDataReader) =
     if reader.Read() then
     
         let profile = {
-            ProfileRequest.ProfileId= reader.GetInt32 (0)
+            ProfileRequest.ProfileId=  reader.GetInt32 (0)
             ProfileRequest.FirstName=  reader.GetString(1)
             ProfileRequest.LastName=   reader.GetString(2)
             ProfileRequest.Email=      reader.GetString(3)
@@ -285,6 +285,12 @@ let rec readInProfiles profiles (reader:SqlDataReader) =
         readInProfiles (profile::profiles) reader
 
     else profiles
+
+let rec readInPlatforms platforms (reader:SqlDataReader) =
+
+    if reader.Read() 
+    then readInPlatforms (reader.GetString (0)::platforms) reader
+    else platforms
     
 let getLinks providerId =
 
@@ -371,11 +377,24 @@ let getProviders () =
     let commandFunc (command: SqlCommand) = command
         
     let (reader, connection) = Store.query connectionString sql commandFunc
-    let subscriptions = readInProfiles [] reader
+    let providers = readInProfiles [] reader
 
     connection.Close()
 
-    subscriptions
+    providers
+
+let getPlatforms () =
+    let sql = @"SELECT     Name
+                FROM       Platform"
+
+    let commandFunc (command: SqlCommand) = command
+        
+    let (reader, connection) = Store.query connectionString sql commandFunc
+    let platforms = readInPlatforms [] reader
+
+    connection.Close()
+
+    platforms
 
 let execute = function
     | Register      info -> register      info
