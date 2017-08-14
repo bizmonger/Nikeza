@@ -36,18 +36,20 @@ let ``Follow Provider`` () =
                 AND    ProviderId =   @ProviderId"
 
     let (connection,command) = createCommand(sql)
-    connection.Open()
-    command.Parameters.AddWithValue("@SubscriberId", subscriberId) |> ignore
-    command.Parameters.AddWithValue("@ProviderId",   providerId)   |> ignore
 
-    use reader = command |> prepareReader
-    let entryAdded = reader.GetInt32(0) = subscriberId && 
-                     reader.GetInt32(1) = providerId
+    try
+        connection.Open()
+        command.Parameters.AddWithValue("@SubscriberId", subscriberId) |> ignore
+        command.Parameters.AddWithValue("@ProviderId",   providerId)   |> ignore
 
-    entryAdded |> should equal true
+        use reader = command |> prepareReader
+        let entryAdded = reader.GetInt32(0) = subscriberId && 
+                         reader.GetInt32(1) = providerId
+
+        entryAdded |> should equal true
 
     // Teardown
-    dispose connection command
+    finally dispose connection command
 
 
 [<Test>]
@@ -72,15 +74,17 @@ let ``Unsubscribe from Provider`` () =
                 AND    ProviderId =   @ProviderId"
 
     let (connection,command) = createCommand(sql)
-    connection.Open()
-    command.Parameters.AddWithValue("@SubscriberId", subscriberId) |> ignore
-    command.Parameters.AddWithValue("@ProviderId",   providerId)   |> ignore
 
-    use reader = command.ExecuteReader()
-    reader.Read() |> should equal false
+    try
+        connection.Open()
+        command.Parameters.AddWithValue("@SubscriberId", subscriberId) |> ignore
+        command.Parameters.AddWithValue("@ProviderId",   providerId)   |> ignore
+
+        use reader = command.ExecuteReader()
+        reader.Read() |> should equal false
 
     // Teardown
-    dispose connection command
+    finally dispose connection command
 
 [<Test>]
 let ``Add featured link`` () =
@@ -102,16 +106,47 @@ let ``Add featured link`` () =
                 AND    IsFeatured = @isFeatured"
 
     let (connection,command) = createCommand(sql)
-    connection.Open()
-    command.Parameters.AddWithValue("@id",         data.LinkId)     |> ignore
-    command.Parameters.AddWithValue("@isFeatured", data.IsFeatured) |> ignore
 
-    use reader = command |> prepareReader
-    let isFeatured = reader.GetBoolean(1)
-    isFeatured |> should equal true
+    try
+        connection.Open()
+        command.Parameters.AddWithValue("@id",         data.LinkId)     |> ignore
+        command.Parameters.AddWithValue("@isFeatured", data.IsFeatured) |> ignore
+
+        use reader = command |> prepareReader
+        let isFeatured = reader.GetBoolean(1)
+        isFeatured |> should equal true
 
     // Teardown
-    dispose connection command
+    finally dispose connection command
+
+[<Test>]
+let ``Remove link`` () =
+
+    //Setup
+    execute <| Register someProvider
+    execute <| AddLink  someLink
+    
+    let linkId =  getLastId "Link"
+
+    // Test
+    execute <| RemoveLink  {LinkId = linkId}
+
+    // Verify
+    let sql = @"SELECT Id, IsFeatured
+                FROM   [dbo].[Link]
+                WHERE  Id  = @id"
+
+    let (connection,command) = createCommand(sql)
+
+    try
+        connection.Open()
+        command.Parameters.AddWithValue("@id", linkId) |> ignore
+
+        use reader = command.ExecuteReader()
+        reader.Read() |> should equal false
+
+    // Teardown
+    finally dispose connection command
 
 [<Test>]
 let ``Unfeature Link`` () =
@@ -132,16 +167,17 @@ let ``Unfeature Link`` () =
                 AND    IsFeatured = @isFeatured"
 
     let (connection,command) = createCommand(sql)
-    connection.Open()
-    command.Parameters.AddWithValue("@id",         data.LinkId)     |> ignore
-    command.Parameters.AddWithValue("@isFeatured", data.IsFeatured) |> ignore
+    try
+        connection.Open()
+        command.Parameters.AddWithValue("@id",         data.LinkId)     |> ignore
+        command.Parameters.AddWithValue("@isFeatured", data.IsFeatured) |> ignore
 
-    use reader = command |> prepareReader
-    let isFeatured = reader.GetBoolean(1)
-    isFeatured |> should equal false
+        use reader = command |> prepareReader
+        let isFeatured = reader.GetBoolean(1)
+        isFeatured |> should equal false
 
     // Teardown
-    dispose connection command
+    finally dispose connection command
 
 [<Test>]
 let ``Register Profile`` () =
@@ -159,16 +195,17 @@ let ``Register Profile`` () =
                 AND    LastName  = @LastName"
 
     let (connection,command) = createCommand(sql)
-    connection.Open()
-    command.Parameters.AddWithValue("@FirstName", data.FirstName) |> ignore
-    command.Parameters.AddWithValue("@LastName",  data.LastName)  |> ignore
-    
-    use reader = command |> prepareReader
-    let isRegistered = (data.FirstName, data.LastName) = (reader.GetString(0), reader.GetString(1))
-    isRegistered |> should equal true
+    try
+        connection.Open()
+        command.Parameters.AddWithValue("@FirstName", data.FirstName) |> ignore
+        command.Parameters.AddWithValue("@LastName",  data.LastName)  |> ignore
+        
+        use reader = command |> prepareReader
+        let isRegistered = (data.FirstName, data.LastName) = (reader.GetString(0), reader.GetString(1))
+        isRegistered |> should equal true
 
     // Teardown
-    dispose connection command
+    finally dispose connection command
 
 [<Test>]
 let ``Update profile`` () =
@@ -191,17 +228,18 @@ let ``Update profile`` () =
     // Verify
     let sql = @"SELECT LastName FROM   [dbo].[Profile] WHERE  Id = @Id"
     let (readConnection,readCommand) = createCommand(sql)
-    readConnection.Open()
-    readCommand.Parameters.AddWithValue("@Id", lastId) |> ignore
-    
-    use reader = readCommand |> prepareReader
-    reader.GetString(0) = modifiedName |> should equal true
+    try
+        readConnection.Open()
+        readCommand.Parameters.AddWithValue("@Id", lastId) |> ignore
+        
+        use reader = readCommand |> prepareReader
+        reader.GetString(0) = modifiedName |> should equal true
 
     // Teardown
-    dispose readConnection readCommand
+    finally dispose readConnection readCommand
 
 [<Test>]
-let ``get links`` () =
+let ``Get links of provider`` () =
 
     //Setup
     execute <| Register someProvider
