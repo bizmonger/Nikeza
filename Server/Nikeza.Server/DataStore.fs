@@ -1,10 +1,9 @@
 module Nikeza.Server.DataStore
 
 open System
-open Nikeza.Server.Models
 open System.Data.SqlClient
-
-let connectionString = "Data Source=DESKTOP-GE7O8JT\\SQLEXPRESS;Initial Catalog=Nikeza;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+open Nikeza.Server.Models
+open Nikeza.Server.Sql
 
 let dispose (connection:SqlConnection) (command:SqlCommand) =
     connection.Dispose()
@@ -93,10 +92,10 @@ let createCommand sql =
     (connection, command)
 
 let findUser email passwordHash: (Profile option) =
-    let query = "SELECT * FROM Profile Where Email = @email AND PasswordHash = @hash"
-
+    let query = credentialsToProfile
     use connection = new SqlConnection(connectionString)
     use command = new SqlCommand(query,connection)
+
     command
     |> addWithValue "@email"  email
     |> addWithValue "@hash"   passwordHash
@@ -118,24 +117,7 @@ let findUser email passwordHash: (Profile option) =
 
 let private register (info:Profile) =
 
-    let sql = @"INSERT INTO [dbo].[Profile]
-                      ( FirstName
-                      , LastName
-                      , Email
-                      , ImageUrl
-                      , Bio
-                      , PasswordHash
-                      , Created )
-                VALUES
-                       ( @FirstName
-                       , @LastName
-                       , @Email
-                       , @ImageUrl
-                       , @Bio
-                       , @PasswordHash
-                       , @Created
-                       )"
-
+    let sql = registerSql
     let (connection,command) = createCommand(sql)
     try
         connection.Open()
@@ -153,27 +135,10 @@ let private register (info:Profile) =
     finally dispose connection command
 
 let private addLink (info:AddLinkRequest) =
-    let sql = @"INSERT INTO [dbo].[Link]
-                      (ProviderId
-                      ,Title
-                      ,Description
-                      ,Url
-                      ,ContentTypeId
-                      ,IsFeatured
-                      ,Created)
-                VALUES
-                      (@ProviderId
-                      ,@Title
-                      ,@Description
-                      ,@Url
-                      ,@ContentTypeId
-                      ,@IsFeatured
-                      ,@Created)"
-
+    let sql = addLinkSql
     let (connection,command) = createCommand(sql)
-    try
-        connection.Open()
 
+    try connection.Open()
         command 
         |> addWithValue "@ProviderId"    info.ProviderId
         |> addWithValue "@Title"         info.Title
@@ -187,15 +152,10 @@ let private addLink (info:AddLinkRequest) =
     finally dispose connection command
 
 let private removeLink (info:RemoveLinkRequest) =
-    let sql = @"DELETE
-                FROM Link
-                WHERE Id = @LinkId"
-
+    let sql = deleteLinkSql
     let (connection,command) = createCommand(sql)
 
-    try
-        connection.Open()
-
+    try connection.Open()
         command 
         |> addWithValue "@LinkId" info.LinkId
         |> executeNonQuery
@@ -203,29 +163,19 @@ let private removeLink (info:RemoveLinkRequest) =
     finally dispose connection command
 
 let private follow (info:FollowRequest) =
-    let sql = @"INSERT INTO [dbo].[Subscription]
-                      (SubscriberId
-                      ,ProviderId)
-                VALUES
-                       ( @SubscriberId 
-                       , @ProviderId
-                       )"
-
+    let sql = followSql
     let (connection,command) = createCommand(sql)
-    try
-    connection.Open()
 
-    command
-    |> addWithValue "@SubscriberId"  info.SubscriberId
-    |> addWithValue "@ProviderId"    info.ProviderId
-    |> executeNonQuery
+    try connection.Open()
+        command
+        |> addWithValue "@SubscriberId"  info.SubscriberId
+        |> addWithValue "@ProviderId"    info.ProviderId
+        |> executeNonQuery
 
     finally dispose connection command
 
 let private unsubscribe (info:UnsubscribeRequest) =
-    let sql = @"DELETE FROM [dbo].[Subscription]
-                WHERE SubscriberId  = @SubscriberId AND
-                      ProviderId =    @ProviderId"
+    let sql = unsubscribeSql
     let commandFunc (command: SqlCommand) = 
         command 
         |> addWithValue "@SubscriberId"  info.SubscriberId
@@ -234,40 +184,29 @@ let private unsubscribe (info:UnsubscribeRequest) =
     Store.execute connectionString sql commandFunc
 
 let private featureLink (info:FeatureLinkRequest) =
-    let sql = @"UPDATE [dbo].[Link]
-                SET    [IsFeatured] = @IsFeatured
-                WHERE  Id = @Id"
-
+    let sql = featureLinkSql
     let (connection,command) = createCommand(sql)
-    try
-    connection.Open()
 
-    command
-    |> addWithValue "@Id"          info.LinkId
-    |> addWithValue "@IsFeatured"  info.IsFeatured
-    |> executeNonQuery
+    try connection.Open()
+        command
+        |> addWithValue "@Id"          info.LinkId
+        |> addWithValue "@IsFeatured"  info.IsFeatured
+        |> executeNonQuery
 
     finally dispose connection command
 
 let private updateProfile (info:ProfileRequest) =
-    let sql = @"UPDATE [dbo].[Profile]
-                SET    [FirstName] = @FirstName,
-                       [LastName] =  @LastName,
-                       [Bio] =       @bio,
-                       [Email] =     @email
-                WHERE  Id =          @Id"
-
+    let sql = updateProfileSql
     let (connection,command) = createCommand(sql)
-    try
-    connection.Open()
 
-    command
-    |> addWithValue "@Id"        info.ProfileId
-    |> addWithValue "@FirstName" info.FirstName
-    |> addWithValue "@LastName"  info.LastName
-    |> addWithValue "@bio"       info.Bio
-    |> addWithValue "@email"     info.Email
-    |> executeNonQuery
+    try connection.Open()
+        command
+        |> addWithValue "@Id"        info.ProfileId
+        |> addWithValue "@FirstName" info.FirstName
+        |> addWithValue "@LastName"  info.LastName
+        |> addWithValue "@bio"       info.Bio
+        |> addWithValue "@email"     info.Email
+        |> executeNonQuery
 
     finally dispose connection command
 
@@ -314,18 +253,7 @@ let rec readInPlatforms platforms (reader:SqlDataReader) =
     
 let getLinks providerId =
 
-    let sql = "SELECT Id, 
-                      ProviderId, 
-                      Title, 
-                      Description, 
-                      Url, 
-                      ContentTypeId, 
-                      IsFeatured, 
-                      Created
-
-               FROM   [dbo].[Link]
-               WHERE  ProviderId = @ProviderId"
-
+    let sql = getLinksSql
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue "@ProviderId" providerId
 
@@ -339,38 +267,16 @@ let getLinks providerId =
 
 let getFollowers providerId =
 
-    let sql = @"SELECT     Profile.Id,
-                           Profile.FirstName,
-                           Profile.LastName,
-                           Profile.Email,
-                           Profile.ImageUrl,
-                           Profile.Bio
-
-                FROM       Profile
-                INNER JOIN Subscription
-                ON         Subscription.SubscriberId = Profile.Id
-                WHERE      Subscription.ProviderId = @ProviderId"
-
+    let sql = getFollowersSql
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue "@ProviderId" providerId
-    
+
     let (reader, connection) = Store.query connectionString sql commandFunc
     let followers = readInProfiles [] reader
     connection.Close(); followers
 
 let getSubscriptions subscriberId =
-    let sql = @"SELECT     Profile.Id,
-                           Profile.FirstName,
-                           Profile.LastName,
-                           Profile.Email,
-                           Profile.ImageUrl,
-                           Profile.Bio
-
-                FROM       Profile
-                INNER JOIN Subscription
-                ON         Subscription.ProviderId =   Profile.Id
-                WHERE      Subscription.SubscriberId = @SubscriberId"
-
+    let sql = getSubscriptionsSql
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue "@SubscriberId" subscriberId
         
@@ -379,31 +285,14 @@ let getSubscriptions subscriberId =
     connection.Close(); subscriptions
 
 let getProviders () =
-    let sql = @"SELECT     Profile.Id,
-                           Profile.FirstName,
-                           Profile.LastName,
-                           Profile.Email,
-                           Profile.ImageUrl,
-                           Profile.Bio
-
-                FROM       Profile"
-
+    let sql = getProvidersSql
     let commandFunc (command: SqlCommand) = command
-        
     let (reader, connection) = Store.query connectionString sql commandFunc
     let providers = readInProfiles [] reader
     connection.Close(); providers
 
 let getProvider providerId =
-    let sql = @"SELECT Profile.Id,
-                       Profile.FirstName,
-                       Profile.LastName,
-                       Profile.Email,
-                       Profile.ImageUrl,
-                       Profile.Bio
-                FROM   Profile
-                WHERE  Id = @ProviderId"
-
+    let sql = getProviderSql
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue "@ProviderId" providerId
         
@@ -412,11 +301,8 @@ let getProvider providerId =
     connection.Close(); providers |> List.tryHead
 
 let getPlatforms () =
-    let sql = @"SELECT Name
-                FROM   Platform"
-
+    let sql = getPlatformsSql
     let commandFunc (command: SqlCommand) = command
-        
     let (reader, connection) = Store.query connectionString sql commandFunc
     let platforms = readInPlatforms [] reader
     connection.Close(); platforms
