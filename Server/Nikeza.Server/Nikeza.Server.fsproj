@@ -33,8 +33,8 @@
 
   <!-- Giraffe -->
   <ItemGroup>
-    <PackageReference Include="Giraffe" Version="0.1.0-*" />
-    <PackageReference Include="Giraffe.Razor" Version="0.1.0-*" />
+    <PackageReference Include="Giraffe" Version="0.1.0-alpha025" />
+    <PackageReference Include="Giraffe.Razor" Version="0.1.0-alpha001" />
   </ItemGroup>
 
   <!-- External Packages -->
