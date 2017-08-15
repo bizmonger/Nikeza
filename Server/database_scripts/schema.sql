@@ -1,13 +1,20 @@
 USE [master]
 GO
 
-/****** Object:  Database [Nikeza]    Script Date: 8/5/2017 7:56:58 AM ******/
-DROP DATABASE [Nikeza]
-GO
+if db_id('Nikeza') is not null
+   BEGIN
+        /* Disconnect All Other Users*/
+        ALTER DATABASE Nikeza SET SINGLE_USER WITH ROLLBACK IMMEDIATE 
 
-/****** Object:  Database [Nikeza]    Script Date: 8/5/2017 7:56:58 AM ******/
-CREATE DATABASE [Nikeza]
-GO
+        /* Drop Nikeza Database*/
+        DROP DATABASE [Nikeza] 
+
+        /* Recreate Empty Nikeza Database */
+        CREATE DATABASE [Nikeza]
+
+        /* Set back to MultiUser Mode*/
+        ALTER DATABASE Nikeza SET MULTI_USER
+   END
 
 USE [Nikeza]
 GO
