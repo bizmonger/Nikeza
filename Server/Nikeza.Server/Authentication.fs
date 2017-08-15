@@ -1,6 +1,7 @@
 namespace Nikeza.Server.Models
     open System
     open System.Security.Claims 
+    open Nikeza.Server.DataStore
 
     [<CLIMutable>]
     type RegistrationRequest = 
@@ -8,13 +9,7 @@ namespace Nikeza.Server.Models
             UserName: string 
             Password: string 
         }
-    [<CLIMutable>]
-    type UserRegistration = 
-        {
-            UserName:     string 
-            Salt:         byte[] 
-            PasswordHash: string 
-        }      
+            
     [<CLIMutable>]
     type LogInRequest = 
         {
@@ -40,12 +35,13 @@ namespace Nikeza.Server.Models
         let private generateSalt =            
             let mutable salt = Array.init (128/8)  (fun i -> byte(i*i))
             let getSalt s =                
-                (use rng = RandomNumberGenerator.Create()                
-                 rng.GetBytes(s))
+                use rng = RandomNumberGenerator.Create()                
+                rng.GetBytes(s)
                 s
-            getSalt salt
+            getSalt salt |> Convert.ToBase64String
 
-        let private getPasswordHash password salt =            
+        let private getPasswordHash password saltString = 
+            let salt = Convert.FromBase64String(saltString)
             let hashedPassword = 
                 Convert.ToBase64String(
                     KeyDerivation.Pbkdf2(
@@ -57,40 +53,43 @@ namespace Nikeza.Server.Models
                 ))
             hashedPassword                           
 
-        let private getUserFileName userName  =  sprintf "db/%s.json" userName
-        let private userFileExists userName = 
-            let userFile = getUserFileName userName
-            File.Exists(userFile)
-         
-        let private createUserFile (ur:UserRegistration) = 
-            let userFile = getUserFileName ur.UserName
-            File.WriteAllText(userFile, JsonConvert.SerializeObject(ur))
-
         let authenticate username password = 
-            if userFileExists username
-            then let userFile = getUserFileName username
-                 let userRegistrationJson = File.ReadAllText(userFile)
-                 let user = JsonConvert.DeserializeObject<UserRegistration>(userRegistrationJson)
+            //Get User information
+            match findUser username with
+            | Some user -> 
                  let hashedPassword = getPasswordHash password user.Salt
-                 let matches = hashedPassword = user.PasswordHash
-                 matches
-
-            else false
+                 hashedPassword = user.PasswordHash
+            | None -> false
                 
-        let register (r:RegistrationRequest) =            
-            if userFileExists r.UserName
-            then Failure
-            else let salt = generateSalt
-                 let hashedPassword = getPasswordHash r.Password salt
-                 let userRegistration = { UserName = r.UserName; Salt = salt; PasswordHash = hashedPassword }    
-                 createUserFile userRegistration
-                 Success
+        let register (r:RegistrationRequest) =
+            match findUser r.UserName with
+            | Some user -> Failure
+            | None ->
+                let salt = generateSalt
+                let hashedPassword = getPasswordHash r.Password salt
+                
+                let user:Profile = {
+                    ProfileId = 0
+                    FirstName = ""
+                    LastName = ""
+                    Email = r.UserName
+                    ImageUrl = ""
+                    Bio = ""
+                    PasswordHash = hashedPassword
+                    Salt = salt
+                    Created = DateTime.Now
+                }
+
+                try
+                    execute <| Register user
+                    Success
+                with
+                | e -> Failure
         
         let getUserClaims userName authScheme =
-            let issuer = "http://localhost:5000"
             let claims =
                 [
-                    Claim(ClaimTypes.Name, userName,  ClaimValueTypes.String, issuer)                  
+                    Claim(ClaimTypes.Name, userName,  ClaimValueTypes.String)
                 ]
 
             let identity = ClaimsIdentity(claims, authScheme)
