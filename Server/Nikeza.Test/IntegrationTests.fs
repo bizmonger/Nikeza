@@ -311,21 +311,16 @@ let ``Get provider`` () =
 
     // Setup
     execute <| Register someProvider
-    let id = getLastId "Profile"
 
     // Test
-    match getProvider id with
+    match getProvider <| getLastId "Profile" with
     | Some p -> ()
     | None   -> Assert.Fail()
 
 [<Test>]
 let ``Get platforms`` () =
 
-    // Test
-    let platforms = getPlatforms()
-    
-    // Verify
-    platforms |> List.isEmpty |> should equal false
+    getPlatforms() |> List.isEmpty |> should equal false
 
 [<Test>]
 let ``Add source`` () =
