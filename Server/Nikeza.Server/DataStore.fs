@@ -10,6 +10,7 @@ let dispose (connection:SqlConnection) (command:SqlCommand) =
     command.Dispose()
     
 module private Store = 
+
     let private executeNonQuery (command: SqlCommand) = command.ExecuteNonQuery() |> ignore
     let private executeQuery (command: SqlCommand) = command.ExecuteReader()
 
@@ -114,7 +115,6 @@ let findUser email passwordHash: (Profile option) =
 
     readCommand connection command sqlReader |> Seq.tryHead
     
-
 let private register (info:Profile) =
 
     let sql = registerSql
@@ -209,6 +209,9 @@ let private updateProfile (info:ProfileRequest) =
         |> executeNonQuery
 
     finally dispose connection command
+
+let private addSource    source   = ()
+let private removeSource sourceId = ()
 
 let rec readInLinks links (reader:SqlDataReader) =
 
@@ -310,8 +313,13 @@ let getPlatforms () =
 let execute = function
     | Register      info -> register      info
     | UpdateProfile info -> updateProfile info
+
     | Follow        info -> follow        info
     | Unsubscribe   info -> unsubscribe   info
+
     | AddLink       info -> addLink       info
     | RemoveLink    info -> removeLink    info
     | FeatureLink   info -> featureLink   info
+
+    | AddSource     info -> addSource     info
+    | RemoveSource  info -> removeSource  info

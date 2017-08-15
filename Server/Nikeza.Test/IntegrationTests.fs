@@ -327,8 +327,31 @@ let ``Get platforms`` () =
     // Verify
     platforms |> List.isEmpty |> should equal false
 
+[<Test>]
+let ``Add source`` () =
+
+    //Setup
+    execute <| Register someProvider
+    
+    // Test
+    execute <| AddSource someSource
+    let sourceId = getLastId "Source"
+
+    // Verify
+    let sql = @"SELECT Id FROM [dbo].[Source] WHERE  Id  = @id"
+    let (connection,command) = createCommand(sql)
+
+    try connection.Open()
+        command.Parameters.AddWithValue("@id", sourceId) |> ignore
+
+        use reader = command.ExecuteReader()
+        reader.Read() |> should equal false
+
+    // Teardown
+    finally dispose connection command
+
 [<EntryPoint>]
 let main argv =
     cleanDataStore()                      
-    ``Get subscriptions`` ()
+    ``Add source`` ()
     0

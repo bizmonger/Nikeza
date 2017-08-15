@@ -9,9 +9,10 @@ let prepareReader (command:SqlCommand) =
     let reader = command.ExecuteReader()
     reader.Read() |> ignore
     reader
-let someProviderId = 0
+let someProviderId =   0
 let someSubscriberId = 1
-let someLinkId = 0
+let someLinkId =       0
+let someSourceId =     0
 
 let someLink = {
     ProviderId=  someProviderId
@@ -31,6 +32,12 @@ let someProvider = {
     Bio =           "Some Bio"
     PasswordHash =  "XXX"
     Created =       DateTime.Now
+}
+
+let someSource = { 
+    ProviderId = someProviderId
+    Platform = "YouTube"
+    Username = "Bizmonger" 
 }
 
 let someUpdatedProvider = { 

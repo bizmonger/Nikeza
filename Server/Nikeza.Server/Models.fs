@@ -48,6 +48,16 @@ type Link = {
 type FeatureLinkRequest = { LinkId: int; IsFeatured: bool }
 
 [<CLIMutable>]
+type AddSourceRequest = { 
+    ProviderId: int
+    Platform:   string
+    Username:   string
+}
+
+[<CLIMutable>]
+type RemoveSourceRequest = { SourceId: int }
+
+[<CLIMutable>]
 type ProfileRequest = {
     ProfileId: int
     FirstName:  string
@@ -60,8 +70,13 @@ type ProfileRequest = {
 type Command =
     | Register      of Profile
     | UpdateProfile of ProfileRequest
+
     | Follow        of FollowRequest
-    | Unsubscribe   of UnsubscribeRequest    
+    | Unsubscribe   of UnsubscribeRequest  
+
     | AddLink       of AddLinkRequest
     | RemoveLink    of RemoveLinkRequest
     | FeatureLink   of FeatureLinkRequest
+
+    | AddSource     of AddSourceRequest
+    | RemoveSource  of RemoveSourceRequest
