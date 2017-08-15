@@ -1,6 +1,6 @@
 module Nikeza.Server.Routes
 
-open System
+
 open Microsoft.AspNetCore.Http
 open Giraffe.HttpContextExtensions
 open Giraffe.HttpHandlers
