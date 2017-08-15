@@ -23,7 +23,7 @@ let someLink = {
     ContentType= "article"
 }
 
-let someProvider = { 
+let someProvider: Profile = { 
     ProfileId =     someProviderId
     FirstName =     "Scott"
     LastName =      "Nimrod"
@@ -31,6 +31,7 @@ let someProvider = {
     ImageUrl =      "some_url_.com"
     Bio =           "Some Bio"
     PasswordHash =  "XXX"
+    Salt =          "XXX"
     Created =       DateTime.Now
 }
 
@@ -40,16 +41,16 @@ let someSource = {
     Username = "Bizmonger" 
 }
 
-let someUpdatedProvider = { 
-    ProfileRequest.ProfileId = someProviderId
-    ProfileRequest.FirstName = "Scott"
-    ProfileRequest.LastName =  "Nimrod"
-    ProfileRequest.Email =     "abc@abc.com"
-    ProfileRequest.ImageUrl =  "someUrl.com"
-    ProfileRequest.Bio =       "Some Bio"
+let someUpdatedProvider: ProfileRequest = { 
+    ProfileId = someProviderId
+    FirstName = "Scott"
+    LastName =  "Nimrod"
+    Email =     "abc@abc.com"
+    ImageUrl =  "someUrl.com"
+    Bio =       "Some Bio"
 }
 
-let someSubscriber = { 
+let someSubscriber: Profile = { 
     ProfileId =     someSubscriberId
     FirstName =     "Scott"
     LastName =      "Nimrod"
@@ -57,6 +58,7 @@ let someSubscriber = {
     ImageUrl =      "some_url_.com"
     Bio =           "Some Bio"
     PasswordHash =  "XXX"
+    Salt=           "XXX"
     Created =       DateTime.Now
 }
 

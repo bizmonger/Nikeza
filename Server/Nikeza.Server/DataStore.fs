@@ -92,14 +92,12 @@ let createCommand sql =
     let command =    new SqlCommand(sql,connection)
     (connection, command)
 
-let findUser email passwordHash: (Profile option) =
-    let query = credentialsToProfile
+let findUser email :(Profile option) =
     use connection = new SqlConnection(connectionString)
-    use command = new SqlCommand(query,connection)
+    use command = new SqlCommand(findUserByEmailSql,connection)
 
     command
     |> addWithValue "@email"  email
-    |> addWithValue "@hash"   passwordHash
     |> ignore
 
     let sqlReader (reader: SqlDataReader) = { 
@@ -110,6 +108,7 @@ let findUser email passwordHash: (Profile option) =
         ImageUrl =     reader.["ImageUrl"].ToString()
         Bio =          reader.["Bio"].ToString()
         PasswordHash = reader.["PasswordHash"].ToString()
+        Salt =         reader.["Salt"].ToString()
         Created =      DateTime.Parse(reader.["Created"].ToString()) 
     }
 
