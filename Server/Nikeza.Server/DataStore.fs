@@ -234,18 +234,32 @@ let rec readInProfiles profiles (reader:SqlDataReader) =
 
     if reader.Read() then
     
-        let profile = {
-            ProfileRequest.ProfileId=  reader.GetInt32 (0)
-            ProfileRequest.FirstName=  reader.GetString(1)
-            ProfileRequest.LastName=   reader.GetString(2)
-            ProfileRequest.Email=      reader.GetString(3)
-            ProfileRequest.ImageUrl=   reader.GetString(4)
-            ProfileRequest.Bio=        reader.GetString(5)
+        let profile : ProfileRequest = {
+            ProfileId=  reader.GetInt32 (0)
+            FirstName=  reader.GetString(1)
+            LastName=   reader.GetString(2)
+            Email=      reader.GetString(3)
+            ImageUrl=   reader.GetString(4)
+            Bio=        reader.GetString(5)
         }
 
         readInProfiles (profile::profiles) reader
 
     else profiles
+
+let rec readInSources sources (reader:SqlDataReader) =
+
+    if reader.Read() then
+    
+        let source : AddSourceRequest = {
+            ProviderId= reader.GetInt32 (0)
+            Platform=   reader.GetString(1)
+            Username=   reader.GetString(2)
+        }
+
+        readInSources (source::sources) reader
+
+    else sources
 
 let rec readInPlatforms platforms (reader:SqlDataReader) =
 
@@ -301,6 +315,15 @@ let getProvider providerId =
     let (reader, connection) = Store.query connectionString sql commandFunc
     let providers = readInProfiles [] reader
     connection.Close(); providers |> List.tryHead
+
+let getSources providerId =
+    let sql = getSourcesSql
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue "@ProviderId" providerId
+        
+    let (reader, connection) = Store.query connectionString sql commandFunc
+    let sources = readInSources [] reader
+    connection.Close(); sources
 
 let getPlatforms () =
     let sql = getPlatformsSql

@@ -327,10 +327,48 @@ let ``Add source`` () =
 
     //Setup
     execute <| Register someProvider
-    
+
     // Test
     execute <| AddSource someSource
+
+    // Verify
     let sourceId = getLastId "Source"
+    let sql = @"SELECT Id FROM [dbo].[Source] WHERE  Id  = @id"
+    let (connection,command) = createCommand(sql)
+
+    try connection.Open()
+        command.Parameters.AddWithValue("@id", sourceId) |> ignore
+
+        use reader = command.ExecuteReader()
+        reader.Read() |> should equal true
+
+    // Teardown
+    finally dispose connection command
+
+[<Test>]
+let ``Get sources`` () =
+
+    //Setup
+    execute <| Register someProvider
+    let providerId = getLastId "Profile"
+    execute <| AddSource { someSource with ProviderId = providerId }
+
+    // Test
+    let sources = providerId |> getSources
+    
+    // Verify
+    sources |> List.isEmpty |> should equal false
+
+[<Test>]
+let ``Remove source`` () =
+
+    //Setup
+    execute <| Register someProvider
+    execute <| AddSource someSource
+    let sourceId = getLastId "Source"
+
+    // Test
+    execute <| RemoveSource { SourceId = sourceId }
 
     // Verify
     let sql = @"SELECT Id FROM [dbo].[Source] WHERE  Id  = @id"
