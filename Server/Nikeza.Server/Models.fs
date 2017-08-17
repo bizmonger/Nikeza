@@ -50,9 +50,9 @@ type FeatureLinkRequest = { LinkId: int; IsFeatured: bool }
 
 [<CLIMutable>]
 type AddSourceRequest = { 
-    ProviderId: int
-    Platform:   string
-    Username:   string
+    ProfileId: int
+    Platform:  string
+    Username:  string
 }
 
 [<CLIMutable>]

@@ -327,13 +327,14 @@ let ``Add source`` () =
 
     //Setup
     execute <| Register someProvider
+    let providerId = getLastId "Profile"
 
     // Test
-    execute <| AddSource someSource
+    execute <| AddSource { someSource with ProfileId= providerId }
 
     // Verify
     let sourceId = getLastId "Source"
-    let sql = @"SELECT Id FROM [dbo].[Source] WHERE  Id  = @id"
+    let sql = @"SELECT Id FROM [dbo].[Source] WHERE Id = @id"
     let (connection,command) = createCommand(sql)
 
     try connection.Open()
@@ -351,7 +352,7 @@ let ``Get sources`` () =
     //Setup
     execute <| Register someProvider
     let providerId = getLastId "Profile"
-    execute <| AddSource { someSource with ProviderId = providerId }
+    execute <| AddSource { someSource with ProfileId = providerId }
 
     // Test
     let sources = providerId |> getSources
@@ -364,7 +365,9 @@ let ``Remove source`` () =
 
     //Setup
     execute <| Register someProvider
-    execute <| AddSource someSource
+    let providerId = getLastId "Profile"
+
+    execute <| AddSource { someSource with ProfileId= providerId }
     let sourceId = getLastId "Source"
 
     // Test

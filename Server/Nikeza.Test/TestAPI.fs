@@ -36,7 +36,7 @@ let someProvider: Profile = {
 }
 
 let someSource = { 
-    ProviderId = someProviderId
+    ProfileId = someProviderId
     Platform = "YouTube"
     Username = "Bizmonger" 
 }

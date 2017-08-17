@@ -96,9 +96,8 @@ let findUser email :(Profile option) =
     use connection = new SqlConnection(connectionString)
     use command = new SqlCommand(findUserByEmailSql,connection)
 
-    command
-    |> addWithValue "@email"  email
-    |> ignore
+    command |> addWithValue "@email"  email
+            |> ignore
 
     let sqlReader (reader: SqlDataReader) = { 
         ProfileId =    reader.["Id"].ToString() |> int
@@ -118,19 +117,16 @@ let private register (info:Profile) =
 
     let sql = registerSql
     let (connection,command) = createCommand(sql)
-    try
-        connection.Open()
-        
-        command
-        |> addWithValue "@FirstName"     info.FirstName
-        |> addWithValue "@LastName"      info.LastName
-        |> addWithValue "@Email"         info.Email
-        |> addWithValue "@ImageUrl"      info.ImageUrl
-        |> addWithValue "@Bio"           info.Bio
-        |> addWithValue "@PasswordHash"  info.PasswordHash
-        |> addWithValue "@Created"       info.Created
-        |> addWithValue "@Salt"          "security_mechanism"
-        |> executeNonQuery
+    try connection.Open()
+        command |> addWithValue "@FirstName"     info.FirstName
+                |> addWithValue "@LastName"      info.LastName
+                |> addWithValue "@Email"         info.Email
+                |> addWithValue "@ImageUrl"      info.ImageUrl
+                |> addWithValue "@Bio"           info.Bio
+                |> addWithValue "@PasswordHash"  info.PasswordHash
+                |> addWithValue "@Created"       info.Created
+                |> addWithValue "@Salt"          "security_mechanism"
+                |> executeNonQuery
 
     finally dispose connection command
 
@@ -139,15 +135,14 @@ let private addLink (info:AddLinkRequest) =
     let (connection,command) = createCommand(sql)
 
     try connection.Open()
-        command 
-        |> addWithValue "@ProviderId"    info.ProviderId
-        |> addWithValue "@Title"         info.Title
-        |> addWithValue "@Description"   info.Description
-        |> addWithValue "@Url"           info.Url
-        |> addWithValue "@ContentTypeId" (info.ContentType |> contentTypeToId)
-        |> addWithValue "@IsFeatured"    info.IsFeatured
-        |> addWithValue "@Created"       DateTime.Now
-        |> executeNonQuery
+        command |> addWithValue "@ProviderId"    info.ProviderId
+                |> addWithValue "@Title"         info.Title
+                |> addWithValue "@Description"   info.Description
+                |> addWithValue "@Url"           info.Url
+                |> addWithValue "@ContentTypeId" (info.ContentType |> contentTypeToId)
+                |> addWithValue "@IsFeatured"    info.IsFeatured
+                |> addWithValue "@Created"       DateTime.Now
+                |> executeNonQuery
 
     finally dispose connection command
 
@@ -156,9 +151,8 @@ let private removeLink (info:RemoveLinkRequest) =
     let (connection,command) = createCommand(sql)
 
     try connection.Open()
-        command 
-        |> addWithValue "@LinkId" info.LinkId
-        |> executeNonQuery
+        command |> addWithValue "@LinkId" info.LinkId
+                |> executeNonQuery
 
     finally dispose connection command
 
@@ -167,19 +161,17 @@ let private follow (info:FollowRequest) =
     let (connection,command) = createCommand(sql)
 
     try connection.Open()
-        command
-        |> addWithValue "@SubscriberId"  info.SubscriberId
-        |> addWithValue "@ProviderId"    info.ProviderId
-        |> executeNonQuery
+        command |> addWithValue "@SubscriberId"  info.SubscriberId
+                |> addWithValue "@ProviderId"    info.ProviderId
+                |> executeNonQuery
 
     finally dispose connection command
 
 let private unsubscribe (info:UnsubscribeRequest) =
     let sql = unsubscribeSql
     let commandFunc (command: SqlCommand) = 
-        command 
-        |> addWithValue "@SubscriberId"  info.SubscriberId
-        |> addWithValue "@ProviderId"    info.ProviderId
+        command |> addWithValue "@SubscriberId"  info.SubscriberId
+                |> addWithValue "@ProviderId"    info.ProviderId
 
     Store.execute connectionString sql commandFunc
 
@@ -188,10 +180,9 @@ let private featureLink (info:FeatureLinkRequest) =
     let (connection,command) = createCommand(sql)
 
     try connection.Open()
-        command
-        |> addWithValue "@Id"          info.LinkId
-        |> addWithValue "@IsFeatured"  info.IsFeatured
-        |> executeNonQuery
+        command |> addWithValue "@Id"          info.LinkId
+                |> addWithValue "@IsFeatured"  info.IsFeatured
+                |> executeNonQuery
 
     finally dispose connection command
 
@@ -200,18 +191,36 @@ let private updateProfile (info:ProfileRequest) =
     let (connection,command) = createCommand(sql)
 
     try connection.Open()
-        command
-        |> addWithValue "@Id"        info.ProfileId
-        |> addWithValue "@FirstName" info.FirstName
-        |> addWithValue "@LastName"  info.LastName
-        |> addWithValue "@bio"       info.Bio
-        |> addWithValue "@email"     info.Email
-        |> executeNonQuery
+        command |> addWithValue "@Id"        info.ProfileId
+                |> addWithValue "@FirstName" info.FirstName
+                |> addWithValue "@LastName"  info.LastName
+                |> addWithValue "@bio"       info.Bio
+                |> addWithValue "@email"     info.Email
+                |> executeNonQuery
 
     finally dispose connection command
 
-let private addSource    source   = ()
-let private removeSource sourceId = ()
+let private addSource (info:AddSourceRequest) =
+    let sql = addSourceSql
+    let (connection,command) = createCommand(sql)
+
+    try connection.Open()
+        command  |> addWithValue "@ProfileId" info.ProfileId
+                 |> addWithValue "@Platform"  info.Platform
+                 |> addWithValue "@Username"  info.Username
+                 |> executeNonQuery
+
+    finally dispose connection command
+
+let private removeSource (info:RemoveSourceRequest) =
+    let sql = deleteSourceSql
+    let (connection,command) = createCommand(sql)
+
+    try connection.Open()
+        command |> addWithValue "@Id" info.SourceId
+                |> executeNonQuery
+
+    finally dispose connection command
 
 let rec readInLinks links (reader:SqlDataReader) =
 
@@ -253,7 +262,7 @@ let rec readInSources sources (reader:SqlDataReader) =
     if reader.Read() then
     
         let source : AddSourceRequest = {
-            ProviderId= reader.GetInt32 (0)
+            ProfileId= reader.GetInt32 (0)
             Platform=   reader.GetString(1)
             Username=   reader.GetString(2)
         }
@@ -320,7 +329,7 @@ let getProvider providerId =
 let getSources providerId =
     let sql = getSourcesSql
     let commandFunc (command: SqlCommand) = 
-        command |> addWithValue "@ProviderId" providerId
+        command |> addWithValue "@ProfileId" providerId
         
     let (reader, connection) = Store.query connectionString sql commandFunc
     let sources = readInSources [] reader

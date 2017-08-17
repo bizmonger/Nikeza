@@ -1,11 +1,11 @@
 USE [master]
 GO
 
-/****** Object:  Database [Nikeza]    Script Date: 8/16/2017 9:25:01 PM ******/
+/****** Object:  Database [Nikeza]    Script Date: 8/16/2017 9:57:22 PM ******/
 DROP DATABASE [Nikeza]
 GO
 
-/****** Object:  Database [Nikeza]    Script Date: 8/16/2017 9:25:01 PM ******/
+/****** Object:  Database [Nikeza]    Script Date: 8/16/2017 9:57:22 PM ******/
 CREATE DATABASE [Nikeza]
  CONTAINMENT = NONE
  ON  PRIMARY 
