@@ -10,7 +10,8 @@ let registerSql = @"INSERT INTO [dbo].[Profile]
                           , ImageUrl
                           , Bio
                           , PasswordHash
-                          , Created )
+                          , Created
+                          , Salt )
                    VALUES
                           ( @FirstName
                           , @LastName
@@ -19,6 +20,7 @@ let registerSql = @"INSERT INTO [dbo].[Profile]
                           , @Bio
                           , @PasswordHash
                           , @Created
+                          , @Salt
                           )"
    
 let addLinkSql = @"INSERT INTO [dbo].[Link]

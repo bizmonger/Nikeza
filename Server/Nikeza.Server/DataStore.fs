@@ -129,6 +129,7 @@ let private register (info:Profile) =
         |> addWithValue "@Bio"           info.Bio
         |> addWithValue "@PasswordHash"  info.PasswordHash
         |> addWithValue "@Created"       info.Created
+        |> addWithValue "@Salt"          "security_mechanism"
         |> executeNonQuery
 
     finally dispose connection command
