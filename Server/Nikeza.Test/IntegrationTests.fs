@@ -31,7 +31,7 @@ let ``Follow Provider`` () =
 
     // Verify
     let sql = @"SELECT SubscriberId, ProviderId
-                FROM   [dbo].[Subscription]
+                FROM   Subscription
                 WHERE  SubscriberId = @SubscriberId
                 AND    ProviderId =   @ProviderId"
 
@@ -69,7 +69,7 @@ let ``Unsubscribe from Provider`` () =
 
     // Verify
     let sql = @"SELECT SubscriberId, ProviderId
-                FROM   [dbo].[Subscription]
+                FROM   Subscription
                 WHERE  SubscriberId = @SubscriberId
                 AND    ProviderId =   @ProviderId"
 
@@ -101,7 +101,7 @@ let ``Add featured link`` () =
 
     // Verify
     let sql = @"SELECT Id, IsFeatured
-                FROM   [dbo].[Link]
+                FROM   Link
                 WHERE  Id  = @id
                 AND    IsFeatured = @isFeatured"
 
@@ -133,8 +133,8 @@ let ``Remove link`` () =
 
     // Verify
     let sql = @"SELECT Id, IsFeatured
-                FROM   [dbo].[Link]
-                WHERE  Id  = @id"
+                FROM   Link
+                WHERE  Id = @id"
 
     let (connection,command) = createCommand(sql)
 
@@ -162,7 +162,7 @@ let ``Unfeature Link`` () =
 
     // Verify
     let sql = @"SELECT Id, IsFeatured
-                FROM   [dbo].[Link]
+                FROM   Link
                 WHERE  Id  = @id
                 AND    IsFeatured = @isFeatured"
 
@@ -190,7 +190,7 @@ let ``Register Profile`` () =
 
     // Verify
     let sql = @"SELECT FirstName, LastName
-                FROM   [dbo].[Profile]
+                FROM   Profile
                 WHERE  FirstName = @FirstName
                 AND    LastName  = @LastName"
 
@@ -226,7 +226,7 @@ let ``Update profile`` () =
                                ImageUrl=    data.ImageUrl
                              }
     // Verify
-    let sql = @"SELECT LastName FROM   [dbo].[Profile] WHERE  Id = @Id"
+    let sql = @"SELECT LastName FROM [dbo].[Profile] WHERE  Id = @Id"
     let (readConnection,readCommand) = createCommand(sql)
     try
         readConnection.Open()
@@ -351,6 +351,7 @@ let ``Get sources`` () =
 
     //Setup
     execute <| Register someProvider
+
     let providerId = getLastId "Profile"
     execute <| AddSource { someSource with ProfileId = providerId }
 

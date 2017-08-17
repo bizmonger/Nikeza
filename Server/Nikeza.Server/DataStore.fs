@@ -12,6 +12,7 @@ let dispose (connection:SqlConnection) (command:SqlCommand) =
 module private Store = 
 
     let private executeNonQuery (command: SqlCommand) = command.ExecuteNonQuery() |> ignore
+    
     let private executeQuery (command: SqlCommand) = command.ExecuteReader()
 
     let createConnection connectionString =
@@ -205,10 +206,10 @@ let private addSource (info:AddSourceRequest) =
     let (connection,command) = createCommand(sql)
 
     try connection.Open()
-        command  |> addWithValue "@ProfileId" info.ProfileId
-                 |> addWithValue "@Platform"  info.Platform
-                 |> addWithValue "@Username"  info.Username
-                 |> executeNonQuery
+        command |> addWithValue "@ProfileId" info.ProfileId
+                |> addWithValue "@Platform"  info.Platform
+                |> addWithValue "@Username"  info.Username
+                |> executeNonQuery
 
     finally dispose connection command
 
@@ -259,16 +260,13 @@ let rec readInProfiles profiles (reader:SqlDataReader) =
 
 let rec readInSources sources (reader:SqlDataReader) =
 
-    if reader.Read() then
-    
-        let source : AddSourceRequest = {
+    if reader.Read()
+    then let source : AddSourceRequest = {
             ProfileId= reader.GetInt32 (0)
             Platform=   reader.GetString(1)
             Username=   reader.GetString(2)
-        }
-
-        readInSources (source::sources) reader
-
+         }
+         readInSources (source::sources) reader
     else sources
 
 let rec readInPlatforms platforms (reader:SqlDataReader) =
