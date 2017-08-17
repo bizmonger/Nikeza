@@ -68,6 +68,22 @@ let private updateProfileHandler =
             return Some context
         }
 
+let private addSourceHandler = 
+    fun(context: HttpContext) -> 
+        async {
+            let! data = context.BindJson<AddSourceRequest>()
+            execute <| AddSource data
+            return Some context
+        }
+
+let private removeSourceHandler = 
+    fun(context: HttpContext) -> 
+        async {
+            let! data = context.BindJson<RemoveSourceRequest>()
+            execute <| RemoveSource data
+            return Some context
+        }
+
 let private setCode (handler:HttpHandler)= 
     fun(context: HttpContext) ->     
         let response =
@@ -89,6 +105,11 @@ let private fetchWordpress (feedUrl) (context : HttpContext) =
         return! json response context
     }
 
+let private fetchPlatforms (providerId) (context : HttpContext) =
+    async {
+        return Some context // TODO
+    }
+
 let private fetchLinks (providerId) (context : HttpContext) =
     async {
         return Some context // TODO
@@ -102,6 +123,21 @@ let private fetchSubscriptions (providerId) (context : HttpContext) =
         return Some context // TODO
     }
 
+let private fetchProviders () (context : HttpContext) =
+    async {
+        return Some context // TODO
+    }
+
+let private fetchSources (providerId) (context : HttpContext) =
+    async {
+        return Some context // TODO
+    }
+
+let private fetchContentTypeToId (contentType) (context : HttpContext) =
+    async {
+        return Some context // TODO
+    }
+
 let webApp : HttpContext -> HttpHandlerResult = 
 
     choose [
@@ -109,11 +145,15 @@ let webApp : HttpContext -> HttpHandlerResult =
             choose [
                 //route "/" >=> htmlFile "/hostingstart.html"
                 route "/" >=> htmlFile "/home.html"
-                routef "/youtube/%s/%s"    fetchYoutube
-                routef "/wordpress/%s"     fetchWordpress
-                routef "/links/%s"         fetchLinks
-                routef "/followers/%s"     fetchFollowers
-                routef "/subscriptions/%s" fetchSubscriptions
+                routef "/platforms/%s/%s"    fetchPlatforms
+                routef "/youtube/%s/%s"      fetchYoutube
+                routef "/wordpress/%s"       fetchWordpress
+                routef "/links/%s"           fetchLinks
+                routef "/followers/%s"       fetchFollowers
+                routef "/subscriptions/%s"   fetchSubscriptions
+                routef "/providers"          fetchProviders
+                routef "/sources/%s"         fetchSources
+                routef "/contenttypetoid/%s" fetchContentTypeToId
             ]
         POST >=> 
             choose [
@@ -124,5 +164,7 @@ let webApp : HttpContext -> HttpHandlerResult =
                 route "/unsubscribe"   >=> unsubscribeHandler
                 route "/featurelink"   >=> featureLinkHandler
                 route "/updateprofile" >=> updateProfileHandler
+                route "/addsource"     >=> addSourceHandler
+                route "/removesource"  >=> removeSourceHandler
             ]
         setStatusCode 404 >=> text "Not Found" ]
