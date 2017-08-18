@@ -273,7 +273,7 @@ let rec readInPlatforms platforms (reader:SqlDataReader) =
     then readInPlatforms (reader.GetString (0)::platforms) reader
     else platforms
 
-let queryOn sql commandFunc readInData =
+let getResults sql commandFunc readInData =
     let (reader, connection) = Store.query connectionString sql commandFunc
     
     let entities = 
@@ -282,11 +282,11 @@ let queryOn sql commandFunc readInData =
                 connection.Close()
     entities
 
-let foo profileId sql parameterName =
+let getProfiles profileId sql parameterName =
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue parameterName profileId
         
-    let profiles = queryOn sql commandFunc readInProfiles
+    let profiles = readInProfiles |> getResults sql commandFunc
     profiles
     
 let getLinks providerId =
@@ -294,25 +294,25 @@ let getLinks providerId =
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue "@ProviderId" providerId
 
-    let links = queryOn sql commandFunc readInLinks
+    let links = readInLinks |> getResults sql commandFunc
     links
 
 let getFollowers providerId =
-    let profiles = foo providerId getFollowersSql "@ProviderId"
+    let profiles = getProfiles providerId getFollowersSql "@ProviderId"
     profiles
 
 let getSubscriptions subscriberId =
-    let profiles = foo subscriberId getSubscriptionsSql "@SubscriberId"
+    let profiles = getProfiles subscriberId getSubscriptionsSql "@SubscriberId"
     profiles
 
 let getProviders () =
     let sql = getProvidersSql
     let commandFunc (command: SqlCommand) = command
-    let providers = queryOn sql commandFunc readInProfiles
+    let providers = readInProfiles |>  getResults sql commandFunc
     providers
 
 let getProvider providerId =
-    let profiles = foo providerId getProviderSql "@ProviderId"
+    let profiles = getProfiles providerId getProviderSql "@ProviderId"
     profiles |> List.tryHead
 
 let getSources providerId =
@@ -320,13 +320,13 @@ let getSources providerId =
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue "@ProfileId" providerId
         
-    let sources = queryOn sql commandFunc readInSources
+    let sources = readInSources |> getResults sql commandFunc
     sources
 
 let getPlatforms () =
     let sql = getPlatformsSql
     let commandFunc (command: SqlCommand) = command
-    let platforms = queryOn sql commandFunc readInPlatforms
+    let platforms = readInPlatforms |> getResults sql commandFunc
     platforms
 
 let execute = function
