@@ -236,7 +236,6 @@ let rec readInLinks links (reader:SqlDataReader) =
               ContentType =   reader.GetInt32  (5) |> contentTypeIdToString
               IsFeatured =    reader.GetBoolean(6)
         }
-
         readInLinks (link::links) reader
 
     else links
@@ -255,14 +254,13 @@ let rec readInProfiles profiles (reader:SqlDataReader) =
         }
 
         readInProfiles (profile::profiles) reader
-
     else profiles
 
 let rec readInSources sources (reader:SqlDataReader) =
 
     if reader.Read()
     then let source : AddSourceRequest = {
-            ProfileId= reader.GetInt32 (0)
+            ProfileId= reader.GetInt32  (0)
             Platform=   reader.GetString(1)
             Username=   reader.GetString(2)
          }
@@ -271,74 +269,65 @@ let rec readInSources sources (reader:SqlDataReader) =
 
 let rec readInPlatforms platforms (reader:SqlDataReader) =
 
-    if reader.Read() 
+    if   reader.Read() 
     then readInPlatforms (reader.GetString (0)::platforms) reader
     else platforms
+
+let queryOn sql commandFunc readInData =
+    let (reader, connection) = Store.query connectionString sql commandFunc
+    
+    let entities = 
+        try     readInData [] reader
+        finally reader.Dispose()
+                connection.Close()
+    entities
+
+let foo profileId sql parameterName =
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue parameterName profileId
+        
+    let profiles = queryOn sql commandFunc readInProfiles
+    profiles
     
 let getLinks providerId =
-
     let sql = getLinksSql
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue "@ProviderId" providerId
 
-    let (reader, connection) = Store.query connectionString sql commandFunc
-    
-    let links = 
-        try     readInLinks [] reader
-        finally reader.Dispose()
-                connection.Close()
+    let links = queryOn sql commandFunc readInLinks
     links
 
 let getFollowers providerId =
-
-    let sql = getFollowersSql
-    let commandFunc (command: SqlCommand) = 
-        command |> addWithValue "@ProviderId" providerId
-
-    let (reader, connection) = Store.query connectionString sql commandFunc
-    let followers = readInProfiles [] reader
-    connection.Close(); followers
+    let profiles = foo providerId getFollowersSql "@ProviderId"
+    profiles
 
 let getSubscriptions subscriberId =
-    let sql = getSubscriptionsSql
-    let commandFunc (command: SqlCommand) = 
-        command |> addWithValue "@SubscriberId" subscriberId
-        
-    let (reader, connection) = Store.query connectionString sql commandFunc
-    let subscriptions = readInProfiles [] reader
-    connection.Close(); subscriptions
+    let profiles = foo subscriberId getSubscriptionsSql "@SubscriberId"
+    profiles
 
 let getProviders () =
     let sql = getProvidersSql
     let commandFunc (command: SqlCommand) = command
-    let (reader, connection) = Store.query connectionString sql commandFunc
-    let providers = readInProfiles [] reader
-    connection.Close(); providers
+    let providers = queryOn sql commandFunc readInProfiles
+    providers
 
 let getProvider providerId =
-    let sql = getProviderSql
-    let commandFunc (command: SqlCommand) = 
-        command |> addWithValue "@ProviderId" providerId
-        
-    let (reader, connection) = Store.query connectionString sql commandFunc
-    let providers = readInProfiles [] reader
-    connection.Close(); providers |> List.tryHead
+    let profiles = foo providerId getProviderSql "@ProviderId"
+    profiles |> List.tryHead
 
 let getSources providerId =
     let sql = getSourcesSql
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue "@ProfileId" providerId
         
-    let (reader, connection) = Store.query connectionString sql commandFunc
-    let sources = readInSources [] reader
-    connection.Close(); sources
+    let sources = queryOn sql commandFunc readInSources
+    sources
 
 let getPlatforms () =
     let sql = getPlatformsSql
     let commandFunc (command: SqlCommand) = command
-    let (reader, connection) = Store.query connectionString sql commandFunc
-    let platforms = readInPlatforms [] reader
-    connection.Close(); platforms
+    let platforms = queryOn sql commandFunc readInPlatforms
+    platforms
 
 let execute = function
     | Register      info -> register      info
