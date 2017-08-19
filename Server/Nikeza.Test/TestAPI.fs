@@ -2,6 +2,8 @@ module Nikeza.TestAPI
 
 open System
 open System.Data.SqlClient
+open Nikeza.Server.Sql
+open Nikeza.Server.DataRead
 open Nikeza.Server.DataStore
 open Nikeza.Server.Models
 
@@ -63,7 +65,7 @@ let someSubscriber: Profile = {
 }
 
 let executeCommand sql =
-    let (connection,command) = createCommand(sql)
+    let (connection,command) = createCommand sql connectionString
 
     if connection.State = System.Data.ConnectionState.Closed
     then connection.Open()
@@ -72,14 +74,14 @@ let executeCommand sql =
     dispose connection command
 
 let cleanDataStore() =
-    executeCommand @"DELETE FROM [dbo].[Link]"
-    executeCommand @"DELETE FROM [dbo].[Topic]"
-    executeCommand @"DELETE FROM [dbo].[Source]"
-    executeCommand @"DELETE FROM [dbo].[Subscription]"
-    executeCommand @"DELETE FROM [dbo].[ProfileLinks]"
-    executeCommand @"DELETE FROM [dbo].[ProfileTopics]"
-    executeCommand @"DELETE FROM [dbo].[ProviderSources]"
-    executeCommand @"DELETE FROM [dbo].[Profile]"
+    executeCommand @"DELETE FROM Link"
+    executeCommand @"DELETE FROM Topic"
+    executeCommand @"DELETE FROM Source"
+    executeCommand @"DELETE FROM Subscription"
+    executeCommand @"DELETE FROM ProfileLinks"
+    executeCommand @"DELETE FROM ProfileTopics"
+    executeCommand @"DELETE FROM ProviderSources"
+    executeCommand @"DELETE FROM Profile"
 
 let cleanup command connection =
     dispose connection command
@@ -95,8 +97,8 @@ let getLastId tableName =
 
         else  ids
 
-    let sql = @"SELECT Id From [dbo].[" + tableName + "]"
-    let (connection,command) = createCommand(sql)
+    let sql = @"SELECT Id From " + tableName
+    let (connection,command) = createCommand sql connectionString
     connection.Open()
     let reader = command.ExecuteReader()
 

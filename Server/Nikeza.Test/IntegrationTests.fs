@@ -3,6 +3,8 @@ module Integration
 open System
 open FsUnit
 open NUnit.Framework
+open Nikeza.Server.Sql
+open Nikeza.Server.DataRead
 open Nikeza.Server.Models
 open Nikeza.Server.DataStore
 open System.Data.SqlClient
@@ -35,7 +37,7 @@ let ``Follow Provider`` () =
                 WHERE  SubscriberId = @SubscriberId
                 AND    ProviderId =   @ProviderId"
 
-    let (connection,command) = createCommand(sql)
+    let (connection,command) = createCommand sql connectionString
 
     try
         connection.Open()
@@ -73,7 +75,7 @@ let ``Unsubscribe from Provider`` () =
                 WHERE  SubscriberId = @SubscriberId
                 AND    ProviderId =   @ProviderId"
 
-    let (connection,command) = createCommand(sql)
+    let (connection,command) = createCommand sql connectionString
 
     try
         connection.Open()
@@ -105,7 +107,7 @@ let ``Add featured link`` () =
                 WHERE  Id  = @id
                 AND    IsFeatured = @isFeatured"
 
-    let (connection,command) = createCommand(sql)
+    let (connection,command) = createCommand sql connectionString
 
     try
         connection.Open()
@@ -136,7 +138,7 @@ let ``Remove link`` () =
                 FROM   Link
                 WHERE  Id = @id"
 
-    let (connection,command) = createCommand(sql)
+    let (connection,command) = createCommand sql connectionString
 
     try
         connection.Open()
@@ -166,7 +168,7 @@ let ``Unfeature Link`` () =
                 WHERE  Id  = @id
                 AND    IsFeatured = @isFeatured"
 
-    let (connection,command) = createCommand(sql)
+    let (connection,command) = createCommand sql connectionString
     try
         connection.Open()
         command.Parameters.AddWithValue("@id",         data.LinkId)     |> ignore
@@ -194,7 +196,7 @@ let ``Register Profile`` () =
                 WHERE  FirstName = @FirstName
                 AND    LastName  = @LastName"
 
-    let (connection,command) = createCommand(sql)
+    let (connection,command) = createCommand sql connectionString
     try
         connection.Open()
         command.Parameters.AddWithValue("@FirstName", data.FirstName) |> ignore
@@ -227,9 +229,8 @@ let ``Update profile`` () =
                              }
     // Verify
     let sql = @"SELECT LastName FROM [dbo].[Profile] WHERE  Id = @Id"
-    let (readConnection,readCommand) = createCommand(sql)
-    try
-        readConnection.Open()
+    let (readConnection,readCommand) = createCommand sql connectionString
+    try readConnection.Open()
         readCommand.Parameters.AddWithValue("@Id", lastId) |> ignore
         
         use reader = readCommand |> prepareReader
@@ -335,7 +336,7 @@ let ``Add source`` () =
     // Verify
     let sourceId = getLastId "Source"
     let sql = @"SELECT Id FROM [dbo].[Source] WHERE Id = @id"
-    let (connection,command) = createCommand(sql)
+    let (connection,command) = createCommand sql connectionString
 
     try connection.Open()
         command.Parameters.AddWithValue("@id", sourceId) |> ignore
@@ -376,7 +377,7 @@ let ``Remove source`` () =
 
     // Verify
     let sql = @"SELECT Id FROM [dbo].[Source] WHERE  Id  = @id"
-    let (connection,command) = createCommand(sql)
+    let (connection,command) = createCommand sql connectionString
 
     try connection.Open()
         command.Parameters.AddWithValue("@id", sourceId) |> ignore
