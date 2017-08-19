@@ -59,6 +59,7 @@
     <Compile Include="Models.fs" />
     <Compile Include="Configuration.fs" />
     <Compile Include="Sql.fs" />
+    <Compile Include="DataRead.fs" />
     <Compile Include="DataStore.fs" />
     <Compile Include="Authentication.fs" />
     <Compile Include="Youtube.fs" />

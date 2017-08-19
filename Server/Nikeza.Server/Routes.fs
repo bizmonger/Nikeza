@@ -1,19 +1,13 @@
 module Nikeza.Server.Routes
 
-
 open Microsoft.AspNetCore.Http
 open Giraffe.HttpContextExtensions
 open Giraffe.HttpHandlers
-open Nikeza.Server.Models.Authentication
-open Nikeza.Server.Models
-open Nikeza.Server.YouTube
-open Nikeza.Server.YouTube.Authentication
-open Nikeza.Server.Wordpress
-open Nikeza.Server.DataStore
 
 // ---------------------------------
 // Web app
 // ---------------------------------
+open Nikeza.Server.Authentication
 let authScheme = "Cookie"
 let private registrationHandler = 
     fun(context: HttpContext) -> 
@@ -36,6 +30,8 @@ let private loginHandler  (authFailedHandler : HttpHandler) =
                 else return! authFailedHandler context                                                           
         }
 
+open Nikeza.Server.Models
+open Nikeza.Server.DataStore
 let private followHandler = 
     fun(context: HttpContext) -> 
         async {
@@ -92,6 +88,8 @@ let private setCode (handler:HttpHandler)=
                 else handler
         response context
 
+open Nikeza.Server.YouTube
+open Nikeza.Server.YouTube.Authentication
 let private fetchYoutube (apiKey, channelId) (context : HttpContext) = 
     async {
         let  youtube = youTubeService apiKey
@@ -99,6 +97,7 @@ let private fetchYoutube (apiKey, channelId) (context : HttpContext) =
         return! json videos context
     }
 
+open Nikeza.Server.Wordpress
 let private fetchWordpress (feedUrl) (context : HttpContext) =
     async {
         let! response = jsonRssFeed feedUrl

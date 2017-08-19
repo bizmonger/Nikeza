@@ -1,6 +1,43 @@
-namespace Nikeza.Server.Models
+module Nikeza.Server.Models
 
 open System
+
+type ContentType = 
+    | Article
+    | Video
+    | Answer
+    | Podcast
+    | Unknown
+
+type RawContentType = string
+
+let contentTypeFromString = function
+    | "article" -> Article
+    | "video"   -> Video
+    | "answer"  -> Answer
+    | "podcast" -> Podcast
+    | _         -> Unknown
+
+let contentTypeToId = function
+    | "article" ->  0
+    | "video"   ->  1
+    | "answer"  ->  2
+    | "podcast" ->  3
+    | _         -> -1
+
+let contentTypeToString = function
+    | Article -> "article"
+    | Video   -> "video"  
+    | Answer  -> "answer" 
+    | Podcast -> "podcast"
+    | Unknown -> "unknown"    
+
+let contentTypeIdToString = function
+    | 0 -> "article"
+    | 1 -> "video"  
+    | 2 -> "answer" 
+    | 3 -> "podcast"
+    | _ -> "unknown"    
 
 [<CLIMutable>]
 type Profile = {
