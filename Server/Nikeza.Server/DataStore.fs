@@ -10,7 +10,7 @@ let executeNonQuery (command: SqlCommand) = command.ExecuteNonQuery() |> ignore
     
 module private Store = 
 
-    let private executeQuery (command: SqlCommand) = command.ExecuteReader()
+    let executeQuery (command: SqlCommand) = command.ExecuteReader()
 
     let createConnection connectionString =
         let connection = new SqlConnection(connectionString)
@@ -35,7 +35,7 @@ module private Store =
 
 let findUser email :(Profile option) =
     use connection = new SqlConnection(connectionString)
-    use command = new SqlCommand(findUserByEmailSql,connection)
+    use command =    new SqlCommand(findUserByEmailSql,connection)
 
     command |> addWithValue "@email"  email  |> ignore
     readCommand connection command sqlReader |> Seq.tryHead

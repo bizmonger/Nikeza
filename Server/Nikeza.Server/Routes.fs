@@ -3,10 +3,6 @@ module Nikeza.Server.Routes
 open Microsoft.AspNetCore.Http
 open Giraffe.HttpContextExtensions
 open Giraffe.HttpHandlers
-
-// ---------------------------------
-// Web app
-// ---------------------------------
 open Nikeza.Server.Authentication
 let authScheme = "Cookie"
 let private registrationHandler = 
@@ -32,52 +28,47 @@ let private loginHandler  (authFailedHandler : HttpHandler) =
 
 open Nikeza.Server.Models
 open Nikeza.Server.DataStore
+
 let private followHandler = 
     fun(context: HttpContext) -> 
-        async {
-            let! data = context.BindJson<FollowRequest>()
-            execute <| Follow data
-            return Some context
+        async { let! data = context.BindJson<FollowRequest>()
+                execute <| Follow data
+                return Some context
         } 
 
 let private unsubscribeHandler = 
     fun(context: HttpContext) -> 
-        async {
-            let! data = context.BindJson<UnsubscribeRequest>()
-            execute <| Unsubscribe data
-            return Some context                  
+        async { let! data = context.BindJson<UnsubscribeRequest>()
+                execute <| Unsubscribe data
+                return Some context                  
         } 
 
 let private featureLinkHandler = 
     fun(context: HttpContext) -> 
-        async {
-            let! data = context.BindJson<FeatureLinkRequest>()
-            execute <| FeatureLink data
-            return Some context
+        async { let! data = context.BindJson<FeatureLinkRequest>()
+                execute <| FeatureLink data
+                return Some context
         }
 
 let private updateProfileHandler = 
     fun(context: HttpContext) -> 
-        async {
-            let! data = context.BindJson<ProfileRequest>()
-            execute <| UpdateProfile data
-            return Some context
+        async { let! data = context.BindJson<ProfileRequest>()
+                execute <| UpdateProfile data
+                return Some context
         }
 
 let private addSourceHandler = 
     fun(context: HttpContext) -> 
-        async {
-            let! data = context.BindJson<AddSourceRequest>()
-            execute <| AddSource data
-            return Some context
+        async { let! data = context.BindJson<AddSourceRequest>()
+                execute <| AddSource data
+                return Some context
         }
 
 let private removeSourceHandler = 
     fun(context: HttpContext) -> 
-        async {
-            let! data = context.BindJson<RemoveSourceRequest>()
-            execute <| RemoveSource data
-            return Some context
+        async { let! data = context.BindJson<RemoveSourceRequest>()
+                execute <| RemoveSource data
+                return Some context
         }
 
 let private setCode (handler:HttpHandler)= 
@@ -91,50 +82,49 @@ let private setCode (handler:HttpHandler)=
 open Nikeza.Server.YouTube
 open Nikeza.Server.YouTube.Authentication
 let private fetchYoutube (apiKey, channelId) (context : HttpContext) = 
-    async {
-        let  youtube = youTubeService apiKey
-        let! videos =  uploadList youtube <| ChannelId channelId
-        return! json videos context
+    async { let  youtube = youTubeService apiKey
+            let! videos =  uploadList youtube <| ChannelId channelId
+            return! json videos context
     }
 
 open Nikeza.Server.Wordpress
 let private fetchWordpress (feedUrl) (context : HttpContext) =
-    async {
-        let! response = jsonRssFeed feedUrl
-        return! json response context
+    async { let! response = jsonRssFeed feedUrl
+            return! json response context
     }
 
 let private fetchPlatforms (providerId) (context : HttpContext) =
-    async {
-        return Some context // TODO
+    async { let response = getPlatforms()
+            return! json response context
     }
 
 let private fetchLinks (providerId) (context : HttpContext) =
-    async {
-        return Some context // TODO
+    async { let response = getLinks providerId
+            return! json response context
     }
 let private fetchFollowers (providerId) (context : HttpContext) =
-    async {
-        return Some context // TODO
+    async { let response = getFollowers providerId
+            return! json response context
     }
 let private fetchSubscriptions (providerId) (context : HttpContext) =
     async {
-        return Some context // TODO
+        let response = getSubscriptions providerId
+        return! json response context
     }
 
 let private fetchProviders () (context : HttpContext) =
-    async {
-        return Some context // TODO
+    async { let response = getProviders()
+            return! json response context
     }
 
 let private fetchSources (providerId) (context : HttpContext) =
-    async {
-        return Some context // TODO
+    async { let response = getSources providerId
+            return! json response context
     }
 
 let private fetchContentTypeToId (contentType) (context : HttpContext) =
-    async {
-        return Some context // TODO
+    async { let response = contentTypeToId contentType
+            return! json response context
     }
 
 let webApp : HttpContext -> HttpHandlerResult = 
@@ -166,4 +156,5 @@ let webApp : HttpContext -> HttpHandlerResult =
                 route "/addsource"     >=> addSourceHandler
                 route "/removesource"  >=> removeSourceHandler
             ]
+            
         setStatusCode 404 >=> text "Not Found" ]
