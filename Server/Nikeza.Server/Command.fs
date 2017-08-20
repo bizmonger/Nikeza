@@ -87,7 +87,6 @@ module private Commands =
 
         execute connectionString updateProfileSql commandFunc
         
-
     let addSource (info:AddSourceRequest) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@ProfileId" info.ProfileId

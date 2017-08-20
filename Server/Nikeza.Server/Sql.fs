@@ -65,8 +65,8 @@ let unsubscribeSql = @"DELETE FROM [dbo].[Subscription]
                        WHERE SubscriberId  = @SubscriberId AND 
                              ProviderId =    @ProviderId"
 
-let featureLinkSql = @"UPDATE [dbo].[Link]
-                       SET    [IsFeatured] = @IsFeatured
+let featureLinkSql = @"UPDATE Link
+                       SET    IsFeatured = @IsFeatured
                        WHERE  Id = @Id"
 
 let updateProfileSql = @"UPDATE [dbo].[Profile]
@@ -100,33 +100,32 @@ let getFollowersSql = @"SELECT Profile.Id,
                        ON         Subscription.SubscriberId = Profile.Id
                        WHERE      Subscription.ProviderId = @ProviderId"
 
-let getSubscriptionsSql = @"SELECT     Profile.Id,
-                                       Profile.FirstName,
-                                       Profile.LastName,
-                                       Profile.Email,
-                                       Profile.ImageUrl,
-                                       Profile.Bio
+let getSubscriptionsSql = @"SELECT Profile.Id,
+                                   Profile.FirstName,
+                                   Profile.LastName,
+                                   Profile.Email,
+                                   Profile.ImageUrl,
+                                   Profile.
+                                   FROM       Profile
+                                   INNER JOIN Subscription
+                                   ON         Subscription.ProviderId =   Profile.Id
+                                   WHERE      Subscription.SubscriberId = @SubscriberId"
 
-                                       FROM       Profile
-                                       INNER JOIN Subscription
-                                       ON         Subscription.ProviderId =   Profile.Id
-                                       WHERE      Subscription.SubscriberId = @SubscriberId"
-
-let getProvidersSql = @"SELECT Profile.Id,
-                               Profile.FirstName,
-                               Profile.LastName,
-                               Profile.Email,
-                               Profile.ImageUrl,
-                               Profile.Bio
+let getProvidersSql = @"SELECT Id,
+                               FirstName,
+                               LastName,
+                               Email,
+                               ImageUrl,
+                               Bio
 
                        FROM    Profile"
 
-let getProviderSql = @"SELECT Profile.Id,
-                              Profile.FirstName,
-                              Profile.LastName,
-                              Profile.Email,
-                              Profile.ImageUrl,
-                              Profile.Bio
+let getProviderSql = @"SELECT Id,
+                              FirstName,
+                              LastName,
+                              Email,
+                              ImageUrl,
+                              Bio
                        FROM   Profile
                        WHERE  Id = @ProviderId"
 
@@ -137,3 +136,7 @@ let getSourcesSql = @"SELECT ProfileId,
                       WHERE  ProfileId = @ProfileId"
 
 let getPlatformsSql = @"SELECT Name FROM Platform"
+
+let getUsernameToIdSql = @"SELECT Id
+                           FROM Profile
+                           WHERE Email = @Email"

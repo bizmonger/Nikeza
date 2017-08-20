@@ -4,6 +4,7 @@ open Microsoft.AspNetCore.Http
 open Giraffe.HttpContextExtensions
 open Giraffe.HttpHandlers
 open Nikeza.Server.Authentication
+
 let authScheme = "Cookie"
 let private registrationHandler = 
     fun(context: HttpContext) -> 
@@ -82,13 +83,14 @@ let private setCode (handler:HttpHandler)=
 
 open Nikeza.Server.YouTube
 open Nikeza.Server.YouTube.Authentication
+open Nikeza.Server.Wordpress
+
 let private fetchYoutube (apiKey, channelId) (context : HttpContext) = 
     async { let  youtube = youTubeService apiKey
             let! videos =  uploadList youtube <| ChannelId channelId
             return! json videos context
     }
 
-open Nikeza.Server.Wordpress
 let private fetchWordpress (feedUrl) (context : HttpContext) =
     async { let! response = jsonRssFeed feedUrl
             return! json response context

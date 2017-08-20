@@ -80,3 +80,10 @@ let getPlatforms () =
     let commandFunc (command: SqlCommand) = command
     let platforms = readInPlatforms |> getResults getPlatformsSql commandFunc
     platforms
+
+let usernameToId username =
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue "@Email" username
+        
+    let profileId = readInProfileId |> getResults getUsernameToIdSql commandFunc
+    profileId

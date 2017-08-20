@@ -30,10 +30,9 @@ let sqlReader (reader: SqlDataReader) = {
     Created =      DateTime.Parse(reader.["Created"].ToString()) 
 }
 
-let rec readInLinks links (reader:SqlDataReader) =
+let rec readInLinks links (reader:SqlDataReader) = reader.Read() |> function
 
-    if reader.Read() then
-    
+    | true ->
         let link = { 
               Id =            reader.GetInt32  (0)
               ProviderId =    reader.GetInt32  (1)
@@ -43,14 +42,14 @@ let rec readInLinks links (reader:SqlDataReader) =
               ContentType =   reader.GetInt32  (5) |> contentTypeIdToString
               IsFeatured =    reader.GetBoolean(6)
         }
+        
         readInLinks (link::links) reader
 
-    else links
+    | false -> links
 
-let rec readInProfiles profiles (reader:SqlDataReader) =
+let rec readInProfiles profiles (reader:SqlDataReader) = reader.Read() |> function
 
-    if reader.Read() then
-    
+    | true ->
         let profile : ProfileRequest = {
             ProfileId=  reader.GetInt32 (0)
             FirstName=  reader.GetString(1)
@@ -59,23 +58,27 @@ let rec readInProfiles profiles (reader:SqlDataReader) =
             ImageUrl=   reader.GetString(4)
             Bio=        reader.GetString(5)
         }
-
+        
         readInProfiles (profile::profiles) reader
-    else profiles
 
-let rec readInSources sources (reader:SqlDataReader) =
+    | false -> profiles
 
-    if reader.Read()
-    then let source : AddSourceRequest = {
+let rec readInSources sources (reader:SqlDataReader) = reader.Read() |> function
+    | true -> 
+        let source : AddSourceRequest = {
             ProfileId= reader.GetInt32  (0)
             Platform=   reader.GetString(1)
             Username=   reader.GetString(2)
          }
-         readInSources (source::sources) reader
-    else sources
 
-let rec readInPlatforms platforms (reader:SqlDataReader) =
+        readInSources (source::sources) reader
 
-    if   reader.Read() 
-    then readInPlatforms (reader.GetString (0)::platforms) reader
-    else platforms
+    | false -> sources
+
+let rec readInPlatforms platforms (reader:SqlDataReader) = reader.Read() |> function
+    | true  -> readInPlatforms (reader.GetString (0)::platforms) reader
+    | false -> platforms
+
+let rec readInProfileId username (reader:SqlDataReader) = reader.Read() |> function
+    | true  -> Some <| reader.GetString (0)
+    | false -> None
