@@ -73,6 +73,20 @@ let private removeSourceHandler =
                 return Some context
         }
 
+let private addLinkHandler = 
+    fun(context: HttpContext) -> 
+        async { let! data = context.BindJson<AddLinkRequest>()
+                execute <| AddLink data
+                return Some context
+        }
+
+let private removeLinkHandler = 
+    fun(context: HttpContext) -> 
+        async { let! data = context.BindJson<RemoveLinkRequest>()
+                execute <| RemoveLink data
+                return Some context
+        }
+
 let private setCode (handler:HttpHandler)= 
     fun(context: HttpContext) ->     
         let response =
@@ -158,6 +172,8 @@ let webApp : HttpContext -> HttpHandlerResult =
                 route "/updateprofile" >=> updateProfileHandler
                 route "/addsource"     >=> addSourceHandler
                 route "/removesource"  >=> removeSourceHandler
+                route "/addLink"       >=> addLinkHandler
+                route "/removeLink"    >=> removeLinkHandler
             ]
             
         setStatusCode 404 >=> text "Not Found" ]
