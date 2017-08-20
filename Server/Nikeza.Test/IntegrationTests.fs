@@ -1,23 +1,16 @@
 module Integration
 
-open System
 open FsUnit
 open NUnit.Framework
+open Nikeza.TestAPI
+open Nikeza.Server.Command
+open Nikeza.Server.Store
 open Nikeza.Server.Sql
 open Nikeza.Server.Read
 open Nikeza.Server.Model
-open Nikeza.Server.Command
-open Nikeza.Server.Store
-open System.Data.SqlClient
-open Nikeza.TestAPI
-
-module DataStore = Nikeza.Server.Store
-
-// https://github.com/nunit/dotnet-test-nunit
 
 [<TearDownAttribute>]
-let teardown() = 
-    cleanDataStore()
+let teardown() = cleanDataStore()
 
 [<Test>]
 let ``Follow Provider`` () =
