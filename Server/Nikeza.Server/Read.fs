@@ -1,16 +1,8 @@
-module Nikeza.Server.DataRead
+module Nikeza.Server.Read
 
 open System
 open System.Data.SqlClient
-open Nikeza.Server.Models
-
-let dispose (connection:SqlConnection) (command:SqlCommand) =
-    connection.Dispose()
-    command.Dispose()
-
-let addWithValue paramName obj (command: SqlCommand) =
-    command.Parameters.AddWithValue(paramName,  obj) |> ignore
-    command
+open Nikeza.Server.Model
 
 let readCommand (connection: SqlConnection) (command: SqlCommand) readerFunc =
     if connection.State = System.Data.ConnectionState.Closed

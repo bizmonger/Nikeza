@@ -1,7 +1,8 @@
 module Nikeza.Server.Authentication
 
     open System.Security.Claims 
-    open Nikeza.Server.DataStore
+    open Nikeza.Server.Command
+    open Nikeza.Server.Store
 
     [<CLIMutable>]
     type RegistrationRequest = {
@@ -55,7 +56,7 @@ module Nikeza.Server.Authentication
              hashedPassword = user.PasswordHash
         | None -> false
             
-    open Nikeza.Server.Models
+    open Nikeza.Server.Model
     let register (r:RegistrationRequest) =
         match findUser r.UserName with
         | Some user -> Failure

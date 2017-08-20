@@ -3,9 +3,10 @@ module Nikeza.TestAPI
 open System
 open System.Data.SqlClient
 open Nikeza.Server.Sql
-open Nikeza.Server.DataRead
-open Nikeza.Server.DataStore
-open Nikeza.Server.Models
+open Nikeza.Server.Read
+open Nikeza.Server.Command
+open Nikeza.Server.Store
+open Nikeza.Server.Model
 
 let prepareReader (command:SqlCommand) =
     let reader = command.ExecuteReader()

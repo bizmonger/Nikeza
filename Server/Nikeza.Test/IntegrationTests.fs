@@ -4,13 +4,14 @@ open System
 open FsUnit
 open NUnit.Framework
 open Nikeza.Server.Sql
-open Nikeza.Server.DataRead
-open Nikeza.Server.Models
-open Nikeza.Server.DataStore
+open Nikeza.Server.Read
+open Nikeza.Server.Model
+open Nikeza.Server.Command
+open Nikeza.Server.Store
 open System.Data.SqlClient
 open Nikeza.TestAPI
 
-module DataStore = Nikeza.Server.DataStore
+module DataStore = Nikeza.Server.Store
 
 // https://github.com/nunit/dotnet-test-nunit
 

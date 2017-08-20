@@ -26,8 +26,9 @@ let private loginHandler  (authFailedHandler : HttpHandler) =
                 else return! authFailedHandler context                                                           
         }
 
-open Nikeza.Server.Models
-open Nikeza.Server.DataStore
+open Nikeza.Server.Model
+open Nikeza.Server.Command
+open Nikeza.Server.Store
 
 let private followHandler = 
     fun(context: HttpContext) -> 

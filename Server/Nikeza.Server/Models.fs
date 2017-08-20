@@ -1,4 +1,4 @@
-module Nikeza.Server.Models
+module Nikeza.Server.Model
 
 open System
 
