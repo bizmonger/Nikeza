@@ -1,14 +1,10 @@
 module Nikeza.Server.Store
 
-open System
 open System.Data.SqlClient
-open Nikeza.Server.Model
 open Nikeza.Server.Command
 open Nikeza.Server.Read
-open Nikeza.Server.Sql
     
 module private Store = 
-
     let executeQuery (command: SqlCommand) = command.ExecuteReader()
 
     let query connectionString sql commandFunc =
@@ -20,6 +16,9 @@ module private Store =
         let reader = executeQuery command
         
         (reader,connection)
+
+open Nikeza.Server.Model
+open Nikeza.Server.Sql
 
 let findUser email :(Profile option) =
     use connection = new SqlConnection(connectionString)
