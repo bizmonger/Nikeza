@@ -18,6 +18,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
 import Navigation exposing (..)
 import String exposing (..)
+import Http exposing (getString)
 
 
 -- elm-live Home.elm --open --output=home.js
@@ -32,6 +33,22 @@ main =
         , update = update
         , subscriptions = (\_ -> Sub.none)
         }
+
+
+
+-- COMMANDS
+
+
+registerUrl : String
+registerUrl =
+    "http://localhost:5000/register/"
+
+
+register : Cmd Msg
+register =
+    registerUrl
+        |> Http.getString
+        |> Http.send SubmitRegistration
 
 
 
@@ -101,6 +118,7 @@ type Msg
     | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
     | Search String
     | Register
+    | SubmitRegistration (Result Http.Error String)
     | OnRegistration Registration.Msg
     | Subscription SubscriptionUpdate
     | NavigateBack
@@ -118,6 +136,12 @@ update msg model =
 
             Register ->
                 ( model, Navigation.load <| "/#/register" )
+
+            SubmitRegistration (Ok json) ->
+                ( model, Cmd.none )
+
+            SubmitRegistration (Err error) ->
+                ( model, Cmd.none )
 
             OnRegistration subMsg ->
                 onRegistration subMsg model
