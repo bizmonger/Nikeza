@@ -1,10 +1,29 @@
 module Domain.Core exposing (..)
 
 import Controls.Login as Login exposing (Model)
-import Controls.Register as Register exposing (Model)
+import Http
 
 
--- TYPES
+type alias JsonProfile =
+    { id : Int
+    , firstName : String
+    , lastName : String
+    , email : String
+    }
+
+
+initForm : Form
+initForm =
+    Form "" "" "" "" ""
+
+
+type alias Form =
+    { firstName : String
+    , lastName : String
+    , email : String
+    , password : String
+    , confirm : String
+    }
 
 
 initTopics : List Topic
@@ -297,7 +316,7 @@ type alias Loginfunction =
 
 
 type alias Registerfunction =
-    Register.Model -> Result String Provider
+    Form -> Result String Provider
 
 
 type alias Linksfunction =
@@ -330,6 +349,10 @@ type alias Followfunction =
 
 type alias Unsubscribefunction =
     Id -> Id -> Result String ()
+
+
+type alias FormResponsefunction a =
+    Result Http.Error JsonProfile -> a
 
 
 type ContentType

@@ -2,12 +2,12 @@ module Settings exposing (..)
 
 import Domain.Core exposing (..)
 import Tests.TestAPI as TestAPI exposing (..)
-import Services.Server as Services exposing (..)
+import Services.Gateway as Gateway exposing (..)
 
 
 configuration : Configuration
 configuration =
-    Isolation
+    Integration
 
 
 type Configuration

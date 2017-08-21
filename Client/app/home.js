@@ -15109,6 +15109,8 @@ var _user$project$Home$update = F2(
 					_1: _elm_lang$navigation$Navigation$load('/#/register')
 				};
 			case 'SubmitRegistration':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'RegistrationResponse':
 				if (_p28._0.ctor === 'Ok') {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				} else {
@@ -15325,13 +15327,14 @@ var _user$project$Home$Subscription = function (a) {
 var _user$project$Home$OnRegistration = function (a) {
 	return {ctor: 'OnRegistration', _0: a};
 };
-var _user$project$Home$SubmitRegistration = function (a) {
-	return {ctor: 'SubmitRegistration', _0: a};
+var _user$project$Home$RegistrationResponse = function (a) {
+	return {ctor: 'RegistrationResponse', _0: a};
 };
-var _user$project$Home$register = A2(
+var _user$project$Home$getResistrationResponse = A2(
 	_elm_lang$http$Http$send,
-	_user$project$Home$SubmitRegistration,
+	_user$project$Home$RegistrationResponse,
 	_elm_lang$http$Http$getString(_user$project$Home$registerUrl));
+var _user$project$Home$SubmitRegistration = {ctor: 'SubmitRegistration'};
 var _user$project$Home$Register = {ctor: 'Register'};
 var _user$project$Home$Search = function (a) {
 	return {ctor: 'Search', _0: a};

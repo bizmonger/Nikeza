@@ -1,8 +1,32 @@
-module Services.Server exposing (..)
+module Services.Gateway exposing (..)
 
 import Controls.Login as Login exposing (Model)
-import Controls.Register as Register exposing (Model)
 import Domain.Core exposing (..)
+import Http exposing (getString)
+import Json.Decode as Decode exposing (Decoder, field)
+import Json.Encode as Encode
+
+
+-- DECODERS/ENCODERS
+
+
+decoder : Decoder JsonProfile
+decoder =
+    Decode.map4 JsonProfile
+        (field "Id" Decode.int)
+        (field "FirstName" Decode.string)
+        (field "LastName" Decode.string)
+        (field "Email" Decode.string)
+
+
+encode : Form -> Encode.Value
+encode form =
+    Encode.object
+        [ ( "FirstName", Encode.string form.firstName )
+        , ( "LastName", Encode.string form.firstName )
+        , ( "Email", Encode.string form.email )
+        , ( "Password", Encode.string form.password )
+        ]
 
 
 tryLogin : Login.Model -> Login.Model
@@ -17,9 +41,20 @@ tryLogin credentials =
             { email = credentials.email, password = credentials.password, loggedIn = False }
 
 
-tryRegister : Register.Model -> Result String Provider
-tryRegister form =
-    Err "Registration failed"
+tryRegister : Form -> (Result Http.Error a -> msg) -> Cmd msg
+tryRegister form msg =
+    let
+        registerUrl =
+            "http://localhost:5000/register"
+
+        body =
+            encode form |> Http.jsonBody
+
+        -- request : Http.Request JsonProfile
+        request =
+            Http.post registerUrl body decoder
+    in
+        Http.send msg request
 
 
 providers : List Provider

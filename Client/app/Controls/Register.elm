@@ -1,29 +1,12 @@
 module Controls.Register exposing (..)
 
+import Settings exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
 
--- MODEL
-
-
-type alias Model =
-    { firstName : String
-    , lastName : String
-    , email : String
-    , password : String
-    , confirm : String
-    }
-
-
-model : Model
-model =
-    Model "" "" "" "" ""
-
-
-
--- UPDATE
+-- COMMANDS
 
 
 type Msg
@@ -32,29 +15,36 @@ type Msg
     | EmailInput String
     | PasswordInput String
     | ConfirmInput String
-    | Submit Model
+    | Submit
+    | Response (Result Http.Error JsonProfile)
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         FirstNameInput v ->
-            { model | firstName = v }
+            ( { model | firstName = v }, Cmd.none )
 
         LastNameInput v ->
-            { model | lastName = v }
+            ( { model | lastName = v }, Cmd.none )
 
         EmailInput v ->
-            { model | email = v }
+            ( { model | email = v }, Cmd.none )
 
         PasswordInput v ->
-            { model | password = v }
+            ( { model | password = v }, Cmd.none )
 
         ConfirmInput v ->
-            { model | confirm = v }
+            ( { model | confirm = v }, Cmd.none )
 
-        Submit v ->
-            v
+        Submit ->
+            ( model, runtime.tryRegister model Response )
+
+        Response (Ok json) ->
+            ( model, Cmd.none )
+
+        Response (Err error) ->
+            ( model, Cmd.none )
 
 
 
@@ -78,14 +68,7 @@ view model =
         , button
             [ class "register"
             , value "Create Account"
-            , onClick <|
-                Submit
-                    { firstName = model.firstName
-                    , lastName = model.lastName
-                    , email = model.email
-                    , password = model.password
-                    , confirm = model.confirm
-                    }
+            , onClick Submit
             ]
             [ text "Join" ]
         ]

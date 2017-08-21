@@ -1,7 +1,6 @@
 module Tests.TestAPI exposing (..)
 
 import Controls.Login as Login exposing (Model)
-import Controls.Register as Register exposing (Model)
 import Domain.Core as Domain exposing (..)
 import String exposing (..)
 
@@ -357,7 +356,7 @@ tryLogin credentials =
             { email = credentials.email, password = credentials.password, loggedIn = False }
 
 
-tryRegister : Register.Model -> Result String Provider
+tryRegister : Form -> Result String Provider
 tryRegister form =
     let
         successful =
