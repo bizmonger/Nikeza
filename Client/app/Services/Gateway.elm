@@ -41,7 +41,7 @@ tryLogin credentials =
             { email = credentials.email, password = credentials.password, loggedIn = False }
 
 
-tryRegister : Form -> (Result Http.Error a -> msg) -> Cmd msg
+tryRegister : Form -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
 tryRegister form msg =
     let
         registerUrl =
@@ -50,7 +50,6 @@ tryRegister form msg =
         body =
             encode form |> Http.jsonBody
 
-        -- request : Http.Request JsonProfile
         request =
             Http.post registerUrl body decoder
     in

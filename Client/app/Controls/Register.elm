@@ -4,6 +4,8 @@ import Settings exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Http
+import Domain.Core exposing (JsonProfile, Form)
 
 
 -- COMMANDS
@@ -19,7 +21,7 @@ type Msg
     | Response (Result Http.Error JsonProfile)
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Form -> ( Form, Cmd Msg )
 update msg model =
     case msg of
         FirstNameInput v ->
@@ -51,7 +53,7 @@ update msg model =
 -- VIEW
 
 
-view : Model -> Html Msg
+view : Form -> Html Msg
 view model =
     div [ class "RegistrationForm" ]
         [ input [ type_ "text", placeholder "first name", onInput FirstNameInput, value model.firstName ] []

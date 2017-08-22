@@ -315,8 +315,12 @@ type alias Loginfunction =
     Login.Model -> Login.Model
 
 
-type alias Registerfunction =
-    Form -> Result String Provider
+type alias Registerfunction msg =
+    Form -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
+
+
+
+-- Form -> Result String Provider
 
 
 type alias Linksfunction =
@@ -349,10 +353,6 @@ type alias Followfunction =
 
 type alias Unsubscribefunction =
     Id -> Id -> Result String ()
-
-
-type alias FormResponsefunction a =
-    Result Http.Error JsonProfile -> a
 
 
 type ContentType

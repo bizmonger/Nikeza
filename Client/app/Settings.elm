@@ -2,7 +2,7 @@ module Settings exposing (..)
 
 import Domain.Core exposing (..)
 import Tests.TestAPI as TestAPI exposing (..)
-import Services.Gateway as Gateway exposing (..)
+import Services.Gateway as Services exposing (..)
 
 
 configuration : Configuration
@@ -15,9 +15,9 @@ type Configuration
     | Isolation
 
 
-type alias Dependencies =
+type alias Dependencies msg =
     { tryLogin : Loginfunction
-    , tryRegister : Registerfunction
+    , tryRegister : Registerfunction msg
     , provider : Providerfunction
     , providers : Providersfunction
     , links : Linksfunction
@@ -37,7 +37,7 @@ type alias Dependencies =
     }
 
 
-runtime : Dependencies
+runtime : Dependencies msg
 runtime =
     case configuration of
         Integration ->

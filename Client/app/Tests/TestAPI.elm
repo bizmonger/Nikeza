@@ -3,6 +3,7 @@ module Tests.TestAPI exposing (..)
 import Controls.Login as Login exposing (Model)
 import Domain.Core as Domain exposing (..)
 import String exposing (..)
+import Http exposing (..)
 
 
 profileId1 : Id
@@ -356,20 +357,27 @@ tryLogin credentials =
             { email = credentials.email, password = credentials.password, loggedIn = False }
 
 
-tryRegister : Form -> Result String Provider
-tryRegister form =
-    let
-        successful =
-            form.password == form.confirm
-    in
-        if successful then
-            let
-                profile =
-                    Profile profileId1 (Name form.firstName) (Name form.lastName) (Email form.email) someImageUrl "" []
-            in
-                Ok <| Provider profile [] initLinks [] subscriptions followers
-        else
-            Err "Registration failed"
+
+-- tryRegister : Form -> Result String Provider
+-- tryRegister : Register.Model -> Result String Provider
+-- tryRegister form =
+--     let
+--         successful =
+--             form.password == form.confirm
+--     in
+--         if successful then
+--             let
+--                 profile =
+--                     Profile profileId1 (Name form.firstName) (Name form.lastName) (Email form.email) someImageUrl "" []
+--             in
+--                 Ok <| Provider profile [] initLinks [] subscriptions followers
+--         else
+--             Err "Registration failed"
+
+
+tryRegister : Form -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
+tryRegister form msg =
+    Cmd.none
 
 
 answers : Id -> List Link

@@ -41,7 +41,7 @@ main =
 type alias Model =
     { currentRoute : Navigation.Location
     , login : Login.Model
-    , registration : Registration.Model
+    , registration : Form
     , portal : Portal
     , providers : List Provider
     , selectedProvider : Provider
@@ -66,7 +66,7 @@ init location =
     in
         ( { currentRoute = location
           , login = Login.init
-          , registration = Registration.model
+          , registration = initForm
           , portal = initPortal
           , providers = runtime.providers
           , selectedProvider = provider
@@ -303,7 +303,7 @@ onRegistration subMsg model =
             Registration.ConfirmInput _ ->
                 ( { model | registration = form }, Cmd.none )
 
-            Registration.Submit _ ->
+            Registration.Submit ->
                 case form |> runtime.tryRegister of
                     Ok newUser ->
                         let
