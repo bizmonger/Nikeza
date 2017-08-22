@@ -377,7 +377,7 @@ tryLogin credentials =
 
 tryRegister : Form -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
 tryRegister form msg =
-    Cmd.none
+    Cmd.map msg Cmd.none
 
 
 answers : Id -> List Link

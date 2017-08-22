@@ -9755,250 +9755,6 @@ var _user$project$Controls_Login$view = function (model) {
 		});
 };
 
-var _user$project$Controls_Register$update = F2(
-	function (msg, model) {
-		var _p0 = msg;
-		switch (_p0.ctor) {
-			case 'FirstNameInput':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{firstName: _p0._0});
-			case 'LastNameInput':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{lastName: _p0._0});
-			case 'EmailInput':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{email: _p0._0});
-			case 'PasswordInput':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{password: _p0._0});
-			case 'ConfirmInput':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{confirm: _p0._0});
-			default:
-				return _p0._0;
-		}
-	});
-var _user$project$Controls_Register$Model = F5(
-	function (a, b, c, d, e) {
-		return {firstName: a, lastName: b, email: c, password: d, confirm: e};
-	});
-var _user$project$Controls_Register$model = A5(_user$project$Controls_Register$Model, '', '', '', '', '');
-var _user$project$Controls_Register$Submit = function (a) {
-	return {ctor: 'Submit', _0: a};
-};
-var _user$project$Controls_Register$ConfirmInput = function (a) {
-	return {ctor: 'ConfirmInput', _0: a};
-};
-var _user$project$Controls_Register$PasswordInput = function (a) {
-	return {ctor: 'PasswordInput', _0: a};
-};
-var _user$project$Controls_Register$EmailInput = function (a) {
-	return {ctor: 'EmailInput', _0: a};
-};
-var _user$project$Controls_Register$LastNameInput = function (a) {
-	return {ctor: 'LastNameInput', _0: a};
-};
-var _user$project$Controls_Register$FirstNameInput = function (a) {
-	return {ctor: 'FirstNameInput', _0: a};
-};
-var _user$project$Controls_Register$view = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('RegistrationForm'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$input,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$type_('text'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$placeholder('first name'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$FirstNameInput),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$value(model.firstName),
-								_1: {ctor: '[]'}
-							}
-						}
-					}
-				},
-				{ctor: '[]'}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$br,
-					{ctor: '[]'},
-					{ctor: '[]'}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$input,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$type_('text'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$placeholder('last name'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$LastNameInput),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$value(model.lastName),
-										_1: {ctor: '[]'}
-									}
-								}
-							}
-						},
-						{ctor: '[]'}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$input,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$type_('email'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$placeholder('email'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$EmailInput),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$value(model.email),
-												_1: {ctor: '[]'}
-											}
-										}
-									}
-								},
-								{ctor: '[]'}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$br,
-									{ctor: '[]'},
-									{ctor: '[]'}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$input,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$type_('password'),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$placeholder('password'),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$PasswordInput),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$value(model.password),
-														_1: {ctor: '[]'}
-													}
-												}
-											}
-										},
-										{ctor: '[]'}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$br,
-											{ctor: '[]'},
-											{ctor: '[]'}),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$input,
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$type_('password'),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$placeholder('confirm'),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$ConfirmInput),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$value(model.confirm),
-																_1: {ctor: '[]'}
-															}
-														}
-													}
-												},
-												{ctor: '[]'}),
-											_1: {
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$br,
-													{ctor: '[]'},
-													{ctor: '[]'}),
-												_1: {
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$br,
-														{ctor: '[]'},
-														{ctor: '[]'}),
-													_1: {
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$button,
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$class('register'),
-																_1: {
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$value('Create Account'),
-																	_1: {
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Events$onClick(
-																			_user$project$Controls_Register$Submit(
-																				{firstName: model.firstName, lastName: model.lastName, email: model.email, password: model.password, confirm: model.confirm})),
-																		_1: {ctor: '[]'}
-																	}
-																}
-															},
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html$text('Join'),
-																_1: {ctor: '[]'}
-															}),
-														_1: {ctor: '[]'}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		});
-};
-
 var _user$project$Domain_Core$contentTypeToText = function (contentType) {
 	var _p0 = contentType;
 	switch (_p0.ctor) {
@@ -10113,6 +9869,15 @@ var _user$project$Domain_Core$linksExist = function (links) {
 	return !_elm_lang$core$Native_Utils.eq(links, _user$project$Domain_Core$initLinks);
 };
 var _user$project$Domain_Core$initTopics = {ctor: '[]'};
+var _user$project$Domain_Core$JsonProfile = F4(
+	function (a, b, c, d) {
+		return {id: a, firstName: b, lastName: c, email: d};
+	});
+var _user$project$Domain_Core$Form = F5(
+	function (a, b, c, d, e) {
+		return {firstName: a, lastName: b, email: c, password: d, confirm: e};
+	});
+var _user$project$Domain_Core$initForm = A5(_user$project$Domain_Core$Form, '', '', '', '', '');
 var _user$project$Domain_Core$Links = F4(
 	function (a, b, c, d) {
 		return {answers: a, articles: b, videos: c, podcasts: d};
@@ -10457,6 +10222,10 @@ var _user$project$Tests_TestAPI$removeSource = F2(
 						_user$project$Tests_TestAPI$sources(profileId));
 				},
 				_user$project$Tests_TestAPI$sources(profileId)));
+	});
+var _user$project$Tests_TestAPI$tryRegister = F2(
+	function (form, msg) {
+		return A2(_elm_lang$core$Platform_Cmd$map, msg, _elm_lang$core$Platform_Cmd$none);
 	});
 var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 	var successful = _elm_lang$core$Native_Utils.eq(
@@ -11207,31 +10976,6 @@ var _user$project$Tests_TestAPI$providers = {
 		}
 	}
 };
-var _user$project$Tests_TestAPI$tryRegister = function (form) {
-	var successful = _elm_lang$core$Native_Utils.eq(form.password, form.confirm);
-	if (successful) {
-		var profile = A7(
-			_user$project$Domain_Core$Profile,
-			_user$project$Tests_TestAPI$profileId1,
-			_user$project$Domain_Core$Name(form.firstName),
-			_user$project$Domain_Core$Name(form.lastName),
-			_user$project$Domain_Core$Email(form.email),
-			_user$project$Tests_TestAPI$someImageUrl,
-			'',
-			{ctor: '[]'});
-		return _elm_lang$core$Result$Ok(
-			A6(
-				_user$project$Domain_Core$Provider,
-				profile,
-				{ctor: '[]'},
-				_user$project$Domain_Core$initLinks,
-				{ctor: '[]'},
-				_user$project$Tests_TestAPI$subscriptions,
-				_user$project$Tests_TestAPI$followers));
-	} else {
-		return _elm_lang$core$Result$Err('Registration failed');
-	}
-};
 var _user$project$Tests_TestAPI$provider = function (id) {
 	return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$provider1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$provider2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$provider3) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId4) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$provider4) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId5) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$provider5) : _elm_lang$core$Maybe$Nothing))));
 };
@@ -11255,63 +10999,60 @@ var _user$project$Tests_TestAPI$usernameToId = function (email) {
 	}
 };
 
-var _user$project$Services_Server$unsubscribe = F2(
+var _user$project$Services_Gateway$unsubscribe = F2(
 	function (clientId, providerId) {
 		return _elm_lang$core$Result$Err('unsubscribe not implemented');
 	});
-var _user$project$Services_Server$follow = F2(
+var _user$project$Services_Gateway$follow = F2(
 	function (clientId, providerId) {
 		return _elm_lang$core$Result$Err('follow not implemented');
 	});
-var _user$project$Services_Server$followers = function (profileId) {
+var _user$project$Services_Gateway$followers = function (profileId) {
 	return _user$project$Domain_Core$Subscribers(
 		{ctor: '[]'});
 };
-var _user$project$Services_Server$subscriptions = function (profileId) {
+var _user$project$Services_Gateway$subscriptions = function (profileId) {
 	return _user$project$Domain_Core$Subscribers(
 		{ctor: '[]'});
 };
-var _user$project$Services_Server$suggestedTopics = function (search) {
+var _user$project$Services_Gateway$suggestedTopics = function (search) {
 	return {ctor: '[]'};
 };
-var _user$project$Services_Server$platforms = {ctor: '[]'};
-var _user$project$Services_Server$removeSource = F2(
+var _user$project$Services_Gateway$platforms = {ctor: '[]'};
+var _user$project$Services_Gateway$removeSource = F2(
 	function (profileId, connection) {
 		return _elm_lang$core$Result$Err('Not implemented');
 	});
-var _user$project$Services_Server$addSource = F2(
+var _user$project$Services_Gateway$addSource = F2(
 	function (profileId, connection) {
 		return _elm_lang$core$Result$Err('Not implemented');
 	});
-var _user$project$Services_Server$sources = function (profileId) {
+var _user$project$Services_Gateway$sources = function (profileId) {
 	return {ctor: '[]'};
 };
-var _user$project$Services_Server$usernameToId = function (username) {
+var _user$project$Services_Gateway$usernameToId = function (username) {
 	return _user$project$Domain_Core$Id('undefined');
 };
-var _user$project$Services_Server$topicLinks = F3(
+var _user$project$Services_Gateway$topicLinks = F3(
 	function (topic, contentType, id) {
 		return {ctor: '[]'};
 	});
-var _user$project$Services_Server$removeLink = F2(
+var _user$project$Services_Gateway$removeLink = F2(
 	function (profileId, link) {
 		return _elm_lang$core$Result$Err('Not implemented');
 	});
-var _user$project$Services_Server$addLink = F2(
+var _user$project$Services_Gateway$addLink = F2(
 	function (profileId, link) {
 		return _elm_lang$core$Result$Err('Not implemented');
 	});
-var _user$project$Services_Server$links = function (profileId) {
+var _user$project$Services_Gateway$links = function (profileId) {
 	return _user$project$Domain_Core$initLinks;
 };
-var _user$project$Services_Server$provider = function (id) {
+var _user$project$Services_Gateway$provider = function (id) {
 	return _elm_lang$core$Maybe$Nothing;
 };
-var _user$project$Services_Server$providers = {ctor: '[]'};
-var _user$project$Services_Server$tryRegister = function (form) {
-	return _elm_lang$core$Result$Err('Registration failed');
-};
-var _user$project$Services_Server$tryLogin = function (credentials) {
+var _user$project$Services_Gateway$providers = {ctor: '[]'};
+var _user$project$Services_Gateway$tryLogin = function (credentials) {
 	var successful = _elm_lang$core$Native_Utils.eq(
 		_elm_lang$core$String$toLower(credentials.email),
 		'test') && _elm_lang$core$Native_Utils.eq(
@@ -11319,6 +11060,57 @@ var _user$project$Services_Server$tryLogin = function (credentials) {
 		'test');
 	return successful ? {email: credentials.email, password: credentials.password, loggedIn: true} : {email: credentials.email, password: credentials.password, loggedIn: false};
 };
+var _user$project$Services_Gateway$encode = function (form) {
+	return _elm_lang$core$Json_Encode$object(
+		{
+			ctor: '::',
+			_0: {
+				ctor: '_Tuple2',
+				_0: 'FirstName',
+				_1: _elm_lang$core$Json_Encode$string(form.firstName)
+			},
+			_1: {
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'LastName',
+					_1: _elm_lang$core$Json_Encode$string(form.firstName)
+				},
+				_1: {
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'Email',
+						_1: _elm_lang$core$Json_Encode$string(form.email)
+					},
+					_1: {
+						ctor: '::',
+						_0: {
+							ctor: '_Tuple2',
+							_0: 'Password',
+							_1: _elm_lang$core$Json_Encode$string(form.password)
+						},
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		});
+};
+var _user$project$Services_Gateway$decoder = A5(
+	_elm_lang$core$Json_Decode$map4,
+	_user$project$Domain_Core$JsonProfile,
+	A2(_elm_lang$core$Json_Decode$field, 'Id', _elm_lang$core$Json_Decode$int),
+	A2(_elm_lang$core$Json_Decode$field, 'FirstName', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'LastName', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'Email', _elm_lang$core$Json_Decode$string));
+var _user$project$Services_Gateway$tryRegister = F2(
+	function (form, msg) {
+		var body = _elm_lang$http$Http$jsonBody(
+			_user$project$Services_Gateway$encode(form));
+		var registerUrl = 'http://localhost:5000/register';
+		var request = A3(_elm_lang$http$Http$post, registerUrl, body, _user$project$Services_Gateway$decoder);
+		return A2(_elm_lang$http$Http$send, msg, request);
+	});
 
 var _user$project$Settings$Dependencies = function (a) {
 	return function (b) {
@@ -11358,16 +11150,16 @@ var _user$project$Settings$Dependencies = function (a) {
 	};
 };
 var _user$project$Settings$Isolation = {ctor: 'Isolation'};
-var _user$project$Settings$configuration = _user$project$Settings$Isolation;
+var _user$project$Settings$Integration = {ctor: 'Integration'};
+var _user$project$Settings$configuration = _user$project$Settings$Integration;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return _user$project$Settings$Dependencies(_user$project$Services_Server$tryLogin)(_user$project$Services_Server$tryRegister)(_user$project$Services_Server$provider)(_user$project$Services_Server$providers)(_user$project$Services_Server$links)(_user$project$Services_Server$addLink)(_user$project$Services_Server$removeLink)(_user$project$Services_Server$topicLinks)(_user$project$Services_Server$usernameToId)(_user$project$Services_Server$sources)(_user$project$Services_Server$addSource)(_user$project$Services_Server$removeSource)(_user$project$Services_Server$platforms)(_user$project$Services_Server$suggestedTopics)(_user$project$Services_Server$subscriptions)(_user$project$Services_Server$followers)(_user$project$Services_Server$follow)(_user$project$Services_Server$unsubscribe);
+		return _user$project$Settings$Dependencies(_user$project$Services_Gateway$tryLogin)(_user$project$Services_Gateway$tryRegister)(_user$project$Services_Gateway$provider)(_user$project$Services_Gateway$providers)(_user$project$Services_Gateway$links)(_user$project$Services_Gateway$addLink)(_user$project$Services_Gateway$removeLink)(_user$project$Services_Gateway$topicLinks)(_user$project$Services_Gateway$usernameToId)(_user$project$Services_Gateway$sources)(_user$project$Services_Gateway$addSource)(_user$project$Services_Gateway$removeSource)(_user$project$Services_Gateway$platforms)(_user$project$Services_Gateway$suggestedTopics)(_user$project$Services_Gateway$subscriptions)(_user$project$Services_Gateway$followers)(_user$project$Services_Gateway$follow)(_user$project$Services_Gateway$unsubscribe);
 	} else {
 		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$links)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$usernameToId)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$platforms)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe);
 	}
 }();
-var _user$project$Settings$Integration = {ctor: 'Integration'};
 
 var _user$project$Controls_AddSource$update = F2(
 	function (msg, model) {
@@ -13728,6 +13520,274 @@ var _user$project$Controls_RecentProviderLinks$thumbnail = F2(
 	});
 var _user$project$Controls_RecentProviderLinks$None = {ctor: 'None'};
 
+var _user$project$Controls_Register$Response = function (a) {
+	return {ctor: 'Response', _0: a};
+};
+var _user$project$Controls_Register$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'FirstNameInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{firstName: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'LastNameInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{lastName: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'EmailInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{email: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'PasswordInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{password: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'ConfirmInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{confirm: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Submit':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: A2(_user$project$Settings$runtime.tryRegister, model, _user$project$Controls_Register$Response)
+				};
+			default:
+				if (_p0._0.ctor === 'Ok') {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+		}
+	});
+var _user$project$Controls_Register$Submit = {ctor: 'Submit'};
+var _user$project$Controls_Register$ConfirmInput = function (a) {
+	return {ctor: 'ConfirmInput', _0: a};
+};
+var _user$project$Controls_Register$PasswordInput = function (a) {
+	return {ctor: 'PasswordInput', _0: a};
+};
+var _user$project$Controls_Register$EmailInput = function (a) {
+	return {ctor: 'EmailInput', _0: a};
+};
+var _user$project$Controls_Register$LastNameInput = function (a) {
+	return {ctor: 'LastNameInput', _0: a};
+};
+var _user$project$Controls_Register$FirstNameInput = function (a) {
+	return {ctor: 'FirstNameInput', _0: a};
+};
+var _user$project$Controls_Register$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('RegistrationForm'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$input,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$type_('text'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$placeholder('first name'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$FirstNameInput),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$value(model.firstName),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$br,
+					{ctor: '[]'},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$input,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$type_('text'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$placeholder('last name'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$LastNameInput),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$value(model.lastName),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$input,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$type_('email'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$placeholder('email'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$EmailInput),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$value(model.email),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$br,
+									{ctor: '[]'},
+									{ctor: '[]'}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$input,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$type_('password'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$placeholder('password'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$PasswordInput),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$value(model.password),
+														_1: {ctor: '[]'}
+													}
+												}
+											}
+										},
+										{ctor: '[]'}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$br,
+											{ctor: '[]'},
+											{ctor: '[]'}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$input,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$type_('password'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$placeholder('confirm'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$ConfirmInput),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$value(model.confirm),
+																_1: {ctor: '[]'}
+															}
+														}
+													}
+												},
+												{ctor: '[]'}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$br,
+													{ctor: '[]'},
+													{ctor: '[]'}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$br,
+														{ctor: '[]'},
+														{ctor: '[]'}),
+													_1: {
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$button,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$class('register'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$value('Create Account'),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Events$onClick(_user$project$Controls_Register$Submit),
+																		_1: {ctor: '[]'}
+																	}
+																}
+															},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text('Join'),
+																_1: {ctor: '[]'}
+															}),
+														_1: {ctor: '[]'}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		});
+};
+
 
 var _user$project$Home$tokenizeUrl = function (urlHash) {
 	return A2(
@@ -14943,9 +15003,10 @@ var _user$project$Home$onRemove = F2(
 	});
 var _user$project$Home$onRegistration = F2(
 	function (subMsg, model) {
-		var form = A2(_user$project$Controls_Register$update, subMsg, model.registration);
-		var _p21 = subMsg;
-		switch (_p21.ctor) {
+		var _p21 = A2(_user$project$Controls_Register$update, subMsg, model.registration);
+		var form = _p21._0;
+		var _p22 = subMsg;
+		switch (_p22.ctor) {
 			case 'FirstNameInput':
 				return {
 					ctor: '_Tuple2',
@@ -14986,17 +15047,25 @@ var _user$project$Home$onRegistration = F2(
 						{registration: form}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
+			case 'Submit':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{registration: form}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 			default:
-				var _p22 = _user$project$Settings$runtime.tryRegister(form);
-				if (_p22.ctor === 'Ok') {
-					var _p23 = _p22._0;
+				var _p23 = _p22._0;
+				if (_p23.ctor === 'Ok') {
+					var newUser = _user$project$Domain_Core$initProvider;
 					var newState = _elm_lang$core$Native_Utils.update(
 						model,
 						{
 							registration: form,
 							portal: _elm_lang$core$Native_Utils.update(
 								_user$project$Domain_Core$initPortal,
-								{provider: _p23, requested: _user$project$Domain_Core$EditProfile, linksNavigation: false, sourcesNavigation: false})
+								{provider: newUser, requested: _user$project$Domain_Core$EditProfile, linksNavigation: false, sourcesNavigation: false})
 						});
 					return {
 						ctor: '_Tuple2',
@@ -15005,7 +15074,7 @@ var _user$project$Home$onRegistration = F2(
 							A2(
 								_elm_lang$core$Basics_ops['++'],
 								'/#/portal/',
-								_user$project$Domain_Core$getId(_p23.profile.id)))
+								_user$project$Domain_Core$getId(newUser.profile.id)))
 					};
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -15108,14 +15177,6 @@ var _user$project$Home$update = F2(
 					_0: model,
 					_1: _elm_lang$navigation$Navigation$load('/#/register')
 				};
-			case 'SubmitRegistration':
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			case 'RegistrationResponse':
-				if (_p28._0.ctor === 'Ok') {
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-				} else {
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-				}
 			case 'OnRegistration':
 				return A2(_user$project$Home$onRegistration, _p28._0, model);
 			case 'OnLogin':
@@ -15311,11 +15372,10 @@ var _user$project$Home$init = function (location) {
 	}();
 	return {
 		ctor: '_Tuple2',
-		_0: {currentRoute: location, login: _user$project$Controls_Login$init, registration: _user$project$Controls_Register$model, portal: _user$project$Domain_Core$initPortal, providers: _user$project$Settings$runtime.providers, selectedProvider: provider},
+		_0: {currentRoute: location, login: _user$project$Controls_Login$init, registration: _user$project$Domain_Core$initForm, portal: _user$project$Domain_Core$initPortal, providers: _user$project$Settings$runtime.providers, selectedProvider: provider},
 		_1: _elm_lang$core$Platform_Cmd$none
 	};
 };
-var _user$project$Home$registerUrl = 'http://localhost:5000/register/';
 var _user$project$Home$Model = F6(
 	function (a, b, c, d, e, f) {
 		return {currentRoute: a, login: b, registration: c, portal: d, providers: e, selectedProvider: f};
@@ -15327,14 +15387,6 @@ var _user$project$Home$Subscription = function (a) {
 var _user$project$Home$OnRegistration = function (a) {
 	return {ctor: 'OnRegistration', _0: a};
 };
-var _user$project$Home$RegistrationResponse = function (a) {
-	return {ctor: 'RegistrationResponse', _0: a};
-};
-var _user$project$Home$getResistrationResponse = A2(
-	_elm_lang$http$Http$send,
-	_user$project$Home$RegistrationResponse,
-	_elm_lang$http$Http$getString(_user$project$Home$registerUrl));
-var _user$project$Home$SubmitRegistration = {ctor: 'SubmitRegistration'};
 var _user$project$Home$Register = {ctor: 'Register'};
 var _user$project$Home$Search = function (a) {
 	return {ctor: 'Search', _0: a};

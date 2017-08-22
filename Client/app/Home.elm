@@ -284,7 +284,7 @@ onEditProfile subMsg model =
 onRegistration : Registration.Msg -> Model -> ( Model, Cmd Msg )
 onRegistration subMsg model =
     let
-        form =
+        ( form, _ ) =
             Registration.update subMsg model.registration
     in
         case subMsg of
@@ -304,9 +304,16 @@ onRegistration subMsg model =
                 ( { model | registration = form }, Cmd.none )
 
             Registration.Submit ->
-                case form |> runtime.tryRegister of
-                    Ok newUser ->
+                ( { model | registration = form }, Cmd.none )
+
+            Registration.Response result ->
+                case result of
+                    Result.Ok jsonProfile ->
                         let
+                            newUser =
+                                initProvider
+
+                            -- jsonProfile
                             newState =
                                 { model
                                     | registration = form
@@ -321,7 +328,7 @@ onRegistration subMsg model =
                         in
                             ( newState, Navigation.load <| "/#/portal/" ++ getId newUser.profile.id )
 
-                    Err v ->
+                    Result.Err _ ->
                         ( model, Cmd.none )
 
 
