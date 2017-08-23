@@ -82,6 +82,23 @@ initProvider =
     Provider initProfile initTopics initLinks [] initSubscription initSubscription
 
 
+jsonProfileToProfile : JsonProfile -> Profile
+jsonProfileToProfile jsonProfile =
+    { id = Id (jsonProfile.id |> toString)
+    , firstName = Name jsonProfile.firstName
+    , lastName = Name jsonProfile.lastName
+    , email = Email jsonProfile.email
+    , imageUrl = Url undefined
+    , bio = undefined
+    , sources = []
+    }
+
+
+jsonProfileToProvider : JsonProfile -> Provider
+jsonProfileToProvider jsonProfile =
+    Provider (jsonProfileToProfile jsonProfile) initTopics initLinks [] initSubscription initSubscription
+
+
 type alias Portal =
     { provider : Provider
     , sourcesNavigation : Bool

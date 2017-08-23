@@ -9947,6 +9947,28 @@ var _user$project$Domain_Core$Title = function (a) {
 var _user$project$Domain_Core$Url = function (a) {
 	return {ctor: 'Url', _0: a};
 };
+var _user$project$Domain_Core$jsonProfileToProfile = function (jsonProfile) {
+	return {
+		id: _user$project$Domain_Core$Id(
+			_elm_lang$core$Basics$toString(jsonProfile.id)),
+		firstName: _user$project$Domain_Core$Name(jsonProfile.firstName),
+		lastName: _user$project$Domain_Core$Name(jsonProfile.lastName),
+		email: _user$project$Domain_Core$Email(jsonProfile.email),
+		imageUrl: _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined),
+		bio: _user$project$Domain_Core$undefined,
+		sources: {ctor: '[]'}
+	};
+};
+var _user$project$Domain_Core$jsonProfileToProvider = function (jsonProfile) {
+	return A6(
+		_user$project$Domain_Core$Provider,
+		_user$project$Domain_Core$jsonProfileToProfile(jsonProfile),
+		_user$project$Domain_Core$initTopics,
+		_user$project$Domain_Core$initLinks,
+		{ctor: '[]'},
+		_user$project$Domain_Core$initSubscription,
+		_user$project$Domain_Core$initSubscription);
+};
 var _user$project$Domain_Core$initProfile = {
 	id: _user$project$Domain_Core$Id(_user$project$Domain_Core$undefined),
 	firstName: _user$project$Domain_Core$Name(_user$project$Domain_Core$undefined),
@@ -15058,7 +15080,7 @@ var _user$project$Home$onRegistration = F2(
 			default:
 				var _p23 = _p22._0;
 				if (_p23.ctor === 'Ok') {
-					var newUser = _user$project$Domain_Core$initProvider;
+					var newUser = _user$project$Domain_Core$jsonProfileToProvider(_p23._0);
 					var newState = _elm_lang$core$Native_Utils.update(
 						model,
 						{

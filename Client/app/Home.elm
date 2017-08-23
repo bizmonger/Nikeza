@@ -311,9 +311,8 @@ onRegistration subMsg model =
                     Result.Ok jsonProfile ->
                         let
                             newUser =
-                                initProvider
+                                jsonProfileToProvider jsonProfile
 
-                            -- jsonProfile
                             newState =
                                 { model
                                     | registration = form
