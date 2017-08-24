@@ -7,6 +7,7 @@ import Html.Events exposing (..)
 import Http
 import Domain.Core exposing (JsonProfile, Form)
 import Navigation exposing (..)
+import Task exposing (perform)
 
 
 -- COMMANDS
@@ -41,7 +42,11 @@ update msg model =
             ( { model | confirm = v }, Cmd.none )
 
         Submit ->
-            ( model, runtime.tryRegister model Response )
+            let
+                jsonProfile =
+                    JsonProfile 1 "" "" ""
+            in
+                ( model, runtime.tryRegister model Response )
 
         Response (Ok json) ->
             ( model, Navigation.load <| "/#/portal/1" )

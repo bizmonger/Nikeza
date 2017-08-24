@@ -10247,15 +10247,13 @@ var _user$project$Tests_TestAPI$removeSource = F2(
 	});
 var _user$project$Tests_TestAPI$tryRegister = F2(
 	function (form, msg) {
-		var newMsg = function (v) {
-			return msg;
-		};
-		var jsonProfile = A4(_user$project$Domain_Core$JsonProfile, 1, form.firstName, form.lastName, form.email);
-		return A2(
-			_elm_lang$core$Platform_Cmd$map,
-			newMsg(
-				_elm_lang$core$Result$Ok(jsonProfile)),
-			_elm_lang$core$Platform_Cmd$none);
+		return _elm_lang$core$Native_Utils.eq(form.password, form.confirm) ? A2(
+			_elm_lang$core$Task$perform,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Task$succeed(
+				msg(
+					_elm_lang$core$Result$Ok(
+						A4(_user$project$Domain_Core$JsonProfile, 1, form.firstName, form.lastName, form.email))))) : _elm_lang$core$Platform_Cmd$none;
 	});
 var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
 	var successful = _elm_lang$core$Native_Utils.eq(
@@ -13598,6 +13596,7 @@ var _user$project$Controls_Register$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'Submit':
+				var jsonProfile = A4(_user$project$Domain_Core$JsonProfile, 1, '', '', '');
 				return {
 					ctor: '_Tuple2',
 					_0: model,
@@ -15035,86 +15034,6 @@ var _user$project$Home$onRemove = F2(
 			{portal: portal});
 		return {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
 	});
-var _user$project$Home$onRegistration = F2(
-	function (subMsg, model) {
-		var _p21 = A2(_user$project$Controls_Register$update, subMsg, model.registration);
-		var form = _p21._0;
-		var _p22 = subMsg;
-		switch (_p22.ctor) {
-			case 'FirstNameInput':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{registration: form}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'LastNameInput':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{registration: form}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'EmailInput':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{registration: form}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'PasswordInput':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{registration: form}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'ConfirmInput':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{registration: form}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'Submit':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{registration: form}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			default:
-				var _p23 = _p22._0;
-				if (_p23.ctor === 'Ok') {
-					var newUser = _user$project$Domain_Core$jsonProfileToProvider(_p23._0);
-					var newState = _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							registration: form,
-							portal: _elm_lang$core$Native_Utils.update(
-								_user$project$Domain_Core$initPortal,
-								{provider: newUser, requested: _user$project$Domain_Core$EditProfile, linksNavigation: false, sourcesNavigation: false})
-						});
-					return {
-						ctor: '_Tuple2',
-						_0: newState,
-						_1: _elm_lang$navigation$Navigation$load(
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								'/#/portal/',
-								_user$project$Domain_Core$getId(newUser.profile.id)))
-					};
-				} else {
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-				}
-		}
-	});
 var _user$project$Home$onEditProfile = F2(
 	function (subMsg, model) {
 		var provider = model.portal.provider;
@@ -15131,8 +15050,8 @@ var _user$project$Home$onEditProfile = F2(
 							{profile: updatedProfile})
 					})
 			});
-		var _p24 = subMsg;
-		switch (_p24.ctor) {
+		var _p21 = subMsg;
+		switch (_p21.ctor) {
 			case 'FirstNameInput':
 				return {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'LastNameInput':
@@ -15152,7 +15071,7 @@ var _user$project$Home$onEditProfile = F2(
 								{
 									provider: _elm_lang$core$Native_Utils.update(
 										provider,
-										{profile: _p24._0}),
+										{profile: _p21._0}),
 									sourcesNavigation: true,
 									linksNavigation: !_elm_lang$core$Native_Utils.eq(provider.links, _user$project$Domain_Core$initLinks),
 									requested: _user$project$Domain_Core$ViewSources
@@ -15164,7 +15083,7 @@ var _user$project$Home$onEditProfile = F2(
 	});
 var _user$project$Home$onPortalLinksAction = F2(
 	function (subMsg, model) {
-		var _p25 = subMsg;
+		var _p22 = subMsg;
 		var pendingPortal = model.portal;
 		var provider = A2(_user$project$Controls_ProviderLinks$update, subMsg, model.portal.provider);
 		return {
@@ -15181,10 +15100,10 @@ var _user$project$Home$onPortalLinksAction = F2(
 	});
 var _user$project$Home$onUpdateProviderLinks = F3(
 	function (subMsg, model, linksfrom) {
-		var _p26 = subMsg;
+		var _p23 = subMsg;
 		var provider = function () {
-			var _p27 = linksfrom;
-			if (_p27.ctor === 'FromPortal') {
+			var _p24 = linksfrom;
+			if (_p24.ctor === 'FromPortal') {
 				return A2(_user$project$Controls_ProviderLinks$update, subMsg, model.portal.provider);
 			} else {
 				return A2(_user$project$Controls_ProviderLinks$update, subMsg, model.selectedProvider);
@@ -15198,13 +15117,127 @@ var _user$project$Home$onUpdateProviderLinks = F3(
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
+var _user$project$Home$init = function (location) {
+	var provider = function () {
+		var _p25 = _user$project$Home$tokenizeUrl(location.hash);
+		if ((((_p25.ctor === '::') && (_p25._0 === 'provider')) && (_p25._1.ctor === '::')) && (_p25._1._1.ctor === '[]')) {
+			var _p26 = _user$project$Settings$runtime.provider(
+				_user$project$Domain_Core$Id(_p25._1._0));
+			if (_p26.ctor === 'Just') {
+				return _p26._0;
+			} else {
+				return _user$project$Domain_Core$initProvider;
+			}
+		} else {
+			return _user$project$Domain_Core$initProvider;
+		}
+	}();
+	return {
+		ctor: '_Tuple2',
+		_0: {currentRoute: location, login: _user$project$Controls_Login$init, registration: _user$project$Domain_Core$initForm, portal: _user$project$Domain_Core$initPortal, providers: _user$project$Settings$runtime.providers, selectedProvider: provider},
+		_1: _elm_lang$core$Platform_Cmd$none
+	};
+};
+var _user$project$Home$Model = F6(
+	function (a, b, c, d, e, f) {
+		return {currentRoute: a, login: b, registration: c, portal: d, providers: e, selectedProvider: f};
+	});
+var _user$project$Home$NavigateBack = {ctor: 'NavigateBack'};
+var _user$project$Home$Subscription = function (a) {
+	return {ctor: 'Subscription', _0: a};
+};
+var _user$project$Home$OnRegistration = function (a) {
+	return {ctor: 'OnRegistration', _0: a};
+};
+var _user$project$Home$onRegistration = F2(
+	function (subMsg, model) {
+		var _p27 = A2(_user$project$Controls_Register$update, subMsg, model.registration);
+		var form = _p27._0;
+		var subCmd = _p27._1;
+		var registrationCmd = A2(_elm_lang$core$Platform_Cmd$map, _user$project$Home$OnRegistration, subCmd);
+		var _p28 = subMsg;
+		switch (_p28.ctor) {
+			case 'FirstNameInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{registration: form}),
+					_1: registrationCmd
+				};
+			case 'LastNameInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{registration: form}),
+					_1: registrationCmd
+				};
+			case 'EmailInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{registration: form}),
+					_1: registrationCmd
+				};
+			case 'PasswordInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{registration: form}),
+					_1: registrationCmd
+				};
+			case 'ConfirmInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{registration: form}),
+					_1: registrationCmd
+				};
+			case 'Submit':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{registration: form}),
+					_1: registrationCmd
+				};
+			default:
+				var _p29 = _p28._0;
+				if (_p29.ctor === 'Ok') {
+					var newUser = _user$project$Domain_Core$jsonProfileToProvider(_p29._0);
+					var newState = _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							registration: form,
+							portal: _elm_lang$core$Native_Utils.update(
+								_user$project$Domain_Core$initPortal,
+								{provider: newUser, requested: _user$project$Domain_Core$EditProfile, linksNavigation: false, sourcesNavigation: false})
+						});
+					return {
+						ctor: '_Tuple2',
+						_0: newState,
+						_1: _elm_lang$navigation$Navigation$load(
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								'/#/portal/',
+								_user$project$Domain_Core$getId(newUser.profile.id)))
+					};
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: registrationCmd};
+				}
+		}
+	});
 var _user$project$Home$update = F2(
 	function (msg, model) {
 		var portal = model.portal;
-		var _p28 = msg;
-		switch (_p28.ctor) {
+		var _p30 = msg;
+		switch (_p30.ctor) {
 			case 'UrlChange':
-				return A3(_user$project$Home$navigate, msg, model, _p28._0);
+				return A3(_user$project$Home$navigate, msg, model, _p30._0);
 			case 'Register':
 				return {
 					ctor: '_Tuple2',
@@ -15212,11 +15245,11 @@ var _user$project$Home$update = F2(
 					_1: _elm_lang$navigation$Navigation$load('/#/register')
 				};
 			case 'OnRegistration':
-				return A2(_user$project$Home$onRegistration, _p28._0, model);
+				return A2(_user$project$Home$onRegistration, _p30._0, model);
 			case 'OnLogin':
-				return A2(_user$project$Home$onLogin, _p28._0, model);
+				return A2(_user$project$Home$onLogin, _p30._0, model);
 			case 'Search':
-				if (_p28._0 === '') {
+				if (_p30._0 === '') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -15225,7 +15258,7 @@ var _user$project$Home$update = F2(
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
-					return A2(_user$project$Home$matchProviders, model, _p28._0);
+					return A2(_user$project$Home$matchProviders, model, _p30._0);
 				}
 			case 'ProfileThumbnail':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -15328,20 +15361,20 @@ var _user$project$Home$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'SourceAdded':
-				return A2(_user$project$Home$onAddedSource, _p28._0, model);
+				return A2(_user$project$Home$onAddedSource, _p30._0, model);
 			case 'NewLink':
-				return A2(_user$project$Home$onNewLink, _p28._0, model);
+				return A2(_user$project$Home$onNewLink, _p30._0, model);
 			case 'EditProfileAction':
-				return A2(_user$project$Home$onEditProfile, _p28._0, model);
+				return A2(_user$project$Home$onEditProfile, _p30._0, model);
 			case 'PortalLinksAction':
-				return A2(_user$project$Home$onPortalLinksAction, _p28._0, model);
+				return A2(_user$project$Home$onPortalLinksAction, _p30._0, model);
 			case 'ProviderLinksAction':
-				return A3(_user$project$Home$onUpdateProviderLinks, _p28._0, model, _user$project$Domain_Core$FromOther);
+				return A3(_user$project$Home$onUpdateProviderLinks, _p30._0, model, _user$project$Domain_Core$FromOther);
 			case 'ProviderContentTypeLinksAction':
-				var _p30 = _p28._0;
-				var provider = _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? A2(_user$project$Controls_ProviderContentTypeLinks$update, _p30, model.portal.provider) : A2(_user$project$Controls_ProviderContentTypeLinks$update, _p30, model.selectedProvider);
-				var _p29 = _p30;
-				if (_p29.ctor === 'Toggle') {
+				var _p32 = _p30._0;
+				var provider = _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? A2(_user$project$Controls_ProviderContentTypeLinks$update, _p32, model.portal.provider) : A2(_user$project$Controls_ProviderContentTypeLinks$update, _p32, model.selectedProvider);
+				var _p31 = _p32;
+				if (_p31.ctor === 'Toggle') {
 					return _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -15375,8 +15408,8 @@ var _user$project$Home$update = F2(
 			case 'ProviderTopicContentTypeLinksAction':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Subscription':
-				var _p31 = _p28._0;
-				if (_p31.ctor === 'Subscribe') {
+				var _p33 = _p30._0;
+				if (_p33.ctor === 'Subscribe') {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -15389,38 +15422,6 @@ var _user$project$Home$update = F2(
 				};
 		}
 	});
-var _user$project$Home$init = function (location) {
-	var provider = function () {
-		var _p32 = _user$project$Home$tokenizeUrl(location.hash);
-		if ((((_p32.ctor === '::') && (_p32._0 === 'provider')) && (_p32._1.ctor === '::')) && (_p32._1._1.ctor === '[]')) {
-			var _p33 = _user$project$Settings$runtime.provider(
-				_user$project$Domain_Core$Id(_p32._1._0));
-			if (_p33.ctor === 'Just') {
-				return _p33._0;
-			} else {
-				return _user$project$Domain_Core$initProvider;
-			}
-		} else {
-			return _user$project$Domain_Core$initProvider;
-		}
-	}();
-	return {
-		ctor: '_Tuple2',
-		_0: {currentRoute: location, login: _user$project$Controls_Login$init, registration: _user$project$Domain_Core$initForm, portal: _user$project$Domain_Core$initPortal, providers: _user$project$Settings$runtime.providers, selectedProvider: provider},
-		_1: _elm_lang$core$Platform_Cmd$none
-	};
-};
-var _user$project$Home$Model = F6(
-	function (a, b, c, d, e, f) {
-		return {currentRoute: a, login: b, registration: c, portal: d, providers: e, selectedProvider: f};
-	});
-var _user$project$Home$NavigateBack = {ctor: 'NavigateBack'};
-var _user$project$Home$Subscription = function (a) {
-	return {ctor: 'Subscription', _0: a};
-};
-var _user$project$Home$OnRegistration = function (a) {
-	return {ctor: 'OnRegistration', _0: a};
-};
 var _user$project$Home$Register = {ctor: 'Register'};
 var _user$project$Home$Search = function (a) {
 	return {ctor: 'Search', _0: a};

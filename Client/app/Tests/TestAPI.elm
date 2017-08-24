@@ -4,6 +4,7 @@ import Controls.Login as Login exposing (Model)
 import Domain.Core as Domain exposing (..)
 import String exposing (..)
 import Http exposing (..)
+import Task exposing (succeed, perform)
 
 
 profileId1 : Id
@@ -357,40 +358,16 @@ tryLogin credentials =
             { email = credentials.email, password = credentials.password, loggedIn = False }
 
 
-
--- tryRegister : Form -> Result String Provider
--- tryRegister : Register.Model -> Result String Provider
--- tryRegister form =
---     let
---         successful =
---             form.password == form.confirm
---     in
---         if successful then
---             let
---                 profile =
---                     Profile profileId1 (Name form.firstName) (Name form.lastName) (Email form.email) someImageUrl "" []
---             in
---                 Ok <| Provider profile [] initLinks [] subscriptions followers
---         else
---             Err "Registration failed"
-
-
 tryRegister : Form -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
 tryRegister form msg =
-    -- if form.password == form.confirm then
-    let
-        jsonProfile =
-            JsonProfile 1 form.firstName form.lastName form.email
-
-        newMsg v =
-            msg
-    in
-        Cmd.map (newMsg <| Result.Ok jsonProfile) Cmd.none
-
-
-
--- else
---     Cmd.none
+    if form.password == form.confirm then
+        JsonProfile 1 form.firstName form.lastName form.email
+            |> Result.Ok
+            |> msg
+            |> Task.succeed
+            |> Task.perform identity
+    else
+        Cmd.none
 
 
 answers : Id -> List Link

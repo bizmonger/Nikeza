@@ -163,7 +163,7 @@ let webApp : HttpContext -> HttpHandlerResult =
             ]
         POST >=> 
             choose [
-                route "/register"      >=> registrationHandler 
+                route "/register"      >=> registrationHandler
                 route "/login"         >=> loginHandler (setStatusCode 401 >=> text "invalid credentials")
                 route "/logout"        >=> signOff authScheme >=> text "logged out"
                 route "/follow"        >=> followHandler

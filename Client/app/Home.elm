@@ -284,27 +284,30 @@ onEditProfile subMsg model =
 onRegistration : Registration.Msg -> Model -> ( Model, Cmd Msg )
 onRegistration subMsg model =
     let
-        ( form, _ ) =
+        ( form, subCmd ) =
             Registration.update subMsg model.registration
+
+        registrationCmd =
+            Cmd.map OnRegistration subCmd
     in
         case subMsg of
             Registration.FirstNameInput _ ->
-                ( { model | registration = form }, Cmd.none )
+                ( { model | registration = form }, registrationCmd )
 
             Registration.LastNameInput _ ->
-                ( { model | registration = form }, Cmd.none )
+                ( { model | registration = form }, registrationCmd )
 
             Registration.EmailInput _ ->
-                ( { model | registration = form }, Cmd.none )
+                ( { model | registration = form }, registrationCmd )
 
             Registration.PasswordInput _ ->
-                ( { model | registration = form }, Cmd.none )
+                ( { model | registration = form }, registrationCmd )
 
             Registration.ConfirmInput _ ->
-                ( { model | registration = form }, Cmd.none )
+                ( { model | registration = form }, registrationCmd )
 
             Registration.Submit ->
-                ( { model | registration = form }, Cmd.none )
+                ( { model | registration = form }, registrationCmd )
 
             Registration.Response result ->
                 case result of
@@ -328,7 +331,7 @@ onRegistration subMsg model =
                             ( newState, Navigation.load <| "/#/portal/" ++ getId newUser.profile.id )
 
                     Result.Err _ ->
-                        ( model, Cmd.none )
+                        ( model, registrationCmd )
 
 
 onRemove : Model -> Source -> ( Model, Cmd Msg )
