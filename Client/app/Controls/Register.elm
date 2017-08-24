@@ -6,6 +6,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
 import Domain.Core exposing (JsonProfile, Form)
+import Navigation exposing (..)
 
 
 -- COMMANDS
@@ -43,7 +44,7 @@ update msg model =
             ( model, runtime.tryRegister model Response )
 
         Response (Ok json) ->
-            ( model, Cmd.none )
+            ( model, Navigation.load <| "/#/portal/1" )
 
         Response (Err error) ->
             ( model, Cmd.none )

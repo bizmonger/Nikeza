@@ -377,7 +377,20 @@ tryLogin credentials =
 
 tryRegister : Form -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
 tryRegister form msg =
-    Cmd.map msg Cmd.none
+    -- if form.password == form.confirm then
+    let
+        jsonProfile =
+            JsonProfile 1 form.firstName form.lastName form.email
+
+        newMsg v =
+            msg
+    in
+        Cmd.map (newMsg <| Result.Ok jsonProfile) Cmd.none
+
+
+
+-- else
+--     Cmd.none
 
 
 answers : Id -> List Link

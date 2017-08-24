@@ -7,7 +7,7 @@ import Services.Gateway as Services exposing (..)
 
 configuration : Configuration
 configuration =
-    Integration
+    Isolation
 
 
 type Configuration
