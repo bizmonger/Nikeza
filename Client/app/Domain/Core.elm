@@ -64,6 +64,17 @@ type SubscriptionUpdate
     | Unsubscribe Id Id
 
 
+type alias JsonProvider =
+    { profile : Profile
+    , topics : List Topic
+    , links : Links
+    , recentLinks : List Link
+
+    -- , subscriptions : Subscriptionsfunction
+    -- , followers : Followersfunction
+    }
+
+
 type alias Provider =
     { profile : Profile
     , topics : List Topic

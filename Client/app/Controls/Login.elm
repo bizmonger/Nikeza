@@ -5,22 +5,16 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
 import Navigation exposing (..)
-import Domain.Core exposing (JsonProfile)
+import Domain.Core exposing (..)
+import Settings exposing (..)
 
 
 -- MODEL
 
 
-type alias Model =
-    { email : String
-    , password : String
-    , loggedIn : Bool
-    }
-
-
-init : Model
+init : Credentials
 init =
-    Model "" "" False
+    Credentials "" "" False
 
 
 
@@ -31,10 +25,10 @@ type Msg
     = UserInput String
     | PasswordInput String
     | Attempt ( String, String )
-    | Response (Result Http.Error JsonProfile)
+    | Response (Result Http.Error JsonProvider)
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Credentials -> ( Credentials, Cmd Msg )
 update msg model =
     case msg of
         UserInput v ->
@@ -44,10 +38,10 @@ update msg model =
             ( { model | password = v }, Cmd.none )
 
         Attempt ( email, password ) ->
-            ( { model | email = email, password = password }, Cmd.none )
+            ( model, runtime.tryLogin model Response )
 
-        Response (Ok jsonProfile) ->
-            ( model, Navigation.load <| "/#/portal/" ++ jsonProfile.id )
+        Response (Ok jsonProvider) ->
+            ( model, Navigation.load <| "/#/portal/" ++ jsonProvider.id )
 
         Response (Err error) ->
             ( model, Cmd.none )
@@ -57,7 +51,7 @@ update msg model =
 -- VIEW
 
 
-view : Model -> Html Msg
+view : Credentials -> Html Msg
 view model =
     div []
         [ input [ class "signin", type_ "submit", tabindex 3, value "Signin", onClick <| Attempt ( model.email, model.password ) ] []

@@ -1,6 +1,5 @@
 module Tests.TestAPI exposing (..)
 
-import Controls.Login as Login exposing (Model)
 import Domain.Core as Domain exposing (..)
 import String exposing (..)
 import Http exposing (..)
@@ -346,14 +345,14 @@ provider5 =
 -- FUNCTIONS
 
 
-tryLogin : Credentials -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
+tryLogin : Credentials -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
 tryLogin credentials msg =
     let
         successful =
             String.toLower credentials.email == "test" && String.toLower credentials.password == "test"
     in
         if successful then
-            JsonProfile (getId profileId1) (getName profile1.firstName) (getName profile1.lastName) (getEmail profile1.email)
+            JsonProvider initProfile initTopics initLinks []
                 |> Result.Ok
                 |> msg
                 |> Task.succeed

@@ -1,6 +1,5 @@
 module Services.Gateway exposing (..)
 
-import Controls.Login as Login exposing (Model)
 import Domain.Core exposing (..)
 import Http exposing (getString)
 import Json.Decode as Decode exposing (Decoder, field)
@@ -10,7 +9,7 @@ import Json.Encode as Encode
 -- DECODERS/ENCODERS
 
 
-decoder : Decoder JsonProfile
+decoder : Decoder JsonProvider
 decoder =
     Decode.map4 JsonProfile
         (field "Id" Decode.string)
@@ -37,7 +36,7 @@ encodeCredentials credentials =
         ]
 
 
-tryLogin : Credentials -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
+tryLogin : Credentials -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
 tryLogin credentials msg =
     let
         loginUrl =
