@@ -519,34 +519,35 @@ onLogin subMsg model =
     in
         case subMsg of
             Login.Attempt _ ->
-                let
-                    latest =
-                        runtime.tryLogin login
+                --let
+                -- latest =
+                --     runtime.tryLogin login
+                -- providerResult =
+                --     runtime.provider <| runtime.usernameToId latest.email
+                --     newState =
+                --         case providerResult of
+                --             Just provider ->
+                --                 { model
+                --                     | login = latest
+                --                     , portal =
+                --                         { pendingPortal
+                --                             | provider = provider
+                --                             , requested = Domain.ViewRecent
+                --                             , linksNavigation = linksExist provider.links
+                --                             , sourcesNavigation = not <| List.isEmpty provider.profile.sources
+                --                         }
+                --                 }
+                --             Nothing ->
+                --                 { model | login = latest }
+                -- in
+                --     if newState.login.loggedIn then
+                --         ( newState, Navigation.load <| "/#/portal/" ++ getId newState.portal.provider.profile.id )
+                --     else
+                ( model, Cmd.none )
 
-                    providerResult =
-                        runtime.provider <| runtime.usernameToId latest.email
-
-                    newState =
-                        case providerResult of
-                            Just provider ->
-                                { model
-                                    | login = latest
-                                    , portal =
-                                        { pendingPortal
-                                            | provider = provider
-                                            , requested = Domain.ViewRecent
-                                            , linksNavigation = linksExist provider.links
-                                            , sourcesNavigation = not <| List.isEmpty provider.profile.sources
-                                        }
-                                }
-
-                            Nothing ->
-                                { model | login = latest }
-                in
-                    if newState.login.loggedIn then
-                        ( newState, Navigation.load <| "/#/portal/" ++ getId newState.portal.provider.profile.id )
-                    else
-                        ( model, Cmd.none )
+            Login.Response result ->
+                --TODO
+                ( model, Cmd.none )
 
             Login.UserInput _ ->
                 ( { model | login = login }, loginCmd )

@@ -9625,148 +9625,6 @@ var _elm_lang$navigation$Navigation$onEffects = F4(
 	});
 _elm_lang$core$Native_Platform.effectManagers['Navigation'] = {pkg: 'elm-lang/navigation', init: _elm_lang$navigation$Navigation$init, onEffects: _elm_lang$navigation$Navigation$onEffects, onSelfMsg: _elm_lang$navigation$Navigation$onSelfMsg, tag: 'fx', cmdMap: _elm_lang$navigation$Navigation$cmdMap, subMap: _elm_lang$navigation$Navigation$subMap};
 
-var _user$project$Controls_Login$update = F2(
-	function (msg, model) {
-		var _p0 = msg;
-		switch (_p0.ctor) {
-			case 'UserInput':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{email: _p0._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'PasswordInput':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{password: _p0._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			default:
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{email: _p0._0._0, password: _p0._0._1}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-		}
-	});
-var _user$project$Controls_Login$Model = F3(
-	function (a, b, c) {
-		return {email: a, password: b, loggedIn: c};
-	});
-var _user$project$Controls_Login$init = A3(_user$project$Controls_Login$Model, '', '', false);
-var _user$project$Controls_Login$Attempt = function (a) {
-	return {ctor: 'Attempt', _0: a};
-};
-var _user$project$Controls_Login$PasswordInput = function (a) {
-	return {ctor: 'PasswordInput', _0: a};
-};
-var _user$project$Controls_Login$UserInput = function (a) {
-	return {ctor: 'UserInput', _0: a};
-};
-var _user$project$Controls_Login$view = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$input,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('signin'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$type_('submit'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$tabindex(3),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$value('Signin'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(
-										_user$project$Controls_Login$Attempt(
-											{ctor: '_Tuple2', _0: model.email, _1: model.password})),
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					}
-				},
-				{ctor: '[]'}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$input,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('signin'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$type_('password'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$tabindex(2),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$placeholder('password'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Login$PasswordInput),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$value(model.password),
-											_1: {ctor: '[]'}
-										}
-									}
-								}
-							}
-						}
-					},
-					{ctor: '[]'}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$input,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('signin'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$type_('text'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$tabindex(1),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$placeholder('username'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Login$UserInput),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$value(model.email),
-												_1: {ctor: '[]'}
-											}
-										}
-									}
-								}
-							}
-						},
-						{ctor: '[]'}),
-					_1: {ctor: '[]'}
-				}
-			}
-		});
-};
-
 var _user$project$Domain_Core$contentTypeToText = function (contentType) {
 	var _p0 = contentType;
 	switch (_p0.ctor) {
@@ -9800,11 +9658,6 @@ var _user$project$Domain_Core$getLinks = F4(
 var _user$project$Domain_Core$getContent = F2(
 	function (f, profileId) {
 		return f(profileId);
-	});
-var _user$project$Domain_Core$tryLogin = F3(
-	function (loginf, username, password) {
-		return loginf(
-			A3(_user$project$Controls_Login$Model, username, password, false));
 	});
 var _user$project$Domain_Core$getPosts = F2(
 	function (contentType, links) {
@@ -9890,6 +9743,10 @@ var _user$project$Domain_Core$Form = F5(
 		return {firstName: a, lastName: b, email: c, password: d, confirm: e};
 	});
 var _user$project$Domain_Core$initForm = A5(_user$project$Domain_Core$Form, '', '', '', '', '');
+var _user$project$Domain_Core$Credentials = F3(
+	function (a, b, c) {
+		return {email: a, password: b, loggedIn: c};
+	});
 var _user$project$Domain_Core$Links = F4(
 	function (a, b, c, d) {
 		return {answers: a, articles: b, videos: c, podcasts: d};
@@ -10191,6 +10048,162 @@ var _user$project$Domain_Core$toContentType = function (contentType) {
 	}
 };
 
+var _user$project$Controls_Login$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'UserInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{email: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'PasswordInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{password: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Attempt':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{email: _p0._0._0, password: _p0._0._1}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				if (_p0._0.ctor === 'Ok') {
+					return {
+						ctor: '_Tuple2',
+						_0: model,
+						_1: _elm_lang$navigation$Navigation$load(
+							A2(_elm_lang$core$Basics_ops['++'], '/#/portal/', _p0._0._0.id))
+					};
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+		}
+	});
+var _user$project$Controls_Login$Model = F3(
+	function (a, b, c) {
+		return {email: a, password: b, loggedIn: c};
+	});
+var _user$project$Controls_Login$init = A3(_user$project$Controls_Login$Model, '', '', false);
+var _user$project$Controls_Login$Response = function (a) {
+	return {ctor: 'Response', _0: a};
+};
+var _user$project$Controls_Login$Attempt = function (a) {
+	return {ctor: 'Attempt', _0: a};
+};
+var _user$project$Controls_Login$PasswordInput = function (a) {
+	return {ctor: 'PasswordInput', _0: a};
+};
+var _user$project$Controls_Login$UserInput = function (a) {
+	return {ctor: 'UserInput', _0: a};
+};
+var _user$project$Controls_Login$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$input,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('signin'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$type_('submit'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$tabindex(3),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$value('Signin'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(
+										_user$project$Controls_Login$Attempt(
+											{ctor: '_Tuple2', _0: model.email, _1: model.password})),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$input,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('signin'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$type_('password'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$tabindex(2),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$placeholder('password'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Login$PasswordInput),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$value(model.password),
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$input,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('signin'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$type_('text'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$tabindex(1),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$placeholder('username'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Login$UserInput),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$value(model.email),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							}
+						},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
+
 var _user$project$Tests_TestAPI$unsubscribe = F2(
 	function (clientId, providerId) {
 		return _elm_lang$core$Result$Err('unsubscribe not implemented');
@@ -10257,14 +10270,6 @@ var _user$project$Tests_TestAPI$removeSource = F2(
 				},
 				_user$project$Tests_TestAPI$sources(profileId)));
 	});
-var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
-	var successful = _elm_lang$core$Native_Utils.eq(
-		_elm_lang$core$String$toLower(credentials.email),
-		'test') && _elm_lang$core$Native_Utils.eq(
-		_elm_lang$core$String$toLower(credentials.password),
-		'test');
-	return successful ? {email: credentials.email, password: credentials.password, loggedIn: true} : {email: credentials.email, password: credentials.password, loggedIn: false};
-};
 var _user$project$Tests_TestAPI$someEmail = _user$project$Domain_Core$Email('abc@abc.com');
 var _user$project$Tests_TestAPI$someDescrtiption = 'some description...';
 var _user$project$Tests_TestAPI$someAnswerTitle6 = _user$project$Domain_Core$Title('Some Property-based Testing Answer');
@@ -11006,6 +11011,26 @@ var _user$project$Tests_TestAPI$providers = {
 		}
 	}
 };
+var _user$project$Tests_TestAPI$tryLogin = F2(
+	function (credentials, msg) {
+		var successful = _elm_lang$core$Native_Utils.eq(
+			_elm_lang$core$String$toLower(credentials.email),
+			'test') && _elm_lang$core$Native_Utils.eq(
+			_elm_lang$core$String$toLower(credentials.password),
+			'test');
+		return successful ? A2(
+			_elm_lang$core$Task$perform,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Task$succeed(
+				msg(
+					_elm_lang$core$Result$Ok(
+						A4(
+							_user$project$Domain_Core$JsonProfile,
+							_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId1),
+							_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile1.firstName),
+							_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile1.lastName),
+							_user$project$Domain_Core$getEmail(_user$project$Tests_TestAPI$profile1.email)))))) : _elm_lang$core$Platform_Cmd$none;
+	});
 var _user$project$Tests_TestAPI$tryRegister = F2(
 	function (form, msg) {
 		return _elm_lang$core$Native_Utils.eq(form.password, form.confirm) ? A2(
@@ -11097,15 +11122,27 @@ var _user$project$Services_Gateway$provider = function (id) {
 	return _elm_lang$core$Maybe$Nothing;
 };
 var _user$project$Services_Gateway$providers = {ctor: '[]'};
-var _user$project$Services_Gateway$tryLogin = function (credentials) {
-	var successful = _elm_lang$core$Native_Utils.eq(
-		_elm_lang$core$String$toLower(credentials.email),
-		'test') && _elm_lang$core$Native_Utils.eq(
-		_elm_lang$core$String$toLower(credentials.password),
-		'test');
-	return successful ? {email: credentials.email, password: credentials.password, loggedIn: true} : {email: credentials.email, password: credentials.password, loggedIn: false};
+var _user$project$Services_Gateway$encodeCredentials = function (credentials) {
+	return _elm_lang$core$Json_Encode$object(
+		{
+			ctor: '::',
+			_0: {
+				ctor: '_Tuple2',
+				_0: 'Email',
+				_1: _elm_lang$core$Json_Encode$string(credentials.email)
+			},
+			_1: {
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'Password',
+					_1: _elm_lang$core$Json_Encode$string(credentials.password)
+				},
+				_1: {ctor: '[]'}
+			}
+		});
 };
-var _user$project$Services_Gateway$encode = function (form) {
+var _user$project$Services_Gateway$encodeRegistration = function (form) {
 	return _elm_lang$core$Json_Encode$object(
 		{
 			ctor: '::',
@@ -11148,10 +11185,18 @@ var _user$project$Services_Gateway$decoder = A5(
 	A2(_elm_lang$core$Json_Decode$field, 'FirstName', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'LastName', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'Email', _elm_lang$core$Json_Decode$string));
+var _user$project$Services_Gateway$tryLogin = F2(
+	function (credentials, msg) {
+		var body = _elm_lang$http$Http$jsonBody(
+			_user$project$Services_Gateway$encodeCredentials(credentials));
+		var loginUrl = 'http://localhost:5000/login';
+		var request = A3(_elm_lang$http$Http$post, loginUrl, body, _user$project$Services_Gateway$decoder);
+		return A2(_elm_lang$http$Http$send, msg, request);
+	});
 var _user$project$Services_Gateway$tryRegister = F2(
 	function (form, msg) {
 		var body = _elm_lang$http$Http$jsonBody(
-			_user$project$Services_Gateway$encode(form));
+			_user$project$Services_Gateway$encodeRegistration(form));
 		var registerUrl = 'http://localhost:5000/register';
 		var request = A3(_elm_lang$http$Http$post, registerUrl, body, _user$project$Services_Gateway$decoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
@@ -17504,41 +17549,9 @@ var _user$project$Home$onLogin = F2(
 		var _p39 = subMsg;
 		switch (_p39.ctor) {
 			case 'Attempt':
-				var latest = _user$project$Settings$runtime.tryLogin(login);
-				var providerResult = _user$project$Settings$runtime.provider(
-					_user$project$Settings$runtime.usernameToId(latest.email));
-				var newState = function () {
-					var _p40 = providerResult;
-					if (_p40.ctor === 'Just') {
-						var _p41 = _p40._0;
-						return _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								login: latest,
-								portal: _elm_lang$core$Native_Utils.update(
-									pendingPortal,
-									{
-										provider: _p41,
-										requested: _user$project$Domain_Core$ViewRecent,
-										linksNavigation: _user$project$Domain_Core$linksExist(_p41.links),
-										sourcesNavigation: !_elm_lang$core$List$isEmpty(_p41.profile.sources)
-									})
-							});
-					} else {
-						return _elm_lang$core$Native_Utils.update(
-							model,
-							{login: latest});
-					}
-				}();
-				return newState.login.loggedIn ? {
-					ctor: '_Tuple2',
-					_0: newState,
-					_1: _elm_lang$navigation$Navigation$load(
-						A2(
-							_elm_lang$core$Basics_ops['++'],
-							'/#/portal/',
-							_user$project$Domain_Core$getId(newState.portal.provider.profile.id)))
-				} : {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'Response':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'UserInput':
 				return {
 					ctor: '_Tuple2',
@@ -17560,10 +17573,10 @@ var _user$project$Home$onLogin = F2(
 var _user$project$Home$update = F2(
 	function (msg, model) {
 		var portal = model.portal;
-		var _p42 = msg;
-		switch (_p42.ctor) {
+		var _p40 = msg;
+		switch (_p40.ctor) {
 			case 'UrlChange':
-				return A3(_user$project$Home$navigate, msg, model, _p42._0);
+				return A3(_user$project$Home$navigate, msg, model, _p40._0);
 			case 'Register':
 				return {
 					ctor: '_Tuple2',
@@ -17571,11 +17584,11 @@ var _user$project$Home$update = F2(
 					_1: _elm_lang$navigation$Navigation$load('/#/register')
 				};
 			case 'OnRegistration':
-				return A2(_user$project$Home$onRegistration, _p42._0, model);
+				return A2(_user$project$Home$onRegistration, _p40._0, model);
 			case 'OnLogin':
-				return A2(_user$project$Home$onLogin, _p42._0, model);
+				return A2(_user$project$Home$onLogin, _p40._0, model);
 			case 'Search':
-				if (_p42._0 === '') {
+				if (_p40._0 === '') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -17584,7 +17597,7 @@ var _user$project$Home$update = F2(
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
-					return A2(_user$project$Home$matchProviders, model, _p42._0);
+					return A2(_user$project$Home$matchProviders, model, _p40._0);
 				}
 			case 'ProfileThumbnail':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -17687,20 +17700,20 @@ var _user$project$Home$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'SourceAdded':
-				return A2(_user$project$Home$onAddedSource, _p42._0, model);
+				return A2(_user$project$Home$onAddedSource, _p40._0, model);
 			case 'NewLink':
-				return A2(_user$project$Home$onNewLink, _p42._0, model);
+				return A2(_user$project$Home$onNewLink, _p40._0, model);
 			case 'EditProfileAction':
-				return A2(_user$project$Home$onEditProfile, _p42._0, model);
+				return A2(_user$project$Home$onEditProfile, _p40._0, model);
 			case 'PortalLinksAction':
-				return A2(_user$project$Home$onPortalLinksAction, _p42._0, model);
+				return A2(_user$project$Home$onPortalLinksAction, _p40._0, model);
 			case 'ProviderLinksAction':
-				return A3(_user$project$Home$onUpdateProviderLinks, _p42._0, model, _user$project$Domain_Core$FromOther);
+				return A3(_user$project$Home$onUpdateProviderLinks, _p40._0, model, _user$project$Domain_Core$FromOther);
 			case 'ProviderContentTypeLinksAction':
-				var _p44 = _p42._0;
-				var provider = _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? A2(_user$project$Controls_ProviderContentTypeLinks$update, _p44, model.portal.provider) : A2(_user$project$Controls_ProviderContentTypeLinks$update, _p44, model.selectedProvider);
-				var _p43 = _p44;
-				if (_p43.ctor === 'Toggle') {
+				var _p42 = _p40._0;
+				var provider = _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? A2(_user$project$Controls_ProviderContentTypeLinks$update, _p42, model.portal.provider) : A2(_user$project$Controls_ProviderContentTypeLinks$update, _p42, model.selectedProvider);
+				var _p41 = _p42;
+				if (_p41.ctor === 'Toggle') {
 					return _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -17734,8 +17747,8 @@ var _user$project$Home$update = F2(
 			case 'ProviderTopicContentTypeLinksAction':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Subscription':
-				var _p45 = _p42._0;
-				if (_p45.ctor === 'Subscribe') {
+				var _p43 = _p40._0;
+				if (_p43.ctor === 'Subscribe') {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -17750,7 +17763,7 @@ var _user$project$Home$update = F2(
 	});
 var _user$project$Home$headerContent = function (model) {
 	var loginUI = function (model) {
-		var _p46 = {
+		var _p44 = {
 			ctor: '_Tuple5',
 			_0: model.login.loggedIn,
 			_1: A2(
@@ -17817,11 +17830,11 @@ var _user$project$Home$headerContent = function (model) {
 					_1: {ctor: '[]'}
 				})
 		};
-		var loggedIn = _p46._0;
-		var welcome = _p46._1;
-		var signout = _p46._2;
-		var profile = _p46._3;
-		var sources = _p46._4;
+		var loggedIn = _p44._0;
+		var welcome = _p44._1;
+		var signout = _p44._2;
+		var profile = _p44._3;
+		var sources = _p44._4;
 		var profileId = _user$project$Domain_Core$getId(model.portal.provider.profile.id);
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
@@ -17899,32 +17912,32 @@ var _user$project$Home$headerContent = function (model) {
 var _user$project$Home$renderPage = F2(
 	function (content, model) {
 		var placeHolder = function () {
-			var _p47 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
-			_v31_3:
+			var _p45 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+			_v30_3:
 			do {
-				if (_p47.ctor === '[]') {
+				if (_p45.ctor === '[]') {
 					return A2(
 						_elm_lang$html$Html$div,
 						{ctor: '[]'},
 						{ctor: '[]'});
 				} else {
-					if (_p47._1.ctor === '[]') {
-						if (_p47._0 === 'home') {
+					if (_p45._1.ctor === '[]') {
+						if (_p45._0 === 'home') {
 							return A2(
 								_elm_lang$html$Html$div,
 								{ctor: '[]'},
 								{ctor: '[]'});
 						} else {
-							break _v31_3;
+							break _v30_3;
 						}
 					} else {
-						if ((_p47._0 === 'portal') && (_p47._1._1.ctor === '[]')) {
+						if ((_p45._0 === 'portal') && (_p45._1._1.ctor === '[]')) {
 							return A2(
 								_elm_lang$html$Html$div,
 								{ctor: '[]'},
 								{ctor: '[]'});
 						} else {
-							break _v31_3;
+							break _v30_3;
 						}
 					}
 				}
@@ -18151,14 +18164,14 @@ var _user$project$Home$homePage = function (model) {
 	return A2(_user$project$Home$renderPage, mainContent, model);
 };
 var _user$project$Home$view = function (model) {
-	var _p48 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
-	_v32_10:
+	var _p46 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+	_v31_10:
 	do {
-		if (_p48.ctor === '[]') {
+		if (_p46.ctor === '[]') {
 			return _user$project$Home$homePage(model);
 		} else {
-			if (_p48._1.ctor === '[]') {
-				switch (_p48._0) {
+			if (_p46._1.ctor === '[]') {
+				switch (_p46._0) {
 					case 'home':
 						return _user$project$Home$homePage(model);
 					case 'register':
@@ -18170,15 +18183,15 @@ var _user$project$Home$view = function (model) {
 								_user$project$Controls_Register$view(model.registration)),
 							model);
 					default:
-						break _v32_10;
+						break _v31_10;
 				}
 			} else {
-				if (_p48._1._1.ctor === '[]') {
-					switch (_p48._0) {
+				if (_p46._1._1.ctor === '[]') {
+					switch (_p46._0) {
 						case 'provider':
-							var _p49 = _user$project$Settings$runtime.provider(
-								_user$project$Domain_Core$Id(_p48._1._0));
-							if (_p49.ctor === 'Just') {
+							var _p47 = _user$project$Settings$runtime.provider(
+								_user$project$Domain_Core$Id(_p46._1._0));
+							if (_p47.ctor === 'Just') {
 								return A2(
 									_user$project$Home$renderPage,
 									A2(
@@ -18195,19 +18208,19 @@ var _user$project$Home$view = function (model) {
 						case 'portal':
 							var mainContent = A3(
 								_user$project$Home$applyToPortal,
-								_p48._1._0,
+								_p46._1._0,
 								model,
 								A2(_user$project$Home$content, _elm_lang$core$Maybe$Nothing, model));
 							return A2(_user$project$Home$renderPage, mainContent, model);
 						default:
-							break _v32_10;
+							break _v31_10;
 					}
 				} else {
-					if (_p48._1._1._1.ctor === '[]') {
-						if (_p48._0 === 'provider') {
-							var _p50 = _user$project$Settings$runtime.provider(
-								_user$project$Domain_Core$Id(_p48._1._0));
-							if (_p50.ctor === 'Just') {
+					if (_p46._1._1._1.ctor === '[]') {
+						if (_p46._0 === 'provider') {
+							var _p48 = _user$project$Settings$runtime.provider(
+								_user$project$Domain_Core$Id(_p46._1._0));
+							if (_p48.ctor === 'Just') {
 								return A2(
 									_user$project$Home$renderPage,
 									A2(_user$project$Home$providerTopicPage, _user$project$Domain_Core$FromOther, model.selectedProvider),
@@ -18216,15 +18229,15 @@ var _user$project$Home$view = function (model) {
 								return _user$project$Home$pageNotFound;
 							}
 						} else {
-							break _v32_10;
+							break _v31_10;
 						}
 					} else {
-						if (_p48._1._1._1._1.ctor === '::') {
-							if (((_p48._0 === 'provider') && (_p48._1._1._1._0 === 'all')) && (_p48._1._1._1._1._1.ctor === '[]')) {
-								var _p53 = _user$project$Settings$runtime.provider(
-									_user$project$Domain_Core$Id(_p48._1._0));
-								if (_p53.ctor === 'Just') {
-									var topic = A2(_user$project$Domain_Core$Topic, _p48._1._1._0, false);
+						if (_p46._1._1._1._1.ctor === '::') {
+							if (((_p46._0 === 'provider') && (_p46._1._1._1._0 === 'all')) && (_p46._1._1._1._1._1.ctor === '[]')) {
+								var _p51 = _user$project$Settings$runtime.provider(
+									_user$project$Domain_Core$Id(_p46._1._0));
+								if (_p51.ctor === 'Just') {
+									var topic = A2(_user$project$Domain_Core$Topic, _p46._1._1._0, false);
 									var contentToEmbed = A2(
 										_elm_lang$html$Html$map,
 										_user$project$Home$ProviderTopicContentTypeLinksAction,
@@ -18232,7 +18245,7 @@ var _user$project$Home$view = function (model) {
 											_user$project$Controls_ProviderTopicContentTypeLinks$view,
 											model.selectedProvider,
 											topic,
-											_user$project$Domain_Core$toContentType(_p48._1._1._1._1._0)));
+											_user$project$Domain_Core$toContentType(_p46._1._1._1._1._0)));
 									return A2(
 										_user$project$Home$renderPage,
 										A2(_user$project$Home$renderProfileBase, model.selectedProvider, contentToEmbed),
@@ -18241,25 +18254,25 @@ var _user$project$Home$view = function (model) {
 									return _user$project$Home$pageNotFound;
 								}
 							} else {
-								break _v32_10;
+								break _v31_10;
 							}
 						} else {
-							switch (_p48._0) {
+							switch (_p46._0) {
 								case 'provider':
-									if (_p48._1._1._0 === 'all') {
-										var _p51 = _user$project$Settings$runtime.provider(
-											_user$project$Domain_Core$Id(_p48._1._0));
-										if (_p51.ctor === 'Just') {
-											var _p52 = {ctor: '_Tuple2', _0: _user$project$Controls_ProviderContentTypeLinks$view, _1: model.selectedProvider};
-											var view = _p52._0;
-											var provider = _p52._1;
+									if (_p46._1._1._0 === 'all') {
+										var _p49 = _user$project$Settings$runtime.provider(
+											_user$project$Domain_Core$Id(_p46._1._0));
+										if (_p49.ctor === 'Just') {
+											var _p50 = {ctor: '_Tuple2', _0: _user$project$Controls_ProviderContentTypeLinks$view, _1: model.selectedProvider};
+											var view = _p50._0;
+											var provider = _p50._1;
 											var contentToEmbed = A2(
 												_elm_lang$html$Html$map,
 												_user$project$Home$ProviderContentTypeLinksAction,
 												A3(
 													view,
 													provider,
-													_user$project$Domain_Core$toContentType(_p48._1._1._1._0),
+													_user$project$Domain_Core$toContentType(_p46._1._1._1._0),
 													false));
 											return A2(
 												_user$project$Home$renderPage,
@@ -18269,24 +18282,24 @@ var _user$project$Home$view = function (model) {
 											return _user$project$Home$pageNotFound;
 										}
 									} else {
-										break _v32_10;
+										break _v31_10;
 									}
 								case 'portal':
-									switch (_p48._1._1._0) {
+									switch (_p46._1._1._0) {
 										case 'all':
-											var _p55 = _p48._1._0;
-											var _p54 = _user$project$Settings$runtime.provider(
-												_user$project$Domain_Core$Id(_p55));
-											if (_p54.ctor === 'Just') {
+											var _p53 = _p46._1._0;
+											var _p52 = _user$project$Settings$runtime.provider(
+												_user$project$Domain_Core$Id(_p53));
+											if (_p52.ctor === 'Just') {
 												var linksContent = A2(
 													_elm_lang$html$Html$map,
 													_user$project$Home$ProviderContentTypeLinksAction,
 													A3(
 														_user$project$Controls_ProviderContentTypeLinks$view,
 														model.portal.provider,
-														_user$project$Domain_Core$toContentType(_p48._1._1._1._0),
+														_user$project$Domain_Core$toContentType(_p46._1._1._1._0),
 														true));
-												var contentToEmbed = A3(_user$project$Home$applyToPortal, _p55, model, linksContent);
+												var contentToEmbed = A3(_user$project$Home$applyToPortal, _p53, model, linksContent);
 												return A2(
 													_user$project$Home$renderPage,
 													A2(
@@ -18298,9 +18311,9 @@ var _user$project$Home$view = function (model) {
 												return _user$project$Home$pageNotFound;
 											}
 										case 'provider':
-											var _p56 = _user$project$Settings$runtime.provider(
-												_user$project$Domain_Core$Id(_p48._1._1._1._0));
-											if (_p56.ctor === 'Just') {
+											var _p54 = _user$project$Settings$runtime.provider(
+												_user$project$Domain_Core$Id(_p46._1._1._1._0));
+											if (_p54.ctor === 'Just') {
 												var contentLinks = A2(
 													_user$project$Home$renderProfileBase,
 													model.selectedProvider,
@@ -18313,10 +18326,10 @@ var _user$project$Home$view = function (model) {
 												return _user$project$Home$pageNotFound;
 											}
 										default:
-											break _v32_10;
+											break _v31_10;
 									}
 								default:
-									break _v32_10;
+									break _v31_10;
 							}
 						}
 					}
@@ -18336,7 +18349,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p57) {
+		subscriptions: function (_p55) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();

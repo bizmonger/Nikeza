@@ -9,13 +9,14 @@ configuration : Configuration
 configuration =
     Isolation
 
+
 type Configuration
     = Integration
     | Isolation
 
 
 type alias Dependencies msg =
-    { tryLogin : Loginfunction
+    { tryLogin : Loginfunction msg
     , tryRegister : Registerfunction msg
     , provider : Providerfunction
     , providers : Providersfunction

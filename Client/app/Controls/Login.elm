@@ -3,6 +3,9 @@ module Controls.Login exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Http
+import Navigation exposing (..)
+import Domain.Core exposing (JsonProfile)
 
 
 -- MODEL
@@ -28,6 +31,7 @@ type Msg
     = UserInput String
     | PasswordInput String
     | Attempt ( String, String )
+    | Response (Result Http.Error JsonProfile)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -41,6 +45,12 @@ update msg model =
 
         Attempt ( email, password ) ->
             ( { model | email = email, password = password }, Cmd.none )
+
+        Response (Ok jsonProfile) ->
+            ( model, Navigation.load <| "/#/portal/" ++ jsonProfile.id )
+
+        Response (Err error) ->
+            ( model, Cmd.none )
 
 
 

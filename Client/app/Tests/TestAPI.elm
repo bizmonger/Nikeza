@@ -346,16 +346,20 @@ provider5 =
 -- FUNCTIONS
 
 
-tryLogin : Login.Model -> Login.Model
-tryLogin credentials =
+tryLogin : Credentials -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
+tryLogin credentials msg =
     let
         successful =
             String.toLower credentials.email == "test" && String.toLower credentials.password == "test"
     in
         if successful then
-            { email = credentials.email, password = credentials.password, loggedIn = True }
+            JsonProfile (getId profileId1) (getName profile1.firstName) (getName profile1.lastName) (getEmail profile1.email)
+                |> Result.Ok
+                |> msg
+                |> Task.succeed
+                |> Task.perform identity
         else
-            { email = credentials.email, password = credentials.password, loggedIn = False }
+            Cmd.none
 
 
 tryRegister : Form -> (Result Http.Error JsonProfile -> msg) -> Cmd msg

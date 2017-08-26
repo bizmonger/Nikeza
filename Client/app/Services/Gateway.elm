@@ -19,8 +19,8 @@ decoder =
         (field "Email" Decode.string)
 
 
-encode : Form -> Encode.Value
-encode form =
+encodeRegistration : Form -> Encode.Value
+encodeRegistration form =
     Encode.object
         [ ( "FirstName", Encode.string form.firstName )
         , ( "LastName", Encode.string form.firstName )
@@ -29,16 +29,27 @@ encode form =
         ]
 
 
-tryLogin : Login.Model -> Login.Model
-tryLogin credentials =
+encodeCredentials : Credentials -> Encode.Value
+encodeCredentials credentials =
+    Encode.object
+        [ ( "Email", Encode.string credentials.email )
+        , ( "Password", Encode.string credentials.password )
+        ]
+
+
+tryLogin : Credentials -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
+tryLogin credentials msg =
     let
-        successful =
-            String.toLower credentials.email == "test" && String.toLower credentials.password == "test"
+        loginUrl =
+            "http://localhost:5000/login"
+
+        body =
+            encodeCredentials credentials |> Http.jsonBody
+
+        request =
+            Http.post loginUrl body decoder
     in
-        if successful then
-            { email = credentials.email, password = credentials.password, loggedIn = True }
-        else
-            { email = credentials.email, password = credentials.password, loggedIn = False }
+        Http.send msg request
 
 
 tryRegister : Form -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
@@ -48,7 +59,7 @@ tryRegister form msg =
             "http://localhost:5000/register"
 
         body =
-            encode form |> Http.jsonBody
+            encodeRegistration form |> Http.jsonBody
 
         request =
             Http.post registerUrl body decoder

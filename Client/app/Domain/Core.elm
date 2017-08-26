@@ -1,6 +1,5 @@
 module Domain.Core exposing (..)
 
-import Controls.Login as Login exposing (Model)
 import Http
 
 
@@ -23,6 +22,13 @@ type alias Form =
     , email : String
     , password : String
     , confirm : String
+    }
+
+
+type alias Credentials =
+    { email : String
+    , password : String
+    , loggedIn : Bool
     }
 
 
@@ -328,16 +334,12 @@ type alias Providersfunction =
     List Provider
 
 
-type alias Loginfunction =
-    Login.Model -> Login.Model
+type alias Loginfunction msg =
+    Credentials -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
 
 
 type alias Registerfunction msg =
     Form -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
-
-
-
--- Form -> Result String Provider
 
 
 type alias Linksfunction =
@@ -425,11 +427,6 @@ hasMatch topic topics =
 linksExist : Links -> Bool
 linksExist links =
     not <| links == initLinks
-
-
-tryLogin : Loginfunction -> String -> String -> Login.Model
-tryLogin loginf username password =
-    loginf <| Login.Model username password False
 
 
 getContent : Linksfunction -> Id -> Links

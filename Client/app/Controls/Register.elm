@@ -7,7 +7,6 @@ import Html.Events exposing (..)
 import Http
 import Domain.Core exposing (JsonProfile, Form)
 import Navigation exposing (..)
-import Task exposing (perform)
 
 
 -- COMMANDS
