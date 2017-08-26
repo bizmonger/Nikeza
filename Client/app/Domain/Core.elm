@@ -5,7 +5,7 @@ import Http
 
 
 type alias JsonProfile =
-    { id : Int
+    { id : String
     , firstName : String
     , lastName : String
     , email : String

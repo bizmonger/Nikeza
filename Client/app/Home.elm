@@ -508,15 +508,18 @@ matchProviders model matchValue =
 onLogin : Login.Msg -> Model -> ( Model, Cmd Msg )
 onLogin subMsg model =
     let
+        ( login, subCmd ) =
+            Login.update subMsg model.login
+
+        loginCmd =
+            Cmd.map OnLogin subCmd
+
         pendingPortal =
             model.portal
     in
         case subMsg of
             Login.Attempt _ ->
                 let
-                    login =
-                        Login.update subMsg model.login
-
                     latest =
                         runtime.tryLogin login
 
@@ -543,13 +546,13 @@ onLogin subMsg model =
                     if newState.login.loggedIn then
                         ( newState, Navigation.load <| "/#/portal/" ++ getId newState.portal.provider.profile.id )
                     else
-                        ( newState, Cmd.none )
+                        ( model, Cmd.none )
 
             Login.UserInput _ ->
-                ( { model | login = Login.update subMsg model.login }, Cmd.none )
+                ( { model | login = login }, loginCmd )
 
             Login.PasswordInput _ ->
-                ( { model | login = Login.update subMsg model.login }, Cmd.none )
+                ( { model | login = login }, loginCmd )
 
 
 

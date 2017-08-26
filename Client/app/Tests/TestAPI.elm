@@ -361,7 +361,7 @@ tryLogin credentials =
 tryRegister : Form -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
 tryRegister form msg =
     if form.password == form.confirm then
-        JsonProfile 1 form.firstName form.lastName form.email
+        JsonProfile (getId profileId1) form.firstName form.lastName form.email
             |> Result.Ok
             |> msg
             |> Task.succeed

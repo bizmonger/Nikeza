@@ -42,14 +42,10 @@ update msg model =
             ( { model | confirm = v }, Cmd.none )
 
         Submit ->
-            let
-                jsonProfile =
-                    JsonProfile 1 "" "" ""
-            in
-                ( model, runtime.tryRegister model Response )
+            ( model, runtime.tryRegister model Response )
 
-        Response (Ok json) ->
-            ( model, Navigation.load <| "/#/portal/1" )
+        Response (Ok jsonProfile) ->
+            ( model, Navigation.load <| "/#/portal/" ++ jsonProfile.id )
 
         Response (Err error) ->
             ( model, Cmd.none )

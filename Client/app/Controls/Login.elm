@@ -30,17 +30,17 @@ type Msg
     | Attempt ( String, String )
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         UserInput v ->
-            { model | email = v }
+            ( { model | email = v }, Cmd.none )
 
         PasswordInput v ->
-            { model | password = v }
+            ( { model | password = v }, Cmd.none )
 
         Attempt ( email, password ) ->
-            { model | email = email, password = password }
+            ( { model | email = email, password = password }, Cmd.none )
 
 
 

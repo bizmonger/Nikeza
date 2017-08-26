@@ -13,7 +13,7 @@ import Json.Encode as Encode
 decoder : Decoder JsonProfile
 decoder =
     Decode.map4 JsonProfile
-        (field "Id" Decode.int)
+        (field "Id" Decode.string)
         (field "FirstName" Decode.string)
         (field "LastName" Decode.string)
         (field "Email" Decode.string)
