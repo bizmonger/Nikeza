@@ -11,6 +11,30 @@ type alias JsonProfile =
     }
 
 
+type alias JsonTopic =
+    { name : String
+    , isFeatured : Bool
+    }
+
+
+type alias JsonLinks =
+    { articles : List JsonLink
+    , videos : List JsonLink
+    , podcasts : List JsonLink
+    , answers : List JsonLink
+    }
+
+
+type alias JsonLink =
+    { profile : String
+    , title : String
+    , url : String
+    , contentType : String
+    , topics : List Topic
+    , isFeatured : Bool
+    }
+
+
 initForm : Form
 initForm =
     Form "" "" "" "" ""
@@ -65,13 +89,12 @@ type SubscriptionUpdate
 
 
 type alias JsonProvider =
-    { profile : Profile
-    , topics : List Topic
-    , links : Links
-    , recentLinks : List Link
-
-    -- , subscriptions : Subscriptionsfunction
-    -- , followers : Followersfunction
+    { profile : JsonProfile
+    , topics : List JsonTopic
+    , links : JsonLinks
+    , recentLinks : List JsonLink
+    , subscriptions : List JsonProfile
+    , followers : List JsonProfile
     }
 
 

@@ -311,6 +311,11 @@ recentLinks3 =
     ]
 
 
+jsonProvider1 : JsonProvider
+jsonProvider1 =
+    JsonProvider profile1 topics provider1Links recentLinks1 [] []
+
+
 provider1 : Provider
 provider1 =
     Provider profile1 topics provider1Links recentLinks1 subscriptions followers
@@ -352,7 +357,7 @@ tryLogin credentials msg =
             String.toLower credentials.email == "test" && String.toLower credentials.password == "test"
     in
         if successful then
-            JsonProvider initProfile initTopics initLinks []
+            jsonProvider1
                 |> Result.Ok
                 |> msg
                 |> Task.succeed

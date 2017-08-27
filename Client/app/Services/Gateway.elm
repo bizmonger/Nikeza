@@ -9,13 +9,51 @@ import Json.Encode as Encode
 -- DECODERS/ENCODERS
 
 
-decoder : Decoder JsonProvider
-decoder =
+profileDecoder : Decoder JsonProfile
+profileDecoder =
     Decode.map4 JsonProfile
         (field "Id" Decode.string)
         (field "FirstName" Decode.string)
         (field "LastName" Decode.string)
         (field "Email" Decode.string)
+
+
+topicDecoder : Decoder JsonTopic
+topicDecoder =
+    Decode.map2 JsonTopic
+        (field "Name" Decode.string)
+        (field "IsFeatured" Decode.bool)
+
+
+linkDecoder : Decoder JsonLink
+linkDecoder =
+    Decode.map6 JsonLink
+        (field "Profile" Decode.string)
+        (field "Title" Decode.string)
+        (field "Url" Decode.string)
+        (field "ContentType" Decode.string)
+        (field "Topics" <| Decode.list topicDecoder)
+        (field "IsFeatured" Decode.bool)
+
+
+linksDecoder : Decoder JsonLinks
+linksDecoder =
+    Decode.map4 JsonLinks
+        (field "Articles" <| Decode.list linkDecoder)
+        (field "Videos" <| Decode.list linkDecoder)
+        (field "Podcasts" <| Decode.list linkDecoder)
+        (field "Answers" <| Decode.list linkDecoder)
+
+
+providerDecoder : Decoder JsonProvider
+providerDecoder =
+    Decode.map6 JsonProvider
+        (field "Profile" profileDecoder)
+        (field "Topics" <| Decode.list topicDecoder)
+        (field "Links" <| Decode.list linkDecoder)
+        (field "RecentLinks" <| Decode.list linkDecoder)
+        (field "Subscriptions" <| Decode.list profileDecoder)
+        (field "Followers" <| Decode.list profileDecoder)
 
 
 encodeRegistration : Form -> Encode.Value
@@ -46,7 +84,7 @@ tryLogin credentials msg =
             encodeCredentials credentials |> Http.jsonBody
 
         request =
-            Http.post loginUrl body decoder
+            Http.post loginUrl body providerDecoder
     in
         Http.send msg request
 
@@ -61,7 +99,7 @@ tryRegister form msg =
             encodeRegistration form |> Http.jsonBody
 
         request =
-            Http.post registerUrl body decoder
+            Http.post registerUrl body profileDecoder
     in
         Http.send msg request
 
