@@ -311,9 +311,18 @@ recentLinks3 =
     ]
 
 
+jsonProfile1 : JsonProfile
+jsonProfile1 =
+    JsonProfile
+        (profileId1 |> getId)
+        (profile1.firstName |> getName)
+        (profile1.lastName |> getName)
+        (profile1.email |> getEmail)
+
+
 jsonProvider1 : JsonProvider
 jsonProvider1 =
-    JsonProvider profile1 topics provider1Links recentLinks1 [] []
+    JsonProvider jsonProfile1 topics provider1Links recentLinks1 [] []
 
 
 provider1 : Provider
