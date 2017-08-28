@@ -271,6 +271,11 @@ profile5 =
     Profile profileId5 (Name "Ody") (Name "Mbegbu") someEmail profile5ImageUrl someDescrtiption (profileId5 |> sources)
 
 
+jsonLinks : JsonLinks
+jsonLinks =
+    JsonLinks [] [] [] []
+
+
 subscriptions : Id -> Subscribers
 subscriptions profileId =
     if profileId == profileId1 then
@@ -320,9 +325,19 @@ jsonProfile1 =
         (profile1.email |> getEmail)
 
 
+jsonTopics : List JsonTopic
+jsonTopics =
+    []
+
+
+jsonLink1 : JsonLink
+jsonLink1 =
+    JsonLink jsonProfile1 (getTitle someArticleTitle1) (getUrl someUrl) "video" [] False
+
+
 jsonProvider1 : JsonProvider
 jsonProvider1 =
-    JsonProvider jsonProfile1 topics provider1Links recentLinks1 [] []
+    JsonProvider jsonProfile1 [] jsonLinks jsonLinks [] []
 
 
 provider1 : Provider

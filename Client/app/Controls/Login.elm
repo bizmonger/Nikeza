@@ -41,7 +41,7 @@ update msg model =
             ( model, runtime.tryLogin model Response )
 
         Response (Ok jsonProvider) ->
-            ( model, Navigation.load <| "/#/portal/" ++ jsonProvider.id )
+            ( model, Navigation.load <| "/#/portal/" ++ jsonProvider.profile.id )
 
         Response (Err error) ->
             ( model, Cmd.none )

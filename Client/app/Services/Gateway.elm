@@ -28,7 +28,7 @@ topicDecoder =
 linkDecoder : Decoder JsonLink
 linkDecoder =
     Decode.map6 JsonLink
-        (field "Profile" Decode.string)
+        (field "Profile" profileDecoder)
         (field "Title" Decode.string)
         (field "Url" Decode.string)
         (field "ContentType" Decode.string)
@@ -50,8 +50,8 @@ providerDecoder =
     Decode.map6 JsonProvider
         (field "Profile" profileDecoder)
         (field "Topics" <| Decode.list topicDecoder)
-        (field "Links" <| Decode.list linkDecoder)
-        (field "RecentLinks" <| Decode.list linkDecoder)
+        (field "Links" <| linksDecoder)
+        (field "RecentLinks" <| linksDecoder)
         (field "Subscriptions" <| Decode.list profileDecoder)
         (field "Followers" <| Decode.list profileDecoder)
 

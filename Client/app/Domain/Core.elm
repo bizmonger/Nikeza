@@ -26,7 +26,7 @@ type alias JsonLinks =
 
 
 type alias JsonLink =
-    { profile : String
+    { profile : JsonProfile
     , title : String
     , url : String
     , contentType : String
@@ -92,7 +92,7 @@ type alias JsonProvider =
     { profile : JsonProfile
     , topics : List JsonTopic
     , links : JsonLinks
-    , recentLinks : List JsonLink
+    , recentLinks : JsonLinks
     , subscriptions : List JsonProfile
     , followers : List JsonProfile
     }
@@ -369,7 +369,7 @@ type alias Providersfunction =
 
 
 type alias Loginfunction msg =
-    Credentials -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
+    Credentials -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
 
 
 type alias Registerfunction msg =
