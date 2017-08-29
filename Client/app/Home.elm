@@ -520,8 +520,11 @@ onLogin subMsg model =
         case subMsg of
             Login.Response result ->
                 case result of
-                    Result.Ok provider ->
+                    Result.Ok jsonProvider ->
                         let
+                            provider =
+                                jsonProvider |> toProvider
+
                             newState =
                                 { model
                                     | portal =
@@ -533,7 +536,7 @@ onLogin subMsg model =
                                         }
                                 }
                         in
-                            ( newState, Navigation.load <| "/#/portal/" ++ provider.profile.id )
+                            ( newState, Navigation.load <| "/#/portal/" ++ getId provider.profile.id )
 
                     Result.Err _ ->
                         ( { model | login = login }, loginCmd )

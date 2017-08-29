@@ -112,6 +112,11 @@ type Subscribers
     = Subscribers (List Provider)
 
 
+toProvider : JsonProvider -> Provider
+toProvider jsonProvider =
+    initProvider
+
+
 initSubscription : Id -> Subscribers
 initSubscription profileId =
     Subscribers []
