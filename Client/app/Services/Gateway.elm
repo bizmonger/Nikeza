@@ -1,6 +1,7 @@
 module Services.Gateway exposing (..)
 
 import Domain.Core exposing (..)
+import Services.Adapter exposing (..)
 import Http exposing (getString)
 import Json.Decode as Decode exposing (Decoder, field)
 import Json.Encode as Encode

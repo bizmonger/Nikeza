@@ -3,38 +3,6 @@ module Domain.Core exposing (..)
 import Http
 
 
-type alias JsonProfile =
-    { id : String
-    , firstName : String
-    , lastName : String
-    , email : String
-    }
-
-
-type alias JsonTopic =
-    { name : String
-    , isFeatured : Bool
-    }
-
-
-type alias JsonLinks =
-    { articles : List JsonLink
-    , videos : List JsonLink
-    , podcasts : List JsonLink
-    , answers : List JsonLink
-    }
-
-
-type alias JsonLink =
-    { profile : JsonProfile
-    , title : String
-    , url : String
-    , contentType : String
-    , topics : List Topic
-    , isFeatured : Bool
-    }
-
-
 initForm : Form
 initForm =
     Form "" "" "" "" ""
@@ -88,16 +56,6 @@ type SubscriptionUpdate
     | Unsubscribe Id Id
 
 
-type alias JsonProvider =
-    { profile : JsonProfile
-    , topics : List JsonTopic
-    , links : JsonLinks
-    , recentLinks : JsonLinks
-    , subscriptions : List JsonProfile
-    , followers : List JsonProfile
-    }
-
-
 type alias Provider =
     { profile : Profile
     , topics : List Topic
@@ -112,11 +70,6 @@ type Subscribers
     = Subscribers (List Provider)
 
 
-toProvider : JsonProvider -> Provider
-toProvider jsonProvider =
-    initProvider
-
-
 initSubscription : Id -> Subscribers
 initSubscription profileId =
     Subscribers []
@@ -125,23 +78,6 @@ initSubscription profileId =
 initProvider : Provider
 initProvider =
     Provider initProfile initTopics initLinks [] initSubscription initSubscription
-
-
-jsonProfileToProfile : JsonProfile -> Profile
-jsonProfileToProfile jsonProfile =
-    { id = Id (jsonProfile.id |> toString)
-    , firstName = Name jsonProfile.firstName
-    , lastName = Name jsonProfile.lastName
-    , email = Email jsonProfile.email
-    , imageUrl = Url undefined
-    , bio = undefined
-    , sources = []
-    }
-
-
-jsonProfileToProvider : JsonProfile -> Provider
-jsonProfileToProvider jsonProfile =
-    Provider (jsonProfileToProfile jsonProfile) initTopics initLinks [] initSubscription initSubscription
 
 
 type alias Portal =
@@ -371,14 +307,6 @@ type alias Providerfunction =
 
 type alias Providersfunction =
     List Provider
-
-
-type alias Loginfunction msg =
-    Credentials -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
-
-
-type alias Registerfunction msg =
-    Form -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
 
 
 type alias Linksfunction =
