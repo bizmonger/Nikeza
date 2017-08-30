@@ -5,7 +5,8 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
-import Domain.Core exposing (JsonProfile, Form)
+import Domain.Core exposing (Form)
+import Services.Adapter exposing (..)
 import Navigation exposing (..)
 
 

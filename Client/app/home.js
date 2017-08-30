@@ -9734,22 +9734,6 @@ var _user$project$Domain_Core$linksExist = function (links) {
 	return !_elm_lang$core$Native_Utils.eq(links, _user$project$Domain_Core$initLinks);
 };
 var _user$project$Domain_Core$initTopics = {ctor: '[]'};
-var _user$project$Domain_Core$JsonProfile = F4(
-	function (a, b, c, d) {
-		return {id: a, firstName: b, lastName: c, email: d};
-	});
-var _user$project$Domain_Core$JsonTopic = F2(
-	function (a, b) {
-		return {name: a, isFeatured: b};
-	});
-var _user$project$Domain_Core$JsonLinks = F4(
-	function (a, b, c, d) {
-		return {articles: a, videos: b, podcasts: c, answers: d};
-	});
-var _user$project$Domain_Core$JsonLink = F6(
-	function (a, b, c, d, e, f) {
-		return {profile: a, title: b, url: c, contentType: d, topics: e, isFeatured: f};
-	});
 var _user$project$Domain_Core$Form = F5(
 	function (a, b, c, d, e) {
 		return {firstName: a, lastName: b, email: c, password: d, confirm: e};
@@ -9762,10 +9746,6 @@ var _user$project$Domain_Core$Credentials = F3(
 var _user$project$Domain_Core$Links = F4(
 	function (a, b, c, d) {
 		return {answers: a, articles: b, videos: c, podcasts: d};
-	});
-var _user$project$Domain_Core$JsonProvider = F6(
-	function (a, b, c, d, e, f) {
-		return {profile: a, topics: b, links: c, recentLinks: d, subscriptions: e, followers: f};
 	});
 var _user$project$Domain_Core$Provider = F6(
 	function (a, b, c, d, e, f) {
@@ -9832,28 +9812,6 @@ var _user$project$Domain_Core$Title = function (a) {
 var _user$project$Domain_Core$Url = function (a) {
 	return {ctor: 'Url', _0: a};
 };
-var _user$project$Domain_Core$jsonProfileToProfile = function (jsonProfile) {
-	return {
-		id: _user$project$Domain_Core$Id(
-			_elm_lang$core$Basics$toString(jsonProfile.id)),
-		firstName: _user$project$Domain_Core$Name(jsonProfile.firstName),
-		lastName: _user$project$Domain_Core$Name(jsonProfile.lastName),
-		email: _user$project$Domain_Core$Email(jsonProfile.email),
-		imageUrl: _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined),
-		bio: _user$project$Domain_Core$undefined,
-		sources: {ctor: '[]'}
-	};
-};
-var _user$project$Domain_Core$jsonProfileToProvider = function (jsonProfile) {
-	return A6(
-		_user$project$Domain_Core$Provider,
-		_user$project$Domain_Core$jsonProfileToProfile(jsonProfile),
-		_user$project$Domain_Core$initTopics,
-		_user$project$Domain_Core$initLinks,
-		{ctor: '[]'},
-		_user$project$Domain_Core$initSubscription,
-		_user$project$Domain_Core$initSubscription);
-};
 var _user$project$Domain_Core$initProfile = {
 	id: _user$project$Domain_Core$Id(_user$project$Domain_Core$undefined),
 	firstName: _user$project$Domain_Core$Name(_user$project$Domain_Core$undefined),
@@ -9871,9 +9829,6 @@ var _user$project$Domain_Core$initProvider = A6(
 	{ctor: '[]'},
 	_user$project$Domain_Core$initSubscription,
 	_user$project$Domain_Core$initSubscription);
-var _user$project$Domain_Core$toProvider = function (jsonProvider) {
-	return _user$project$Domain_Core$initProvider;
-};
 var _user$project$Domain_Core$topicUrl = F2(
 	function (id, topic) {
 		return _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined);
@@ -10067,6 +10022,92 @@ var _user$project$Domain_Core$toContentType = function (contentType) {
 	}
 };
 
+var _user$project$Services_Adapter$toProfile = function (jsonProfile) {
+	return _user$project$Domain_Core$initProfile;
+};
+var _user$project$Services_Adapter$toTopics = function (jsonTopic) {
+	return _user$project$Domain_Core$initTopics;
+};
+var _user$project$Services_Adapter$toLinks = function (jsonLinks) {
+	return _user$project$Domain_Core$initLinks;
+};
+var _user$project$Services_Adapter$toRecentLinks = function (jsonLinks) {
+	return {ctor: '[]'};
+};
+var _user$project$Services_Adapter$toProvider = function (jsonProvider) {
+	return {
+		profile: _user$project$Services_Adapter$toProfile(jsonProvider.profile),
+		topics: _user$project$Services_Adapter$toTopics(jsonProvider.topics),
+		links: _user$project$Services_Adapter$toLinks(jsonProvider.links),
+		recentLinks: _user$project$Services_Adapter$toRecentLinks(jsonProvider.recentLinks),
+		subscriptions: function (id) {
+			return _user$project$Domain_Core$Subscribers(
+				{ctor: '[]'});
+		},
+		followers: function (id) {
+			return _user$project$Domain_Core$Subscribers(
+				{ctor: '[]'});
+		}
+	};
+};
+var _user$project$Services_Adapter$toSubscriptions = function (jsonSubscriptions) {
+	return {
+		ctor: '::',
+		_0: _user$project$Domain_Core$initProfile,
+		_1: {ctor: '[]'}
+	};
+};
+var _user$project$Services_Adapter$toFollowers = function (jsonFollowers) {
+	return {
+		ctor: '::',
+		_0: _user$project$Domain_Core$initProfile,
+		_1: {ctor: '[]'}
+	};
+};
+var _user$project$Services_Adapter$jsonProfileToProfile = function (jsonProfile) {
+	return {
+		id: _user$project$Domain_Core$Id(
+			_elm_lang$core$Basics$toString(jsonProfile.id)),
+		firstName: _user$project$Domain_Core$Name(jsonProfile.firstName),
+		lastName: _user$project$Domain_Core$Name(jsonProfile.lastName),
+		email: _user$project$Domain_Core$Email(jsonProfile.email),
+		imageUrl: _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined),
+		bio: _user$project$Domain_Core$undefined,
+		sources: {ctor: '[]'}
+	};
+};
+var _user$project$Services_Adapter$jsonProfileToProvider = function (jsonProfile) {
+	return A6(
+		_user$project$Domain_Core$Provider,
+		_user$project$Services_Adapter$jsonProfileToProfile(jsonProfile),
+		_user$project$Domain_Core$initTopics,
+		_user$project$Domain_Core$initLinks,
+		{ctor: '[]'},
+		_user$project$Domain_Core$initSubscription,
+		_user$project$Domain_Core$initSubscription);
+};
+var _user$project$Services_Adapter$JsonProfile = F4(
+	function (a, b, c, d) {
+		return {id: a, firstName: b, lastName: c, email: d};
+	});
+var _user$project$Services_Adapter$JsonTopic = F2(
+	function (a, b) {
+		return {name: a, isFeatured: b};
+	});
+var _user$project$Services_Adapter$JsonLinks = F4(
+	function (a, b, c, d) {
+		return {articles: a, videos: b, podcasts: c, answers: d};
+	});
+var _user$project$Services_Adapter$JsonLink = F6(
+	function (a, b, c, d, e, f) {
+		return {profile: a, title: b, url: c, contentType: d, topics: e, isFeatured: f};
+	});
+var _user$project$Services_Adapter$JsonProvider = F6(
+	function (a, b, c, d, e, f) {
+		return {profile: a, topics: b, links: c, recentLinks: d, subscriptions: e, followers: f};
+	});
+var _user$project$Services_Adapter$JsonSubscriber = {};
+
 var _user$project$Tests_TestAPI$unsubscribe = F2(
 	function (clientId, providerId) {
 		return _elm_lang$core$Result$Err('unsubscribe not implemented');
@@ -10135,7 +10176,7 @@ var _user$project$Tests_TestAPI$removeSource = F2(
 	});
 var _user$project$Tests_TestAPI$jsonTopics = {ctor: '[]'};
 var _user$project$Tests_TestAPI$jsonLinks = A4(
-	_user$project$Domain_Core$JsonLinks,
+	_user$project$Services_Adapter$JsonLinks,
 	{ctor: '[]'},
 	{ctor: '[]'},
 	{ctor: '[]'},
@@ -10882,13 +10923,13 @@ var _user$project$Tests_TestAPI$providers = {
 	}
 };
 var _user$project$Tests_TestAPI$jsonProfile1 = A4(
-	_user$project$Domain_Core$JsonProfile,
+	_user$project$Services_Adapter$JsonProfile,
 	_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId1),
 	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile1.firstName),
 	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile1.lastName),
 	_user$project$Domain_Core$getEmail(_user$project$Tests_TestAPI$profile1.email));
 var _user$project$Tests_TestAPI$jsonLink1 = A6(
-	_user$project$Domain_Core$JsonLink,
+	_user$project$Services_Adapter$JsonLink,
 	_user$project$Tests_TestAPI$jsonProfile1,
 	_user$project$Domain_Core$getTitle(_user$project$Tests_TestAPI$someArticleTitle1),
 	_user$project$Domain_Core$getUrl(_user$project$Tests_TestAPI$someUrl),
@@ -10896,11 +10937,11 @@ var _user$project$Tests_TestAPI$jsonLink1 = A6(
 	{ctor: '[]'},
 	false);
 var _user$project$Tests_TestAPI$jsonProvider1 = A6(
-	_user$project$Domain_Core$JsonProvider,
+	_user$project$Services_Adapter$JsonProvider,
 	_user$project$Tests_TestAPI$jsonProfile1,
 	{ctor: '[]'},
 	_user$project$Tests_TestAPI$jsonLinks,
-	_user$project$Tests_TestAPI$jsonLinks,
+	{ctor: '[]'},
 	{ctor: '[]'},
 	{ctor: '[]'});
 var _user$project$Tests_TestAPI$tryLogin = F2(
@@ -10926,7 +10967,7 @@ var _user$project$Tests_TestAPI$tryRegister = F2(
 				msg(
 					_elm_lang$core$Result$Ok(
 						A4(
-							_user$project$Domain_Core$JsonProfile,
+							_user$project$Services_Adapter$JsonProfile,
 							_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId1),
 							form.firstName,
 							form.lastName,
@@ -11066,19 +11107,19 @@ var _user$project$Services_Gateway$encodeRegistration = function (form) {
 };
 var _user$project$Services_Gateway$topicDecoder = A3(
 	_elm_lang$core$Json_Decode$map2,
-	_user$project$Domain_Core$JsonTopic,
+	_user$project$Services_Adapter$JsonTopic,
 	A2(_elm_lang$core$Json_Decode$field, 'Name', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'IsFeatured', _elm_lang$core$Json_Decode$bool));
 var _user$project$Services_Gateway$profileDecoder = A5(
 	_elm_lang$core$Json_Decode$map4,
-	_user$project$Domain_Core$JsonProfile,
+	_user$project$Services_Adapter$JsonProfile,
 	A2(_elm_lang$core$Json_Decode$field, 'Id', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'FirstName', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'LastName', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'Email', _elm_lang$core$Json_Decode$string));
 var _user$project$Services_Gateway$linkDecoder = A7(
 	_elm_lang$core$Json_Decode$map6,
-	_user$project$Domain_Core$JsonLink,
+	_user$project$Services_Adapter$JsonLink,
 	A2(_elm_lang$core$Json_Decode$field, 'Profile', _user$project$Services_Gateway$profileDecoder),
 	A2(_elm_lang$core$Json_Decode$field, 'Title', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'Url', _elm_lang$core$Json_Decode$string),
@@ -11090,7 +11131,7 @@ var _user$project$Services_Gateway$linkDecoder = A7(
 	A2(_elm_lang$core$Json_Decode$field, 'IsFeatured', _elm_lang$core$Json_Decode$bool));
 var _user$project$Services_Gateway$linksDecoder = A5(
 	_elm_lang$core$Json_Decode$map4,
-	_user$project$Domain_Core$JsonLinks,
+	_user$project$Services_Adapter$JsonLinks,
 	A2(
 		_elm_lang$core$Json_Decode$field,
 		'Articles',
@@ -11109,14 +11150,17 @@ var _user$project$Services_Gateway$linksDecoder = A5(
 		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder)));
 var _user$project$Services_Gateway$providerDecoder = A7(
 	_elm_lang$core$Json_Decode$map6,
-	_user$project$Domain_Core$JsonProvider,
+	_user$project$Services_Adapter$JsonProvider,
 	A2(_elm_lang$core$Json_Decode$field, 'Profile', _user$project$Services_Gateway$profileDecoder),
 	A2(
 		_elm_lang$core$Json_Decode$field,
 		'Topics',
 		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$topicDecoder)),
 	A2(_elm_lang$core$Json_Decode$field, 'Links', _user$project$Services_Gateway$linksDecoder),
-	A2(_elm_lang$core$Json_Decode$field, 'RecentLinks', _user$project$Services_Gateway$linksDecoder),
+	A2(
+		_elm_lang$core$Json_Decode$field,
+		'RecentLinks',
+		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder)),
 	A2(
 		_elm_lang$core$Json_Decode$field,
 		'Subscriptions',
@@ -15296,7 +15340,7 @@ var _user$project$Home$onRegistration = F2(
 			default:
 				var _p26 = _p25._0;
 				if (_p26.ctor === 'Ok') {
-					var newUser = _user$project$Domain_Core$jsonProfileToProvider(_p26._0);
+					var newUser = _user$project$Services_Adapter$jsonProfileToProvider(_p26._0);
 					var newState = _elm_lang$core$Native_Utils.update(
 						model,
 						{
@@ -17641,7 +17685,7 @@ var _user$project$Home$onLogin = F2(
 			case 'Response':
 				var _p40 = _p39._0;
 				if (_p40.ctor === 'Ok') {
-					var provider = _user$project$Domain_Core$toProvider(_p40._0);
+					var provider = _user$project$Services_Adapter$toProvider(_p40._0);
 					var newState = _elm_lang$core$Native_Utils.update(
 						model,
 						{

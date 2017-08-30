@@ -13,6 +13,7 @@ import Controls.ProviderContentTypeLinks as ProviderContentTypeLinks exposing (.
 import Controls.ProviderTopicContentTypeLinks as ProviderTopicContentTypeLinks exposing (..)
 import Controls.Register as Registration exposing (..)
 import Controls.EditProfile as EditProfile exposing (..)
+import Services.Adapter exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)

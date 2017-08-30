@@ -1,7 +1,5 @@
 module Domain.Core exposing (..)
 
-import Http
-
 
 initForm : Form
 initForm =

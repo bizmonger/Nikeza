@@ -7,6 +7,7 @@ import Http
 import Navigation exposing (..)
 import Domain.Core exposing (..)
 import Settings exposing (..)
+import Services.Adapter exposing (..)
 
 
 -- MODEL

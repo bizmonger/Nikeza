@@ -3,6 +3,7 @@ module Settings exposing (..)
 import Domain.Core exposing (..)
 import Tests.TestAPI as TestAPI exposing (..)
 import Services.Gateway as Services exposing (..)
+import Services.Adapter as Adapter exposing (..)
 
 
 configuration : Configuration

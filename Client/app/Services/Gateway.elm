@@ -53,8 +53,8 @@ providerDecoder =
         (field "Topics" <| Decode.list topicDecoder)
         (field "Links" <| linksDecoder)
         (field "RecentLinks" <| Decode.list linkDecoder)
-        (field "Subscriptions" <| Decode.list {})
-        (field "Followers" <| Decode.list {})
+        (field "Subscriptions" <| Decode.list profileDecoder)
+        (field "Followers" <| Decode.list profileDecoder)
 
 
 encodeRegistration : Form -> Encode.Value
