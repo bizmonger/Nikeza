@@ -48,17 +48,13 @@ type alias JsonProvider =
     { profile : JsonProfile
     , topics : List JsonTopic
     , links : JsonLinks
-    , recentLinks : JsonLinks
-    , subscriptions : List JsonProfile
-    , followers : List JsonProfile
+    , recentLinks : List JsonLink
+    , subscriptions : List JsonSubscriber
+    , followers : List JsonSubscriber
     }
 
 
-type alias JsonFollower =
-    {}
-
-
-type alias JsonSubscription =
+type alias JsonSubscriber =
     {}
 
 
@@ -79,13 +75,18 @@ jsonProfileToProvider jsonProfile =
     Provider (jsonProfileToProfile jsonProfile) initTopics initLinks [] initSubscription initSubscription
 
 
-toFollowers : List JsonFollower -> List Follower
+toFollowers : List JsonSubscriber -> Followersfunction
 toFollowers jsonFollowers =
-    []
+    (\id -> Subscribers [])
 
 
-toSubscriptions : List JsonSubscription -> List Subscriber
+toSubscriptions : List JsonSubscriber -> Subscriptionsfunction
 toSubscriptions jsonSubscriptions =
+    (\id -> Subscribers [])
+
+
+toRecentLinks : List JsonLink -> List Link
+toRecentLinks jsonLinks =
     []
 
 
@@ -96,7 +97,7 @@ toLinks jsonLinks =
 
 toTopics : List JsonTopic -> List Topic
 toTopics jsonTopic =
-    initProfile
+    initTopics
 
 
 toProfile : JsonProfile -> Profile
@@ -109,7 +110,7 @@ toProvider jsonProvider =
     { profile = jsonProvider.profile |> toProfile
     , topics = jsonProvider.topics |> toTopics
     , links = jsonProvider.links |> toLinks
-    , recentLinks = jsonProvider.recentLinks |> toLinks
+    , recentLinks = jsonProvider.recentLinks |> toRecentLinks
     , subscriptions = jsonProvider.subscriptions |> toSubscriptions
     , followers = jsonProvider.followers |> toFollowers
     }

@@ -4,6 +4,7 @@ import Domain.Core as Domain exposing (..)
 import String exposing (..)
 import Http exposing (..)
 import Task exposing (succeed, perform)
+import Services.Adapter exposing (..)
 
 
 profileId1 : Id
@@ -337,7 +338,7 @@ jsonLink1 =
 
 jsonProvider1 : JsonProvider
 jsonProvider1 =
-    JsonProvider jsonProfile1 [] jsonLinks jsonLinks [] []
+    JsonProvider jsonProfile1 [] jsonLinks [] [] []
 
 
 provider1 : Provider
