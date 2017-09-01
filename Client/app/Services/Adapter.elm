@@ -102,7 +102,17 @@ toTopics jsonTopic =
 
 toProfile : JsonProfile -> Profile
 toProfile jsonProfile =
-    initProfile
+    let
+        ( id, email ) =
+            ( Id jsonProfile.id, Email jsonProfile.email )
+
+        ( firstName, lastName ) =
+            ( Name jsonProfile.firstName, Name jsonProfile.lastName )
+
+        ( imageUrl, bio, sources ) =
+            ( Url "", "", [] )
+    in
+        Profile id firstName lastName email imageUrl bio sources
 
 
 toProvider : JsonProvider -> Provider

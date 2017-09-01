@@ -10023,7 +10023,30 @@ var _user$project$Domain_Core$toContentType = function (contentType) {
 };
 
 var _user$project$Services_Adapter$toProfile = function (jsonProfile) {
-	return _user$project$Domain_Core$initProfile;
+	var _p0 = {
+		ctor: '_Tuple3',
+		_0: _user$project$Domain_Core$Url(''),
+		_1: '',
+		_2: {ctor: '[]'}
+	};
+	var imageUrl = _p0._0;
+	var bio = _p0._1;
+	var sources = _p0._2;
+	var _p1 = {
+		ctor: '_Tuple2',
+		_0: _user$project$Domain_Core$Name(jsonProfile.firstName),
+		_1: _user$project$Domain_Core$Name(jsonProfile.lastName)
+	};
+	var firstName = _p1._0;
+	var lastName = _p1._1;
+	var _p2 = {
+		ctor: '_Tuple2',
+		_0: _user$project$Domain_Core$Id(jsonProfile.id),
+		_1: _user$project$Domain_Core$Email(jsonProfile.email)
+	};
+	var id = _p2._0;
+	var email = _p2._1;
+	return A7(_user$project$Domain_Core$Profile, id, firstName, lastName, email, imageUrl, bio, sources);
 };
 var _user$project$Services_Adapter$toTopics = function (jsonTopic) {
 	return _user$project$Domain_Core$initTopics;
