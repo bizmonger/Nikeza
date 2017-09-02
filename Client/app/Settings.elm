@@ -19,7 +19,7 @@ type Configuration
 type alias Dependencies msg =
     { tryLogin : Loginfunction msg
     , tryRegister : Registerfunction msg
-    , provider : Providerfunction
+    , provider : Providerfunction msg
     , providers : Providersfunction
     , links : Linksfunction
     , addLink : AddLinkfunction

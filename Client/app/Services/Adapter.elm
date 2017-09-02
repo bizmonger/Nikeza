@@ -12,6 +12,10 @@ type alias Registerfunction msg =
     Form -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
 
 
+type alias Providerfunction msg =
+    Id -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+
+
 type alias JsonProfile =
     { id : String
     , firstName : String

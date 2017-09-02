@@ -67,6 +67,12 @@ encodeRegistration form =
         ]
 
 
+encodeProvider : Id -> Encode.Value
+encodeProvider id =
+    Encode.object
+        [ ( "Id", Encode.string <| getId id ) ]
+
+
 encodeCredentials : Credentials -> Encode.Value
 encodeCredentials credentials =
     Encode.object
@@ -110,9 +116,19 @@ providers =
     []
 
 
-provider : Id -> Maybe Provider
-provider id =
-    Nothing
+provider : Id -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+provider id msg =
+    let
+        providerUrl =
+            "http://localhost:5000/provider"
+
+        body =
+            encodeProvider id |> Http.jsonBody
+
+        request =
+            Http.post providerUrl body providerDecoder
+    in
+        Http.send msg request
 
 
 links : Id -> Links

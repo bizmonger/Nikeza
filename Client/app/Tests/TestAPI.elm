@@ -326,6 +326,42 @@ jsonProfile1 =
         (profile1.email |> getEmail)
 
 
+jsonProfile2 : JsonProfile
+jsonProfile2 =
+    JsonProfile
+        (profileId2 |> getId)
+        (profile2.firstName |> getName)
+        (profile2.lastName |> getName)
+        (profile2.email |> getEmail)
+
+
+jsonProfile3 : JsonProfile
+jsonProfile3 =
+    JsonProfile
+        (profileId3 |> getId)
+        (profile3.firstName |> getName)
+        (profile3.lastName |> getName)
+        (profile3.email |> getEmail)
+
+
+jsonProfile4 : JsonProfile
+jsonProfile4 =
+    JsonProfile
+        (profileId4 |> getId)
+        (profile4.firstName |> getName)
+        (profile4.lastName |> getName)
+        (profile4.email |> getEmail)
+
+
+jsonProfile5 : JsonProfile
+jsonProfile5 =
+    JsonProfile
+        (profileId5 |> getId)
+        (profile5.firstName |> getName)
+        (profile5.lastName |> getName)
+        (profile5.email |> getEmail)
+
+
 jsonTopics : List JsonTopic
 jsonTopics =
     []
@@ -339,6 +375,26 @@ jsonLink1 =
 jsonProvider1 : JsonProvider
 jsonProvider1 =
     JsonProvider jsonProfile1 [] jsonLinks [] [] []
+
+
+jsonProvider2 : JsonProvider
+jsonProvider2 =
+    JsonProvider jsonProfile2 [] jsonLinks [] [] []
+
+
+jsonProvider3 : JsonProvider
+jsonProvider3 =
+    JsonProvider jsonProfile3 [] jsonLinks [] [] []
+
+
+jsonProvider4 : JsonProvider
+jsonProvider4 =
+    JsonProvider jsonProfile4 [] jsonLinks [] [] []
+
+
+jsonProvider5 : JsonProvider
+jsonProvider5 =
+    JsonProvider jsonProfile5 [] jsonLinks [] [] []
 
 
 provider1 : Provider
@@ -551,20 +607,40 @@ suggestedTopics search =
         []
 
 
-provider : Id -> Maybe Provider
-provider id =
+provider : Id -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+provider id msg =
     if id == profileId1 then
-        Just provider1
+        jsonProvider1
+            |> Result.Ok
+            |> msg
+            |> Task.succeed
+            |> Task.perform identity
     else if id == profileId2 then
-        Just provider2
+        jsonProvider2
+            |> Result.Ok
+            |> msg
+            |> Task.succeed
+            |> Task.perform identity
     else if id == profileId3 then
-        Just provider3
+        jsonProvider3
+            |> Result.Ok
+            |> msg
+            |> Task.succeed
+            |> Task.perform identity
     else if id == profileId4 then
-        Just provider4
+        jsonProvider4
+            |> Result.Ok
+            |> msg
+            |> Task.succeed
+            |> Task.perform identity
     else if id == profileId5 then
-        Just provider5
+        jsonProvider5
+            |> Result.Ok
+            |> msg
+            |> Task.succeed
+            |> Task.perform identity
     else
-        Nothing
+        Cmd.none
 
 
 providers : List Provider

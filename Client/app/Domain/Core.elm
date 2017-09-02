@@ -299,10 +299,6 @@ type alias RemoveLinkfunction =
     Id -> Link -> Result String Links
 
 
-type alias Providerfunction =
-    Id -> Maybe Provider
-
-
 type alias Providersfunction =
     List Provider
 
