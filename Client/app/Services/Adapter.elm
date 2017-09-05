@@ -16,6 +16,10 @@ type alias Providerfunction msg =
     Id -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
 
 
+type alias ProviderTopicfunction msg =
+    Id -> Topic -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+
+
 type alias JsonProfile =
     { id : String
     , firstName : String

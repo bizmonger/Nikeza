@@ -20,6 +20,7 @@ type alias Dependencies msg =
     { tryLogin : Loginfunction msg
     , tryRegister : Registerfunction msg
     , provider : Providerfunction msg
+    , providerTopic : ProviderTopicfunction msg
     , providers : Providersfunction
     , links : Linksfunction
     , addLink : AddLinkfunction
@@ -46,6 +47,7 @@ runtime =
                 Services.tryLogin
                 Services.tryRegister
                 Services.provider
+                Services.providerTopic
                 Services.providers
                 Services.links
                 Services.addLink
@@ -67,6 +69,7 @@ runtime =
                 TestAPI.tryLogin
                 TestAPI.tryRegister
                 TestAPI.provider
+                TestAPI.providerTopic
                 TestAPI.providers
                 TestAPI.links
                 TestAPI.addLink

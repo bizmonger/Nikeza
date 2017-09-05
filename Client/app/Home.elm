@@ -136,10 +136,10 @@ update msg model =
                             provider =
                                 jsonProvider |> toProvider
 
-                            topicProvider =
-                                { provider | topics = [ Topic topic False ] }
+                            -- topicProvider =
+                            --     { provider | topics = [ Topic topic False ] }
                         in
-                            ( { model | selectedProvider = topicProvider }, Cmd.none )
+                            ( { model | selectedProvider = provider }, Cmd.none )
 
                     Err _ ->
                         ( model, Cmd.none )
@@ -1330,7 +1330,11 @@ navigate msg model location =
             --     in
             --         ( { model | selectedProvider = topicProvider, currentRoute = location }, Cmd.none )
             -- Nothing ->
-            ( { model | currentRoute = location }, runtime.provider (Id id) NavigateToProviderTopicResponse )
+            let
+                ( providerId, providerTopic ) =
+                    ( (Id id), (Topic topic False) )
+            in
+                ( { model | currentRoute = location }, runtime.providerTopic providerId providerTopic NavigateToProviderTopicResponse )
 
         [ "portal", id ] ->
             ( { model | currentRoute = location }, runtime.provider (Id id) NavigateToPortalResponse )
@@ -1348,7 +1352,11 @@ navigate msg model location =
             --         in
             --             ( { model | portal = pendingPortal, currentRoute = location }, Cmd.none )
             --     Nothing ->
-            ( { model | currentRoute = location }, runtime.provider (Id id) NavigateToPortalProviderTopicResponse )
+            let
+                ( providerId, providerTopic ) =
+                    ( (Id id), (Topic topic False) )
+            in
+                ( { model | currentRoute = location }, runtime.providerTopic providerId providerTopic NavigateToPortalProviderTopicResponse )
 
         [ "portal", id, "all", contentType ] ->
             -- case runtime.provider <| (Id id) IdToProviderResponse of

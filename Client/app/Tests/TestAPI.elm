@@ -643,6 +643,42 @@ provider id msg =
         Cmd.none
 
 
+providerTopic : Id -> Topic -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+providerTopic id topic msg =
+    if id == profileId1 then
+        jsonProvider1
+            |> Result.Ok
+            |> msg
+            |> Task.succeed
+            |> Task.perform identity
+    else if id == profileId2 then
+        jsonProvider2
+            |> Result.Ok
+            |> msg
+            |> Task.succeed
+            |> Task.perform identity
+    else if id == profileId3 then
+        jsonProvider3
+            |> Result.Ok
+            |> msg
+            |> Task.succeed
+            |> Task.perform identity
+    else if id == profileId4 then
+        jsonProvider4
+            |> Result.Ok
+            |> msg
+            |> Task.succeed
+            |> Task.perform identity
+    else if id == profileId5 then
+        jsonProvider5
+            |> Result.Ok
+            |> msg
+            |> Task.succeed
+            |> Task.perform identity
+    else
+        Cmd.none
+
+
 providers : List Provider
 providers =
     [ provider1

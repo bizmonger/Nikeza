@@ -73,6 +73,14 @@ encodeProvider id =
         [ ( "Id", Encode.string <| getId id ) ]
 
 
+encodeProviderWithTopic : Id -> Topic -> Encode.Value
+encodeProviderWithTopic id topic =
+    Encode.object
+        [ ( "Id", Encode.string <| getId id )
+        , ( "Topic", Encode.string <| getTopic topic )
+        ]
+
+
 encodeCredentials : Credentials -> Encode.Value
 encodeCredentials credentials =
     Encode.object
@@ -127,6 +135,21 @@ provider id msg =
 
         request =
             Http.post providerUrl body providerDecoder
+    in
+        Http.send msg request
+
+
+providerTopic : Id -> Topic -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+providerTopic id topic msg =
+    let
+        providerTopicUrl =
+            "http://localhost:5000/providertopic"
+
+        body =
+            (encodeProviderWithTopic id topic) |> Http.jsonBody
+
+        request =
+            Http.post providerTopicUrl body providerDecoder
     in
         Http.send msg request
 
