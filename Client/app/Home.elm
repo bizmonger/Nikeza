@@ -121,6 +121,30 @@ update msg model =
             UrlChange location ->
                 location |> navigate msg model
 
+            NavigateToPortalProviderTopicResponse response ->
+                case response of
+                    Ok jsonProvider ->
+                        let
+                            provider =
+                                jsonProvider |> toProvider
+
+                            portal =
+                                model.portal
+
+                            pendingPortal =
+                                { portal
+                                    | provider = jsonProvider |> toProvider
+                                    , sourcesNavigation = provider.profile.sources |> List.isEmpty
+                                    , addLinkNavigation = True
+                                    , linksNavigation = linksExist provider.links
+                                    , requested = Domain.ViewRecent
+                                }
+                        in
+                            ( { model | portal = pendingPortal }, Cmd.none )
+
+                    Err _ ->
+                        ( model, Cmd.none )
+
             NavigateToProviderResponse response ->
                 case response of
                     Ok jsonProvider ->
@@ -674,16 +698,16 @@ view model =
         -- Nothing ->
         --     pageNotFound
         [ "portal", id, "all", contentType ] ->
-            case runtime.provider <| Id id of
-                p ->
-                    let
-                        linksContent =
-                            Html.map ProviderContentTypeLinksAction <| ProviderContentTypeLinks.view model.portal.provider (toContentType contentType) True
+            -- case runtime.provider <| Id id of
+            --     p ->
+            let
+                linksContent =
+                    Html.map ProviderContentTypeLinksAction <| ProviderContentTypeLinks.view model.portal.provider (toContentType contentType) True
 
-                        contentToEmbed =
-                            linksContent |> applyToPortal p model
-                    in
-                        model |> renderPage (model |> content (Just contentToEmbed))
+                contentToEmbed =
+                    linksContent |> applyToPortal model.portal.provider model
+            in
+                model |> renderPage (model |> content (Just contentToEmbed))
 
         -- Nothing ->
         --     pageNotFound
@@ -692,7 +716,7 @@ view model =
                 mainContent =
                     model
                         |> content Nothing
-                        |> applyToPortal id model
+                        |> applyToPortal model.portal.provider model
             in
                 model |> renderPage mainContent
 
