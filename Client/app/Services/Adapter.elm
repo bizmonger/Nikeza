@@ -25,6 +25,8 @@ type alias JsonProfile =
     , firstName : String
     , lastName : String
     , email : String
+    , imageUrl : String
+    , bio : String
     }
 
 
@@ -72,8 +74,8 @@ jsonProfileToProfile jsonProfile =
     , firstName = Name jsonProfile.firstName
     , lastName = Name jsonProfile.lastName
     , email = Email jsonProfile.email
-    , imageUrl = Url undefined
-    , bio = undefined
+    , imageUrl = Url jsonProfile.imageUrl
+    , bio = jsonProfile.bio
     , sources = []
     }
 
@@ -118,7 +120,7 @@ toProfile jsonProfile =
             ( Name jsonProfile.firstName, Name jsonProfile.lastName )
 
         ( imageUrl, bio, sources ) =
-            ( Url "", "", [] )
+            ( Url jsonProfile.imageUrl, "", [] )
     in
         Profile id firstName lastName email imageUrl bio sources
 

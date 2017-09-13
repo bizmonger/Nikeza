@@ -12,11 +12,13 @@ import Json.Encode as Encode
 
 profileDecoder : Decoder JsonProfile
 profileDecoder =
-    Decode.map4 JsonProfile
+    Decode.map6 JsonProfile
         (field "Id" Decode.string)
         (field "FirstName" Decode.string)
         (field "LastName" Decode.string)
         (field "Email" Decode.string)
+        (field "ImageUrl" Decode.string)
+        (field "Bio" Decode.string)
 
 
 topicDecoder : Decoder JsonTopic

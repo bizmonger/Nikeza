@@ -324,6 +324,8 @@ jsonProfile1 =
         (profile1.firstName |> getName)
         (profile1.lastName |> getName)
         (profile1.email |> getEmail)
+        (profile1.imageUrl |> getUrl)
+        profile1.bio
 
 
 jsonProfile2 : JsonProfile
@@ -333,6 +335,8 @@ jsonProfile2 =
         (profile2.firstName |> getName)
         (profile2.lastName |> getName)
         (profile2.email |> getEmail)
+        (profile2.imageUrl |> getUrl)
+        profile2.bio
 
 
 jsonProfile3 : JsonProfile
@@ -342,6 +346,8 @@ jsonProfile3 =
         (profile3.firstName |> getName)
         (profile3.lastName |> getName)
         (profile3.email |> getEmail)
+        (profile3.imageUrl |> getUrl)
+        profile3.bio
 
 
 jsonProfile4 : JsonProfile
@@ -351,6 +357,8 @@ jsonProfile4 =
         (profile4.firstName |> getName)
         (profile4.lastName |> getName)
         (profile4.email |> getEmail)
+        (profile4.imageUrl |> getUrl)
+        profile4.bio
 
 
 jsonProfile5 : JsonProfile
@@ -360,6 +368,8 @@ jsonProfile5 =
         (profile5.firstName |> getName)
         (profile5.lastName |> getName)
         (profile5.email |> getEmail)
+        (profile5.imageUrl |> getUrl)
+        profile5.bio
 
 
 jsonTopics : List JsonTopic
@@ -450,7 +460,7 @@ tryLogin credentials msg =
 tryRegister : Form -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
 tryRegister form msg =
     if form.password == form.confirm then
-        JsonProfile (getId profileId1) form.firstName form.lastName form.email
+        JsonProfile (getId profileId1) form.firstName form.lastName form.email "" ""
             |> Result.Ok
             |> msg
             |> Task.succeed

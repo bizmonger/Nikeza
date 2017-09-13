@@ -10025,7 +10025,7 @@ var _user$project$Domain_Core$toContentType = function (contentType) {
 var _user$project$Services_Adapter$toProfile = function (jsonProfile) {
 	var _p0 = {
 		ctor: '_Tuple3',
-		_0: _user$project$Domain_Core$Url(''),
+		_0: _user$project$Domain_Core$Url(jsonProfile.imageUrl),
 		_1: '',
 		_2: {ctor: '[]'}
 	};
@@ -10094,8 +10094,8 @@ var _user$project$Services_Adapter$jsonProfileToProfile = function (jsonProfile)
 		firstName: _user$project$Domain_Core$Name(jsonProfile.firstName),
 		lastName: _user$project$Domain_Core$Name(jsonProfile.lastName),
 		email: _user$project$Domain_Core$Email(jsonProfile.email),
-		imageUrl: _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined),
-		bio: _user$project$Domain_Core$undefined,
+		imageUrl: _user$project$Domain_Core$Url(jsonProfile.imageUrl),
+		bio: jsonProfile.bio,
 		sources: {ctor: '[]'}
 	};
 };
@@ -10109,9 +10109,9 @@ var _user$project$Services_Adapter$jsonProfileToProvider = function (jsonProfile
 		_user$project$Domain_Core$initSubscription,
 		_user$project$Domain_Core$initSubscription);
 };
-var _user$project$Services_Adapter$JsonProfile = F4(
-	function (a, b, c, d) {
-		return {id: a, firstName: b, lastName: c, email: d};
+var _user$project$Services_Adapter$JsonProfile = F6(
+	function (a, b, c, d, e, f) {
+		return {id: a, firstName: b, lastName: c, email: d, imageUrl: e, bio: f};
 	});
 var _user$project$Services_Adapter$JsonTopic = F2(
 	function (a, b) {
@@ -10285,12 +10285,14 @@ var _user$project$Tests_TestAPI$profile5 = A7(
 	_user$project$Tests_TestAPI$profile5ImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId5));
-var _user$project$Tests_TestAPI$jsonProfile5 = A4(
+var _user$project$Tests_TestAPI$jsonProfile5 = A6(
 	_user$project$Services_Adapter$JsonProfile,
 	_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId5),
 	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile5.firstName),
 	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile5.lastName),
-	_user$project$Domain_Core$getEmail(_user$project$Tests_TestAPI$profile5.email));
+	_user$project$Domain_Core$getEmail(_user$project$Tests_TestAPI$profile5.email),
+	_user$project$Domain_Core$getUrl(_user$project$Tests_TestAPI$profile5.imageUrl),
+	_user$project$Tests_TestAPI$profile5.bio);
 var _user$project$Tests_TestAPI$jsonProvider5 = A6(
 	_user$project$Services_Adapter$JsonProvider,
 	_user$project$Tests_TestAPI$jsonProfile5,
@@ -10309,12 +10311,14 @@ var _user$project$Tests_TestAPI$profile4 = A7(
 	_user$project$Tests_TestAPI$profile4ImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId4));
-var _user$project$Tests_TestAPI$jsonProfile4 = A4(
+var _user$project$Tests_TestAPI$jsonProfile4 = A6(
 	_user$project$Services_Adapter$JsonProfile,
 	_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId4),
 	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile4.firstName),
 	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile4.lastName),
-	_user$project$Domain_Core$getEmail(_user$project$Tests_TestAPI$profile4.email));
+	_user$project$Domain_Core$getEmail(_user$project$Tests_TestAPI$profile4.email),
+	_user$project$Domain_Core$getUrl(_user$project$Tests_TestAPI$profile4.imageUrl),
+	_user$project$Tests_TestAPI$profile4.bio);
 var _user$project$Tests_TestAPI$jsonProvider4 = A6(
 	_user$project$Services_Adapter$JsonProvider,
 	_user$project$Tests_TestAPI$jsonProfile4,
@@ -10333,12 +10337,14 @@ var _user$project$Tests_TestAPI$profile3 = A7(
 	_user$project$Tests_TestAPI$profile3ImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId3));
-var _user$project$Tests_TestAPI$jsonProfile3 = A4(
+var _user$project$Tests_TestAPI$jsonProfile3 = A6(
 	_user$project$Services_Adapter$JsonProfile,
 	_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId3),
 	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile3.firstName),
 	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile3.lastName),
-	_user$project$Domain_Core$getEmail(_user$project$Tests_TestAPI$profile3.email));
+	_user$project$Domain_Core$getEmail(_user$project$Tests_TestAPI$profile3.email),
+	_user$project$Domain_Core$getUrl(_user$project$Tests_TestAPI$profile3.imageUrl),
+	_user$project$Tests_TestAPI$profile3.bio);
 var _user$project$Tests_TestAPI$jsonProvider3 = A6(
 	_user$project$Services_Adapter$JsonProvider,
 	_user$project$Tests_TestAPI$jsonProfile3,
@@ -10357,12 +10363,14 @@ var _user$project$Tests_TestAPI$profile2 = A7(
 	_user$project$Tests_TestAPI$profile2ImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId2));
-var _user$project$Tests_TestAPI$jsonProfile2 = A4(
+var _user$project$Tests_TestAPI$jsonProfile2 = A6(
 	_user$project$Services_Adapter$JsonProfile,
 	_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId2),
 	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile2.firstName),
 	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile2.lastName),
-	_user$project$Domain_Core$getEmail(_user$project$Tests_TestAPI$profile2.email));
+	_user$project$Domain_Core$getEmail(_user$project$Tests_TestAPI$profile2.email),
+	_user$project$Domain_Core$getUrl(_user$project$Tests_TestAPI$profile2.imageUrl),
+	_user$project$Tests_TestAPI$profile2.bio);
 var _user$project$Tests_TestAPI$jsonProvider2 = A6(
 	_user$project$Services_Adapter$JsonProvider,
 	_user$project$Tests_TestAPI$jsonProfile2,
@@ -11001,12 +11009,14 @@ var _user$project$Tests_TestAPI$providers = {
 		}
 	}
 };
-var _user$project$Tests_TestAPI$jsonProfile1 = A4(
+var _user$project$Tests_TestAPI$jsonProfile1 = A6(
 	_user$project$Services_Adapter$JsonProfile,
 	_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId1),
 	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile1.firstName),
 	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile1.lastName),
-	_user$project$Domain_Core$getEmail(_user$project$Tests_TestAPI$profile1.email));
+	_user$project$Domain_Core$getEmail(_user$project$Tests_TestAPI$profile1.email),
+	_user$project$Domain_Core$getUrl(_user$project$Tests_TestAPI$profile1.imageUrl),
+	_user$project$Tests_TestAPI$profile1.bio);
 var _user$project$Tests_TestAPI$jsonLink1 = A6(
 	_user$project$Services_Adapter$JsonLink,
 	_user$project$Tests_TestAPI$jsonProfile1,
@@ -11045,12 +11055,14 @@ var _user$project$Tests_TestAPI$tryRegister = F2(
 			_elm_lang$core$Task$succeed(
 				msg(
 					_elm_lang$core$Result$Ok(
-						A4(
+						A6(
 							_user$project$Services_Adapter$JsonProfile,
 							_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId1),
 							form.firstName,
 							form.lastName,
-							form.email))))) : _elm_lang$core$Platform_Cmd$none;
+							form.email,
+							'',
+							''))))) : _elm_lang$core$Platform_Cmd$none;
 	});
 var _user$project$Tests_TestAPI$provider = F2(
 	function (id, msg) {
@@ -11277,13 +11289,15 @@ var _user$project$Services_Gateway$topicDecoder = A3(
 	_user$project$Services_Adapter$JsonTopic,
 	A2(_elm_lang$core$Json_Decode$field, 'Name', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'IsFeatured', _elm_lang$core$Json_Decode$bool));
-var _user$project$Services_Gateway$profileDecoder = A5(
-	_elm_lang$core$Json_Decode$map4,
+var _user$project$Services_Gateway$profileDecoder = A7(
+	_elm_lang$core$Json_Decode$map6,
 	_user$project$Services_Adapter$JsonProfile,
 	A2(_elm_lang$core$Json_Decode$field, 'Id', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'FirstName', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'LastName', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'Email', _elm_lang$core$Json_Decode$string));
+	A2(_elm_lang$core$Json_Decode$field, 'Email', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'ImageUrl', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'Bio', _elm_lang$core$Json_Decode$string));
 var _user$project$Services_Gateway$linkDecoder = A7(
 	_elm_lang$core$Json_Decode$map6,
 	_user$project$Services_Adapter$JsonLink,
