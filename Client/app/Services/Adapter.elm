@@ -128,7 +128,7 @@ toProfile jsonProfile =
             ( Name jsonProfile.firstName, Name jsonProfile.lastName )
 
         ( imageUrl, bio, sources ) =
-            ( Url jsonProfile.imageUrl, "", [] )
+            ( Url jsonProfile.imageUrl, jsonProfile.bio, jsonProfile.sources )
     in
         Profile id firstName lastName email imageUrl bio sources
 

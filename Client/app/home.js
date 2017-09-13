@@ -10026,8 +10026,8 @@ var _user$project$Services_Adapter$toProfile = function (jsonProfile) {
 	var _p0 = {
 		ctor: '_Tuple3',
 		_0: _user$project$Domain_Core$Url(jsonProfile.imageUrl),
-		_1: '',
-		_2: {ctor: '[]'}
+		_1: jsonProfile.bio,
+		_2: jsonProfile.sources
 	};
 	var imageUrl = _p0._0;
 	var bio = _p0._1;
