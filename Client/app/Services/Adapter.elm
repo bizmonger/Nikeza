@@ -27,12 +27,20 @@ type alias JsonProfile =
     , email : String
     , imageUrl : String
     , bio : String
+    , sources : List Source
     }
 
 
 type alias JsonTopic =
     { name : String
     , isFeatured : Bool
+    }
+
+
+type alias JsonSource =
+    { platform : String
+    , username : String
+    , linksFound : Int
     }
 
 
