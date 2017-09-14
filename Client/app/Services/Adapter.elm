@@ -105,7 +105,17 @@ toSubscriptions jsonSubscriptions =
 
 toRecentLinks : List JsonLink -> List Link
 toRecentLinks jsonLinks =
-    []
+    jsonLinks
+        |> List.map
+            (\link ->
+                { profile = link.profile |> toProfile
+                , title = Title link.title
+                , url = Url link.url
+                , contentType = link.contentType |> toContentType
+                , topics = link.topics
+                , isFeatured = link.isFeatured
+                }
+            )
 
 
 toLinks : JsonLinks -> Links

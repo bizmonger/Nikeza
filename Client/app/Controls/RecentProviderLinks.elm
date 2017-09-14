@@ -23,11 +23,8 @@ formatLink link =
 thumbnail : Id -> Provider -> Html Msg
 thumbnail clientId provider =
     let
-        profile =
-            provider.profile
-
-        links =
-            provider.recentLinks
+        ( profile, links ) =
+            ( provider.profile, provider.recentLinks )
 
         linksUI =
             div [] (links |> List.map formatLink)

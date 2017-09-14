@@ -274,7 +274,11 @@ profile5 =
 
 jsonLinks : JsonLinks
 jsonLinks =
-    JsonLinks [] [] [] []
+    JsonLinks
+        (answers profileId1 |> toJsonLinks)
+        (articles profileId1 |> toJsonLinks)
+        (videos profileId1 |> toJsonLinks)
+        (podcasts profileId1 |> toJsonLinks)
 
 
 subscriptions : Id -> Subscribers
@@ -389,7 +393,7 @@ jsonLink1 =
 
 jsonProvider1 : JsonProvider
 jsonProvider1 =
-    JsonProvider jsonProfile1 [] jsonLinks [] [] []
+    JsonProvider jsonProfile1 topics jsonLinks (recentLinks1 |> toJsonLinks) [] []
 
 
 jsonProvider2 : JsonProvider
@@ -472,6 +476,33 @@ tryRegister form msg =
             |> Task.perform identity
     else
         Cmd.none
+
+
+toJsonProfile : Profile -> JsonProfile
+toJsonProfile profile =
+    { id = getId profile.id
+    , firstName = getName profile.firstName
+    , lastName = getName profile.lastName
+    , email = getEmail profile.email
+    , imageUrl = getUrl profile.imageUrl
+    , bio = profile.bio
+    , sources = profile.sources
+    }
+
+
+toJsonLinks : List Link -> List JsonLink
+toJsonLinks links =
+    links
+        |> List.map
+            (\link ->
+                { profile = link.profile |> toJsonProfile
+                , title = getTitle link.title
+                , url = getUrl link.url
+                , contentType = link.contentType |> contentTypeToText
+                , topics = link.topics
+                , isFeatured = link.isFeatured
+                }
+            )
 
 
 answers : Id -> List Link

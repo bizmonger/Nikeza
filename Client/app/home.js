@@ -10055,7 +10055,19 @@ var _user$project$Services_Adapter$toLinks = function (jsonLinks) {
 	return _user$project$Domain_Core$initLinks;
 };
 var _user$project$Services_Adapter$toRecentLinks = function (jsonLinks) {
-	return {ctor: '[]'};
+	return A2(
+		_elm_lang$core$List$map,
+		function (link) {
+			return {
+				profile: _user$project$Services_Adapter$toProfile(link.profile),
+				title: _user$project$Domain_Core$Title(link.title),
+				url: _user$project$Domain_Core$Url(link.url),
+				contentType: _user$project$Domain_Core$toContentType(link.contentType),
+				topics: link.topics,
+				isFeatured: link.isFeatured
+			};
+		},
+		jsonLinks);
 };
 var _user$project$Services_Adapter$toProvider = function (jsonProvider) {
 	return {
@@ -10201,13 +10213,33 @@ var _user$project$Tests_TestAPI$removeSource = F2(
 				},
 				_user$project$Tests_TestAPI$sources(profileId)));
 	});
+var _user$project$Tests_TestAPI$toJsonProfile = function (profile) {
+	return {
+		id: _user$project$Domain_Core$getId(profile.id),
+		firstName: _user$project$Domain_Core$getName(profile.firstName),
+		lastName: _user$project$Domain_Core$getName(profile.lastName),
+		email: _user$project$Domain_Core$getEmail(profile.email),
+		imageUrl: _user$project$Domain_Core$getUrl(profile.imageUrl),
+		bio: profile.bio,
+		sources: profile.sources
+	};
+};
+var _user$project$Tests_TestAPI$toJsonLinks = function (links) {
+	return A2(
+		_elm_lang$core$List$map,
+		function (link) {
+			return {
+				profile: _user$project$Tests_TestAPI$toJsonProfile(link.profile),
+				title: _user$project$Domain_Core$getTitle(link.title),
+				url: _user$project$Domain_Core$getUrl(link.url),
+				contentType: _user$project$Domain_Core$contentTypeToText(link.contentType),
+				topics: link.topics,
+				isFeatured: link.isFeatured
+			};
+		},
+		links);
+};
 var _user$project$Tests_TestAPI$jsonTopics = {ctor: '[]'};
-var _user$project$Tests_TestAPI$jsonLinks = A4(
-	_user$project$Services_Adapter$JsonLinks,
-	{ctor: '[]'},
-	{ctor: '[]'},
-	{ctor: '[]'},
-	{ctor: '[]'});
 var _user$project$Tests_TestAPI$someEmail = _user$project$Domain_Core$Email('abc@abc.com');
 var _user$project$Tests_TestAPI$someDescrtiption = 'some description...';
 var _user$project$Tests_TestAPI$someAnswerTitle6 = _user$project$Domain_Core$Title('Some Property-based Testing Answer');
@@ -10298,14 +10330,6 @@ var _user$project$Tests_TestAPI$jsonProfile5 = A7(
 	_user$project$Domain_Core$getUrl(_user$project$Tests_TestAPI$profile5.imageUrl),
 	_user$project$Tests_TestAPI$profile5.bio,
 	_user$project$Tests_TestAPI$profile5.sources);
-var _user$project$Tests_TestAPI$jsonProvider5 = A6(
-	_user$project$Services_Adapter$JsonProvider,
-	_user$project$Tests_TestAPI$jsonProfile5,
-	{ctor: '[]'},
-	_user$project$Tests_TestAPI$jsonLinks,
-	{ctor: '[]'},
-	{ctor: '[]'},
-	{ctor: '[]'});
 var _user$project$Tests_TestAPI$profileId4 = _user$project$Domain_Core$Id('profile_4');
 var _user$project$Tests_TestAPI$profile4 = A7(
 	_user$project$Domain_Core$Profile,
@@ -10325,14 +10349,6 @@ var _user$project$Tests_TestAPI$jsonProfile4 = A7(
 	_user$project$Domain_Core$getUrl(_user$project$Tests_TestAPI$profile4.imageUrl),
 	_user$project$Tests_TestAPI$profile4.bio,
 	_user$project$Tests_TestAPI$profile4.sources);
-var _user$project$Tests_TestAPI$jsonProvider4 = A6(
-	_user$project$Services_Adapter$JsonProvider,
-	_user$project$Tests_TestAPI$jsonProfile4,
-	{ctor: '[]'},
-	_user$project$Tests_TestAPI$jsonLinks,
-	{ctor: '[]'},
-	{ctor: '[]'},
-	{ctor: '[]'});
 var _user$project$Tests_TestAPI$profileId3 = _user$project$Domain_Core$Id('profile_3');
 var _user$project$Tests_TestAPI$profile3 = A7(
 	_user$project$Domain_Core$Profile,
@@ -10352,14 +10368,6 @@ var _user$project$Tests_TestAPI$jsonProfile3 = A7(
 	_user$project$Domain_Core$getUrl(_user$project$Tests_TestAPI$profile3.imageUrl),
 	_user$project$Tests_TestAPI$profile3.bio,
 	_user$project$Tests_TestAPI$profile3.sources);
-var _user$project$Tests_TestAPI$jsonProvider3 = A6(
-	_user$project$Services_Adapter$JsonProvider,
-	_user$project$Tests_TestAPI$jsonProfile3,
-	{ctor: '[]'},
-	_user$project$Tests_TestAPI$jsonLinks,
-	{ctor: '[]'},
-	{ctor: '[]'},
-	{ctor: '[]'});
 var _user$project$Tests_TestAPI$profileId2 = _user$project$Domain_Core$Id('profile_2');
 var _user$project$Tests_TestAPI$profile2 = A7(
 	_user$project$Domain_Core$Profile,
@@ -10379,14 +10387,6 @@ var _user$project$Tests_TestAPI$jsonProfile2 = A7(
 	_user$project$Domain_Core$getUrl(_user$project$Tests_TestAPI$profile2.imageUrl),
 	_user$project$Tests_TestAPI$profile2.bio,
 	_user$project$Tests_TestAPI$profile2.sources);
-var _user$project$Tests_TestAPI$jsonProvider2 = A6(
-	_user$project$Services_Adapter$JsonProvider,
-	_user$project$Tests_TestAPI$jsonProfile2,
-	{ctor: '[]'},
-	_user$project$Tests_TestAPI$jsonLinks,
-	{ctor: '[]'},
-	{ctor: '[]'},
-	{ctor: '[]'});
 var _user$project$Tests_TestAPI$profileId1 = _user$project$Domain_Core$Id('profile_1');
 var _user$project$Tests_TestAPI$profile1 = A7(
 	_user$project$Domain_Core$Profile,
@@ -10936,6 +10936,48 @@ var _user$project$Tests_TestAPI$topicLinks = F3(
 			},
 			A2(_user$project$Tests_TestAPI$linksToContent, contentType, id));
 	});
+var _user$project$Tests_TestAPI$jsonLinks = A4(
+	_user$project$Services_Adapter$JsonLinks,
+	_user$project$Tests_TestAPI$toJsonLinks(
+		_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId1)),
+	_user$project$Tests_TestAPI$toJsonLinks(
+		_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId1)),
+	_user$project$Tests_TestAPI$toJsonLinks(
+		_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId1)),
+	_user$project$Tests_TestAPI$toJsonLinks(
+		_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId1)));
+var _user$project$Tests_TestAPI$jsonProvider2 = A6(
+	_user$project$Services_Adapter$JsonProvider,
+	_user$project$Tests_TestAPI$jsonProfile2,
+	{ctor: '[]'},
+	_user$project$Tests_TestAPI$jsonLinks,
+	{ctor: '[]'},
+	{ctor: '[]'},
+	{ctor: '[]'});
+var _user$project$Tests_TestAPI$jsonProvider3 = A6(
+	_user$project$Services_Adapter$JsonProvider,
+	_user$project$Tests_TestAPI$jsonProfile3,
+	{ctor: '[]'},
+	_user$project$Tests_TestAPI$jsonLinks,
+	{ctor: '[]'},
+	{ctor: '[]'},
+	{ctor: '[]'});
+var _user$project$Tests_TestAPI$jsonProvider4 = A6(
+	_user$project$Services_Adapter$JsonProvider,
+	_user$project$Tests_TestAPI$jsonProfile4,
+	{ctor: '[]'},
+	_user$project$Tests_TestAPI$jsonLinks,
+	{ctor: '[]'},
+	{ctor: '[]'},
+	{ctor: '[]'});
+var _user$project$Tests_TestAPI$jsonProvider5 = A6(
+	_user$project$Services_Adapter$JsonProvider,
+	_user$project$Tests_TestAPI$jsonProfile5,
+	{ctor: '[]'},
+	_user$project$Tests_TestAPI$jsonLinks,
+	{ctor: '[]'},
+	{ctor: '[]'},
+	{ctor: '[]'});
 var _user$project$Tests_TestAPI$followers = function (profileId) {
 	return _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? _user$project$Domain_Core$Subscribers(
 		{
@@ -11037,9 +11079,9 @@ var _user$project$Tests_TestAPI$jsonLink1 = A6(
 var _user$project$Tests_TestAPI$jsonProvider1 = A6(
 	_user$project$Services_Adapter$JsonProvider,
 	_user$project$Tests_TestAPI$jsonProfile1,
-	{ctor: '[]'},
+	_user$project$Tests_TestAPI$topics,
 	_user$project$Tests_TestAPI$jsonLinks,
-	{ctor: '[]'},
+	_user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
 	{ctor: '[]'},
 	{ctor: '[]'});
 var _user$project$Tests_TestAPI$tryLogin = F2(
@@ -13860,12 +13902,13 @@ var _user$project$Controls_RecentProviderLinks$formatLink = function (link) {
 };
 var _user$project$Controls_RecentProviderLinks$thumbnail = F2(
 	function (clientId, provider) {
-		var links = provider.recentLinks;
+		var _p0 = {ctor: '_Tuple2', _0: provider.profile, _1: provider.recentLinks};
+		var profile = _p0._0;
+		var links = _p0._1;
 		var linksUI = A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
 			A2(_elm_lang$core$List$map, _user$project$Controls_RecentProviderLinks$formatLink, links));
-		var profile = provider.profile;
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
