@@ -10946,38 +10946,6 @@ var _user$project$Tests_TestAPI$jsonLinks = A4(
 		_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId1)),
 	_user$project$Tests_TestAPI$toJsonLinks(
 		_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId1)));
-var _user$project$Tests_TestAPI$jsonProvider2 = A6(
-	_user$project$Services_Adapter$JsonProvider,
-	_user$project$Tests_TestAPI$jsonProfile2,
-	{ctor: '[]'},
-	_user$project$Tests_TestAPI$jsonLinks,
-	{ctor: '[]'},
-	{ctor: '[]'},
-	{ctor: '[]'});
-var _user$project$Tests_TestAPI$jsonProvider3 = A6(
-	_user$project$Services_Adapter$JsonProvider,
-	_user$project$Tests_TestAPI$jsonProfile3,
-	{ctor: '[]'},
-	_user$project$Tests_TestAPI$jsonLinks,
-	{ctor: '[]'},
-	{ctor: '[]'},
-	{ctor: '[]'});
-var _user$project$Tests_TestAPI$jsonProvider4 = A6(
-	_user$project$Services_Adapter$JsonProvider,
-	_user$project$Tests_TestAPI$jsonProfile4,
-	{ctor: '[]'},
-	_user$project$Tests_TestAPI$jsonLinks,
-	{ctor: '[]'},
-	{ctor: '[]'},
-	{ctor: '[]'});
-var _user$project$Tests_TestAPI$jsonProvider5 = A6(
-	_user$project$Services_Adapter$JsonProvider,
-	_user$project$Tests_TestAPI$jsonProfile5,
-	{ctor: '[]'},
-	_user$project$Tests_TestAPI$jsonLinks,
-	{ctor: '[]'},
-	{ctor: '[]'},
-	{ctor: '[]'});
 var _user$project$Tests_TestAPI$followers = function (profileId) {
 	return _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? _user$project$Domain_Core$Subscribers(
 		{
@@ -11082,8 +11050,24 @@ var _user$project$Tests_TestAPI$jsonProvider1 = A6(
 	_user$project$Tests_TestAPI$topics,
 	_user$project$Tests_TestAPI$jsonLinks,
 	_user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
-	{ctor: '[]'},
-	{ctor: '[]'});
+	{
+		ctor: '::',
+		_0: _user$project$Tests_TestAPI$jsonProfile2,
+		_1: {
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$jsonProfile3,
+			_1: {ctor: '[]'}
+		}
+	},
+	{
+		ctor: '::',
+		_0: _user$project$Tests_TestAPI$jsonProfile2,
+		_1: {
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$jsonProfile3,
+			_1: {ctor: '[]'}
+		}
+	});
 var _user$project$Tests_TestAPI$tryLogin = F2(
 	function (credentials, msg) {
 		var successful = _elm_lang$core$Native_Utils.eq(
@@ -11098,6 +11082,70 @@ var _user$project$Tests_TestAPI$tryLogin = F2(
 				msg(
 					_elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$jsonProvider1)))) : _elm_lang$core$Platform_Cmd$none;
 	});
+var _user$project$Tests_TestAPI$jsonProvider2 = A6(
+	_user$project$Services_Adapter$JsonProvider,
+	_user$project$Tests_TestAPI$jsonProfile1,
+	_user$project$Tests_TestAPI$topics,
+	_user$project$Tests_TestAPI$jsonLinks,
+	_user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks2),
+	{
+		ctor: '::',
+		_0: _user$project$Tests_TestAPI$jsonProfile1,
+		_1: {
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$jsonProfile3,
+			_1: {ctor: '[]'}
+		}
+	},
+	{
+		ctor: '::',
+		_0: _user$project$Tests_TestAPI$jsonProfile1,
+		_1: {
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$jsonProfile3,
+			_1: {ctor: '[]'}
+		}
+	});
+var _user$project$Tests_TestAPI$jsonProvider3 = A6(
+	_user$project$Services_Adapter$JsonProvider,
+	_user$project$Tests_TestAPI$jsonProfile1,
+	_user$project$Tests_TestAPI$topics,
+	_user$project$Tests_TestAPI$jsonLinks,
+	_user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks3),
+	{
+		ctor: '::',
+		_0: _user$project$Tests_TestAPI$jsonProfile2,
+		_1: {
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$jsonProfile1,
+			_1: {ctor: '[]'}
+		}
+	},
+	{
+		ctor: '::',
+		_0: _user$project$Tests_TestAPI$jsonProfile2,
+		_1: {
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$jsonProfile1,
+			_1: {ctor: '[]'}
+		}
+	});
+var _user$project$Tests_TestAPI$jsonProvider4 = A6(
+	_user$project$Services_Adapter$JsonProvider,
+	_user$project$Tests_TestAPI$jsonProfile1,
+	_user$project$Tests_TestAPI$topics,
+	_user$project$Tests_TestAPI$jsonLinks,
+	{ctor: '[]'},
+	{ctor: '[]'},
+	{ctor: '[]'});
+var _user$project$Tests_TestAPI$jsonProvider5 = A6(
+	_user$project$Services_Adapter$JsonProvider,
+	_user$project$Tests_TestAPI$jsonProfile1,
+	_user$project$Tests_TestAPI$topics,
+	_user$project$Tests_TestAPI$jsonLinks,
+	{ctor: '[]'},
+	{ctor: '[]'},
+	{ctor: '[]'});
 var _user$project$Tests_TestAPI$tryRegister = F2(
 	function (form, msg) {
 		return _elm_lang$core$Native_Utils.eq(form.password, form.confirm) ? A2(

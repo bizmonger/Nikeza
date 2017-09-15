@@ -393,27 +393,27 @@ jsonLink1 =
 
 jsonProvider1 : JsonProvider
 jsonProvider1 =
-    JsonProvider jsonProfile1 topics jsonLinks (recentLinks1 |> toJsonLinks) [] []
+    JsonProvider jsonProfile1 topics jsonLinks (recentLinks1 |> toJsonLinks) [ jsonProfile2, jsonProfile3 ] [ jsonProfile2, jsonProfile3 ]
 
 
 jsonProvider2 : JsonProvider
 jsonProvider2 =
-    JsonProvider jsonProfile2 [] jsonLinks [] [] []
+    JsonProvider jsonProfile1 topics jsonLinks (recentLinks2 |> toJsonLinks) [ jsonProfile1, jsonProfile3 ] [ jsonProfile1, jsonProfile3 ]
 
 
 jsonProvider3 : JsonProvider
 jsonProvider3 =
-    JsonProvider jsonProfile3 [] jsonLinks [] [] []
+    JsonProvider jsonProfile1 topics jsonLinks (recentLinks3 |> toJsonLinks) [ jsonProfile2, jsonProfile1 ] [ jsonProfile2, jsonProfile1 ]
 
 
 jsonProvider4 : JsonProvider
 jsonProvider4 =
-    JsonProvider jsonProfile4 [] jsonLinks [] [] []
+    JsonProvider jsonProfile1 topics jsonLinks [] [] []
 
 
 jsonProvider5 : JsonProvider
 jsonProvider5 =
-    JsonProvider jsonProfile5 [] jsonLinks [] [] []
+    JsonProvider jsonProfile1 topics jsonLinks [] [] []
 
 
 provider1 : Provider
