@@ -10070,18 +10070,30 @@ var _user$project$Services_Adapter$toRecentLinks = function (jsonLinks) {
 		jsonLinks);
 };
 var _user$project$Services_Adapter$toProvider = function (jsonProvider) {
+	var _p3 = jsonProvider;
+	var provider = _p3._0;
 	return {
-		profile: _user$project$Services_Adapter$toProfile(jsonProvider.profile),
-		topics: _user$project$Services_Adapter$toTopics(jsonProvider.topics),
-		links: _user$project$Services_Adapter$toLinks(jsonProvider.links),
-		recentLinks: _user$project$Services_Adapter$toRecentLinks(jsonProvider.recentLinks),
+		profile: _user$project$Services_Adapter$toProfile(provider.profile),
+		topics: _user$project$Services_Adapter$toTopics(provider.topics),
+		links: _user$project$Services_Adapter$toLinks(provider.links),
+		recentLinks: _user$project$Services_Adapter$toRecentLinks(provider.recentLinks),
 		subscriptions: function (id) {
 			return _user$project$Domain_Core$Subscribers(
-				{ctor: '[]'});
+				A2(
+					_elm_lang$core$List$map,
+					function (jp) {
+						return _user$project$Services_Adapter$toProvider(jp);
+					},
+					provider.subscriptions));
 		},
 		followers: function (id) {
 			return _user$project$Domain_Core$Subscribers(
-				{ctor: '[]'});
+				A2(
+					_elm_lang$core$List$map,
+					function (jp) {
+						return _user$project$Services_Adapter$toProvider(jp);
+					},
+					provider.followers));
 		}
 	};
 };
@@ -10141,11 +10153,14 @@ var _user$project$Services_Adapter$JsonLink = F6(
 	function (a, b, c, d, e, f) {
 		return {profile: a, title: b, url: c, contentType: d, topics: e, isFeatured: f};
 	});
-var _user$project$Services_Adapter$JsonProvider = F6(
+var _user$project$Services_Adapter$JsonProviderFields = F6(
 	function (a, b, c, d, e, f) {
 		return {profile: a, topics: b, links: c, recentLinks: d, subscriptions: e, followers: f};
 	});
 var _user$project$Services_Adapter$JsonSubscriber = {};
+var _user$project$Services_Adapter$JsonProvider = function (a) {
+	return {ctor: 'JsonProvider', _0: a};
+};
 
 var _user$project$Tests_TestAPI$unsubscribe = F2(
 	function (clientId, providerId) {
@@ -10946,6 +10961,42 @@ var _user$project$Tests_TestAPI$jsonLinks = A4(
 		_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId1)),
 	_user$project$Tests_TestAPI$toJsonLinks(
 		_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId1)));
+var _user$project$Tests_TestAPI$jsonProvider2 = _user$project$Services_Adapter$JsonProvider(
+	{
+		profile: _user$project$Tests_TestAPI$jsonProfile2,
+		topics: _user$project$Tests_TestAPI$topics,
+		links: _user$project$Tests_TestAPI$jsonLinks,
+		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
+		subscriptions: {ctor: '[]'},
+		followers: {ctor: '[]'}
+	});
+var _user$project$Tests_TestAPI$jsonProvider3 = _user$project$Services_Adapter$JsonProvider(
+	{
+		profile: _user$project$Tests_TestAPI$jsonProfile3,
+		topics: _user$project$Tests_TestAPI$topics,
+		links: _user$project$Tests_TestAPI$jsonLinks,
+		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
+		subscriptions: {ctor: '[]'},
+		followers: {ctor: '[]'}
+	});
+var _user$project$Tests_TestAPI$jsonProvider4 = _user$project$Services_Adapter$JsonProvider(
+	{
+		profile: _user$project$Tests_TestAPI$jsonProfile4,
+		topics: _user$project$Tests_TestAPI$topics,
+		links: _user$project$Tests_TestAPI$jsonLinks,
+		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
+		subscriptions: {ctor: '[]'},
+		followers: {ctor: '[]'}
+	});
+var _user$project$Tests_TestAPI$jsonProvider5 = _user$project$Services_Adapter$JsonProvider(
+	{
+		profile: _user$project$Tests_TestAPI$jsonProfile5,
+		topics: _user$project$Tests_TestAPI$topics,
+		links: _user$project$Tests_TestAPI$jsonLinks,
+		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
+		subscriptions: {ctor: '[]'},
+		followers: {ctor: '[]'}
+	});
 var _user$project$Tests_TestAPI$followers = function (profileId) {
 	return _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? _user$project$Domain_Core$Subscribers(
 		{
@@ -11044,28 +11095,29 @@ var _user$project$Tests_TestAPI$jsonLink1 = A6(
 	'video',
 	{ctor: '[]'},
 	false);
-var _user$project$Tests_TestAPI$jsonProvider1 = A6(
-	_user$project$Services_Adapter$JsonProvider,
-	_user$project$Tests_TestAPI$jsonProfile1,
-	_user$project$Tests_TestAPI$topics,
-	_user$project$Tests_TestAPI$jsonLinks,
-	_user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
+var _user$project$Tests_TestAPI$jsonProvider1 = _user$project$Services_Adapter$JsonProvider(
 	{
-		ctor: '::',
-		_0: _user$project$Tests_TestAPI$jsonProfile2,
-		_1: {
+		profile: _user$project$Tests_TestAPI$jsonProfile1,
+		topics: _user$project$Tests_TestAPI$topics,
+		links: _user$project$Tests_TestAPI$jsonLinks,
+		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
+		subscriptions: {
 			ctor: '::',
-			_0: _user$project$Tests_TestAPI$jsonProfile3,
-			_1: {ctor: '[]'}
-		}
-	},
-	{
-		ctor: '::',
-		_0: _user$project$Tests_TestAPI$jsonProfile2,
-		_1: {
+			_0: _user$project$Tests_TestAPI$jsonProvider2,
+			_1: {
+				ctor: '::',
+				_0: _user$project$Tests_TestAPI$jsonProvider3,
+				_1: {ctor: '[]'}
+			}
+		},
+		followers: {
 			ctor: '::',
-			_0: _user$project$Tests_TestAPI$jsonProfile3,
-			_1: {ctor: '[]'}
+			_0: _user$project$Tests_TestAPI$jsonProvider2,
+			_1: {
+				ctor: '::',
+				_0: _user$project$Tests_TestAPI$jsonProvider3,
+				_1: {ctor: '[]'}
+			}
 		}
 	});
 var _user$project$Tests_TestAPI$tryLogin = F2(
@@ -11082,70 +11134,6 @@ var _user$project$Tests_TestAPI$tryLogin = F2(
 				msg(
 					_elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$jsonProvider1)))) : _elm_lang$core$Platform_Cmd$none;
 	});
-var _user$project$Tests_TestAPI$jsonProvider2 = A6(
-	_user$project$Services_Adapter$JsonProvider,
-	_user$project$Tests_TestAPI$jsonProfile1,
-	_user$project$Tests_TestAPI$topics,
-	_user$project$Tests_TestAPI$jsonLinks,
-	_user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks2),
-	{
-		ctor: '::',
-		_0: _user$project$Tests_TestAPI$jsonProfile1,
-		_1: {
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$jsonProfile3,
-			_1: {ctor: '[]'}
-		}
-	},
-	{
-		ctor: '::',
-		_0: _user$project$Tests_TestAPI$jsonProfile1,
-		_1: {
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$jsonProfile3,
-			_1: {ctor: '[]'}
-		}
-	});
-var _user$project$Tests_TestAPI$jsonProvider3 = A6(
-	_user$project$Services_Adapter$JsonProvider,
-	_user$project$Tests_TestAPI$jsonProfile1,
-	_user$project$Tests_TestAPI$topics,
-	_user$project$Tests_TestAPI$jsonLinks,
-	_user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks3),
-	{
-		ctor: '::',
-		_0: _user$project$Tests_TestAPI$jsonProfile2,
-		_1: {
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$jsonProfile1,
-			_1: {ctor: '[]'}
-		}
-	},
-	{
-		ctor: '::',
-		_0: _user$project$Tests_TestAPI$jsonProfile2,
-		_1: {
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$jsonProfile1,
-			_1: {ctor: '[]'}
-		}
-	});
-var _user$project$Tests_TestAPI$jsonProvider4 = A6(
-	_user$project$Services_Adapter$JsonProvider,
-	_user$project$Tests_TestAPI$jsonProfile1,
-	_user$project$Tests_TestAPI$topics,
-	_user$project$Tests_TestAPI$jsonLinks,
-	{ctor: '[]'},
-	{ctor: '[]'},
-	{ctor: '[]'});
-var _user$project$Tests_TestAPI$jsonProvider5 = A6(
-	_user$project$Services_Adapter$JsonProvider,
-	_user$project$Tests_TestAPI$jsonProfile1,
-	_user$project$Tests_TestAPI$topics,
-	_user$project$Tests_TestAPI$jsonLinks,
-	{ctor: '[]'},
-	{ctor: '[]'},
-	{ctor: '[]'});
 var _user$project$Tests_TestAPI$tryRegister = F2(
 	function (form, msg) {
 		return _elm_lang$core$Native_Utils.eq(form.password, form.confirm) ? A2(
@@ -11439,27 +11427,38 @@ var _user$project$Services_Gateway$linksDecoder = A5(
 		_elm_lang$core$Json_Decode$field,
 		'Answers',
 		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder)));
-var _user$project$Services_Gateway$providerDecoder = A7(
-	_elm_lang$core$Json_Decode$map6,
+var _user$project$Services_Gateway$providerDecoder = A2(
+	_elm_lang$core$Json_Decode$map,
 	_user$project$Services_Adapter$JsonProvider,
-	A2(_elm_lang$core$Json_Decode$field, 'Profile', _user$project$Services_Gateway$profileDecoder),
-	A2(
-		_elm_lang$core$Json_Decode$field,
-		'Topics',
-		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$topicDecoder)),
-	A2(_elm_lang$core$Json_Decode$field, 'Links', _user$project$Services_Gateway$linksDecoder),
-	A2(
-		_elm_lang$core$Json_Decode$field,
-		'RecentLinks',
-		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder)),
-	A2(
-		_elm_lang$core$Json_Decode$field,
-		'Subscriptions',
-		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$profileDecoder)),
-	A2(
-		_elm_lang$core$Json_Decode$field,
-		'Followers',
-		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$profileDecoder)));
+	A7(
+		_elm_lang$core$Json_Decode$map6,
+		_user$project$Services_Adapter$JsonProviderFields,
+		A2(_elm_lang$core$Json_Decode$field, 'Profile', _user$project$Services_Gateway$profileDecoder),
+		A2(
+			_elm_lang$core$Json_Decode$field,
+			'Topics',
+			_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$topicDecoder)),
+		A2(_elm_lang$core$Json_Decode$field, 'Links', _user$project$Services_Gateway$linksDecoder),
+		A2(
+			_elm_lang$core$Json_Decode$field,
+			'RecentLinks',
+			_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder)),
+		A2(
+			_elm_lang$core$Json_Decode$field,
+			'Subscriptions',
+			_elm_lang$core$Json_Decode$list(
+				_elm_lang$core$Json_Decode$lazy(
+					function (_p0) {
+						return _user$project$Services_Gateway$providerDecoder;
+					}))),
+		A2(
+			_elm_lang$core$Json_Decode$field,
+			'Followers',
+			_elm_lang$core$Json_Decode$list(
+				_elm_lang$core$Json_Decode$lazy(
+					function (_p1) {
+						return _user$project$Services_Gateway$providerDecoder;
+					})))));
 var _user$project$Services_Gateway$tryLogin = F2(
 	function (credentials, msg) {
 		var body = _elm_lang$http$Http$jsonBody(
@@ -12070,11 +12069,13 @@ var _user$project$Controls_Login$update = F2(
 				};
 			default:
 				if (_p0._0.ctor === 'Ok') {
+					var _p1 = _p0._0._0;
+					var jsonProviderField = _p1._0;
 					return {
 						ctor: '_Tuple2',
 						_0: model,
 						_1: _elm_lang$navigation$Navigation$load(
-							A2(_elm_lang$core$Basics_ops['++'], '/#/portal/', _p0._0._0.profile.id))
+							A2(_elm_lang$core$Basics_ops['++'], '/#/portal/', jsonProviderField.profile.id))
 					};
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};

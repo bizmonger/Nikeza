@@ -42,7 +42,11 @@ update msg model =
             ( model, runtime.tryLogin model Response )
 
         Response (Ok jsonProvider) ->
-            ( model, Navigation.load <| "/#/portal/" ++ jsonProvider.profile.id )
+            let
+                (JsonProvider jsonProviderField) =
+                    jsonProvider
+            in
+                ( model, Navigation.load <| "/#/portal/" ++ jsonProviderField.profile.id )
 
         Response (Err error) ->
             ( model, Cmd.none )

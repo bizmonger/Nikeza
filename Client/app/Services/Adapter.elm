@@ -62,13 +62,17 @@ type alias JsonLink =
     }
 
 
-type alias JsonProvider =
+type JsonProvider
+    = JsonProvider JsonProviderFields
+
+
+type alias JsonProviderFields =
     { profile : JsonProfile
     , topics : List JsonTopic
     , links : JsonLinks
     , recentLinks : List JsonLink
-    , subscriptions : List JsonProfile
-    , followers : List JsonProfile
+    , subscriptions : List JsonProvider
+    , followers : List JsonProvider
     }
 
 
@@ -145,10 +149,14 @@ toProfile jsonProfile =
 
 toProvider : JsonProvider -> Provider
 toProvider jsonProvider =
-    { profile = jsonProvider.profile |> toProfile
-    , topics = jsonProvider.topics |> toTopics
-    , links = jsonProvider.links |> toLinks
-    , recentLinks = jsonProvider.recentLinks |> toRecentLinks
-    , subscriptions = (\id -> Subscribers [])
-    , followers = (\id -> Subscribers [])
-    }
+    let
+        (JsonProvider provider) =
+            jsonProvider
+    in
+        { profile = provider.profile |> toProfile
+        , topics = provider.topics |> toTopics
+        , links = provider.links |> toLinks
+        , recentLinks = provider.recentLinks |> toRecentLinks
+        , subscriptions = (\id -> Subscribers (provider.subscriptions |> List.map (\jp -> jp |> toProvider)))
+        , followers = (\id -> Subscribers (provider.followers |> List.map (\jp -> jp |> toProvider)))
+        }

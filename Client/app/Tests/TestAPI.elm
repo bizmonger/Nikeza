@@ -393,27 +393,62 @@ jsonLink1 =
 
 jsonProvider1 : JsonProvider
 jsonProvider1 =
-    JsonProvider jsonProfile1 topics jsonLinks (recentLinks1 |> toJsonLinks) [ jsonProfile2, jsonProfile3 ] [ jsonProfile2, jsonProfile3 ]
+    JsonProvider
+        { profile = jsonProfile1
+        , topics = topics
+        , links = jsonLinks
+        , recentLinks = (recentLinks1 |> toJsonLinks)
+        , subscriptions = [ jsonProvider2, jsonProvider3 ]
+        , followers = [ jsonProvider2, jsonProvider3 ]
+        }
 
 
 jsonProvider2 : JsonProvider
 jsonProvider2 =
-    JsonProvider jsonProfile1 topics jsonLinks (recentLinks2 |> toJsonLinks) [ jsonProfile1, jsonProfile3 ] [ jsonProfile1, jsonProfile3 ]
+    JsonProvider
+        { profile = jsonProfile2
+        , topics = topics
+        , links = jsonLinks
+        , recentLinks = (recentLinks1 |> toJsonLinks)
+        , subscriptions = []
+        , followers = []
+        }
 
 
 jsonProvider3 : JsonProvider
 jsonProvider3 =
-    JsonProvider jsonProfile1 topics jsonLinks (recentLinks3 |> toJsonLinks) [ jsonProfile2, jsonProfile1 ] [ jsonProfile2, jsonProfile1 ]
+    JsonProvider
+        { profile = jsonProfile3
+        , topics = topics
+        , links = jsonLinks
+        , recentLinks = (recentLinks1 |> toJsonLinks)
+        , subscriptions = []
+        , followers = []
+        }
 
 
 jsonProvider4 : JsonProvider
 jsonProvider4 =
-    JsonProvider jsonProfile1 topics jsonLinks [] [] []
+    JsonProvider
+        { profile = jsonProfile4
+        , topics = topics
+        , links = jsonLinks
+        , recentLinks = (recentLinks1 |> toJsonLinks)
+        , subscriptions = []
+        , followers = []
+        }
 
 
 jsonProvider5 : JsonProvider
 jsonProvider5 =
-    JsonProvider jsonProfile1 topics jsonLinks [] [] []
+    JsonProvider
+        { profile = jsonProfile5
+        , topics = topics
+        , links = jsonLinks
+        , recentLinks = (recentLinks1 |> toJsonLinks)
+        , subscriptions = []
+        , followers = []
+        }
 
 
 provider1 : Provider

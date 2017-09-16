@@ -59,13 +59,14 @@ linksDecoder =
 
 providerDecoder : Decoder JsonProvider
 providerDecoder =
-    Decode.map6 JsonProvider
+    Decode.map6 JsonProviderFields
         (field "Profile" profileDecoder)
         (field "Topics" <| Decode.list topicDecoder)
         (field "Links" <| linksDecoder)
         (field "RecentLinks" <| Decode.list linkDecoder)
-        (field "Subscriptions" <| Decode.list profileDecoder)
-        (field "Followers" <| Decode.list profileDecoder)
+        (field "Subscriptions" <| Decode.list (Decode.lazy (\_ -> providerDecoder)))
+        (field "Followers" <| Decode.list (Decode.lazy (\_ -> providerDecoder)))
+        |> Decode.map JsonProvider
 
 
 encodeRegistration : Form -> Encode.Value
