@@ -107,8 +107,8 @@ toSubscriptions jsonSubscriptions =
     [ initProfile ]
 
 
-toRecentLinks : List JsonLink -> List Link
-toRecentLinks jsonLinks =
+toLink : List JsonLink -> List Link
+toLink jsonLinks =
     jsonLinks
         |> List.map
             (\link ->
@@ -122,9 +122,21 @@ toRecentLinks jsonLinks =
             )
 
 
-toLinks : JsonLinks -> Links
-toLinks jsonLinks =
-    initLinks
+jsonLinksToLinks : JsonLinks -> Links
+jsonLinksToLinks jsonLinks =
+    Links
+        (jsonLinks.articles |> toLink)
+        (jsonLinks.videos |> toLink)
+        (jsonLinks.podcasts |> toLink)
+        (jsonLinks.answers |> toLink)
+
+
+
+-- { articles : List JsonLink
+-- , videos : List JsonLink
+-- , podcasts : List JsonLink
+-- , answers : List JsonLink
+-- }
 
 
 toTopics : List JsonTopic -> List Topic
@@ -150,13 +162,13 @@ toProfile jsonProfile =
 toProvider : JsonProvider -> Provider
 toProvider jsonProvider =
     let
-        (JsonProvider provider) =
+        (JsonProvider field) =
             jsonProvider
     in
-        { profile = provider.profile |> toProfile
-        , topics = provider.topics |> toTopics
-        , links = provider.links |> toLinks
-        , recentLinks = provider.recentLinks |> toRecentLinks
-        , subscriptions = (\id -> Subscribers (provider.subscriptions |> List.map (\jp -> jp |> toProvider)))
-        , followers = (\id -> Subscribers (provider.followers |> List.map (\jp -> jp |> toProvider)))
+        { profile = field.profile |> toProfile
+        , topics = field.topics |> toTopics
+        , links = field.links |> jsonLinksToLinks
+        , recentLinks = field.recentLinks |> toLink
+        , subscriptions = (\id -> Subscribers (field.subscriptions |> List.map (\jp -> jp |> toProvider)))
+        , followers = (\id -> Subscribers (field.followers |> List.map (\jp -> jp |> toProvider)))
         }

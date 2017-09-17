@@ -30,26 +30,26 @@ type Msg
 
 
 update : Msg -> Credentials -> ( Credentials, Cmd Msg )
-update msg model =
+update msg credentials =
     case msg of
         UserInput v ->
-            ( { model | email = v }, Cmd.none )
+            ( { credentials | email = v }, Cmd.none )
 
         PasswordInput v ->
-            ( { model | password = v }, Cmd.none )
+            ( { credentials | password = v }, Cmd.none )
 
         Attempt ( email, password ) ->
-            ( model, runtime.tryLogin model Response )
+            ( credentials, runtime.tryLogin credentials Response )
 
         Response (Ok jsonProvider) ->
             let
                 (JsonProvider jsonProviderField) =
                     jsonProvider
             in
-                ( model, Navigation.load <| "/#/portal/" ++ jsonProviderField.profile.id )
+                ( credentials, Navigation.load <| "/#/portal/" ++ jsonProviderField.profile.id )
 
         Response (Err error) ->
-            ( model, Cmd.none )
+            ( credentials, Cmd.none )
 
 
 

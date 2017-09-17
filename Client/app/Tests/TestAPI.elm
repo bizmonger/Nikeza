@@ -409,7 +409,7 @@ jsonProvider2 =
         { profile = jsonProfile2
         , topics = topics
         , links = jsonLinks
-        , recentLinks = (recentLinks1 |> toJsonLinks)
+        , recentLinks = (recentLinks2 |> toJsonLinks)
         , subscriptions = []
         , followers = []
         }
@@ -421,7 +421,7 @@ jsonProvider3 =
         { profile = jsonProfile3
         , topics = topics
         , links = jsonLinks
-        , recentLinks = (recentLinks1 |> toJsonLinks)
+        , recentLinks = (recentLinks3 |> toJsonLinks)
         , subscriptions = []
         , followers = []
         }

@@ -172,15 +172,12 @@ update msg model =
                 case response of
                     Ok jsonProvider ->
                         let
-                            provider =
-                                jsonProvider |> toProvider
-
-                            portal =
-                                model.portal
+                            ( portal, provider ) =
+                                ( model.portal, jsonProvider |> toProvider )
 
                             pendingPortal =
                                 { portal
-                                    | provider = jsonProvider |> toProvider
+                                    | provider = provider
                                     , sourcesNavigation = provider.profile.sources |> List.isEmpty
                                     , addLinkNavigation = True
                                     , linksNavigation = linksExist provider.links
@@ -1040,7 +1037,6 @@ recentLinks profileId providers =
 
 recentLinksContent : Id -> List Provider -> Html Msg
 recentLinksContent profileId providers =
-    -- label [] [ text <| toString providers ]
     providers
         |> providersWithRecentLinks profileId
         |> recentProvidersUI profileId

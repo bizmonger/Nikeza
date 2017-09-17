@@ -10051,10 +10051,7 @@ var _user$project$Services_Adapter$toProfile = function (jsonProfile) {
 var _user$project$Services_Adapter$toTopics = function (jsonTopic) {
 	return _user$project$Domain_Core$initTopics;
 };
-var _user$project$Services_Adapter$toLinks = function (jsonLinks) {
-	return _user$project$Domain_Core$initLinks;
-};
-var _user$project$Services_Adapter$toRecentLinks = function (jsonLinks) {
+var _user$project$Services_Adapter$toLink = function (jsonLinks) {
 	return A2(
 		_elm_lang$core$List$map,
 		function (link) {
@@ -10069,14 +10066,22 @@ var _user$project$Services_Adapter$toRecentLinks = function (jsonLinks) {
 		},
 		jsonLinks);
 };
+var _user$project$Services_Adapter$jsonLinksToLinks = function (jsonLinks) {
+	return A4(
+		_user$project$Domain_Core$Links,
+		_user$project$Services_Adapter$toLink(jsonLinks.articles),
+		_user$project$Services_Adapter$toLink(jsonLinks.videos),
+		_user$project$Services_Adapter$toLink(jsonLinks.podcasts),
+		_user$project$Services_Adapter$toLink(jsonLinks.answers));
+};
 var _user$project$Services_Adapter$toProvider = function (jsonProvider) {
 	var _p3 = jsonProvider;
-	var provider = _p3._0;
+	var field = _p3._0;
 	return {
-		profile: _user$project$Services_Adapter$toProfile(provider.profile),
-		topics: _user$project$Services_Adapter$toTopics(provider.topics),
-		links: _user$project$Services_Adapter$toLinks(provider.links),
-		recentLinks: _user$project$Services_Adapter$toRecentLinks(provider.recentLinks),
+		profile: _user$project$Services_Adapter$toProfile(field.profile),
+		topics: _user$project$Services_Adapter$toTopics(field.topics),
+		links: _user$project$Services_Adapter$jsonLinksToLinks(field.links),
+		recentLinks: _user$project$Services_Adapter$toLink(field.recentLinks),
 		subscriptions: function (id) {
 			return _user$project$Domain_Core$Subscribers(
 				A2(
@@ -10084,7 +10089,7 @@ var _user$project$Services_Adapter$toProvider = function (jsonProvider) {
 					function (jp) {
 						return _user$project$Services_Adapter$toProvider(jp);
 					},
-					provider.subscriptions));
+					field.subscriptions));
 		},
 		followers: function (id) {
 			return _user$project$Domain_Core$Subscribers(
@@ -10093,7 +10098,7 @@ var _user$project$Services_Adapter$toProvider = function (jsonProvider) {
 					function (jp) {
 						return _user$project$Services_Adapter$toProvider(jp);
 					},
-					provider.followers));
+					field.followers));
 		}
 	};
 };
@@ -10966,7 +10971,7 @@ var _user$project$Tests_TestAPI$jsonProvider2 = _user$project$Services_Adapter$J
 		profile: _user$project$Tests_TestAPI$jsonProfile2,
 		topics: _user$project$Tests_TestAPI$topics,
 		links: _user$project$Tests_TestAPI$jsonLinks,
-		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
+		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks2),
 		subscriptions: {ctor: '[]'},
 		followers: {ctor: '[]'}
 	});
@@ -10975,7 +10980,7 @@ var _user$project$Tests_TestAPI$jsonProvider3 = _user$project$Services_Adapter$J
 		profile: _user$project$Tests_TestAPI$jsonProfile3,
 		topics: _user$project$Tests_TestAPI$topics,
 		links: _user$project$Tests_TestAPI$jsonLinks,
-		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
+		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks3),
 		subscriptions: {ctor: '[]'},
 		followers: {ctor: '[]'}
 	});
@@ -12042,14 +12047,14 @@ var _user$project$Controls_Login$Response = function (a) {
 	return {ctor: 'Response', _0: a};
 };
 var _user$project$Controls_Login$update = F2(
-	function (msg, model) {
+	function (msg, credentials) {
 		var _p0 = msg;
 		switch (_p0.ctor) {
 			case 'UserInput':
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
-						model,
+						credentials,
 						{email: _p0._0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -12057,15 +12062,15 @@ var _user$project$Controls_Login$update = F2(
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
-						model,
+						credentials,
 						{password: _p0._0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'Attempt':
 				return {
 					ctor: '_Tuple2',
-					_0: model,
-					_1: A2(_user$project$Settings$runtime.tryLogin, model, _user$project$Controls_Login$Response)
+					_0: credentials,
+					_1: A2(_user$project$Settings$runtime.tryLogin, credentials, _user$project$Controls_Login$Response)
 				};
 			default:
 				if (_p0._0.ctor === 'Ok') {
@@ -12073,12 +12078,12 @@ var _user$project$Controls_Login$update = F2(
 					var jsonProviderField = _p1._0;
 					return {
 						ctor: '_Tuple2',
-						_0: model,
+						_0: credentials,
 						_1: _elm_lang$navigation$Navigation$load(
 							A2(_elm_lang$core$Basics_ops['++'], '/#/portal/', jsonProviderField.profile.id))
 					};
 				} else {
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+					return {ctor: '_Tuple2', _0: credentials, _1: _elm_lang$core$Platform_Cmd$none};
 				}
 		}
 	});
@@ -17987,13 +17992,17 @@ var _user$project$Home$update = F2(
 			case 'NavigateToPortalResponse':
 				var _p34 = _p29._0;
 				if (_p34.ctor === 'Ok') {
-					var _p35 = _p34._0;
-					var portal = model.portal;
-					var provider = _user$project$Services_Adapter$toProvider(_p35);
+					var _p35 = {
+						ctor: '_Tuple2',
+						_0: model.portal,
+						_1: _user$project$Services_Adapter$toProvider(_p34._0)
+					};
+					var portal = _p35._0;
+					var provider = _p35._1;
 					var pendingPortal = _elm_lang$core$Native_Utils.update(
 						portal,
 						{
-							provider: _user$project$Services_Adapter$toProvider(_p35),
+							provider: provider,
 							sourcesNavigation: _elm_lang$core$List$isEmpty(provider.profile.sources),
 							addLinkNavigation: true,
 							linksNavigation: _user$project$Domain_Core$linksExist(provider.links),
