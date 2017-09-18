@@ -140,8 +140,8 @@ jsonLinksToLinks jsonLinks =
 
 
 toTopics : List JsonTopic -> List Topic
-toTopics jsonTopic =
-    initTopics
+toTopics jsonTopics =
+    jsonTopics |> List.map (\t -> { name = t.name, isFeatured = t.isFeatured })
 
 
 toProfile : JsonProfile -> Profile

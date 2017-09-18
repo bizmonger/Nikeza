@@ -10048,8 +10048,13 @@ var _user$project$Services_Adapter$toProfile = function (jsonProfile) {
 	var email = _p2._1;
 	return A7(_user$project$Domain_Core$Profile, id, firstName, lastName, email, imageUrl, bio, sources);
 };
-var _user$project$Services_Adapter$toTopics = function (jsonTopic) {
-	return _user$project$Domain_Core$initTopics;
+var _user$project$Services_Adapter$toTopics = function (jsonTopics) {
+	return A2(
+		_elm_lang$core$List$map,
+		function (t) {
+			return {name: t.name, isFeatured: t.isFeatured};
+		},
+		jsonTopics);
 };
 var _user$project$Services_Adapter$toLink = function (jsonLinks) {
 	return A2(
