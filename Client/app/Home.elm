@@ -102,6 +102,7 @@ type Msg
     | IdToProviderResponse (Result Http.Error JsonProvider)
     | NavigateToPortalResponse (Result Http.Error JsonProvider)
     | NavigateToPortalProviderTopicResponse (Result Http.Error JsonProvider)
+    | NavigateToPortalProviderMemberTopicResponse (Result Http.Error JsonProvider)
     | NavigateToProviderResponse (Result Http.Error JsonProvider)
     | NavigateToProviderTopicResponse (Result Http.Error JsonProvider)
     | Search String
@@ -141,6 +142,29 @@ update msg model =
                                 }
                         in
                             ( { model | portal = pendingPortal }, Cmd.none )
+
+                    Err _ ->
+                        ( model, Cmd.none )
+
+            NavigateToPortalProviderMemberTopicResponse response ->
+                case response of
+                    Ok jsonProvider ->
+                        let
+                            provider =
+                                jsonProvider |> toProvider
+
+                            -- portal =
+                            --     model.portal
+                            -- pendingPortal =
+                            --     { portal
+                            --         | --provider = jsonProvider |> toProvider
+                            --           sourcesNavigation = provider.profile.sources |> List.isEmpty
+                            --         , addLinkNavigation = True
+                            --         , linksNavigation = linksExist provider.links
+                            --         , requested = Domain.ViewRecent
+                            --     }
+                        in
+                            ( { model | selectedProvider = provider }, Cmd.none )
 
                     Err _ ->
                         ( model, Cmd.none )
@@ -718,20 +742,32 @@ view model =
                 model |> renderPage mainContent
 
         [ "portal", clientId, "provider", id ] ->
-            case runtime.provider <| Id id of
-                _ ->
-                    let
-                        contentLinks =
-                            (renderProfileBase model.selectedProvider <|
-                                Html.map ProviderLinksAction (ProviderLinks.view FromOther model.selectedProvider)
-                            )
-                    in
-                        model |> renderPage contentLinks
+            renderMemberPortfolio model
+
+        [ "portal", clientId, "provider", id, topic ] ->
+            let
+                contentLinks =
+                    (renderProfileBase model.selectedProvider <|
+                        Html.map ProviderTopicContentTypeLinksAction (ProviderTopicContentTypeLinks.view model.selectedProvider (Topic topic False) All)
+                    )
+            in
+                model |> renderPage contentLinks
 
         -- Nothing ->
         --     pageNotFound
         _ ->
             pageNotFound
+
+
+renderMemberPortfolio : Model -> Html Msg
+renderMemberPortfolio model =
+    let
+        contentLinks =
+            (renderProfileBase model.selectedProvider <|
+                Html.map ProviderLinksAction (ProviderLinks.view FromOther model.selectedProvider)
+            )
+    in
+        model |> renderPage contentLinks
 
 
 renderProfileBase : Provider -> Html Msg -> Html Msg
@@ -1398,27 +1434,14 @@ navigate msg model location =
             --     Nothing ->
             ( { model | currentRoute = location }, runtime.provider (Id id) IdToProviderResponse )
 
+        [ "portal", clientId, "provider", id, topic ] ->
+            let
+                ( providerId, providerTopic ) =
+                    ( (Id id), (Topic topic False) )
+            in
+                ( { model | currentRoute = location }, runtime.providerTopic providerId providerTopic NavigateToPortalProviderMemberTopicResponse )
+
         [ "portal", clientId, "provider", id ] ->
-            -- case runtime.provider <| (Id clientId) IdToProviderResponse of
-            --     portalProvider ->
-            --         let
-            --             portal =
-            --                 model.portal
-            --             pendingPortal =
-            --                 { portal
-            --                     | provider = portalProvider
-            --                     , sourcesNavigation = portalProvider.profile.sources |> List.isEmpty
-            --                     , addLinkNavigation = True
-            --                     , linksNavigation = linksExist portalProvider.links
-            --                     , requested = Domain.ViewRecent
-            --                 }
-            --         in
-            --             case runtime.provider <| (Id id) IdToProviderResponse of
-            --                 p ->
-            --                     ( { model | selectedProvider = p, portal = pendingPortal, currentRoute = location }, Cmd.none )
-            --                 Nothing ->
-            --                     ( { model | currentRoute = location }, Cmd.none )
-            --     Nothing ->
             ( { model | currentRoute = location }, runtime.provider (Id id) IdToProviderResponse )
 
         _ ->
