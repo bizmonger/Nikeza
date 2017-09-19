@@ -132,13 +132,6 @@ jsonLinksToLinks jsonLinks =
 
 
 
--- { articles : List JsonLink
--- , videos : List JsonLink
--- , podcasts : List JsonLink
--- , answers : List JsonLink
--- }
-
-
 toTopics : List JsonTopic -> List Topic
 toTopics jsonTopics =
     jsonTopics |> List.map (\t -> { name = t.name, isFeatured = t.isFeatured })
