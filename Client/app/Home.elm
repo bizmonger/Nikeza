@@ -102,6 +102,7 @@ type Msg
     | IdToProviderResponse (Result Http.Error JsonProvider)
     | NavigateToPortalResponse (Result Http.Error JsonProvider)
     | NavigateToPortalProviderTopicResponse (Result Http.Error JsonProvider)
+    | NavigateToPortalProviderMemberResponse (Result Http.Error JsonProvider)
     | NavigateToPortalProviderMemberTopicResponse (Result Http.Error JsonProvider)
     | NavigateToProviderResponse (Result Http.Error JsonProvider)
     | NavigateToProviderTopicResponse (Result Http.Error JsonProvider)
@@ -163,6 +164,18 @@ update msg model =
                             --         , linksNavigation = linksExist provider.links
                             --         , requested = Domain.ViewRecent
                             --     }
+                        in
+                            ( { model | selectedProvider = provider }, Cmd.none )
+
+                    Err _ ->
+                        ( model, Cmd.none )
+
+            NavigateToPortalProviderMemberResponse response ->
+                case response of
+                    Ok jsonProvider ->
+                        let
+                            provider =
+                                jsonProvider |> toProvider
                         in
                             ( { model | selectedProvider = provider }, Cmd.none )
 
@@ -1389,18 +1402,6 @@ navigate msg model location =
                 ( { model | login = { login | loggedIn = True }, currentRoute = location }, runtime.provider (Id id) NavigateToPortalResponse )
 
         [ "portal", id, topic ] ->
-            -- case runtime.provider <| (Id id) IdToProviderResponse of
-            --     p ->
-            --         let
-            --             topicProvider =
-            --                 { p | topics = [ Topic topic False ] }
-            --             portal =
-            --                 model.portal
-            --             pendingPortal =
-            --                 { portal | provider = topicProvider }
-            --         in
-            --             ( { model | portal = pendingPortal, currentRoute = location }, Cmd.none )
-            --     Nothing ->
             let
                 ( providerId, providerTopic ) =
                     ( (Id id), (Topic topic False) )
@@ -1434,7 +1435,7 @@ navigate msg model location =
                 ( { model | currentRoute = location }, runtime.providerTopic providerId providerTopic NavigateToPortalProviderMemberTopicResponse )
 
         [ "portal", clientId, "provider", id ] ->
-            ( { model | currentRoute = location }, runtime.provider (Id id) IdToProviderResponse )
+            ( { model | currentRoute = location }, runtime.provider (Id id) NavigateToPortalProviderMemberResponse )
 
         _ ->
             ( { model | currentRoute = location }, Cmd.none )

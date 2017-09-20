@@ -21,7 +21,6 @@ type alias Credentials =
     , loggedIn : Bool
     }
 
-
 initTopics : List Topic
 initTopics =
     []
