@@ -15457,11 +15457,17 @@ var _user$project$Home$navigate = F3(
 									_user$project$Home$NavigateToProviderResponse)
 							};
 						case 'portal':
+							var login = model.login;
 							return {
 								ctor: '_Tuple2',
 								_0: _elm_lang$core$Native_Utils.update(
 									model,
-									{currentRoute: location}),
+									{
+										login: _elm_lang$core$Native_Utils.update(
+											login,
+											{loggedIn: true}),
+										currentRoute: location
+									}),
 								_1: A2(
 									_user$project$Settings$runtime.provider,
 									_user$project$Domain_Core$Id(_p13._1._0),

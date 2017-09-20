@@ -673,16 +673,12 @@ view model =
             model |> renderPage (Html.map OnRegistration <| Registration.view model.registration)
 
         [ "provider", id ] ->
-            -- case runtime.provider <| Id id of
-            --     _ ->
             model
                 |> renderPage
                     (renderProfileBase model.selectedProvider <|
                         Html.map ProviderLinksAction (ProviderLinks.view FromOther model.selectedProvider)
                     )
 
-        -- Nothing ->
-        --     pageNotFound
         [ "provider", id, topic ] ->
             case runtime.provider <| Id id of
                 _ ->
@@ -1379,14 +1375,6 @@ navigate msg model location =
             ( { model | currentRoute = location }, runtime.provider (Id id) NavigateToProviderResponse )
 
         [ "provider", id, topic ] ->
-            -- case runtime.provider <| (Id id) IdToProviderResponse of
-            -- p ->
-            --     let
-            --         topicProvider =
-            --             { p | topics = [ Topic topic False ] }
-            --     in
-            --         ( { model | selectedProvider = topicProvider, currentRoute = location }, Cmd.none )
-            -- Nothing ->
             let
                 ( providerId, providerTopic ) =
                     ( (Id id), (Topic topic False) )
@@ -1394,7 +1382,11 @@ navigate msg model location =
                 ( { model | currentRoute = location }, runtime.providerTopic providerId providerTopic NavigateToProviderTopicResponse )
 
         [ "portal", id ] ->
-            ( { model | currentRoute = location }, runtime.provider (Id id) NavigateToPortalResponse )
+            let
+                login =
+                    model.login
+            in
+                ( { model | login = { login | loggedIn = True }, currentRoute = location }, runtime.provider (Id id) NavigateToPortalResponse )
 
         [ "portal", id, topic ] ->
             -- case runtime.provider <| (Id id) IdToProviderResponse of
