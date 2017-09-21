@@ -10485,8 +10485,44 @@ var _user$project$Tests_TestAPI$recentLinks3 = {
 		true),
 	_1: {ctor: '[]'}
 };
+var _user$project$Tests_TestAPI$jsonProfile1 = A7(
+	_user$project$Services_Adapter$JsonProfile,
+	_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId1),
+	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile1.firstName),
+	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile1.lastName),
+	_user$project$Domain_Core$getEmail(_user$project$Tests_TestAPI$profile1.email),
+	_user$project$Domain_Core$getUrl(_user$project$Tests_TestAPI$profile1.imageUrl),
+	_user$project$Tests_TestAPI$profile1.bio,
+	_user$project$Tests_TestAPI$profile1.sources);
+var _user$project$Tests_TestAPI$jsonLink1 = A6(
+	_user$project$Services_Adapter$JsonLink,
+	_user$project$Tests_TestAPI$jsonProfile1,
+	_user$project$Domain_Core$getTitle(_user$project$Tests_TestAPI$someArticleTitle1),
+	_user$project$Domain_Core$getUrl(_user$project$Tests_TestAPI$someUrl),
+	'video',
+	{ctor: '[]'},
+	false);
+var _user$project$Tests_TestAPI$tryRegister = F2(
+	function (form, msg) {
+		return _elm_lang$core$Native_Utils.eq(form.password, form.confirm) ? A2(
+			_elm_lang$core$Task$perform,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Task$succeed(
+				msg(
+					_elm_lang$core$Result$Ok(
+						A7(
+							_user$project$Services_Adapter$JsonProfile,
+							_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId1),
+							form.firstName,
+							form.lastName,
+							form.email,
+							'',
+							'',
+							{ctor: '[]'}))))) : _elm_lang$core$Platform_Cmd$none;
+	});
 var _user$project$Tests_TestAPI$linksToContent = F2(
 	function (contentType, profileId) {
+		var profileHolder = _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? _user$project$Tests_TestAPI$profile1 : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId2) ? _user$project$Tests_TestAPI$profile2 : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId3) ? _user$project$Tests_TestAPI$profile3 : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId4) ? _user$project$Tests_TestAPI$profile4 : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId5) ? _user$project$Tests_TestAPI$profile5 : _user$project$Tests_TestAPI$profile1))));
 		var _p0 = contentType;
 		switch (_p0.ctor) {
 			case 'Article':
@@ -10494,7 +10530,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 					ctor: '::',
 					_0: A6(
 						_user$project$Domain_Core$Link,
-						_user$project$Tests_TestAPI$profile1,
+						profileHolder,
 						_user$project$Tests_TestAPI$someArticleTitle1,
 						_user$project$Tests_TestAPI$someUrl,
 						_user$project$Domain_Core$Article,
@@ -10508,7 +10544,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 						ctor: '::',
 						_0: A6(
 							_user$project$Domain_Core$Link,
-							_user$project$Tests_TestAPI$profile1,
+							profileHolder,
 							_user$project$Tests_TestAPI$someArticleTitle2,
 							_user$project$Tests_TestAPI$someUrl,
 							_user$project$Domain_Core$Article,
@@ -10522,7 +10558,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 							ctor: '::',
 							_0: A6(
 								_user$project$Domain_Core$Link,
-								_user$project$Tests_TestAPI$profile1,
+								profileHolder,
 								_user$project$Tests_TestAPI$someArticleTitle3,
 								_user$project$Tests_TestAPI$someUrl,
 								_user$project$Domain_Core$Article,
@@ -10536,7 +10572,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 								ctor: '::',
 								_0: A6(
 									_user$project$Domain_Core$Link,
-									_user$project$Tests_TestAPI$profile1,
+									profileHolder,
 									_user$project$Tests_TestAPI$someArticleTitle4,
 									_user$project$Tests_TestAPI$someUrl,
 									_user$project$Domain_Core$Article,
@@ -10550,7 +10586,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 									ctor: '::',
 									_0: A6(
 										_user$project$Domain_Core$Link,
-										_user$project$Tests_TestAPI$profile1,
+										profileHolder,
 										_user$project$Tests_TestAPI$someArticleTitle5,
 										_user$project$Tests_TestAPI$someUrl,
 										_user$project$Domain_Core$Article,
@@ -10571,7 +10607,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 					ctor: '::',
 					_0: A6(
 						_user$project$Domain_Core$Link,
-						_user$project$Tests_TestAPI$profile1,
+						profileHolder,
 						_user$project$Tests_TestAPI$someVideoTitle1,
 						_user$project$Tests_TestAPI$someUrl,
 						_user$project$Domain_Core$Video,
@@ -10585,7 +10621,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 						ctor: '::',
 						_0: A6(
 							_user$project$Domain_Core$Link,
-							_user$project$Tests_TestAPI$profile1,
+							profileHolder,
 							_user$project$Tests_TestAPI$someVideoTitle2,
 							_user$project$Tests_TestAPI$someUrl,
 							_user$project$Domain_Core$Video,
@@ -10599,7 +10635,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 							ctor: '::',
 							_0: A6(
 								_user$project$Domain_Core$Link,
-								_user$project$Tests_TestAPI$profile1,
+								profileHolder,
 								_user$project$Tests_TestAPI$someVideoTitle3,
 								_user$project$Tests_TestAPI$someUrl,
 								_user$project$Domain_Core$Video,
@@ -10613,7 +10649,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 								ctor: '::',
 								_0: A6(
 									_user$project$Domain_Core$Link,
-									_user$project$Tests_TestAPI$profile1,
+									profileHolder,
 									_user$project$Tests_TestAPI$someVideoTitle4,
 									_user$project$Tests_TestAPI$someUrl,
 									_user$project$Domain_Core$Video,
@@ -10627,7 +10663,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 									ctor: '::',
 									_0: A6(
 										_user$project$Domain_Core$Link,
-										_user$project$Tests_TestAPI$profile1,
+										profileHolder,
 										_user$project$Tests_TestAPI$someVideoTitle5,
 										_user$project$Tests_TestAPI$someUrl,
 										_user$project$Domain_Core$Video,
@@ -10648,7 +10684,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 					ctor: '::',
 					_0: A6(
 						_user$project$Domain_Core$Link,
-						_user$project$Tests_TestAPI$profile1,
+						profileHolder,
 						_user$project$Tests_TestAPI$somePodcastTitle1,
 						_user$project$Tests_TestAPI$someUrl,
 						_user$project$Domain_Core$Podcast,
@@ -10662,7 +10698,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 						ctor: '::',
 						_0: A6(
 							_user$project$Domain_Core$Link,
-							_user$project$Tests_TestAPI$profile1,
+							profileHolder,
 							_user$project$Tests_TestAPI$somePodcastTitle2,
 							_user$project$Tests_TestAPI$someUrl,
 							_user$project$Domain_Core$Podcast,
@@ -10676,7 +10712,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 							ctor: '::',
 							_0: A6(
 								_user$project$Domain_Core$Link,
-								_user$project$Tests_TestAPI$profile1,
+								profileHolder,
 								_user$project$Tests_TestAPI$somePodcastTitle3,
 								_user$project$Tests_TestAPI$someUrl,
 								_user$project$Domain_Core$Podcast,
@@ -10690,7 +10726,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 								ctor: '::',
 								_0: A6(
 									_user$project$Domain_Core$Link,
-									_user$project$Tests_TestAPI$profile1,
+									profileHolder,
 									_user$project$Tests_TestAPI$somePodcastTitle4,
 									_user$project$Tests_TestAPI$someUrl,
 									_user$project$Domain_Core$Podcast,
@@ -10704,7 +10740,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 									ctor: '::',
 									_0: A6(
 										_user$project$Domain_Core$Link,
-										_user$project$Tests_TestAPI$profile1,
+										profileHolder,
 										_user$project$Tests_TestAPI$somePodcastTitle5,
 										_user$project$Tests_TestAPI$someUrl,
 										_user$project$Domain_Core$Podcast,
@@ -10725,7 +10761,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 					ctor: '::',
 					_0: A6(
 						_user$project$Domain_Core$Link,
-						_user$project$Tests_TestAPI$profile1,
+						profileHolder,
 						_user$project$Tests_TestAPI$someAnswerTitle1,
 						_user$project$Tests_TestAPI$someUrl,
 						_user$project$Domain_Core$Answer,
@@ -10739,7 +10775,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 						ctor: '::',
 						_0: A6(
 							_user$project$Domain_Core$Link,
-							_user$project$Tests_TestAPI$profile1,
+							profileHolder,
 							_user$project$Tests_TestAPI$someAnswerTitle2,
 							_user$project$Tests_TestAPI$someUrl,
 							_user$project$Domain_Core$Answer,
@@ -10753,7 +10789,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 							ctor: '::',
 							_0: A6(
 								_user$project$Domain_Core$Link,
-								_user$project$Tests_TestAPI$profile1,
+								profileHolder,
 								_user$project$Tests_TestAPI$someAnswerTitle3,
 								_user$project$Tests_TestAPI$someUrl,
 								_user$project$Domain_Core$Answer,
@@ -10767,7 +10803,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 								ctor: '::',
 								_0: A6(
 									_user$project$Domain_Core$Link,
-									_user$project$Tests_TestAPI$profile1,
+									profileHolder,
 									_user$project$Tests_TestAPI$someAnswerTitle4,
 									_user$project$Tests_TestAPI$someUrl,
 									_user$project$Domain_Core$Answer,
@@ -10781,7 +10817,7 @@ var _user$project$Tests_TestAPI$linksToContent = F2(
 									ctor: '::',
 									_0: A6(
 										_user$project$Domain_Core$Link,
-										_user$project$Tests_TestAPI$profile1,
+										profileHolder,
 										_user$project$Tests_TestAPI$someAnswerTitle5,
 										_user$project$Tests_TestAPI$someUrl,
 										_user$project$Domain_Core$Answer,
@@ -10845,6 +10881,174 @@ var _user$project$Tests_TestAPI$provider5Links = A4(
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId5),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId5),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId5));
+var _user$project$Tests_TestAPI$provider5 = A6(
+	_user$project$Domain_Core$Provider,
+	_user$project$Tests_TestAPI$profile5,
+	_user$project$Tests_TestAPI$topics,
+	_user$project$Tests_TestAPI$provider5Links,
+	{ctor: '[]'},
+	_user$project$Tests_TestAPI$subscriptions,
+	_user$project$Tests_TestAPI$followers);
+var _user$project$Tests_TestAPI$followers = function (profileId) {
+	return _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? _user$project$Domain_Core$Subscribers(
+		{
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$provider4,
+			_1: {
+				ctor: '::',
+				_0: _user$project$Tests_TestAPI$provider5,
+				_1: {ctor: '[]'}
+			}
+		}) : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId2) ? _user$project$Domain_Core$Subscribers(
+		{
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$provider1B,
+			_1: {
+				ctor: '::',
+				_0: _user$project$Tests_TestAPI$provider5,
+				_1: {ctor: '[]'}
+			}
+		}) : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId3) ? _user$project$Domain_Core$Subscribers(
+		{
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$provider4,
+			_1: {
+				ctor: '::',
+				_0: _user$project$Tests_TestAPI$provider5,
+				_1: {ctor: '[]'}
+			}
+		}) : _user$project$Domain_Core$Subscribers(
+		{ctor: '[]'})));
+};
+var _user$project$Tests_TestAPI$provider1B = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile1, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider1Links, _user$project$Tests_TestAPI$recentLinks1, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
+var _user$project$Tests_TestAPI$subscriptions = function (profileId) {
+	return _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? _user$project$Domain_Core$Subscribers(
+		{
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$provider2,
+			_1: {ctor: '[]'}
+		}) : _user$project$Domain_Core$Subscribers(
+		{ctor: '[]'});
+};
+var _user$project$Tests_TestAPI$provider2 = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile2, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider2Links, _user$project$Tests_TestAPI$recentLinks2, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
+var _user$project$Tests_TestAPI$provider4 = A6(
+	_user$project$Domain_Core$Provider,
+	_user$project$Tests_TestAPI$profile4,
+	_user$project$Tests_TestAPI$topics,
+	_user$project$Tests_TestAPI$provider4Links,
+	{ctor: '[]'},
+	_user$project$Tests_TestAPI$subscriptions,
+	_user$project$Tests_TestAPI$followers);
+var _user$project$Tests_TestAPI$provider1 = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile1, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider1Links, _user$project$Tests_TestAPI$recentLinks1, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
+var _user$project$Tests_TestAPI$provider3 = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile3, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider3Links, _user$project$Tests_TestAPI$recentLinks3, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
+var _user$project$Tests_TestAPI$providers = {
+	ctor: '::',
+	_0: _user$project$Tests_TestAPI$provider1,
+	_1: {
+		ctor: '::',
+		_0: _user$project$Tests_TestAPI$provider2,
+		_1: {
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$provider3,
+			_1: {
+				ctor: '::',
+				_0: _user$project$Tests_TestAPI$provider4,
+				_1: {
+					ctor: '::',
+					_0: _user$project$Tests_TestAPI$provider5,
+					_1: {ctor: '[]'}
+				}
+			}
+		}
+	}
+};
+var _user$project$Tests_TestAPI$jsonLinks = function (id) {
+	return A4(
+		_user$project$Services_Adapter$JsonLinks,
+		_user$project$Tests_TestAPI$toJsonLinks(
+			_user$project$Tests_TestAPI$answers(id)),
+		_user$project$Tests_TestAPI$toJsonLinks(
+			_user$project$Tests_TestAPI$articles(id)),
+		_user$project$Tests_TestAPI$toJsonLinks(
+			_user$project$Tests_TestAPI$videos(id)),
+		_user$project$Tests_TestAPI$toJsonLinks(
+			_user$project$Tests_TestAPI$podcasts(id)));
+};
+var _user$project$Tests_TestAPI$jsonProvider2 = _user$project$Services_Adapter$JsonProvider(
+	{
+		profile: _user$project$Tests_TestAPI$jsonProfile2,
+		topics: _user$project$Tests_TestAPI$topics,
+		links: _user$project$Tests_TestAPI$jsonLinks(_user$project$Tests_TestAPI$profileId2),
+		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks2),
+		subscriptions: {ctor: '[]'},
+		followers: {ctor: '[]'}
+	});
+var _user$project$Tests_TestAPI$jsonProvider3 = _user$project$Services_Adapter$JsonProvider(
+	{
+		profile: _user$project$Tests_TestAPI$jsonProfile3,
+		topics: _user$project$Tests_TestAPI$topics,
+		links: _user$project$Tests_TestAPI$jsonLinks(_user$project$Tests_TestAPI$profileId3),
+		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks3),
+		subscriptions: {ctor: '[]'},
+		followers: {ctor: '[]'}
+	});
+var _user$project$Tests_TestAPI$jsonProvider1 = _user$project$Services_Adapter$JsonProvider(
+	{
+		profile: _user$project$Tests_TestAPI$jsonProfile1,
+		topics: _user$project$Tests_TestAPI$topics,
+		links: _user$project$Tests_TestAPI$jsonLinks(_user$project$Tests_TestAPI$profileId1),
+		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
+		subscriptions: {
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$jsonProvider2,
+			_1: {
+				ctor: '::',
+				_0: _user$project$Tests_TestAPI$jsonProvider3,
+				_1: {ctor: '[]'}
+			}
+		},
+		followers: {
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$jsonProvider2,
+			_1: {
+				ctor: '::',
+				_0: _user$project$Tests_TestAPI$jsonProvider3,
+				_1: {ctor: '[]'}
+			}
+		}
+	});
+var _user$project$Tests_TestAPI$tryLogin = F2(
+	function (credentials, msg) {
+		var successful = _elm_lang$core$Native_Utils.eq(
+			_elm_lang$core$String$toLower(credentials.email),
+			'test') && _elm_lang$core$Native_Utils.eq(
+			_elm_lang$core$String$toLower(credentials.password),
+			'test');
+		return successful ? A2(
+			_elm_lang$core$Task$perform,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Task$succeed(
+				msg(
+					_elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$jsonProvider1)))) : _elm_lang$core$Platform_Cmd$none;
+	});
+var _user$project$Tests_TestAPI$jsonProvider4 = _user$project$Services_Adapter$JsonProvider(
+	{
+		profile: _user$project$Tests_TestAPI$jsonProfile4,
+		topics: _user$project$Tests_TestAPI$topics,
+		links: _user$project$Tests_TestAPI$jsonLinks(_user$project$Tests_TestAPI$profileId4),
+		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
+		subscriptions: {ctor: '[]'},
+		followers: {ctor: '[]'}
+	});
+var _user$project$Tests_TestAPI$jsonProvider5 = _user$project$Services_Adapter$JsonProvider(
+	{
+		profile: _user$project$Tests_TestAPI$jsonProfile5,
+		topics: _user$project$Tests_TestAPI$topics,
+		links: _user$project$Tests_TestAPI$jsonLinks(_user$project$Tests_TestAPI$profileId5),
+		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
+		subscriptions: {ctor: '[]'},
+		followers: {ctor: '[]'}
+	});
 var _user$project$Tests_TestAPI$links = function (id) {
 	return {
 		answers: A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Answer, id),
@@ -10960,207 +11164,6 @@ var _user$project$Tests_TestAPI$topicLinks = F3(
 					link.topics);
 			},
 			A2(_user$project$Tests_TestAPI$linksToContent, contentType, id));
-	});
-var _user$project$Tests_TestAPI$jsonLinks = A4(
-	_user$project$Services_Adapter$JsonLinks,
-	_user$project$Tests_TestAPI$toJsonLinks(
-		_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId1)),
-	_user$project$Tests_TestAPI$toJsonLinks(
-		_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId1)),
-	_user$project$Tests_TestAPI$toJsonLinks(
-		_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId1)),
-	_user$project$Tests_TestAPI$toJsonLinks(
-		_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId1)));
-var _user$project$Tests_TestAPI$jsonProvider2 = _user$project$Services_Adapter$JsonProvider(
-	{
-		profile: _user$project$Tests_TestAPI$jsonProfile2,
-		topics: _user$project$Tests_TestAPI$topics,
-		links: _user$project$Tests_TestAPI$jsonLinks,
-		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks2),
-		subscriptions: {ctor: '[]'},
-		followers: {ctor: '[]'}
-	});
-var _user$project$Tests_TestAPI$jsonProvider3 = _user$project$Services_Adapter$JsonProvider(
-	{
-		profile: _user$project$Tests_TestAPI$jsonProfile3,
-		topics: _user$project$Tests_TestAPI$topics,
-		links: _user$project$Tests_TestAPI$jsonLinks,
-		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks3),
-		subscriptions: {ctor: '[]'},
-		followers: {ctor: '[]'}
-	});
-var _user$project$Tests_TestAPI$jsonProvider4 = _user$project$Services_Adapter$JsonProvider(
-	{
-		profile: _user$project$Tests_TestAPI$jsonProfile4,
-		topics: _user$project$Tests_TestAPI$topics,
-		links: _user$project$Tests_TestAPI$jsonLinks,
-		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
-		subscriptions: {ctor: '[]'},
-		followers: {ctor: '[]'}
-	});
-var _user$project$Tests_TestAPI$jsonProvider5 = _user$project$Services_Adapter$JsonProvider(
-	{
-		profile: _user$project$Tests_TestAPI$jsonProfile5,
-		topics: _user$project$Tests_TestAPI$topics,
-		links: _user$project$Tests_TestAPI$jsonLinks,
-		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
-		subscriptions: {ctor: '[]'},
-		followers: {ctor: '[]'}
-	});
-var _user$project$Tests_TestAPI$followers = function (profileId) {
-	return _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? _user$project$Domain_Core$Subscribers(
-		{
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$provider4,
-			_1: {
-				ctor: '::',
-				_0: _user$project$Tests_TestAPI$provider5,
-				_1: {ctor: '[]'}
-			}
-		}) : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId2) ? _user$project$Domain_Core$Subscribers(
-		{
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$provider1B,
-			_1: {
-				ctor: '::',
-				_0: _user$project$Tests_TestAPI$provider5,
-				_1: {ctor: '[]'}
-			}
-		}) : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId3) ? _user$project$Domain_Core$Subscribers(
-		{
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$provider4,
-			_1: {
-				ctor: '::',
-				_0: _user$project$Tests_TestAPI$provider5,
-				_1: {ctor: '[]'}
-			}
-		}) : _user$project$Domain_Core$Subscribers(
-		{ctor: '[]'})));
-};
-var _user$project$Tests_TestAPI$provider1B = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile1, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider1Links, _user$project$Tests_TestAPI$recentLinks1, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
-var _user$project$Tests_TestAPI$subscriptions = function (profileId) {
-	return _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? _user$project$Domain_Core$Subscribers(
-		{
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$provider2,
-			_1: {ctor: '[]'}
-		}) : _user$project$Domain_Core$Subscribers(
-		{ctor: '[]'});
-};
-var _user$project$Tests_TestAPI$provider2 = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile2, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider2Links, _user$project$Tests_TestAPI$recentLinks2, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
-var _user$project$Tests_TestAPI$provider4 = A6(
-	_user$project$Domain_Core$Provider,
-	_user$project$Tests_TestAPI$profile4,
-	_user$project$Tests_TestAPI$topics,
-	_user$project$Tests_TestAPI$provider4Links,
-	{ctor: '[]'},
-	_user$project$Tests_TestAPI$subscriptions,
-	_user$project$Tests_TestAPI$followers);
-var _user$project$Tests_TestAPI$provider5 = A6(
-	_user$project$Domain_Core$Provider,
-	_user$project$Tests_TestAPI$profile5,
-	_user$project$Tests_TestAPI$topics,
-	_user$project$Tests_TestAPI$provider5Links,
-	{ctor: '[]'},
-	_user$project$Tests_TestAPI$subscriptions,
-	_user$project$Tests_TestAPI$followers);
-var _user$project$Tests_TestAPI$provider1 = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile1, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider1Links, _user$project$Tests_TestAPI$recentLinks1, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
-var _user$project$Tests_TestAPI$provider3 = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile3, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider3Links, _user$project$Tests_TestAPI$recentLinks3, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
-var _user$project$Tests_TestAPI$providers = {
-	ctor: '::',
-	_0: _user$project$Tests_TestAPI$provider1,
-	_1: {
-		ctor: '::',
-		_0: _user$project$Tests_TestAPI$provider2,
-		_1: {
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$provider3,
-			_1: {
-				ctor: '::',
-				_0: _user$project$Tests_TestAPI$provider4,
-				_1: {
-					ctor: '::',
-					_0: _user$project$Tests_TestAPI$provider5,
-					_1: {ctor: '[]'}
-				}
-			}
-		}
-	}
-};
-var _user$project$Tests_TestAPI$jsonProfile1 = A7(
-	_user$project$Services_Adapter$JsonProfile,
-	_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId1),
-	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile1.firstName),
-	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile1.lastName),
-	_user$project$Domain_Core$getEmail(_user$project$Tests_TestAPI$profile1.email),
-	_user$project$Domain_Core$getUrl(_user$project$Tests_TestAPI$profile1.imageUrl),
-	_user$project$Tests_TestAPI$profile1.bio,
-	_user$project$Tests_TestAPI$profile1.sources);
-var _user$project$Tests_TestAPI$jsonLink1 = A6(
-	_user$project$Services_Adapter$JsonLink,
-	_user$project$Tests_TestAPI$jsonProfile1,
-	_user$project$Domain_Core$getTitle(_user$project$Tests_TestAPI$someArticleTitle1),
-	_user$project$Domain_Core$getUrl(_user$project$Tests_TestAPI$someUrl),
-	'video',
-	{ctor: '[]'},
-	false);
-var _user$project$Tests_TestAPI$jsonProvider1 = _user$project$Services_Adapter$JsonProvider(
-	{
-		profile: _user$project$Tests_TestAPI$jsonProfile1,
-		topics: _user$project$Tests_TestAPI$topics,
-		links: _user$project$Tests_TestAPI$jsonLinks,
-		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
-		subscriptions: {
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$jsonProvider2,
-			_1: {
-				ctor: '::',
-				_0: _user$project$Tests_TestAPI$jsonProvider3,
-				_1: {ctor: '[]'}
-			}
-		},
-		followers: {
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$jsonProvider2,
-			_1: {
-				ctor: '::',
-				_0: _user$project$Tests_TestAPI$jsonProvider3,
-				_1: {ctor: '[]'}
-			}
-		}
-	});
-var _user$project$Tests_TestAPI$tryLogin = F2(
-	function (credentials, msg) {
-		var successful = _elm_lang$core$Native_Utils.eq(
-			_elm_lang$core$String$toLower(credentials.email),
-			'test') && _elm_lang$core$Native_Utils.eq(
-			_elm_lang$core$String$toLower(credentials.password),
-			'test');
-		return successful ? A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$jsonProvider1)))) : _elm_lang$core$Platform_Cmd$none;
-	});
-var _user$project$Tests_TestAPI$tryRegister = F2(
-	function (form, msg) {
-		return _elm_lang$core$Native_Utils.eq(form.password, form.confirm) ? A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(
-						A7(
-							_user$project$Services_Adapter$JsonProfile,
-							_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId1),
-							form.firstName,
-							form.lastName,
-							form.email,
-							'',
-							'',
-							{ctor: '[]'}))))) : _elm_lang$core$Platform_Cmd$none;
 	});
 var _user$project$Tests_TestAPI$provider = F2(
 	function (id, msg) {
@@ -17997,12 +18000,12 @@ var _user$project$Home$update = F2(
 			case 'NavigateToPortalProviderMemberTopicResponse':
 				var _p33 = _p30._0;
 				if (_p33.ctor === 'Ok') {
-					var provider = _user$project$Services_Adapter$toProvider(_p33._0);
+					var selectedProvider = _user$project$Services_Adapter$toProvider(_p33._0);
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{selectedProvider: provider}),
+							{selectedProvider: selectedProvider}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {

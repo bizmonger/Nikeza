@@ -151,7 +151,7 @@ update msg model =
                 case response of
                     Ok jsonProvider ->
                         let
-                            provider =
+                            selectedProvider =
                                 jsonProvider |> toProvider
 
                             -- portal =
@@ -165,7 +165,7 @@ update msg model =
                             --         , requested = Domain.ViewRecent
                             --     }
                         in
-                            ( { model | selectedProvider = provider }, Cmd.none )
+                            ( { model | selectedProvider = selectedProvider }, Cmd.none )
 
                     Err _ ->
                         ( model, Cmd.none )
@@ -739,8 +739,6 @@ view model =
             in
                 model |> renderPage (model |> content (Just contentToEmbed))
 
-        -- Nothing ->
-        --     pageNotFound
         [ "portal", id ] ->
             let
                 mainContent =
@@ -762,8 +760,6 @@ view model =
             in
                 model |> renderPage contentLinks
 
-        -- Nothing ->
-        --     pageNotFound
         _ ->
             pageNotFound
 

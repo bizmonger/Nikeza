@@ -272,13 +272,13 @@ profile5 =
     Profile profileId5 (Name "Ody") (Name "Mbegbu") someEmail profile5ImageUrl someDescrtiption (profileId5 |> sources)
 
 
-jsonLinks : JsonLinks
-jsonLinks =
+jsonLinks : Id -> JsonLinks
+jsonLinks id =
     JsonLinks
-        (answers profileId1 |> toJsonLinks)
-        (articles profileId1 |> toJsonLinks)
-        (videos profileId1 |> toJsonLinks)
-        (podcasts profileId1 |> toJsonLinks)
+        (answers id |> toJsonLinks)
+        (articles id |> toJsonLinks)
+        (videos id |> toJsonLinks)
+        (podcasts id |> toJsonLinks)
 
 
 subscriptions : Id -> Subscribers
@@ -396,7 +396,7 @@ jsonProvider1 =
     JsonProvider
         { profile = jsonProfile1
         , topics = topics
-        , links = jsonLinks
+        , links = profileId1 |> jsonLinks
         , recentLinks = (recentLinks1 |> toJsonLinks)
         , subscriptions = [ jsonProvider2, jsonProvider3 ]
         , followers = [ jsonProvider2, jsonProvider3 ]
@@ -408,7 +408,7 @@ jsonProvider2 =
     JsonProvider
         { profile = jsonProfile2
         , topics = topics
-        , links = jsonLinks
+        , links = profileId2 |> jsonLinks
         , recentLinks = (recentLinks2 |> toJsonLinks)
         , subscriptions = []
         , followers = []
@@ -420,7 +420,7 @@ jsonProvider3 =
     JsonProvider
         { profile = jsonProfile3
         , topics = topics
-        , links = jsonLinks
+        , links = profileId3 |> jsonLinks
         , recentLinks = (recentLinks3 |> toJsonLinks)
         , subscriptions = []
         , followers = []
@@ -432,7 +432,7 @@ jsonProvider4 =
     JsonProvider
         { profile = jsonProfile4
         , topics = topics
-        , links = jsonLinks
+        , links = profileId4 |> jsonLinks
         , recentLinks = (recentLinks1 |> toJsonLinks)
         , subscriptions = []
         , followers = []
@@ -444,7 +444,7 @@ jsonProvider5 =
     JsonProvider
         { profile = jsonProfile5
         , topics = topics
-        , links = jsonLinks
+        , links = profileId5 |> jsonLinks
         , recentLinks = (recentLinks1 |> toJsonLinks)
         , subscriptions = []
         , followers = []
@@ -639,45 +639,60 @@ removeLink profileId link =
 
 linksToContent : ContentType -> Id -> List Link
 linksToContent contentType profileId =
-    -- NOTE !!! We're hardcoding a profile here due to some unresolved bug
-    case contentType of
-        Article ->
-            [ Link profile1 someArticleTitle1 someUrl Article [ someTopic1 ] False
-            , Link profile1 someArticleTitle2 someUrl Article [ someTopic2 ] True
-            , Link profile1 someArticleTitle3 someUrl Article [ someTopic3 ] False
-            , Link profile1 someArticleTitle4 someUrl Article [ someTopic4 ] True
-            , Link profile1 someArticleTitle5 someUrl Article [ someTopic5 ] False
-            ]
+    let
+        profileHolder =
+            if profileId == profileId1 then
+                profile1
+            else if profileId == profileId2 then
+                profile2
+            else if profileId == profileId3 then
+                profile3
+            else if profileId == profileId4 then
+                profile4
+            else if profileId == profileId5 then
+                profile5
+            else
+                profile1
+    in
+        -- NOTE !!! We're hardcoding a profile here due to some unresolved bug
+        case contentType of
+            Article ->
+                [ Link profileHolder someArticleTitle1 someUrl Article [ someTopic1 ] False
+                , Link profileHolder someArticleTitle2 someUrl Article [ someTopic2 ] True
+                , Link profileHolder someArticleTitle3 someUrl Article [ someTopic3 ] False
+                , Link profileHolder someArticleTitle4 someUrl Article [ someTopic4 ] True
+                , Link profileHolder someArticleTitle5 someUrl Article [ someTopic5 ] False
+                ]
 
-        Video ->
-            [ Link profile1 someVideoTitle1 someUrl Video [ someTopic1 ] False
-            , Link profile1 someVideoTitle2 someUrl Video [ someTopic2 ] True
-            , Link profile1 someVideoTitle3 someUrl Video [ someTopic3 ] False
-            , Link profile1 someVideoTitle4 someUrl Video [ someTopic4 ] True
-            , Link profile1 someVideoTitle5 someUrl Video [ someTopic5 ] False
-            ]
+            Video ->
+                [ Link profileHolder someVideoTitle1 someUrl Video [ someTopic1 ] False
+                , Link profileHolder someVideoTitle2 someUrl Video [ someTopic2 ] True
+                , Link profileHolder someVideoTitle3 someUrl Video [ someTopic3 ] False
+                , Link profileHolder someVideoTitle4 someUrl Video [ someTopic4 ] True
+                , Link profileHolder someVideoTitle5 someUrl Video [ someTopic5 ] False
+                ]
 
-        Podcast ->
-            [ Link profile1 somePodcastTitle1 someUrl Podcast [ someTopic1 ] False
-            , Link profile1 somePodcastTitle2 someUrl Podcast [ someTopic2 ] True
-            , Link profile1 somePodcastTitle3 someUrl Podcast [ someTopic3 ] False
-            , Link profile1 somePodcastTitle4 someUrl Podcast [ someTopic4 ] True
-            , Link profile1 somePodcastTitle5 someUrl Podcast [ someTopic5 ] False
-            ]
+            Podcast ->
+                [ Link profileHolder somePodcastTitle1 someUrl Podcast [ someTopic1 ] False
+                , Link profileHolder somePodcastTitle2 someUrl Podcast [ someTopic2 ] True
+                , Link profileHolder somePodcastTitle3 someUrl Podcast [ someTopic3 ] False
+                , Link profileHolder somePodcastTitle4 someUrl Podcast [ someTopic4 ] True
+                , Link profileHolder somePodcastTitle5 someUrl Podcast [ someTopic5 ] False
+                ]
 
-        Answer ->
-            [ Link profile1 someAnswerTitle1 someUrl Answer [ someTopic1 ] False
-            , Link profile1 someAnswerTitle2 someUrl Answer [ someTopic2 ] True
-            , Link profile1 someAnswerTitle3 someUrl Answer [ someTopic3 ] False
-            , Link profile1 someAnswerTitle4 someUrl Answer [ someTopic4 ] True
-            , Link profile1 someAnswerTitle5 someUrl Answer [ someTopic5 ] False
-            ]
+            Answer ->
+                [ Link profileHolder someAnswerTitle1 someUrl Answer [ someTopic1 ] False
+                , Link profileHolder someAnswerTitle2 someUrl Answer [ someTopic2 ] True
+                , Link profileHolder someAnswerTitle3 someUrl Answer [ someTopic3 ] False
+                , Link profileHolder someAnswerTitle4 someUrl Answer [ someTopic4 ] True
+                , Link profileHolder someAnswerTitle5 someUrl Answer [ someTopic5 ] False
+                ]
 
-        All ->
-            []
+            All ->
+                []
 
-        Unknown ->
-            []
+            Unknown ->
+                []
 
 
 suggestedTopics : String -> List Topic
