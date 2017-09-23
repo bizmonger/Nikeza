@@ -196,9 +196,6 @@ update msg model =
                         let
                             provider =
                                 jsonProvider |> toProvider
-
-                            -- topicProvider =
-                            --     { provider | topics = [ Topic topic False ] }
                         in
                             ( { model | selectedProvider = provider }, Cmd.none )
 
@@ -697,8 +694,6 @@ view model =
                 _ ->
                     model |> renderPage (providerTopicPage FromOther model.selectedProvider)
 
-        -- Nothing ->
-        --     pageNotFound
         [ "provider", id, "all", contentType ] ->
             case runtime.provider <| Id id of
                 _ ->
@@ -711,8 +706,6 @@ view model =
                     in
                         model |> renderPage (renderProfileBase model.selectedProvider <| contentToEmbed)
 
-        -- Nothing ->
-        --     pageNotFound
         [ "provider", id, topicName, "all", contentType ] ->
             case runtime.provider <| Id id of
                 _ ->
@@ -725,11 +718,7 @@ view model =
                     in
                         model |> renderPage (renderProfileBase model.selectedProvider <| contentToEmbed)
 
-        -- Nothing ->
-        --     pageNotFound
         [ "portal", id, "all", contentType ] ->
-            -- case runtime.provider <| Id id of
-            --     p ->
             let
                 linksContent =
                     Html.map ProviderContentTypeLinksAction <| ProviderContentTypeLinks.view model.portal.provider (toContentType contentType) True
@@ -792,11 +781,7 @@ applyToPortal provider model content =
             model.portal
     in
         if portal.provider == initProvider then
-            -- case runtime.provider <| Id profileId of
-            --     provider ->
             portal |> render provider content
-            -- Nothing ->
-            --     pageNotFound
         else
             portal |> render portal.provider content
 
@@ -860,8 +845,12 @@ footerContent =
 
 providersUI : Maybe Id -> List Provider -> Bool -> Html Msg
 providersUI profileId providers showSubscribe =
-    Html.map ProfileThumbnail <|
-        div [] (providers |> List.map (ProfileThumbnail.thumbnail (profileId) showSubscribe))
+    let
+        content =
+            Html.map ProfileThumbnail <|
+                div [] (providers |> List.map (ProfileThumbnail.thumbnail (profileId) showSubscribe))
+    in
+        content
 
 
 recentProvidersUI : Id -> List Provider -> Html Msg

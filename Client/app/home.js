@@ -17647,7 +17647,7 @@ var _user$project$Home$ProfileThumbnail = function (a) {
 };
 var _user$project$Home$providersUI = F3(
 	function (profileId, providers, showSubscribe) {
-		return A2(
+		var content = A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$ProfileThumbnail,
 			A2(
@@ -17657,6 +17657,7 @@ var _user$project$Home$providersUI = F3(
 					_elm_lang$core$List$map,
 					A2(_user$project$Controls_ProfileThumbnail$thumbnail, profileId, showSubscribe),
 					providers)));
+		return content;
 	});
 var _user$project$Home$searchProvidersUI = F4(
 	function (profileId, showSubscribe, placeHolder, providers) {
