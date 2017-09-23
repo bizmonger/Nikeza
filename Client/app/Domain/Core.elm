@@ -21,6 +21,7 @@ type alias Credentials =
     , loggedIn : Bool
     }
 
+
 initTopics : List Topic
 initTopics =
     []
@@ -376,7 +377,10 @@ getPosts contentType links =
             []
 
         All ->
-            []
+            links.answers
+                ++ links.articles
+                ++ links.podcasts
+                ++ links.videos
 
 
 hasMatch : Topic -> List Topic -> Bool
@@ -492,7 +496,7 @@ contentTypeToText contentType =
             "Unknown"
 
         All ->
-            ""
+            "Content"
 
 
 allContentUrl : Linksfrom -> Id -> ContentType -> Url

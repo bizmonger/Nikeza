@@ -9639,7 +9639,7 @@ var _user$project$Domain_Core$contentTypeToText = function (contentType) {
 		case 'Unknown':
 			return 'Unknown';
 		default:
-			return '';
+			return 'Content';
 	}
 };
 var _user$project$Domain_Core$toTopicNames = function (topics) {
@@ -9674,7 +9674,13 @@ var _user$project$Domain_Core$getPosts = F2(
 			case 'Unknown':
 				return {ctor: '[]'};
 			default:
-				return {ctor: '[]'};
+				return A2(
+					_elm_lang$core$Basics_ops['++'],
+					links.answers,
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						links.articles,
+						A2(_elm_lang$core$Basics_ops['++'], links.podcasts, links.videos)));
 		}
 	});
 var _user$project$Domain_Core$compareLinks = F2(
@@ -13839,89 +13845,101 @@ var _user$project$Controls_ProviderTopicContentTypeLinks$view = F3(
 				return A2(_user$project$Domain_Core$hasMatch, topic, l.topics);
 			},
 			A2(_user$project$Domain_Core$getPosts, contentType, links));
-		return A2(
-			_elm_lang$html$Html$table,
-			{ctor: '[]'},
+		var content = A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('mainContent'),
+				_1: {ctor: '[]'}
+			},
 			{
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$tr,
+					_elm_lang$html$Html$table,
 					{ctor: '[]'},
 					{
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$td,
+							_elm_lang$html$Html$tr,
 							{ctor: '[]'},
 							{
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$h3,
+									_elm_lang$html$Html$td,
 									{ctor: '[]'},
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html$text(
-											A2(
-												_elm_lang$core$Basics_ops['++'],
-												'All ',
-												_user$project$Domain_Core$contentTypeToText(contentType))),
+										_0: A2(
+											_elm_lang$html$Html$h3,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text(
+													A2(
+														_elm_lang$core$Basics_ops['++'],
+														'All ',
+														_user$project$Domain_Core$contentTypeToText(contentType))),
+												_1: {ctor: '[]'}
+											}),
 										_1: {ctor: '[]'}
 									}),
 								_1: {ctor: '[]'}
 							}),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$tr,
-						{ctor: '[]'},
-						{
+						_1: {
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$td,
+								_elm_lang$html$Html$tr,
 								{ctor: '[]'},
 								{
 									ctor: '::',
 									_0: A2(
-										_elm_lang$html$Html$div,
+										_elm_lang$html$Html$td,
 										{ctor: '[]'},
-										A2(
-											_elm_lang$core$List$map,
-											function (link) {
-												return A2(
-													_elm_lang$html$Html$a,
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$href(
-															_user$project$Domain_Core$getUrl(link.url)),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$target('_blank'),
-															_1: {ctor: '[]'}
-														}
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$div,
+												{ctor: '[]'},
+												A2(
+													_elm_lang$core$List$map,
+													function (link) {
+														return A2(
+															_elm_lang$html$Html$a,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$href(
+																	_user$project$Domain_Core$getUrl(link.url)),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$target('_blank'),
+																	_1: {ctor: '[]'}
+																}
+															},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text(
+																	_user$project$Domain_Core$getTitle(link.title)),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$br,
+																		{ctor: '[]'},
+																		{ctor: '[]'}),
+																	_1: {ctor: '[]'}
+																}
+															});
 													},
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html$text(
-															_user$project$Domain_Core$getTitle(link.title)),
-														_1: {
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$br,
-																{ctor: '[]'},
-																{ctor: '[]'}),
-															_1: {ctor: '[]'}
-														}
-													});
-											},
-											posts)),
+													posts)),
+											_1: {ctor: '[]'}
+										}),
 									_1: {ctor: '[]'}
 								}),
 							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}
+						}
+					}),
+				_1: {ctor: '[]'}
 			});
+		return content;
 	});
 var _user$project$Controls_ProviderTopicContentTypeLinks$None = {ctor: 'None'};
 
@@ -18497,16 +18515,6 @@ var _user$project$Home$renderPage = F2(
 				}
 			});
 	});
-var _user$project$Home$renderMemberPortfolio = function (model) {
-	var contentLinks = A2(
-		_user$project$Home$renderProfileBase,
-		model.selectedProvider,
-		A2(
-			_elm_lang$html$Html$map,
-			_user$project$Home$ProviderLinksAction,
-			A2(_user$project$Controls_ProviderLinks$view, _user$project$Domain_Core$FromOther, model.selectedProvider)));
-	return A2(_user$project$Home$renderPage, contentLinks, model);
-};
 var _user$project$Home$homePage = function (model) {
 	var mainContent = A2(
 		_elm_lang$html$Html$table,
@@ -18789,7 +18797,14 @@ var _user$project$Home$view = function (model) {
 													model),
 												model);
 										case 'provider':
-											return _user$project$Home$renderMemberPortfolio(model);
+											var contentLinks = A2(
+												_user$project$Home$renderProfileBase,
+												model.selectedProvider,
+												A2(
+													_elm_lang$html$Html$map,
+													_user$project$Home$ProviderLinksAction,
+													A2(_user$project$Controls_ProviderLinks$view, _user$project$Domain_Core$FromOther, model.selectedProvider)));
+											return A2(_user$project$Home$renderPage, contentLinks, model);
 										default:
 											break _v28_11;
 									}

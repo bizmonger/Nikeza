@@ -749,7 +749,13 @@ view model =
                 model |> renderPage mainContent
 
         [ "portal", clientId, "provider", id ] ->
-            renderMemberPortfolio model
+            let
+                contentLinks =
+                    (renderProfileBase model.selectedProvider <|
+                        Html.map ProviderLinksAction (ProviderLinks.view FromOther model.selectedProvider)
+                    )
+            in
+                model |> renderPage contentLinks
 
         [ "portal", clientId, "provider", id, topic ] ->
             let
@@ -762,17 +768,6 @@ view model =
 
         _ ->
             pageNotFound
-
-
-renderMemberPortfolio : Model -> Html Msg
-renderMemberPortfolio model =
-    let
-        contentLinks =
-            (renderProfileBase model.selectedProvider <|
-                Html.map ProviderLinksAction (ProviderLinks.view FromOther model.selectedProvider)
-            )
-    in
-        model |> renderPage contentLinks
 
 
 renderProfileBase : Provider -> Html Msg -> Html Msg

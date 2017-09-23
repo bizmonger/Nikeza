@@ -28,12 +28,17 @@ view model topic contentType =
             ( model.topics, model.links )
 
         posts =
-            links |> getPosts contentType |> List.filter (\l -> hasMatch topic l.topics)
-    in
-        table []
-            [ tr []
-                [ td [] [ h3 [] [ text <| "All " ++ (contentType |> contentTypeToText) ] ] ]
-            , tr []
-                [ td [] [ div [] <| List.map (\link -> a [ href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]) posts ]
+            links |> getPosts contentType |> List.filter (\l -> l.topics |> hasMatch topic)
+
+        content =
+            div [ class "mainContent" ]
+                [ table []
+                    [ tr []
+                        [ td [] [ h3 [] [ text <| "All " ++ (contentType |> contentTypeToText) ] ] ]
+                    , tr []
+                        [ td [] [ div [] <| List.map (\link -> a [ href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]) posts ]
+                        ]
+                    ]
                 ]
-            ]
+    in
+        content
