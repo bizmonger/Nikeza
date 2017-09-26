@@ -20,6 +20,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
 import Navigation exposing (..)
 import String exposing (..)
+import Debug exposing (crash)
 
 
 -- elm-live Home.elm --open --output=home.js
@@ -1106,7 +1107,17 @@ renderNavigation portal providers =
             recentLinks profile.id providers |> List.length
 
         newText =
-            "Recent " ++ "(" ++ (toString <| recentCount) ++ ")"
+            "Recent "
+                ++ "("
+                ++ (providers
+                        |> providersWithRecentLinks profile.id
+                        |> List.length
+                        |> toString
+                   )
+                ++ ")"
+
+        debugValue =
+            providersWithRecentLinks profile.id providers
 
         ( portfolioText, subscriptionsText, membersText, linkText, profileText ) =
             ( "Portfolio", "Subscriptions", "Members", "Link", "Profile" )

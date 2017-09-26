@@ -310,14 +310,14 @@ recentLinks1 =
 
 recentLinks2 : List Link
 recentLinks2 =
-    [ Link profile1 somePodcastTitle6 someUrl Video [ someTopic1 ] True
-    , Link profile1 someAnswerTitle6 someUrl Video [ someTopic1 ] True
+    [ Link profile2 somePodcastTitle6 someUrl Video [ someTopic1 ] True
+    , Link profile2 someAnswerTitle6 someUrl Video [ someTopic1 ] True
     ]
 
 
 recentLinks3 : List Link
 recentLinks3 =
-    [ Link profile1 someArticleTitle6 someUrl Video [ someTopic1 ] True
+    [ Link profile3 someArticleTitle6 someUrl Video [ someTopic1 ] True
     ]
 
 

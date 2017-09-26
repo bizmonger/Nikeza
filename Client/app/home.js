@@ -10390,6 +10390,22 @@ var _user$project$Tests_TestAPI$profile3 = A7(
 	_user$project$Tests_TestAPI$profile3ImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId3));
+var _user$project$Tests_TestAPI$recentLinks3 = {
+	ctor: '::',
+	_0: A6(
+		_user$project$Domain_Core$Link,
+		_user$project$Tests_TestAPI$profile3,
+		_user$project$Tests_TestAPI$someArticleTitle6,
+		_user$project$Tests_TestAPI$someUrl,
+		_user$project$Domain_Core$Video,
+		{
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$someTopic1,
+			_1: {ctor: '[]'}
+		},
+		true),
+	_1: {ctor: '[]'}
+};
 var _user$project$Tests_TestAPI$jsonProfile3 = A7(
 	_user$project$Services_Adapter$JsonProfile,
 	_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId3),
@@ -10409,6 +10425,37 @@ var _user$project$Tests_TestAPI$profile2 = A7(
 	_user$project$Tests_TestAPI$profile2ImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
 	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId2));
+var _user$project$Tests_TestAPI$recentLinks2 = {
+	ctor: '::',
+	_0: A6(
+		_user$project$Domain_Core$Link,
+		_user$project$Tests_TestAPI$profile2,
+		_user$project$Tests_TestAPI$somePodcastTitle6,
+		_user$project$Tests_TestAPI$someUrl,
+		_user$project$Domain_Core$Video,
+		{
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$someTopic1,
+			_1: {ctor: '[]'}
+		},
+		true),
+	_1: {
+		ctor: '::',
+		_0: A6(
+			_user$project$Domain_Core$Link,
+			_user$project$Tests_TestAPI$profile2,
+			_user$project$Tests_TestAPI$someAnswerTitle6,
+			_user$project$Tests_TestAPI$someUrl,
+			_user$project$Domain_Core$Video,
+			{
+				ctor: '::',
+				_0: _user$project$Tests_TestAPI$someTopic1,
+				_1: {ctor: '[]'}
+			},
+			true),
+		_1: {ctor: '[]'}
+	}
+};
 var _user$project$Tests_TestAPI$jsonProfile2 = A7(
 	_user$project$Services_Adapter$JsonProfile,
 	_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId2),
@@ -10434,53 +10481,6 @@ var _user$project$Tests_TestAPI$recentLinks1 = {
 		_user$project$Domain_Core$Link,
 		_user$project$Tests_TestAPI$profile1,
 		_user$project$Tests_TestAPI$someVideoTitle6,
-		_user$project$Tests_TestAPI$someUrl,
-		_user$project$Domain_Core$Video,
-		{
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$someTopic1,
-			_1: {ctor: '[]'}
-		},
-		true),
-	_1: {ctor: '[]'}
-};
-var _user$project$Tests_TestAPI$recentLinks2 = {
-	ctor: '::',
-	_0: A6(
-		_user$project$Domain_Core$Link,
-		_user$project$Tests_TestAPI$profile1,
-		_user$project$Tests_TestAPI$somePodcastTitle6,
-		_user$project$Tests_TestAPI$someUrl,
-		_user$project$Domain_Core$Video,
-		{
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$someTopic1,
-			_1: {ctor: '[]'}
-		},
-		true),
-	_1: {
-		ctor: '::',
-		_0: A6(
-			_user$project$Domain_Core$Link,
-			_user$project$Tests_TestAPI$profile1,
-			_user$project$Tests_TestAPI$someAnswerTitle6,
-			_user$project$Tests_TestAPI$someUrl,
-			_user$project$Domain_Core$Video,
-			{
-				ctor: '::',
-				_0: _user$project$Tests_TestAPI$someTopic1,
-				_1: {ctor: '[]'}
-			},
-			true),
-		_1: {ctor: '[]'}
-	}
-};
-var _user$project$Tests_TestAPI$recentLinks3 = {
-	ctor: '::',
-	_0: A6(
-		_user$project$Domain_Core$Link,
-		_user$project$Tests_TestAPI$profile1,
-		_user$project$Tests_TestAPI$someArticleTitle6,
 		_user$project$Tests_TestAPI$someUrl,
 		_user$project$Domain_Core$Video,
 		{
@@ -16162,8 +16162,11 @@ var _user$project$Home$renderNavigation = F2(
 				'(',
 				A2(
 					_elm_lang$core$Basics_ops['++'],
-					_elm_lang$core$Basics$toString(recentCount),
+					_elm_lang$core$Basics$toString(
+						_elm_lang$core$List$length(
+							A2(_user$project$Home$providersWithRecentLinks, profile.id, providers))),
 					')')));
+		var debugValue = A2(_user$project$Home$providersWithRecentLinks, profile.id, providers);
 		var _p20 = _user$project$Settings$runtime.followers(profile.id);
 		var followers = _p20._0;
 		var followersText = A2(
