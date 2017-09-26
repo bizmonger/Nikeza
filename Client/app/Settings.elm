@@ -21,7 +21,7 @@ type alias Dependencies msg =
     , tryRegister : Registerfunction msg
     , provider : Providerfunction msg
     , providerTopic : ProviderTopicfunction msg
-    , providers : Providersfunction
+    , providers : Providersfunction msg
     , links : Linksfunction
     , addLink : AddLinkfunction
     , removeLink : RemoveLinkfunction

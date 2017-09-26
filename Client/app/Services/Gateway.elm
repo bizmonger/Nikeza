@@ -131,9 +131,16 @@ tryRegister form msg =
         Http.send msg request
 
 
-providers : List Provider
-providers =
-    []
+providers : (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
+providers msg =
+    let
+        providersUrl =
+            "http://localhost:5000/providers"
+
+        request =
+            Http.get providersUrl (Decode.list providerDecoder)
+    in
+        Http.send msg request
 
 
 provider : Id -> (Result Http.Error JsonProvider -> msg) -> Cmd msg

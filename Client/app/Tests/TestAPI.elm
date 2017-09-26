@@ -775,14 +775,18 @@ providerTopic id topic msg =
         Cmd.none
 
 
-providers : List Provider
-providers =
-    [ provider1
-    , provider2
-    , provider3
-    , provider4
-    , provider5
+providers : (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
+providers msg =
+    [ jsonProvider1
+    , jsonProvider2
+    , jsonProvider3
+    , jsonProvider4
+    , jsonProvider5
     ]
+        |> Result.Ok
+        |> msg
+        |> Task.succeed
+        |> Task.perform identity
 
 
 topics : List Topic

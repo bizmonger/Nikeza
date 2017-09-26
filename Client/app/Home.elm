@@ -52,27 +52,15 @@ type alias Model =
 
 init : Navigation.Location -> ( Model, Cmd Msg )
 init location =
-    let
-        provider =
-            -- case tokenizeUrl location.hash of
-            --     [ "provider", id ] ->
-            --         case runtime.provider <| Id id of
-            --             Just provider ->
-            --                 provider
-            --             Nothing ->
-            --                 initProvider
-            --     _ ->
-            initProvider
-    in
-        ( { currentRoute = location
-          , login = Login.init
-          , registration = initForm
-          , portal = initPortal
-          , providers = runtime.providers
-          , selectedProvider = provider
-          }
-        , Cmd.none
-        )
+    ( { currentRoute = location
+      , login = Login.init
+      , registration = initForm
+      , portal = initPortal
+      , providers = []
+      , selectedProvider = initProvider
+      }
+    , runtime.providers ProvidersResponse
+    )
 
 
 
@@ -99,6 +87,7 @@ type Msg
     | EditProfileAction EditProfile.Msg
     | ProviderContentTypeLinksAction ProviderContentTypeLinks.Msg
     | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
+    | ProvidersResponse (Result Http.Error (List JsonProvider))
     | IdToProviderResponse (Result Http.Error JsonProvider)
     | NavigateToPortalResponse (Result Http.Error JsonProvider)
     | NavigateToPortalProviderTopicResponse (Result Http.Error JsonProvider)
@@ -122,6 +111,14 @@ update msg model =
         case msg of
             UrlChange location ->
                 location |> navigate msg model
+
+            ProvidersResponse response ->
+                case response of
+                    Ok jsonProviders ->
+                        ( { model | providers = jsonProviders |> List.map (\p -> p |> toProvider) }, Cmd.none )
+
+                    Err _ ->
+                        ( model, Cmd.none )
 
             NavigateToPortalProviderTopicResponse response ->
                 case response of
@@ -241,7 +238,7 @@ update msg model =
                 onLogin subMsg model
 
             Search "" ->
-                ( { model | providers = runtime.providers }, Cmd.none )
+                ( model, runtime.providers ProvidersResponse )
 
             Search text ->
                 text |> matchProviders model
@@ -617,7 +614,7 @@ filterProviders providers matchValue =
 
 matchProviders : Model -> String -> ( Model, Cmd Msg )
 matchProviders model matchValue =
-    ( { model | providers = filterProviders runtime.providers matchValue }, Cmd.none )
+    ( { model | providers = filterProviders model.providers matchValue }, Cmd.none )
 
 
 onLogin : Login.Msg -> Model -> ( Model, Cmd Msg )
@@ -781,19 +778,19 @@ applyToPortal provider model content =
             model.portal
     in
         if portal.provider == initProvider then
-            portal |> render provider content
+            portal |> render provider content model.providers
         else
-            portal |> render portal.provider content
+            portal |> render portal.provider content model.providers
 
 
-render : Provider -> Html Msg -> Portal -> Html Msg
-render provider content portal =
+render : Provider -> Html Msg -> List Provider -> Portal -> Html Msg
+render provider content portal providers =
     table []
         [ tr []
             [ td []
                 [ table []
                     [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| getUrl <| provider.profile.imageUrl ] [] ] ]
-                    , tr [] [ td [] <| renderNavigation portal ]
+                    , tr [] [ td [] <| renderNavigation providers portal ]
                     ]
                 ]
             , td [] [ content ]
@@ -1087,8 +1084,8 @@ searchProvidersUI profileId showSubscribe placeHolder providers =
         ]
 
 
-renderNavigation : Portal -> List (Html Msg)
-renderNavigation portal =
+renderNavigation : Portal -> List Provider -> List (Html Msg)
+renderNavigation portal providers =
     let
         links =
             portal.provider.links
@@ -1106,7 +1103,7 @@ renderNavigation portal =
             "Sources " ++ "(" ++ (toString <| List.length profile.sources) ++ ")"
 
         recentCount =
-            recentLinks profile.id runtime.providers |> List.length
+            recentLinks profile.id providers |> List.length
 
         newText =
             "Recent " ++ "(" ++ (toString <| recentCount) ++ ")"

@@ -10947,27 +10947,6 @@ var _user$project$Tests_TestAPI$provider4 = A6(
 	_user$project$Tests_TestAPI$followers);
 var _user$project$Tests_TestAPI$provider1 = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile1, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider1Links, _user$project$Tests_TestAPI$recentLinks1, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
 var _user$project$Tests_TestAPI$provider3 = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile3, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider3Links, _user$project$Tests_TestAPI$recentLinks3, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
-var _user$project$Tests_TestAPI$providers = {
-	ctor: '::',
-	_0: _user$project$Tests_TestAPI$provider1,
-	_1: {
-		ctor: '::',
-		_0: _user$project$Tests_TestAPI$provider2,
-		_1: {
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$provider3,
-			_1: {
-				ctor: '::',
-				_0: _user$project$Tests_TestAPI$provider4,
-				_1: {
-					ctor: '::',
-					_0: _user$project$Tests_TestAPI$provider5,
-					_1: {ctor: '[]'}
-				}
-			}
-		}
-	}
-};
 var _user$project$Tests_TestAPI$jsonLinks = function (id) {
 	return A4(
 		_user$project$Services_Adapter$JsonLinks,
@@ -11055,6 +11034,35 @@ var _user$project$Tests_TestAPI$jsonProvider5 = _user$project$Services_Adapter$J
 		subscriptions: {ctor: '[]'},
 		followers: {ctor: '[]'}
 	});
+var _user$project$Tests_TestAPI$providers = function (msg) {
+	return A2(
+		_elm_lang$core$Task$perform,
+		_elm_lang$core$Basics$identity,
+		_elm_lang$core$Task$succeed(
+			msg(
+				_elm_lang$core$Result$Ok(
+					{
+						ctor: '::',
+						_0: _user$project$Tests_TestAPI$jsonProvider1,
+						_1: {
+							ctor: '::',
+							_0: _user$project$Tests_TestAPI$jsonProvider2,
+							_1: {
+								ctor: '::',
+								_0: _user$project$Tests_TestAPI$jsonProvider3,
+								_1: {
+									ctor: '::',
+									_0: _user$project$Tests_TestAPI$jsonProvider4,
+									_1: {
+										ctor: '::',
+										_0: _user$project$Tests_TestAPI$jsonProvider5,
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					}))));
+};
 var _user$project$Tests_TestAPI$links = function (id) {
 	return {
 		answers: A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Answer, id),
@@ -11298,7 +11306,6 @@ var _user$project$Services_Gateway$addLink = F2(
 var _user$project$Services_Gateway$links = function (profileId) {
 	return _user$project$Domain_Core$initLinks;
 };
-var _user$project$Services_Gateway$providers = {ctor: '[]'};
 var _user$project$Services_Gateway$encodeCredentials = function (credentials) {
 	return _elm_lang$core$Json_Encode$object(
 		{
@@ -11486,6 +11493,14 @@ var _user$project$Services_Gateway$tryLogin = F2(
 		var request = A3(_elm_lang$http$Http$post, loginUrl, body, _user$project$Services_Gateway$providerDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
+var _user$project$Services_Gateway$providers = function (msg) {
+	var providersUrl = 'http://localhost:5000/providers';
+	var request = A2(
+		_elm_lang$http$Http$get,
+		providersUrl,
+		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$providerDecoder));
+	return A2(_elm_lang$http$Http$send, msg, request);
+};
 var _user$project$Services_Gateway$provider = F2(
 	function (id, msg) {
 		var body = _elm_lang$http$Http$jsonBody(
@@ -15022,7 +15037,7 @@ var _user$project$Home$matchProviders = F2(
 			_0: _elm_lang$core$Native_Utils.update(
 				model,
 				{
-					providers: A2(_user$project$Home$filterProviders, _user$project$Settings$runtime.providers, matchValue)
+					providers: A2(_user$project$Home$filterProviders, model.providers, matchValue)
 				}),
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
@@ -15335,14 +15350,6 @@ var _user$project$Home$onUpdateProviderLinks = F3(
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
-var _user$project$Home$init = function (location) {
-	var provider = _user$project$Domain_Core$initProvider;
-	return {
-		ctor: '_Tuple2',
-		_0: {currentRoute: location, login: _user$project$Controls_Login$init, registration: _user$project$Domain_Core$initForm, portal: _user$project$Domain_Core$initPortal, providers: _user$project$Settings$runtime.providers, selectedProvider: provider},
-		_1: _elm_lang$core$Platform_Cmd$none
-	};
-};
 var _user$project$Home$Model = F6(
 	function (a, b, c, d, e, f) {
 		return {currentRoute: a, login: b, registration: c, portal: d, providers: e, selectedProvider: f};
@@ -15618,6 +15625,23 @@ var _user$project$Home$navigate = F3(
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
+var _user$project$Home$ProvidersResponse = function (a) {
+	return {ctor: 'ProvidersResponse', _0: a};
+};
+var _user$project$Home$init = function (location) {
+	return {
+		ctor: '_Tuple2',
+		_0: {
+			currentRoute: location,
+			login: _user$project$Controls_Login$init,
+			registration: _user$project$Domain_Core$initForm,
+			portal: _user$project$Domain_Core$initPortal,
+			providers: {ctor: '[]'},
+			selectedProvider: _user$project$Domain_Core$initProvider
+		},
+		_1: _user$project$Settings$runtime.providers(_user$project$Home$ProvidersResponse)
+	};
+};
 var _user$project$Home$ProviderTopicContentTypeLinksAction = function (a) {
 	return {ctor: 'ProviderTopicContentTypeLinksAction', _0: a};
 };
@@ -15644,542 +15668,537 @@ var _user$project$Home$EditProfile = {ctor: 'EditProfile'};
 var _user$project$Home$ViewLinks = {ctor: 'ViewLinks'};
 var _user$project$Home$AddNewLink = {ctor: 'AddNewLink'};
 var _user$project$Home$ViewSources = {ctor: 'ViewSources'};
-var _user$project$Home$renderNavigation = function (portal) {
-	var displayNavigation = function (buttons) {
-		return {
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$div,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('navigationpane'),
-					_1: {ctor: '[]'}
-				},
-				buttons),
-			_1: {ctor: '[]'}
-		};
-	};
-	var _p17 = {ctor: '_Tuple5', _0: 'Portfolio', _1: 'Subscriptions', _2: 'Members', _3: 'Link', _4: 'Profile'};
-	var portfolioText = _p17._0;
-	var subscriptionsText = _p17._1;
-	var membersText = _p17._2;
-	var linkText = _p17._3;
-	var profileText = _p17._4;
-	var profile = portal.provider.profile;
-	var sourcesText = A2(
-		_elm_lang$core$Basics_ops['++'],
-		'Sources ',
-		A2(
-			_elm_lang$core$Basics_ops['++'],
-			'(',
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_elm_lang$core$Basics$toString(
-					_elm_lang$core$List$length(profile.sources)),
-				')')));
-	var sourcesButNoLinks = function () {
-		var noSelectedButton = {
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$button,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
-						_1: {ctor: '[]'}
-					}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(sourcesText),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
+var _user$project$Home$renderNavigation = F2(
+	function (portal, providers) {
+		var displayNavigation = function (buttons) {
+			return {
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$br,
-					{ctor: '[]'},
-					{ctor: '[]'}),
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('navigationpane'),
+						_1: {ctor: '[]'}
+					},
+					buttons),
+				_1: {ctor: '[]'}
+			};
+		};
+		var _p17 = {ctor: '_Tuple5', _0: 'Portfolio', _1: 'Subscriptions', _2: 'Members', _3: 'Link', _4: 'Profile'};
+		var portfolioText = _p17._0;
+		var subscriptionsText = _p17._1;
+		var membersText = _p17._2;
+		var linkText = _p17._3;
+		var profileText = _p17._4;
+		var profile = portal.provider.profile;
+		var sourcesText = A2(
+			_elm_lang$core$Basics_ops['++'],
+			'Sources ',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				'(',
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					_elm_lang$core$Basics$toString(
+						_elm_lang$core$List$length(profile.sources)),
+					')')));
+		var sourcesButNoLinks = function () {
+			var noSelectedButton = {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$button,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
+							_1: {ctor: '[]'}
+						}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(sourcesText),
+						_1: {ctor: '[]'}
+					}),
 				_1: {
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$button,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
-							_1: {
+						_elm_lang$html$Html$br,
+						{ctor: '[]'},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+								_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(linkText),
 								_1: {ctor: '[]'}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(linkText),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
 				}
+			};
+			var _p18 = portal.requested;
+			switch (_p18.ctor) {
+				case 'ViewSources':
+					return {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton3'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(sourcesText),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$button,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+											_1: {ctor: '[]'}
+										}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(linkText),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}
+					};
+				case 'AddLink':
+					return {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(sourcesText),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$button,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton3'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+											_1: {ctor: '[]'}
+										}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(linkText),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}
+					};
+				case 'EditProfile':
+					return {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(sourcesText),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$button,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+											_1: {ctor: '[]'}
+										}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(linkText),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}
+					};
+				case 'ViewLinks':
+					return noSelectedButton;
+				case 'ViewSubscriptions':
+					return noSelectedButton;
+				case 'ViewFollowers':
+					return noSelectedButton;
+				case 'ViewProviders':
+					return noSelectedButton;
+				default:
+					return noSelectedButton;
 			}
-		};
-		var _p18 = portal.requested;
-		switch (_p18.ctor) {
-			case 'ViewSources':
-				return {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$button,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton3'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
-								_1: {ctor: '[]'}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(sourcesText),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
+		}();
+		var noSourcesNoLinks = function () {
+			var _p19 = portal.requested;
+			switch (_p19.ctor) {
+				case 'AddLink':
+					return {
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(profileText),
+								_1: {ctor: '[]'}
+							}),
 						_1: {
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$button,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
-										_1: {ctor: '[]'}
-									}
-								},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text(linkText),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
-					}
-				};
-			case 'AddLink':
-				return {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$button,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
-								_1: {ctor: '[]'}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(sourcesText),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$button,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton3'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
-										_1: {ctor: '[]'}
-									}
-								},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text(linkText),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
-					}
-				};
-			case 'EditProfile':
-				return {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$button,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
-								_1: {ctor: '[]'}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(sourcesText),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$button,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
-										_1: {ctor: '[]'}
-									}
-								},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text(linkText),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
-					}
-				};
-			case 'ViewLinks':
-				return noSelectedButton;
-			case 'ViewSubscriptions':
-				return noSelectedButton;
-			case 'ViewFollowers':
-				return noSelectedButton;
-			case 'ViewProviders':
-				return noSelectedButton;
-			default:
-				return noSelectedButton;
-		}
-	}();
-	var noSourcesNoLinks = function () {
-		var _p19 = portal.requested;
-		switch (_p19.ctor) {
-			case 'AddLink':
-				return {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$button,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
-								_1: {ctor: '[]'}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(profileText),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$button,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$disabled(true),
-											_1: {ctor: '[]'}
-										}
-									}
-								},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text(sourcesText),
-									_1: {ctor: '[]'}
-								}),
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
 							_1: {
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$br,
-									{ctor: '[]'},
-									{ctor: '[]'}),
+									_elm_lang$html$Html$button,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$disabled(true),
+												_1: {ctor: '[]'}
+											}
+										}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(sourcesText),
+										_1: {ctor: '[]'}
+									}),
 								_1: {
 									ctor: '::',
 									_0: A2(
-										_elm_lang$html$Html$button,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton3'),
-											_1: {
+										_elm_lang$html$Html$br,
+										{ctor: '[]'},
+										{ctor: '[]'}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$button,
+											{
 												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+												_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton3'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$disabled(true),
-													_1: {ctor: '[]'}
+													_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$disabled(true),
+														_1: {ctor: '[]'}
+													}
 												}
-											}
-										},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text(linkText),
-											_1: {ctor: '[]'}
-										}),
-									_1: {ctor: '[]'}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text(linkText),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}
 								}
 							}
 						}
-					}
-				};
-			case 'EditProfile':
-				return {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$button,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton3'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
-								_1: {ctor: '[]'}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(profileText),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
+					};
+				case 'EditProfile':
+					return {
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton3'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(profileText),
+								_1: {ctor: '[]'}
+							}),
 						_1: {
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$button,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$disabled(true),
-											_1: {ctor: '[]'}
-										}
-									}
-								},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text(sourcesText),
-									_1: {ctor: '[]'}
-								}),
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
 							_1: {
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$br,
-									{ctor: '[]'},
-									{ctor: '[]'}),
+									_elm_lang$html$Html$button,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$disabled(true),
+												_1: {ctor: '[]'}
+											}
+										}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(sourcesText),
+										_1: {ctor: '[]'}
+									}),
 								_1: {
 									ctor: '::',
 									_0: A2(
-										_elm_lang$html$Html$button,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
-											_1: {
+										_elm_lang$html$Html$br,
+										{ctor: '[]'},
+										{ctor: '[]'}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$button,
+											{
 												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+												_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$disabled(true),
-													_1: {ctor: '[]'}
+													_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$disabled(true),
+														_1: {ctor: '[]'}
+													}
 												}
-											}
-										},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text(linkText),
-											_1: {ctor: '[]'}
-										}),
-									_1: {ctor: '[]'}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text(linkText),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}
 								}
 							}
 						}
-					}
-				};
-			default:
-				return {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$button,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
-								_1: {ctor: '[]'}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(profileText),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
+					};
+				default:
+					return {
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(profileText),
+								_1: {ctor: '[]'}
+							}),
 						_1: {
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$button,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$disabled(true),
-											_1: {ctor: '[]'}
-										}
-									}
-								},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text(sourcesText),
-									_1: {ctor: '[]'}
-								}),
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
 							_1: {
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$br,
-									{ctor: '[]'},
-									{ctor: '[]'}),
+									_elm_lang$html$Html$button,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$disabled(true),
+												_1: {ctor: '[]'}
+											}
+										}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(sourcesText),
+										_1: {ctor: '[]'}
+									}),
 								_1: {
 									ctor: '::',
 									_0: A2(
-										_elm_lang$html$Html$button,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
-											_1: {
+										_elm_lang$html$Html$br,
+										{ctor: '[]'},
+										{ctor: '[]'}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$button,
+											{
 												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+												_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$disabled(true),
-													_1: {ctor: '[]'}
+													_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$disabled(true),
+														_1: {ctor: '[]'}
+													}
 												}
-											}
-										},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text(linkText),
-											_1: {ctor: '[]'}
-										}),
-									_1: {ctor: '[]'}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text(linkText),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}
 								}
 							}
 						}
-					}
-				};
-		}
-	}();
-	var recentCount = _elm_lang$core$List$length(
-		A2(_user$project$Home$recentLinks, profile.id, _user$project$Settings$runtime.providers));
-	var newText = A2(
-		_elm_lang$core$Basics_ops['++'],
-		'Recent ',
-		A2(
+					};
+			}
+		}();
+		var recentCount = _elm_lang$core$List$length(
+			A2(_user$project$Home$recentLinks, profile.id, providers));
+		var newText = A2(
 			_elm_lang$core$Basics_ops['++'],
-			'(',
+			'Recent ',
 			A2(
 				_elm_lang$core$Basics_ops['++'],
-				_elm_lang$core$Basics$toString(recentCount),
-				')')));
-	var _p20 = _user$project$Settings$runtime.followers(profile.id);
-	var followers = _p20._0;
-	var followersText = A2(
-		_elm_lang$core$Basics_ops['++'],
-		'Followers ',
-		A2(
+				'(',
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					_elm_lang$core$Basics$toString(recentCount),
+					')')));
+		var _p20 = _user$project$Settings$runtime.followers(profile.id);
+		var followers = _p20._0;
+		var followersText = A2(
 			_elm_lang$core$Basics_ops['++'],
-			'(',
+			'Followers ',
 			A2(
 				_elm_lang$core$Basics_ops['++'],
-				_elm_lang$core$Basics$toString(
-					_elm_lang$core$List$length(followers)),
-				')')));
-	var allNavigation = function () {
-		var _p21 = portal.requested;
-		switch (_p21.ctor) {
-			case 'ViewRecent':
-				return {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$button,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton4'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
-								_1: {ctor: '[]'}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(newText),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
+				'(',
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					_elm_lang$core$Basics$toString(
+						_elm_lang$core$List$length(followers)),
+					')')));
+		var allNavigation = function () {
+			var _p21 = portal.requested;
+			switch (_p21.ctor) {
+				case 'ViewRecent':
+					return {
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton4'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(newText),
+								_1: {ctor: '[]'}
+							}),
 						_1: {
 							ctor: '::',
 							_0: A2(
@@ -16189,51 +16208,51 @@ var _user$project$Home$renderNavigation = function (portal) {
 							_1: {
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$button,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
-											_1: {ctor: '[]'}
-										}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text(portfolioText),
-										_1: {ctor: '[]'}
-									}),
+									_elm_lang$html$Html$br,
+									{ctor: '[]'},
+									{ctor: '[]'}),
 								_1: {
 									ctor: '::',
 									_0: A2(
-										_elm_lang$html$Html$br,
-										{ctor: '[]'},
-										{ctor: '[]'}),
+										_elm_lang$html$Html$button,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
+												_1: {ctor: '[]'}
+											}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(portfolioText),
+											_1: {ctor: '[]'}
+										}),
 									_1: {
 										ctor: '::',
 										_0: A2(
-											_elm_lang$html$Html$button,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
-													_1: {ctor: '[]'}
-												}
-											},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text(linkText),
-												_1: {ctor: '[]'}
-											}),
+											_elm_lang$html$Html$br,
+											{ctor: '[]'},
+											{ctor: '[]'}),
 										_1: {
 											ctor: '::',
 											_0: A2(
-												_elm_lang$html$Html$br,
-												{ctor: '[]'},
-												{ctor: '[]'}),
+												_elm_lang$html$Html$button,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+														_1: {ctor: '[]'}
+													}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text(linkText),
+													_1: {ctor: '[]'}
+												}),
 											_1: {
 												ctor: '::',
 												_0: A2(
@@ -16243,907 +16262,914 @@ var _user$project$Home$renderNavigation = function (portal) {
 												_1: {
 													ctor: '::',
 													_0: A2(
-														_elm_lang$html$Html$button,
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
-																_1: {ctor: '[]'}
-															}
-														},
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html$text(subscriptionsText),
-															_1: {ctor: '[]'}
-														}),
+														_elm_lang$html$Html$br,
+														{ctor: '[]'},
+														{ctor: '[]'}),
 													_1: {
 														ctor: '::',
 														_0: A2(
-															_elm_lang$html$Html$br,
-															{ctor: '[]'},
-															{ctor: '[]'}),
-														_1: {
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$button,
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-																	_1: {
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
-																		_1: {ctor: '[]'}
-																	}
-																},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(followersText),
-																	_1: {ctor: '[]'}
-																}),
-															_1: {
+															_elm_lang$html$Html$button,
+															{
 																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$br,
-																	{ctor: '[]'},
-																	{ctor: '[]'}),
+																_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																_1: {
 																	ctor: '::',
-																	_0: A2(
-																		_elm_lang$html$Html$button,
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-																			_1: {
-																				ctor: '::',
-																				_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
-																				_1: {ctor: '[]'}
-																			}
-																		},
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html$text(membersText),
-																			_1: {ctor: '[]'}
-																		}),
+																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
 																	_1: {ctor: '[]'}
 																}
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				};
-			case 'ViewSources':
-				return {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$button,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
-								_1: {ctor: '[]'}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(newText),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$br,
-								{ctor: '[]'},
-								{ctor: '[]'}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$button,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
-											_1: {ctor: '[]'}
-										}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text(portfolioText),
-										_1: {ctor: '[]'}
-									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$br,
-										{ctor: '[]'},
-										{ctor: '[]'}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$button,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
-													_1: {ctor: '[]'}
-												}
-											},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text(linkText),
-												_1: {ctor: '[]'}
-											}),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$br,
-												{ctor: '[]'},
-												{ctor: '[]'}),
-											_1: {
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$br,
-													{ctor: '[]'},
-													{ctor: '[]'}),
-												_1: {
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$button,
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-															_1: {
+															},
+															{
 																ctor: '::',
-																_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
+																_0: _elm_lang$html$Html$text(subscriptionsText),
 																_1: {ctor: '[]'}
-															}
-														},
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html$text(subscriptionsText),
-															_1: {ctor: '[]'}
-														}),
-													_1: {
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$br,
-															{ctor: '[]'},
-															{ctor: '[]'}),
+															}),
 														_1: {
 															ctor: '::',
 															_0: A2(
-																_elm_lang$html$Html$button,
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-																	_1: {
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
-																		_1: {ctor: '[]'}
-																	}
-																},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(followersText),
-																	_1: {ctor: '[]'}
-																}),
+																_elm_lang$html$Html$br,
+																{ctor: '[]'},
+																{ctor: '[]'}),
 															_1: {
 																ctor: '::',
 																_0: A2(
-																	_elm_lang$html$Html$br,
-																	{ctor: '[]'},
-																	{ctor: '[]'}),
-																_1: {
-																	ctor: '::',
-																	_0: A2(
-																		_elm_lang$html$Html$button,
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-																			_1: {
-																				ctor: '::',
-																				_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
-																				_1: {ctor: '[]'}
-																			}
-																		},
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html$text(membersText),
-																			_1: {ctor: '[]'}
-																		}),
-																	_1: {ctor: '[]'}
-																}
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				};
-			case 'ViewLinks':
-				return {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$button,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
-								_1: {ctor: '[]'}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(newText),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$br,
-								{ctor: '[]'},
-								{ctor: '[]'}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$button,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton4'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
-											_1: {ctor: '[]'}
-										}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text(portfolioText),
-										_1: {ctor: '[]'}
-									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$br,
-										{ctor: '[]'},
-										{ctor: '[]'}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$button,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
-													_1: {ctor: '[]'}
-												}
-											},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text(linkText),
-												_1: {ctor: '[]'}
-											}),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$br,
-												{ctor: '[]'},
-												{ctor: '[]'}),
-											_1: {
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$br,
-													{ctor: '[]'},
-													{ctor: '[]'}),
-												_1: {
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$button,
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
-																_1: {ctor: '[]'}
-															}
-														},
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html$text(subscriptionsText),
-															_1: {ctor: '[]'}
-														}),
-													_1: {
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$br,
-															{ctor: '[]'},
-															{ctor: '[]'}),
-														_1: {
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$button,
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-																	_1: {
+																	_elm_lang$html$Html$button,
+																	{
 																		ctor: '::',
-																		_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
-																		_1: {ctor: '[]'}
-																	}
-																},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(followersText),
-																	_1: {ctor: '[]'}
-																}),
-															_1: {
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$br,
-																	{ctor: '[]'},
-																	{ctor: '[]'}),
-																_1: {
-																	ctor: '::',
-																	_0: A2(
-																		_elm_lang$html$Html$button,
-																		{
+																		_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+																		_1: {
 																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-																			_1: {
-																				ctor: '::',
-																				_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
-																				_1: {ctor: '[]'}
-																			}
-																		},
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html$text(membersText),
+																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
 																			_1: {ctor: '[]'}
-																		}),
-																	_1: {ctor: '[]'}
-																}
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				};
-			case 'AddLink':
-				return {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$button,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
-								_1: {ctor: '[]'}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(newText),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$br,
-								{ctor: '[]'},
-								{ctor: '[]'}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$button,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
-											_1: {ctor: '[]'}
-										}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text(portfolioText),
-										_1: {ctor: '[]'}
-									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$br,
-										{ctor: '[]'},
-										{ctor: '[]'}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$button,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton4'),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
-													_1: {ctor: '[]'}
-												}
-											},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text(linkText),
-												_1: {ctor: '[]'}
-											}),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$br,
-												{ctor: '[]'},
-												{ctor: '[]'}),
-											_1: {
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$br,
-													{ctor: '[]'},
-													{ctor: '[]'}),
-												_1: {
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$button,
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
-																_1: {ctor: '[]'}
-															}
-														},
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html$text(subscriptionsText),
-															_1: {ctor: '[]'}
-														}),
-													_1: {
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$br,
-															{ctor: '[]'},
-															{ctor: '[]'}),
-														_1: {
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$button,
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-																	_1: {
+																		}
+																	},
+																	{
 																		ctor: '::',
-																		_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
+																		_0: _elm_lang$html$Html$text(followersText),
 																		_1: {ctor: '[]'}
-																	}
-																},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(followersText),
-																	_1: {ctor: '[]'}
-																}),
-															_1: {
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$br,
-																	{ctor: '[]'},
-																	{ctor: '[]'}),
+																	}),
 																_1: {
 																	ctor: '::',
 																	_0: A2(
-																		_elm_lang$html$Html$button,
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-																			_1: {
-																				ctor: '::',
-																				_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
-																				_1: {ctor: '[]'}
-																			}
-																		},
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html$text(membersText),
-																			_1: {ctor: '[]'}
-																		}),
-																	_1: {ctor: '[]'}
-																}
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				};
-			case 'EditProfile':
-				return {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$button,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
-								_1: {ctor: '[]'}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(newText),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$br,
-								{ctor: '[]'},
-								{ctor: '[]'}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$button,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
-											_1: {ctor: '[]'}
-										}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text(portfolioText),
-										_1: {ctor: '[]'}
-									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$br,
-										{ctor: '[]'},
-										{ctor: '[]'}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$button,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
-													_1: {ctor: '[]'}
-												}
-											},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text(linkText),
-												_1: {ctor: '[]'}
-											}),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$br,
-												{ctor: '[]'},
-												{ctor: '[]'}),
-											_1: {
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$br,
-													{ctor: '[]'},
-													{ctor: '[]'}),
-												_1: {
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$button,
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
-																_1: {ctor: '[]'}
-															}
-														},
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html$text(subscriptionsText),
-															_1: {ctor: '[]'}
-														}),
-													_1: {
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$br,
-															{ctor: '[]'},
-															{ctor: '[]'}),
-														_1: {
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$button,
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-																	_1: {
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
-																		_1: {ctor: '[]'}
-																	}
-																},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(followersText),
-																	_1: {ctor: '[]'}
-																}),
-															_1: {
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$br,
-																	{ctor: '[]'},
-																	{ctor: '[]'}),
-																_1: {
-																	ctor: '::',
-																	_0: A2(
-																		_elm_lang$html$Html$button,
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-																			_1: {
-																				ctor: '::',
-																				_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
-																				_1: {ctor: '[]'}
-																			}
-																		},
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html$text(membersText),
-																			_1: {ctor: '[]'}
-																		}),
-																	_1: {ctor: '[]'}
-																}
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				};
-			case 'ViewSubscriptions':
-				return {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$button,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
-								_1: {ctor: '[]'}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(newText),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$br,
-								{ctor: '[]'},
-								{ctor: '[]'}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$button,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
-											_1: {ctor: '[]'}
-										}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text(portfolioText),
-										_1: {ctor: '[]'}
-									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$br,
-										{ctor: '[]'},
-										{ctor: '[]'}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$button,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
-													_1: {ctor: '[]'}
-												}
-											},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text(linkText),
-												_1: {ctor: '[]'}
-											}),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$br,
-												{ctor: '[]'},
-												{ctor: '[]'}),
-											_1: {
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$br,
-													{ctor: '[]'},
-													{ctor: '[]'}),
-												_1: {
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$button,
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton4'),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
-																_1: {ctor: '[]'}
-															}
-														},
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html$text(subscriptionsText),
-															_1: {ctor: '[]'}
-														}),
-													_1: {
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$br,
-															{ctor: '[]'},
-															{ctor: '[]'}),
-														_1: {
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$button,
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-																	_1: {
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
-																		_1: {ctor: '[]'}
-																	}
-																},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(followersText),
-																	_1: {ctor: '[]'}
-																}),
-															_1: {
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$br,
-																	{ctor: '[]'},
-																	{ctor: '[]'}),
-																_1: {
-																	ctor: '::',
-																	_0: A2(
-																		_elm_lang$html$Html$button,
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-																			_1: {
-																				ctor: '::',
-																				_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
-																				_1: {ctor: '[]'}
-																			}
-																		},
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html$text(membersText),
-																			_1: {ctor: '[]'}
-																		}),
+																		_elm_lang$html$Html$br,
+																		{ctor: '[]'},
+																		{ctor: '[]'}),
 																	_1: {
 																		ctor: '::',
 																		_0: A2(
-																			_elm_lang$html$Html$br,
-																			{ctor: '[]'},
-																			{ctor: '[]'}),
+																			_elm_lang$html$Html$button,
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+																				_1: {
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
+																					_1: {ctor: '[]'}
+																				}
+																			},
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text(membersText),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {ctor: '[]'}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					};
+				case 'ViewSources':
+					return {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(newText),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$br,
+									{ctor: '[]'},
+									{ctor: '[]'}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$button,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
+												_1: {ctor: '[]'}
+											}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(portfolioText),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$br,
+											{ctor: '[]'},
+											{ctor: '[]'}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$button,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+														_1: {ctor: '[]'}
+													}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text(linkText),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$br,
+													{ctor: '[]'},
+													{ctor: '[]'}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$br,
+														{ctor: '[]'},
+														{ctor: '[]'}),
+													_1: {
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$button,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
+																	_1: {ctor: '[]'}
+																}
+															},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text(subscriptionsText),
+																_1: {ctor: '[]'}
+															}),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$br,
+																{ctor: '[]'},
+																{ctor: '[]'}),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$button,
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+																		_1: {
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
+																			_1: {ctor: '[]'}
+																		}
+																	},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text(followersText),
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$br,
+																		{ctor: '[]'},
+																		{ctor: '[]'}),
+																	_1: {
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$button,
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+																				_1: {
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
+																					_1: {ctor: '[]'}
+																				}
+																			},
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text(membersText),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {ctor: '[]'}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					};
+				case 'ViewLinks':
+					return {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(newText),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$br,
+									{ctor: '[]'},
+									{ctor: '[]'}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$button,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton4'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
+												_1: {ctor: '[]'}
+											}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(portfolioText),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$br,
+											{ctor: '[]'},
+											{ctor: '[]'}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$button,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+														_1: {ctor: '[]'}
+													}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text(linkText),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$br,
+													{ctor: '[]'},
+													{ctor: '[]'}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$br,
+														{ctor: '[]'},
+														{ctor: '[]'}),
+													_1: {
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$button,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
+																	_1: {ctor: '[]'}
+																}
+															},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text(subscriptionsText),
+																_1: {ctor: '[]'}
+															}),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$br,
+																{ctor: '[]'},
+																{ctor: '[]'}),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$button,
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+																		_1: {
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
+																			_1: {ctor: '[]'}
+																		}
+																	},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text(followersText),
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$br,
+																		{ctor: '[]'},
+																		{ctor: '[]'}),
+																	_1: {
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$button,
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+																				_1: {
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
+																					_1: {ctor: '[]'}
+																				}
+																			},
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text(membersText),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {ctor: '[]'}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					};
+				case 'AddLink':
+					return {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(newText),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$br,
+									{ctor: '[]'},
+									{ctor: '[]'}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$button,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
+												_1: {ctor: '[]'}
+											}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(portfolioText),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$br,
+											{ctor: '[]'},
+											{ctor: '[]'}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$button,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton4'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+														_1: {ctor: '[]'}
+													}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text(linkText),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$br,
+													{ctor: '[]'},
+													{ctor: '[]'}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$br,
+														{ctor: '[]'},
+														{ctor: '[]'}),
+													_1: {
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$button,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
+																	_1: {ctor: '[]'}
+																}
+															},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text(subscriptionsText),
+																_1: {ctor: '[]'}
+															}),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$br,
+																{ctor: '[]'},
+																{ctor: '[]'}),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$button,
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+																		_1: {
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
+																			_1: {ctor: '[]'}
+																		}
+																	},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text(followersText),
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$br,
+																		{ctor: '[]'},
+																		{ctor: '[]'}),
+																	_1: {
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$button,
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+																				_1: {
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
+																					_1: {ctor: '[]'}
+																				}
+																			},
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text(membersText),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {ctor: '[]'}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					};
+				case 'EditProfile':
+					return {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(newText),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$br,
+									{ctor: '[]'},
+									{ctor: '[]'}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$button,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
+												_1: {ctor: '[]'}
+											}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(portfolioText),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$br,
+											{ctor: '[]'},
+											{ctor: '[]'}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$button,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+														_1: {ctor: '[]'}
+													}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text(linkText),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$br,
+													{ctor: '[]'},
+													{ctor: '[]'}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$br,
+														{ctor: '[]'},
+														{ctor: '[]'}),
+													_1: {
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$button,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
+																	_1: {ctor: '[]'}
+																}
+															},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text(subscriptionsText),
+																_1: {ctor: '[]'}
+															}),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$br,
+																{ctor: '[]'},
+																{ctor: '[]'}),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$button,
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+																		_1: {
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
+																			_1: {ctor: '[]'}
+																		}
+																	},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text(followersText),
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$br,
+																		{ctor: '[]'},
+																		{ctor: '[]'}),
+																	_1: {
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$button,
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+																				_1: {
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
+																					_1: {ctor: '[]'}
+																				}
+																			},
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text(membersText),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {ctor: '[]'}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					};
+				case 'ViewSubscriptions':
+					return {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(newText),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$br,
+									{ctor: '[]'},
+									{ctor: '[]'}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$button,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
+												_1: {ctor: '[]'}
+											}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(portfolioText),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$br,
+											{ctor: '[]'},
+											{ctor: '[]'}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$button,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+														_1: {ctor: '[]'}
+													}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text(linkText),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$br,
+													{ctor: '[]'},
+													{ctor: '[]'}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$br,
+														{ctor: '[]'},
+														{ctor: '[]'}),
+													_1: {
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$button,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton4'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
+																	_1: {ctor: '[]'}
+																}
+															},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text(subscriptionsText),
+																_1: {ctor: '[]'}
+															}),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$br,
+																{ctor: '[]'},
+																{ctor: '[]'}),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$button,
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+																		_1: {
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
+																			_1: {ctor: '[]'}
+																		}
+																	},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text(followersText),
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$br,
+																		{ctor: '[]'},
+																		{ctor: '[]'}),
+																	_1: {
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$button,
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+																				_1: {
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
+																					_1: {ctor: '[]'}
+																				}
+																			},
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text(membersText),
+																				_1: {ctor: '[]'}
+																			}),
 																		_1: {
 																			ctor: '::',
 																			_0: A2(
 																				_elm_lang$html$Html$br,
 																				{ctor: '[]'},
 																				{ctor: '[]'}),
-																			_1: {ctor: '[]'}
+																			_1: {
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html$br,
+																					{ctor: '[]'},
+																					{ctor: '[]'}),
+																				_1: {ctor: '[]'}
+																			}
 																		}
 																	}
 																}
@@ -17157,33 +17183,26 @@ var _user$project$Home$renderNavigation = function (portal) {
 								}
 							}
 						}
-					}
-				};
-			case 'ViewFollowers':
-				return {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$button,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
-								_1: {ctor: '[]'}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(newText),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
+					};
+				case 'ViewFollowers':
+					return {
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(newText),
+								_1: {ctor: '[]'}
+							}),
 						_1: {
 							ctor: '::',
 							_0: A2(
@@ -17193,51 +17212,51 @@ var _user$project$Home$renderNavigation = function (portal) {
 							_1: {
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$button,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
-											_1: {ctor: '[]'}
-										}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text(portfolioText),
-										_1: {ctor: '[]'}
-									}),
+									_elm_lang$html$Html$br,
+									{ctor: '[]'},
+									{ctor: '[]'}),
 								_1: {
 									ctor: '::',
 									_0: A2(
-										_elm_lang$html$Html$br,
-										{ctor: '[]'},
-										{ctor: '[]'}),
+										_elm_lang$html$Html$button,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
+												_1: {ctor: '[]'}
+											}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(portfolioText),
+											_1: {ctor: '[]'}
+										}),
 									_1: {
 										ctor: '::',
 										_0: A2(
-											_elm_lang$html$Html$button,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
-													_1: {ctor: '[]'}
-												}
-											},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text(linkText),
-												_1: {ctor: '[]'}
-											}),
+											_elm_lang$html$Html$br,
+											{ctor: '[]'},
+											{ctor: '[]'}),
 										_1: {
 											ctor: '::',
 											_0: A2(
-												_elm_lang$html$Html$br,
-												{ctor: '[]'},
-												{ctor: '[]'}),
+												_elm_lang$html$Html$button,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+														_1: {ctor: '[]'}
+													}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text(linkText),
+													_1: {ctor: '[]'}
+												}),
 											_1: {
 												ctor: '::',
 												_0: A2(
@@ -17247,70 +17266,77 @@ var _user$project$Home$renderNavigation = function (portal) {
 												_1: {
 													ctor: '::',
 													_0: A2(
-														_elm_lang$html$Html$button,
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
-																_1: {ctor: '[]'}
-															}
-														},
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html$text(subscriptionsText),
-															_1: {ctor: '[]'}
-														}),
+														_elm_lang$html$Html$br,
+														{ctor: '[]'},
+														{ctor: '[]'}),
 													_1: {
 														ctor: '::',
 														_0: A2(
-															_elm_lang$html$Html$br,
-															{ctor: '[]'},
-															{ctor: '[]'}),
+															_elm_lang$html$Html$button,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
+																	_1: {ctor: '[]'}
+																}
+															},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text(subscriptionsText),
+																_1: {ctor: '[]'}
+															}),
 														_1: {
 															ctor: '::',
 															_0: A2(
-																_elm_lang$html$Html$button,
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton4'),
-																	_1: {
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
-																		_1: {ctor: '[]'}
-																	}
-																},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(followersText),
-																	_1: {ctor: '[]'}
-																}),
+																_elm_lang$html$Html$br,
+																{ctor: '[]'},
+																{ctor: '[]'}),
 															_1: {
 																ctor: '::',
 																_0: A2(
-																	_elm_lang$html$Html$br,
-																	{ctor: '[]'},
-																	{ctor: '[]'}),
+																	_elm_lang$html$Html$button,
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton4'),
+																		_1: {
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
+																			_1: {ctor: '[]'}
+																		}
+																	},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text(followersText),
+																		_1: {ctor: '[]'}
+																	}),
 																_1: {
 																	ctor: '::',
 																	_0: A2(
-																		_elm_lang$html$Html$button,
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-																			_1: {
+																		_elm_lang$html$Html$br,
+																		{ctor: '[]'},
+																		{ctor: '[]'}),
+																	_1: {
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$button,
+																			{
 																				ctor: '::',
-																				_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
+																				_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+																				_1: {
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
+																					_1: {ctor: '[]'}
+																				}
+																			},
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text(membersText),
 																				_1: {ctor: '[]'}
-																			}
-																		},
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html$text(membersText),
-																			_1: {ctor: '[]'}
-																		}),
-																	_1: {ctor: '[]'}
+																			}),
+																		_1: {ctor: '[]'}
+																	}
 																}
 															}
 														}
@@ -17322,33 +17348,26 @@ var _user$project$Home$renderNavigation = function (portal) {
 								}
 							}
 						}
-					}
-				};
-			default:
-				return {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$button,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
-								_1: {ctor: '[]'}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(newText),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
+					};
+				default:
+					return {
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(newText),
+								_1: {ctor: '[]'}
+							}),
 						_1: {
 							ctor: '::',
 							_0: A2(
@@ -17358,51 +17377,51 @@ var _user$project$Home$renderNavigation = function (portal) {
 							_1: {
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$button,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
-											_1: {ctor: '[]'}
-										}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text(portfolioText),
-										_1: {ctor: '[]'}
-									}),
+									_elm_lang$html$Html$br,
+									{ctor: '[]'},
+									{ctor: '[]'}),
 								_1: {
 									ctor: '::',
 									_0: A2(
-										_elm_lang$html$Html$br,
-										{ctor: '[]'},
-										{ctor: '[]'}),
+										_elm_lang$html$Html$button,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewLinks),
+												_1: {ctor: '[]'}
+											}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(portfolioText),
+											_1: {ctor: '[]'}
+										}),
 									_1: {
 										ctor: '::',
 										_0: A2(
-											_elm_lang$html$Html$button,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
-													_1: {ctor: '[]'}
-												}
-											},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text(linkText),
-												_1: {ctor: '[]'}
-											}),
+											_elm_lang$html$Html$br,
+											{ctor: '[]'},
+											{ctor: '[]'}),
 										_1: {
 											ctor: '::',
 											_0: A2(
-												_elm_lang$html$Html$br,
-												{ctor: '[]'},
-												{ctor: '[]'}),
+												_elm_lang$html$Html$button,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+														_1: {ctor: '[]'}
+													}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text(linkText),
+													_1: {ctor: '[]'}
+												}),
 											_1: {
 												ctor: '::',
 												_0: A2(
@@ -17412,70 +17431,77 @@ var _user$project$Home$renderNavigation = function (portal) {
 												_1: {
 													ctor: '::',
 													_0: A2(
-														_elm_lang$html$Html$button,
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
-																_1: {ctor: '[]'}
-															}
-														},
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html$text(subscriptionsText),
-															_1: {ctor: '[]'}
-														}),
+														_elm_lang$html$Html$br,
+														{ctor: '[]'},
+														{ctor: '[]'}),
 													_1: {
 														ctor: '::',
 														_0: A2(
-															_elm_lang$html$Html$br,
-															{ctor: '[]'},
-															{ctor: '[]'}),
+															_elm_lang$html$Html$button,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
+																	_1: {ctor: '[]'}
+																}
+															},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text(subscriptionsText),
+																_1: {ctor: '[]'}
+															}),
 														_1: {
 															ctor: '::',
 															_0: A2(
-																_elm_lang$html$Html$button,
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
-																	_1: {
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
-																		_1: {ctor: '[]'}
-																	}
-																},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(followersText),
-																	_1: {ctor: '[]'}
-																}),
+																_elm_lang$html$Html$br,
+																{ctor: '[]'},
+																{ctor: '[]'}),
 															_1: {
 																ctor: '::',
 																_0: A2(
-																	_elm_lang$html$Html$br,
-																	{ctor: '[]'},
-																	{ctor: '[]'}),
+																	_elm_lang$html$Html$button,
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
+																		_1: {
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
+																			_1: {ctor: '[]'}
+																		}
+																	},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text(followersText),
+																		_1: {ctor: '[]'}
+																	}),
 																_1: {
 																	ctor: '::',
 																	_0: A2(
-																		_elm_lang$html$Html$button,
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton4'),
-																			_1: {
+																		_elm_lang$html$Html$br,
+																		{ctor: '[]'},
+																		{ctor: '[]'}),
+																	_1: {
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$button,
+																			{
 																				ctor: '::',
-																				_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
+																				_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton4'),
+																				_1: {
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
+																					_1: {ctor: '[]'}
+																				}
+																			},
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text(membersText),
 																				_1: {ctor: '[]'}
-																			}
-																		},
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html$text(membersText),
-																			_1: {ctor: '[]'}
-																		}),
-																	_1: {ctor: '[]'}
+																			}),
+																		_1: {ctor: '[]'}
+																	}
 																}
 															}
 														}
@@ -17487,17 +17513,16 @@ var _user$project$Home$renderNavigation = function (portal) {
 								}
 							}
 						}
-					}
-				};
-		}
-	}();
-	var _p22 = _user$project$Settings$runtime.subscriptions(profile.id);
-	var subscriptions = _p22._0;
-	var links = portal.provider.links;
-	return ((!portal.sourcesNavigation) && (!portal.linksNavigation)) ? displayNavigation(noSourcesNoLinks) : ((portal.sourcesNavigation && (!portal.linksNavigation)) ? displayNavigation(sourcesButNoLinks) : displayNavigation(allNavigation));
-};
-var _user$project$Home$render = F3(
-	function (provider, content, portal) {
+					};
+			}
+		}();
+		var _p22 = _user$project$Settings$runtime.subscriptions(profile.id);
+		var subscriptions = _p22._0;
+		var links = portal.provider.links;
+		return ((!portal.sourcesNavigation) && (!portal.linksNavigation)) ? displayNavigation(noSourcesNoLinks) : ((portal.sourcesNavigation && (!portal.linksNavigation)) ? displayNavigation(sourcesButNoLinks) : displayNavigation(allNavigation));
+	});
+var _user$project$Home$render = F4(
+	function (provider, content, portal, providers) {
 		return A2(
 			_elm_lang$html$Html$table,
 			{ctor: '[]'},
@@ -17559,7 +17584,7 @@ var _user$project$Home$render = F3(
 													_0: A2(
 														_elm_lang$html$Html$td,
 														{ctor: '[]'},
-														_user$project$Home$renderNavigation(portal)),
+														A2(_user$project$Home$renderNavigation, providers, portal)),
 													_1: {ctor: '[]'}
 												}),
 											_1: {ctor: '[]'}
@@ -17586,7 +17611,7 @@ var _user$project$Home$render = F3(
 var _user$project$Home$applyToPortal = F3(
 	function (provider, model, content) {
 		var portal = model.portal;
-		return _elm_lang$core$Native_Utils.eq(portal.provider, _user$project$Domain_Core$initProvider) ? A3(_user$project$Home$render, provider, content, portal) : A3(_user$project$Home$render, portal.provider, content, portal);
+		return _elm_lang$core$Native_Utils.eq(portal.provider, _user$project$Domain_Core$initProvider) ? A4(_user$project$Home$render, provider, content, model.providers, portal) : A4(_user$project$Home$render, portal.provider, content, model.providers, portal);
 	});
 var _user$project$Home$SourceAdded = function (a) {
 	return {ctor: 'SourceAdded', _0: a};
@@ -17991,16 +18016,36 @@ var _user$project$Home$update = F2(
 		switch (_p30.ctor) {
 			case 'UrlChange':
 				return A3(_user$project$Home$navigate, msg, model, _p30._0);
-			case 'NavigateToPortalProviderTopicResponse':
+			case 'ProvidersResponse':
 				var _p31 = _p30._0;
 				if (_p31.ctor === 'Ok') {
-					var _p32 = _p31._0;
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								providers: A2(
+									_elm_lang$core$List$map,
+									function (p) {
+										return _user$project$Services_Adapter$toProvider(p);
+									},
+									_p31._0)
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+			case 'NavigateToPortalProviderTopicResponse':
+				var _p32 = _p30._0;
+				if (_p32.ctor === 'Ok') {
+					var _p33 = _p32._0;
 					var portal = model.portal;
-					var provider = _user$project$Services_Adapter$toProvider(_p32);
+					var provider = _user$project$Services_Adapter$toProvider(_p33);
 					var pendingPortal = _elm_lang$core$Native_Utils.update(
 						portal,
 						{
-							provider: _user$project$Services_Adapter$toProvider(_p32),
+							provider: _user$project$Services_Adapter$toProvider(_p33),
 							sourcesNavigation: _elm_lang$core$List$isEmpty(provider.profile.sources),
 							addLinkNavigation: true,
 							linksNavigation: _user$project$Domain_Core$linksExist(provider.links),
@@ -18017,9 +18062,9 @@ var _user$project$Home$update = F2(
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
 			case 'NavigateToPortalProviderMemberTopicResponse':
-				var _p33 = _p30._0;
-				if (_p33.ctor === 'Ok') {
-					var selectedProvider = _user$project$Services_Adapter$toProvider(_p33._0);
+				var _p34 = _p30._0;
+				if (_p34.ctor === 'Ok') {
+					var selectedProvider = _user$project$Services_Adapter$toProvider(_p34._0);
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -18031,9 +18076,9 @@ var _user$project$Home$update = F2(
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
 			case 'NavigateToPortalProviderMemberResponse':
-				var _p34 = _p30._0;
-				if (_p34.ctor === 'Ok') {
-					var provider = _user$project$Services_Adapter$toProvider(_p34._0);
+				var _p35 = _p30._0;
+				if (_p35.ctor === 'Ok') {
+					var provider = _user$project$Services_Adapter$toProvider(_p35._0);
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -18045,14 +18090,14 @@ var _user$project$Home$update = F2(
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
 			case 'NavigateToProviderResponse':
-				var _p35 = _p30._0;
-				if (_p35.ctor === 'Ok') {
+				var _p36 = _p30._0;
+				if (_p36.ctor === 'Ok') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{
-								selectedProvider: _user$project$Services_Adapter$toProvider(_p35._0)
+								selectedProvider: _user$project$Services_Adapter$toProvider(_p36._0)
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
@@ -18060,9 +18105,9 @@ var _user$project$Home$update = F2(
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
 			case 'NavigateToProviderTopicResponse':
-				var _p36 = _p30._0;
-				if (_p36.ctor === 'Ok') {
-					var provider = _user$project$Services_Adapter$toProvider(_p36._0);
+				var _p37 = _p30._0;
+				if (_p37.ctor === 'Ok') {
+					var provider = _user$project$Services_Adapter$toProvider(_p37._0);
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -18074,15 +18119,15 @@ var _user$project$Home$update = F2(
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
 			case 'NavigateToPortalResponse':
-				var _p37 = _p30._0;
-				if (_p37.ctor === 'Ok') {
-					var _p38 = {
+				var _p38 = _p30._0;
+				if (_p38.ctor === 'Ok') {
+					var _p39 = {
 						ctor: '_Tuple2',
 						_0: model.portal,
-						_1: _user$project$Services_Adapter$toProvider(_p37._0)
+						_1: _user$project$Services_Adapter$toProvider(_p38._0)
 					};
-					var portal = _p38._0;
-					var provider = _p38._1;
+					var portal = _p39._0;
+					var provider = _p39._1;
 					var pendingPortal = _elm_lang$core$Native_Utils.update(
 						portal,
 						{
@@ -18103,8 +18148,8 @@ var _user$project$Home$update = F2(
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
 			case 'IdToProviderResponse':
-				var _p39 = _p30._0;
-				if (_p39.ctor === 'Ok') {
+				var _p40 = _p30._0;
+				if (_p40.ctor === 'Ok') {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -18123,10 +18168,8 @@ var _user$project$Home$update = F2(
 				if (_p30._0 === '') {
 					return {
 						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{providers: _user$project$Settings$runtime.providers}),
-						_1: _elm_lang$core$Platform_Cmd$none
+						_0: model,
+						_1: _user$project$Settings$runtime.providers(_user$project$Home$ProvidersResponse)
 					};
 				} else {
 					return A2(_user$project$Home$matchProviders, model, _p30._0);
@@ -18242,10 +18285,10 @@ var _user$project$Home$update = F2(
 			case 'ProviderLinksAction':
 				return A3(_user$project$Home$onUpdateProviderLinks, _p30._0, model, _user$project$Domain_Core$FromOther);
 			case 'ProviderContentTypeLinksAction':
-				var _p41 = _p30._0;
-				var provider = _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? A2(_user$project$Controls_ProviderContentTypeLinks$update, _p41, model.portal.provider) : A2(_user$project$Controls_ProviderContentTypeLinks$update, _p41, model.selectedProvider);
-				var _p40 = _p41;
-				if (_p40.ctor === 'Toggle') {
+				var _p42 = _p30._0;
+				var provider = _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? A2(_user$project$Controls_ProviderContentTypeLinks$update, _p42, model.portal.provider) : A2(_user$project$Controls_ProviderContentTypeLinks$update, _p42, model.selectedProvider);
+				var _p41 = _p42;
+				if (_p41.ctor === 'Toggle') {
 					return _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -18279,8 +18322,8 @@ var _user$project$Home$update = F2(
 			case 'ProviderTopicContentTypeLinksAction':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Subscription':
-				var _p42 = _p30._0;
-				if (_p42.ctor === 'Subscribe') {
+				var _p43 = _p30._0;
+				if (_p43.ctor === 'Subscribe') {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -18295,7 +18338,7 @@ var _user$project$Home$update = F2(
 	});
 var _user$project$Home$headerContent = function (model) {
 	var loginUI = function (model) {
-		var _p43 = {
+		var _p44 = {
 			ctor: '_Tuple5',
 			_0: model.login.loggedIn,
 			_1: A2(
@@ -18362,11 +18405,11 @@ var _user$project$Home$headerContent = function (model) {
 					_1: {ctor: '[]'}
 				})
 		};
-		var loggedIn = _p43._0;
-		var welcome = _p43._1;
-		var signout = _p43._2;
-		var profile = _p43._3;
-		var sources = _p43._4;
+		var loggedIn = _p44._0;
+		var welcome = _p44._1;
+		var signout = _p44._2;
+		var profile = _p44._3;
+		var sources = _p44._4;
 		var profileId = _user$project$Domain_Core$getId(model.portal.provider.profile.id);
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
@@ -18444,32 +18487,32 @@ var _user$project$Home$headerContent = function (model) {
 var _user$project$Home$renderPage = F2(
 	function (content, model) {
 		var placeHolder = function () {
-			var _p44 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
-			_v27_3:
+			var _p45 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+			_v28_3:
 			do {
-				if (_p44.ctor === '[]') {
+				if (_p45.ctor === '[]') {
 					return A2(
 						_elm_lang$html$Html$div,
 						{ctor: '[]'},
 						{ctor: '[]'});
 				} else {
-					if (_p44._1.ctor === '[]') {
-						if (_p44._0 === 'home') {
+					if (_p45._1.ctor === '[]') {
+						if (_p45._0 === 'home') {
 							return A2(
 								_elm_lang$html$Html$div,
 								{ctor: '[]'},
 								{ctor: '[]'});
 						} else {
-							break _v27_3;
+							break _v28_3;
 						}
 					} else {
-						if ((_p44._0 === 'portal') && (_p44._1._1.ctor === '[]')) {
+						if ((_p45._0 === 'portal') && (_p45._1._1.ctor === '[]')) {
 							return A2(
 								_elm_lang$html$Html$div,
 								{ctor: '[]'},
 								{ctor: '[]'});
 						} else {
-							break _v27_3;
+							break _v28_3;
 						}
 					}
 				}
@@ -18696,14 +18739,14 @@ var _user$project$Home$homePage = function (model) {
 	return A2(_user$project$Home$renderPage, mainContent, model);
 };
 var _user$project$Home$view = function (model) {
-	var _p45 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
-	_v28_11:
+	var _p46 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+	_v29_11:
 	do {
-		if (_p45.ctor === '[]') {
+		if (_p46.ctor === '[]') {
 			return _user$project$Home$homePage(model);
 		} else {
-			if (_p45._1.ctor === '[]') {
-				switch (_p45._0) {
+			if (_p46._1.ctor === '[]') {
+				switch (_p46._0) {
 					case 'home':
 						return _user$project$Home$homePage(model);
 					case 'register':
@@ -18715,11 +18758,11 @@ var _user$project$Home$view = function (model) {
 								_user$project$Controls_Register$view(model.registration)),
 							model);
 					default:
-						break _v28_11;
+						break _v29_11;
 				}
 			} else {
-				if (_p45._1._1.ctor === '[]') {
-					switch (_p45._0) {
+				if (_p46._1._1.ctor === '[]') {
+					switch (_p46._0) {
 						case 'provider':
 							return A2(
 								_user$project$Home$renderPage,
@@ -18739,47 +18782,47 @@ var _user$project$Home$view = function (model) {
 								A2(_user$project$Home$content, _elm_lang$core$Maybe$Nothing, model));
 							return A2(_user$project$Home$renderPage, mainContent, model);
 						default:
-							break _v28_11;
+							break _v29_11;
 					}
 				} else {
-					if (_p45._1._1._1.ctor === '[]') {
-						if (_p45._0 === 'provider') {
-							var _p46 = _user$project$Settings$runtime.provider(
-								_user$project$Domain_Core$Id(_p45._1._0));
+					if (_p46._1._1._1.ctor === '[]') {
+						if (_p46._0 === 'provider') {
+							var _p47 = _user$project$Settings$runtime.provider(
+								_user$project$Domain_Core$Id(_p46._1._0));
 							return A2(
 								_user$project$Home$renderPage,
 								A2(_user$project$Home$providerTopicPage, _user$project$Domain_Core$FromOther, model.selectedProvider),
 								model);
 						} else {
-							break _v28_11;
+							break _v29_11;
 						}
 					} else {
-						if (_p45._1._1._1._1.ctor === '[]') {
-							switch (_p45._0) {
+						if (_p46._1._1._1._1.ctor === '[]') {
+							switch (_p46._0) {
 								case 'provider':
-									if (_p45._1._1._0 === 'all') {
-										var _p47 = _user$project$Settings$runtime.provider(
-											_user$project$Domain_Core$Id(_p45._1._0));
-										var _p48 = {ctor: '_Tuple2', _0: _user$project$Controls_ProviderContentTypeLinks$view, _1: model.selectedProvider};
-										var view = _p48._0;
-										var provider = _p48._1;
+									if (_p46._1._1._0 === 'all') {
+										var _p48 = _user$project$Settings$runtime.provider(
+											_user$project$Domain_Core$Id(_p46._1._0));
+										var _p49 = {ctor: '_Tuple2', _0: _user$project$Controls_ProviderContentTypeLinks$view, _1: model.selectedProvider};
+										var view = _p49._0;
+										var provider = _p49._1;
 										var contentToEmbed = A2(
 											_elm_lang$html$Html$map,
 											_user$project$Home$ProviderContentTypeLinksAction,
 											A3(
 												view,
 												provider,
-												_user$project$Domain_Core$toContentType(_p45._1._1._1._0),
+												_user$project$Domain_Core$toContentType(_p46._1._1._1._0),
 												false));
 										return A2(
 											_user$project$Home$renderPage,
 											A2(_user$project$Home$renderProfileBase, model.selectedProvider, contentToEmbed),
 											model);
 									} else {
-										break _v28_11;
+										break _v29_11;
 									}
 								case 'portal':
-									switch (_p45._1._1._0) {
+									switch (_p46._1._1._0) {
 										case 'all':
 											var linksContent = A2(
 												_elm_lang$html$Html$map,
@@ -18787,7 +18830,7 @@ var _user$project$Home$view = function (model) {
 												A3(
 													_user$project$Controls_ProviderContentTypeLinks$view,
 													model.portal.provider,
-													_user$project$Domain_Core$toContentType(_p45._1._1._1._0),
+													_user$project$Domain_Core$toContentType(_p46._1._1._1._0),
 													true));
 											var contentToEmbed = A3(_user$project$Home$applyToPortal, model.portal.provider, model, linksContent);
 											return A2(
@@ -18807,19 +18850,19 @@ var _user$project$Home$view = function (model) {
 													A2(_user$project$Controls_ProviderLinks$view, _user$project$Domain_Core$FromOther, model.selectedProvider)));
 											return A2(_user$project$Home$renderPage, contentLinks, model);
 										default:
-											break _v28_11;
+											break _v29_11;
 									}
 								default:
-									break _v28_11;
+									break _v29_11;
 							}
 						} else {
-							if (_p45._1._1._1._1._1.ctor === '[]') {
-								switch (_p45._0) {
+							if (_p46._1._1._1._1._1.ctor === '[]') {
+								switch (_p46._0) {
 									case 'provider':
-										if (_p45._1._1._1._0 === 'all') {
-											var _p49 = _user$project$Settings$runtime.provider(
-												_user$project$Domain_Core$Id(_p45._1._0));
-											var topic = A2(_user$project$Domain_Core$Topic, _p45._1._1._0, false);
+										if (_p46._1._1._1._0 === 'all') {
+											var _p50 = _user$project$Settings$runtime.provider(
+												_user$project$Domain_Core$Id(_p46._1._0));
+											var topic = A2(_user$project$Domain_Core$Topic, _p46._1._1._0, false);
 											var contentToEmbed = A2(
 												_elm_lang$html$Html$map,
 												_user$project$Home$ProviderTopicContentTypeLinksAction,
@@ -18827,16 +18870,16 @@ var _user$project$Home$view = function (model) {
 													_user$project$Controls_ProviderTopicContentTypeLinks$view,
 													model.selectedProvider,
 													topic,
-													_user$project$Domain_Core$toContentType(_p45._1._1._1._1._0)));
+													_user$project$Domain_Core$toContentType(_p46._1._1._1._1._0)));
 											return A2(
 												_user$project$Home$renderPage,
 												A2(_user$project$Home$renderProfileBase, model.selectedProvider, contentToEmbed),
 												model);
 										} else {
-											break _v28_11;
+											break _v29_11;
 										}
 									case 'portal':
-										if (_p45._1._1._0 === 'provider') {
+										if (_p46._1._1._0 === 'provider') {
 											var contentLinks = A2(
 												_user$project$Home$renderProfileBase,
 												model.selectedProvider,
@@ -18846,17 +18889,17 @@ var _user$project$Home$view = function (model) {
 													A3(
 														_user$project$Controls_ProviderTopicContentTypeLinks$view,
 														model.selectedProvider,
-														A2(_user$project$Domain_Core$Topic, _p45._1._1._1._1._0, false),
+														A2(_user$project$Domain_Core$Topic, _p46._1._1._1._1._0, false),
 														_user$project$Domain_Core$All)));
 											return A2(_user$project$Home$renderPage, contentLinks, model);
 										} else {
-											break _v28_11;
+											break _v29_11;
 										}
 									default:
-										break _v28_11;
+										break _v29_11;
 								}
 							} else {
-								break _v28_11;
+								break _v29_11;
 							}
 						}
 					}
@@ -18876,7 +18919,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p50) {
+		subscriptions: function (_p51) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();

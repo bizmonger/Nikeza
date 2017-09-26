@@ -20,6 +20,10 @@ type alias ProviderTopicfunction msg =
     Id -> Topic -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
 
 
+type alias Providersfunction msg =
+    (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
+
+
 type alias JsonProfile =
     { id : String
     , firstName : String
@@ -129,7 +133,6 @@ jsonLinksToLinks jsonLinks =
         (jsonLinks.videos |> toLink)
         (jsonLinks.podcasts |> toLink)
         (jsonLinks.answers |> toLink)
-
 
 
 toTopics : List JsonTopic -> List Topic
