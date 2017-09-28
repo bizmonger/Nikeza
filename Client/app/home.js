@@ -9755,7 +9755,7 @@ var _user$project$Domain_Core$Links = F4(
 	});
 var _user$project$Domain_Core$Provider = F6(
 	function (a, b, c, d, e, f) {
-		return {profile: a, topics: b, links: c, recentLinks: d, subscriptions: e, followers: f};
+		return {profile: a, topics: b, links: c, recentLinks: d, followers: e, subscriptions: f};
 	});
 var _user$project$Domain_Core$Portal = F7(
 	function (a, b, c, d, e, f, g) {
@@ -9796,13 +9796,11 @@ var _user$project$Domain_Core$Subscribe = F2(
 	function (a, b) {
 		return {ctor: 'Subscribe', _0: a, _1: b};
 	});
-var _user$project$Domain_Core$Subscribers = function (a) {
-	return {ctor: 'Subscribers', _0: a};
+var _user$project$Domain_Core$Members = function (a) {
+	return {ctor: 'Members', _0: a};
 };
-var _user$project$Domain_Core$initSubscription = function (profileId) {
-	return _user$project$Domain_Core$Subscribers(
-		{ctor: '[]'});
-};
+var _user$project$Domain_Core$initSubscription = _user$project$Domain_Core$Members(
+	{ctor: '[]'});
 var _user$project$Domain_Core$Id = function (a) {
 	return {ctor: 'Id', _0: a};
 };
@@ -10085,6 +10083,10 @@ var _user$project$Services_Adapter$jsonLinksToLinks = function (jsonLinks) {
 		_user$project$Services_Adapter$toLink(jsonLinks.podcasts),
 		_user$project$Services_Adapter$toLink(jsonLinks.answers));
 };
+var _user$project$Services_Adapter$toMembers = function (jsonMembers) {
+	return _user$project$Domain_Core$Members(
+		{ctor: '[]'});
+};
 var _user$project$Services_Adapter$toProvider = function (jsonProvider) {
 	var _p3 = jsonProvider;
 	var field = _p3._0;
@@ -10093,31 +10095,8 @@ var _user$project$Services_Adapter$toProvider = function (jsonProvider) {
 		topics: _user$project$Services_Adapter$toTopics(field.topics),
 		links: _user$project$Services_Adapter$jsonLinksToLinks(field.links),
 		recentLinks: _user$project$Services_Adapter$toLink(field.recentLinks),
-		subscriptions: function (id) {
-			return _user$project$Domain_Core$Subscribers(
-				A2(
-					_elm_lang$core$List$map,
-					function (jp) {
-						return _user$project$Services_Adapter$toProvider(jp);
-					},
-					field.subscriptions));
-		},
-		followers: function (id) {
-			return _user$project$Domain_Core$Subscribers(
-				A2(
-					_elm_lang$core$List$map,
-					function (jp) {
-						return _user$project$Services_Adapter$toProvider(jp);
-					},
-					field.followers));
-		}
-	};
-};
-var _user$project$Services_Adapter$toSubscriptions = function (jsonSubscriptions) {
-	return {
-		ctor: '::',
-		_0: _user$project$Domain_Core$initProfile,
-		_1: {ctor: '[]'}
+		followers: _user$project$Services_Adapter$toMembers(field.followers),
+		subscriptions: _user$project$Services_Adapter$toMembers(field.subscriptions)
 	};
 };
 var _user$project$Services_Adapter$toFollowers = function (jsonFollowers) {
@@ -10863,24 +10842,96 @@ var _user$project$Tests_TestAPI$provider1Links = A4(
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId1),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId1),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId1));
+var _user$project$Tests_TestAPI$provider1 = A6(
+	_user$project$Domain_Core$Provider,
+	_user$project$Tests_TestAPI$profile1,
+	_user$project$Tests_TestAPI$topics,
+	_user$project$Tests_TestAPI$provider1Links,
+	_user$project$Tests_TestAPI$recentLinks1,
+	_user$project$Domain_Core$Members(
+		{ctor: '[]'}),
+	_user$project$Domain_Core$Members(
+		{ctor: '[]'}));
+var _user$project$Tests_TestAPI$provider1B = A6(
+	_user$project$Domain_Core$Provider,
+	_user$project$Tests_TestAPI$profile1,
+	_user$project$Tests_TestAPI$topics,
+	_user$project$Tests_TestAPI$provider1Links,
+	_user$project$Tests_TestAPI$recentLinks1,
+	_user$project$Domain_Core$Members(
+		{ctor: '[]'}),
+	_user$project$Domain_Core$Members(
+		{ctor: '[]'}));
 var _user$project$Tests_TestAPI$provider2Links = A4(
 	_user$project$Domain_Core$Links,
 	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId2),
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId2),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId2),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId2));
+var _user$project$Tests_TestAPI$provider2 = A6(
+	_user$project$Domain_Core$Provider,
+	_user$project$Tests_TestAPI$profile2,
+	_user$project$Tests_TestAPI$topics,
+	_user$project$Tests_TestAPI$provider2Links,
+	_user$project$Tests_TestAPI$recentLinks2,
+	_user$project$Domain_Core$Members(
+		{ctor: '[]'}),
+	_user$project$Domain_Core$Members(
+		{ctor: '[]'}));
+var _user$project$Tests_TestAPI$subscriptions = F2(
+	function (profileId, msg) {
+		return _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? A2(
+			_elm_lang$core$Task$perform,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Task$succeed(
+				msg(
+					_elm_lang$core$Result$Ok(
+						_user$project$Domain_Core$Members(
+							{
+								ctor: '::',
+								_0: _user$project$Tests_TestAPI$provider2,
+								_1: {ctor: '[]'}
+							}))))) : A2(
+			_elm_lang$core$Task$perform,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Task$succeed(
+				msg(
+					_elm_lang$core$Result$Ok(
+						_user$project$Domain_Core$Members(
+							{ctor: '[]'})))));
+	});
 var _user$project$Tests_TestAPI$provider3Links = A4(
 	_user$project$Domain_Core$Links,
 	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId3),
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId3),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId3),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId3));
+var _user$project$Tests_TestAPI$provider3 = A6(
+	_user$project$Domain_Core$Provider,
+	_user$project$Tests_TestAPI$profile3,
+	_user$project$Tests_TestAPI$topics,
+	_user$project$Tests_TestAPI$provider3Links,
+	_user$project$Tests_TestAPI$recentLinks3,
+	_user$project$Domain_Core$Members(
+		{ctor: '[]'}),
+	_user$project$Domain_Core$Members(
+		{ctor: '[]'}));
 var _user$project$Tests_TestAPI$provider4Links = A4(
 	_user$project$Domain_Core$Links,
 	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId4),
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId4),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId4),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId4));
+var _user$project$Tests_TestAPI$provider4 = A6(
+	_user$project$Domain_Core$Provider,
+	_user$project$Tests_TestAPI$profile4,
+	_user$project$Tests_TestAPI$topics,
+	_user$project$Tests_TestAPI$provider4Links,
+	{ctor: '[]'},
+	_user$project$Domain_Core$Members(
+		{ctor: '[]'}),
+	_user$project$Domain_Core$Members(
+		{ctor: '[]'}));
 var _user$project$Tests_TestAPI$provider5Links = A4(
 	_user$project$Domain_Core$Links,
 	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId5),
@@ -10893,60 +10944,66 @@ var _user$project$Tests_TestAPI$provider5 = A6(
 	_user$project$Tests_TestAPI$topics,
 	_user$project$Tests_TestAPI$provider5Links,
 	{ctor: '[]'},
-	_user$project$Tests_TestAPI$subscriptions,
-	_user$project$Tests_TestAPI$followers);
-var _user$project$Tests_TestAPI$followers = function (profileId) {
-	return _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? _user$project$Domain_Core$Subscribers(
-		{
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$provider4,
-			_1: {
-				ctor: '::',
-				_0: _user$project$Tests_TestAPI$provider5,
-				_1: {ctor: '[]'}
-			}
-		}) : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId2) ? _user$project$Domain_Core$Subscribers(
-		{
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$provider1B,
-			_1: {
-				ctor: '::',
-				_0: _user$project$Tests_TestAPI$provider5,
-				_1: {ctor: '[]'}
-			}
-		}) : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId3) ? _user$project$Domain_Core$Subscribers(
-		{
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$provider4,
-			_1: {
-				ctor: '::',
-				_0: _user$project$Tests_TestAPI$provider5,
-				_1: {ctor: '[]'}
-			}
-		}) : _user$project$Domain_Core$Subscribers(
-		{ctor: '[]'})));
-};
-var _user$project$Tests_TestAPI$provider1B = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile1, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider1Links, _user$project$Tests_TestAPI$recentLinks1, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
-var _user$project$Tests_TestAPI$subscriptions = function (profileId) {
-	return _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? _user$project$Domain_Core$Subscribers(
-		{
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$provider2,
-			_1: {ctor: '[]'}
-		}) : _user$project$Domain_Core$Subscribers(
-		{ctor: '[]'});
-};
-var _user$project$Tests_TestAPI$provider2 = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile2, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider2Links, _user$project$Tests_TestAPI$recentLinks2, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
-var _user$project$Tests_TestAPI$provider4 = A6(
-	_user$project$Domain_Core$Provider,
-	_user$project$Tests_TestAPI$profile4,
-	_user$project$Tests_TestAPI$topics,
-	_user$project$Tests_TestAPI$provider4Links,
-	{ctor: '[]'},
-	_user$project$Tests_TestAPI$subscriptions,
-	_user$project$Tests_TestAPI$followers);
-var _user$project$Tests_TestAPI$provider1 = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile1, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider1Links, _user$project$Tests_TestAPI$recentLinks1, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
-var _user$project$Tests_TestAPI$provider3 = A6(_user$project$Domain_Core$Provider, _user$project$Tests_TestAPI$profile3, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$provider3Links, _user$project$Tests_TestAPI$recentLinks3, _user$project$Tests_TestAPI$subscriptions, _user$project$Tests_TestAPI$followers);
+	_user$project$Domain_Core$Members(
+		{ctor: '[]'}),
+	_user$project$Domain_Core$Members(
+		{ctor: '[]'}));
+var _user$project$Tests_TestAPI$followers = F2(
+	function (profileId, msg) {
+		return _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? A2(
+			_elm_lang$core$Task$perform,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Task$succeed(
+				msg(
+					_elm_lang$core$Result$Ok(
+						_user$project$Domain_Core$Members(
+							{
+								ctor: '::',
+								_0: _user$project$Tests_TestAPI$provider4,
+								_1: {
+									ctor: '::',
+									_0: _user$project$Tests_TestAPI$provider5,
+									_1: {ctor: '[]'}
+								}
+							}))))) : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId2) ? A2(
+			_elm_lang$core$Task$perform,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Task$succeed(
+				msg(
+					_elm_lang$core$Result$Ok(
+						_user$project$Domain_Core$Members(
+							{
+								ctor: '::',
+								_0: _user$project$Tests_TestAPI$provider1B,
+								_1: {
+									ctor: '::',
+									_0: _user$project$Tests_TestAPI$provider5,
+									_1: {ctor: '[]'}
+								}
+							}))))) : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId3) ? A2(
+			_elm_lang$core$Task$perform,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Task$succeed(
+				msg(
+					_elm_lang$core$Result$Ok(
+						_user$project$Domain_Core$Members(
+							{
+								ctor: '::',
+								_0: _user$project$Tests_TestAPI$provider4,
+								_1: {
+									ctor: '::',
+									_0: _user$project$Tests_TestAPI$provider5,
+									_1: {ctor: '[]'}
+								}
+							}))))) : A2(
+			_elm_lang$core$Task$perform,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Task$succeed(
+				msg(
+					_elm_lang$core$Result$Ok(
+						_user$project$Domain_Core$Members(
+							{ctor: '[]'})))))));
+	});
 var _user$project$Tests_TestAPI$jsonLinks = function (id) {
 	return A4(
 		_user$project$Services_Adapter$JsonLinks,
@@ -11265,14 +11322,28 @@ var _user$project$Services_Gateway$follow = F2(
 	function (clientId, providerId) {
 		return _elm_lang$core$Result$Err('follow not implemented');
 	});
-var _user$project$Services_Gateway$followers = function (profileId) {
-	return _user$project$Domain_Core$Subscribers(
-		{ctor: '[]'});
-};
-var _user$project$Services_Gateway$subscriptions = function (profileId) {
-	return _user$project$Domain_Core$Subscribers(
-		{ctor: '[]'});
-};
+var _user$project$Services_Gateway$followers = F2(
+	function (profileId, msg) {
+		return A2(
+			_elm_lang$core$Task$perform,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Task$succeed(
+				msg(
+					_elm_lang$core$Result$Ok(
+						_user$project$Domain_Core$Members(
+							{ctor: '[]'})))));
+	});
+var _user$project$Services_Gateway$subscriptions = F2(
+	function (profileId, msg) {
+		return A2(
+			_elm_lang$core$Task$perform,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Task$succeed(
+				msg(
+					_elm_lang$core$Result$Ok(
+						_user$project$Domain_Core$Members(
+							{ctor: '[]'})))));
+	});
 var _user$project$Services_Gateway$suggestedTopics = function (search) {
 	return {ctor: '[]'};
 };
@@ -12827,7 +12898,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 			var _p4 = profileId;
 			if (_p4.ctor === 'Just') {
 				var _p6 = _p4._0;
-				var _p5 = provider.followers(provider.profile.id);
+				var _p5 = provider.followers;
 				var followers = _p5._0;
 				var isFollowing = A2(
 					_elm_lang$core$List$any,
@@ -12883,7 +12954,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 		var subscriptionText = function () {
 			var _p7 = profileId;
 			if (_p7.ctor === 'Just') {
-				var _p8 = provider.followers(provider.profile.id);
+				var _p8 = provider.followers;
 				var followers = _p8._0;
 				var isFollowing = A2(
 					_elm_lang$core$List$any,
@@ -16167,7 +16238,7 @@ var _user$project$Home$renderNavigation = F2(
 							A2(_user$project$Home$providersWithRecentLinks, profile.id, providers))),
 					')')));
 		var debugValue = A2(_user$project$Home$providersWithRecentLinks, profile.id, providers);
-		var _p20 = _user$project$Settings$runtime.followers(profile.id);
+		var _p20 = portal.provider.followers;
 		var followers = _p20._0;
 		var followersText = A2(
 			_elm_lang$core$Basics_ops['++'],
@@ -17519,7 +17590,7 @@ var _user$project$Home$renderNavigation = F2(
 					};
 			}
 		}();
-		var _p22 = _user$project$Settings$runtime.subscriptions(profile.id);
+		var _p22 = portal.provider.subscriptions;
 		var subscriptions = _p22._0;
 		var links = portal.provider.links;
 		return ((!portal.sourcesNavigation) && (!portal.linksNavigation)) ? displayNavigation(noSourcesNoLinks) : ((portal.sourcesNavigation && (!portal.linksNavigation)) ? displayNavigation(sourcesButNoLinks) : displayNavigation(allNavigation));
@@ -17769,12 +17840,10 @@ var _user$project$Home$content = F2(
 	function (contentToEmbed, model) {
 		var portal = model.portal;
 		var provider = portal.provider;
-		var followingYou = provider.followers(provider.profile.id);
-		var _p23 = followingYou;
-		var followers = _p23._0;
-		var following = provider.subscriptions(provider.profile.id);
-		var _p24 = following;
-		var subscriptions = _p24._0;
+		var _p23 = provider.followers;
+		var followingYou = _p23._0;
+		var _p24 = provider.subscriptions;
+		var following = _p24._0;
 		var _p25 = portal.requested;
 		switch (_p25.ctor) {
 			case 'ViewSources':
@@ -17926,18 +17995,18 @@ var _user$project$Home$content = F2(
 					_elm_lang$core$Maybe$Just(provider.profile.id),
 					true,
 					'name of subscription',
-					subscriptions);
+					following);
 			case 'ViewFollowers':
 				return A4(
 					_user$project$Home$searchProvidersUI,
 					_elm_lang$core$Maybe$Just(provider.profile.id),
 					false,
 					'name of follower',
-					followers);
+					followingYou);
 			case 'ViewProviders':
 				return A3(_user$project$Home$filteredProvidersUI, model.providers, 'name', provider.profile.id);
 			default:
-				return A2(_user$project$Home$recentLinksContent, provider.profile.id, subscriptions);
+				return A2(_user$project$Home$recentLinksContent, provider.profile.id, following);
 		}
 	});
 var _user$project$Home$OnLogin = function (a) {

@@ -3,6 +3,7 @@ module Services.Gateway exposing (..)
 import Domain.Core exposing (..)
 import Services.Adapter exposing (..)
 import Http exposing (getString)
+import Task exposing (succeed, perform)
 import Json.Decode as Decode exposing (Decoder, field)
 import Json.Encode as Encode
 
@@ -223,14 +224,22 @@ suggestedTopics search =
     []
 
 
-subscriptions : Id -> Subscribers
-subscriptions profileId =
-    Subscribers []
+subscriptions : Id -> (Result Http.Error Members -> msg) -> Cmd msg
+subscriptions profileId msg =
+    Members []
+        |> Result.Ok
+        |> msg
+        |> Task.succeed
+        |> Task.perform identity
 
 
-followers : Id -> Subscribers
-followers profileId =
-    Subscribers []
+followers : Id -> (Result Http.Error Members -> msg) -> Cmd msg
+followers profileId msg =
+    Members []
+        |> Result.Ok
+        |> msg
+        |> Task.succeed
+        |> Task.perform identity
 
 
 follow : Id -> Id -> Result String ()

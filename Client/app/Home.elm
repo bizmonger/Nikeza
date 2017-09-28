@@ -968,17 +968,11 @@ content contentToEmbed model =
         provider =
             portal.provider
 
-        followingYou =
-            provider.followers provider.profile.id
+        (Members followingYou) =
+            provider.followers
 
-        (Subscribers followers) =
-            followingYou
-
-        following =
-            provider.subscriptions provider.profile.id
-
-        (Subscribers subscriptions) =
-            following
+        (Members following) =
+            provider.subscriptions
     in
         case portal.requested of
             Domain.ViewSources ->
@@ -1031,16 +1025,16 @@ content contentToEmbed model =
                         ]
 
             Domain.ViewSubscriptions ->
-                subscriptions |> searchProvidersUI (Just provider.profile.id) True "name of subscription"
+                following |> searchProvidersUI (Just provider.profile.id) True "name of subscription"
 
             Domain.ViewFollowers ->
-                followers |> searchProvidersUI (Just provider.profile.id) False "name of follower"
+                followingYou |> searchProvidersUI (Just provider.profile.id) False "name of follower"
 
             Domain.ViewProviders ->
                 provider.profile.id |> filteredProvidersUI model.providers "name"
 
             Domain.ViewRecent ->
-                subscriptions |> recentLinksContent provider.profile.id
+                following |> recentLinksContent provider.profile.id
 
 
 providersWithRecentLinks : Id -> List Provider -> List Provider
@@ -1091,11 +1085,11 @@ renderNavigation portal providers =
         links =
             portal.provider.links
 
-        (Subscribers subscriptions) =
-            runtime.subscriptions profile.id
+        (Members subscriptions) =
+            portal.provider.subscriptions
 
-        (Subscribers followers) =
-            runtime.followers profile.id
+        (Members followers) =
+            portal.provider.followers
 
         profile =
             portal.provider.profile

@@ -32,8 +32,8 @@ type alias Dependencies msg =
     , removeSource : RemoveSourcefunction
     , platforms : List Platform
     , suggestedTopics : SuggestedTopicsfunction
-    , subscriptions : Subscriptionsfunction
-    , followers : Followersfunction
+    , subscriptions : Subscriptionsfunction msg
+    , followers : Followersfunction msg
     , follow : Followfunction
     , unsubscribe : Unsubscribefunction
     }

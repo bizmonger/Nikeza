@@ -59,18 +59,18 @@ type alias Provider =
     , topics : List Topic
     , links : Links
     , recentLinks : List Link
-    , subscriptions : Subscriptionsfunction
-    , followers : Followersfunction
+    , followers : Members
+    , subscriptions : Members
     }
 
 
-type Subscribers
-    = Subscribers (List Provider)
+type Members
+    = Members (List Provider)
 
 
-initSubscription : Id -> Subscribers
-initSubscription profileId =
-    Subscribers []
+initSubscription : Members
+initSubscription =
+    Members []
 
 
 initProvider : Provider
@@ -313,14 +313,6 @@ type alias UserNameToIdfunction =
 
 type alias SuggestedTopicsfunction =
     String -> List Topic
-
-
-type alias Subscriptionsfunction =
-    Id -> Subscribers
-
-
-type alias Followersfunction =
-    Id -> Subscribers
 
 
 type alias Followfunction =

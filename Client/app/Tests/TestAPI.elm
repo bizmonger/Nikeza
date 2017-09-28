@@ -281,25 +281,49 @@ jsonLinks id =
         (podcasts id |> toJsonLinks)
 
 
-subscriptions : Id -> Subscribers
-subscriptions profileId =
+subscriptions : Id -> (Result Http.Error Members -> msg) -> Cmd msg
+subscriptions profileId msg =
     if profileId == profileId1 then
         -- Weird error when we have provider3
-        Subscribers [ provider2 ]
+        Members [ provider2 ]
+            |> Result.Ok
+            |> msg
+            |> Task.succeed
+            |> Task.perform identity
     else
-        Subscribers []
+        Members []
+            |> Result.Ok
+            |> msg
+            |> Task.succeed
+            |> Task.perform identity
 
 
-followers : Id -> Subscribers
-followers profileId =
+followers : Id -> (Result Http.Error Members -> msg) -> Cmd msg
+followers profileId msg =
     if profileId == profileId1 then
-        Subscribers [ provider4, provider5 ]
+        Members [ provider4, provider5 ]
+            |> Result.Ok
+            |> msg
+            |> Task.succeed
+            |> Task.perform identity
     else if profileId == profileId2 then
-        Subscribers [ provider1B, provider5 ]
+        Members [ provider1B, provider5 ]
+            |> Result.Ok
+            |> msg
+            |> Task.succeed
+            |> Task.perform identity
     else if profileId == profileId3 then
-        Subscribers [ provider4, provider5 ]
+        Members [ provider4, provider5 ]
+            |> Result.Ok
+            |> msg
+            |> Task.succeed
+            |> Task.perform identity
     else
-        Subscribers []
+        Members []
+            |> Result.Ok
+            |> msg
+            |> Task.succeed
+            |> Task.perform identity
 
 
 recentLinks1 : List Link
@@ -453,32 +477,32 @@ jsonProvider5 =
 
 provider1 : Provider
 provider1 =
-    Provider profile1 topics provider1Links recentLinks1 subscriptions followers
+    Provider profile1 topics provider1Links recentLinks1 (Members []) (Members [])
 
 
 provider1B : Provider
 provider1B =
-    Provider profile1 topics provider1Links recentLinks1 subscriptions followers
+    Provider profile1 topics provider1Links recentLinks1 (Members []) (Members [])
 
 
 provider2 : Provider
 provider2 =
-    Provider profile2 topics provider2Links recentLinks2 subscriptions followers
+    Provider profile2 topics provider2Links recentLinks2 (Members []) (Members [])
 
 
 provider3 : Provider
 provider3 =
-    Provider profile3 topics provider3Links recentLinks3 subscriptions followers
+    Provider profile3 topics provider3Links recentLinks3 (Members []) (Members [])
 
 
 provider4 : Provider
 provider4 =
-    Provider profile4 topics provider4Links [] subscriptions followers
+    Provider profile4 topics provider4Links [] (Members []) (Members [])
 
 
 provider5 : Provider
 provider5 =
-    Provider profile5 topics provider5Links [] subscriptions followers
+    Provider profile5 topics provider5Links [] (Members []) (Members [])
 
 
 
@@ -492,7 +516,7 @@ tryLogin credentials msg =
             String.toLower credentials.email == "test" && String.toLower credentials.password == "test"
     in
         if successful then
-            jsonProvider1
+            (jsonProvider1)
                 |> Result.Ok
                 |> msg
                 |> Task.succeed

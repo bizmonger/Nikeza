@@ -24,6 +24,14 @@ type alias Providersfunction msg =
     (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
 
 
+type alias Followersfunction msg =
+    Id -> (Result Http.Error Members -> msg) -> Cmd msg
+
+
+type alias Subscriptionsfunction msg =
+    Id -> (Result Http.Error Members -> msg) -> Cmd msg
+
+
 type alias JsonProfile =
     { id : String
     , firstName : String
@@ -106,9 +114,9 @@ toFollowers jsonFollowers =
     [ initProfile ]
 
 
-toSubscriptions : List JsonSubscriber -> List Profile
-toSubscriptions jsonSubscriptions =
-    [ initProfile ]
+toMembers : List JsonProvider -> Members
+toMembers jsonMembers =
+    Members []
 
 
 toLink : List JsonLink -> List Link
@@ -165,6 +173,9 @@ toProvider jsonProvider =
         , topics = field.topics |> toTopics
         , links = field.links |> jsonLinksToLinks
         , recentLinks = field.recentLinks |> toLink
-        , subscriptions = (\id -> Subscribers (field.subscriptions |> List.map (\jp -> jp |> toProvider)))
-        , followers = (\id -> Subscribers (field.followers |> List.map (\jp -> jp |> toProvider)))
+        , followers = field.followers |> toMembers
+        , subscriptions = field.subscriptions |> toMembers
+
+        -- , subscriptions = (\id -> Members (field.subscriptions |> List.map (\jp -> jp |> toProvider)))
+        -- , followers = (\id -> Members (field.followers |> List.map (\jp -> jp |> toProvider)))
         }

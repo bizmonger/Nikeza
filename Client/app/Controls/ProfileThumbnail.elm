@@ -5,6 +5,7 @@ import Domain.Core exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Debug exposing (crash)
 
 
 -- Model
@@ -76,8 +77,8 @@ thumbnail profileId showSubscribe provider =
             case profileId of
                 Just id ->
                     let
-                        (Subscribers followers) =
-                            provider.followers provider.profile.id
+                        (Members followers) =
+                            provider.followers
 
                         isFollowing =
                             followers |> List.any (\p -> p.profile.id == id)
@@ -94,8 +95,8 @@ thumbnail profileId showSubscribe provider =
             case profileId of
                 Just id ->
                     let
-                        (Subscribers followers) =
-                            provider.followers provider.profile.id
+                        (Members followers) =
+                            provider.followers
 
                         isFollowing =
                             followers |> List.any (\p -> p.profile.id == id)
