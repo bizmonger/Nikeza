@@ -41,85 +41,80 @@ update msg model =
                             ( model, Cmd.none )
 
 
-thumbnail : Maybe Id -> Bool -> Provider -> Html Msg
-thumbnail profileId showSubscribe provider =
-    let
-        profile =
-            provider.profile
+thumbnail : Maybe Provider -> Bool -> Provider -> Html Msg
+thumbnail sourceProvider showSubscribe provider =
+    case sourceProvider of
+        Just source ->
+            let
+                profile =
+                    provider.profile
 
-        formatTopic topic =
-            a [ href <| getUrl <| providerTopicUrl profileId profile.id topic ] [ i [] [ text <| getTopic topic ] ]
+                formatTopic topic =
+                    a [ href <| getUrl <| providerTopicUrl (Just source.profile.id) profile.id topic ] [ i [] [ text <| getTopic topic ] ]
 
-        concatTopics topic1 topic2 =
-            span []
-                [ topic1
-                , label [] [ text " " ]
-                , topic2
-                , label [] [ text " " ]
-                ]
+                concatTopics topic1 topic2 =
+                    span []
+                        [ topic1
+                        , label [] [ text " " ]
+                        , topic2
+                        , label [] [ text " " ]
+                        ]
 
-        topics =
-            List.foldr concatTopics
-                (div [] [])
-                (provider.topics
-                    |> List.filter (\t -> t.isFeatured)
-                    |> List.map formatTopic
-                )
+                topics =
+                    List.foldr concatTopics
+                        (div [] [])
+                        (provider.topics
+                            |> List.filter (\t -> t.isFeatured)
+                            |> List.map formatTopic
+                        )
 
-        nameAndTopics =
-            div []
-                [ label [] [ text <| (profile.firstName |> getName) ++ " " ++ (profile.lastName |> getName) ]
-                , br [] []
-                , topics
-                ]
+                nameAndTopics =
+                    div []
+                        [ label [] [ text <| (profile.firstName |> getName) ++ " " ++ (profile.lastName |> getName) ]
+                        , br [] []
+                        , topics
+                        ]
 
-        subscriptionText =
-            case profileId of
-                Just id ->
+                subscriptionText =
                     let
                         (Members followers) =
-                            provider.followers
+                            source.followers
 
                         isFollowing =
-                            followers |> List.any (\p -> p.profile.id == id)
+                            followers |> List.any (\p -> p.profile.id == source.profile.id)
                     in
                         if isFollowing then
                             "Unsubscribe"
                         else
                             "Follow"
 
-                Nothing ->
-                    "Follow"
-
-        placeholder =
-            case profileId of
-                Just id ->
+                placeholder =
                     let
                         (Members followers) =
-                            provider.followers
+                            source.followers
 
                         isFollowing =
-                            followers |> List.any (\p -> p.profile.id == id)
+                            followers |> List.any (\p -> p.profile.id == source.profile.id)
                     in
                         if not isFollowing && showSubscribe then
-                            button [ class "subscribeButton", onClick (UpdateSubscription <| Subscribe id provider.profile.id) ] [ text "Follow" ]
+                            button [ class "subscribeButton", onClick (UpdateSubscription <| Subscribe source.profile.id provider.profile.id) ] [ text "Follow" ]
                         else if isFollowing && showSubscribe then
-                            button [ class "unsubscribeButton", onClick (UpdateSubscription <| Unsubscribe id provider.profile.id) ] [ text "Unsubscribe" ]
+                            button [ class "unsubscribeButton", onClick (UpdateSubscription <| Unsubscribe source.profile.id provider.profile.id) ] [ text "Unsubscribe" ]
                         else
                             div [] []
-
-                Nothing ->
-                    div [] []
-    in
-        div []
-            [ table []
-                [ tr []
-                    [ td []
-                        [ a [ href <| getUrl <| providerUrl profileId profile.id ]
-                            [ img [ src <| getUrl profile.imageUrl, width 65, height 65 ] [] ]
+            in
+                div []
+                    [ table []
+                        [ tr []
+                            [ td []
+                                [ a [ href <| getUrl <| providerUrl (Just source.profile.id) profile.id ]
+                                    [ img [ src <| getUrl profile.imageUrl, width 65, height 65 ] [] ]
+                                ]
+                            , td [] [ nameAndTopics ]
+                            ]
+                        , placeholder
                         ]
-                    , td [] [ nameAndTopics ]
                     ]
-                , placeholder
-                ]
-            ]
+
+        Nothing ->
+            div [] []

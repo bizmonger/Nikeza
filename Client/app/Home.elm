@@ -841,12 +841,12 @@ footerContent =
         [ a [ href "" ] [ text "Lamba Cartel" ] ]
 
 
-providersUI : Maybe Id -> List Provider -> Bool -> Html Msg
-providersUI profileId providers showSubscribe =
+providersUI : Maybe Provider -> List Provider -> Bool -> Html Msg
+providersUI provider providers showSubscribe =
     let
         content =
             Html.map ProfileThumbnail <|
-                div [] (providers |> List.map (ProfileThumbnail.thumbnail (profileId) showSubscribe))
+                div [] (providers |> List.map (ProfileThumbnail.thumbnail (provider) showSubscribe))
     in
         content
 
@@ -1025,13 +1025,13 @@ content contentToEmbed model =
                         ]
 
             Domain.ViewSubscriptions ->
-                following |> searchProvidersUI (Just provider.profile.id) False "name of subscription"
+                following |> searchProvidersUI (Just provider) False "name of subscription"
 
             Domain.ViewFollowers ->
-                followingYou |> searchProvidersUI (Just provider.profile.id) True "name of follower"
+                followingYou |> searchProvidersUI (Just provider) True "name of follower"
 
             Domain.ViewProviders ->
-                provider.profile.id |> filteredProvidersUI model.providers "name"
+                provider |> filteredProvidersUI model.providers "name"
 
             Domain.ViewRecent ->
                 following |> recentLinksContent provider.profile.id
@@ -1064,18 +1064,18 @@ removeProvider profileId providers =
     providers |> List.filter (\p -> p.profile.id /= profileId)
 
 
-filteredProvidersUI : List Provider -> String -> Id -> Html Msg
-filteredProvidersUI providers placeHolder profileId =
+filteredProvidersUI : List Provider -> String -> Provider -> Html Msg
+filteredProvidersUI providers placeHolder source =
     providers
-        |> removeProvider profileId
-        |> searchProvidersUI (Just profileId) True placeHolder
+        |> removeProvider source.profile.id
+        |> searchProvidersUI (Just source) True placeHolder
 
 
-searchProvidersUI : Maybe Id -> Bool -> String -> List Provider -> Html Msg
-searchProvidersUI profileId showSubscribe placeHolder providers =
+searchProvidersUI : Maybe Provider -> Bool -> String -> List Provider -> Html Msg
+searchProvidersUI source showSubscribe placeHolder providers =
     table []
         [ tr [] [ td [] [ input [ class "search", type_ "text", placeholder placeHolder, onInput Search ] [] ] ]
-        , tr [] [ td [] [ div [] [ providersUI (profileId) providers showSubscribe ] ] ]
+        , tr [] [ td [] [ div [] [ providersUI (source) providers showSubscribe ] ] ]
         ]
 
 

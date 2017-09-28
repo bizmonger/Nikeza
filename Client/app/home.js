@@ -12890,17 +12890,17 @@ var _user$project$Controls_ProfileThumbnail$UpdateSubscription = function (a) {
 	return {ctor: 'UpdateSubscription', _0: a};
 };
 var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
-	function (profileId, showSubscribe, provider) {
-		var placeholder = function () {
-			var _p4 = profileId;
-			if (_p4.ctor === 'Just') {
-				var _p6 = _p4._0;
-				var _p5 = provider.followers;
+	function (sourceProvider, showSubscribe, provider) {
+		var _p4 = sourceProvider;
+		if (_p4.ctor === 'Just') {
+			var _p7 = _p4._0;
+			var placeholder = function () {
+				var _p5 = _p7.followers;
 				var followers = _p5._0;
 				var isFollowing = A2(
 					_elm_lang$core$List$any,
 					function (p) {
-						return _elm_lang$core$Native_Utils.eq(p.profile.id, _p6);
+						return _elm_lang$core$Native_Utils.eq(p.profile.id, _p7.profile.id);
 					},
 					followers);
 				return ((!isFollowing) && showSubscribe) ? A2(
@@ -12912,7 +12912,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 							ctor: '::',
 							_0: _elm_lang$html$Html_Events$onClick(
 								_user$project$Controls_ProfileThumbnail$UpdateSubscription(
-									A2(_user$project$Domain_Core$Subscribe, _p6, provider.profile.id))),
+									A2(_user$project$Domain_Core$Subscribe, _p7.profile.id, provider.profile.id))),
 							_1: {ctor: '[]'}
 						}
 					},
@@ -12929,7 +12929,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 							ctor: '::',
 							_0: _elm_lang$html$Html_Events$onClick(
 								_user$project$Controls_ProfileThumbnail$UpdateSubscription(
-									A2(_user$project$Domain_Core$Unsubscribe, _p6, provider.profile.id))),
+									A2(_user$project$Domain_Core$Unsubscribe, _p7.profile.id, provider.profile.id))),
 							_1: {ctor: '[]'}
 						}
 					},
@@ -12941,213 +12941,215 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 					_elm_lang$html$Html$div,
 					{ctor: '[]'},
 					{ctor: '[]'}));
-			} else {
-				return A2(
-					_elm_lang$html$Html$div,
-					{ctor: '[]'},
-					{ctor: '[]'});
-			}
-		}();
-		var subscriptionText = function () {
-			var _p7 = profileId;
-			if (_p7.ctor === 'Just') {
-				var _p8 = provider.followers;
-				var followers = _p8._0;
+			}();
+			var subscriptionText = function () {
+				var _p6 = _p7.followers;
+				var followers = _p6._0;
 				var isFollowing = A2(
 					_elm_lang$core$List$any,
 					function (p) {
-						return _elm_lang$core$Native_Utils.eq(p.profile.id, _p7._0);
+						return _elm_lang$core$Native_Utils.eq(p.profile.id, _p7.profile.id);
 					},
 					followers);
 				return isFollowing ? 'Unsubscribe' : 'Follow';
-			} else {
-				return 'Follow';
-			}
-		}();
-		var concatTopics = F2(
-			function (topic1, topic2) {
-				return A2(
-					_elm_lang$html$Html$span,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: topic1,
-						_1: {
+			}();
+			var concatTopics = F2(
+				function (topic1, topic2) {
+					return A2(
+						_elm_lang$html$Html$span,
+						{ctor: '[]'},
+						{
 							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$label,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text(' '),
-									_1: {ctor: '[]'}
-								}),
+							_0: topic1,
 							_1: {
 								ctor: '::',
-								_0: topic2,
+								_0: A2(
+									_elm_lang$html$Html$label,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(' '),
+										_1: {ctor: '[]'}
+									}),
 								_1: {
 									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$label,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text(' '),
-											_1: {ctor: '[]'}
-										}),
-									_1: {ctor: '[]'}
+									_0: topic2,
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$label,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text(' '),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}
 								}
 							}
-						}
+						});
+				});
+			var profile = provider.profile;
+			var formatTopic = function (topic) {
+				return A2(
+					_elm_lang$html$Html$a,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$href(
+							_user$project$Domain_Core$getUrl(
+								A3(
+									_user$project$Domain_Core$providerTopicUrl,
+									_elm_lang$core$Maybe$Just(_p7.profile.id),
+									profile.id,
+									topic))),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$i,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(
+									_user$project$Domain_Core$getTopic(topic)),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
 					});
-			});
-		var profile = provider.profile;
-		var formatTopic = function (topic) {
-			return A2(
-				_elm_lang$html$Html$a,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$href(
-						_user$project$Domain_Core$getUrl(
-							A3(_user$project$Domain_Core$providerTopicUrl, profileId, profile.id, topic))),
-					_1: {ctor: '[]'}
-				},
+			};
+			var topics = A3(
+				_elm_lang$core$List$foldr,
+				concatTopics,
+				A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{ctor: '[]'}),
+				A2(
+					_elm_lang$core$List$map,
+					formatTopic,
+					A2(
+						_elm_lang$core$List$filter,
+						function (t) {
+							return t.isFeatured;
+						},
+						provider.topics)));
+			var nameAndTopics = A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
 				{
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$i,
+						_elm_lang$html$Html$label,
 						{ctor: '[]'},
 						{
 							ctor: '::',
 							_0: _elm_lang$html$Html$text(
-								_user$project$Domain_Core$getTopic(topic)),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				});
-		};
-		var topics = A3(
-			_elm_lang$core$List$foldr,
-			concatTopics,
-			A2(
-				_elm_lang$html$Html$div,
-				{ctor: '[]'},
-				{ctor: '[]'}),
-			A2(
-				_elm_lang$core$List$map,
-				formatTopic,
-				A2(
-					_elm_lang$core$List$filter,
-					function (t) {
-						return t.isFeatured;
-					},
-					provider.topics)));
-		var nameAndTopics = A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$label,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								_user$project$Domain_Core$getName(profile.firstName),
 								A2(
 									_elm_lang$core$Basics_ops['++'],
-									' ',
-									_user$project$Domain_Core$getName(profile.lastName)))),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$br,
-						{ctor: '[]'},
-						{ctor: '[]'}),
+									_user$project$Domain_Core$getName(profile.firstName),
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										' ',
+										_user$project$Domain_Core$getName(profile.lastName)))),
+							_1: {ctor: '[]'}
+						}),
 					_1: {
 						ctor: '::',
-						_0: topics,
-						_1: {ctor: '[]'}
-					}
-				}
-			});
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$table,
-					{ctor: '[]'},
-					{
-						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$tr,
+							_elm_lang$html$Html$br,
 							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$td,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$a,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$href(
-													_user$project$Domain_Core$getUrl(
-														A2(_user$project$Domain_Core$providerUrl, profileId, profile.id))),
-												_1: {ctor: '[]'}
-											},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$img,
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$src(
-															_user$project$Domain_Core$getUrl(profile.imageUrl)),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$width(65),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$height(65),
-																_1: {ctor: '[]'}
-															}
-														}
-													},
-													{ctor: '[]'}),
-												_1: {ctor: '[]'}
-											}),
-										_1: {ctor: '[]'}
-									}),
-								_1: {
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: topics,
+							_1: {ctor: '[]'}
+						}
+					}
+				});
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$table,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$tr,
+								{ctor: '[]'},
+								{
 									ctor: '::',
 									_0: A2(
 										_elm_lang$html$Html$td,
 										{ctor: '[]'},
 										{
 											ctor: '::',
-											_0: nameAndTopics,
+											_0: A2(
+												_elm_lang$html$Html$a,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$href(
+														_user$project$Domain_Core$getUrl(
+															A2(
+																_user$project$Domain_Core$providerUrl,
+																_elm_lang$core$Maybe$Just(_p7.profile.id),
+																profile.id))),
+													_1: {ctor: '[]'}
+												},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$img,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$src(
+																_user$project$Domain_Core$getUrl(profile.imageUrl)),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$width(65),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$height(65),
+																	_1: {ctor: '[]'}
+																}
+															}
+														},
+														{ctor: '[]'}),
+													_1: {ctor: '[]'}
+												}),
 											_1: {ctor: '[]'}
 										}),
-									_1: {ctor: '[]'}
-								}
-							}),
-						_1: {
-							ctor: '::',
-							_0: placeholder,
-							_1: {ctor: '[]'}
-						}
-					}),
-				_1: {ctor: '[]'}
-			});
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$td,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: nameAndTopics,
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}
+								}),
+							_1: {
+								ctor: '::',
+								_0: placeholder,
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {ctor: '[]'}
+				});
+		} else {
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{ctor: '[]'});
+		}
 	});
 
 var _user$project$Controls_ProviderContentTypeLinks$toggleFilter = F2(
@@ -17742,7 +17744,7 @@ var _user$project$Home$ProfileThumbnail = function (a) {
 	return {ctor: 'ProfileThumbnail', _0: a};
 };
 var _user$project$Home$providersUI = F3(
-	function (profileId, providers, showSubscribe) {
+	function (provider, providers, showSubscribe) {
 		var content = A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$ProfileThumbnail,
@@ -17751,12 +17753,12 @@ var _user$project$Home$providersUI = F3(
 				{ctor: '[]'},
 				A2(
 					_elm_lang$core$List$map,
-					A2(_user$project$Controls_ProfileThumbnail$thumbnail, profileId, showSubscribe),
+					A2(_user$project$Controls_ProfileThumbnail$thumbnail, provider, showSubscribe),
 					providers)));
 		return content;
 	});
 var _user$project$Home$searchProvidersUI = F4(
-	function (profileId, showSubscribe, placeHolder, providers) {
+	function (source, showSubscribe, placeHolder, providers) {
 		return A2(
 			_elm_lang$html$Html$table,
 			{ctor: '[]'},
@@ -17813,7 +17815,7 @@ var _user$project$Home$searchProvidersUI = F4(
 										{ctor: '[]'},
 										{
 											ctor: '::',
-											_0: A3(_user$project$Home$providersUI, profileId, providers, showSubscribe),
+											_0: A3(_user$project$Home$providersUI, source, providers, showSubscribe),
 											_1: {ctor: '[]'}
 										}),
 									_1: {ctor: '[]'}
@@ -17825,13 +17827,13 @@ var _user$project$Home$searchProvidersUI = F4(
 			});
 	});
 var _user$project$Home$filteredProvidersUI = F3(
-	function (providers, placeHolder, profileId) {
+	function (providers, placeHolder, source) {
 		return A4(
 			_user$project$Home$searchProvidersUI,
-			_elm_lang$core$Maybe$Just(profileId),
+			_elm_lang$core$Maybe$Just(source),
 			true,
 			placeHolder,
-			A2(_user$project$Home$removeProvider, profileId, providers));
+			A2(_user$project$Home$removeProvider, source.profile.id, providers));
 	});
 var _user$project$Home$content = F2(
 	function (contentToEmbed, model) {
@@ -17989,19 +17991,19 @@ var _user$project$Home$content = F2(
 			case 'ViewSubscriptions':
 				return A4(
 					_user$project$Home$searchProvidersUI,
-					_elm_lang$core$Maybe$Just(provider.profile.id),
+					_elm_lang$core$Maybe$Just(provider),
 					false,
 					'name of subscription',
 					following);
 			case 'ViewFollowers':
 				return A4(
 					_user$project$Home$searchProvidersUI,
-					_elm_lang$core$Maybe$Just(provider.profile.id),
+					_elm_lang$core$Maybe$Just(provider),
 					true,
 					'name of follower',
 					followingYou);
 			case 'ViewProviders':
-				return A3(_user$project$Home$filteredProvidersUI, model.providers, 'name', provider.profile.id);
+				return A3(_user$project$Home$filteredProvidersUI, model.providers, 'name', provider);
 			default:
 				return A2(_user$project$Home$recentLinksContent, provider.profile.id, following);
 		}
