@@ -109,14 +109,9 @@ jsonProfileToProvider jsonProfile =
     Provider (jsonProfileToProfile jsonProfile) initTopics initLinks [] initSubscription initSubscription
 
 
-toFollowers : List JsonSubscriber -> List Profile
-toFollowers jsonFollowers =
-    [ initProfile ]
-
-
 toMembers : List JsonProvider -> Members
-toMembers jsonMembers =
-    Members []
+toMembers jsonProviders =
+    Members (jsonProviders |> List.map (\p -> p |> toProvider))
 
 
 toLink : List JsonLink -> List Link

@@ -10083,9 +10083,14 @@ var _user$project$Services_Adapter$jsonLinksToLinks = function (jsonLinks) {
 		_user$project$Services_Adapter$toLink(jsonLinks.podcasts),
 		_user$project$Services_Adapter$toLink(jsonLinks.answers));
 };
-var _user$project$Services_Adapter$toMembers = function (jsonMembers) {
+var _user$project$Services_Adapter$toMembers = function (jsonProviders) {
 	return _user$project$Domain_Core$Members(
-		{ctor: '[]'});
+		A2(
+			_elm_lang$core$List$map,
+			function (p) {
+				return _user$project$Services_Adapter$toProvider(p);
+			},
+			jsonProviders));
 };
 var _user$project$Services_Adapter$toProvider = function (jsonProvider) {
 	var _p3 = jsonProvider;
@@ -10097,13 +10102,6 @@ var _user$project$Services_Adapter$toProvider = function (jsonProvider) {
 		recentLinks: _user$project$Services_Adapter$toLink(field.recentLinks),
 		followers: _user$project$Services_Adapter$toMembers(field.followers),
 		subscriptions: _user$project$Services_Adapter$toMembers(field.subscriptions)
-	};
-};
-var _user$project$Services_Adapter$toFollowers = function (jsonFollowers) {
-	return {
-		ctor: '::',
-		_0: _user$project$Domain_Core$initProfile,
-		_1: {ctor: '[]'}
 	};
 };
 var _user$project$Services_Adapter$jsonProfileToProfile = function (jsonProfile) {
