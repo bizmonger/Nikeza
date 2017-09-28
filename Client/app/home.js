@@ -10247,7 +10247,6 @@ var _user$project$Tests_TestAPI$toJsonLinks = function (links) {
 		},
 		links);
 };
-var _user$project$Tests_TestAPI$jsonTopics = {ctor: '[]'};
 var _user$project$Tests_TestAPI$someEmail = _user$project$Domain_Core$Email('abc@abc.com');
 var _user$project$Tests_TestAPI$someDescrtiption = 'some description...';
 var _user$project$Tests_TestAPI$someAnswerTitle6 = _user$project$Domain_Core$Title('Some Property-based Testing Answer');
@@ -11032,45 +11031,6 @@ var _user$project$Tests_TestAPI$jsonProvider3 = _user$project$Services_Adapter$J
 		subscriptions: {ctor: '[]'},
 		followers: {ctor: '[]'}
 	});
-var _user$project$Tests_TestAPI$jsonProvider1 = _user$project$Services_Adapter$JsonProvider(
-	{
-		profile: _user$project$Tests_TestAPI$jsonProfile1,
-		topics: _user$project$Tests_TestAPI$topics,
-		links: _user$project$Tests_TestAPI$jsonLinks(_user$project$Tests_TestAPI$profileId1),
-		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
-		subscriptions: {
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$jsonProvider2,
-			_1: {
-				ctor: '::',
-				_0: _user$project$Tests_TestAPI$jsonProvider3,
-				_1: {ctor: '[]'}
-			}
-		},
-		followers: {
-			ctor: '::',
-			_0: _user$project$Tests_TestAPI$jsonProvider2,
-			_1: {
-				ctor: '::',
-				_0: _user$project$Tests_TestAPI$jsonProvider3,
-				_1: {ctor: '[]'}
-			}
-		}
-	});
-var _user$project$Tests_TestAPI$tryLogin = F2(
-	function (credentials, msg) {
-		var successful = _elm_lang$core$Native_Utils.eq(
-			_elm_lang$core$String$toLower(credentials.email),
-			'test') && _elm_lang$core$Native_Utils.eq(
-			_elm_lang$core$String$toLower(credentials.password),
-			'test');
-		return successful ? A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$jsonProvider1)))) : _elm_lang$core$Platform_Cmd$none;
-	});
 var _user$project$Tests_TestAPI$jsonProvider4 = _user$project$Services_Adapter$JsonProvider(
 	{
 		profile: _user$project$Tests_TestAPI$jsonProfile4,
@@ -11088,6 +11048,45 @@ var _user$project$Tests_TestAPI$jsonProvider5 = _user$project$Services_Adapter$J
 		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
 		subscriptions: {ctor: '[]'},
 		followers: {ctor: '[]'}
+	});
+var _user$project$Tests_TestAPI$jsonProvider1 = _user$project$Services_Adapter$JsonProvider(
+	{
+		profile: _user$project$Tests_TestAPI$jsonProfile1,
+		topics: _user$project$Tests_TestAPI$topics,
+		links: _user$project$Tests_TestAPI$jsonLinks(_user$project$Tests_TestAPI$profileId1),
+		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
+		subscriptions: {
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$jsonProvider2,
+			_1: {
+				ctor: '::',
+				_0: _user$project$Tests_TestAPI$jsonProvider3,
+				_1: {ctor: '[]'}
+			}
+		},
+		followers: {
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$jsonProvider4,
+			_1: {
+				ctor: '::',
+				_0: _user$project$Tests_TestAPI$jsonProvider5,
+				_1: {ctor: '[]'}
+			}
+		}
+	});
+var _user$project$Tests_TestAPI$tryLogin = F2(
+	function (credentials, msg) {
+		var successful = _elm_lang$core$Native_Utils.eq(
+			_elm_lang$core$String$toLower(credentials.email),
+			'test') && _elm_lang$core$Native_Utils.eq(
+			_elm_lang$core$String$toLower(credentials.password),
+			'test');
+		return successful ? A2(
+			_elm_lang$core$Task$perform,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Task$succeed(
+				msg(
+					_elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$jsonProvider1)))) : _elm_lang$core$Platform_Cmd$none;
 	});
 var _user$project$Tests_TestAPI$providers = function (msg) {
 	return A2(
@@ -17991,14 +17990,14 @@ var _user$project$Home$content = F2(
 				return A4(
 					_user$project$Home$searchProvidersUI,
 					_elm_lang$core$Maybe$Just(provider.profile.id),
-					true,
+					false,
 					'name of subscription',
 					following);
 			case 'ViewFollowers':
 				return A4(
 					_user$project$Home$searchProvidersUI,
 					_elm_lang$core$Maybe$Just(provider.profile.id),
-					false,
+					true,
 					'name of follower',
 					followingYou);
 			case 'ViewProviders':

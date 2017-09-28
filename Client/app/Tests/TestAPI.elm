@@ -405,11 +405,6 @@ jsonProfile5 =
         profile5.sources
 
 
-jsonTopics : List JsonTopic
-jsonTopics =
-    []
-
-
 jsonLink1 : JsonLink
 jsonLink1 =
     JsonLink jsonProfile1 (getTitle someArticleTitle1) (getUrl someUrl) "video" [] False
@@ -423,7 +418,7 @@ jsonProvider1 =
         , links = profileId1 |> jsonLinks
         , recentLinks = (recentLinks1 |> toJsonLinks)
         , subscriptions = [ jsonProvider2, jsonProvider3 ]
-        , followers = [ jsonProvider2, jsonProvider3 ]
+        , followers = [ jsonProvider4, jsonProvider5 ]
         }
 
 

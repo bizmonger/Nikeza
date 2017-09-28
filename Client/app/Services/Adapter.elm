@@ -170,7 +170,4 @@ toProvider jsonProvider =
         , recentLinks = field.recentLinks |> toLink
         , followers = field.followers |> toMembers
         , subscriptions = field.subscriptions |> toMembers
-
-        -- , subscriptions = (\id -> Members (field.subscriptions |> List.map (\jp -> jp |> toProvider)))
-        -- , followers = (\id -> Members (field.followers |> List.map (\jp -> jp |> toProvider)))
         }
