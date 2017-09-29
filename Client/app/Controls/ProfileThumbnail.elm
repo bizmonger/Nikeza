@@ -42,15 +42,15 @@ update msg model =
 
 
 thumbnail : Maybe Provider -> Bool -> Provider -> Html Msg
-thumbnail sourceProvider showSubscribe provider =
-    case sourceProvider of
-        Just source ->
+thumbnail loggedInProvider showSubscribe provider =
+    case loggedInProvider of
+        Just loggedIn ->
             let
                 profile =
                     provider.profile
 
                 formatTopic topic =
-                    a [ href <| getUrl <| providerTopicUrl (Just source.profile.id) profile.id topic ] [ i [] [ text <| getTopic topic ] ]
+                    a [ href <| getUrl <| providerTopicUrl (Just loggedIn.profile.id) profile.id topic ] [ i [] [ text <| getTopic topic ] ]
 
                 concatTopics topic1 topic2 =
                     span []
@@ -78,10 +78,10 @@ thumbnail sourceProvider showSubscribe provider =
                 subscriptionText =
                     let
                         (Members followers) =
-                            source.followers
+                            loggedIn.followers
 
                         isFollowing =
-                            followers |> List.any (\p -> p.profile.id == source.profile.id)
+                            followers |> List.any (\p -> p.profile.id == loggedIn.profile.id)
                     in
                         if isFollowing then
                             "Unsubscribe"
@@ -91,15 +91,15 @@ thumbnail sourceProvider showSubscribe provider =
                 placeholder =
                     let
                         (Members followers) =
-                            source.followers
+                            loggedIn.followers
 
                         isFollowing =
-                            followers |> List.any (\p -> p.profile.id == source.profile.id)
+                            followers |> List.any (\p -> p.profile.id == loggedIn.profile.id)
                     in
                         if not isFollowing && showSubscribe then
-                            button [ class "subscribeButton", onClick (UpdateSubscription <| Subscribe source.profile.id provider.profile.id) ] [ text "Follow" ]
+                            button [ class "subscribeButton", onClick (UpdateSubscription <| Subscribe loggedIn.profile.id provider.profile.id) ] [ text "Follow" ]
                         else if isFollowing && showSubscribe then
-                            button [ class "unsubscribeButton", onClick (UpdateSubscription <| Unsubscribe source.profile.id provider.profile.id) ] [ text "Unsubscribe" ]
+                            button [ class "unsubscribeButton", onClick (UpdateSubscription <| Unsubscribe loggedIn.profile.id provider.profile.id) ] [ text "Unsubscribe" ]
                         else
                             div [] []
             in
@@ -107,7 +107,7 @@ thumbnail sourceProvider showSubscribe provider =
                     [ table []
                         [ tr []
                             [ td []
-                                [ a [ href <| getUrl <| providerUrl (Just source.profile.id) profile.id ]
+                                [ a [ href <| getUrl <| providerUrl (Just loggedIn.profile.id) profile.id ]
                                     [ img [ src <| getUrl profile.imageUrl, width 65, height 65 ] [] ]
                                 ]
                             , td [] [ nameAndTopics ]

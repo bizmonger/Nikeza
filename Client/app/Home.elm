@@ -842,13 +842,9 @@ footerContent =
 
 
 providersUI : Maybe Provider -> List Provider -> Bool -> Html Msg
-providersUI provider providers showSubscribe =
-    let
-        content =
-            Html.map ProfileThumbnail <|
-                div [] (providers |> List.map (ProfileThumbnail.thumbnail (provider) showSubscribe))
-    in
-        content
+providersUI loggedInProvider providers showSubscribe =
+    Html.map ProfileThumbnail <|
+        div [] (providers |> List.map (ProfileThumbnail.thumbnail loggedInProvider showSubscribe))
 
 
 recentProvidersUI : Id -> List Provider -> Html Msg

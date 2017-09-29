@@ -12890,8 +12890,8 @@ var _user$project$Controls_ProfileThumbnail$UpdateSubscription = function (a) {
 	return {ctor: 'UpdateSubscription', _0: a};
 };
 var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
-	function (sourceProvider, showSubscribe, provider) {
-		var _p4 = sourceProvider;
+	function (loggedInProvider, showSubscribe, provider) {
+		var _p4 = loggedInProvider;
 		if (_p4.ctor === 'Just') {
 			var _p7 = _p4._0;
 			var placeholder = function () {
@@ -17744,8 +17744,8 @@ var _user$project$Home$ProfileThumbnail = function (a) {
 	return {ctor: 'ProfileThumbnail', _0: a};
 };
 var _user$project$Home$providersUI = F3(
-	function (provider, providers, showSubscribe) {
-		var content = A2(
+	function (loggedInProvider, providers, showSubscribe) {
+		return A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$ProfileThumbnail,
 			A2(
@@ -17753,9 +17753,8 @@ var _user$project$Home$providersUI = F3(
 				{ctor: '[]'},
 				A2(
 					_elm_lang$core$List$map,
-					A2(_user$project$Controls_ProfileThumbnail$thumbnail, provider, showSubscribe),
+					A2(_user$project$Controls_ProfileThumbnail$thumbnail, loggedInProvider, showSubscribe),
 					providers)));
-		return content;
 	});
 var _user$project$Home$searchProvidersUI = F4(
 	function (source, showSubscribe, placeHolder, providers) {
