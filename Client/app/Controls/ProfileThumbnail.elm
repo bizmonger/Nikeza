@@ -5,7 +5,6 @@ import Domain.Core exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Debug exposing (crash)
 
 
 -- Model

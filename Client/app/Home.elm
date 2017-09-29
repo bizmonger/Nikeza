@@ -20,7 +20,6 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
 import Navigation exposing (..)
 import String exposing (..)
-import Debug exposing (crash)
 
 
 -- elm-live Home.elm --open --output=home.js
@@ -89,7 +88,6 @@ type Msg
     | ProviderContentTypeLinksAction ProviderContentTypeLinks.Msg
     | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
     | ProvidersResponse (Result Http.Error (List JsonProvider))
-    | IdToProviderResponse (Result Http.Error JsonProvider)
     | NavigateToPortalResponse (Result Http.Error JsonProvider)
     | NavigateToPortalProviderTopicResponse (Result Http.Error JsonProvider)
     | NavigateToPortalProviderMemberResponse (Result Http.Error JsonProvider)
@@ -116,7 +114,11 @@ update msg model =
             ProvidersResponse response ->
                 case response of
                     Ok jsonProviders ->
-                        ( { model | providers = jsonProviders |> List.map (\p -> p |> toProvider) }, Cmd.none )
+                        let
+                            providers =
+                                jsonProviders |> List.map (\p -> p |> toProvider)
+                        in
+                            ( { model | providers = providers }, Cmd.none )
 
                     Err _ ->
                         ( model, Cmd.none )
@@ -148,22 +150,7 @@ update msg model =
             NavigateToPortalProviderMemberTopicResponse response ->
                 case response of
                     Ok jsonProvider ->
-                        let
-                            selectedProvider =
-                                jsonProvider |> toProvider
-
-                            -- portal =
-                            --     model.portal
-                            -- pendingPortal =
-                            --     { portal
-                            --         | --provider = jsonProvider |> toProvider
-                            --           sourcesNavigation = provider.profile.sources |> List.isEmpty
-                            --         , addLinkNavigation = True
-                            --         , linksNavigation = linksExist provider.links
-                            --         , requested = Domain.ViewRecent
-                            --     }
-                        in
-                            ( { model | selectedProvider = selectedProvider }, Cmd.none )
+                        ( { model | selectedProvider = jsonProvider |> toProvider }, Cmd.none )
 
                     Err _ ->
                         ( model, Cmd.none )
@@ -171,11 +158,7 @@ update msg model =
             NavigateToPortalProviderMemberResponse response ->
                 case response of
                     Ok jsonProvider ->
-                        let
-                            provider =
-                                jsonProvider |> toProvider
-                        in
-                            ( { model | selectedProvider = provider }, Cmd.none )
+                        ( { model | selectedProvider = jsonProvider |> toProvider }, Cmd.none )
 
                     Err _ ->
                         ( model, Cmd.none )
@@ -191,11 +174,7 @@ update msg model =
             NavigateToProviderTopicResponse response ->
                 case response of
                     Ok jsonProvider ->
-                        let
-                            provider =
-                                jsonProvider |> toProvider
-                        in
-                            ( { model | selectedProvider = provider }, Cmd.none )
+                        ( { model | selectedProvider = jsonProvider |> toProvider }, Cmd.none )
 
                     Err _ ->
                         ( model, Cmd.none )
@@ -217,14 +196,6 @@ update msg model =
                                 }
                         in
                             ( { model | portal = pendingPortal }, Cmd.none )
-
-                    Err _ ->
-                        ( model, Cmd.none )
-
-            IdToProviderResponse response ->
-                case response of
-                    Ok provider ->
-                        ( model, Cmd.none )
 
                     Err _ ->
                         ( model, Cmd.none )
@@ -312,10 +283,10 @@ update msg model =
 
             Subscription update ->
                 case update of
-                    Subscribe clientId providerId ->
+                    Subscribe _ _ ->
                         ( model, Cmd.none )
 
-                    Unsubscribe clientId providerId ->
+                    Unsubscribe _ _ ->
                         ( model, Cmd.none )
 
             NavigateBack ->
@@ -358,11 +329,8 @@ onEditProfile subMsg model =
         updatedProfile =
             EditProfile.update subMsg model.portal.provider.profile
 
-        portal =
-            model.portal
-
-        provider =
-            model.portal.provider
+        ( portal, provider ) =
+            ( model.portal, model.portal.provider )
 
         newState =
             { model | portal = { portal | provider = { provider | profile = updatedProfile } } }
@@ -453,20 +421,17 @@ onRemove model sources =
         provider =
             model.portal.provider
 
-        profile =
-            provider.profile
+        ( profile, pendingPortal ) =
+            ( provider.profile, model.portal )
 
         sourcesLeft =
             profile.sources |> List.filter (\c -> c /= sources)
 
-        updatedProfile =
-            { profile | sources = sourcesLeft }
-
         updatedProvider =
             { provider | profile = updatedProfile }
 
-        pendingPortal =
-            model.portal
+        updatedProfile =
+            { profile | sources = sourcesLeft }
 
         portal =
             { pendingPortal | provider = updatedProvider, newSource = initSource }
@@ -624,11 +589,8 @@ onLogin subMsg model =
         ( login, subCmd ) =
             Login.update subMsg model.login
 
-        loginCmd =
-            Cmd.map OnLogin subCmd
-
-        pendingPortal =
-            model.portal
+        ( loginCmd, pendingPortal ) =
+            ( Cmd.map OnLogin subCmd, model.portal )
     in
         case subMsg of
             Login.Response result ->
@@ -672,10 +634,7 @@ view : Model -> Html Msg
 view model =
     case model.currentRoute.hash |> tokenizeUrl of
         [] ->
-            homePage model
-
-        [ "home" ] ->
-            homePage model
+            Debug.crash (toString (model.providers |> List.length)) homePage model
 
         [ "register" ] ->
             model |> renderPage (Html.map OnRegistration <| Registration.view model.registration)
@@ -1387,23 +1346,7 @@ navigate msg model location =
                 ( { model | currentRoute = location }, runtime.providerTopic providerId providerTopic NavigateToPortalProviderTopicResponse )
 
         [ "portal", id, "all", contentType ] ->
-            -- case runtime.provider <| (Id id) IdToProviderResponse of
-            --     p ->
-            --         let
-            --             portal =
-            --                 model.portal
-            --             pendingPortal =
-            --                 { portal
-            --                     | provider = p
-            --                     , sourcesNavigation = p.profile.sources |> List.isEmpty
-            --                     , addLinkNavigation = True
-            --                     , linksNavigation = linksExist p.links
-            --                     , requested = Domain.ViewLinks
-            --                 }
-            --         in
-            --             ( { model | portal = pendingPortal, currentRoute = location }, Cmd.none )
-            --     Nothing ->
-            ( { model | currentRoute = location }, runtime.provider (Id id) IdToProviderResponse )
+            ( { model | currentRoute = location }, Cmd.none )
 
         [ "portal", clientId, "provider", id, topic ] ->
             let
