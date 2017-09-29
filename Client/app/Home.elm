@@ -22,7 +22,7 @@ import Navigation exposing (..)
 import String exposing (..)
 
 
--- elm-live Home.elm --open --output=home.js
+-- elm-live Home.elm --open --output=home.js --debug
 -- elm-make Home.elm --output=home.html
 -- elm-package install elm-lang/navigation
 
@@ -634,7 +634,7 @@ view : Model -> Html Msg
 view model =
     case model.currentRoute.hash |> tokenizeUrl of
         [] ->
-            Debug.crash (toString (model.providers |> List.length)) homePage model
+            homePage model
 
         [ "register" ] ->
             model |> renderPage (Html.map OnRegistration <| Registration.view model.registration)
