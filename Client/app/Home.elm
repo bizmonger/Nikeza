@@ -801,9 +801,9 @@ footerContent =
 
 
 providersUI : Maybe Provider -> List Provider -> Bool -> Html Msg
-providersUI loggedInProvider providers showSubscribe =
+providersUI loggedIn providers showSubscriptionState =
     Html.map ProfileThumbnail <|
-        div [] (providers |> List.map (ProfileThumbnail.thumbnail loggedInProvider showSubscribe))
+        div [] (providers |> List.map (ProfileThumbnail.thumbnail loggedIn showSubscriptionState))
 
 
 recentProvidersUI : Id -> List Provider -> Html Msg
@@ -920,14 +920,14 @@ content contentToEmbed model =
         portal =
             model.portal
 
-        provider =
+        loggedIn =
             portal.provider
 
         (Members followingYou) =
-            provider.followers
+            loggedIn.followers
 
         (Members following) =
-            provider.subscriptions
+            loggedIn.subscriptions
     in
         case portal.requested of
             Domain.ViewSources ->
@@ -935,7 +935,7 @@ content contentToEmbed model =
                     [ Html.map SourceAdded <|
                         AddSource.view
                             { source = portal.newSource
-                            , sources = provider.profile.sources
+                            , sources = loggedIn.profile.sources
                             }
                     ]
 
@@ -947,12 +947,12 @@ content contentToEmbed model =
                                 v
 
                             Nothing ->
-                                div [] [ Html.map PortalLinksAction <| ProviderLinks.view FromPortal provider ]
+                                div [] [ Html.map PortalLinksAction <| ProviderLinks.view FromPortal loggedIn ]
                 in
                     contentToDisplay
 
             Domain.EditProfile ->
-                div [] [ Html.map EditProfileAction <| EditProfile.view provider.profile ]
+                div [] [ Html.map EditProfileAction <| EditProfile.view loggedIn.profile ]
 
             Domain.AddLink ->
                 let
@@ -980,16 +980,16 @@ content contentToEmbed model =
                         ]
 
             Domain.ViewSubscriptions ->
-                following |> searchProvidersUI (Just provider) False "name of subscription"
+                following |> searchProvidersUI (Just loggedIn) False "name of subscription"
 
             Domain.ViewFollowers ->
-                followingYou |> searchProvidersUI (Just provider) True "name of follower"
+                followingYou |> searchProvidersUI (Just loggedIn) True "name of follower"
 
             Domain.ViewProviders ->
-                provider |> filteredProvidersUI model.providers "name"
+                loggedIn |> filteredProvidersUI model.providers "name"
 
             Domain.ViewRecent ->
-                following |> recentLinksContent provider.profile.id
+                following |> recentLinksContent loggedIn.profile.id
 
 
 recentLinks : List Provider -> List Link
@@ -1013,17 +1013,17 @@ removeProvider profileId providers =
 
 
 filteredProvidersUI : List Provider -> String -> Provider -> Html Msg
-filteredProvidersUI providers placeHolder source =
+filteredProvidersUI providers placeHolder loggedIn =
     providers
-        |> removeProvider source.profile.id
-        |> searchProvidersUI (Just source) True placeHolder
+        |> removeProvider loggedIn.profile.id
+        |> searchProvidersUI (Just loggedIn) True placeHolder
 
 
 searchProvidersUI : Maybe Provider -> Bool -> String -> List Provider -> Html Msg
-searchProvidersUI source showSubscribe placeHolder providers =
+searchProvidersUI loggedIn showSubscriptionState placeHolder providers =
     table []
         [ tr [] [ td [] [ input [ class "search", type_ "text", placeholder placeHolder, onInput Search ] [] ] ]
-        , tr [] [ td [] [ div [] [ providersUI (source) providers showSubscribe ] ] ]
+        , tr [] [ td [] [ div [] [ providersUI (loggedIn) providers showSubscriptionState ] ] ]
         ]
 
 

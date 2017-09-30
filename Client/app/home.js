@@ -16849,7 +16849,7 @@ var _user$project$Controls_ProfileThumbnail$UpdateSubscription = function (a) {
 	return {ctor: 'UpdateSubscription', _0: a};
 };
 var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
-	function (loggedInProvider, showSubscribe, provider) {
+	function (loggedIn, showSubscriptionState, provider) {
 		var concatTopics = F2(
 			function (topic1, topic2) {
 				return A2(
@@ -16897,7 +16897,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 						_user$project$Domain_Core$getUrl(
 							A3(
 								_user$project$Domain_Core$providerTopicUrl,
-								_elm_lang$core$Maybe$Just(provider.profile.id),
+								_elm_lang$core$Maybe$Just(profile.id),
 								profile.id,
 								topic))),
 					_1: {ctor: '[]'}
@@ -16965,68 +16965,56 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 					}
 				}
 			});
-		var _p4 = loggedInProvider;
+		var _p4 = loggedIn;
 		if (_p4.ctor === 'Just') {
-			var _p7 = _p4._0;
-			var placeholder = function () {
-				var _p5 = _p7.followers;
-				var followers = _p5._0;
-				var isFollowing = A2(
-					_elm_lang$core$List$any,
-					function (p) {
-						return _elm_lang$core$Native_Utils.eq(p.profile.id, _p7.profile.id);
-					},
-					followers);
-				return ((!isFollowing) && showSubscribe) ? A2(
-					_elm_lang$html$Html$button,
-					{
+			var _p6 = _p4._0;
+			var _p5 = _p6.subscriptions;
+			var mySubscriptions = _p5._0;
+			var alreadySubscribed = A2(
+				_elm_lang$core$List$any,
+				function (subscription) {
+					return _elm_lang$core$Native_Utils.eq(subscription.profile.id, profile.id);
+				},
+				mySubscriptions);
+			var subscriptionText = alreadySubscribed ? 'Unsubscribe' : 'Follow';
+			var placeholder = ((!alreadySubscribed) && showSubscriptionState) ? A2(
+				_elm_lang$html$Html$button,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('subscribeButton'),
+					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('subscribeButton'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onClick(
-								_user$project$Controls_ProfileThumbnail$UpdateSubscription(
-									A2(_user$project$Domain_Core$Subscribe, _p7.profile.id, provider.profile.id))),
-							_1: {ctor: '[]'}
-						}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text('Follow'),
+						_0: _elm_lang$html$Html_Events$onClick(
+							_user$project$Controls_ProfileThumbnail$UpdateSubscription(
+								A2(_user$project$Domain_Core$Subscribe, _p6.profile.id, provider.profile.id))),
 						_1: {ctor: '[]'}
-					}) : ((isFollowing && showSubscribe) ? A2(
-					_elm_lang$html$Html$button,
-					{
+					}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Follow'),
+					_1: {ctor: '[]'}
+				}) : ((alreadySubscribed && showSubscriptionState) ? A2(
+				_elm_lang$html$Html$button,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('unsubscribeButton'),
+					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('unsubscribeButton'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onClick(
-								_user$project$Controls_ProfileThumbnail$UpdateSubscription(
-									A2(_user$project$Domain_Core$Unsubscribe, _p7.profile.id, provider.profile.id))),
-							_1: {ctor: '[]'}
-						}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text('Unsubscribe'),
+						_0: _elm_lang$html$Html_Events$onClick(
+							_user$project$Controls_ProfileThumbnail$UpdateSubscription(
+								A2(_user$project$Domain_Core$Unsubscribe, _p6.profile.id, provider.profile.id))),
 						_1: {ctor: '[]'}
-					}) : A2(
-					_elm_lang$html$Html$div,
-					{ctor: '[]'},
-					{ctor: '[]'}));
-			}();
-			var subscriptionText = function () {
-				var _p6 = _p7.followers;
-				var followers = _p6._0;
-				var isFollowing = A2(
-					_elm_lang$core$List$any,
-					function (p) {
-						return _elm_lang$core$Native_Utils.eq(p.profile.id, _p7.profile.id);
-					},
-					followers);
-				return isFollowing ? 'Unsubscribe' : 'Follow';
-			}();
+					}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Unsubscribe'),
+					_1: {ctor: '[]'}
+				}) : A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{ctor: '[]'}));
 			return A2(
 				_elm_lang$html$Html$div,
 				{ctor: '[]'},
@@ -17055,7 +17043,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 														_user$project$Domain_Core$getUrl(
 															A2(
 																_user$project$Domain_Core$providerUrl,
-																_elm_lang$core$Maybe$Just(_p7.profile.id),
+																_elm_lang$core$Maybe$Just(_p6.profile.id),
 																profile.id))),
 													_1: {ctor: '[]'}
 												},
@@ -21763,7 +21751,7 @@ var _user$project$Home$ProfileThumbnail = function (a) {
 	return {ctor: 'ProfileThumbnail', _0: a};
 };
 var _user$project$Home$providersUI = F3(
-	function (loggedInProvider, providers, showSubscribe) {
+	function (loggedIn, providers, showSubscriptionState) {
 		return A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$ProfileThumbnail,
@@ -21772,11 +21760,11 @@ var _user$project$Home$providersUI = F3(
 				{ctor: '[]'},
 				A2(
 					_elm_lang$core$List$map,
-					A2(_user$project$Controls_ProfileThumbnail$thumbnail, loggedInProvider, showSubscribe),
+					A2(_user$project$Controls_ProfileThumbnail$thumbnail, loggedIn, showSubscriptionState),
 					providers)));
 	});
 var _user$project$Home$searchProvidersUI = F4(
-	function (source, showSubscribe, placeHolder, providers) {
+	function (loggedIn, showSubscriptionState, placeHolder, providers) {
 		return A2(
 			_elm_lang$html$Html$table,
 			{ctor: '[]'},
@@ -21833,7 +21821,7 @@ var _user$project$Home$searchProvidersUI = F4(
 										{ctor: '[]'},
 										{
 											ctor: '::',
-											_0: A3(_user$project$Home$providersUI, source, providers, showSubscribe),
+											_0: A3(_user$project$Home$providersUI, loggedIn, providers, showSubscriptionState),
 											_1: {ctor: '[]'}
 										}),
 									_1: {ctor: '[]'}
@@ -21845,21 +21833,21 @@ var _user$project$Home$searchProvidersUI = F4(
 			});
 	});
 var _user$project$Home$filteredProvidersUI = F3(
-	function (providers, placeHolder, source) {
+	function (providers, placeHolder, loggedIn) {
 		return A4(
 			_user$project$Home$searchProvidersUI,
-			_elm_lang$core$Maybe$Just(source),
+			_elm_lang$core$Maybe$Just(loggedIn),
 			true,
 			placeHolder,
-			A2(_user$project$Home$removeProvider, source.profile.id, providers));
+			A2(_user$project$Home$removeProvider, loggedIn.profile.id, providers));
 	});
 var _user$project$Home$content = F2(
 	function (contentToEmbed, model) {
 		var portal = model.portal;
-		var provider = portal.provider;
-		var _p25 = provider.followers;
+		var loggedIn = portal.provider;
+		var _p25 = loggedIn.followers;
 		var followingYou = _p25._0;
-		var _p26 = provider.subscriptions;
+		var _p26 = loggedIn.subscriptions;
 		var following = _p26._0;
 		var _p27 = portal.requested;
 		switch (_p27.ctor) {
@@ -21873,7 +21861,7 @@ var _user$project$Home$content = F2(
 							_elm_lang$html$Html$map,
 							_user$project$Home$SourceAdded,
 							_user$project$Controls_AddSource$view(
-								{source: portal.newSource, sources: provider.profile.sources})),
+								{source: portal.newSource, sources: loggedIn.profile.sources})),
 						_1: {ctor: '[]'}
 					});
 			case 'ViewLinks':
@@ -21890,7 +21878,7 @@ var _user$project$Home$content = F2(
 								_0: A2(
 									_elm_lang$html$Html$map,
 									_user$project$Home$PortalLinksAction,
-									A2(_user$project$Controls_ProviderLinks$view, _user$project$Domain_Core$FromPortal, provider)),
+									A2(_user$project$Controls_ProviderLinks$view, _user$project$Domain_Core$FromPortal, loggedIn)),
 								_1: {ctor: '[]'}
 							});
 					}
@@ -21905,7 +21893,7 @@ var _user$project$Home$content = F2(
 						_0: A2(
 							_elm_lang$html$Html$map,
 							_user$project$Home$EditProfileAction,
-							_user$project$Controls_EditProfile$view(provider.profile)),
+							_user$project$Controls_EditProfile$view(loggedIn.profile)),
 						_1: {ctor: '[]'}
 					});
 			case 'AddLink':
@@ -22009,21 +21997,21 @@ var _user$project$Home$content = F2(
 			case 'ViewSubscriptions':
 				return A4(
 					_user$project$Home$searchProvidersUI,
-					_elm_lang$core$Maybe$Just(provider),
+					_elm_lang$core$Maybe$Just(loggedIn),
 					false,
 					'name of subscription',
 					following);
 			case 'ViewFollowers':
 				return A4(
 					_user$project$Home$searchProvidersUI,
-					_elm_lang$core$Maybe$Just(provider),
+					_elm_lang$core$Maybe$Just(loggedIn),
 					true,
 					'name of follower',
 					followingYou);
 			case 'ViewProviders':
-				return A3(_user$project$Home$filteredProvidersUI, model.providers, 'name', provider);
+				return A3(_user$project$Home$filteredProvidersUI, model.providers, 'name', loggedIn);
 			default:
-				return A2(_user$project$Home$recentLinksContent, provider.profile.id, following);
+				return A2(_user$project$Home$recentLinksContent, loggedIn.profile.id, following);
 		}
 	});
 var _user$project$Home$OnLogin = function (a) {
