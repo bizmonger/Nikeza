@@ -992,17 +992,10 @@ content contentToEmbed model =
                 following |> recentLinksContent provider.profile.id
 
 
-providersWithRecentLinks : Id -> List Provider -> List Provider
-providersWithRecentLinks profileId providers =
+recentLinks : List Provider -> List Link
+recentLinks providers =
     providers
-        |> List.filter (\p -> p.profile.id /= profileId)
         |> List.filter (\p -> p.recentLinks /= [])
-
-
-recentLinks : Id -> List Provider -> List Link
-recentLinks profileId providers =
-    providers
-        |> providersWithRecentLinks profileId
         |> List.map (\p -> p.recentLinks)
         |> List.concat
 
@@ -1010,7 +1003,7 @@ recentLinks profileId providers =
 recentLinksContent : Id -> List Provider -> Html Msg
 recentLinksContent profileId providers =
     providers
-        |> providersWithRecentLinks profileId
+        |> List.filter (\p -> p.recentLinks /= [])
         |> recentProvidersUI profileId
 
 
@@ -1053,20 +1046,17 @@ renderNavigation portal providers =
             "Sources " ++ "(" ++ (toString <| List.length profile.sources) ++ ")"
 
         recentCount =
-            recentLinks profile.id providers |> List.length
+            recentLinks subscriptions |> List.length
 
         newText =
             "Recent "
                 ++ "("
-                ++ (providers
-                        |> providersWithRecentLinks profile.id
+                ++ (subscriptions
+                        |> recentLinks
                         |> List.length
                         |> toString
                    )
                 ++ ")"
-
-        debugValue =
-            providersWithRecentLinks profile.id providers
 
         ( portfolioText, subscriptionsText, membersText, linkText, profileText ) =
             ( "Portfolio", "Subscriptions", "Members", "Link", "Profile" )

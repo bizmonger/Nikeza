@@ -18558,32 +18558,22 @@ var _user$project$Home$removeProvider = F2(
 			},
 			providers);
 	});
-var _user$project$Home$providersWithRecentLinks = F2(
-	function (profileId, providers) {
-		return A2(
-			_elm_lang$core$List$filter,
+var _user$project$Home$recentLinks = function (providers) {
+	return _elm_lang$core$List$concat(
+		A2(
+			_elm_lang$core$List$map,
 			function (p) {
-				return !_elm_lang$core$Native_Utils.eq(
-					p.recentLinks,
-					{ctor: '[]'});
+				return p.recentLinks;
 			},
 			A2(
 				_elm_lang$core$List$filter,
 				function (p) {
-					return !_elm_lang$core$Native_Utils.eq(p.profile.id, profileId);
+					return !_elm_lang$core$Native_Utils.eq(
+						p.recentLinks,
+						{ctor: '[]'});
 				},
-				providers));
-	});
-var _user$project$Home$recentLinks = F2(
-	function (profileId, providers) {
-		return _elm_lang$core$List$concat(
-			A2(
-				_elm_lang$core$List$map,
-				function (p) {
-					return p.recentLinks;
-				},
-				A2(_user$project$Home$providersWithRecentLinks, profileId, providers)));
-	});
+				providers)));
+};
 var _user$project$Home$providerTopicPage = F2(
 	function (linksfrom, model) {
 		var profileId = model.profile.id;
@@ -20245,21 +20235,6 @@ var _user$project$Home$renderNavigation = F2(
 					};
 			}
 		}();
-		var recentCount = _elm_lang$core$List$length(
-			A2(_user$project$Home$recentLinks, profile.id, providers));
-		var newText = A2(
-			_elm_lang$core$Basics_ops['++'],
-			'Recent ',
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				'(',
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					_elm_lang$core$Basics$toString(
-						_elm_lang$core$List$length(
-							A2(_user$project$Home$providersWithRecentLinks, profile.id, providers))),
-					')')));
-		var debugValue = A2(_user$project$Home$providersWithRecentLinks, profile.id, providers);
 		var _p22 = portal.provider.followers;
 		var followers = _p22._0;
 		var followersText = A2(
@@ -20273,9 +20248,25 @@ var _user$project$Home$renderNavigation = F2(
 					_elm_lang$core$Basics$toString(
 						_elm_lang$core$List$length(followers)),
 					')')));
+		var _p23 = portal.provider.subscriptions;
+		var subscriptions = _p23._0;
+		var recentCount = _elm_lang$core$List$length(
+			_user$project$Home$recentLinks(subscriptions));
+		var newText = A2(
+			_elm_lang$core$Basics_ops['++'],
+			'Recent ',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				'(',
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					_elm_lang$core$Basics$toString(
+						_elm_lang$core$List$length(
+							_user$project$Home$recentLinks(subscriptions))),
+					')')));
 		var allNavigation = function () {
-			var _p23 = portal.requested;
-			switch (_p23.ctor) {
+			var _p24 = portal.requested;
+			switch (_p24.ctor) {
 				case 'ViewRecent':
 					return {
 						ctor: '::',
@@ -21612,8 +21603,6 @@ var _user$project$Home$renderNavigation = F2(
 					};
 			}
 		}();
-		var _p24 = portal.provider.subscriptions;
-		var subscriptions = _p24._0;
 		var links = portal.provider.links;
 		return ((!portal.sourcesNavigation) && (!portal.linksNavigation)) ? displayNavigation(noSourcesNoLinks) : ((portal.sourcesNavigation && (!portal.linksNavigation)) ? displayNavigation(sourcesButNoLinks) : displayNavigation(allNavigation));
 	});
@@ -21761,7 +21750,14 @@ var _user$project$Home$recentLinksContent = F2(
 		return A2(
 			_user$project$Home$recentProvidersUI,
 			profileId,
-			A2(_user$project$Home$providersWithRecentLinks, profileId, providers));
+			A2(
+				_elm_lang$core$List$filter,
+				function (p) {
+					return !_elm_lang$core$Native_Utils.eq(
+						p.recentLinks,
+						{ctor: '[]'});
+				},
+				providers));
 	});
 var _user$project$Home$ProfileThumbnail = function (a) {
 	return {ctor: 'ProfileThumbnail', _0: a};
