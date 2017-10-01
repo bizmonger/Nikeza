@@ -15333,6 +15333,7 @@ var _user$project$Services_Gateway$addLink = F2(
 var _user$project$Services_Gateway$links = function (profileId) {
 	return _user$project$Domain_Core$initLinks;
 };
+var _user$project$Services_Gateway$baseUrl = 'http://localhost:5000/';
 var _user$project$Services_Gateway$encodeCredentials = function (credentials) {
 	return _elm_lang$core$Json_Encode$object(
 		{
@@ -15516,12 +15517,12 @@ var _user$project$Services_Gateway$tryLogin = F2(
 	function (credentials, msg) {
 		var body = _elm_lang$http$Http$jsonBody(
 			_user$project$Services_Gateway$encodeCredentials(credentials));
-		var loginUrl = 'http://localhost:5000/login';
+		var loginUrl = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'login');
 		var request = A3(_elm_lang$http$Http$post, loginUrl, body, _user$project$Services_Gateway$providerDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
 var _user$project$Services_Gateway$providers = function (msg) {
-	var providersUrl = 'http://localhost:5000/providers';
+	var providersUrl = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'providers');
 	var request = A2(
 		_elm_lang$http$Http$get,
 		providersUrl,
@@ -15532,7 +15533,7 @@ var _user$project$Services_Gateway$provider = F2(
 	function (id, msg) {
 		var body = _elm_lang$http$Http$jsonBody(
 			_user$project$Services_Gateway$encodeProvider(id));
-		var providerUrl = 'http://localhost:5000/provider';
+		var providerUrl = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'provider');
 		var request = A3(_elm_lang$http$Http$post, providerUrl, body, _user$project$Services_Gateway$providerDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
@@ -15540,7 +15541,7 @@ var _user$project$Services_Gateway$providerTopic = F3(
 	function (id, topic, msg) {
 		var body = _elm_lang$http$Http$jsonBody(
 			A2(_user$project$Services_Gateway$encodeProviderWithTopic, id, topic));
-		var providerTopicUrl = 'http://localhost:5000/providertopic';
+		var providerTopicUrl = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'providertopic');
 		var request = A3(_elm_lang$http$Http$post, providerTopicUrl, body, _user$project$Services_Gateway$providerDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
@@ -15548,7 +15549,7 @@ var _user$project$Services_Gateway$tryRegister = F2(
 	function (form, msg) {
 		var body = _elm_lang$http$Http$jsonBody(
 			_user$project$Services_Gateway$encodeRegistration(form));
-		var registerUrl = 'http://localhost:5000/register';
+		var registerUrl = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'register');
 		var request = A3(_elm_lang$http$Http$post, registerUrl, body, _user$project$Services_Gateway$profileDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});

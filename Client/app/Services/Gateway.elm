@@ -102,11 +102,20 @@ encodeCredentials credentials =
         ]
 
 
+
+-- Requests
+
+
+baseUrl : String
+baseUrl =
+    "http://localhost:5000/"
+
+
 tryLogin : Credentials -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
 tryLogin credentials msg =
     let
         loginUrl =
-            "http://localhost:5000/login"
+            baseUrl ++ "login"
 
         body =
             encodeCredentials credentials |> Http.jsonBody
@@ -121,7 +130,7 @@ tryRegister : Form -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
 tryRegister form msg =
     let
         registerUrl =
-            "http://localhost:5000/register"
+            baseUrl ++ "register"
 
         body =
             encodeRegistration form |> Http.jsonBody
@@ -136,7 +145,7 @@ providers : (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
 providers msg =
     let
         providersUrl =
-            "http://localhost:5000/providers"
+            baseUrl ++ "providers"
 
         request =
             Http.get providersUrl (Decode.list providerDecoder)
@@ -148,7 +157,7 @@ provider : Id -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
 provider id msg =
     let
         providerUrl =
-            "http://localhost:5000/provider"
+            baseUrl ++ "provider"
 
         body =
             encodeProvider id |> Http.jsonBody
@@ -163,7 +172,7 @@ providerTopic : Id -> Topic -> (Result Http.Error JsonProvider -> msg) -> Cmd ms
 providerTopic id topic msg =
     let
         providerTopicUrl =
-            "http://localhost:5000/providertopic"
+            baseUrl ++ "providertopic"
 
         body =
             (encodeProviderWithTopic id topic) |> Http.jsonBody
