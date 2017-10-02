@@ -373,15 +373,6 @@ linksExist links =
     not <| links == initLinks
 
 
-
--- getContent : Linksfunction -> Id -> Links
--- getContent f profileId =
---     profileId |> f
--- getLinks : TopicLinksfunction -> Topic -> ContentType -> Id -> List Link
--- getLinks topicLinksfunction topic contentType id =
---     id |> topicLinksfunction topic contentType
-
-
 undefined : String
 undefined =
     "undefined"

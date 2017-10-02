@@ -17432,7 +17432,45 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 var _user$project$Controls_ProviderLinks$toggleFilter = F2(
 	function (model, _p0) {
 		var _p1 = _p0;
-		return model;
+		var contentTypeLinks = function (contentType) {
+			var _p2 = contentType;
+			switch (_p2.ctor) {
+				case 'Article':
+					return model.links.articles;
+				case 'Video':
+					return model.links.videos;
+				case 'Podcast':
+					return model.links.podcasts;
+				case 'Answer':
+					return model.links.answers;
+				default:
+					return {ctor: '[]'};
+			}
+		};
+		var links = model.links;
+		var toggleTopic = F2(
+			function (contentType, links) {
+				return _p1._1 ? A2(
+					_elm_lang$core$List$append,
+					contentTypeLinks(contentType),
+					links) : A2(
+					_elm_lang$core$List$filter,
+					function (link) {
+						return !A2(_user$project$Domain_Core$hasMatch, _p1._0, link.topics);
+					},
+					links);
+			});
+		var newState = _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				links: {
+					answers: A2(toggleTopic, _user$project$Domain_Core$Answer, links.answers),
+					articles: A2(toggleTopic, _user$project$Domain_Core$Article, links.articles),
+					videos: A2(toggleTopic, _user$project$Domain_Core$Video, links.videos),
+					podcasts: A2(toggleTopic, _user$project$Domain_Core$Podcast, links.podcasts)
+				}
+			});
+		return newState;
 	});
 var _user$project$Controls_ProviderLinks$decorateIfFeatured = function (link) {
 	return (!link.isFeatured) ? A2(
@@ -17539,11 +17577,11 @@ var _user$project$Controls_ProviderLinks$requestAllContent = F4(
 	});
 var _user$project$Controls_ProviderLinks$update = F2(
 	function (msg, model) {
-		var _p2 = msg;
+		var _p3 = msg;
 		return A2(
 			_user$project$Controls_ProviderLinks$toggleFilter,
 			model,
-			{ctor: '_Tuple2', _0: _p2._0._0, _1: _p2._0._1});
+			{ctor: '_Tuple2', _0: _p3._0._0, _1: _p3._0._1});
 	});
 var _user$project$Controls_ProviderLinks$Toggle = function (a) {
 	return {ctor: 'Toggle', _0: a};
@@ -17593,9 +17631,9 @@ var _user$project$Controls_ProviderLinks$view = F2(
 						}
 					});
 			});
-		var _p3 = {ctor: '_Tuple2', _0: model.profile.id, _1: model.topics};
-		var profileId = _p3._0;
-		var topics = _p3._1;
+		var _p4 = {ctor: '_Tuple2', _0: model.profile.id, _1: model.topics};
+		var profileId = _p4._0;
+		var topics = _p4._1;
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
