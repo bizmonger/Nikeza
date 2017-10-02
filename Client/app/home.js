@@ -13951,9 +13951,51 @@ var _user$project$Domain_Core$Answer = {ctor: 'Answer'};
 var _user$project$Domain_Core$Podcast = {ctor: 'Podcast'};
 var _user$project$Domain_Core$Video = {ctor: 'Video'};
 var _user$project$Domain_Core$Article = {ctor: 'Article'};
+var _user$project$Domain_Core$toggleFilter = F2(
+	function (model, _p12) {
+		var _p13 = _p12;
+		var links = model.links;
+		var contentTypeLinks = function (contentType) {
+			var _p14 = contentType;
+			switch (_p14.ctor) {
+				case 'Article':
+					return model.links.articles;
+				case 'Video':
+					return model.links.videos;
+				case 'Podcast':
+					return model.links.podcasts;
+				case 'Answer':
+					return model.links.answers;
+				default:
+					return {ctor: '[]'};
+			}
+		};
+		var toggleTopic = F2(
+			function (contentType, links) {
+				return _p13._1 ? A2(
+					_elm_lang$core$List$append,
+					contentTypeLinks(contentType),
+					links) : A2(
+					_elm_lang$core$List$filter,
+					function (link) {
+						return !A2(_user$project$Domain_Core$hasMatch, _p13._0, link.topics);
+					},
+					links);
+			});
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				links: {
+					answers: A2(toggleTopic, _user$project$Domain_Core$Answer, links.answers),
+					articles: A2(toggleTopic, _user$project$Domain_Core$Article, links.articles),
+					videos: A2(toggleTopic, _user$project$Domain_Core$Video, links.videos),
+					podcasts: A2(toggleTopic, _user$project$Domain_Core$Podcast, links.podcasts)
+				}
+			});
+	});
 var _user$project$Domain_Core$toContentType = function (contentType) {
-	var _p12 = contentType;
-	switch (_p12) {
+	var _p15 = contentType;
+	switch (_p15) {
 		case 'Articles':
 			return _user$project$Domain_Core$Article;
 		case 'Article':
@@ -17134,25 +17176,20 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 		}
 	});
 
-var _user$project$Controls_ProviderContentTypeLinks$toggleFilter = F2(
-	function (model, _p0) {
-		var _p1 = _p0;
-		return model;
-	});
 var _user$project$Controls_ProviderContentTypeLinks$update = F2(
 	function (msg, model) {
-		var _p2 = msg;
-		if (_p2.ctor === 'Toggle') {
+		var _p0 = msg;
+		if (_p0.ctor === 'Toggle') {
 			return A2(
-				_user$project$Controls_ProviderContentTypeLinks$toggleFilter,
+				_user$project$Domain_Core$toggleFilter,
 				model,
-				{ctor: '_Tuple2', _0: _p2._0._0, _1: _p2._0._1});
+				{ctor: '_Tuple2', _0: _p0._0._0, _1: _p0._0._1});
 		} else {
-			var _p4 = _p2._0._0;
+			var _p2 = _p0._0._0;
 			var setFeaturedLink = function (l) {
-				return (!_elm_lang$core$Native_Utils.eq(l.title, _p4.title)) ? l : _elm_lang$core$Native_Utils.update(
-					_p4,
-					{isFeatured: _p2._0._1});
+				return (!_elm_lang$core$Native_Utils.eq(l.title, _p2.title)) ? l : _elm_lang$core$Native_Utils.update(
+					_p2,
+					{isFeatured: _p0._0._1});
 			};
 			var removeLink = F2(
 				function (linkToRemove, links) {
@@ -17164,8 +17201,8 @@ var _user$project$Controls_ProviderContentTypeLinks$update = F2(
 						links);
 				});
 			var pendingLinks = model.links;
-			var _p3 = _p4.contentType;
-			switch (_p3.ctor) {
+			var _p1 = _p2.contentType;
+			switch (_p1.ctor) {
 				case 'Article':
 					var links = A2(_elm_lang$core$List$map, setFeaturedLink, model.links.articles);
 					return _elm_lang$core$Native_Utils.update(
@@ -17295,10 +17332,10 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 						}
 					});
 			});
-		var _p5 = {ctor: '_Tuple3', _0: model.topics, _1: model.links, _2: 'featured'};
-		var topics = _p5._0;
-		var links = _p5._1;
-		var featuredClass = _p5._2;
+		var _p3 = {ctor: '_Tuple3', _0: model.topics, _1: model.links, _2: 'featured'};
+		var topics = _p3._0;
+		var links = _p3._1;
+		var featuredClass = _p3._2;
 		var posts = A2(
 			_elm_lang$core$List$sortWith,
 			_user$project$Domain_Core$compareLinks,
@@ -17429,49 +17466,6 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 			});
 	});
 
-var _user$project$Controls_ProviderLinks$toggleFilter = F2(
-	function (model, _p0) {
-		var _p1 = _p0;
-		var contentTypeLinks = function (contentType) {
-			var _p2 = contentType;
-			switch (_p2.ctor) {
-				case 'Article':
-					return model.links.articles;
-				case 'Video':
-					return model.links.videos;
-				case 'Podcast':
-					return model.links.podcasts;
-				case 'Answer':
-					return model.links.answers;
-				default:
-					return {ctor: '[]'};
-			}
-		};
-		var links = model.links;
-		var toggleTopic = F2(
-			function (contentType, links) {
-				return _p1._1 ? A2(
-					_elm_lang$core$List$append,
-					contentTypeLinks(contentType),
-					links) : A2(
-					_elm_lang$core$List$filter,
-					function (link) {
-						return !A2(_user$project$Domain_Core$hasMatch, _p1._0, link.topics);
-					},
-					links);
-			});
-		var newState = _elm_lang$core$Native_Utils.update(
-			model,
-			{
-				links: {
-					answers: A2(toggleTopic, _user$project$Domain_Core$Answer, links.answers),
-					articles: A2(toggleTopic, _user$project$Domain_Core$Article, links.articles),
-					videos: A2(toggleTopic, _user$project$Domain_Core$Video, links.videos),
-					podcasts: A2(toggleTopic, _user$project$Domain_Core$Podcast, links.podcasts)
-				}
-			});
-		return newState;
-	});
 var _user$project$Controls_ProviderLinks$decorateIfFeatured = function (link) {
 	return (!link.isFeatured) ? A2(
 		_elm_lang$html$Html$a,
@@ -17577,11 +17571,11 @@ var _user$project$Controls_ProviderLinks$requestAllContent = F4(
 	});
 var _user$project$Controls_ProviderLinks$update = F2(
 	function (msg, model) {
-		var _p3 = msg;
+		var _p0 = msg;
 		return A2(
-			_user$project$Controls_ProviderLinks$toggleFilter,
+			_user$project$Domain_Core$toggleFilter,
 			model,
-			{ctor: '_Tuple2', _0: _p3._0._0, _1: _p3._0._1});
+			{ctor: '_Tuple2', _0: _p0._0._0, _1: _p0._0._1});
 	});
 var _user$project$Controls_ProviderLinks$Toggle = function (a) {
 	return {ctor: 'Toggle', _0: a};
@@ -17631,9 +17625,9 @@ var _user$project$Controls_ProviderLinks$view = F2(
 						}
 					});
 			});
-		var _p4 = {ctor: '_Tuple2', _0: model.profile.id, _1: model.topics};
-		var profileId = _p4._0;
-		var topics = _p4._1;
+		var _p1 = {ctor: '_Tuple2', _0: model.profile.id, _1: model.topics};
+		var profileId = _p1._0;
+		var topics = _p1._1;
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},

@@ -328,6 +328,45 @@ type ContentType
 -- FUNCTIONS
 
 
+toggleFilter : Provider -> ( Topic, Bool ) -> Provider
+toggleFilter model ( topic, include ) =
+    let
+        contentTypeLinks contentType =
+            case contentType of
+                Article ->
+                    model.links.articles
+
+                Video ->
+                    model.links.videos
+
+                Podcast ->
+                    model.links.podcasts
+
+                Answer ->
+                    model.links.answers
+
+                _ ->
+                    []
+
+        toggleTopic contentType links =
+            if include then
+                links |> List.append (contentTypeLinks contentType)
+            else
+                links |> List.filter (\link -> not (link.topics |> hasMatch topic))
+
+        links =
+            model.links
+    in
+        { model
+            | links =
+                { answers = links.answers |> toggleTopic Answer
+                , articles = links.articles |> toggleTopic Article
+                , videos = links.videos |> toggleTopic Video
+                , podcasts = links.podcasts |> toggleTopic Podcast
+                }
+        }
+
+
 compareLinks : Link -> Link -> Order
 compareLinks a b =
     if a.isFeatured then
