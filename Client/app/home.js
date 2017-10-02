@@ -14142,7 +14142,6 @@ var _user$project$Services_Adapter$JsonProviderFields = F6(
 	function (a, b, c, d, e, f) {
 		return {profile: a, topics: b, links: c, recentLinks: d, subscriptions: e, followers: f};
 	});
-var _user$project$Services_Adapter$JsonSubscriber = {};
 var _user$project$Services_Adapter$JsonProvider = function (a) {
 	return {ctor: 'JsonProvider', _0: a};
 };

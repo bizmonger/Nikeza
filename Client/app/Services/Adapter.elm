@@ -96,10 +96,6 @@ type alias JsonProviderFields =
     }
 
 
-type alias JsonSubscriber =
-    {}
-
-
 toProfile : JsonProfile -> Profile
 toProfile jsonProfile =
     { id = Id jsonProfile.id
