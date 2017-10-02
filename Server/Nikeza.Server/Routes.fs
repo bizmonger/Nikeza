@@ -150,8 +150,8 @@ let webApp : HttpContext -> HttpHandlerResult =
             choose [
                 //route "/" >=> htmlFile "/hostingstart.html"
 
-                route "/" >=> htmlFile "/home.html"
-                route  "/platforms"      >=> fetchPlatforms
+                route  "/"              >=>  htmlFile "/home.html"
+                route  "/platforms"     >=>  fetchPlatforms
                 routef "/youtube/%s/%s"      fetchYoutube
                 routef "/wordpress/%s"       fetchWordpress
                 routef "/links/%s"           fetchLinks

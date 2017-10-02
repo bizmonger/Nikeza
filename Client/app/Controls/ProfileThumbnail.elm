@@ -113,7 +113,7 @@ thumbnail loggedIn showSubscriptionState provider =
                     [ table []
                         [ tr []
                             [ td []
-                                [ a [ href <| getUrl <| providerUrl (Just profile.id) profile.id ]
+                                [ a [ href <| getUrl <| providerUrl Nothing profile.id ]
                                     [ img [ src <| getUrl profile.imageUrl, width 65, height 65 ] [] ]
                                 ]
                             , td [] [ nameAndTopics ]

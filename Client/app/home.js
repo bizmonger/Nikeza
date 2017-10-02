@@ -17125,10 +17125,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 													ctor: '::',
 													_0: _elm_lang$html$Html_Attributes$href(
 														_user$project$Domain_Core$getUrl(
-															A2(
-																_user$project$Domain_Core$providerUrl,
-																_elm_lang$core$Maybe$Just(profile.id),
-																profile.id))),
+															A2(_user$project$Domain_Core$providerUrl, _elm_lang$core$Maybe$Nothing, profile.id))),
 													_1: {ctor: '[]'}
 												},
 												{
