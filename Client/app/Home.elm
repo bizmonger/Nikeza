@@ -442,7 +442,7 @@ onRemove model sources =
         ( newState, Cmd.none )
 
 
-refreshLinks : Provider -> List Link -> Links
+refreshLinks : Provider -> List Link -> Portfolio
 refreshLinks provider addedLinks =
     let
         links =
@@ -882,16 +882,22 @@ providerTopicPage linksfrom model =
                     , td [] [ b [] [ text "Articles" ] ]
                     ]
                 , tr []
-                    [ td [] [ div [] <| contentWithTopicUI linksfrom profileId Answer topic (runtime.topicLinks topic Answer profileId) ]
-                    , td [] [ div [] <| contentWithTopicUI linksfrom profileId Article topic (runtime.topicLinks topic Article profileId) ]
+                    -- [ td [] [ div [] <| contentWithTopicUI linksfrom profileId Answer topic (runtime.topicLinks topic Answer profileId) ]
+                    [ td [] [ div [] <| contentWithTopicUI linksfrom profileId Answer topic [] ]
+
+                    -- , td [] [ div [] <| contentWithTopicUI linksfrom profileId Article topic (runtime.topicLinks topic Article profileId) ]
+                    , td [] [ div [] <| contentWithTopicUI linksfrom profileId Article topic [] ]
                     ]
                 , tr []
                     [ td [] [ b [] [ text "Podcasts" ] ]
                     , td [] [ b [] [ text "Videos" ] ]
                     ]
                 , tr []
-                    [ td [] [ div [] <| contentWithTopicUI linksfrom profileId Podcast topic (runtime.topicLinks topic Podcast profileId) ]
-                    , td [] [ div [] <| contentWithTopicUI linksfrom profileId Video topic (runtime.topicLinks topic Video profileId) ]
+                    -- [ td [] [ div [] <| contentWithTopicUI linksfrom profileId Podcast topic (runtime.topicLinks topic Podcast profileId) ]
+                    [ td [] [ div [] <| contentWithTopicUI linksfrom profileId Podcast topic [] ]
+
+                    -- , td [] [ div [] <| contentWithTopicUI linksfrom profileId Video topic (runtime.topicLinks topic Video profileId) ]
+                    , td [] [ div [] <| contentWithTopicUI linksfrom profileId Video topic [] ]
                     ]
                 ]
     in

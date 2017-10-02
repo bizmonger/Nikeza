@@ -32,6 +32,14 @@ type alias Subscriptionsfunction msg =
     Id -> (Result Http.Error Members -> msg) -> Cmd msg
 
 
+type alias Linksfunction msg =
+    Id -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
+
+
+type alias TopicLinksfunction msg =
+    Id -> Topic -> ContentType -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
+
+
 type alias JsonProfile =
     { id : String
     , firstName : String
@@ -56,7 +64,7 @@ type alias JsonSource =
     }
 
 
-type alias JsonLinks =
+type alias JsonPortfolio =
     { articles : List JsonLink
     , videos : List JsonLink
     , podcasts : List JsonLink
@@ -81,7 +89,7 @@ type JsonProvider
 type alias JsonProviderFields =
     { profile : JsonProfile
     , topics : List JsonTopic
-    , links : JsonLinks
+    , links : JsonPortfolio
     , recentLinks : List JsonLink
     , subscriptions : List JsonProvider
     , followers : List JsonProvider
@@ -92,8 +100,8 @@ type alias JsonSubscriber =
     {}
 
 
-jsonProfileToProfile : JsonProfile -> Profile
-jsonProfileToProfile jsonProfile =
+toProfile : JsonProfile -> Profile
+toProfile jsonProfile =
     { id = Id (jsonProfile.id |> toString)
     , firstName = Name jsonProfile.firstName
     , lastName = Name jsonProfile.lastName
@@ -104,9 +112,21 @@ jsonProfileToProfile jsonProfile =
     }
 
 
+toJsonProfile : Profile -> JsonProfile
+toJsonProfile profile =
+    { id = getId profile.id
+    , firstName = getName profile.firstName
+    , lastName = getName profile.lastName
+    , email = getEmail profile.email
+    , imageUrl = getUrl profile.imageUrl
+    , bio = profile.bio
+    , sources = []
+    }
+
+
 jsonProfileToProvider : JsonProfile -> Provider
 jsonProfileToProvider jsonProfile =
-    Provider (jsonProfileToProfile jsonProfile) initTopics initLinks [] initSubscription initSubscription
+    Provider (toProfile jsonProfile) initTopics initLinks [] initSubscription initSubscription
 
 
 toMembers : List JsonProvider -> Members
@@ -114,8 +134,8 @@ toMembers jsonProviders =
     Members (jsonProviders |> List.map (\p -> p |> toProvider))
 
 
-toLink : List JsonLink -> List Link
-toLink jsonLinks =
+toLinks : List JsonLink -> List Link
+toLinks jsonLinks =
     jsonLinks
         |> List.map
             (\link ->
@@ -129,13 +149,28 @@ toLink jsonLinks =
             )
 
 
-jsonLinksToLinks : JsonLinks -> Links
-jsonLinksToLinks jsonLinks =
-    Links
-        (jsonLinks.articles |> toLink)
-        (jsonLinks.videos |> toLink)
-        (jsonLinks.podcasts |> toLink)
-        (jsonLinks.answers |> toLink)
+toJsonLinks : List Link -> List JsonLink
+toJsonLinks links =
+    links
+        |> List.map
+            (\link ->
+                { profile = link.profile |> toJsonProfile
+                , title = getTitle link.title
+                , url = getUrl link.url
+                , contentType = link.contentType |> contentTypeToText
+                , topics = link.topics
+                , isFeatured = link.isFeatured
+                }
+            )
+
+
+toPortfolio : JsonPortfolio -> Portfolio
+toPortfolio jsonPortfolio =
+    Portfolio
+        (jsonPortfolio.articles |> toLinks)
+        (jsonPortfolio.videos |> toLinks)
+        (jsonPortfolio.podcasts |> toLinks)
+        (jsonPortfolio.answers |> toLinks)
 
 
 toTopics : List JsonTopic -> List Topic
@@ -143,19 +178,18 @@ toTopics jsonTopics =
     jsonTopics |> List.map (\t -> { name = t.name, isFeatured = t.isFeatured })
 
 
-toProfile : JsonProfile -> Profile
-toProfile jsonProfile =
-    let
-        ( id, email ) =
-            ( Id jsonProfile.id, Email jsonProfile.email )
 
-        ( firstName, lastName ) =
-            ( Name jsonProfile.firstName, Name jsonProfile.lastName )
-
-        ( imageUrl, bio, sources ) =
-            ( Url jsonProfile.imageUrl, jsonProfile.bio, jsonProfile.sources )
-    in
-        Profile id firstName lastName email imageUrl bio sources
+-- toProfile : JsonProfile -> Profile
+-- toProfile jsonProfile =
+--     let
+--         ( id, email ) =
+--             ( Id jsonProfile.id, Email jsonProfile.email )
+--         ( firstName, lastName ) =
+--             ( Name jsonProfile.firstName, Name jsonProfile.lastName )
+--         ( imageUrl, bio, sources ) =
+--             ( Url jsonProfile.imageUrl, jsonProfile.bio, jsonProfile.sources )
+--     in
+--         Profile id firstName lastName email imageUrl bio sources
 
 
 toProvider : JsonProvider -> Provider
@@ -166,8 +200,19 @@ toProvider jsonProvider =
     in
         { profile = field.profile |> toProfile
         , topics = field.topics |> toTopics
-        , links = field.links |> jsonLinksToLinks
-        , recentLinks = field.recentLinks |> toLink
+        , links = field.links |> toPortfolio
+        , recentLinks = field.recentLinks |> toLinks
         , followers = field.followers |> toMembers
         , subscriptions = field.subscriptions |> toMembers
         }
+
+
+
+-- type alias Link =
+--     { profile : Profile
+--     , title : Title
+--     , url : Url
+--     , contentType : ContentType
+--     , topics : List Topic
+--     , isFeatured : Bool
+--     }

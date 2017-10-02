@@ -22,10 +22,10 @@ type alias Dependencies msg =
     , provider : Providerfunction msg
     , providerTopic : ProviderTopicfunction msg
     , providers : Providersfunction msg
-    , links : Linksfunction
+    , links : Linksfunction msg
     , addLink : AddLinkfunction
     , removeLink : RemoveLinkfunction
-    , topicLinks : TopicLinksfunction
+    , topicLinks : TopicLinksfunction msg
     , usernameToId : UserNameToIdfunction
     , sources : Sourcesfunction
     , addSource : AddSourcefunction

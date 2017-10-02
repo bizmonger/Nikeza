@@ -27,7 +27,7 @@ initTopics =
     []
 
 
-type alias Links =
+type alias Portfolio =
     { answers : List Link
     , articles : List Link
     , videos : List Link
@@ -35,7 +35,7 @@ type alias Links =
     }
 
 
-initLinks : Links
+initLinks : Portfolio
 initLinks =
     { answers = []
     , articles = []
@@ -57,7 +57,7 @@ type SubscriptionUpdate
 type alias Provider =
     { profile : Profile
     , topics : List Topic
-    , links : Links
+    , links : Portfolio
     , recentLinks : List Link
     , followers : Members
     , subscriptions : Members
@@ -292,19 +292,11 @@ type alias RemoveSourcefunction =
 
 
 type alias AddLinkfunction =
-    Id -> Link -> Result String Links
+    Id -> Link -> Result String Portfolio
 
 
 type alias RemoveLinkfunction =
-    Id -> Link -> Result String Links
-
-
-type alias Linksfunction =
-    Id -> Links
-
-
-type alias TopicLinksfunction =
-    Topic -> ContentType -> Id -> List Link
+    Id -> Link -> Result String Portfolio
 
 
 type alias UserNameToIdfunction =
@@ -346,7 +338,7 @@ compareLinks a b =
         EQ
 
 
-getPosts : ContentType -> Links -> List Link
+getPosts : ContentType -> Portfolio -> List Link
 getPosts contentType links =
     case contentType of
         Answer ->
@@ -376,19 +368,18 @@ hasMatch topic topics =
     topics |> toTopicNames |> List.member (getTopic topic)
 
 
-linksExist : Links -> Bool
+linksExist : Portfolio -> Bool
 linksExist links =
     not <| links == initLinks
 
 
-getContent : Linksfunction -> Id -> Links
-getContent f profileId =
-    profileId |> f
 
-
-getLinks : TopicLinksfunction -> Topic -> ContentType -> Id -> List Link
-getLinks topicLinksfunction topic contentType id =
-    id |> topicLinksfunction topic contentType
+-- getContent : Linksfunction -> Id -> Links
+-- getContent f profileId =
+--     profileId |> f
+-- getLinks : TopicLinksfunction -> Topic -> ContentType -> Id -> List Link
+-- getLinks topicLinksfunction topic contentType id =
+--     id |> topicLinksfunction topic contentType
 
 
 undefined : String

@@ -92,29 +92,29 @@ profile5ImageUrl =
     Url "Assets/ProfileImages/Ody.jpg"
 
 
-provider1Links : Links
+provider1Links : Portfolio
 provider1Links =
-    Links (answers profileId1) (articles profileId1) (videos profileId1) (podcasts profileId1)
+    Portfolio (answers profileId1) (articles profileId1) (videos profileId1) (podcasts profileId1)
 
 
-provider2Links : Links
+provider2Links : Portfolio
 provider2Links =
-    Links (answers profileId2) (articles profileId2) (videos profileId2) (podcasts profileId2)
+    Portfolio (answers profileId2) (articles profileId2) (videos profileId2) (podcasts profileId2)
 
 
-provider3Links : Links
+provider3Links : Portfolio
 provider3Links =
-    Links (answers profileId3) (articles profileId3) (videos profileId3) (podcasts profileId3)
+    Portfolio (answers profileId3) (articles profileId3) (videos profileId3) (podcasts profileId3)
 
 
-provider4Links : Links
+provider4Links : Portfolio
 provider4Links =
-    Links (answers profileId4) (articles profileId4) (videos profileId4) (podcasts profileId4)
+    Portfolio (answers profileId4) (articles profileId4) (videos profileId4) (podcasts profileId4)
 
 
-provider5Links : Links
+provider5Links : Portfolio
 provider5Links =
-    Links (answers profileId5) (articles profileId5) (videos profileId5) (podcasts profileId5)
+    Portfolio (answers profileId5) (articles profileId5) (videos profileId5) (podcasts profileId5)
 
 
 someArticleTitle1 : Title
@@ -272,9 +272,9 @@ profile5 =
     Profile profileId5 (Name "Ody") (Name "Mbegbu") someEmail profile5ImageUrl someDescrtiption (profileId5 |> sources)
 
 
-jsonLinks : Id -> JsonLinks
+jsonLinks : Id -> JsonPortfolio
 jsonLinks id =
-    JsonLinks
+    JsonPortfolio
         (answers id |> toJsonLinks)
         (articles id |> toJsonLinks)
         (videos id |> toJsonLinks)
@@ -511,7 +511,7 @@ tryLogin credentials msg =
             String.toLower credentials.email == "test" && String.toLower credentials.password == "test"
     in
         if successful then
-            (jsonProvider1)
+            jsonProvider1
                 |> Result.Ok
                 |> msg
                 |> Task.succeed
@@ -579,81 +579,83 @@ podcasts id =
     id |> linksToContent Podcast
 
 
-links : Id -> Links
-links id =
-    { answers = id |> linksToContent Answer
-    , articles = id |> linksToContent Article
-    , videos = id |> linksToContent Video
-    , podcasts = id |> linksToContent Podcast
+links : Id -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
+links profileId msg =
+    { answers = (profileId |> linksToContent Answer) |> toJsonLinks
+    , articles = (profileId |> linksToContent Article) |> toJsonLinks
+    , videos = (profileId |> linksToContent Video) |> toJsonLinks
+    , podcasts = (profileId |> linksToContent Podcast) |> toJsonLinks
     }
+        |> Result.Ok
+        |> msg
+        |> Task.succeed
+        |> Task.perform identity
 
 
-addLink : Id -> Link -> Result String Links
+addLink : Id -> Link -> Result String Portfolio
 addLink profileId link =
-    let
-        currentLinks =
-            profileId |> links
-    in
-        case link.contentType of
-            All ->
-                Err "Failed to add link: Cannot add link to 'ALL'"
-
-            Unknown ->
-                Err "Failed to add link: Contenttype of link is unknown"
-
-            Answer ->
-                Ok { currentLinks | answers = link :: currentLinks.answers }
-
-            Article ->
-                Ok { currentLinks | articles = link :: currentLinks.articles }
-
-            Video ->
-                Ok { currentLinks | videos = link :: currentLinks.videos }
-
-            podcast ->
-                Ok { currentLinks | podcasts = link :: currentLinks.podcasts }
+    Err "Not Implemented"
 
 
-removeLink : Id -> Link -> Result String Links
+
+-- let
+--     currentLinks =
+--         proflinksileId |> links
+-- in
+--     case link.contentType of
+--         All ->
+--             Err "Failed to add link: Cannot add link to 'ALL'"
+--         Unknown ->
+--             Err "Failed to add link: Contenttype of link is unknown"
+--         Answer ->
+--             Ok { currentLinks | answers = link :: currentLinks.answers }
+--         Article ->
+--             Ok { currentLinks | articles = link :: currentLinks.articles }
+--         Video ->
+--             Ok { currentLinks | videos = link :: currentLinks.videos }
+--         podcast ->
+--             Ok { currentLinks | podcasts = link :: currentLinks.podcasts }
+
+
+removeLink : Id -> Link -> Result String Portfolio
 removeLink profileId link =
-    let
-        currentLinks =
-            profileId |> links
-    in
-        case link.contentType of
-            All ->
-                Err "Failed to add link: Cannot add link to 'ALL'"
+    Err "Not Implemented"
 
-            Unknown ->
-                Err "Failed to add link: Contenttype of link is unknown"
 
-            Answer ->
-                let
-                    updated =
-                        currentLinks.answers |> List.filter (\link -> currentLinks.answers |> List.member link)
-                in
-                    Ok { currentLinks | answers = updated }
 
-            Article ->
-                let
-                    updated =
-                        currentLinks.articles |> List.filter (\link -> currentLinks.articles |> List.member link)
-                in
-                    Ok { currentLinks | articles = updated }
-
-            Video ->
-                let
-                    updated =
-                        currentLinks.videos |> List.filter (\link -> currentLinks.videos |> List.member link)
-                in
-                    Ok { currentLinks | videos = updated }
-
-            podcast ->
-                let
-                    updated =
-                        currentLinks.podcasts |> List.filter (\link -> currentLinks.podcasts |> List.member link)
-                in
-                    Ok { currentLinks | podcasts = updated }
+-- let
+--     currentLinks =
+--         profileId |> links
+-- in
+--     case link.contentType of
+--         All ->
+--             Err "Failed to add link: Cannot add link to 'ALL'"
+--         Unknown ->
+--             Err "Failed to add link: Contenttype of link is unknown"
+--         Answer ->
+--             let
+--                 updated =
+--                     currentLinks.answers |> List.filter (\link -> currentLinks.answers |> List.member link)
+--             in
+--                 Ok { currentLinks | answers = updated }
+--         Article ->
+--             let
+--                 updated =
+--                     currentLinks.articles |> List.filter (\link -> currentLinks.articles |> List.member link)
+--             in
+--                 Ok { currentLinks | articles = updated }
+--         Video ->
+--             let
+--                 updated =
+--                     currentLinks.videos |> List.filter (\link -> currentLinks.videos |> List.member link)
+--             in
+--                 Ok { currentLinks | videos = updated }
+--         podcast ->
+--             let
+--                 updated =
+--                     currentLinks.podcasts |> List.filter (\link -> currentLinks.podcasts |> List.member link)
+--             in
+--                 Ok { currentLinks | podcasts = updated }
 
 
 linksToContent : ContentType -> Id -> List Link
@@ -813,11 +815,16 @@ topics =
     [ someTopic1, someTopic2, someTopic3, someTopic4, someTopic5 ]
 
 
-topicLinks : Topic -> ContentType -> Id -> List Link
-topicLinks topic contentType id =
-    id
+topicLinks : Id -> Topic -> ContentType -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
+topicLinks profileId topic contentType msg =
+    profileId
         |> linksToContent contentType
         |> List.filter (\link -> link.topics |> List.any (\t -> t.name == topic.name))
+        |> toJsonLinks
+        |> Result.Ok
+        |> msg
+        |> Task.succeed
+        |> Task.perform identity
 
 
 sources : Id -> List Source

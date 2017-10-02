@@ -110,10 +110,9 @@ let private fetchWordpress (feedUrl) (context : HttpContext) =
             return! json response context
     }
 
-let private fetchPlatforms () (context : HttpContext) =
-    async { let response = getPlatforms()
-            return! json response context
-    }
+let private fetchPlatforms  =
+     let response = getPlatforms()
+     json response
 
 let private fetchLinks (providerId) (context : HttpContext) =
     async { let response = getLinks providerId
@@ -142,7 +141,7 @@ let private fetchSources (providerId) (context : HttpContext) =
 let private fetchContentTypeToId (contentType) (context : HttpContext) =
     async { let response = contentTypeToId contentType
             return! json response context
-    }
+    }       
 
 let webApp : HttpContext -> HttpHandlerResult = 
 
@@ -150,8 +149,9 @@ let webApp : HttpContext -> HttpHandlerResult =
         GET >=>
             choose [
                 //route "/" >=> htmlFile "/hostingstart.html"
+
                 route "/" >=> htmlFile "/home.html"
-                routef "/platforms/"         fetchPlatforms
+                route  "/platforms"      >=> fetchPlatforms
                 routef "/youtube/%s/%s"      fetchYoutube
                 routef "/wordpress/%s"       fetchWordpress
                 routef "/links/%s"           fetchLinks

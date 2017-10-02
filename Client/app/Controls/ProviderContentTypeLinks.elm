@@ -122,10 +122,6 @@ view model contentType isOwner =
             ]
 
 
-
--- REMOVE DUPLICATED FUNCTION ! ! !
-
-
 toCheckbox : Topic -> Html Msg
 toCheckbox topic =
     div []
@@ -136,24 +132,26 @@ toCheckbox topic =
 
 toggleFilter : Model -> ( Topic, Bool ) -> Model
 toggleFilter model ( topic, include ) =
-    let
-        toggleTopic contentType links =
-            if include then
-                List.append (model.profile.id |> runtime.topicLinks topic contentType) links
-            else
-                links |> List.filter (\link -> not (link.topics |> hasMatch topic))
+    model
 
-        links =
-            model.links
 
-        newState =
-            { model
-                | links =
-                    { answers = links.answers |> toggleTopic Answer
-                    , articles = links.articles |> toggleTopic Article
-                    , videos = links.videos |> toggleTopic Video
-                    , podcasts = links.podcasts |> toggleTopic Podcast
-                    }
-            }
-    in
-        newState
+
+-- let
+--     toggleTopic contentType links =
+--         if include then
+--             List.append (model.profile.id |> runtime.topicLinks topic contentType) links
+--         else
+--             links |> List.filter (\link -> not (link.topics |> hasMatch topic))
+--     links =
+--         model.links
+--     newState =
+--         { model
+--             | links =
+--                 { answers = links.answers |> toggleTopic Answer
+--                 , articles = links.articles |> toggleTopic Article
+--                 , videos = links.videos |> toggleTopic Video
+--                 , podcasts = links.podcasts |> toggleTopic Podcast
+--                 }
+--         }
+-- in
+--     newState

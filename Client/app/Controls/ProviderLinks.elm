@@ -109,31 +109,29 @@ linksUI links =
 
 toggleFilter : Model -> ( Topic, Bool ) -> Model
 toggleFilter model ( topic, include ) =
-    let
-        toggleTopic contentType links =
-            if include then
-                List.append (model.profile.id |> runtime.topicLinks topic contentType) links
-            else
-                links |> List.filter (\link -> not (link.topics |> hasMatch topic))
-
-        links =
-            model.links
-
-        newState =
-            { model
-                | links =
-                    { answers = links.answers |> toggleTopic Answer
-                    , articles = links.articles |> toggleTopic Article
-                    , videos = links.videos |> toggleTopic Video
-                    , podcasts = links.podcasts |> toggleTopic Podcast
-                    }
-            }
-    in
-        newState
+    model
 
 
 
--- REMOVE DUPLICATED FUNCTION ! ! !
+-- let
+--     toggleTopic contentType links =
+--         if include then
+--             List.append (model.profile.id |> runtime.topicLinks topic contentType) links
+--         else
+--             links |> List.filter (\link -> not (link.topics |> hasMatch topic))
+--     links =
+--         model.links
+--     newState =
+--         { model
+--             | links =
+--                 { answers = links.answers |> toggleTopic Answer
+--                 , articles = links.articles |> toggleTopic Article
+--                 , videos = links.videos |> toggleTopic Video
+--                 , podcasts = links.podcasts |> toggleTopic Podcast
+--                 }
+--         }
+-- in
+--     newState
 
 
 toCheckbox : Topic -> Html Msg
