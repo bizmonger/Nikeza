@@ -435,8 +435,8 @@ toTopicNames topics =
 providerTopicUrl : Maybe Id -> Id -> Topic -> Url
 providerTopicUrl clientId providerId topic =
     case clientId of
-        Just idOfRequestor ->
-            Url <| "/#/portal/" ++ getId idOfRequestor ++ "/provider/" ++ getId providerId ++ "/" ++ getTopic topic
+        Just loggedIn ->
+            Url <| "/#/portal/" ++ getId loggedIn ++ "/provider/" ++ getId providerId ++ "/" ++ getTopic topic
 
         Nothing ->
             Url <| "/#/provider/" ++ getId providerId ++ "/" ++ getTopic topic
@@ -445,8 +445,8 @@ providerTopicUrl clientId providerId topic =
 providerUrl : Maybe Id -> Id -> Url
 providerUrl clientId providerId =
     case clientId of
-        Just idOfRequestor ->
-            Url <| "/#/portal/" ++ getId idOfRequestor ++ "/provider/" ++ getId providerId
+        Just loggedIn ->
+            Url <| "/#/portal/" ++ getId loggedIn ++ "/provider/" ++ getId providerId
 
         Nothing ->
             Url <| "/#/provider/" ++ getId providerId

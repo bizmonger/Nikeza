@@ -158,6 +158,7 @@ update msg model =
             NavigateToPortalProviderMemberResponse response ->
                 case response of
                     Ok jsonProvider ->
+                        -- Debug.crash "NavigateToPortalProviderMemberResponse -> Ok"
                         ( { model | selectedProvider = jsonProvider |> toProvider }, Cmd.none )
 
                     Err _ ->

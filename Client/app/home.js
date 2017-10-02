@@ -14035,7 +14035,7 @@ var _user$project$Services_Adapter$toJsonProfile = function (profile) {
 		email: _user$project$Domain_Core$getEmail(profile.email),
 		imageUrl: _user$project$Domain_Core$getUrl(profile.imageUrl),
 		bio: profile.bio,
-		sources: {ctor: '[]'}
+		sources: profile.sources
 	};
 };
 var _user$project$Services_Adapter$toJsonLinks = function (links) {
@@ -14055,14 +14055,13 @@ var _user$project$Services_Adapter$toJsonLinks = function (links) {
 };
 var _user$project$Services_Adapter$toProfile = function (jsonProfile) {
 	return {
-		id: _user$project$Domain_Core$Id(
-			_elm_lang$core$Basics$toString(jsonProfile.id)),
+		id: _user$project$Domain_Core$Id(jsonProfile.id),
 		firstName: _user$project$Domain_Core$Name(jsonProfile.firstName),
 		lastName: _user$project$Domain_Core$Name(jsonProfile.lastName),
 		email: _user$project$Domain_Core$Email(jsonProfile.email),
 		imageUrl: _user$project$Domain_Core$Url(jsonProfile.imageUrl),
 		bio: jsonProfile.bio,
-		sources: {ctor: '[]'}
+		sources: jsonProfile.sources
 	};
 };
 var _user$project$Services_Adapter$jsonProfileToProvider = function (jsonProfile) {

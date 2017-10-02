@@ -102,13 +102,13 @@ type alias JsonSubscriber =
 
 toProfile : JsonProfile -> Profile
 toProfile jsonProfile =
-    { id = Id (jsonProfile.id |> toString)
+    { id = Id jsonProfile.id
     , firstName = Name jsonProfile.firstName
     , lastName = Name jsonProfile.lastName
     , email = Email jsonProfile.email
     , imageUrl = Url jsonProfile.imageUrl
     , bio = jsonProfile.bio
-    , sources = []
+    , sources = jsonProfile.sources
     }
 
 
@@ -120,7 +120,7 @@ toJsonProfile profile =
     , email = getEmail profile.email
     , imageUrl = getUrl profile.imageUrl
     , bio = profile.bio
-    , sources = []
+    , sources = profile.sources
     }
 
 
@@ -178,20 +178,6 @@ toTopics jsonTopics =
     jsonTopics |> List.map (\t -> { name = t.name, isFeatured = t.isFeatured })
 
 
-
--- toProfile : JsonProfile -> Profile
--- toProfile jsonProfile =
---     let
---         ( id, email ) =
---             ( Id jsonProfile.id, Email jsonProfile.email )
---         ( firstName, lastName ) =
---             ( Name jsonProfile.firstName, Name jsonProfile.lastName )
---         ( imageUrl, bio, sources ) =
---             ( Url jsonProfile.imageUrl, jsonProfile.bio, jsonProfile.sources )
---     in
---         Profile id firstName lastName email imageUrl bio sources
-
-
 toProvider : JsonProvider -> Provider
 toProvider jsonProvider =
     let
@@ -205,14 +191,3 @@ toProvider jsonProvider =
         , followers = field.followers |> toMembers
         , subscriptions = field.subscriptions |> toMembers
         }
-
-
-
--- type alias Link =
---     { profile : Profile
---     , title : Title
---     , url : Url
---     , contentType : ContentType
---     , topics : List Topic
---     , isFeatured : Bool
---     }
