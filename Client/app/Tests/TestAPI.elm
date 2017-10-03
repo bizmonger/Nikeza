@@ -415,7 +415,7 @@ jsonProvider1 =
     JsonProvider
         { profile = jsonProfile1
         , topics = topics
-        , links = profileId1 |> jsonLinks
+        , portfolio = profileId1 |> jsonLinks
         , recentLinks = (recentLinks1 |> toJsonLinks)
         , subscriptions = [ jsonProvider2, jsonProvider3 ]
         , followers = [ jsonProvider4, jsonProvider5 ]
@@ -427,7 +427,7 @@ jsonProvider2 =
     JsonProvider
         { profile = jsonProfile2
         , topics = topics
-        , links = profileId2 |> jsonLinks
+        , portfolio = profileId2 |> jsonLinks
         , recentLinks = (recentLinks2 |> toJsonLinks)
         , subscriptions = []
         , followers = []
@@ -439,7 +439,7 @@ jsonProvider3 =
     JsonProvider
         { profile = jsonProfile3
         , topics = topics
-        , links = profileId3 |> jsonLinks
+        , portfolio = profileId3 |> jsonLinks
         , recentLinks = (recentLinks3 |> toJsonLinks)
         , subscriptions = []
         , followers = []
@@ -451,7 +451,7 @@ jsonProvider4 =
     JsonProvider
         { profile = jsonProfile4
         , topics = topics
-        , links = profileId4 |> jsonLinks
+        , portfolio = profileId4 |> jsonLinks
         , recentLinks = (recentLinks1 |> toJsonLinks)
         , subscriptions = []
         , followers = []
@@ -463,7 +463,7 @@ jsonProvider5 =
     JsonProvider
         { profile = jsonProfile5
         , topics = topics
-        , links = profileId5 |> jsonLinks
+        , portfolio = profileId5 |> jsonLinks
         , recentLinks = (recentLinks1 |> toJsonLinks)
         , subscriptions = []
         , followers = []

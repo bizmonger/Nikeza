@@ -57,7 +57,7 @@ type SubscriptionUpdate
 type alias Provider =
     { profile : Profile
     , topics : List Topic
-    , links : Portfolio
+    , portfolio : Portfolio
     , recentLinks : List Link
     , followers : Members
     , subscriptions : Members
@@ -328,22 +328,25 @@ type ContentType
 -- FUNCTIONS
 
 
-toggleFilter : Provider -> ( Topic, Bool ) -> Provider
-toggleFilter model ( topic, include ) =
+toggleFilter : Provider -> ( Topic, Bool ) -> List Link -> Provider
+toggleFilter provider ( topic, include ) allLinks =
     let
+        links =
+            provider.portfolio
+
         contentTypeLinks contentType =
             case contentType of
                 Article ->
-                    model.links.articles
+                    allLinks |> List.filter (\l -> l.contentType == Article)
 
                 Video ->
-                    model.links.videos
+                    allLinks |> List.filter (\l -> l.contentType == Video)
 
                 Podcast ->
-                    model.links.podcasts
+                    allLinks |> List.filter (\l -> l.contentType == Podcast)
 
                 Answer ->
-                    model.links.answers
+                    allLinks |> List.filter (\l -> l.contentType == Answer)
 
                 _ ->
                     []
@@ -353,12 +356,9 @@ toggleFilter model ( topic, include ) =
                 links |> List.append (contentTypeLinks contentType)
             else
                 links |> List.filter (\link -> not (link.topics |> hasMatch topic))
-
-        links =
-            model.links
     in
-        { model
-            | links =
+        { provider
+            | portfolio =
                 { answers = links.answers |> toggleTopic Answer
                 , articles = links.articles |> toggleTopic Article
                 , videos = links.videos |> toggleTopic Video
@@ -377,8 +377,8 @@ compareLinks a b =
         EQ
 
 
-getPosts : ContentType -> Portfolio -> List Link
-getPosts contentType links =
+getLinks : ContentType -> Portfolio -> List Link
+getLinks contentType links =
     case contentType of
         Answer ->
             links.answers
@@ -407,9 +407,9 @@ hasMatch topic topics =
     topics |> toTopicNames |> List.member (getTopic topic)
 
 
-linksExist : Portfolio -> Bool
-linksExist links =
-    not <| links == initLinks
+portfolioExists : Portfolio -> Bool
+portfolioExists portfolio =
+    not <| portfolio == initLinks
 
 
 undefined : String

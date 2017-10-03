@@ -89,7 +89,7 @@ type JsonProvider
 type alias JsonProviderFields =
     { profile : JsonProfile
     , topics : List JsonTopic
-    , links : JsonPortfolio
+    , portfolio : JsonPortfolio
     , recentLinks : List JsonLink
     , subscriptions : List JsonProvider
     , followers : List JsonProvider
@@ -182,7 +182,7 @@ toProvider jsonProvider =
     in
         { profile = field.profile |> toProfile
         , topics = field.topics |> toTopics
-        , links = field.links |> toPortfolio
+        , portfolio = field.portfolio |> toPortfolio
         , recentLinks = field.recentLinks |> toLinks
         , followers = field.followers |> toMembers
         , subscriptions = field.subscriptions |> toMembers

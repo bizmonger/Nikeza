@@ -5,11 +5,6 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 
 
-type alias Model =
-    Provider
-
-
-
 -- UPDATE
 
 
@@ -21,14 +16,14 @@ type Msg
 -- VIEW
 
 
-view : Model -> Topic -> ContentType -> Html Msg
-view model topic contentType =
+view : Provider -> Topic -> ContentType -> Html Msg
+view provider topic contentType =
     let
         ( topics, links ) =
-            ( model.topics, model.links )
+            ( provider.topics, provider.portfolio )
 
         posts =
-            links |> getPosts contentType |> List.filter (\l -> l.topics |> hasMatch topic)
+            links |> getLinks contentType |> List.filter (\l -> l.topics |> hasMatch topic)
 
         content =
             div [ class "mainContent" ]

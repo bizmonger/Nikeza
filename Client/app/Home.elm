@@ -138,7 +138,7 @@ update msg model =
                                     | provider = jsonProvider |> toProvider
                                     , sourcesNavigation = provider.profile.sources |> List.isEmpty
                                     , addLinkNavigation = True
-                                    , linksNavigation = linksExist provider.links
+                                    , linksNavigation = portfolioExists provider.portfolio
                                     , requested = Domain.ViewRecent
                                 }
                         in
@@ -158,7 +158,6 @@ update msg model =
             NavigateToPortalProviderMemberResponse response ->
                 case response of
                     Ok jsonProvider ->
-                        -- Debug.crash "NavigateToPortalProviderMemberResponse -> Ok"
                         ( { model | selectedProvider = jsonProvider |> toProvider }, Cmd.none )
 
                     Err _ ->
@@ -192,7 +191,7 @@ update msg model =
                                     | provider = provider
                                     , sourcesNavigation = provider.profile.sources |> List.isEmpty
                                     , addLinkNavigation = True
-                                    , linksNavigation = linksExist provider.links
+                                    , linksNavigation = portfolioExists provider.portfolio
                                     , requested = Domain.ViewRecent
                                 }
                         in
@@ -265,9 +264,9 @@ update msg model =
                 let
                     provider =
                         if model.portal.requested == Domain.ViewLinks then
-                            ProviderContentTypeLinks.update subMsg model.portal.provider
+                            ProviderContentTypeLinks.update subMsg model.portal.provider (getLinks All model.portal.provider.portfolio)
                         else
-                            ProviderContentTypeLinks.update subMsg model.selectedProvider
+                            ProviderContentTypeLinks.update subMsg model.selectedProvider (getLinks All model.portal.provider.portfolio)
                 in
                     case subMsg of
                         ProviderContentTypeLinks.Toggle _ ->
@@ -302,10 +301,10 @@ onUpdateProviderLinks subMsg model linksfrom =
                 provider =
                     case linksfrom of
                         FromPortal ->
-                            ProviderLinks.update subMsg model.portal.provider
+                            ProviderLinks.update subMsg model.portal.provider (getLinks All model.portal.provider.portfolio)
 
                         FromOther ->
-                            ProviderLinks.update subMsg model.selectedProvider
+                            ProviderLinks.update subMsg model.selectedProvider (getLinks All model.portal.provider.portfolio)
             in
                 ( { model | selectedProvider = provider }, Cmd.none )
 
@@ -316,7 +315,7 @@ onPortalLinksAction subMsg model =
         ProviderLinks.Toggle _ ->
             let
                 provider =
-                    ProviderLinks.update subMsg model.portal.provider
+                    ProviderLinks.update subMsg model.portal.provider (getLinks All model.portal.provider.portfolio)
 
                 pendingPortal =
                     model.portal
@@ -355,7 +354,7 @@ onEditProfile subMsg model =
                         { portal
                             | provider = { provider | profile = v }
                             , sourcesNavigation = True
-                            , linksNavigation = not <| provider.links == initLinks
+                            , linksNavigation = not <| provider.portfolio == initLinks
                             , requested = Domain.ViewSources
                         }
                   }
@@ -447,7 +446,7 @@ refreshLinks : Provider -> List Link -> Portfolio
 refreshLinks provider addedLinks =
     let
         links =
-            provider.links
+            provider.portfolio
 
         articles =
             List.append links.articles (addedLinks |> List.filter (\l -> l.contentType == Article))
@@ -508,7 +507,7 @@ onNewLink subMsg model =
                         { portal
                             | newLinks = updatedLinks
                             , linksNavigation = True
-                            , provider = { provider | links = refreshLinks provider updatedLinks.added }
+                            , provider = { provider | portfolio = refreshLinks provider updatedLinks.added }
                         }
                 in
                     ( { model | portal = updatedPortal }, Cmd.none )
@@ -540,7 +539,7 @@ onAddedSource subMsg model =
                 ( { model
                     | portal =
                         { portal
-                            | linksNavigation = linksExist provider.links
+                            | linksNavigation = portfolioExists provider.portfolio
                             , addLinkNavigation = True
                             , sourcesNavigation = True
                         }
@@ -552,7 +551,7 @@ onAddedSource subMsg model =
                 ( { model
                     | portal =
                         { portal
-                            | linksNavigation = linksExist portal.provider.links
+                            | linksNavigation = portfolioExists portal.provider.portfolio
                             , sourcesNavigation = True
                             , addLinkNavigation = True
                         }
@@ -607,7 +606,7 @@ onLogin subMsg model =
                                         { pendingPortal
                                             | provider = provider
                                             , requested = Domain.ViewRecent
-                                            , linksNavigation = linksExist provider.links
+                                            , linksNavigation = portfolioExists provider.portfolio
                                             , sourcesNavigation = not <| List.isEmpty provider.profile.sources
                                         }
                                 }
@@ -1038,7 +1037,7 @@ renderNavigation : Portal -> List Provider -> List (Html Msg)
 renderNavigation portal providers =
     let
         links =
-            portal.provider.links
+            portal.provider.portfolio
 
         (Members subscriptions) =
             portal.provider.subscriptions

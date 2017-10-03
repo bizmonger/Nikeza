@@ -1,16 +1,9 @@
 module Controls.ProviderContentTypeLinks exposing (..)
 
-import Settings exposing (..)
 import Domain.Core exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
-import Dict exposing (..)
-
-
-type alias Model =
-    Provider
-
 
 
 -- UPDATE
@@ -21,16 +14,16 @@ type Msg
     | Featured ( Link, Bool )
 
 
-update : Msg -> Model -> Model
-update msg model =
+update : Msg -> Provider -> List Link -> Provider
+update msg provider allLinks =
     case msg of
         Toggle ( topic, include ) ->
-            ( topic, include ) |> toggleFilter model
+            allLinks |> toggleFilter provider ( topic, include )
 
         Featured ( link, isFeatured ) ->
             let
                 pendingLinks =
-                    model.links
+                    provider.portfolio
 
                 removeLink linkToRemove links =
                     links |> List.filter (\l -> l.title /= linkToRemove.title)
@@ -45,50 +38,50 @@ update msg model =
                     Article ->
                         let
                             links =
-                                model.links.articles |> List.map setFeaturedLink
+                                provider.portfolio.articles |> List.map setFeaturedLink
                         in
-                            { model | links = { pendingLinks | articles = links } }
+                            { provider | portfolio = { pendingLinks | articles = links } }
 
                     Video ->
                         let
                             links =
-                                model.links.videos |> List.map setFeaturedLink
+                                provider.portfolio.videos |> List.map setFeaturedLink
                         in
-                            { model | links = { pendingLinks | videos = links } }
+                            { provider | portfolio = { pendingLinks | videos = links } }
 
                     Podcast ->
                         let
                             links =
-                                model.links.podcasts |> List.map setFeaturedLink
+                                provider.portfolio.podcasts |> List.map setFeaturedLink
                         in
-                            { model | links = { pendingLinks | podcasts = links } }
+                            { provider | portfolio = { pendingLinks | podcasts = links } }
 
                     Answer ->
                         let
                             links =
-                                model.links.answers |> List.map setFeaturedLink
+                                provider.portfolio.answers |> List.map setFeaturedLink
                         in
-                            { model | links = { pendingLinks | answers = links } }
+                            { provider | portfolio = { pendingLinks | answers = links } }
 
                     All ->
-                        model
+                        provider
 
                     Unknown ->
-                        model
+                        provider
 
 
 
 -- VIEW
 
 
-view : Model -> ContentType -> Bool -> Html Msg
-view model contentType isOwner =
+view : Provider -> ContentType -> Bool -> Html Msg
+view provider contentType isOwner =
     let
         ( topics, links, featuredClass ) =
-            ( model.topics, model.links, "featured" )
+            ( provider.topics, provider.portfolio, "featured" )
 
         posts =
-            links |> getPosts contentType |> List.sortWith compareLinks
+            links |> getLinks contentType |> List.sortWith compareLinks
 
         createLink link =
             let

@@ -1,18 +1,9 @@
 module Controls.ProviderLinks exposing (..)
 
-import Settings exposing (..)
 import Domain.Core exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
-
-
--- MODEL
-
-
-type alias Model =
-    Provider
-
 
 
 -- UPDATE
@@ -22,11 +13,11 @@ type Msg
     = Toggle ( Topic, Bool )
 
 
-update : Msg -> Model -> Model
-update msg model =
+update : Msg -> Provider -> List Link -> Provider
+update msg provider allLinks =
     case msg of
         Toggle ( topic, include ) ->
-            ( topic, include ) |> toggleFilter model
+            allLinks |> toggleFilter provider ( topic, include )
 
 
 
@@ -34,10 +25,10 @@ update msg model =
 
 
 view : Linksfrom -> Provider -> Html Msg
-view linksFrom model =
+view linksFrom provider =
     let
         ( profileId, topics ) =
-            ( model.profile.id, model.topics )
+            ( provider.profile.id, provider.topics )
 
         toCheckBoxState include topic =
             div []
@@ -46,7 +37,7 @@ view linksFrom model =
                 ]
 
         links =
-            model.links
+            provider.portfolio
     in
         div []
             [ table []
