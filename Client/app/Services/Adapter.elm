@@ -122,7 +122,7 @@ toJsonProfile profile =
 
 jsonProfileToProvider : JsonProfile -> Provider
 jsonProfileToProvider jsonProfile =
-    Provider (toProfile jsonProfile) initTopics initLinks [] initSubscription initSubscription
+    Provider (toProfile jsonProfile) initTopics initPortfolio initPortfolio [] initSubscription initSubscription
 
 
 toMembers : List JsonProvider -> Members
@@ -183,6 +183,7 @@ toProvider jsonProvider =
         { profile = field.profile |> toProfile
         , topics = field.topics |> toTopics
         , portfolio = field.portfolio |> toPortfolio
+        , filteredPortfolio = field.portfolio |> toPortfolio
         , recentLinks = field.recentLinks |> toLinks
         , followers = field.followers |> toMembers
         , subscriptions = field.subscriptions |> toMembers

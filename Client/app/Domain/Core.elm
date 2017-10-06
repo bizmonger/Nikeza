@@ -35,8 +35,8 @@ type alias Portfolio =
     }
 
 
-initLinks : Portfolio
-initLinks =
+initPortfolio : Portfolio
+initPortfolio =
     { answers = []
     , articles = []
     , videos = []
@@ -58,6 +58,7 @@ type alias Provider =
     { profile : Profile
     , topics : List Topic
     , portfolio : Portfolio
+    , filteredPortfolio : Portfolio
     , recentLinks : List Link
     , followers : Members
     , subscriptions : Members
@@ -75,7 +76,7 @@ initSubscription =
 
 initProvider : Provider
 initProvider =
-    Provider initProfile initTopics initLinks [] initSubscription initSubscription
+    Provider initProfile initTopics initPortfolio initPortfolio [] initSubscription initSubscription
 
 
 type alias Portal =
@@ -331,9 +332,6 @@ type ContentType
 toggleFilter : Provider -> ( Topic, Bool ) -> List Link -> Provider
 toggleFilter provider ( topic, include ) allLinks =
     let
-        links =
-            provider.portfolio
-
         contentTypeLinks contentType =
             case contentType of
                 Article ->
@@ -356,13 +354,16 @@ toggleFilter provider ( topic, include ) allLinks =
                 links |> List.append (contentTypeLinks contentType)
             else
                 links |> List.filter (\link -> not (link.topics |> hasMatch topic))
+
+        filtered =
+            provider.filteredPortfolio
     in
         { provider
-            | portfolio =
-                { answers = links.answers |> toggleTopic Answer
-                , articles = links.articles |> toggleTopic Article
-                , videos = links.videos |> toggleTopic Video
-                , podcasts = links.podcasts |> toggleTopic Podcast
+            | filteredPortfolio =
+                { answers = filtered.answers |> toggleTopic Answer
+                , articles = filtered.articles |> toggleTopic Article
+                , videos = filtered.videos |> toggleTopic Video
+                , podcasts = filtered.podcasts |> toggleTopic Podcast
                 }
         }
 
@@ -409,7 +410,7 @@ hasMatch topic topics =
 
 portfolioExists : Portfolio -> Bool
 portfolioExists portfolio =
-    not <| portfolio == initLinks
+    not <| portfolio == initPortfolio
 
 
 undefined : String
@@ -433,20 +434,20 @@ toTopicNames topics =
 
 
 providerTopicUrl : Maybe Id -> Id -> Topic -> Url
-providerTopicUrl clientId providerId topic =
-    case clientId of
-        Just loggedIn ->
-            Url <| "/#/portal/" ++ getId loggedIn ++ "/provider/" ++ getId providerId ++ "/" ++ getTopic topic
+providerTopicUrl loggedIn providerId topic =
+    case loggedIn of
+        Just userId ->
+            Url <| "/#/portal/" ++ getId userId ++ "/provider/" ++ getId providerId ++ "/" ++ getTopic topic
 
         Nothing ->
             Url <| "/#/provider/" ++ getId providerId ++ "/" ++ getTopic topic
 
 
 providerUrl : Maybe Id -> Id -> Url
-providerUrl clientId providerId =
-    case clientId of
-        Just loggedIn ->
-            Url <| "/#/portal/" ++ getId loggedIn ++ "/provider/" ++ getId providerId
+providerUrl loggedIn providerId =
+    case loggedIn of
+        Just userId ->
+            Url <| "/#/portal/" ++ getId userId ++ "/provider/" ++ getId providerId
 
         Nothing ->
             Url <| "/#/provider/" ++ getId providerId

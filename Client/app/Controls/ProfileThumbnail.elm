@@ -73,10 +73,10 @@ thumbnail loggedIn showSubscriptionState provider =
                 ]
     in
         case loggedIn of
-            Just loggedIn ->
+            Just user ->
                 let
                     (Members mySubscriptions) =
-                        loggedIn.subscriptions
+                        user.subscriptions
 
                     alreadySubscribed =
                         mySubscriptions |> List.any (\subscription -> subscription.profile.id == profile.id)
@@ -89,9 +89,9 @@ thumbnail loggedIn showSubscriptionState provider =
 
                     placeholder =
                         if not alreadySubscribed && showSubscriptionState then
-                            button [ class "subscribeButton", onClick (UpdateSubscription <| Subscribe loggedIn.profile.id provider.profile.id) ] [ text "Follow" ]
+                            button [ class "subscribeButton", onClick (UpdateSubscription <| Subscribe user.profile.id provider.profile.id) ] [ text "Follow" ]
                         else if alreadySubscribed && showSubscriptionState then
-                            button [ class "unsubscribeButton", onClick (UpdateSubscription <| Unsubscribe loggedIn.profile.id provider.profile.id) ] [ text "Unsubscribe" ]
+                            button [ class "unsubscribeButton", onClick (UpdateSubscription <| Unsubscribe user.profile.id provider.profile.id) ] [ text "Unsubscribe" ]
                         else
                             div [] []
                 in
@@ -99,7 +99,7 @@ thumbnail loggedIn showSubscriptionState provider =
                         [ table []
                             [ tr []
                                 [ td []
-                                    [ a [ href <| getUrl <| providerUrl (Just loggedIn.profile.id) profile.id ]
+                                    [ a [ href <| getUrl <| providerUrl (Just user.profile.id) profile.id ]
                                         [ img [ src <| getUrl profile.imageUrl, width 65, height 65 ] [] ]
                                     ]
                                 , td [] [ nameAndTopics ]

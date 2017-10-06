@@ -36,8 +36,8 @@ view linksFrom provider =
                 , label [] [ text <| getTopic topic ]
                 ]
 
-        links =
-            provider.portfolio
+        filtered =
+            provider.filteredPortfolio
     in
         div []
             [ table []
@@ -51,16 +51,16 @@ view linksFrom provider =
                                     , td [] [ b [] [ text "Articles" ] ]
                                     ]
                                 , tr []
-                                    [ td [] [ div [] <| requestAllContent linksFrom profileId Answer links.answers ]
-                                    , td [] [ div [] <| requestAllContent linksFrom profileId Article links.articles ]
+                                    [ td [] [ div [] <| requestAllContent linksFrom profileId Answer filtered.answers ]
+                                    , td [] [ div [] <| requestAllContent linksFrom profileId Article filtered.articles ]
                                     ]
                                 , tr []
                                     [ td [] [ b [] [ text "Podcasts" ] ]
                                     , td [] [ b [] [ text "Videos" ] ]
                                     ]
                                 , tr []
-                                    [ td [] [ div [] <| requestAllContent linksFrom profileId Podcast links.podcasts ]
-                                    , td [] [ div [] <| requestAllContent linksFrom profileId Video links.videos ]
+                                    [ td [] [ div [] <| requestAllContent linksFrom profileId Podcast filtered.podcasts ]
+                                    , td [] [ div [] <| requestAllContent linksFrom profileId Video filtered.videos ]
                                     ]
                                 ]
                             ]

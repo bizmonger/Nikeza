@@ -23,7 +23,6 @@ import String exposing (..)
 
 
 -- elm-live Home.elm --open --output=home.js --debug
--- elm-make Home.elm --output=home.html
 -- elm-package install elm-lang/navigation
 
 
@@ -354,7 +353,7 @@ onEditProfile subMsg model =
                         { portal
                             | provider = { provider | profile = v }
                             , sourcesNavigation = True
-                            , linksNavigation = not <| provider.portfolio == initLinks
+                            , linksNavigation = not <| provider.portfolio == initPortfolio
                             , requested = Domain.ViewSources
                         }
                   }

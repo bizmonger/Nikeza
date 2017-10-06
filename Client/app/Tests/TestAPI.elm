@@ -92,28 +92,28 @@ profile5ImageUrl =
     Url "Assets/ProfileImages/Ody.jpg"
 
 
-provider1Links : Portfolio
-provider1Links =
+provider1Portfolio : Portfolio
+provider1Portfolio =
     Portfolio (answers profileId1) (articles profileId1) (videos profileId1) (podcasts profileId1)
 
 
-provider2Links : Portfolio
-provider2Links =
+provider2Portfolio : Portfolio
+provider2Portfolio =
     Portfolio (answers profileId2) (articles profileId2) (videos profileId2) (podcasts profileId2)
 
 
-provider3Links : Portfolio
-provider3Links =
+provider3Portfolio : Portfolio
+provider3Portfolio =
     Portfolio (answers profileId3) (articles profileId3) (videos profileId3) (podcasts profileId3)
 
 
-provider4Links : Portfolio
-provider4Links =
+provider4Portfolio : Portfolio
+provider4Portfolio =
     Portfolio (answers profileId4) (articles profileId4) (videos profileId4) (podcasts profileId4)
 
 
-provider5Links : Portfolio
-provider5Links =
+provider5Portfolio : Portfolio
+provider5Portfolio =
     Portfolio (answers profileId5) (articles profileId5) (videos profileId5) (podcasts profileId5)
 
 
@@ -272,8 +272,8 @@ profile5 =
     Profile profileId5 (Name "Ody") (Name "Mbegbu") someEmail profile5ImageUrl someDescrtiption (profileId5 |> sources)
 
 
-jsonLinks : Id -> JsonPortfolio
-jsonLinks id =
+jsonPortfolio : Id -> JsonPortfolio
+jsonPortfolio id =
     JsonPortfolio
         (answers id |> toJsonLinks)
         (articles id |> toJsonLinks)
@@ -415,7 +415,7 @@ jsonProvider1 =
     JsonProvider
         { profile = jsonProfile1
         , topics = topics
-        , portfolio = profileId1 |> jsonLinks
+        , portfolio = profileId1 |> jsonPortfolio
         , recentLinks = (recentLinks1 |> toJsonLinks)
         , subscriptions = [ jsonProvider2, jsonProvider3 ]
         , followers = [ jsonProvider4, jsonProvider5 ]
@@ -427,7 +427,7 @@ jsonProvider2 =
     JsonProvider
         { profile = jsonProfile2
         , topics = topics
-        , portfolio = profileId2 |> jsonLinks
+        , portfolio = profileId2 |> jsonPortfolio
         , recentLinks = (recentLinks2 |> toJsonLinks)
         , subscriptions = []
         , followers = []
@@ -439,7 +439,7 @@ jsonProvider3 =
     JsonProvider
         { profile = jsonProfile3
         , topics = topics
-        , portfolio = profileId3 |> jsonLinks
+        , portfolio = profileId3 |> jsonPortfolio
         , recentLinks = (recentLinks3 |> toJsonLinks)
         , subscriptions = []
         , followers = []
@@ -451,7 +451,7 @@ jsonProvider4 =
     JsonProvider
         { profile = jsonProfile4
         , topics = topics
-        , portfolio = profileId4 |> jsonLinks
+        , portfolio = profileId4 |> jsonPortfolio
         , recentLinks = (recentLinks1 |> toJsonLinks)
         , subscriptions = []
         , followers = []
@@ -463,7 +463,7 @@ jsonProvider5 =
     JsonProvider
         { profile = jsonProfile5
         , topics = topics
-        , portfolio = profileId5 |> jsonLinks
+        , portfolio = profileId5 |> jsonPortfolio
         , recentLinks = (recentLinks1 |> toJsonLinks)
         , subscriptions = []
         , followers = []
@@ -472,32 +472,32 @@ jsonProvider5 =
 
 provider1 : Provider
 provider1 =
-    Provider profile1 topics provider1Links recentLinks1 (Members []) (Members [])
+    Provider profile1 topics provider1Portfolio provider1Portfolio recentLinks1 (Members []) (Members [])
 
 
 provider1B : Provider
 provider1B =
-    Provider profile1 topics provider1Links recentLinks1 (Members []) (Members [])
+    Provider profile1 topics provider1Portfolio provider1Portfolio recentLinks1 (Members []) (Members [])
 
 
 provider2 : Provider
 provider2 =
-    Provider profile2 topics provider2Links recentLinks2 (Members []) (Members [])
+    Provider profile2 topics provider2Portfolio provider2Portfolio recentLinks2 (Members []) (Members [])
 
 
 provider3 : Provider
 provider3 =
-    Provider profile3 topics provider3Links recentLinks3 (Members []) (Members [])
+    Provider profile3 topics provider3Portfolio provider3Portfolio recentLinks3 (Members []) (Members [])
 
 
 provider4 : Provider
 provider4 =
-    Provider profile4 topics provider4Links [] (Members []) (Members [])
+    Provider profile4 topics provider4Portfolio provider4Portfolio [] (Members []) (Members [])
 
 
 provider5 : Provider
 provider5 =
-    Provider profile5 topics provider5Links [] (Members []) (Members [])
+    Provider profile5 topics provider5Portfolio provider5Portfolio [] (Members []) (Members [])
 
 
 

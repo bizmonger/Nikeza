@@ -13681,14 +13681,14 @@ var _user$project$Domain_Core$getId = function (id) {
 	var value = _p7._0;
 	return value;
 };
-var _user$project$Domain_Core$initLinks = {
+var _user$project$Domain_Core$initPortfolio = {
 	answers: {ctor: '[]'},
 	articles: {ctor: '[]'},
 	videos: {ctor: '[]'},
 	podcasts: {ctor: '[]'}
 };
 var _user$project$Domain_Core$portfolioExists = function (portfolio) {
-	return !_elm_lang$core$Native_Utils.eq(portfolio, _user$project$Domain_Core$initLinks);
+	return !_elm_lang$core$Native_Utils.eq(portfolio, _user$project$Domain_Core$initPortfolio);
 };
 var _user$project$Domain_Core$initTopics = {ctor: '[]'};
 var _user$project$Domain_Core$Form = F5(
@@ -13704,9 +13704,9 @@ var _user$project$Domain_Core$Portfolio = F4(
 	function (a, b, c, d) {
 		return {answers: a, articles: b, videos: c, podcasts: d};
 	});
-var _user$project$Domain_Core$Provider = F6(
-	function (a, b, c, d, e, f) {
-		return {profile: a, topics: b, portfolio: c, recentLinks: d, followers: e, subscriptions: f};
+var _user$project$Domain_Core$Provider = F7(
+	function (a, b, c, d, e, f, g) {
+		return {profile: a, topics: b, portfolio: c, filteredPortfolio: d, recentLinks: e, followers: f, subscriptions: g};
 	});
 var _user$project$Domain_Core$Portal = F7(
 	function (a, b, c, d, e, f, g) {
@@ -13776,11 +13776,12 @@ var _user$project$Domain_Core$initProfile = {
 	bio: _user$project$Domain_Core$undefined,
 	sources: {ctor: '[]'}
 };
-var _user$project$Domain_Core$initProvider = A6(
+var _user$project$Domain_Core$initProvider = A7(
 	_user$project$Domain_Core$Provider,
 	_user$project$Domain_Core$initProfile,
 	_user$project$Domain_Core$initTopics,
-	_user$project$Domain_Core$initLinks,
+	_user$project$Domain_Core$initPortfolio,
+	_user$project$Domain_Core$initPortfolio,
 	{ctor: '[]'},
 	_user$project$Domain_Core$initSubscription,
 	_user$project$Domain_Core$initSubscription);
@@ -13789,8 +13790,8 @@ var _user$project$Domain_Core$topicUrl = F2(
 		return _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined);
 	});
 var _user$project$Domain_Core$providerTopicUrl = F3(
-	function (clientId, providerId, topic) {
-		var _p8 = clientId;
+	function (loggedIn, providerId, topic) {
+		var _p8 = loggedIn;
 		if (_p8.ctor === 'Just') {
 			return _user$project$Domain_Core$Url(
 				A2(
@@ -13824,8 +13825,8 @@ var _user$project$Domain_Core$providerTopicUrl = F3(
 		}
 	});
 var _user$project$Domain_Core$providerUrl = F2(
-	function (clientId, providerId) {
-		var _p9 = clientId;
+	function (loggedIn, providerId) {
+		var _p9 = loggedIn;
 		if (_p9.ctor === 'Just') {
 			return _user$project$Domain_Core$Url(
 				A2(
@@ -13954,6 +13955,7 @@ var _user$project$Domain_Core$Article = {ctor: 'Article'};
 var _user$project$Domain_Core$toggleFilter = F3(
 	function (provider, _p12, allLinks) {
 		var _p13 = _p12;
+		var filtered = provider.filteredPortfolio;
 		var contentTypeLinks = function (contentType) {
 			var _p14 = contentType;
 			switch (_p14.ctor) {
@@ -14001,15 +14003,14 @@ var _user$project$Domain_Core$toggleFilter = F3(
 					},
 					links);
 			});
-		var links = provider.portfolio;
 		return _elm_lang$core$Native_Utils.update(
 			provider,
 			{
-				portfolio: {
-					answers: A2(toggleTopic, _user$project$Domain_Core$Answer, links.answers),
-					articles: A2(toggleTopic, _user$project$Domain_Core$Article, links.articles),
-					videos: A2(toggleTopic, _user$project$Domain_Core$Video, links.videos),
-					podcasts: A2(toggleTopic, _user$project$Domain_Core$Podcast, links.podcasts)
+				filteredPortfolio: {
+					answers: A2(toggleTopic, _user$project$Domain_Core$Answer, filtered.answers),
+					articles: A2(toggleTopic, _user$project$Domain_Core$Article, filtered.articles),
+					videos: A2(toggleTopic, _user$project$Domain_Core$Video, filtered.videos),
+					podcasts: A2(toggleTopic, _user$project$Domain_Core$Podcast, filtered.podcasts)
 				}
 			});
 	});
@@ -14085,11 +14086,12 @@ var _user$project$Services_Adapter$toProfile = function (jsonProfile) {
 	};
 };
 var _user$project$Services_Adapter$jsonProfileToProvider = function (jsonProfile) {
-	return A6(
+	return A7(
 		_user$project$Domain_Core$Provider,
 		_user$project$Services_Adapter$toProfile(jsonProfile),
 		_user$project$Domain_Core$initTopics,
-		_user$project$Domain_Core$initLinks,
+		_user$project$Domain_Core$initPortfolio,
+		_user$project$Domain_Core$initPortfolio,
 		{ctor: '[]'},
 		_user$project$Domain_Core$initSubscription,
 		_user$project$Domain_Core$initSubscription);
@@ -14124,6 +14126,7 @@ var _user$project$Services_Adapter$toProvider = function (jsonProvider) {
 		profile: _user$project$Services_Adapter$toProfile(field.profile),
 		topics: _user$project$Services_Adapter$toTopics(field.topics),
 		portfolio: _user$project$Services_Adapter$toPortfolio(field.portfolio),
+		filteredPortfolio: _user$project$Services_Adapter$toPortfolio(field.portfolio),
 		recentLinks: _user$project$Services_Adapter$toLinks(field.recentLinks),
 		followers: _user$project$Services_Adapter$toMembers(field.followers),
 		subscriptions: _user$project$Services_Adapter$toMembers(field.subscriptions)
@@ -14852,43 +14855,46 @@ var _user$project$Tests_TestAPI$videos = function (id) {
 var _user$project$Tests_TestAPI$podcasts = function (id) {
 	return A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Podcast, id);
 };
-var _user$project$Tests_TestAPI$provider1Links = A4(
+var _user$project$Tests_TestAPI$provider1Portfolio = A4(
 	_user$project$Domain_Core$Portfolio,
 	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId1),
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId1),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId1),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId1));
-var _user$project$Tests_TestAPI$provider1 = A6(
+var _user$project$Tests_TestAPI$provider1 = A7(
 	_user$project$Domain_Core$Provider,
 	_user$project$Tests_TestAPI$profile1,
 	_user$project$Tests_TestAPI$topics,
-	_user$project$Tests_TestAPI$provider1Links,
+	_user$project$Tests_TestAPI$provider1Portfolio,
+	_user$project$Tests_TestAPI$provider1Portfolio,
 	_user$project$Tests_TestAPI$recentLinks1,
 	_user$project$Domain_Core$Members(
 		{ctor: '[]'}),
 	_user$project$Domain_Core$Members(
 		{ctor: '[]'}));
-var _user$project$Tests_TestAPI$provider1B = A6(
+var _user$project$Tests_TestAPI$provider1B = A7(
 	_user$project$Domain_Core$Provider,
 	_user$project$Tests_TestAPI$profile1,
 	_user$project$Tests_TestAPI$topics,
-	_user$project$Tests_TestAPI$provider1Links,
+	_user$project$Tests_TestAPI$provider1Portfolio,
+	_user$project$Tests_TestAPI$provider1Portfolio,
 	_user$project$Tests_TestAPI$recentLinks1,
 	_user$project$Domain_Core$Members(
 		{ctor: '[]'}),
 	_user$project$Domain_Core$Members(
 		{ctor: '[]'}));
-var _user$project$Tests_TestAPI$provider2Links = A4(
+var _user$project$Tests_TestAPI$provider2Portfolio = A4(
 	_user$project$Domain_Core$Portfolio,
 	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId2),
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId2),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId2),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId2));
-var _user$project$Tests_TestAPI$provider2 = A6(
+var _user$project$Tests_TestAPI$provider2 = A7(
 	_user$project$Domain_Core$Provider,
 	_user$project$Tests_TestAPI$profile2,
 	_user$project$Tests_TestAPI$topics,
-	_user$project$Tests_TestAPI$provider2Links,
+	_user$project$Tests_TestAPI$provider2Portfolio,
+	_user$project$Tests_TestAPI$provider2Portfolio,
 	_user$project$Tests_TestAPI$recentLinks2,
 	_user$project$Domain_Core$Members(
 		{ctor: '[]'}),
@@ -14916,49 +14922,52 @@ var _user$project$Tests_TestAPI$subscriptions = F2(
 						_user$project$Domain_Core$Members(
 							{ctor: '[]'})))));
 	});
-var _user$project$Tests_TestAPI$provider3Links = A4(
+var _user$project$Tests_TestAPI$provider3Portfolio = A4(
 	_user$project$Domain_Core$Portfolio,
 	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId3),
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId3),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId3),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId3));
-var _user$project$Tests_TestAPI$provider3 = A6(
+var _user$project$Tests_TestAPI$provider3 = A7(
 	_user$project$Domain_Core$Provider,
 	_user$project$Tests_TestAPI$profile3,
 	_user$project$Tests_TestAPI$topics,
-	_user$project$Tests_TestAPI$provider3Links,
+	_user$project$Tests_TestAPI$provider3Portfolio,
+	_user$project$Tests_TestAPI$provider3Portfolio,
 	_user$project$Tests_TestAPI$recentLinks3,
 	_user$project$Domain_Core$Members(
 		{ctor: '[]'}),
 	_user$project$Domain_Core$Members(
 		{ctor: '[]'}));
-var _user$project$Tests_TestAPI$provider4Links = A4(
+var _user$project$Tests_TestAPI$provider4Portfolio = A4(
 	_user$project$Domain_Core$Portfolio,
 	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId4),
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId4),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId4),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId4));
-var _user$project$Tests_TestAPI$provider4 = A6(
+var _user$project$Tests_TestAPI$provider4 = A7(
 	_user$project$Domain_Core$Provider,
 	_user$project$Tests_TestAPI$profile4,
 	_user$project$Tests_TestAPI$topics,
-	_user$project$Tests_TestAPI$provider4Links,
+	_user$project$Tests_TestAPI$provider4Portfolio,
+	_user$project$Tests_TestAPI$provider4Portfolio,
 	{ctor: '[]'},
 	_user$project$Domain_Core$Members(
 		{ctor: '[]'}),
 	_user$project$Domain_Core$Members(
 		{ctor: '[]'}));
-var _user$project$Tests_TestAPI$provider5Links = A4(
+var _user$project$Tests_TestAPI$provider5Portfolio = A4(
 	_user$project$Domain_Core$Portfolio,
 	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId5),
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId5),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId5),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId5));
-var _user$project$Tests_TestAPI$provider5 = A6(
+var _user$project$Tests_TestAPI$provider5 = A7(
 	_user$project$Domain_Core$Provider,
 	_user$project$Tests_TestAPI$profile5,
 	_user$project$Tests_TestAPI$topics,
-	_user$project$Tests_TestAPI$provider5Links,
+	_user$project$Tests_TestAPI$provider5Portfolio,
+	_user$project$Tests_TestAPI$provider5Portfolio,
 	{ctor: '[]'},
 	_user$project$Domain_Core$Members(
 		{ctor: '[]'}),
@@ -15020,7 +15029,7 @@ var _user$project$Tests_TestAPI$followers = F2(
 						_user$project$Domain_Core$Members(
 							{ctor: '[]'})))))));
 	});
-var _user$project$Tests_TestAPI$jsonLinks = function (id) {
+var _user$project$Tests_TestAPI$jsonPortfolio = function (id) {
 	return A4(
 		_user$project$Services_Adapter$JsonPortfolio,
 		_user$project$Tests_TestAPI$toJsonLinks(
@@ -15036,7 +15045,7 @@ var _user$project$Tests_TestAPI$jsonProvider2 = _user$project$Services_Adapter$J
 	{
 		profile: _user$project$Tests_TestAPI$jsonProfile2,
 		topics: _user$project$Tests_TestAPI$topics,
-		portfolio: _user$project$Tests_TestAPI$jsonLinks(_user$project$Tests_TestAPI$profileId2),
+		portfolio: _user$project$Tests_TestAPI$jsonPortfolio(_user$project$Tests_TestAPI$profileId2),
 		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks2),
 		subscriptions: {ctor: '[]'},
 		followers: {ctor: '[]'}
@@ -15045,7 +15054,7 @@ var _user$project$Tests_TestAPI$jsonProvider3 = _user$project$Services_Adapter$J
 	{
 		profile: _user$project$Tests_TestAPI$jsonProfile3,
 		topics: _user$project$Tests_TestAPI$topics,
-		portfolio: _user$project$Tests_TestAPI$jsonLinks(_user$project$Tests_TestAPI$profileId3),
+		portfolio: _user$project$Tests_TestAPI$jsonPortfolio(_user$project$Tests_TestAPI$profileId3),
 		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks3),
 		subscriptions: {ctor: '[]'},
 		followers: {ctor: '[]'}
@@ -15054,7 +15063,7 @@ var _user$project$Tests_TestAPI$jsonProvider4 = _user$project$Services_Adapter$J
 	{
 		profile: _user$project$Tests_TestAPI$jsonProfile4,
 		topics: _user$project$Tests_TestAPI$topics,
-		portfolio: _user$project$Tests_TestAPI$jsonLinks(_user$project$Tests_TestAPI$profileId4),
+		portfolio: _user$project$Tests_TestAPI$jsonPortfolio(_user$project$Tests_TestAPI$profileId4),
 		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
 		subscriptions: {ctor: '[]'},
 		followers: {ctor: '[]'}
@@ -15063,7 +15072,7 @@ var _user$project$Tests_TestAPI$jsonProvider5 = _user$project$Services_Adapter$J
 	{
 		profile: _user$project$Tests_TestAPI$jsonProfile5,
 		topics: _user$project$Tests_TestAPI$topics,
-		portfolio: _user$project$Tests_TestAPI$jsonLinks(_user$project$Tests_TestAPI$profileId5),
+		portfolio: _user$project$Tests_TestAPI$jsonPortfolio(_user$project$Tests_TestAPI$profileId5),
 		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
 		subscriptions: {ctor: '[]'},
 		followers: {ctor: '[]'}
@@ -15072,7 +15081,7 @@ var _user$project$Tests_TestAPI$jsonProvider1 = _user$project$Services_Adapter$J
 	{
 		profile: _user$project$Tests_TestAPI$jsonProfile1,
 		topics: _user$project$Tests_TestAPI$topics,
-		portfolio: _user$project$Tests_TestAPI$jsonLinks(_user$project$Tests_TestAPI$profileId1),
+		portfolio: _user$project$Tests_TestAPI$jsonPortfolio(_user$project$Tests_TestAPI$profileId1),
 		recentLinks: _user$project$Tests_TestAPI$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
 		subscriptions: {
 			ctor: '::',
@@ -17599,7 +17608,7 @@ var _user$project$Controls_ProviderLinks$Toggle = function (a) {
 };
 var _user$project$Controls_ProviderLinks$view = F2(
 	function (linksFrom, provider) {
-		var links = provider.portfolio;
+		var filtered = provider.filteredPortfolio;
 		var toCheckBoxState = F2(
 			function (include, topic) {
 				return A2(
@@ -17748,7 +17757,7 @@ var _user$project$Controls_ProviderLinks$view = F2(
 																				_0: A2(
 																					_elm_lang$html$Html$div,
 																					{ctor: '[]'},
-																					A4(_user$project$Controls_ProviderLinks$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Answer, links.answers)),
+																					A4(_user$project$Controls_ProviderLinks$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Answer, filtered.answers)),
 																				_1: {ctor: '[]'}
 																			}),
 																		_1: {
@@ -17761,7 +17770,7 @@ var _user$project$Controls_ProviderLinks$view = F2(
 																					_0: A2(
 																						_elm_lang$html$Html$div,
 																						{ctor: '[]'},
-																						A4(_user$project$Controls_ProviderLinks$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Article, links.articles)),
+																						A4(_user$project$Controls_ProviderLinks$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Article, filtered.articles)),
 																					_1: {ctor: '[]'}
 																				}),
 																			_1: {ctor: '[]'}
@@ -17824,7 +17833,7 @@ var _user$project$Controls_ProviderLinks$view = F2(
 																						_0: A2(
 																							_elm_lang$html$Html$div,
 																							{ctor: '[]'},
-																							A4(_user$project$Controls_ProviderLinks$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Podcast, links.podcasts)),
+																							A4(_user$project$Controls_ProviderLinks$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Podcast, filtered.podcasts)),
 																						_1: {ctor: '[]'}
 																					}),
 																				_1: {
@@ -17837,7 +17846,7 @@ var _user$project$Controls_ProviderLinks$view = F2(
 																							_0: A2(
 																								_elm_lang$html$Html$div,
 																								{ctor: '[]'},
-																								A4(_user$project$Controls_ProviderLinks$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Video, links.videos)),
+																								A4(_user$project$Controls_ProviderLinks$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Video, filtered.videos)),
 																							_1: {ctor: '[]'}
 																						}),
 																					_1: {ctor: '[]'}
@@ -19351,7 +19360,7 @@ var _user$project$Home$onEditProfile = F2(
 										provider,
 										{profile: _p8._0}),
 									sourcesNavigation: true,
-									linksNavigation: !_elm_lang$core$Native_Utils.eq(provider.portfolio, _user$project$Domain_Core$initLinks),
+									linksNavigation: !_elm_lang$core$Native_Utils.eq(provider.portfolio, _user$project$Domain_Core$initPortfolio),
 									requested: _user$project$Domain_Core$ViewSources
 								})
 						}),
