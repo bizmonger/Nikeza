@@ -11,11 +11,11 @@ type Msg
     | Featured ( Link, Bool )
 
 
-update : Msg -> Provider -> List Link -> Provider
-update msg provider allLinks =
+update : Msg -> Provider -> Provider
+update msg provider =
     case msg of
         Toggle ( topic, include ) ->
-            allLinks |> toggleFilter provider ( topic, include )
+            toggleFilter provider ( topic, include )
 
         Featured ( link, isFeatured ) ->
             let

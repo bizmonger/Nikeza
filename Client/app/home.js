@@ -13952,8 +13952,8 @@ var _user$project$Domain_Core$Answer = {ctor: 'Answer'};
 var _user$project$Domain_Core$Podcast = {ctor: 'Podcast'};
 var _user$project$Domain_Core$Video = {ctor: 'Video'};
 var _user$project$Domain_Core$Article = {ctor: 'Article'};
-var _user$project$Domain_Core$toggleFilter = F3(
-	function (provider, _p12, allLinks) {
+var _user$project$Domain_Core$toggleFilter = F2(
+	function (provider, _p12) {
 		var _p13 = _p12;
 		var filtered = provider.filteredPortfolio;
 		var contentTypeLinks = function (contentType) {
@@ -13965,28 +13965,28 @@ var _user$project$Domain_Core$toggleFilter = F3(
 						function (l) {
 							return _elm_lang$core$Native_Utils.eq(l.contentType, _user$project$Domain_Core$Article);
 						},
-						allLinks);
+						A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, provider.portfolio));
 				case 'Video':
 					return A2(
 						_elm_lang$core$List$filter,
 						function (l) {
 							return _elm_lang$core$Native_Utils.eq(l.contentType, _user$project$Domain_Core$Video);
 						},
-						allLinks);
+						A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, provider.portfolio));
 				case 'Podcast':
 					return A2(
 						_elm_lang$core$List$filter,
 						function (l) {
 							return _elm_lang$core$Native_Utils.eq(l.contentType, _user$project$Domain_Core$Podcast);
 						},
-						allLinks);
+						A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, provider.portfolio));
 				case 'Answer':
 					return A2(
 						_elm_lang$core$List$filter,
 						function (l) {
 							return _elm_lang$core$Native_Utils.eq(l.contentType, _user$project$Domain_Core$Answer);
 						},
-						allLinks);
+						A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, provider.portfolio));
 				default:
 					return {ctor: '[]'};
 			}
@@ -17196,15 +17196,14 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 		}
 	});
 
-var _user$project$Controls_ProviderContentTypeLinks$update = F3(
-	function (msg, provider, allLinks) {
+var _user$project$Controls_ProviderContentTypeLinks$update = F2(
+	function (msg, provider) {
 		var _p0 = msg;
 		if (_p0.ctor === 'Toggle') {
-			return A3(
+			return A2(
 				_user$project$Domain_Core$toggleFilter,
 				provider,
-				{ctor: '_Tuple2', _0: _p0._0._0, _1: _p0._0._1},
-				allLinks);
+				{ctor: '_Tuple2', _0: _p0._0._0, _1: _p0._0._1});
 		} else {
 			var _p2 = _p0._0._0;
 			var setFeaturedLink = function (l) {
@@ -17590,14 +17589,13 @@ var _user$project$Controls_ProviderLinks$requestAllContent = F4(
 				_1: {ctor: '[]'}
 			});
 	});
-var _user$project$Controls_ProviderLinks$update = F3(
-	function (msg, provider, allLinks) {
+var _user$project$Controls_ProviderLinks$update = F2(
+	function (msg, provider) {
 		var _p0 = msg;
-		return A3(
+		return A2(
 			_user$project$Domain_Core$toggleFilter,
 			provider,
-			{ctor: '_Tuple2', _0: _p0._0._0, _1: _p0._0._1},
-			allLinks);
+			{ctor: '_Tuple2', _0: _p0._0._0, _1: _p0._0._1});
 	});
 var _user$project$Controls_ProviderLinks$Toggle = function (a) {
 	return {ctor: 'Toggle', _0: a};
@@ -19358,11 +19356,7 @@ var _user$project$Home$onPortalLinksAction = F2(
 	function (subMsg, model) {
 		var _p9 = subMsg;
 		var pendingPortal = model.portal;
-		var provider = A3(
-			_user$project$Controls_ProviderLinks$update,
-			subMsg,
-			model.portal.provider,
-			A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, model.portal.provider.portfolio));
+		var provider = A2(_user$project$Controls_ProviderLinks$update, subMsg, model.portal.provider);
 		return {
 			ctor: '_Tuple2',
 			_0: _elm_lang$core$Native_Utils.update(
@@ -19381,17 +19375,9 @@ var _user$project$Home$onUpdateProviderLinks = F3(
 		var provider = function () {
 			var _p11 = linksfrom;
 			if (_p11.ctor === 'FromPortal') {
-				return A3(
-					_user$project$Controls_ProviderLinks$update,
-					subMsg,
-					model.portal.provider,
-					A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, model.portal.provider.portfolio));
+				return A2(_user$project$Controls_ProviderLinks$update, subMsg, model.portal.provider);
 			} else {
-				return A3(
-					_user$project$Controls_ProviderLinks$update,
-					subMsg,
-					model.selectedProvider,
-					A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, model.portal.provider.portfolio));
+				return A2(_user$project$Controls_ProviderLinks$update, subMsg, model.selectedProvider);
 			}
 		}();
 		return {
@@ -22338,15 +22324,7 @@ var _user$project$Home$update = F2(
 				return A3(_user$project$Home$onUpdateProviderLinks, _p33._0, model, _user$project$Domain_Core$FromOther);
 			case 'ProviderContentTypeLinksAction':
 				var _p44 = _p33._0;
-				var provider = _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? A3(
-					_user$project$Controls_ProviderContentTypeLinks$update,
-					_p44,
-					model.portal.provider,
-					A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, model.portal.provider.portfolio)) : A3(
-					_user$project$Controls_ProviderContentTypeLinks$update,
-					_p44,
-					model.selectedProvider,
-					A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, model.portal.provider.portfolio));
+				var provider = _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? A2(_user$project$Controls_ProviderContentTypeLinks$update, _p44, model.portal.provider) : A2(_user$project$Controls_ProviderContentTypeLinks$update, _p44, model.selectedProvider);
 				var _p43 = _p44;
 				if (_p43.ctor === 'Toggle') {
 					return _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? {

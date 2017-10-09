@@ -262,9 +262,9 @@ update msg model =
                 let
                     provider =
                         if model.portal.requested == Domain.ViewLinks then
-                            ProviderContentTypeLinks.update subMsg model.portal.provider (getLinks All model.portal.provider.portfolio)
+                            ProviderContentTypeLinks.update subMsg model.portal.provider
                         else
-                            ProviderContentTypeLinks.update subMsg model.selectedProvider (getLinks All model.portal.provider.portfolio)
+                            ProviderContentTypeLinks.update subMsg model.selectedProvider
                 in
                     case subMsg of
                         ProviderContentTypeLinks.Toggle _ ->
@@ -299,10 +299,10 @@ onUpdateProviderLinks subMsg model linksfrom =
                 provider =
                     case linksfrom of
                         FromPortal ->
-                            ProviderLinks.update subMsg model.portal.provider (getLinks All model.portal.provider.portfolio)
+                            ProviderLinks.update subMsg model.portal.provider
 
                         FromOther ->
-                            ProviderLinks.update subMsg model.selectedProvider (getLinks All model.portal.provider.portfolio)
+                            ProviderLinks.update subMsg model.selectedProvider
             in
                 ( { model | selectedProvider = provider }, Cmd.none )
 
@@ -313,7 +313,7 @@ onPortalLinksAction subMsg model =
         ProviderLinks.Toggle _ ->
             let
                 provider =
-                    ProviderLinks.update subMsg model.portal.provider (getLinks All model.portal.provider.portfolio)
+                    ProviderLinks.update subMsg model.portal.provider
 
                 pendingPortal =
                     model.portal

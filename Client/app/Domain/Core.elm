@@ -329,22 +329,28 @@ type ContentType
 -- FUNCTIONS
 
 
-toggleFilter : Provider -> ( Topic, Bool ) -> List Link -> Provider
-toggleFilter provider ( topic, include ) allLinks =
+toggleFilter : Provider -> ( Topic, Bool ) -> Provider
+toggleFilter provider ( topic, include ) =
     let
         contentTypeLinks contentType =
             case contentType of
                 Article ->
-                    allLinks |> List.filter (\l -> l.contentType == Article)
+                    provider.portfolio
+                        |> getLinks All
+                        |> List.filter (\l -> l.contentType == Article)
 
                 Video ->
-                    allLinks |> List.filter (\l -> l.contentType == Video)
+                    provider.portfolio
+                        |> getLinks All
+                        |> List.filter (\l -> l.contentType == Video)
 
                 Podcast ->
-                    allLinks |> List.filter (\l -> l.contentType == Podcast)
+                    provider.portfolio
+                        |> getLinks All
+                        |> List.filter (\l -> l.contentType == Podcast)
 
                 Answer ->
-                    allLinks |> List.filter (\l -> l.contentType == Answer)
+                    provider.portfolio |> getLinks All |> List.filter (\l -> l.contentType == Answer)
 
                 _ ->
                     []
