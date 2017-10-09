@@ -8,13 +8,6 @@ import Html.Events exposing (..)
 import Json.Decode exposing (map)
 
 
--- MODEL
-
-
-type alias Model =
-    NewLinks
-
-
 type Msg
     = InputTitle String
     | InputUrl String
@@ -25,11 +18,7 @@ type Msg
     | AssociateTopic Topic
 
 
-
--- UPDATE
-
-
-update : Msg -> Model -> Model
+update : Msg -> NewLinks -> NewLinks
 update msg model =
     let
         linkToCreate =
@@ -65,7 +54,7 @@ update msg model =
 -- VIEW
 
 
-view : Model -> Html Msg
+view : NewLinks -> Html Msg
 view model =
     let
         toButton topic =

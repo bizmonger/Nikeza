@@ -6,9 +6,6 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
 
 
--- UPDATE
-
-
 type Msg
     = Toggle ( Topic, Bool )
     | Featured ( Link, Bool )

@@ -6,9 +6,6 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
 
 
--- UPDATE
-
-
 type Msg
     = Toggle ( Topic, Bool )
 
@@ -18,10 +15,6 @@ update msg provider allLinks =
     case msg of
         Toggle ( topic, include ) ->
             allLinks |> toggleFilter provider ( topic, include )
-
-
-
--- VIEW
 
 
 view : Linksfrom -> Provider -> Html Msg

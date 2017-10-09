@@ -7,37 +7,30 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
 
--- Model
-
-
-type alias Model =
-    Provider
-
-
 type Msg
     = UpdateSubscription SubscriptionUpdate
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
+update : Msg -> Provider -> ( Provider, Cmd Msg )
+update msg provider =
     case msg of
         UpdateSubscription update ->
             case update of
                 Subscribe clientId providerId ->
                     case runtime.follow clientId providerId of
                         Ok _ ->
-                            ( model, Cmd.none )
+                            ( provider, Cmd.none )
 
                         Err _ ->
-                            ( model, Cmd.none )
+                            ( provider, Cmd.none )
 
                 Unsubscribe clientId providerId ->
                     case runtime.follow clientId providerId of
                         Ok _ ->
-                            ( model, Cmd.none )
+                            ( provider, Cmd.none )
 
                         Err _ ->
-                            ( model, Cmd.none )
+                            ( provider, Cmd.none )
 
 
 thumbnail : Maybe Provider -> Bool -> Provider -> Html Msg
@@ -57,13 +50,16 @@ thumbnail loggedIn showSubscriptionState provider =
                 , label [] [ text " " ]
                 ]
 
+        onFeaturedTopic topic =
+            if topic.isFeatured then
+                Just (formatTopic topic)
+            else
+                Nothing
+
         topics =
             List.foldr concatTopics
                 (div [] [])
-                (provider.topics
-                    |> List.filter (\t -> t.isFeatured)
-                    |> List.map formatTopic
-                )
+                (provider.topics |> List.filterMap onFeaturedTopic)
 
         nameAndTopics =
             div []

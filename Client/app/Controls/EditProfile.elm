@@ -6,39 +6,32 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
 
 
--- MODEL
-
-
-type alias Model =
-    Profile
-
-
 type Msg
     = FirstNameInput String
     | LastNameInput String
     | EmailInput String
     | BioInput String
-    | Save Model
+    | Save Profile
 
 
 
 -- UPDATE
 
 
-update : Msg -> Model -> Model
-update msg model =
+update : Msg -> Profile -> Profile
+update msg profile =
     case msg of
         FirstNameInput v ->
-            { model | firstName = Name v }
+            { profile | firstName = Name v }
 
         LastNameInput v ->
-            { model | lastName = Name v }
+            { profile | lastName = Name v }
 
         EmailInput v ->
-            { model | email = Email v }
+            { profile | email = Email v }
 
         BioInput v ->
-            { model | bio = v }
+            { profile | bio = v }
 
         Save v ->
             v
@@ -48,17 +41,17 @@ update msg model =
 -- VIEW
 
 
-view : Model -> Html Msg
-view model =
+view : Profile -> Html Msg
+view profile =
     div [ class "mainContent" ]
         [ h3 [] [ text "Profile" ]
-        , input [ type_ "text", placeholder "first name", onInput FirstNameInput, value <| getName model.firstName ] []
+        , input [ type_ "text", placeholder "first name", onInput FirstNameInput, value <| getName profile.firstName ] []
         , br [] []
-        , input [ type_ "text", placeholder "last name", onInput LastNameInput, value <| getName model.lastName ] []
+        , input [ type_ "text", placeholder "last name", onInput LastNameInput, value <| getName profile.lastName ] []
         , br [] []
-        , input [ type_ "text", placeholder "email", onInput EmailInput, value <| getEmail model.email ] []
+        , input [ type_ "text", placeholder "email", onInput EmailInput, value <| getEmail profile.email ] []
         , br [] []
-        , textarea [ placeholder "bio description", onInput BioInput, value model.bio ] []
+        , textarea [ placeholder "bio description", onInput BioInput, value profile.bio ] []
         , br [] []
-        , button [ onClick <| Save model ] [ text "Save" ]
+        , button [ onClick <| Save profile ] [ text "Save" ]
         ]

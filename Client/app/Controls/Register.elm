@@ -10,9 +10,6 @@ import Services.Adapter exposing (..)
 import Navigation exposing (..)
 
 
--- COMMANDS
-
-
 type Msg
     = FirstNameInput String
     | LastNameInput String

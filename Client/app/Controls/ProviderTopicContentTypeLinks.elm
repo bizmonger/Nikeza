@@ -5,15 +5,8 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 
 
--- UPDATE
-
-
 type Msg
     = None
-
-
-
--- VIEW
 
 
 view : Provider -> Topic -> ContentType -> Html Msg

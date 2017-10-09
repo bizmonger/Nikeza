@@ -5,9 +5,6 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 
 
--- Model
-
-
 type Msg
     = None
 

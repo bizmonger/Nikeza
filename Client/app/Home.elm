@@ -2,7 +2,6 @@ module Home exposing (..)
 
 import Settings exposing (runtime)
 import Domain.Core as Domain exposing (..)
-import Domain.Provider as Provider exposing (..)
 import Controls.Login as Login exposing (..)
 import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
 import Controls.RecentProviderLinks as RecentProviderLinks exposing (..)
@@ -867,7 +866,7 @@ renderPage content model =
             ]
 
 
-providerTopicPage : Linksfrom -> Provider.Model -> Html Msg
+providerTopicPage : Linksfrom -> Provider -> Html Msg
 providerTopicPage linksfrom model =
     let
         profileId =
@@ -999,10 +998,20 @@ content contentToEmbed model =
 
 recentLinks : List Provider -> List Link
 recentLinks providers =
-    providers
-        |> List.filter (\p -> p.recentLinks /= [])
-        |> List.map (\p -> p.recentLinks)
-        |> List.concat
+    let
+        onRecentLinks provider =
+            if
+                provider.recentLinks
+                    |> List.isEmpty
+                    |> not
+            then
+                Just provider.recentLinks
+            else
+                Nothing
+    in
+        providers
+            |> List.filterMap onRecentLinks
+            |> List.concat
 
 
 recentLinksContent : Id -> List Provider -> Html Msg
