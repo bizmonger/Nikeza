@@ -332,34 +332,13 @@ type ContentType
 toggleFilter : Provider -> ( Topic, Bool ) -> Provider
 toggleFilter provider ( topic, include ) =
     let
-        contentTypeLinks contentType =
-            case contentType of
-                Article ->
-                    provider.portfolio
-                        |> getLinks All
-                        |> List.filter (\l -> l.contentType == Article)
-
-                Video ->
-                    provider.portfolio
-                        |> getLinks All
-                        |> List.filter (\l -> l.contentType == Video)
-
-                Podcast ->
-                    provider.portfolio
-                        |> getLinks All
-                        |> List.filter (\l -> l.contentType == Podcast)
-
-                Answer ->
-                    provider.portfolio |> getLinks All |> List.filter (\l -> l.contentType == Answer)
-
-                _ ->
-                    []
-
-        toggleTopic contentType links =
+        toggleTopic contentType existing =
             if include then
-                links |> List.append (contentTypeLinks contentType)
+                existing
+                    |> List.append (provider.portfolio |> getLinks contentType)
+                    |> List.filter (\link -> (link.topics |> hasMatch topic))
             else
-                links |> List.filter (\link -> not (link.topics |> hasMatch topic))
+                existing |> List.filter (\link -> not (link.topics |> hasMatch topic))
 
         filtered =
             provider.filteredPortfolio

@@ -13955,53 +13955,24 @@ var _user$project$Domain_Core$Article = {ctor: 'Article'};
 var _user$project$Domain_Core$toggleFilter = F2(
 	function (provider, _p12) {
 		var _p13 = _p12;
+		var _p14 = _p13._0;
 		var filtered = provider.filteredPortfolio;
-		var contentTypeLinks = function (contentType) {
-			var _p14 = contentType;
-			switch (_p14.ctor) {
-				case 'Article':
-					return A2(
-						_elm_lang$core$List$filter,
-						function (l) {
-							return _elm_lang$core$Native_Utils.eq(l.contentType, _user$project$Domain_Core$Article);
-						},
-						A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, provider.portfolio));
-				case 'Video':
-					return A2(
-						_elm_lang$core$List$filter,
-						function (l) {
-							return _elm_lang$core$Native_Utils.eq(l.contentType, _user$project$Domain_Core$Video);
-						},
-						A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, provider.portfolio));
-				case 'Podcast':
-					return A2(
-						_elm_lang$core$List$filter,
-						function (l) {
-							return _elm_lang$core$Native_Utils.eq(l.contentType, _user$project$Domain_Core$Podcast);
-						},
-						A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, provider.portfolio));
-				case 'Answer':
-					return A2(
-						_elm_lang$core$List$filter,
-						function (l) {
-							return _elm_lang$core$Native_Utils.eq(l.contentType, _user$project$Domain_Core$Answer);
-						},
-						A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, provider.portfolio));
-				default:
-					return {ctor: '[]'};
-			}
-		};
 		var toggleTopic = F2(
-			function (contentType, links) {
+			function (contentType, existing) {
 				return _p13._1 ? A2(
-					_elm_lang$core$List$append,
-					contentTypeLinks(contentType),
-					links) : A2(
 					_elm_lang$core$List$filter,
 					function (link) {
-						return !A2(_user$project$Domain_Core$hasMatch, _p13._0, link.topics);
+						return A2(_user$project$Domain_Core$hasMatch, _p14, link.topics);
 					},
-					links);
+					A2(
+						_elm_lang$core$List$append,
+						A2(_user$project$Domain_Core$getLinks, contentType, provider.portfolio),
+						existing)) : A2(
+					_elm_lang$core$List$filter,
+					function (link) {
+						return !A2(_user$project$Domain_Core$hasMatch, _p14, link.topics);
+					},
+					existing);
 			});
 		return _elm_lang$core$Native_Utils.update(
 			provider,
