@@ -26,7 +26,7 @@ view linksFrom provider =
         toCheckBoxState include topic =
             div []
                 [ input [ type_ "checkbox", checked include, onCheck (\isChecked -> Toggle ( topic, isChecked )) ] []
-                , label [] [ text <| getTopic topic ]
+                , label [] [ text <| topicText topic ]
                 ]
 
         filtered =
@@ -70,7 +70,7 @@ requestAllContent linksFrom profileId contentType links =
             links |> List.length |> toString
     in
         List.append (linksUI links)
-            [ a [ href <| getUrl <| allContentUrl linksFrom profileId contentType ]
+            [ a [ href <| urlText <| allContentUrl linksFrom profileId contentType ]
                 [ text <| ("All (" ++ totalLinks ++ ") links"), br [] [] ]
             ]
 
@@ -78,9 +78,9 @@ requestAllContent linksFrom profileId contentType links =
 decorateIfFeatured : Link -> Html Msg
 decorateIfFeatured link =
     if not link.isFeatured then
-        a [ href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]
+        a [ href <| urlText link.url, target "_blank" ] [ text <| titleText link.title, br [] [] ]
     else
-        a [ class "featured", href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]
+        a [ class "featured", href <| urlText link.url, target "_blank" ] [ text <| titleText link.title, br [] [] ]
 
 
 linksUI : List Link -> List (Html Msg)
@@ -95,5 +95,5 @@ toCheckbox : Topic -> Html Msg
 toCheckbox topic =
     div []
         [ input [ type_ "checkbox", checked True, onCheck (\b -> Toggle ( topic, b )) ] []
-        , label [] [ text <| getTopic topic ]
+        , label [] [ text <| topicText topic ]
         ]

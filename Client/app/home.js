@@ -13638,45 +13638,45 @@ var _user$project$Domain_Core$compareLinks = F2(
 	function (a, b) {
 		return a.isFeatured ? _elm_lang$core$Basics$LT : (b.isFeatured ? _elm_lang$core$Basics$GT : _elm_lang$core$Basics$EQ);
 	});
-var _user$project$Domain_Core$getPlatform = function (platform) {
+var _user$project$Domain_Core$platformText = function (platform) {
 	var _p2 = platform;
 	var value = _p2._0;
 	return value;
 };
-var _user$project$Domain_Core$getTopic = function (topic) {
+var _user$project$Domain_Core$topicText = function (topic) {
 	return topic.name;
 };
 var _user$project$Domain_Core$hasMatch = F2(
 	function (topic, topics) {
 		return A2(
 			_elm_lang$core$List$member,
-			_user$project$Domain_Core$getTopic(topic),
+			_user$project$Domain_Core$topicText(topic),
 			_user$project$Domain_Core$toTopicNames(topics));
 	});
-var _user$project$Domain_Core$getUrl = function (url) {
+var _user$project$Domain_Core$urlText = function (url) {
 	var _p3 = url;
 	var value = _p3._0;
 	return value;
 };
 var _user$project$Domain_Core$toUrl = function (link) {
-	return _user$project$Domain_Core$getUrl(link.url);
+	return _user$project$Domain_Core$urlText(link.url);
 };
-var _user$project$Domain_Core$getTitle = function (title) {
+var _user$project$Domain_Core$titleText = function (title) {
 	var _p4 = title;
 	var value = _p4._0;
 	return value;
 };
-var _user$project$Domain_Core$getEmail = function (email) {
+var _user$project$Domain_Core$emailText = function (email) {
 	var _p5 = email;
 	var value = _p5._0;
 	return value;
 };
-var _user$project$Domain_Core$getName = function (name) {
+var _user$project$Domain_Core$nameText = function (name) {
 	var _p6 = name;
 	var value = _p6._0;
 	return value;
 };
-var _user$project$Domain_Core$getId = function (id) {
+var _user$project$Domain_Core$idText = function (id) {
 	var _p7 = id;
 	var value = _p7._0;
 	return value;
@@ -13799,17 +13799,17 @@ var _user$project$Domain_Core$providerTopicUrl = F3(
 					'/#/portal/',
 					A2(
 						_elm_lang$core$Basics_ops['++'],
-						_user$project$Domain_Core$getId(_p8._0),
+						_user$project$Domain_Core$idText(_p8._0),
 						A2(
 							_elm_lang$core$Basics_ops['++'],
 							'/provider/',
 							A2(
 								_elm_lang$core$Basics_ops['++'],
-								_user$project$Domain_Core$getId(providerId),
+								_user$project$Domain_Core$idText(providerId),
 								A2(
 									_elm_lang$core$Basics_ops['++'],
 									'/',
-									_user$project$Domain_Core$getTopic(topic)))))));
+									_user$project$Domain_Core$topicText(topic)))))));
 		} else {
 			return _user$project$Domain_Core$Url(
 				A2(
@@ -13817,11 +13817,11 @@ var _user$project$Domain_Core$providerTopicUrl = F3(
 					'/#/provider/',
 					A2(
 						_elm_lang$core$Basics_ops['++'],
-						_user$project$Domain_Core$getId(providerId),
+						_user$project$Domain_Core$idText(providerId),
 						A2(
 							_elm_lang$core$Basics_ops['++'],
 							'/',
-							_user$project$Domain_Core$getTopic(topic)))));
+							_user$project$Domain_Core$topicText(topic)))));
 		}
 	});
 var _user$project$Domain_Core$providerUrl = F2(
@@ -13834,17 +13834,17 @@ var _user$project$Domain_Core$providerUrl = F2(
 					'/#/portal/',
 					A2(
 						_elm_lang$core$Basics_ops['++'],
-						_user$project$Domain_Core$getId(_p9._0),
+						_user$project$Domain_Core$idText(_p9._0),
 						A2(
 							_elm_lang$core$Basics_ops['++'],
 							'/provider/',
-							_user$project$Domain_Core$getId(providerId)))));
+							_user$project$Domain_Core$idText(providerId)))));
 		} else {
 			return _user$project$Domain_Core$Url(
 				A2(
 					_elm_lang$core$Basics_ops['++'],
 					'/#/provider/',
-					_user$project$Domain_Core$getId(providerId)));
+					_user$project$Domain_Core$idText(providerId)));
 		}
 	});
 var _user$project$Domain_Core$allContentUrl = F3(
@@ -13857,7 +13857,7 @@ var _user$project$Domain_Core$allContentUrl = F3(
 					'/#/provider/',
 					A2(
 						_elm_lang$core$Basics_ops['++'],
-						_user$project$Domain_Core$getId(id),
+						_user$project$Domain_Core$idText(id),
 						A2(
 							_elm_lang$core$Basics_ops['++'],
 							'/all/',
@@ -13869,7 +13869,7 @@ var _user$project$Domain_Core$allContentUrl = F3(
 					'/#/portal/',
 					A2(
 						_elm_lang$core$Basics_ops['++'],
-						_user$project$Domain_Core$getId(id),
+						_user$project$Domain_Core$idText(id),
 						A2(
 							_elm_lang$core$Basics_ops['++'],
 							'/all/',
@@ -13886,13 +13886,13 @@ var _user$project$Domain_Core$allTopicContentUrl = F4(
 					'/#/provider/',
 					A2(
 						_elm_lang$core$Basics_ops['++'],
-						_user$project$Domain_Core$getId(id),
+						_user$project$Domain_Core$idText(id),
 						A2(
 							_elm_lang$core$Basics_ops['++'],
 							'/',
 							A2(
 								_elm_lang$core$Basics_ops['++'],
-								_user$project$Domain_Core$getTopic(topic),
+								_user$project$Domain_Core$topicText(topic),
 								A2(
 									_elm_lang$core$Basics_ops['++'],
 									'/all/',
@@ -13904,13 +13904,13 @@ var _user$project$Domain_Core$allTopicContentUrl = F4(
 					'/#/portal/',
 					A2(
 						_elm_lang$core$Basics_ops['++'],
-						_user$project$Domain_Core$getId(id),
+						_user$project$Domain_Core$idText(id),
 						A2(
 							_elm_lang$core$Basics_ops['++'],
 							'/',
 							A2(
 								_elm_lang$core$Basics_ops['++'],
-								_user$project$Domain_Core$getTopic(topic),
+								_user$project$Domain_Core$topicText(topic),
 								A2(
 									_elm_lang$core$Basics_ops['++'],
 									'/all/',
@@ -14050,11 +14050,11 @@ var _user$project$Services_Adapter$toTopics = function (jsonTopics) {
 };
 var _user$project$Services_Adapter$toJsonProfile = function (profile) {
 	return {
-		id: _user$project$Domain_Core$getId(profile.id),
-		firstName: _user$project$Domain_Core$getName(profile.firstName),
-		lastName: _user$project$Domain_Core$getName(profile.lastName),
-		email: _user$project$Domain_Core$getEmail(profile.email),
-		imageUrl: _user$project$Domain_Core$getUrl(profile.imageUrl),
+		id: _user$project$Domain_Core$idText(profile.id),
+		firstName: _user$project$Domain_Core$nameText(profile.firstName),
+		lastName: _user$project$Domain_Core$nameText(profile.lastName),
+		email: _user$project$Domain_Core$emailText(profile.email),
+		imageUrl: _user$project$Domain_Core$urlText(profile.imageUrl),
 		bio: profile.bio,
 		sources: profile.sources
 	};
@@ -14065,8 +14065,8 @@ var _user$project$Services_Adapter$toJsonLinks = function (links) {
 		function (link) {
 			return {
 				profile: _user$project$Services_Adapter$toJsonProfile(link.profile),
-				title: _user$project$Domain_Core$getTitle(link.title),
-				url: _user$project$Domain_Core$getUrl(link.url),
+				title: _user$project$Domain_Core$titleText(link.title),
+				url: _user$project$Domain_Core$urlText(link.url),
 				contentType: _user$project$Domain_Core$contentTypeToText(link.contentType),
 				topics: link.topics,
 				isFeatured: link.isFeatured
@@ -14245,11 +14245,11 @@ var _user$project$Tests_TestAPI$addLink = F2(
 	});
 var _user$project$Tests_TestAPI$toJsonProfile = function (profile) {
 	return {
-		id: _user$project$Domain_Core$getId(profile.id),
-		firstName: _user$project$Domain_Core$getName(profile.firstName),
-		lastName: _user$project$Domain_Core$getName(profile.lastName),
-		email: _user$project$Domain_Core$getEmail(profile.email),
-		imageUrl: _user$project$Domain_Core$getUrl(profile.imageUrl),
+		id: _user$project$Domain_Core$idText(profile.id),
+		firstName: _user$project$Domain_Core$nameText(profile.firstName),
+		lastName: _user$project$Domain_Core$nameText(profile.lastName),
+		email: _user$project$Domain_Core$emailText(profile.email),
+		imageUrl: _user$project$Domain_Core$urlText(profile.imageUrl),
 		bio: profile.bio,
 		sources: profile.sources
 	};
@@ -14260,8 +14260,8 @@ var _user$project$Tests_TestAPI$toJsonLinks = function (links) {
 		function (link) {
 			return {
 				profile: _user$project$Tests_TestAPI$toJsonProfile(link.profile),
-				title: _user$project$Domain_Core$getTitle(link.title),
-				url: _user$project$Domain_Core$getUrl(link.url),
+				title: _user$project$Domain_Core$titleText(link.title),
+				url: _user$project$Domain_Core$urlText(link.url),
 				contentType: _user$project$Domain_Core$contentTypeToText(link.contentType),
 				topics: link.topics,
 				isFeatured: link.isFeatured
@@ -14336,7 +14336,7 @@ var _user$project$Tests_TestAPI$suggestedTopics = function (search) {
 				_elm_lang$core$String$contains,
 				_elm_lang$core$String$toLower(search),
 				_elm_lang$core$String$toLower(
-					_user$project$Domain_Core$getTopic(t)));
+					_user$project$Domain_Core$topicText(t)));
 		},
 		_user$project$Tests_TestAPI$topics) : {ctor: '[]'};
 };
@@ -14352,11 +14352,11 @@ var _user$project$Tests_TestAPI$profile5 = A7(
 	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId5));
 var _user$project$Tests_TestAPI$jsonProfile5 = A7(
 	_user$project$Services_Adapter$JsonProfile,
-	_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId5),
-	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile5.firstName),
-	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile5.lastName),
-	_user$project$Domain_Core$getEmail(_user$project$Tests_TestAPI$profile5.email),
-	_user$project$Domain_Core$getUrl(_user$project$Tests_TestAPI$profile5.imageUrl),
+	_user$project$Domain_Core$idText(_user$project$Tests_TestAPI$profileId5),
+	_user$project$Domain_Core$nameText(_user$project$Tests_TestAPI$profile5.firstName),
+	_user$project$Domain_Core$nameText(_user$project$Tests_TestAPI$profile5.lastName),
+	_user$project$Domain_Core$emailText(_user$project$Tests_TestAPI$profile5.email),
+	_user$project$Domain_Core$urlText(_user$project$Tests_TestAPI$profile5.imageUrl),
 	_user$project$Tests_TestAPI$profile5.bio,
 	_user$project$Tests_TestAPI$profile5.sources);
 var _user$project$Tests_TestAPI$profileId4 = _user$project$Domain_Core$Id('profile_4');
@@ -14371,11 +14371,11 @@ var _user$project$Tests_TestAPI$profile4 = A7(
 	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId4));
 var _user$project$Tests_TestAPI$jsonProfile4 = A7(
 	_user$project$Services_Adapter$JsonProfile,
-	_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId4),
-	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile4.firstName),
-	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile4.lastName),
-	_user$project$Domain_Core$getEmail(_user$project$Tests_TestAPI$profile4.email),
-	_user$project$Domain_Core$getUrl(_user$project$Tests_TestAPI$profile4.imageUrl),
+	_user$project$Domain_Core$idText(_user$project$Tests_TestAPI$profileId4),
+	_user$project$Domain_Core$nameText(_user$project$Tests_TestAPI$profile4.firstName),
+	_user$project$Domain_Core$nameText(_user$project$Tests_TestAPI$profile4.lastName),
+	_user$project$Domain_Core$emailText(_user$project$Tests_TestAPI$profile4.email),
+	_user$project$Domain_Core$urlText(_user$project$Tests_TestAPI$profile4.imageUrl),
 	_user$project$Tests_TestAPI$profile4.bio,
 	_user$project$Tests_TestAPI$profile4.sources);
 var _user$project$Tests_TestAPI$profileId3 = _user$project$Domain_Core$Id('profile_3');
@@ -14406,11 +14406,11 @@ var _user$project$Tests_TestAPI$recentLinks3 = {
 };
 var _user$project$Tests_TestAPI$jsonProfile3 = A7(
 	_user$project$Services_Adapter$JsonProfile,
-	_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId3),
-	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile3.firstName),
-	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile3.lastName),
-	_user$project$Domain_Core$getEmail(_user$project$Tests_TestAPI$profile3.email),
-	_user$project$Domain_Core$getUrl(_user$project$Tests_TestAPI$profile3.imageUrl),
+	_user$project$Domain_Core$idText(_user$project$Tests_TestAPI$profileId3),
+	_user$project$Domain_Core$nameText(_user$project$Tests_TestAPI$profile3.firstName),
+	_user$project$Domain_Core$nameText(_user$project$Tests_TestAPI$profile3.lastName),
+	_user$project$Domain_Core$emailText(_user$project$Tests_TestAPI$profile3.email),
+	_user$project$Domain_Core$urlText(_user$project$Tests_TestAPI$profile3.imageUrl),
 	_user$project$Tests_TestAPI$profile3.bio,
 	_user$project$Tests_TestAPI$profile3.sources);
 var _user$project$Tests_TestAPI$profileId2 = _user$project$Domain_Core$Id('profile_2');
@@ -14456,11 +14456,11 @@ var _user$project$Tests_TestAPI$recentLinks2 = {
 };
 var _user$project$Tests_TestAPI$jsonProfile2 = A7(
 	_user$project$Services_Adapter$JsonProfile,
-	_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId2),
-	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile2.firstName),
-	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile2.lastName),
-	_user$project$Domain_Core$getEmail(_user$project$Tests_TestAPI$profile2.email),
-	_user$project$Domain_Core$getUrl(_user$project$Tests_TestAPI$profile2.imageUrl),
+	_user$project$Domain_Core$idText(_user$project$Tests_TestAPI$profileId2),
+	_user$project$Domain_Core$nameText(_user$project$Tests_TestAPI$profile2.firstName),
+	_user$project$Domain_Core$nameText(_user$project$Tests_TestAPI$profile2.lastName),
+	_user$project$Domain_Core$emailText(_user$project$Tests_TestAPI$profile2.email),
+	_user$project$Domain_Core$urlText(_user$project$Tests_TestAPI$profile2.imageUrl),
 	_user$project$Tests_TestAPI$profile2.bio,
 	_user$project$Tests_TestAPI$profile2.sources);
 var _user$project$Tests_TestAPI$profileId1 = _user$project$Domain_Core$Id('profile_1');
@@ -14491,18 +14491,18 @@ var _user$project$Tests_TestAPI$recentLinks1 = {
 };
 var _user$project$Tests_TestAPI$jsonProfile1 = A7(
 	_user$project$Services_Adapter$JsonProfile,
-	_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId1),
-	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile1.firstName),
-	_user$project$Domain_Core$getName(_user$project$Tests_TestAPI$profile1.lastName),
-	_user$project$Domain_Core$getEmail(_user$project$Tests_TestAPI$profile1.email),
-	_user$project$Domain_Core$getUrl(_user$project$Tests_TestAPI$profile1.imageUrl),
+	_user$project$Domain_Core$idText(_user$project$Tests_TestAPI$profileId1),
+	_user$project$Domain_Core$nameText(_user$project$Tests_TestAPI$profile1.firstName),
+	_user$project$Domain_Core$nameText(_user$project$Tests_TestAPI$profile1.lastName),
+	_user$project$Domain_Core$emailText(_user$project$Tests_TestAPI$profile1.email),
+	_user$project$Domain_Core$urlText(_user$project$Tests_TestAPI$profile1.imageUrl),
 	_user$project$Tests_TestAPI$profile1.bio,
 	_user$project$Tests_TestAPI$profile1.sources);
 var _user$project$Tests_TestAPI$jsonLink1 = A6(
 	_user$project$Services_Adapter$JsonLink,
 	_user$project$Tests_TestAPI$jsonProfile1,
-	_user$project$Domain_Core$getTitle(_user$project$Tests_TestAPI$someArticleTitle1),
-	_user$project$Domain_Core$getUrl(_user$project$Tests_TestAPI$someUrl),
+	_user$project$Domain_Core$titleText(_user$project$Tests_TestAPI$someArticleTitle1),
+	_user$project$Domain_Core$urlText(_user$project$Tests_TestAPI$someUrl),
 	'video',
 	{ctor: '[]'},
 	false);
@@ -14516,7 +14516,7 @@ var _user$project$Tests_TestAPI$tryRegister = F2(
 					_elm_lang$core$Result$Ok(
 						A7(
 							_user$project$Services_Adapter$JsonProfile,
-							_user$project$Domain_Core$getId(_user$project$Tests_TestAPI$profileId1),
+							_user$project$Domain_Core$idText(_user$project$Tests_TestAPI$profileId1),
 							form.firstName,
 							form.lastName,
 							form.email,
@@ -15349,7 +15349,7 @@ var _user$project$Services_Gateway$encodeProviderWithTopic = F2(
 					ctor: '_Tuple2',
 					_0: 'Id',
 					_1: _elm_lang$core$Json_Encode$string(
-						_user$project$Domain_Core$getId(id))
+						_user$project$Domain_Core$idText(id))
 				},
 				_1: {
 					ctor: '::',
@@ -15357,7 +15357,7 @@ var _user$project$Services_Gateway$encodeProviderWithTopic = F2(
 						ctor: '_Tuple2',
 						_0: 'Topic',
 						_1: _elm_lang$core$Json_Encode$string(
-							_user$project$Domain_Core$getTopic(topic))
+							_user$project$Domain_Core$topicText(topic))
 					},
 					_1: {ctor: '[]'}
 				}
@@ -15391,7 +15391,7 @@ var _user$project$Services_Gateway$encodeId = function (id) {
 				ctor: '_Tuple2',
 				_0: 'Id',
 				_1: _elm_lang$core$Json_Encode$string(
-					_user$project$Domain_Core$getId(id))
+					_user$project$Domain_Core$idText(id))
 			},
 			_1: {ctor: '[]'}
 		});
@@ -15478,7 +15478,7 @@ var _user$project$Services_Gateway$topicLinks = F4(
 			_user$project$Services_Gateway$baseUrl,
 			A2(
 				_elm_lang$core$Basics_ops['++'],
-				_user$project$Domain_Core$getId(providerId),
+				_user$project$Domain_Core$idText(providerId),
 				A2(_elm_lang$core$Basics_ops['++'], '/', 'topiclinks')));
 		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$listOfLinksDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
@@ -15511,7 +15511,7 @@ var _user$project$Services_Gateway$links = F2(
 			_user$project$Services_Gateway$baseUrl,
 			A2(
 				_elm_lang$core$Basics_ops['++'],
-				_user$project$Domain_Core$getId(profileId),
+				_user$project$Domain_Core$idText(profileId),
 				'links'));
 		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$linksDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
@@ -15787,13 +15787,13 @@ var _user$project$Controls_AddSource$view = function (model) {
 			{
 				ctor: '::',
 				_0: _elm_lang$html$Html_Attributes$value(
-					_user$project$Domain_Core$getPlatform(platform)),
+					_user$project$Domain_Core$platformText(platform)),
 				_1: {ctor: '[]'}
 			},
 			{
 				ctor: '::',
 				_0: _elm_lang$html$Html$text(
-					_user$project$Domain_Core$getPlatform(platform)),
+					_user$project$Domain_Core$platformText(platform)),
 				_1: {ctor: '[]'}
 			});
 	};
@@ -16011,7 +16011,7 @@ var _user$project$Controls_EditProfile$view = function (profile) {
 								_1: {
 									ctor: '::',
 									_0: _elm_lang$html$Html_Attributes$value(
-										_user$project$Domain_Core$getName(profile.firstName)),
+										_user$project$Domain_Core$nameText(profile.firstName)),
 									_1: {ctor: '[]'}
 								}
 							}
@@ -16040,7 +16040,7 @@ var _user$project$Controls_EditProfile$view = function (profile) {
 										_1: {
 											ctor: '::',
 											_0: _elm_lang$html$Html_Attributes$value(
-												_user$project$Domain_Core$getName(profile.lastName)),
+												_user$project$Domain_Core$nameText(profile.lastName)),
 											_1: {ctor: '[]'}
 										}
 									}
@@ -16069,7 +16069,7 @@ var _user$project$Controls_EditProfile$view = function (profile) {
 												_1: {
 													ctor: '::',
 													_0: _elm_lang$html$Html_Attributes$value(
-														_user$project$Domain_Core$getEmail(profile.email)),
+														_user$project$Domain_Core$emailText(profile.email)),
 													_1: {ctor: '[]'}
 												}
 											}
@@ -16511,7 +16511,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 						{
 							ctor: '::',
 							_0: _elm_lang$html$Html$text(
-								_user$project$Domain_Core$getTopic(t)),
+								_user$project$Domain_Core$topicText(t)),
 							_1: {
 								ctor: '::',
 								_0: A2(
@@ -16569,7 +16569,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html$text(
-							_user$project$Domain_Core$getTopic(topic)),
+							_user$project$Domain_Core$topicText(topic)),
 						_1: {ctor: '[]'}
 					}),
 				_1: {
@@ -16590,7 +16590,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 				_elm_lang$core$List$map,
 				toButton,
 				_user$project$Settings$runtime.suggestedTopics(
-					_user$project$Domain_Core$getTopic(search))));
+					_user$project$Domain_Core$topicText(search))));
 	};
 	return A2(
 		_elm_lang$html$Html$div,
@@ -16658,7 +16658,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 																					_1: {
 																						ctor: '::',
 																						_0: _elm_lang$html$Html_Attributes$value(
-																							_user$project$Domain_Core$getTitle(base.title)),
+																							_user$project$Domain_Core$titleText(base.title)),
 																						_1: {ctor: '[]'}
 																					}
 																				}
@@ -16699,7 +16699,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 																						_1: {
 																							ctor: '::',
 																							_0: _elm_lang$html$Html_Attributes$value(
-																								_user$project$Domain_Core$getUrl(base.url)),
+																								_user$project$Domain_Core$urlText(base.url)),
 																							_1: {ctor: '[]'}
 																						}
 																					}
@@ -16752,7 +16752,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 																												_1: {
 																													ctor: '::',
 																													_0: _elm_lang$html$Html_Attributes$value(
-																														_user$project$Domain_Core$getTopic(current.currentTopic)),
+																														_user$project$Domain_Core$topicText(current.currentTopic)),
 																													_1: {ctor: '[]'}
 																												}
 																											}
@@ -16930,7 +16930,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$href(
-						_user$project$Domain_Core$getUrl(
+						_user$project$Domain_Core$urlText(
 							A3(
 								_user$project$Domain_Core$providerTopicUrl,
 								_elm_lang$core$Maybe$Just(profile.id),
@@ -16946,7 +16946,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 						{
 							ctor: '::',
 							_0: _elm_lang$html$Html$text(
-								_user$project$Domain_Core$getTopic(topic)),
+								_user$project$Domain_Core$topicText(topic)),
 							_1: {ctor: '[]'}
 						}),
 					_1: {ctor: '[]'}
@@ -16977,11 +16977,11 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 						_0: _elm_lang$html$Html$text(
 							A2(
 								_elm_lang$core$Basics_ops['++'],
-								_user$project$Domain_Core$getName(profile.firstName),
+								_user$project$Domain_Core$nameText(profile.firstName),
 								A2(
 									_elm_lang$core$Basics_ops['++'],
 									' ',
-									_user$project$Domain_Core$getName(profile.lastName)))),
+									_user$project$Domain_Core$nameText(profile.lastName)))),
 						_1: {ctor: '[]'}
 					}),
 				_1: {
@@ -17072,7 +17072,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 												{
 													ctor: '::',
 													_0: _elm_lang$html$Html_Attributes$href(
-														_user$project$Domain_Core$getUrl(
+														_user$project$Domain_Core$urlText(
 															A2(
 																_user$project$Domain_Core$providerUrl,
 																_elm_lang$core$Maybe$Just(_p6.profile.id),
@@ -17086,7 +17086,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 														{
 															ctor: '::',
 															_0: _elm_lang$html$Html_Attributes$src(
-																_user$project$Domain_Core$getUrl(profile.imageUrl)),
+																_user$project$Domain_Core$urlText(profile.imageUrl)),
 															_1: {
 																ctor: '::',
 																_0: _elm_lang$html$Html_Attributes$width(65),
@@ -17149,7 +17149,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 												{
 													ctor: '::',
 													_0: _elm_lang$html$Html_Attributes$href(
-														_user$project$Domain_Core$getUrl(
+														_user$project$Domain_Core$urlText(
 															A2(_user$project$Domain_Core$providerUrl, _elm_lang$core$Maybe$Nothing, profile.id))),
 													_1: {ctor: '[]'}
 												},
@@ -17160,7 +17160,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 														{
 															ctor: '::',
 															_0: _elm_lang$html$Html_Attributes$src(
-																_user$project$Domain_Core$getUrl(profile.imageUrl)),
+																_user$project$Domain_Core$urlText(profile.imageUrl)),
 															_1: {
 																ctor: '::',
 																_0: _elm_lang$html$Html_Attributes$width(65),
@@ -17306,7 +17306,7 @@ var _user$project$Controls_ProviderContentTypeLinks$toCheckbox = function (topic
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html$text(
-							_user$project$Domain_Core$getTopic(topic)),
+							_user$project$Domain_Core$topicText(topic)),
 						_1: {ctor: '[]'}
 					}),
 				_1: {ctor: '[]'}
@@ -17369,7 +17369,7 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 					_1: {
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$href(
-							_user$project$Domain_Core$getUrl(link.url)),
+							_user$project$Domain_Core$urlText(link.url)),
 						_1: {
 							ctor: '::',
 							_0: _elm_lang$html$Html_Attributes$target('_blank'),
@@ -17380,7 +17380,7 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html$text(
-						_user$project$Domain_Core$getTitle(link.title)),
+						_user$project$Domain_Core$titleText(link.title)),
 					_1: {
 						ctor: '::',
 						_0: A2(
@@ -17394,7 +17394,7 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$href(
-						_user$project$Domain_Core$getUrl(link.url)),
+						_user$project$Domain_Core$urlText(link.url)),
 					_1: {
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$target('_blank'),
@@ -17404,7 +17404,7 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html$text(
-						_user$project$Domain_Core$getTitle(link.title)),
+						_user$project$Domain_Core$titleText(link.title)),
 					_1: {
 						ctor: '::',
 						_0: A2(
@@ -17492,7 +17492,7 @@ var _user$project$Controls_ProviderLinks$decorateIfFeatured = function (link) {
 		{
 			ctor: '::',
 			_0: _elm_lang$html$Html_Attributes$href(
-				_user$project$Domain_Core$getUrl(link.url)),
+				_user$project$Domain_Core$urlText(link.url)),
 			_1: {
 				ctor: '::',
 				_0: _elm_lang$html$Html_Attributes$target('_blank'),
@@ -17502,7 +17502,7 @@ var _user$project$Controls_ProviderLinks$decorateIfFeatured = function (link) {
 		{
 			ctor: '::',
 			_0: _elm_lang$html$Html$text(
-				_user$project$Domain_Core$getTitle(link.title)),
+				_user$project$Domain_Core$titleText(link.title)),
 			_1: {
 				ctor: '::',
 				_0: A2(
@@ -17519,7 +17519,7 @@ var _user$project$Controls_ProviderLinks$decorateIfFeatured = function (link) {
 			_1: {
 				ctor: '::',
 				_0: _elm_lang$html$Html_Attributes$href(
-					_user$project$Domain_Core$getUrl(link.url)),
+					_user$project$Domain_Core$urlText(link.url)),
 				_1: {
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$target('_blank'),
@@ -17530,7 +17530,7 @@ var _user$project$Controls_ProviderLinks$decorateIfFeatured = function (link) {
 		{
 			ctor: '::',
 			_0: _elm_lang$html$Html$text(
-				_user$project$Domain_Core$getTitle(link.title)),
+				_user$project$Domain_Core$titleText(link.title)),
 			_1: {
 				ctor: '::',
 				_0: A2(
@@ -17566,7 +17566,7 @@ var _user$project$Controls_ProviderLinks$requestAllContent = F4(
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$href(
-							_user$project$Domain_Core$getUrl(
+							_user$project$Domain_Core$urlText(
 								A3(_user$project$Domain_Core$allContentUrl, linksFrom, profileId, contentType))),
 						_1: {ctor: '[]'}
 					},
@@ -17638,7 +17638,7 @@ var _user$project$Controls_ProviderLinks$view = F2(
 								{
 									ctor: '::',
 									_0: _elm_lang$html$Html$text(
-										_user$project$Domain_Core$getTopic(topic)),
+										_user$project$Domain_Core$topicText(topic)),
 									_1: {ctor: '[]'}
 								}),
 							_1: {ctor: '[]'}
@@ -17897,7 +17897,7 @@ var _user$project$Controls_ProviderLinks$toCheckbox = function (topic) {
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html$text(
-							_user$project$Domain_Core$getTopic(topic)),
+							_user$project$Domain_Core$topicText(topic)),
 						_1: {ctor: '[]'}
 					}),
 				_1: {ctor: '[]'}
@@ -17979,7 +17979,7 @@ var _user$project$Controls_ProviderTopicContentTypeLinks$view = F3(
 															{
 																ctor: '::',
 																_0: _elm_lang$html$Html_Attributes$href(
-																	_user$project$Domain_Core$getUrl(link.url)),
+																	_user$project$Domain_Core$urlText(link.url)),
 																_1: {
 																	ctor: '::',
 																	_0: _elm_lang$html$Html_Attributes$target('_blank'),
@@ -17989,7 +17989,7 @@ var _user$project$Controls_ProviderTopicContentTypeLinks$view = F3(
 															{
 																ctor: '::',
 																_0: _elm_lang$html$Html$text(
-																	_user$project$Domain_Core$getTitle(link.title)),
+																	_user$project$Domain_Core$titleText(link.title)),
 																_1: {
 																	ctor: '::',
 																	_0: A2(
@@ -18025,7 +18025,7 @@ var _user$project$Controls_RecentProviderLinks$formatLink = function (link) {
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$href(
-						_user$project$Domain_Core$getUrl(link.url)),
+						_user$project$Domain_Core$urlText(link.url)),
 					_1: {ctor: '[]'}
 				},
 				{
@@ -18036,7 +18036,7 @@ var _user$project$Controls_RecentProviderLinks$formatLink = function (link) {
 						{
 							ctor: '::',
 							_0: _elm_lang$html$Html$text(
-								_user$project$Domain_Core$getTitle(link.title)),
+								_user$project$Domain_Core$titleText(link.title)),
 							_1: {ctor: '[]'}
 						}),
 					_1: {ctor: '[]'}
@@ -18085,7 +18085,7 @@ var _user$project$Controls_RecentProviderLinks$thumbnail = F2(
 											{
 												ctor: '::',
 												_0: _elm_lang$html$Html_Attributes$href(
-													_user$project$Domain_Core$getUrl(
+													_user$project$Domain_Core$urlText(
 														A2(
 															_user$project$Domain_Core$providerUrl,
 															_elm_lang$core$Maybe$Just(clientId),
@@ -18099,7 +18099,7 @@ var _user$project$Controls_RecentProviderLinks$thumbnail = F2(
 													{
 														ctor: '::',
 														_0: _elm_lang$html$Html_Attributes$src(
-															_user$project$Domain_Core$getUrl(profile.imageUrl)),
+															_user$project$Domain_Core$urlText(profile.imageUrl)),
 														_1: {
 															ctor: '::',
 															_0: _elm_lang$html$Html_Attributes$width(75),
@@ -18134,11 +18134,11 @@ var _user$project$Controls_RecentProviderLinks$thumbnail = F2(
 													_0: _elm_lang$html$Html$text(
 														A2(
 															_elm_lang$core$Basics_ops['++'],
-															_user$project$Domain_Core$getName(provider.profile.firstName),
+															_user$project$Domain_Core$nameText(provider.profile.firstName),
 															A2(
 																_elm_lang$core$Basics_ops['++'],
 																' ',
-																_user$project$Domain_Core$getName(provider.profile.lastName)))),
+																_user$project$Domain_Core$nameText(provider.profile.lastName)))),
 													_1: {ctor: '[]'}
 												}),
 											_1: {
@@ -18445,7 +18445,7 @@ var _user$project$Home$linksUI = function (links) {
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$href(
-						_user$project$Domain_Core$getUrl(link.url)),
+						_user$project$Domain_Core$urlText(link.url)),
 					_1: {
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$target('_blank'),
@@ -18455,7 +18455,7 @@ var _user$project$Home$linksUI = function (links) {
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html$text(
-						_user$project$Domain_Core$getTitle(link.title)),
+						_user$project$Domain_Core$titleText(link.title)),
 					_1: {
 						ctor: '::',
 						_0: A2(
@@ -18480,7 +18480,7 @@ var _user$project$Home$contentWithTopicUI = F5(
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$href(
-							_user$project$Domain_Core$getUrl(
+							_user$project$Domain_Core$urlText(
 								A4(_user$project$Domain_Core$allTopicContentUrl, linksFrom, profileId, contentType, topic))),
 						_1: {ctor: '[]'}
 					},
@@ -18543,7 +18543,7 @@ var _user$project$Home$providerTopicPage = F2(
 								{
 									ctor: '::',
 									_0: _elm_lang$html$Html$text(
-										_user$project$Domain_Core$getTopic(topic)),
+										_user$project$Domain_Core$topicText(topic)),
 									_1: {ctor: '[]'}
 								}),
 							_1: {ctor: '[]'}
@@ -18775,7 +18775,7 @@ var _user$project$Home$providerTopicPage = F2(
 																	_1: {
 																		ctor: '::',
 																		_0: _elm_lang$html$Html_Attributes$src(
-																			_user$project$Domain_Core$getUrl(model.profile.imageUrl)),
+																			_user$project$Domain_Core$urlText(model.profile.imageUrl)),
 																		_1: {ctor: '[]'}
 																	}
 																},
@@ -18803,11 +18803,11 @@ var _user$project$Home$providerTopicPage = F2(
 																_0: _elm_lang$html$Html$text(
 																	A2(
 																		_elm_lang$core$Basics_ops['++'],
-																		_user$project$Domain_Core$getName(model.profile.firstName),
+																		_user$project$Domain_Core$nameText(model.profile.firstName),
 																		A2(
 																			_elm_lang$core$Basics_ops['++'],
 																			' ',
-																			_user$project$Domain_Core$getName(model.profile.lastName)))),
+																			_user$project$Domain_Core$nameText(model.profile.lastName)))),
 																_1: {ctor: '[]'}
 															}),
 														_1: {ctor: '[]'}
@@ -18927,7 +18927,7 @@ var _user$project$Home$renderProfileBase = F2(
 														_1: {
 															ctor: '::',
 															_0: _elm_lang$html$Html_Attributes$src(
-																_user$project$Domain_Core$getUrl(provider.profile.imageUrl)),
+																_user$project$Domain_Core$urlText(provider.profile.imageUrl)),
 															_1: {ctor: '[]'}
 														}
 													},
@@ -18955,11 +18955,11 @@ var _user$project$Home$renderProfileBase = F2(
 													_0: _elm_lang$html$Html$text(
 														A2(
 															_elm_lang$core$Basics_ops['++'],
-															_user$project$Domain_Core$getName(provider.profile.firstName),
+															_user$project$Domain_Core$nameText(provider.profile.firstName),
 															A2(
 																_elm_lang$core$Basics_ops['++'],
 																' ',
-																_user$project$Domain_Core$getName(provider.profile.lastName)))),
+																_user$project$Domain_Core$nameText(provider.profile.lastName)))),
 													_1: {ctor: '[]'}
 												}),
 											_1: {ctor: '[]'}
@@ -19055,11 +19055,11 @@ var _user$project$Home$filterProviders = F2(
 		};
 		var onFirstName = function (provider) {
 			return isMatch(
-				_user$project$Domain_Core$getName(provider.profile.firstName));
+				_user$project$Domain_Core$nameText(provider.profile.firstName));
 		};
 		var onLastName = function (provider) {
 			return isMatch(
-				_user$project$Domain_Core$getName(provider.profile.lastName));
+				_user$project$Domain_Core$nameText(provider.profile.lastName));
 		};
 		var onName = function (provider) {
 			return onFirstName(provider) || onLastName(provider);
@@ -19474,7 +19474,7 @@ var _user$project$Home$onRegistration = F2(
 							A2(
 								_elm_lang$core$Basics_ops['++'],
 								'/#/portal/',
-								_user$project$Domain_Core$getId(newUser.profile.id)))
+								_user$project$Domain_Core$idText(newUser.profile.id)))
 					};
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: registrationCmd};
@@ -21599,7 +21599,7 @@ var _user$project$Home$render = F4(
 																_1: {
 																	ctor: '::',
 																	_0: _elm_lang$html$Html_Attributes$src(
-																		_user$project$Domain_Core$getUrl(provider.profile.imageUrl)),
+																		_user$project$Domain_Core$urlText(provider.profile.imageUrl)),
 																	_1: {ctor: '[]'}
 																}
 															},
@@ -21886,7 +21886,7 @@ var _user$project$Home$content = F2(
 									{
 										ctor: '::',
 										_0: _elm_lang$html$Html_Attributes$href(
-											_user$project$Domain_Core$getUrl(l.url)),
+											_user$project$Domain_Core$urlText(l.url)),
 										_1: {
 											ctor: '::',
 											_0: _elm_lang$html$Html_Attributes$target('_blank'),
@@ -21896,7 +21896,7 @@ var _user$project$Home$content = F2(
 									{
 										ctor: '::',
 										_0: _elm_lang$html$Html$text(
-											_user$project$Domain_Core$getTitle(l.title)),
+											_user$project$Domain_Core$titleText(l.title)),
 										_1: {ctor: '[]'}
 									}),
 								_1: {ctor: '[]'}
@@ -22015,7 +22015,7 @@ var _user$project$Home$onLogin = F2(
 							A2(
 								_elm_lang$core$Basics_ops['++'],
 								'/#/portal/',
-								_user$project$Domain_Core$getId(provider.profile.id)))
+								_user$project$Domain_Core$idText(provider.profile.id)))
 					};
 				} else {
 					return {
@@ -22448,7 +22448,7 @@ var _user$project$Home$headerContent = function (model) {
 		var signout = _p46._2;
 		var profile = _p46._3;
 		var sources = _p46._4;
-		var profileId = _user$project$Domain_Core$getId(model.portal.provider.profile.id);
+		var profileId = _user$project$Domain_Core$idText(model.portal.provider.profile.id);
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$OnLogin,

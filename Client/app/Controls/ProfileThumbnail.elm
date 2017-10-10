@@ -40,7 +40,7 @@ thumbnail loggedIn showSubscriptionState provider =
             provider.profile
 
         formatTopic topic =
-            a [ href <| getUrl <| providerTopicUrl (Just profile.id) profile.id topic ] [ i [] [ text <| getTopic topic ] ]
+            a [ href <| urlText <| providerTopicUrl (Just profile.id) profile.id topic ] [ i [] [ text <| topicText topic ] ]
 
         concatTopics topic1 topic2 =
             span []
@@ -63,7 +63,7 @@ thumbnail loggedIn showSubscriptionState provider =
 
         nameAndTopics =
             div []
-                [ label [] [ text <| (profile.firstName |> getName) ++ " " ++ (profile.lastName |> getName) ]
+                [ label [] [ text <| (profile.firstName |> nameText) ++ " " ++ (profile.lastName |> nameText) ]
                 , br [] []
                 , topics
                 ]
@@ -95,8 +95,8 @@ thumbnail loggedIn showSubscriptionState provider =
                         [ table []
                             [ tr []
                                 [ td []
-                                    [ a [ href <| getUrl <| providerUrl (Just user.profile.id) profile.id ]
-                                        [ img [ src <| getUrl profile.imageUrl, width 65, height 65 ] [] ]
+                                    [ a [ href <| urlText <| providerUrl (Just user.profile.id) profile.id ]
+                                        [ img [ src <| urlText profile.imageUrl, width 65, height 65 ] [] ]
                                     ]
                                 , td [] [ nameAndTopics ]
                                 ]
@@ -109,8 +109,8 @@ thumbnail loggedIn showSubscriptionState provider =
                     [ table []
                         [ tr []
                             [ td []
-                                [ a [ href <| getUrl <| providerUrl Nothing profile.id ]
-                                    [ img [ src <| getUrl profile.imageUrl, width 65, height 65 ] [] ]
+                                [ a [ href <| urlText <| providerUrl Nothing profile.id ]
+                                    [ img [ src <| urlText profile.imageUrl, width 65, height 65 ] [] ]
                                 ]
                             , td [] [ nameAndTopics ]
                             ]

@@ -348,11 +348,11 @@ recentLinks3 =
 jsonProfile1 : JsonProfile
 jsonProfile1 =
     JsonProfile
-        (profileId1 |> getId)
-        (profile1.firstName |> getName)
-        (profile1.lastName |> getName)
-        (profile1.email |> getEmail)
-        (profile1.imageUrl |> getUrl)
+        (profileId1 |> idText)
+        (profile1.firstName |> nameText)
+        (profile1.lastName |> nameText)
+        (profile1.email |> emailText)
+        (profile1.imageUrl |> urlText)
         profile1.bio
         profile1.sources
 
@@ -360,11 +360,11 @@ jsonProfile1 =
 jsonProfile2 : JsonProfile
 jsonProfile2 =
     JsonProfile
-        (profileId2 |> getId)
-        (profile2.firstName |> getName)
-        (profile2.lastName |> getName)
-        (profile2.email |> getEmail)
-        (profile2.imageUrl |> getUrl)
+        (profileId2 |> idText)
+        (profile2.firstName |> nameText)
+        (profile2.lastName |> nameText)
+        (profile2.email |> emailText)
+        (profile2.imageUrl |> urlText)
         profile2.bio
         profile2.sources
 
@@ -372,11 +372,11 @@ jsonProfile2 =
 jsonProfile3 : JsonProfile
 jsonProfile3 =
     JsonProfile
-        (profileId3 |> getId)
-        (profile3.firstName |> getName)
-        (profile3.lastName |> getName)
-        (profile3.email |> getEmail)
-        (profile3.imageUrl |> getUrl)
+        (profileId3 |> idText)
+        (profile3.firstName |> nameText)
+        (profile3.lastName |> nameText)
+        (profile3.email |> emailText)
+        (profile3.imageUrl |> urlText)
         profile3.bio
         profile3.sources
 
@@ -384,11 +384,11 @@ jsonProfile3 =
 jsonProfile4 : JsonProfile
 jsonProfile4 =
     JsonProfile
-        (profileId4 |> getId)
-        (profile4.firstName |> getName)
-        (profile4.lastName |> getName)
-        (profile4.email |> getEmail)
-        (profile4.imageUrl |> getUrl)
+        (profileId4 |> idText)
+        (profile4.firstName |> nameText)
+        (profile4.lastName |> nameText)
+        (profile4.email |> emailText)
+        (profile4.imageUrl |> urlText)
         profile4.bio
         profile4.sources
 
@@ -396,18 +396,18 @@ jsonProfile4 =
 jsonProfile5 : JsonProfile
 jsonProfile5 =
     JsonProfile
-        (profileId5 |> getId)
-        (profile5.firstName |> getName)
-        (profile5.lastName |> getName)
-        (profile5.email |> getEmail)
-        (profile5.imageUrl |> getUrl)
+        (profileId5 |> idText)
+        (profile5.firstName |> nameText)
+        (profile5.lastName |> nameText)
+        (profile5.email |> emailText)
+        (profile5.imageUrl |> urlText)
         profile5.bio
         profile5.sources
 
 
 jsonLink1 : JsonLink
 jsonLink1 =
-    JsonLink jsonProfile1 (getTitle someArticleTitle1) (getUrl someUrl) "video" [] False
+    JsonLink jsonProfile1 (titleText someArticleTitle1) (urlText someUrl) "video" [] False
 
 
 jsonProvider1 : JsonProvider
@@ -523,7 +523,7 @@ tryLogin credentials msg =
 tryRegister : Form -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
 tryRegister form msg =
     if form.password == form.confirm then
-        JsonProfile (getId profileId1) form.firstName form.lastName form.email "" "" []
+        JsonProfile (idText profileId1) form.firstName form.lastName form.email "" "" []
             |> Result.Ok
             |> msg
             |> Task.succeed
@@ -534,11 +534,11 @@ tryRegister form msg =
 
 toJsonProfile : Profile -> JsonProfile
 toJsonProfile profile =
-    { id = getId profile.id
-    , firstName = getName profile.firstName
-    , lastName = getName profile.lastName
-    , email = getEmail profile.email
-    , imageUrl = getUrl profile.imageUrl
+    { id = idText profile.id
+    , firstName = nameText profile.firstName
+    , lastName = nameText profile.lastName
+    , email = emailText profile.email
+    , imageUrl = urlText profile.imageUrl
     , bio = profile.bio
     , sources = profile.sources
     }
@@ -550,8 +550,8 @@ toJsonLinks links =
         |> List.map
             (\link ->
                 { profile = link.profile |> toJsonProfile
-                , title = getTitle link.title
-                , url = getUrl link.url
+                , title = titleText link.title
+                , url = urlText link.url
                 , contentType = link.contentType |> contentTypeToText
                 , topics = link.topics
                 , isFeatured = link.isFeatured
@@ -719,7 +719,7 @@ linksToContent contentType profileId =
 suggestedTopics : String -> List Topic
 suggestedTopics search =
     if not <| isEmpty search then
-        topics |> List.filter (\t -> (getTopic t) |> toLower |> contains (search |> toLower))
+        topics |> List.filter (\t -> (topicText t) |> toLower |> contains (search |> toLower))
     else
         []
 

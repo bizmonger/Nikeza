@@ -24,7 +24,7 @@ view provider topic contentType =
                     [ tr []
                         [ td [] [ h3 [] [ text <| "All " ++ (contentType |> contentTypeToText) ] ] ]
                     , tr []
-                        [ td [] [ div [] <| List.map (\link -> a [ href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]) posts ]
+                        [ td [] [ div [] <| List.map (\link -> a [ href <| urlText link.url, target "_blank" ] [ text <| titleText link.title, br [] [] ]) posts ]
                         ]
                     ]
                 ]

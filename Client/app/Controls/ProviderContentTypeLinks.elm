@@ -84,9 +84,9 @@ view provider contentType isOwner =
             let
                 linkElement =
                     if isOwner && link.isFeatured then
-                        a [ class featuredClass, href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]
+                        a [ class featuredClass, href <| urlText link.url, target "_blank" ] [ text <| titleText link.title, br [] [] ]
                     else
-                        a [ href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ]
+                        a [ href <| urlText link.url, target "_blank" ] [ text <| titleText link.title, br [] [] ]
             in
                 if isOwner then
                     addCheckbox link linkElement
@@ -116,5 +116,5 @@ toCheckbox : Topic -> Html Msg
 toCheckbox topic =
     div []
         [ input [ type_ "checkbox", checked True, onCheck (\b -> Toggle ( topic, b )) ] []
-        , label [] [ text <| getTopic topic ]
+        , label [] [ text <| topicText topic ]
         ]

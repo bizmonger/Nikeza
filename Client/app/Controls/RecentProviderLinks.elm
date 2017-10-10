@@ -12,7 +12,7 @@ type Msg
 formatLink : Link -> Html Msg
 formatLink link =
     div []
-        [ a [ href <| getUrl <| link.url ] [ i [] [ text <| getTitle link.title ] ]
+        [ a [ href <| urlText <| link.url ] [ i [] [ text <| titleText link.title ] ]
         , br [] []
         ]
 
@@ -30,11 +30,11 @@ thumbnail clientId provider =
             [ table []
                 [ tr []
                     [ td []
-                        [ a [ href <| getUrl <| providerUrl (Just clientId) profile.id ]
-                            [ img [ src <| getUrl profile.imageUrl, width 75, height 75 ] [] ]
+                        [ a [ href <| urlText <| providerUrl (Just clientId) profile.id ]
+                            [ img [ src <| urlText profile.imageUrl, width 75, height 75 ] [] ]
                         ]
                     , td [ class "bio" ]
-                        [ td [] [ text <| getName provider.profile.firstName ++ " " ++ getName provider.profile.lastName ]
+                        [ td [] [ text <| nameText provider.profile.firstName ++ " " ++ nameText provider.profile.lastName ]
                         , linksUI
                         ]
                     ]

@@ -407,7 +407,7 @@ onRegistration subMsg model =
                                         }
                                 }
                         in
-                            ( newState, Navigation.load <| "/#/portal/" ++ getId newUser.profile.id )
+                            ( newState, Navigation.load <| "/#/portal/" ++ idText newUser.profile.id )
 
                     Result.Err _ ->
                         ( model, registrationCmd )
@@ -565,10 +565,10 @@ filterProviders providers matchValue =
             name |> toLower |> contains (matchValue |> toLower)
 
         onFirstName provider =
-            provider.profile.firstName |> getName |> isMatch
+            provider.profile.firstName |> nameText |> isMatch
 
         onLastName provider =
-            provider.profile.lastName |> getName |> isMatch
+            provider.profile.lastName |> nameText |> isMatch
 
         onName provider =
             onFirstName provider || onLastName provider
@@ -609,7 +609,7 @@ onLogin subMsg model =
                                         }
                                 }
                         in
-                            ( newState, Navigation.load <| "/#/portal/" ++ getId provider.profile.id )
+                            ( newState, Navigation.load <| "/#/portal/" ++ idText provider.profile.id )
 
                     Result.Err _ ->
                         ( { model | login = login }, loginCmd )
@@ -719,8 +719,8 @@ renderProfileBase provider linksContent =
     table []
         [ tr []
             [ table []
-                [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| getUrl <| provider.profile.imageUrl ] [] ] ]
-                , tr [ class "bio" ] [ td [] [ text <| getName provider.profile.firstName ++ " " ++ getName provider.profile.lastName ] ]
+                [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| urlText <| provider.profile.imageUrl ] [] ] ]
+                , tr [ class "bio" ] [ td [] [ text <| nameText provider.profile.firstName ++ " " ++ nameText provider.profile.lastName ] ]
                 , tr [ class "bio" ] [ td [] [ button [ class "subscribeButton" ] [ text "Follow" ] ] ]
                 , tr [ class "bio" ] [ td [] [ p [] [ text provider.profile.bio ] ] ]
                 ]
@@ -747,7 +747,7 @@ render provider content portal providers =
         [ tr []
             [ td []
                 [ table []
-                    [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| getUrl <| provider.profile.imageUrl ] [] ] ]
+                    [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| urlText <| provider.profile.imageUrl ] [] ] ]
                     , tr [] [ td [] <| renderNavigation providers portal ]
                     ]
                 ]
@@ -763,7 +763,7 @@ headerContent model =
         loginUI model =
             let
                 profileId =
-                    getId model.portal.provider.profile.id
+                    idText model.portal.provider.profile.id
 
                 ( loggedIn, welcome, signout, profile, sources ) =
                     ( model.login.loggedIn
@@ -874,7 +874,7 @@ providerTopicPage linksfrom model =
 
         contentTable topic =
             table []
-                [ tr [] [ h2 [] [ text <| getTopic topic ] ]
+                [ tr [] [ h2 [] [ text <| topicText topic ] ]
                 , tr []
                     [ td [] [ b [] [ text "Answers" ] ]
                     , td [] [ b [] [ text "Articles" ] ]
@@ -905,8 +905,8 @@ providerTopicPage linksfrom model =
                     [ tr []
                         [ td []
                             [ table []
-                                [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| getUrl <| model.profile.imageUrl ] [] ] ]
-                                , tr [ class "bio" ] [ td [] [ text <| getName model.profile.firstName ++ " " ++ getName model.profile.lastName ] ]
+                                [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| urlText <| model.profile.imageUrl ] [] ] ]
+                                , tr [ class "bio" ] [ td [] [ text <| nameText model.profile.firstName ++ " " ++ nameText model.profile.lastName ] ]
                                 , tr [ class "bio" ] [ td [] [ p [] [ text model.profile.bio ] ] ]
                                 ]
                             ]
@@ -969,7 +969,7 @@ content contentToEmbed model =
                     addLink l =
                         div []
                             [ label [] [ text <| (l.contentType |> contentTypeToText |> dropRight 1) ++ ": " ]
-                            , a [ href <| getUrl l.url, target "_blank" ] [ text <| getTitle l.title ]
+                            , a [ href <| urlText l.url, target "_blank" ] [ text <| titleText l.title ]
                             ]
 
                     update =
@@ -1298,12 +1298,12 @@ linksUI : List Link -> List (Html Msg)
 linksUI links =
     links
         |> List.take 5
-        |> List.map (\link -> a [ href <| getUrl link.url, target "_blank" ] [ text <| getTitle link.title, br [] [] ])
+        |> List.map (\link -> a [ href <| urlText link.url, target "_blank" ] [ text <| titleText link.title, br [] [] ])
 
 
 contentWithTopicUI : Linksfrom -> Id -> ContentType -> Topic -> List Link -> List (Html Msg)
 contentWithTopicUI linksFrom profileId contentType topic links =
-    List.append (linksUI links) [ a [ href <| getUrl <| allTopicContentUrl linksFrom profileId contentType topic ] [ text <| "all", br [] [] ] ]
+    List.append (linksUI links) [ a [ href <| urlText <| allTopicContentUrl linksFrom profileId contentType topic ] [ text <| "all", br [] [] ] ]
 
 
 

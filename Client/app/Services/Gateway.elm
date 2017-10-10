@@ -88,7 +88,7 @@ encodeRegistration form =
 encodeId : Id -> Encode.Value
 encodeId id =
     Encode.object
-        [ ( "Id", Encode.string <| getId id ) ]
+        [ ( "Id", Encode.string <| idText id ) ]
 
 
 encodeTopic : Topic -> Encode.Value
@@ -102,8 +102,8 @@ encodeTopic topic =
 encodeProviderWithTopic : Id -> Topic -> Encode.Value
 encodeProviderWithTopic id topic =
     Encode.object
-        [ ( "Id", Encode.string <| getId id )
-        , ( "Topic", Encode.string <| getTopic topic )
+        [ ( "Id", Encode.string <| idText id )
+        , ( "Topic", Encode.string <| topicText topic )
         ]
 
 
@@ -200,7 +200,7 @@ links : Id -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
 links profileId msg =
     let
         url =
-            baseUrl ++ (getId profileId) ++ "links"
+            baseUrl ++ (idText profileId) ++ "links"
 
         body =
             (encodeId profileId) |> Http.jsonBody
@@ -215,7 +215,7 @@ topicLinks : Id -> Topic -> ContentType -> (Result Http.Error (List JsonLink) ->
 topicLinks providerId topic contentType msg =
     let
         url =
-            baseUrl ++ (getId providerId) ++ "/" ++ "topiclinks"
+            baseUrl ++ (idText providerId) ++ "/" ++ "topiclinks"
 
         body =
             encodeId providerId |> Http.jsonBody

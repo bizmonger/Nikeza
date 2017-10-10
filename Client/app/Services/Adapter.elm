@@ -110,11 +110,11 @@ toProfile jsonProfile =
 
 toJsonProfile : Profile -> JsonProfile
 toJsonProfile profile =
-    { id = getId profile.id
-    , firstName = getName profile.firstName
-    , lastName = getName profile.lastName
-    , email = getEmail profile.email
-    , imageUrl = getUrl profile.imageUrl
+    { id = idText profile.id
+    , firstName = nameText profile.firstName
+    , lastName = nameText profile.lastName
+    , email = emailText profile.email
+    , imageUrl = urlText profile.imageUrl
     , bio = profile.bio
     , sources = profile.sources
     }
@@ -151,8 +151,8 @@ toJsonLinks links =
         |> List.map
             (\link ->
                 { profile = link.profile |> toJsonProfile
-                , title = getTitle link.title
-                , url = getUrl link.url
+                , title = titleText link.title
+                , url = urlText link.url
                 , contentType = link.contentType |> contentTypeToText
                 , topics = link.topics
                 , isFeatured = link.isFeatured

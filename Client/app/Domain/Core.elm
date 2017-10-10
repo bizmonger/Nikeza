@@ -129,8 +129,8 @@ type Id
     = Id String
 
 
-getId : Id -> String
-getId id =
+idText : Id -> String
+idText id =
     let
         (Id value) =
             id
@@ -142,8 +142,8 @@ type Name
     = Name String
 
 
-getName : Name -> String
-getName name =
+nameText : Name -> String
+nameText name =
     let
         (Name value) =
             name
@@ -155,8 +155,8 @@ type Email
     = Email String
 
 
-getEmail : Email -> String
-getEmail email =
+emailText : Email -> String
+emailText email =
     let
         (Email value) =
             email
@@ -168,8 +168,8 @@ type Title
     = Title String
 
 
-getTitle : Title -> String
-getTitle title =
+titleText : Title -> String
+titleText title =
     let
         (Title value) =
             title
@@ -181,8 +181,8 @@ type Url
     = Url String
 
 
-getUrl : Url -> String
-getUrl url =
+urlText : Url -> String
+urlText url =
     let
         (Url value) =
             url
@@ -194,8 +194,8 @@ type alias Topic =
     { name : String, isFeatured : Bool }
 
 
-getTopic : Topic -> String
-getTopic topic =
+topicText : Topic -> String
+topicText topic =
     topic.name
 
 
@@ -203,8 +203,8 @@ type Platform
     = Platform String
 
 
-getPlatform : Platform -> String
-getPlatform platform =
+platformText : Platform -> String
+platformText platform =
     let
         (Platform value) =
             platform
@@ -411,7 +411,7 @@ getLinks contentType links =
 
 hasMatch : Topic -> List Topic -> Bool
 hasMatch topic topics =
-    topics |> toTopicNames |> List.member (getTopic topic)
+    topics |> toTopicNames |> List.member (topicText topic)
 
 
 portfolioExists : Portfolio -> Bool
@@ -431,7 +431,7 @@ topicUrl id topic =
 
 toUrl : Link -> String
 toUrl link =
-    getUrl link.url
+    urlText link.url
 
 
 toTopicNames : List Topic -> List String
@@ -443,20 +443,20 @@ providerTopicUrl : Maybe Id -> Id -> Topic -> Url
 providerTopicUrl loggedIn providerId topic =
     case loggedIn of
         Just userId ->
-            Url <| "/#/portal/" ++ getId userId ++ "/provider/" ++ getId providerId ++ "/" ++ getTopic topic
+            Url <| "/#/portal/" ++ idText userId ++ "/provider/" ++ idText providerId ++ "/" ++ topicText topic
 
         Nothing ->
-            Url <| "/#/provider/" ++ getId providerId ++ "/" ++ getTopic topic
+            Url <| "/#/provider/" ++ idText providerId ++ "/" ++ topicText topic
 
 
 providerUrl : Maybe Id -> Id -> Url
 providerUrl loggedIn providerId =
     case loggedIn of
         Just userId ->
-            Url <| "/#/portal/" ++ getId userId ++ "/provider/" ++ getId providerId
+            Url <| "/#/portal/" ++ idText userId ++ "/provider/" ++ idText providerId
 
         Nothing ->
-            Url <| "/#/provider/" ++ getId providerId
+            Url <| "/#/provider/" ++ idText providerId
 
 
 toContentType : String -> ContentType
@@ -519,17 +519,17 @@ allContentUrl : Linksfrom -> Id -> ContentType -> Url
 allContentUrl linksFrom id contentType =
     case linksFrom of
         FromOther ->
-            Url <| "/#/provider/" ++ getId id ++ "/all/" ++ (contentType |> contentTypeToText)
+            Url <| "/#/provider/" ++ idText id ++ "/all/" ++ (contentType |> contentTypeToText)
 
         FromPortal ->
-            Url <| "/#/portal/" ++ getId id ++ "/all/" ++ (contentType |> contentTypeToText)
+            Url <| "/#/portal/" ++ idText id ++ "/all/" ++ (contentType |> contentTypeToText)
 
 
 allTopicContentUrl : Linksfrom -> Id -> ContentType -> Topic -> Url
 allTopicContentUrl linksFrom id contentType topic =
     case linksFrom of
         FromOther ->
-            Url <| "/#/provider/" ++ getId id ++ "/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)
+            Url <| "/#/provider/" ++ idText id ++ "/" ++ topicText topic ++ "/all/" ++ (contentType |> contentTypeToText)
 
         FromPortal ->
-            Url <| "/#/portal/" ++ getId id ++ "/" ++ getTopic topic ++ "/all/" ++ (contentType |> contentTypeToText)
+            Url <| "/#/portal/" ++ idText id ++ "/" ++ topicText topic ++ "/all/" ++ (contentType |> contentTypeToText)

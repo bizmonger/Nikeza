@@ -59,14 +59,14 @@ view model =
     let
         toButton topic =
             div []
-                [ button [ onClick <| AssociateTopic topic ] [ text <| getTopic topic ]
+                [ button [ onClick <| AssociateTopic topic ] [ text <| topicText topic ]
                 , br [] []
                 ]
 
         topicsSelectionUI search =
             div []
                 (search
-                    |> getTopic
+                    |> topicText
                     |> runtime.suggestedTopics
                     |> List.map toButton
                 )
@@ -77,7 +77,7 @@ view model =
                     (\t ->
                         div []
                             [ label [ class "topicAdded" ]
-                                [ text <| getTopic t
+                                [ text <| topicText t
                                 , button [ class "removeTopic", onClick <| RemoveTopic t ] [ text "Remove" ]
                                 , br [] []
                                 , br [] []
@@ -104,14 +104,14 @@ view model =
                     [ td []
                         [ table []
                             [ tr []
-                                [ td [] [ input [ class "addLinkText", type_ "text", placeholder "title", onInput InputTitle, value <| getTitle base.title ] [] ]
+                                [ td [] [ input [ class "addLinkText", type_ "text", placeholder "title", onInput InputTitle, value <| titleText base.title ] [] ]
                                 ]
-                            , tr [] [ td [] [ input [ class "addLinkText", type_ "text", placeholder "link", onInput InputUrl, value <| getUrl base.url ] [] ] ]
+                            , tr [] [ td [] [ input [ class "addLinkText", type_ "text", placeholder "link", onInput InputUrl, value <| urlText base.url ] [] ] ]
                             , tr []
                                 [ td []
                                     [ table []
                                         [ tr []
-                                            [ td [] [ input [ type_ "text", placeholder "topic", onInput InputTopic, value (getTopic current.currentTopic) ] [] ]
+                                            [ td [] [ input [ type_ "text", placeholder "topic", onInput InputTopic, value (topicText current.currentTopic) ] [] ]
                                             , td [] [ listbox ]
                                             ]
                                         ]

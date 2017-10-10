@@ -53,7 +53,7 @@ view model =
             (option [ value "instructions" ] [ text "Select Platform" ])
 
         platformOption platform =
-            option [ value <| getPlatform platform ] [ text <| getPlatform platform ]
+            option [ value <| platformText platform ] [ text <| platformText platform ]
 
         changeHandler =
             Html.Events.on "change" (Json.Decode.map InputPlatform Html.Events.targetValue)
