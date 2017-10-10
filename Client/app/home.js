@@ -13955,14 +13955,15 @@ var _user$project$Domain_Core$Article = {ctor: 'Article'};
 var _user$project$Domain_Core$toggleFilter = F2(
 	function (provider, _p12) {
 		var _p13 = _p12;
-		var _p14 = _p13._0;
+		var _p15 = _p13._0;
+		var _p14 = _p13._1;
 		var filtered = provider.filteredPortfolio;
 		var toggleTopic = F2(
 			function (contentType, existing) {
-				return _p13._1 ? A2(
+				return _p14 ? A2(
 					_elm_lang$core$List$filter,
 					function (link) {
-						return A2(_user$project$Domain_Core$hasMatch, _p14, link.topics);
+						return A2(_user$project$Domain_Core$hasMatch, _p15, link.topics);
 					},
 					A2(
 						_elm_lang$core$List$append,
@@ -13970,24 +13971,31 @@ var _user$project$Domain_Core$toggleFilter = F2(
 						existing)) : A2(
 					_elm_lang$core$List$filter,
 					function (link) {
-						return !A2(_user$project$Domain_Core$hasMatch, _p14, link.topics);
+						return !A2(_user$project$Domain_Core$hasMatch, _p15, link.topics);
 					},
 					existing);
+			});
+		var refresh = F3(
+			function (include, contentType, filteredTypeLinks) {
+				return include ? A2(
+					_elm_lang$core$Basics_ops['++'],
+					A2(toggleTopic, contentType, filteredTypeLinks),
+					filteredTypeLinks) : A2(toggleTopic, contentType, filteredTypeLinks);
 			});
 		return _elm_lang$core$Native_Utils.update(
 			provider,
 			{
 				filteredPortfolio: {
-					answers: A2(toggleTopic, _user$project$Domain_Core$Answer, filtered.answers),
-					articles: A2(toggleTopic, _user$project$Domain_Core$Article, filtered.articles),
-					videos: A2(toggleTopic, _user$project$Domain_Core$Video, filtered.videos),
-					podcasts: A2(toggleTopic, _user$project$Domain_Core$Podcast, filtered.podcasts)
+					answers: A3(refresh, _p14, _user$project$Domain_Core$Answer, filtered.answers),
+					articles: A3(refresh, _p14, _user$project$Domain_Core$Article, filtered.articles),
+					videos: A3(refresh, _p14, _user$project$Domain_Core$Video, filtered.videos),
+					podcasts: A3(refresh, _p14, _user$project$Domain_Core$Podcast, filtered.podcasts)
 				}
 			});
 	});
 var _user$project$Domain_Core$toContentType = function (contentType) {
-	var _p15 = contentType;
-	switch (_p15) {
+	var _p16 = contentType;
+	switch (_p16) {
 		case 'Articles':
 			return _user$project$Domain_Core$Article;
 		case 'Article':

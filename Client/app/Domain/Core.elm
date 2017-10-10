@@ -342,13 +342,19 @@ toggleFilter provider ( topic, include ) =
 
         filtered =
             provider.filteredPortfolio
+
+        refresh include contentType filteredTypeLinks =
+            if include then
+                (filteredTypeLinks |> toggleTopic contentType) ++ (filteredTypeLinks)
+            else
+                (filteredTypeLinks |> toggleTopic contentType)
     in
         { provider
             | filteredPortfolio =
-                { answers = filtered.answers |> toggleTopic Answer
-                , articles = filtered.articles |> toggleTopic Article
-                , videos = filtered.videos |> toggleTopic Video
-                , podcasts = filtered.podcasts |> toggleTopic Podcast
+                { answers = filtered.answers |> refresh include Answer
+                , articles = filtered.articles |> refresh include Article
+                , videos = filtered.videos |> refresh include Video
+                , podcasts = filtered.podcasts |> refresh include Podcast
                 }
         }
 
