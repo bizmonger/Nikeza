@@ -14212,9 +14212,20 @@ var _user$project$Tests_TestAPI$removeSource = F2(
 				},
 				_user$project$Tests_TestAPI$sources(profileId)));
 	});
-var _user$project$Tests_TestAPI$removeLink = F2(
-	function (profileId, link) {
-		return _elm_lang$core$Result$Err('Not Implemented');
+var _user$project$Tests_TestAPI$removeLink = F3(
+	function (profileId, link, msg) {
+		return A2(
+			_elm_lang$core$Task$perform,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Task$succeed(
+				msg(
+					_elm_lang$core$Result$Ok(
+						A4(
+							_user$project$Services_Adapter$JsonPortfolio,
+							{ctor: '[]'},
+							{ctor: '[]'},
+							{ctor: '[]'},
+							{ctor: '[]'})))));
 	});
 var _user$project$Tests_TestAPI$addLink = F3(
 	function (profileId, link, msg) {
@@ -15299,10 +15310,6 @@ var _user$project$Services_Gateway$sources = function (profileId) {
 var _user$project$Services_Gateway$usernameToId = function (username) {
 	return _user$project$Domain_Core$Id('undefined');
 };
-var _user$project$Services_Gateway$removeLink = F2(
-	function (profileId, link) {
-		return _elm_lang$core$Result$Err('Not implemented');
-	});
 var _user$project$Services_Gateway$baseUrl = 'http://localhost:5000/';
 var _user$project$Services_Gateway$encodeCredentials = function (credentials) {
 	return _elm_lang$core$Json_Encode$object(
@@ -15638,6 +15645,20 @@ var _user$project$Services_Gateway$addLink = F3(
 				_elm_lang$core$Basics_ops['++'],
 				_user$project$Domain_Core$idText(profileId),
 				'/addlink'));
+		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$portfolioDecoder);
+		return A2(_elm_lang$http$Http$send, msg, request);
+	});
+var _user$project$Services_Gateway$removeLink = F3(
+	function (profileId, link, msg) {
+		var body = _elm_lang$http$Http$jsonBody(
+			_user$project$Services_Gateway$encodeLink(link));
+		var url = A2(
+			_elm_lang$core$Basics_ops['++'],
+			_user$project$Services_Gateway$baseUrl,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_user$project$Domain_Core$idText(profileId),
+				'/removelink'));
 		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$portfolioDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});

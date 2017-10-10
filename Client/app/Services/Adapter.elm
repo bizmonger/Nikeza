@@ -36,6 +36,10 @@ type alias AddLinkfunction msg =
     Id -> Link -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
 
 
+type alias RemoveLinkfunction msg =
+    Id -> Link -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
+
+
 type alias Linksfunction msg =
     Id -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
 

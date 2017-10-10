@@ -601,65 +601,13 @@ addLink profileId link msg =
         |> Task.perform identity
 
 
-
--- let
---     currentLinks =
---         proflinksileId |> links
--- in
---     case link.contentType of
---         All ->
---             Err "Failed to add link: Cannot add link to 'ALL'"
---         Unknown ->
---             Err "Failed to add link: Contenttype of link is unknown"
---         Answer ->
---             Ok { currentLinks | answers = link :: currentLinks.answers }
---         Article ->
---             Ok { currentLinks | articles = link :: currentLinks.articles }
---         Video ->
---             Ok { currentLinks | videos = link :: currentLinks.videos }
---         podcast ->
---             Ok { currentLinks | podcasts = link :: currentLinks.podcasts }
-
-
-removeLink : Id -> Link -> Result String Portfolio
-removeLink profileId link =
-    Err "Not Implemented"
-
-
-
--- let
---     currentLinks =
---         profileId |> links
--- in
---     case link.contentType of
---         All ->
---             Err "Failed to add link: Cannot add link to 'ALL'"
---         Unknown ->
---             Err "Failed to add link: Contenttype of link is unknown"
---         Answer ->
---             let
---                 updated =
---                     currentLinks.answers |> List.filter (\link -> currentLinks.answers |> List.member link)
---             in
---                 Ok { currentLinks | answers = updated }
---         Article ->
---             let
---                 updated =
---                     currentLinks.articles |> List.filter (\link -> currentLinks.articles |> List.member link)
---             in
---                 Ok { currentLinks | articles = updated }
---         Video ->
---             let
---                 updated =
---                     currentLinks.videos |> List.filter (\link -> currentLinks.videos |> List.member link)
---             in
---                 Ok { currentLinks | videos = updated }
---         podcast ->
---             let
---                 updated =
---                     currentLinks.podcasts |> List.filter (\link -> currentLinks.podcasts |> List.member link)
---             in
---                 Ok { currentLinks | podcasts = updated }
+removeLink : Id -> Link -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
+removeLink profileId link msg =
+    JsonPortfolio [] [] [] []
+        |> Result.Ok
+        |> msg
+        |> Task.succeed
+        |> Task.perform identity
 
 
 linksToContent : ContentType -> Id -> List Link

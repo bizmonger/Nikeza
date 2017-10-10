@@ -292,9 +292,19 @@ addLink profileId link msg =
         Http.send msg request
 
 
-removeLink : Id -> Link -> Result String Portfolio
-removeLink profileId link =
-    Err "Not implemented"
+removeLink : Id -> Link -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
+removeLink profileId link msg =
+    let
+        url =
+            baseUrl ++ (idText profileId) ++ "/removelink"
+
+        body =
+            encodeLink link |> Http.jsonBody
+
+        request =
+            Http.post url body portfolioDecoder
+    in
+        Http.send msg request
 
 
 usernameToId : String -> Id

@@ -24,7 +24,7 @@ type alias Dependencies msg =
     , providers : Providersfunction msg
     , links : Linksfunction msg
     , addLink : AddLinkfunction msg
-    , removeLink : RemoveLinkfunction
+    , removeLink : RemoveLinkfunction msg
     , topicLinks : TopicLinksfunction msg
     , usernameToId : UserNameToIdfunction
     , sources : Sourcesfunction
