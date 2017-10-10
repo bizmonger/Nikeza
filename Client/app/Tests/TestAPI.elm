@@ -592,9 +592,13 @@ links profileId msg =
         |> Task.perform identity
 
 
-addLink : Id -> Link -> Result String Portfolio
-addLink profileId link =
-    Err "Not Implemented"
+addLink : Id -> Link -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
+addLink profileId link msg =
+    JsonPortfolio [] [] [] []
+        |> Result.Ok
+        |> msg
+        |> Task.succeed
+        |> Task.perform identity
 
 
 

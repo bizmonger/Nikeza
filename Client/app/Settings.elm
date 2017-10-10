@@ -23,7 +23,7 @@ type alias Dependencies msg =
     , providerTopic : ProviderTopicfunction msg
     , providers : Providersfunction msg
     , links : Linksfunction msg
-    , addLink : AddLinkfunction
+    , addLink : AddLinkfunction msg
     , removeLink : RemoveLinkfunction
     , topicLinks : TopicLinksfunction msg
     , usernameToId : UserNameToIdfunction

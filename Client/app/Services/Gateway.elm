@@ -38,6 +38,15 @@ topicDecoder =
         (field "IsFeatured" Decode.bool)
 
 
+portfolioDecoder : Decoder JsonPortfolio
+portfolioDecoder =
+    Decode.map4 JsonPortfolio
+        (field "Answers" <| Decode.list linkDecoder)
+        (field "Articles" <| Decode.list linkDecoder)
+        (field "Videos" <| Decode.list linkDecoder)
+        (field "Podcasts" <| Decode.list linkDecoder)
+
+
 linkDecoder : Decoder JsonLink
 linkDecoder =
     Decode.map6 JsonLink
@@ -82,6 +91,48 @@ encodeRegistration form =
         , ( "LastName", Encode.string form.firstName )
         , ( "Email", Encode.string form.email )
         , ( "Password", Encode.string form.password )
+        ]
+
+
+encodeLink : Link -> Encode.Value
+encodeLink link =
+    -- let
+    --     jsonLink =
+    --         link |> toJsonLink
+    -- in
+    Encode.object
+        [ ( "Profile", encodeProfile link.profile )
+        , ( "Title", Encode.string <| titleText link.title )
+        , ( "Url", Encode.string <| urlText link.url )
+        , ( "ContentType", Encode.string <| contentTypeToText link.contentType )
+        , ( "Topics", Encode.list (link.topics |> List.map (\t -> encodeTopic t)) )
+        , ( "IsFeatured", Encode.bool link.isFeatured )
+        ]
+
+
+encodeProfile : Profile -> Encode.Value
+encodeProfile profile =
+    let
+        jsonProfile =
+            profile |> toJsonProfile
+    in
+        Encode.object
+            [ ( "Id", Encode.string <| jsonProfile.id )
+            , ( "FirstName", Encode.string <| jsonProfile.firstName )
+            , ( "LastName", Encode.string <| jsonProfile.lastName )
+            , ( "Email", Encode.string <| jsonProfile.email )
+            , ( "ImageUrl", Encode.string <| jsonProfile.imageUrl )
+            , ( "Bio", Encode.string <| jsonProfile.bio )
+            , ( "Sources", Encode.list (jsonProfile.sources |> List.map (\s -> encodeSource s)) )
+            ]
+
+
+encodeSource : Source -> Encode.Value
+encodeSource source =
+    Encode.object
+        [ ( "Platform", Encode.string <| source.platform )
+        , ( "Username", Encode.string <| source.username )
+        , ( "LinksFound", Encode.int <| source.linksFound )
         ]
 
 
@@ -212,13 +263,13 @@ links profileId msg =
 
 
 topicLinks : Id -> Topic -> ContentType -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
-topicLinks providerId topic contentType msg =
+topicLinks profileId topic contentType msg =
     let
         url =
-            baseUrl ++ (idText providerId) ++ "/" ++ "topiclinks"
+            baseUrl ++ (idText profileId) ++ "/topiclinks"
 
         body =
-            encodeId providerId |> Http.jsonBody
+            encodeId profileId |> Http.jsonBody
 
         request =
             Http.post url body listOfLinksDecoder
@@ -226,9 +277,19 @@ topicLinks providerId topic contentType msg =
         Http.send msg request
 
 
-addLink : Id -> Link -> Result String Portfolio
-addLink profileId link =
-    Err "Not implemented"
+addLink : Id -> Link -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
+addLink profileId link msg =
+    let
+        url =
+            baseUrl ++ (idText profileId) ++ "/addlink"
+
+        body =
+            encodeLink link |> Http.jsonBody
+
+        request =
+            Http.post url body portfolioDecoder
+    in
+        Http.send msg request
 
 
 removeLink : Id -> Link -> Result String Portfolio

@@ -292,10 +292,6 @@ type alias RemoveSourcefunction =
     Id -> Source -> Result String (List Source)
 
 
-type alias AddLinkfunction =
-    Id -> Link -> Result String Portfolio
-
-
 type alias RemoveLinkfunction =
     Id -> Link -> Result String Portfolio
 

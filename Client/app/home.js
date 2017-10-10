@@ -14038,20 +14038,18 @@ var _user$project$Services_Adapter$toJsonProfile = function (profile) {
 		sources: profile.sources
 	};
 };
+var _user$project$Services_Adapter$toJsonLink = function (link) {
+	return {
+		profile: _user$project$Services_Adapter$toJsonProfile(link.profile),
+		title: _user$project$Domain_Core$titleText(link.title),
+		url: _user$project$Domain_Core$urlText(link.url),
+		contentType: _user$project$Domain_Core$contentTypeToText(link.contentType),
+		topics: link.topics,
+		isFeatured: link.isFeatured
+	};
+};
 var _user$project$Services_Adapter$toJsonLinks = function (links) {
-	return A2(
-		_elm_lang$core$List$map,
-		function (link) {
-			return {
-				profile: _user$project$Services_Adapter$toJsonProfile(link.profile),
-				title: _user$project$Domain_Core$titleText(link.title),
-				url: _user$project$Domain_Core$urlText(link.url),
-				contentType: _user$project$Domain_Core$contentTypeToText(link.contentType),
-				topics: link.topics,
-				isFeatured: link.isFeatured
-			};
-		},
-		links);
+	return A2(_elm_lang$core$List$map, _user$project$Services_Adapter$toJsonLink, links);
 };
 var _user$project$Services_Adapter$toProfile = function (jsonProfile) {
 	return {
@@ -14218,9 +14216,20 @@ var _user$project$Tests_TestAPI$removeLink = F2(
 	function (profileId, link) {
 		return _elm_lang$core$Result$Err('Not Implemented');
 	});
-var _user$project$Tests_TestAPI$addLink = F2(
-	function (profileId, link) {
-		return _elm_lang$core$Result$Err('Not Implemented');
+var _user$project$Tests_TestAPI$addLink = F3(
+	function (profileId, link, msg) {
+		return A2(
+			_elm_lang$core$Task$perform,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Task$succeed(
+				msg(
+					_elm_lang$core$Result$Ok(
+						A4(
+							_user$project$Services_Adapter$JsonPortfolio,
+							{ctor: '[]'},
+							{ctor: '[]'},
+							{ctor: '[]'},
+							{ctor: '[]'})))));
 	});
 var _user$project$Tests_TestAPI$toJsonProfile = function (profile) {
 	return {
@@ -15294,10 +15303,6 @@ var _user$project$Services_Gateway$removeLink = F2(
 	function (profileId, link) {
 		return _elm_lang$core$Result$Err('Not implemented');
 	});
-var _user$project$Services_Gateway$addLink = F2(
-	function (profileId, link) {
-		return _elm_lang$core$Result$Err('Not implemented');
-	});
 var _user$project$Services_Gateway$baseUrl = 'http://localhost:5000/';
 var _user$project$Services_Gateway$encodeCredentials = function (credentials) {
 	return _elm_lang$core$Json_Encode$object(
@@ -15375,6 +15380,162 @@ var _user$project$Services_Gateway$encodeId = function (id) {
 			_1: {ctor: '[]'}
 		});
 };
+var _user$project$Services_Gateway$encodeSource = function (source) {
+	return _elm_lang$core$Json_Encode$object(
+		{
+			ctor: '::',
+			_0: {
+				ctor: '_Tuple2',
+				_0: 'Platform',
+				_1: _elm_lang$core$Json_Encode$string(source.platform)
+			},
+			_1: {
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'Username',
+					_1: _elm_lang$core$Json_Encode$string(source.username)
+				},
+				_1: {
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'LinksFound',
+						_1: _elm_lang$core$Json_Encode$int(source.linksFound)
+					},
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
+var _user$project$Services_Gateway$encodeProfile = function (profile) {
+	var jsonProfile = _user$project$Services_Adapter$toJsonProfile(profile);
+	return _elm_lang$core$Json_Encode$object(
+		{
+			ctor: '::',
+			_0: {
+				ctor: '_Tuple2',
+				_0: 'Id',
+				_1: _elm_lang$core$Json_Encode$string(jsonProfile.id)
+			},
+			_1: {
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'FirstName',
+					_1: _elm_lang$core$Json_Encode$string(jsonProfile.firstName)
+				},
+				_1: {
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'LastName',
+						_1: _elm_lang$core$Json_Encode$string(jsonProfile.lastName)
+					},
+					_1: {
+						ctor: '::',
+						_0: {
+							ctor: '_Tuple2',
+							_0: 'Email',
+							_1: _elm_lang$core$Json_Encode$string(jsonProfile.email)
+						},
+						_1: {
+							ctor: '::',
+							_0: {
+								ctor: '_Tuple2',
+								_0: 'ImageUrl',
+								_1: _elm_lang$core$Json_Encode$string(jsonProfile.imageUrl)
+							},
+							_1: {
+								ctor: '::',
+								_0: {
+									ctor: '_Tuple2',
+									_0: 'Bio',
+									_1: _elm_lang$core$Json_Encode$string(jsonProfile.bio)
+								},
+								_1: {
+									ctor: '::',
+									_0: {
+										ctor: '_Tuple2',
+										_0: 'Sources',
+										_1: _elm_lang$core$Json_Encode$list(
+											A2(
+												_elm_lang$core$List$map,
+												function (s) {
+													return _user$project$Services_Gateway$encodeSource(s);
+												},
+												jsonProfile.sources))
+									},
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				}
+			}
+		});
+};
+var _user$project$Services_Gateway$encodeLink = function (link) {
+	return _elm_lang$core$Json_Encode$object(
+		{
+			ctor: '::',
+			_0: {
+				ctor: '_Tuple2',
+				_0: 'Profile',
+				_1: _user$project$Services_Gateway$encodeProfile(link.profile)
+			},
+			_1: {
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'Title',
+					_1: _elm_lang$core$Json_Encode$string(
+						_user$project$Domain_Core$titleText(link.title))
+				},
+				_1: {
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'Url',
+						_1: _elm_lang$core$Json_Encode$string(
+							_user$project$Domain_Core$urlText(link.url))
+					},
+					_1: {
+						ctor: '::',
+						_0: {
+							ctor: '_Tuple2',
+							_0: 'ContentType',
+							_1: _elm_lang$core$Json_Encode$string(
+								_user$project$Domain_Core$contentTypeToText(link.contentType))
+						},
+						_1: {
+							ctor: '::',
+							_0: {
+								ctor: '_Tuple2',
+								_0: 'Topics',
+								_1: _elm_lang$core$Json_Encode$list(
+									A2(
+										_elm_lang$core$List$map,
+										function (t) {
+											return _user$project$Services_Gateway$encodeTopic(t);
+										},
+										link.topics))
+							},
+							_1: {
+								ctor: '::',
+								_0: {
+									ctor: '_Tuple2',
+									_0: 'IsFeatured',
+									_1: _elm_lang$core$Json_Encode$bool(link.isFeatured)
+								},
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			}
+		});
+};
 var _user$project$Services_Gateway$encodeRegistration = function (form) {
 	return _elm_lang$core$Json_Encode$object(
 		{
@@ -15447,18 +15608,51 @@ var _user$project$Services_Gateway$linkDecoder = A7(
 		'Topics',
 		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$topicDecoder)),
 	A2(_elm_lang$core$Json_Decode$field, 'IsFeatured', _elm_lang$core$Json_Decode$bool));
-var _user$project$Services_Gateway$listOfLinksDecoder = _elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder);
-var _user$project$Services_Gateway$topicLinks = F4(
-	function (providerId, topic, contentType, msg) {
+var _user$project$Services_Gateway$portfolioDecoder = A5(
+	_elm_lang$core$Json_Decode$map4,
+	_user$project$Services_Adapter$JsonPortfolio,
+	A2(
+		_elm_lang$core$Json_Decode$field,
+		'Answers',
+		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder)),
+	A2(
+		_elm_lang$core$Json_Decode$field,
+		'Articles',
+		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder)),
+	A2(
+		_elm_lang$core$Json_Decode$field,
+		'Videos',
+		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder)),
+	A2(
+		_elm_lang$core$Json_Decode$field,
+		'Podcasts',
+		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder)));
+var _user$project$Services_Gateway$addLink = F3(
+	function (profileId, link, msg) {
 		var body = _elm_lang$http$Http$jsonBody(
-			_user$project$Services_Gateway$encodeId(providerId));
+			_user$project$Services_Gateway$encodeLink(link));
 		var url = A2(
 			_elm_lang$core$Basics_ops['++'],
 			_user$project$Services_Gateway$baseUrl,
 			A2(
 				_elm_lang$core$Basics_ops['++'],
-				_user$project$Domain_Core$idText(providerId),
-				A2(_elm_lang$core$Basics_ops['++'], '/', 'topiclinks')));
+				_user$project$Domain_Core$idText(profileId),
+				'/addlink'));
+		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$portfolioDecoder);
+		return A2(_elm_lang$http$Http$send, msg, request);
+	});
+var _user$project$Services_Gateway$listOfLinksDecoder = _elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder);
+var _user$project$Services_Gateway$topicLinks = F4(
+	function (profileId, topic, contentType, msg) {
+		var body = _elm_lang$http$Http$jsonBody(
+			_user$project$Services_Gateway$encodeId(profileId));
+		var url = A2(
+			_elm_lang$core$Basics_ops['++'],
+			_user$project$Services_Gateway$baseUrl,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_user$project$Domain_Core$idText(profileId),
+				'/topiclinks'));
 		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$listOfLinksDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});

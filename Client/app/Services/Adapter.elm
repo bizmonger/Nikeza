@@ -32,6 +32,10 @@ type alias Subscriptionsfunction msg =
     Id -> (Result Http.Error Members -> msg) -> Cmd msg
 
 
+type alias AddLinkfunction msg =
+    Id -> Link -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
+
+
 type alias Linksfunction msg =
     Id -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
 
@@ -145,19 +149,20 @@ toLinks jsonLinks =
             )
 
 
+toJsonLink : Link -> JsonLink
+toJsonLink link =
+    { profile = link.profile |> toJsonProfile
+    , title = titleText link.title
+    , url = urlText link.url
+    , contentType = link.contentType |> contentTypeToText
+    , topics = link.topics
+    , isFeatured = link.isFeatured
+    }
+
+
 toJsonLinks : List Link -> List JsonLink
 toJsonLinks links =
-    links
-        |> List.map
-            (\link ->
-                { profile = link.profile |> toJsonProfile
-                , title = titleText link.title
-                , url = urlText link.url
-                , contentType = link.contentType |> contentTypeToText
-                , topics = link.topics
-                , isFeatured = link.isFeatured
-                }
-            )
+    links |> List.map toJsonLink
 
 
 toPortfolio : JsonPortfolio -> Portfolio
