@@ -852,14 +852,23 @@ usernameToId email =
             Id undefined
 
 
-platforms : List Platform
-platforms =
+platformsBase : List Platform
+platformsBase =
     [ Platform "WordPress"
     , Platform "YouTube"
     , Platform "Vimeo"
     , Platform "Medium"
     , Platform "StackOverflow"
     ]
+
+
+platforms : (Result Http.Error (List Platform) -> msg) -> Cmd msg
+platforms msg =
+    platformsBase
+        |> Result.Ok
+        |> msg
+        |> Task.succeed
+        |> Task.perform identity
 
 
 follow : Id -> Id -> Result String ()

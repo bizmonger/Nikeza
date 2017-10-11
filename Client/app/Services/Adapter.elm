@@ -32,6 +32,10 @@ type alias RemoveSourcefunction msg =
     Id -> Source -> (Result Http.Error (List Source) -> msg) -> Cmd msg
 
 
+type alias Platformsfunction msg =
+    (Result Http.Error (List Platform) -> msg) -> Cmd msg
+
+
 type alias Followersfunction msg =
     Id -> (Result Http.Error Members -> msg) -> Cmd msg
 

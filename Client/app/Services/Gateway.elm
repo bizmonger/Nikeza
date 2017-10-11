@@ -327,9 +327,9 @@ removeSource profileId source msg =
     Cmd.none
 
 
-platforms : List Platform
-platforms =
-    []
+platforms : (Result Http.Error (List Platform) -> msg) -> Cmd msg
+platforms msg =
+    Cmd.none
 
 
 suggestedTopics : String -> List Topic

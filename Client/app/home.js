@@ -14019,6 +14019,501 @@ var _user$project$Domain_Core$toContentType = function (contentType) {
 	}
 };
 
+var _user$project$Controls_AddSource$update = F2(
+	function (msg, model) {
+		var source = model.source;
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'InputUsername':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						source: _elm_lang$core$Native_Utils.update(
+							source,
+							{username: _p0._0})
+					});
+			case 'InputPlatform':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						source: _elm_lang$core$Native_Utils.update(
+							source,
+							{platform: _p0._0})
+					});
+			case 'Add':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						sources: {ctor: '::', _0: _p0._0, _1: model.sources}
+					});
+			default:
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						sources: A2(
+							_elm_lang$core$List$filter,
+							function (s) {
+								return !_elm_lang$core$Native_Utils.eq(s, _p0._0);
+							},
+							model.sources)
+					});
+		}
+	});
+var _user$project$Controls_AddSource$Model = F2(
+	function (a, b) {
+		return {source: a, sources: b};
+	});
+var _user$project$Controls_AddSource$Remove = function (a) {
+	return {ctor: 'Remove', _0: a};
+};
+var _user$project$Controls_AddSource$sourceUI = function (source) {
+	return A2(
+		_elm_lang$html$Html$tr,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('sources'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$td,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(source.platform),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$td,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$i,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(source.username),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$td,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									'(',
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										_elm_lang$core$Basics$toString(source.linksFound),
+										') links'))),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$td,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$button,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(
+											_user$project$Controls_AddSource$Remove(source)),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Disconnect'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		});
+};
+var _user$project$Controls_AddSource$Add = function (a) {
+	return {ctor: 'Add', _0: a};
+};
+var _user$project$Controls_AddSource$InputPlatform = function (a) {
+	return {ctor: 'InputPlatform', _0: a};
+};
+var _user$project$Controls_AddSource$InputUsername = function (a) {
+	return {ctor: 'InputUsername', _0: a};
+};
+var _user$project$Controls_AddSource$view = F2(
+	function (model, platforms) {
+		var changeHandler = A2(
+			_elm_lang$html$Html_Events$on,
+			'change',
+			A2(_elm_lang$core$Json_Decode$map, _user$project$Controls_AddSource$InputPlatform, _elm_lang$html$Html_Events$targetValue));
+		var platformOption = function (platform) {
+			return A2(
+				_elm_lang$html$Html$option,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$value(
+						_user$project$Domain_Core$platformText(platform)),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_user$project$Domain_Core$platformText(platform)),
+					_1: {ctor: '[]'}
+				});
+		};
+		var instruction = A2(
+			_elm_lang$html$Html$option,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$value('instructions'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text('Select Platform'),
+				_1: {ctor: '[]'}
+			});
+		var records = {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$tr,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$td,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$select,
+								{
+									ctor: '::',
+									_0: changeHandler,
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$value(model.source.platform),
+										_1: {ctor: '[]'}
+									}
+								},
+								{
+									ctor: '::',
+									_0: instruction,
+									_1: A2(_elm_lang$core$List$map, platformOption, platforms)
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$td,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$input,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$type_('text'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$placeholder('username'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_AddSource$InputUsername),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$value(model.source.username),
+													_1: {ctor: '[]'}
+												}
+											}
+										}
+									},
+									{ctor: '[]'}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$td,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$button,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('addSource'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onClick(
+													_user$project$Controls_AddSource$Add(model.source)),
+												_1: {ctor: '[]'}
+											}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('Add'),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
+			_1: {ctor: '[]'}
+		};
+		var tableRecords = A2(
+			_elm_lang$core$List$append,
+			records,
+			A2(_elm_lang$core$List$map, _user$project$Controls_AddSource$sourceUI, model.sources));
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('mainContent'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$h3,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Sources'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$table,
+						{ctor: '[]'},
+						tableRecords),
+					_1: {ctor: '[]'}
+				}
+			});
+	});
+
+var _user$project$Controls_EditProfile$update = F2(
+	function (msg, profile) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'FirstNameInput':
+				return _elm_lang$core$Native_Utils.update(
+					profile,
+					{
+						firstName: _user$project$Domain_Core$Name(_p0._0)
+					});
+			case 'LastNameInput':
+				return _elm_lang$core$Native_Utils.update(
+					profile,
+					{
+						lastName: _user$project$Domain_Core$Name(_p0._0)
+					});
+			case 'EmailInput':
+				return _elm_lang$core$Native_Utils.update(
+					profile,
+					{
+						email: _user$project$Domain_Core$Email(_p0._0)
+					});
+			case 'BioInput':
+				return _elm_lang$core$Native_Utils.update(
+					profile,
+					{bio: _p0._0});
+			default:
+				return _p0._0;
+		}
+	});
+var _user$project$Controls_EditProfile$Save = function (a) {
+	return {ctor: 'Save', _0: a};
+};
+var _user$project$Controls_EditProfile$BioInput = function (a) {
+	return {ctor: 'BioInput', _0: a};
+};
+var _user$project$Controls_EditProfile$EmailInput = function (a) {
+	return {ctor: 'EmailInput', _0: a};
+};
+var _user$project$Controls_EditProfile$LastNameInput = function (a) {
+	return {ctor: 'LastNameInput', _0: a};
+};
+var _user$project$Controls_EditProfile$FirstNameInput = function (a) {
+	return {ctor: 'FirstNameInput', _0: a};
+};
+var _user$project$Controls_EditProfile$view = function (profile) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('mainContent'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h3,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Profile'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$input,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$type_('text'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$placeholder('first name'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$FirstNameInput),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$value(
+										_user$project$Domain_Core$nameText(profile.firstName)),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$br,
+						{ctor: '[]'},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$input,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$type_('text'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$placeholder('last name'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$LastNameInput),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$value(
+												_user$project$Domain_Core$nameText(profile.lastName)),
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$input,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$type_('text'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$placeholder('email'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$EmailInput),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$value(
+														_user$project$Domain_Core$emailText(profile.email)),
+													_1: {ctor: '[]'}
+												}
+											}
+										}
+									},
+									{ctor: '[]'}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$br,
+										{ctor: '[]'},
+										{ctor: '[]'}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$textarea,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$placeholder('bio description'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$BioInput),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$value(profile.bio),
+														_1: {ctor: '[]'}
+													}
+												}
+											},
+											{ctor: '[]'}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$br,
+												{ctor: '[]'},
+												{ctor: '[]'}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$button,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onClick(
+															_user$project$Controls_EditProfile$Save(profile)),
+														_1: {ctor: '[]'}
+													},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text('Save'),
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		});
+};
+
 var _user$project$Services_Adapter$toTopics = function (jsonTopics) {
 	return A2(
 		_elm_lang$core$List$map,
@@ -14154,7 +14649,7 @@ var _user$project$Tests_TestAPI$follow = F2(
 	function (clientId, providerId) {
 		return _elm_lang$core$Result$Err('follow not implemented');
 	});
-var _user$project$Tests_TestAPI$platforms = {
+var _user$project$Tests_TestAPI$platformsBase = {
 	ctor: '::',
 	_0: _user$project$Domain_Core$Platform('WordPress'),
 	_1: {
@@ -14174,6 +14669,14 @@ var _user$project$Tests_TestAPI$platforms = {
 			}
 		}
 	}
+};
+var _user$project$Tests_TestAPI$platforms = function (msg) {
+	return A2(
+		_elm_lang$core$Task$perform,
+		_elm_lang$core$Basics$identity,
+		_elm_lang$core$Task$succeed(
+			msg(
+				_elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$platformsBase))));
 };
 var _user$project$Tests_TestAPI$sourcesBase = function (profileId) {
 	return {
@@ -15323,7 +15826,9 @@ var _user$project$Services_Gateway$subscriptions = F2(
 var _user$project$Services_Gateway$suggestedTopics = function (search) {
 	return {ctor: '[]'};
 };
-var _user$project$Services_Gateway$platforms = {ctor: '[]'};
+var _user$project$Services_Gateway$platforms = function (msg) {
+	return _elm_lang$core$Platform_Cmd$none;
+};
 var _user$project$Services_Gateway$removeSource = F3(
 	function (profileId, source, msg) {
 		return _elm_lang$core$Platform_Cmd$none;
@@ -15862,500 +16367,6 @@ var _user$project$Settings$runtime = function () {
 	}
 }();
 var _user$project$Settings$Integration = {ctor: 'Integration'};
-
-var _user$project$Controls_AddSource$update = F2(
-	function (msg, model) {
-		var source = model.source;
-		var _p0 = msg;
-		switch (_p0.ctor) {
-			case 'InputUsername':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						source: _elm_lang$core$Native_Utils.update(
-							source,
-							{username: _p0._0})
-					});
-			case 'InputPlatform':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						source: _elm_lang$core$Native_Utils.update(
-							source,
-							{platform: _p0._0})
-					});
-			case 'Add':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						sources: {ctor: '::', _0: _p0._0, _1: model.sources}
-					});
-			default:
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						sources: A2(
-							_elm_lang$core$List$filter,
-							function (s) {
-								return !_elm_lang$core$Native_Utils.eq(s, _p0._0);
-							},
-							model.sources)
-					});
-		}
-	});
-var _user$project$Controls_AddSource$Model = F2(
-	function (a, b) {
-		return {source: a, sources: b};
-	});
-var _user$project$Controls_AddSource$Remove = function (a) {
-	return {ctor: 'Remove', _0: a};
-};
-var _user$project$Controls_AddSource$sourceUI = function (source) {
-	return A2(
-		_elm_lang$html$Html$tr,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('sources'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$td,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(source.platform),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$td,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$i,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(source.username),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$td,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(
-								A2(
-									_elm_lang$core$Basics_ops['++'],
-									'(',
-									A2(
-										_elm_lang$core$Basics_ops['++'],
-										_elm_lang$core$Basics$toString(source.linksFound),
-										') links'))),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$td,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$button,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onClick(
-											_user$project$Controls_AddSource$Remove(source)),
-										_1: {ctor: '[]'}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text('Disconnect'),
-										_1: {ctor: '[]'}
-									}),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}
-				}
-			}
-		});
-};
-var _user$project$Controls_AddSource$Add = function (a) {
-	return {ctor: 'Add', _0: a};
-};
-var _user$project$Controls_AddSource$InputPlatform = function (a) {
-	return {ctor: 'InputPlatform', _0: a};
-};
-var _user$project$Controls_AddSource$InputUsername = function (a) {
-	return {ctor: 'InputUsername', _0: a};
-};
-var _user$project$Controls_AddSource$view = function (model) {
-	var changeHandler = A2(
-		_elm_lang$html$Html_Events$on,
-		'change',
-		A2(_elm_lang$core$Json_Decode$map, _user$project$Controls_AddSource$InputPlatform, _elm_lang$html$Html_Events$targetValue));
-	var platformOption = function (platform) {
-		return A2(
-			_elm_lang$html$Html$option,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$value(
-					_user$project$Domain_Core$platformText(platform)),
-				_1: {ctor: '[]'}
-			},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text(
-					_user$project$Domain_Core$platformText(platform)),
-				_1: {ctor: '[]'}
-			});
-	};
-	var instruction = A2(
-		_elm_lang$html$Html$option,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$value('instructions'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text('Select Platform'),
-			_1: {ctor: '[]'}
-		});
-	var records = {
-		ctor: '::',
-		_0: A2(
-			_elm_lang$html$Html$tr,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$td,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$select,
-							{
-								ctor: '::',
-								_0: changeHandler,
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$value(model.source.platform),
-									_1: {ctor: '[]'}
-								}
-							},
-							{
-								ctor: '::',
-								_0: instruction,
-								_1: A2(_elm_lang$core$List$map, platformOption, _user$project$Settings$runtime.platforms)
-							}),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$td,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$input,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$type_('text'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$placeholder('username'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_AddSource$InputUsername),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$value(model.source.username),
-												_1: {ctor: '[]'}
-											}
-										}
-									}
-								},
-								{ctor: '[]'}),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$td,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$button,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('addSource'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(
-												_user$project$Controls_AddSource$Add(model.source)),
-											_1: {ctor: '[]'}
-										}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text('Add'),
-										_1: {ctor: '[]'}
-									}),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}
-				}
-			}),
-		_1: {ctor: '[]'}
-	};
-	var tableRecords = A2(
-		_elm_lang$core$List$append,
-		records,
-		A2(_elm_lang$core$List$map, _user$project$Controls_AddSource$sourceUI, model.sources));
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('mainContent'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$h3,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Sources'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$table,
-					{ctor: '[]'},
-					tableRecords),
-				_1: {ctor: '[]'}
-			}
-		});
-};
-
-var _user$project$Controls_EditProfile$update = F2(
-	function (msg, profile) {
-		var _p0 = msg;
-		switch (_p0.ctor) {
-			case 'FirstNameInput':
-				return _elm_lang$core$Native_Utils.update(
-					profile,
-					{
-						firstName: _user$project$Domain_Core$Name(_p0._0)
-					});
-			case 'LastNameInput':
-				return _elm_lang$core$Native_Utils.update(
-					profile,
-					{
-						lastName: _user$project$Domain_Core$Name(_p0._0)
-					});
-			case 'EmailInput':
-				return _elm_lang$core$Native_Utils.update(
-					profile,
-					{
-						email: _user$project$Domain_Core$Email(_p0._0)
-					});
-			case 'BioInput':
-				return _elm_lang$core$Native_Utils.update(
-					profile,
-					{bio: _p0._0});
-			default:
-				return _p0._0;
-		}
-	});
-var _user$project$Controls_EditProfile$Save = function (a) {
-	return {ctor: 'Save', _0: a};
-};
-var _user$project$Controls_EditProfile$BioInput = function (a) {
-	return {ctor: 'BioInput', _0: a};
-};
-var _user$project$Controls_EditProfile$EmailInput = function (a) {
-	return {ctor: 'EmailInput', _0: a};
-};
-var _user$project$Controls_EditProfile$LastNameInput = function (a) {
-	return {ctor: 'LastNameInput', _0: a};
-};
-var _user$project$Controls_EditProfile$FirstNameInput = function (a) {
-	return {ctor: 'FirstNameInput', _0: a};
-};
-var _user$project$Controls_EditProfile$view = function (profile) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('mainContent'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$h3,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Profile'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$input,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$type_('text'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$placeholder('first name'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$FirstNameInput),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$value(
-										_user$project$Domain_Core$nameText(profile.firstName)),
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					},
-					{ctor: '[]'}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$br,
-						{ctor: '[]'},
-						{ctor: '[]'}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$input,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$type_('text'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$placeholder('last name'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$LastNameInput),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$value(
-												_user$project$Domain_Core$nameText(profile.lastName)),
-											_1: {ctor: '[]'}
-										}
-									}
-								}
-							},
-							{ctor: '[]'}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$br,
-								{ctor: '[]'},
-								{ctor: '[]'}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$input,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$type_('text'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$placeholder('email'),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$EmailInput),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$value(
-														_user$project$Domain_Core$emailText(profile.email)),
-													_1: {ctor: '[]'}
-												}
-											}
-										}
-									},
-									{ctor: '[]'}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$br,
-										{ctor: '[]'},
-										{ctor: '[]'}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$textarea,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$placeholder('bio description'),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$BioInput),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$value(profile.bio),
-														_1: {ctor: '[]'}
-													}
-												}
-											},
-											{ctor: '[]'}),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$br,
-												{ctor: '[]'},
-												{ctor: '[]'}),
-											_1: {
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$button,
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html_Events$onClick(
-															_user$project$Controls_EditProfile$Save(profile)),
-														_1: {ctor: '[]'}
-													},
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html$text('Save'),
-														_1: {ctor: '[]'}
-													}),
-												_1: {ctor: '[]'}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		});
-};
 
 var _user$project$Controls_Login$init = A3(_user$project$Domain_Core$Credentials, '', '', false);
 var _user$project$Controls_Login$Response = function (a) {
@@ -19611,9 +19622,9 @@ var _user$project$Home$onUpdateProviderLinks = F3(
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
-var _user$project$Home$Model = F6(
-	function (a, b, c, d, e, f) {
-		return {currentRoute: a, login: b, registration: c, portal: d, providers: e, selectedProvider: f};
+var _user$project$Home$Model = F7(
+	function (a, b, c, d, e, f, g) {
+		return {currentRoute: a, login: b, registration: c, platforms: d, portal: e, providers: f, selectedProvider: g};
 	});
 var _user$project$Home$NavigateBack = {ctor: 'NavigateBack'};
 var _user$project$Home$Subscription = function (a) {
@@ -19890,6 +19901,7 @@ var _user$project$Home$init = function (location) {
 			currentRoute: location,
 			login: _user$project$Controls_Login$init,
 			registration: _user$project$Domain_Core$initForm,
+			platforms: {ctor: '[]'},
 			portal: _user$project$Domain_Core$initPortal,
 			providers: {ctor: '[]'},
 			selectedProvider: _user$project$Domain_Core$initProvider
@@ -22044,8 +22056,10 @@ var _user$project$Home$content = F2(
 						_0: A2(
 							_elm_lang$html$Html$map,
 							_user$project$Home$SourceAdded,
-							_user$project$Controls_AddSource$view(
-								{source: portal.newSource, sources: loggedIn.profile.sources})),
+							A2(
+								_user$project$Controls_AddSource$view,
+								{source: portal.newSource, sources: loggedIn.profile.sources},
+								model.platforms)),
 						_1: {ctor: '[]'}
 					});
 			case 'ViewLinks':

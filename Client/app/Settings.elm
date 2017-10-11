@@ -30,7 +30,7 @@ type alias Dependencies msg =
     , sources : Sourcesfunction msg
     , addSource : AddSourcefunction msg
     , removeSource : RemoveSourcefunction msg
-    , platforms : List Platform
+    , platforms : Platformsfunction msg
     , suggestedTopics : SuggestedTopicsfunction
     , subscriptions : Subscriptionsfunction msg
     , followers : Followersfunction msg

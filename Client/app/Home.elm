@@ -43,6 +43,7 @@ type alias Model =
     { currentRoute : Navigation.Location
     , login : Credentials
     , registration : Form
+    , platforms : List Platform
     , portal : Portal
     , providers : List Provider
     , selectedProvider : Provider
@@ -54,6 +55,7 @@ init location =
     ( { currentRoute = location
       , login = Login.init
       , registration = initForm
+      , platforms = []
       , portal = initPortal
       , providers = []
       , selectedProvider = initProvider
@@ -938,10 +940,7 @@ content contentToEmbed model =
             Domain.ViewSources ->
                 div []
                     [ Html.map SourceAdded <|
-                        AddSource.view
-                            { source = portal.newSource
-                            , sources = loggedIn.profile.sources
-                            }
+                        AddSource.view { source = portal.newSource, sources = loggedIn.profile.sources } model.platforms
                     ]
 
             Domain.ViewLinks ->

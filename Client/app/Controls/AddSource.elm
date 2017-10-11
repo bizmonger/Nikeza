@@ -1,7 +1,6 @@
 module Controls.AddSource exposing (..)
 
 import Domain.Core exposing (..)
-import Settings exposing (runtime)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -46,8 +45,8 @@ update msg model =
                 { model | sources = model.sources |> List.filter (\s -> s /= v) }
 
 
-view : Model -> Html Msg
-view model =
+view : Model -> List Platform -> Html Msg
+view model platforms =
     let
         instruction =
             (option [ value "instructions" ] [ text "Select Platform" ])
@@ -60,7 +59,7 @@ view model =
 
         records =
             [ tr []
-                [ td [] [ select [ changeHandler, value model.source.platform ] <| instruction :: (runtime.platforms |> List.map platformOption) ]
+                [ td [] [ select [ changeHandler, value model.source.platform ] <| instruction :: (platforms |> List.map platformOption) ]
                 , td [] [ input [ type_ "text", placeholder "username", onInput InputUsername, value model.source.username ] [] ]
                 , td [] [ button [ class "addSource", onClick <| Add model.source ] [ text "Add" ] ]
                 ]
