@@ -1,7 +1,17 @@
 module Services.Adapter exposing (..)
 
 import Domain.Core exposing (..)
-import Http
+import Http exposing (..)
+import Task exposing (succeed, perform)
+
+
+httpSuccess : (Result Http.Error a -> msg) -> a -> Cmd msg
+httpSuccess msg a =
+    a
+        |> Result.Ok
+        |> msg
+        |> Task.succeed
+        |> Task.perform identity
 
 
 type alias Loginfunction msg =
@@ -34,6 +44,10 @@ type alias RemoveSourcefunction msg =
 
 type alias Platformsfunction msg =
     (Result Http.Error (List Platform) -> msg) -> Cmd msg
+
+
+type alias ProvidersAndPlatformsfunction msg =
+    (Result Http.Error ( List Provider, List Platform ) -> msg) -> Cmd msg
 
 
 type alias Followersfunction msg =

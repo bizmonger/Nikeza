@@ -14613,6 +14613,15 @@ var _user$project$Services_Adapter$toMembers = function (jsonProviders) {
 			},
 			jsonProviders));
 };
+var _user$project$Services_Adapter$httpSuccess = F2(
+	function (msg, a) {
+		return A2(
+			_elm_lang$core$Task$perform,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Task$succeed(
+				msg(
+					_elm_lang$core$Result$Ok(a))));
+	});
 var _user$project$Services_Adapter$JsonProfile = F7(
 	function (a, b, c, d, e, f, g) {
 		return {id: a, firstName: b, lastName: c, email: d, imageUrl: e, bio: f, sources: g};
@@ -14670,14 +14679,6 @@ var _user$project$Tests_TestAPI$platformsBase = {
 		}
 	}
 };
-var _user$project$Tests_TestAPI$platforms = function (msg) {
-	return A2(
-		_elm_lang$core$Task$perform,
-		_elm_lang$core$Basics$identity,
-		_elm_lang$core$Task$succeed(
-			msg(
-				_elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$platformsBase))));
-};
 var _user$project$Tests_TestAPI$sourcesBase = function (profileId) {
 	return {
 		ctor: '::',
@@ -14693,16 +14694,6 @@ var _user$project$Tests_TestAPI$sourcesBase = function (profileId) {
 		}
 	};
 };
-var _user$project$Tests_TestAPI$sources = F2(
-	function (profileId, msg) {
-		return A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(
-						_user$project$Tests_TestAPI$sourcesBase(profileId)))));
-	});
 var _user$project$Tests_TestAPI$addSourceBase = F2(
 	function (profileId, source) {
 		return {
@@ -14710,16 +14701,6 @@ var _user$project$Tests_TestAPI$addSourceBase = F2(
 			_0: source,
 			_1: _user$project$Tests_TestAPI$sourcesBase(profileId)
 		};
-	});
-var _user$project$Tests_TestAPI$addSource = F3(
-	function (profileId, source, msg) {
-		return A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(
-						A2(_user$project$Tests_TestAPI$addSourceBase, profileId, source)))));
 	});
 var _user$project$Tests_TestAPI$removeSourceBase = F2(
 	function (profileId, source) {
@@ -14732,31 +14713,6 @@ var _user$project$Tests_TestAPI$removeSourceBase = F2(
 					_user$project$Tests_TestAPI$sourcesBase(profileId));
 			},
 			_user$project$Tests_TestAPI$sourcesBase(profileId));
-	});
-var _user$project$Tests_TestAPI$removeSource = F3(
-	function (profileId, source, msg) {
-		return A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(
-						A2(_user$project$Tests_TestAPI$removeSourceBase, profileId, source)))));
-	});
-var _user$project$Tests_TestAPI$removeLink = F3(
-	function (profileId, link, msg) {
-		return A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(
-						A4(
-							_user$project$Services_Adapter$JsonPortfolio,
-							{ctor: '[]'},
-							{ctor: '[]'},
-							{ctor: '[]'},
-							{ctor: '[]'})))));
 	});
 var _user$project$Tests_TestAPI$addLink = F3(
 	function (profileId, link, msg) {
@@ -14798,6 +14754,51 @@ var _user$project$Tests_TestAPI$toJsonLinks = function (links) {
 			};
 		},
 		links);
+};
+var _user$project$Tests_TestAPI$httpSuccess = F2(
+	function (msg, a) {
+		return A2(
+			_elm_lang$core$Task$perform,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Task$succeed(
+				msg(
+					_elm_lang$core$Result$Ok(a))));
+	});
+var _user$project$Tests_TestAPI$removeLink = F3(
+	function (profileId, link, msg) {
+		return A2(
+			_user$project$Tests_TestAPI$httpSuccess,
+			msg,
+			A4(
+				_user$project$Services_Adapter$JsonPortfolio,
+				{ctor: '[]'},
+				{ctor: '[]'},
+				{ctor: '[]'},
+				{ctor: '[]'}));
+	});
+var _user$project$Tests_TestAPI$sources = F2(
+	function (profileId, msg) {
+		return A2(
+			_user$project$Tests_TestAPI$httpSuccess,
+			msg,
+			_user$project$Tests_TestAPI$sourcesBase(profileId));
+	});
+var _user$project$Tests_TestAPI$addSource = F3(
+	function (profileId, source, msg) {
+		return A2(
+			_user$project$Tests_TestAPI$httpSuccess,
+			msg,
+			A2(_user$project$Tests_TestAPI$addSourceBase, profileId, source));
+	});
+var _user$project$Tests_TestAPI$removeSource = F3(
+	function (profileId, source, msg) {
+		return A2(
+			_user$project$Tests_TestAPI$httpSuccess,
+			msg,
+			A2(_user$project$Tests_TestAPI$removeSourceBase, profileId, source));
+	});
+var _user$project$Tests_TestAPI$platforms = function (msg) {
+	return A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$platformsBase);
 };
 var _user$project$Tests_TestAPI$someEmail = _user$project$Domain_Core$Email('abc@abc.com');
 var _user$project$Tests_TestAPI$someDescrtiption = 'some description...';
@@ -15039,20 +15040,17 @@ var _user$project$Tests_TestAPI$jsonLink1 = A6(
 var _user$project$Tests_TestAPI$tryRegister = F2(
 	function (form, msg) {
 		return _elm_lang$core$Native_Utils.eq(form.password, form.confirm) ? A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(
-						A7(
-							_user$project$Services_Adapter$JsonProfile,
-							_user$project$Domain_Core$idText(_user$project$Tests_TestAPI$profileId1),
-							form.firstName,
-							form.lastName,
-							form.email,
-							'',
-							'',
-							{ctor: '[]'}))))) : _elm_lang$core$Platform_Cmd$none;
+			_user$project$Tests_TestAPI$httpSuccess,
+			msg,
+			A7(
+				_user$project$Services_Adapter$JsonProfile,
+				_user$project$Domain_Core$idText(_user$project$Tests_TestAPI$profileId1),
+				form.firstName,
+				form.lastName,
+				form.email,
+				'',
+				'',
+				{ctor: '[]'})) : _elm_lang$core$Platform_Cmd$none;
 	});
 var _user$project$Tests_TestAPI$linksToContent = F2(
 	function (contentType, profileId) {
@@ -15433,24 +15431,18 @@ var _user$project$Tests_TestAPI$provider2 = A7(
 var _user$project$Tests_TestAPI$subscriptions = F2(
 	function (profileId, msg) {
 		return _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(
-						_user$project$Domain_Core$Members(
-							{
-								ctor: '::',
-								_0: _user$project$Tests_TestAPI$provider2,
-								_1: {ctor: '[]'}
-							}))))) : A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(
-						_user$project$Domain_Core$Members(
-							{ctor: '[]'})))));
+			_user$project$Tests_TestAPI$httpSuccess,
+			msg,
+			_user$project$Domain_Core$Members(
+				{
+					ctor: '::',
+					_0: _user$project$Tests_TestAPI$provider2,
+					_1: {ctor: '[]'}
+				})) : A2(
+			_user$project$Tests_TestAPI$httpSuccess,
+			msg,
+			_user$project$Domain_Core$Members(
+				{ctor: '[]'}));
 	});
 var _user$project$Tests_TestAPI$provider3Portfolio = A4(
 	_user$project$Domain_Core$Portfolio,
@@ -15506,58 +15498,46 @@ var _user$project$Tests_TestAPI$provider5 = A7(
 var _user$project$Tests_TestAPI$followers = F2(
 	function (profileId, msg) {
 		return _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(
-						_user$project$Domain_Core$Members(
-							{
-								ctor: '::',
-								_0: _user$project$Tests_TestAPI$provider4,
-								_1: {
-									ctor: '::',
-									_0: _user$project$Tests_TestAPI$provider5,
-									_1: {ctor: '[]'}
-								}
-							}))))) : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId2) ? A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(
-						_user$project$Domain_Core$Members(
-							{
-								ctor: '::',
-								_0: _user$project$Tests_TestAPI$provider1B,
-								_1: {
-									ctor: '::',
-									_0: _user$project$Tests_TestAPI$provider5,
-									_1: {ctor: '[]'}
-								}
-							}))))) : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId3) ? A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(
-						_user$project$Domain_Core$Members(
-							{
-								ctor: '::',
-								_0: _user$project$Tests_TestAPI$provider4,
-								_1: {
-									ctor: '::',
-									_0: _user$project$Tests_TestAPI$provider5,
-									_1: {ctor: '[]'}
-								}
-							}))))) : A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(
-						_user$project$Domain_Core$Members(
-							{ctor: '[]'})))))));
+			_user$project$Tests_TestAPI$httpSuccess,
+			msg,
+			_user$project$Domain_Core$Members(
+				{
+					ctor: '::',
+					_0: _user$project$Tests_TestAPI$provider4,
+					_1: {
+						ctor: '::',
+						_0: _user$project$Tests_TestAPI$provider5,
+						_1: {ctor: '[]'}
+					}
+				})) : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId2) ? A2(
+			_user$project$Tests_TestAPI$httpSuccess,
+			msg,
+			_user$project$Domain_Core$Members(
+				{
+					ctor: '::',
+					_0: _user$project$Tests_TestAPI$provider1B,
+					_1: {
+						ctor: '::',
+						_0: _user$project$Tests_TestAPI$provider5,
+						_1: {ctor: '[]'}
+					}
+				})) : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId3) ? A2(
+			_user$project$Tests_TestAPI$httpSuccess,
+			msg,
+			_user$project$Domain_Core$Members(
+				{
+					ctor: '::',
+					_0: _user$project$Tests_TestAPI$provider4,
+					_1: {
+						ctor: '::',
+						_0: _user$project$Tests_TestAPI$provider5,
+						_1: {ctor: '[]'}
+					}
+				})) : A2(
+			_user$project$Tests_TestAPI$httpSuccess,
+			msg,
+			_user$project$Domain_Core$Members(
+				{ctor: '[]'}))));
 	});
 var _user$project$Tests_TestAPI$jsonPortfolio = function (id) {
 	return A4(
@@ -15639,139 +15619,88 @@ var _user$project$Tests_TestAPI$tryLogin = F2(
 			'test') && _elm_lang$core$Native_Utils.eq(
 			_elm_lang$core$String$toLower(credentials.password),
 			'test');
-		return successful ? A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$jsonProvider1)))) : _elm_lang$core$Platform_Cmd$none;
+		return successful ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider1) : _elm_lang$core$Platform_Cmd$none;
 	});
+var _user$project$Tests_TestAPI$providersBase = {
+	ctor: '::',
+	_0: _user$project$Tests_TestAPI$jsonProvider1,
+	_1: {
+		ctor: '::',
+		_0: _user$project$Tests_TestAPI$jsonProvider2,
+		_1: {
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$jsonProvider3,
+			_1: {
+				ctor: '::',
+				_0: _user$project$Tests_TestAPI$jsonProvider4,
+				_1: {
+					ctor: '::',
+					_0: _user$project$Tests_TestAPI$jsonProvider5,
+					_1: {ctor: '[]'}
+				}
+			}
+		}
+	}
+};
 var _user$project$Tests_TestAPI$providers = function (msg) {
+	return A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$providersBase);
+};
+var _user$project$Tests_TestAPI$providersAndPlatformsBase = {
+	ctor: '_Tuple2',
+	_0: A2(_elm_lang$core$List$map, _user$project$Services_Adapter$toProvider, _user$project$Tests_TestAPI$providersBase),
+	_1: _user$project$Tests_TestAPI$platformsBase
+};
+var _user$project$Tests_TestAPI$providersAndPlatforms = function (msg) {
 	return A2(
-		_elm_lang$core$Task$perform,
-		_elm_lang$core$Basics$identity,
-		_elm_lang$core$Task$succeed(
-			msg(
-				_elm_lang$core$Result$Ok(
-					{
-						ctor: '::',
-						_0: _user$project$Tests_TestAPI$jsonProvider1,
-						_1: {
-							ctor: '::',
-							_0: _user$project$Tests_TestAPI$jsonProvider2,
-							_1: {
-								ctor: '::',
-								_0: _user$project$Tests_TestAPI$jsonProvider3,
-								_1: {
-									ctor: '::',
-									_0: _user$project$Tests_TestAPI$jsonProvider4,
-									_1: {
-										ctor: '::',
-										_0: _user$project$Tests_TestAPI$jsonProvider5,
-										_1: {ctor: '[]'}
-									}
-								}
-							}
-						}
-					}))));
+		_user$project$Tests_TestAPI$httpSuccess,
+		msg,
+		{
+			ctor: '_Tuple2',
+			_0: A2(_elm_lang$core$List$map, _user$project$Services_Adapter$toProvider, _user$project$Tests_TestAPI$providersBase),
+			_1: _user$project$Tests_TestAPI$platformsBase
+		});
 };
 var _user$project$Tests_TestAPI$links = F2(
 	function (profileId, msg) {
 		return A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(
-						{
-							answers: _user$project$Tests_TestAPI$toJsonLinks(
-								A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Answer, profileId)),
-							articles: _user$project$Tests_TestAPI$toJsonLinks(
-								A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Article, profileId)),
-							videos: _user$project$Tests_TestAPI$toJsonLinks(
-								A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Video, profileId)),
-							podcasts: _user$project$Tests_TestAPI$toJsonLinks(
-								A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Podcast, profileId))
-						}))));
+			_user$project$Tests_TestAPI$httpSuccess,
+			msg,
+			{
+				answers: _user$project$Tests_TestAPI$toJsonLinks(
+					A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Answer, profileId)),
+				articles: _user$project$Tests_TestAPI$toJsonLinks(
+					A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Article, profileId)),
+				videos: _user$project$Tests_TestAPI$toJsonLinks(
+					A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Video, profileId)),
+				podcasts: _user$project$Tests_TestAPI$toJsonLinks(
+					A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Podcast, profileId))
+			});
 	});
 var _user$project$Tests_TestAPI$topicLinks = F4(
 	function (profileId, topic, contentType, msg) {
 		return A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(
-						_user$project$Tests_TestAPI$toJsonLinks(
-							A2(
-								_elm_lang$core$List$filter,
-								function (link) {
-									return A2(
-										_elm_lang$core$List$any,
-										function (t) {
-											return _elm_lang$core$Native_Utils.eq(t.name, topic.name);
-										},
-										link.topics);
-								},
-								A2(_user$project$Tests_TestAPI$linksToContent, contentType, profileId)))))));
+			_user$project$Tests_TestAPI$httpSuccess,
+			msg,
+			_user$project$Tests_TestAPI$toJsonLinks(
+				A2(
+					_elm_lang$core$List$filter,
+					function (link) {
+						return A2(
+							_elm_lang$core$List$any,
+							function (t) {
+								return _elm_lang$core$Native_Utils.eq(t.name, topic.name);
+							},
+							link.topics);
+					},
+					A2(_user$project$Tests_TestAPI$linksToContent, contentType, profileId))));
 	});
 var _user$project$Tests_TestAPI$provider = F2(
 	function (id, msg) {
-		return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$jsonProvider1)))) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$jsonProvider2)))) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$jsonProvider3)))) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId4) ? A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$jsonProvider4)))) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId5) ? A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$jsonProvider5)))) : _elm_lang$core$Platform_Cmd$none))));
+		return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider3) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId4) ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider4) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId5) ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider5) : _elm_lang$core$Platform_Cmd$none))));
 	});
 var _user$project$Tests_TestAPI$providerTopic = F3(
 	function (id, topic, msg) {
-		return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$jsonProvider1)))) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$jsonProvider2)))) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$jsonProvider3)))) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId4) ? A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$jsonProvider4)))) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId5) ? A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(_user$project$Tests_TestAPI$jsonProvider5)))) : _elm_lang$core$Platform_Cmd$none))));
+		return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider3) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId4) ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider4) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId5) ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider5) : _elm_lang$core$Platform_Cmd$none))));
 	});
 var _user$project$Tests_TestAPI$usernameToId = function (email) {
 	var _p1 = email;
@@ -15804,27 +15733,24 @@ var _user$project$Services_Gateway$follow = F2(
 var _user$project$Services_Gateway$followers = F2(
 	function (profileId, msg) {
 		return A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(
-						_user$project$Domain_Core$Members(
-							{ctor: '[]'})))));
+			_user$project$Services_Adapter$httpSuccess,
+			msg,
+			_user$project$Domain_Core$Members(
+				{ctor: '[]'}));
 	});
 var _user$project$Services_Gateway$subscriptions = F2(
 	function (profileId, msg) {
 		return A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(
-						_user$project$Domain_Core$Members(
-							{ctor: '[]'})))));
+			_user$project$Services_Adapter$httpSuccess,
+			msg,
+			_user$project$Domain_Core$Members(
+				{ctor: '[]'}));
 	});
 var _user$project$Services_Gateway$suggestedTopics = function (search) {
 	return {ctor: '[]'};
+};
+var _user$project$Services_Gateway$providersAndPlatforms = function (msg) {
+	return _elm_lang$core$Platform_Cmd$none;
 };
 var _user$project$Services_Gateway$platforms = function (msg) {
 	return _elm_lang$core$Platform_Cmd$none;
@@ -16336,7 +16262,9 @@ var _user$project$Settings$Dependencies = function (a) {
 																return function (q) {
 																	return function (r) {
 																		return function (s) {
-																			return {tryLogin: a, tryRegister: b, provider: c, providerTopic: d, providers: e, links: f, addLink: g, removeLink: h, topicLinks: i, usernameToId: j, sources: k, addSource: l, removeSource: m, platforms: n, suggestedTopics: o, subscriptions: p, followers: q, follow: r, unsubscribe: s};
+																			return function (t) {
+																				return {tryLogin: a, tryRegister: b, provider: c, providerTopic: d, providers: e, links: f, addLink: g, removeLink: h, topicLinks: i, usernameToId: j, sources: k, addSource: l, removeSource: m, platforms: n, suggestedTopics: o, subscriptions: p, followers: q, follow: r, unsubscribe: s, providersAndPlatforms: t};
+																			};
 																		};
 																	};
 																};
@@ -16361,9 +16289,9 @@ var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return _user$project$Settings$Dependencies(_user$project$Services_Gateway$tryLogin)(_user$project$Services_Gateway$tryRegister)(_user$project$Services_Gateway$provider)(_user$project$Services_Gateway$providerTopic)(_user$project$Services_Gateway$providers)(_user$project$Services_Gateway$links)(_user$project$Services_Gateway$addLink)(_user$project$Services_Gateway$removeLink)(_user$project$Services_Gateway$topicLinks)(_user$project$Services_Gateway$usernameToId)(_user$project$Services_Gateway$sources)(_user$project$Services_Gateway$addSource)(_user$project$Services_Gateway$removeSource)(_user$project$Services_Gateway$platforms)(_user$project$Services_Gateway$suggestedTopics)(_user$project$Services_Gateway$subscriptions)(_user$project$Services_Gateway$followers)(_user$project$Services_Gateway$follow)(_user$project$Services_Gateway$unsubscribe);
+		return _user$project$Settings$Dependencies(_user$project$Services_Gateway$tryLogin)(_user$project$Services_Gateway$tryRegister)(_user$project$Services_Gateway$provider)(_user$project$Services_Gateway$providerTopic)(_user$project$Services_Gateway$providers)(_user$project$Services_Gateway$links)(_user$project$Services_Gateway$addLink)(_user$project$Services_Gateway$removeLink)(_user$project$Services_Gateway$topicLinks)(_user$project$Services_Gateway$usernameToId)(_user$project$Services_Gateway$sources)(_user$project$Services_Gateway$addSource)(_user$project$Services_Gateway$removeSource)(_user$project$Services_Gateway$platforms)(_user$project$Services_Gateway$suggestedTopics)(_user$project$Services_Gateway$subscriptions)(_user$project$Services_Gateway$followers)(_user$project$Services_Gateway$follow)(_user$project$Services_Gateway$unsubscribe)(_user$project$Services_Gateway$providersAndPlatforms);
 	} else {
-		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$providerTopic)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$links)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$usernameToId)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$platforms)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe);
+		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$providerTopic)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$links)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$usernameToId)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$platforms)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$providersAndPlatforms);
 	}
 }();
 var _user$project$Settings$Integration = {ctor: 'Integration'};
@@ -19891,8 +19819,8 @@ var _user$project$Home$navigate = F3(
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
-var _user$project$Home$ProvidersResponse = function (a) {
-	return {ctor: 'ProvidersResponse', _0: a};
+var _user$project$Home$ProvidersAndPlatformsResponse = function (a) {
+	return {ctor: 'ProvidersAndPlatformsResponse', _0: a};
 };
 var _user$project$Home$init = function (location) {
 	return {
@@ -19906,8 +19834,11 @@ var _user$project$Home$init = function (location) {
 			providers: {ctor: '[]'},
 			selectedProvider: _user$project$Domain_Core$initProvider
 		},
-		_1: _user$project$Settings$runtime.providers(_user$project$Home$ProvidersResponse)
+		_1: _user$project$Settings$runtime.providersAndPlatforms(_user$project$Home$ProvidersAndPlatformsResponse)
 	};
+};
+var _user$project$Home$ProvidersResponse = function (a) {
+	return {ctor: 'ProvidersResponse', _0: a};
 };
 var _user$project$Home$ProviderTopicContentTypeLinksAction = function (a) {
 	return {ctor: 'ProviderTopicContentTypeLinksAction', _0: a};
@@ -22315,16 +22246,29 @@ var _user$project$Home$update = F2(
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
-			case 'NavigateToPortalProviderTopicResponse':
+			case 'ProvidersAndPlatformsResponse':
 				var _p35 = _p33._0;
 				if (_p35.ctor === 'Ok') {
-					var _p36 = _p35._0;
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{providers: _p35._0._0, platforms: _p35._0._1}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+			case 'NavigateToPortalProviderTopicResponse':
+				var _p36 = _p33._0;
+				if (_p36.ctor === 'Ok') {
+					var _p37 = _p36._0;
 					var portal = model.portal;
-					var provider = _user$project$Services_Adapter$toProvider(_p36);
+					var provider = _user$project$Services_Adapter$toProvider(_p37);
 					var pendingPortal = _elm_lang$core$Native_Utils.update(
 						portal,
 						{
-							provider: _user$project$Services_Adapter$toProvider(_p36),
+							provider: _user$project$Services_Adapter$toProvider(_p37),
 							sourcesNavigation: _elm_lang$core$List$isEmpty(provider.profile.sources),
 							addLinkNavigation: true,
 							linksNavigation: _user$project$Domain_Core$portfolioExists(provider.portfolio),
@@ -22341,21 +22285,6 @@ var _user$project$Home$update = F2(
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
 			case 'NavigateToPortalProviderMemberTopicResponse':
-				var _p37 = _p33._0;
-				if (_p37.ctor === 'Ok') {
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								selectedProvider: _user$project$Services_Adapter$toProvider(_p37._0)
-							}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
-				} else {
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-				}
-			case 'NavigateToPortalProviderMemberResponse':
 				var _p38 = _p33._0;
 				if (_p38.ctor === 'Ok') {
 					return {
@@ -22370,7 +22299,7 @@ var _user$project$Home$update = F2(
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
-			case 'NavigateToProviderResponse':
+			case 'NavigateToPortalProviderMemberResponse':
 				var _p39 = _p33._0;
 				if (_p39.ctor === 'Ok') {
 					return {
@@ -22385,7 +22314,7 @@ var _user$project$Home$update = F2(
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
-			case 'NavigateToProviderTopicResponse':
+			case 'NavigateToProviderResponse':
 				var _p40 = _p33._0;
 				if (_p40.ctor === 'Ok') {
 					return {
@@ -22400,16 +22329,31 @@ var _user$project$Home$update = F2(
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
-			case 'NavigateToPortalResponse':
+			case 'NavigateToProviderTopicResponse':
 				var _p41 = _p33._0;
 				if (_p41.ctor === 'Ok') {
-					var _p42 = {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								selectedProvider: _user$project$Services_Adapter$toProvider(_p41._0)
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+			case 'NavigateToPortalResponse':
+				var _p42 = _p33._0;
+				if (_p42.ctor === 'Ok') {
+					var _p43 = {
 						ctor: '_Tuple2',
 						_0: model.portal,
-						_1: _user$project$Services_Adapter$toProvider(_p41._0)
+						_1: _user$project$Services_Adapter$toProvider(_p42._0)
 					};
-					var portal = _p42._0;
-					var provider = _p42._1;
+					var portal = _p43._0;
+					var provider = _p43._1;
 					var pendingPortal = _elm_lang$core$Native_Utils.update(
 						portal,
 						{
@@ -22560,10 +22504,10 @@ var _user$project$Home$update = F2(
 			case 'ProviderLinksAction':
 				return A3(_user$project$Home$onUpdateProviderLinks, _p33._0, model, _user$project$Domain_Core$FromOther);
 			case 'ProviderContentTypeLinksAction':
-				var _p44 = _p33._0;
-				var provider = _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? A2(_user$project$Controls_ProviderContentTypeLinks$update, _p44, model.portal.provider) : A2(_user$project$Controls_ProviderContentTypeLinks$update, _p44, model.selectedProvider);
-				var _p43 = _p44;
-				if (_p43.ctor === 'Toggle') {
+				var _p45 = _p33._0;
+				var provider = _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? A2(_user$project$Controls_ProviderContentTypeLinks$update, _p45, model.portal.provider) : A2(_user$project$Controls_ProviderContentTypeLinks$update, _p45, model.selectedProvider);
+				var _p44 = _p45;
+				if (_p44.ctor === 'Toggle') {
 					return _elm_lang$core$Native_Utils.eq(model.portal.requested, _user$project$Domain_Core$ViewLinks) ? {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -22597,8 +22541,8 @@ var _user$project$Home$update = F2(
 			case 'ProviderTopicContentTypeLinksAction':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Subscription':
-				var _p45 = _p33._0;
-				if (_p45.ctor === 'Subscribe') {
+				var _p46 = _p33._0;
+				if (_p46.ctor === 'Subscribe') {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -22613,7 +22557,7 @@ var _user$project$Home$update = F2(
 	});
 var _user$project$Home$headerContent = function (model) {
 	var loginUI = function (model) {
-		var _p46 = {
+		var _p47 = {
 			ctor: '_Tuple5',
 			_0: model.login.loggedIn,
 			_1: A2(
@@ -22680,11 +22624,11 @@ var _user$project$Home$headerContent = function (model) {
 					_1: {ctor: '[]'}
 				})
 		};
-		var loggedIn = _p46._0;
-		var welcome = _p46._1;
-		var signout = _p46._2;
-		var profile = _p46._3;
-		var sources = _p46._4;
+		var loggedIn = _p47._0;
+		var welcome = _p47._1;
+		var signout = _p47._2;
+		var profile = _p47._3;
+		var sources = _p47._4;
 		var profileId = _user$project$Domain_Core$idText(model.portal.provider.profile.id);
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
@@ -22762,32 +22706,32 @@ var _user$project$Home$headerContent = function (model) {
 var _user$project$Home$renderPage = F2(
 	function (content, model) {
 		var placeHolder = function () {
-			var _p47 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
-			_v27_3:
+			var _p48 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+			_v28_3:
 			do {
-				if (_p47.ctor === '[]') {
+				if (_p48.ctor === '[]') {
 					return A2(
 						_elm_lang$html$Html$div,
 						{ctor: '[]'},
 						{ctor: '[]'});
 				} else {
-					if (_p47._1.ctor === '[]') {
-						if (_p47._0 === 'home') {
+					if (_p48._1.ctor === '[]') {
+						if (_p48._0 === 'home') {
 							return A2(
 								_elm_lang$html$Html$div,
 								{ctor: '[]'},
 								{ctor: '[]'});
 						} else {
-							break _v27_3;
+							break _v28_3;
 						}
 					} else {
-						if ((_p47._0 === 'portal') && (_p47._1._1.ctor === '[]')) {
+						if ((_p48._0 === 'portal') && (_p48._1._1.ctor === '[]')) {
 							return A2(
 								_elm_lang$html$Html$div,
 								{ctor: '[]'},
 								{ctor: '[]'});
 						} else {
-							break _v27_3;
+							break _v28_3;
 						}
 					}
 				}
@@ -23014,14 +22958,14 @@ var _user$project$Home$homePage = function (model) {
 	return A2(_user$project$Home$renderPage, mainContent, model);
 };
 var _user$project$Home$view = function (model) {
-	var _p48 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
-	_v28_10:
+	var _p49 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+	_v29_10:
 	do {
-		if (_p48.ctor === '[]') {
+		if (_p49.ctor === '[]') {
 			return _user$project$Home$homePage(model);
 		} else {
-			if (_p48._1.ctor === '[]') {
-				if (_p48._0 === 'register') {
+			if (_p49._1.ctor === '[]') {
+				if (_p49._0 === 'register') {
 					return A2(
 						_user$project$Home$renderPage,
 						A2(
@@ -23030,11 +22974,11 @@ var _user$project$Home$view = function (model) {
 							_user$project$Controls_Register$view(model.registration)),
 						model);
 				} else {
-					break _v28_10;
+					break _v29_10;
 				}
 			} else {
-				if (_p48._1._1.ctor === '[]') {
-					switch (_p48._0) {
+				if (_p49._1._1.ctor === '[]') {
+					switch (_p49._0) {
 						case 'provider':
 							return A2(
 								_user$project$Home$renderPage,
@@ -23054,47 +22998,47 @@ var _user$project$Home$view = function (model) {
 								A2(_user$project$Home$content, _elm_lang$core$Maybe$Nothing, model));
 							return A2(_user$project$Home$renderPage, mainContent, model);
 						default:
-							break _v28_10;
+							break _v29_10;
 					}
 				} else {
-					if (_p48._1._1._1.ctor === '[]') {
-						if (_p48._0 === 'provider') {
-							var _p49 = _user$project$Settings$runtime.provider(
-								_user$project$Domain_Core$Id(_p48._1._0));
+					if (_p49._1._1._1.ctor === '[]') {
+						if (_p49._0 === 'provider') {
+							var _p50 = _user$project$Settings$runtime.provider(
+								_user$project$Domain_Core$Id(_p49._1._0));
 							return A2(
 								_user$project$Home$renderPage,
 								A2(_user$project$Home$providerTopicPage, _user$project$Domain_Core$FromOther, model.selectedProvider),
 								model);
 						} else {
-							break _v28_10;
+							break _v29_10;
 						}
 					} else {
-						if (_p48._1._1._1._1.ctor === '[]') {
-							switch (_p48._0) {
+						if (_p49._1._1._1._1.ctor === '[]') {
+							switch (_p49._0) {
 								case 'provider':
-									if (_p48._1._1._0 === 'all') {
-										var _p50 = _user$project$Settings$runtime.provider(
-											_user$project$Domain_Core$Id(_p48._1._0));
-										var _p51 = {ctor: '_Tuple2', _0: _user$project$Controls_ProviderContentTypeLinks$view, _1: model.selectedProvider};
-										var view = _p51._0;
-										var provider = _p51._1;
+									if (_p49._1._1._0 === 'all') {
+										var _p51 = _user$project$Settings$runtime.provider(
+											_user$project$Domain_Core$Id(_p49._1._0));
+										var _p52 = {ctor: '_Tuple2', _0: _user$project$Controls_ProviderContentTypeLinks$view, _1: model.selectedProvider};
+										var view = _p52._0;
+										var provider = _p52._1;
 										var contentToEmbed = A2(
 											_elm_lang$html$Html$map,
 											_user$project$Home$ProviderContentTypeLinksAction,
 											A3(
 												view,
 												provider,
-												_user$project$Domain_Core$toContentType(_p48._1._1._1._0),
+												_user$project$Domain_Core$toContentType(_p49._1._1._1._0),
 												false));
 										return A2(
 											_user$project$Home$renderPage,
 											A2(_user$project$Home$renderProfileBase, model.selectedProvider, contentToEmbed),
 											model);
 									} else {
-										break _v28_10;
+										break _v29_10;
 									}
 								case 'portal':
-									switch (_p48._1._1._0) {
+									switch (_p49._1._1._0) {
 										case 'all':
 											var linksContent = A2(
 												_elm_lang$html$Html$map,
@@ -23102,7 +23046,7 @@ var _user$project$Home$view = function (model) {
 												A3(
 													_user$project$Controls_ProviderContentTypeLinks$view,
 													model.portal.provider,
-													_user$project$Domain_Core$toContentType(_p48._1._1._1._0),
+													_user$project$Domain_Core$toContentType(_p49._1._1._1._0),
 													true));
 											var contentToEmbed = A3(_user$project$Home$applyToPortal, model.portal.provider, model, linksContent);
 											return A2(
@@ -23122,19 +23066,19 @@ var _user$project$Home$view = function (model) {
 													A2(_user$project$Controls_ProviderLinks$view, _user$project$Domain_Core$FromOther, model.selectedProvider)));
 											return A2(_user$project$Home$renderPage, contentLinks, model);
 										default:
-											break _v28_10;
+											break _v29_10;
 									}
 								default:
-									break _v28_10;
+									break _v29_10;
 							}
 						} else {
-							if (_p48._1._1._1._1._1.ctor === '[]') {
-								switch (_p48._0) {
+							if (_p49._1._1._1._1._1.ctor === '[]') {
+								switch (_p49._0) {
 									case 'provider':
-										if (_p48._1._1._1._0 === 'all') {
-											var _p52 = _user$project$Settings$runtime.provider(
-												_user$project$Domain_Core$Id(_p48._1._0));
-											var topic = A2(_user$project$Domain_Core$Topic, _p48._1._1._0, false);
+										if (_p49._1._1._1._0 === 'all') {
+											var _p53 = _user$project$Settings$runtime.provider(
+												_user$project$Domain_Core$Id(_p49._1._0));
+											var topic = A2(_user$project$Domain_Core$Topic, _p49._1._1._0, false);
 											var contentToEmbed = A2(
 												_elm_lang$html$Html$map,
 												_user$project$Home$ProviderTopicContentTypeLinksAction,
@@ -23142,16 +23086,16 @@ var _user$project$Home$view = function (model) {
 													_user$project$Controls_ProviderTopicContentTypeLinks$view,
 													model.selectedProvider,
 													topic,
-													_user$project$Domain_Core$toContentType(_p48._1._1._1._1._0)));
+													_user$project$Domain_Core$toContentType(_p49._1._1._1._1._0)));
 											return A2(
 												_user$project$Home$renderPage,
 												A2(_user$project$Home$renderProfileBase, model.selectedProvider, contentToEmbed),
 												model);
 										} else {
-											break _v28_10;
+											break _v29_10;
 										}
 									case 'portal':
-										if (_p48._1._1._0 === 'provider') {
+										if (_p49._1._1._0 === 'provider') {
 											var contentLinks = A2(
 												_user$project$Home$renderProfileBase,
 												model.selectedProvider,
@@ -23161,17 +23105,17 @@ var _user$project$Home$view = function (model) {
 													A3(
 														_user$project$Controls_ProviderTopicContentTypeLinks$view,
 														model.selectedProvider,
-														A2(_user$project$Domain_Core$Topic, _p48._1._1._1._1._0, false),
+														A2(_user$project$Domain_Core$Topic, _p49._1._1._1._1._0, false),
 														_user$project$Domain_Core$All)));
 											return A2(_user$project$Home$renderPage, contentLinks, model);
 										} else {
-											break _v28_10;
+											break _v29_10;
 										}
 									default:
-										break _v28_10;
+										break _v29_10;
 								}
 							} else {
-								break _v28_10;
+								break _v29_10;
 							}
 						}
 					}
@@ -23191,7 +23135,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p53) {
+		subscriptions: function (_p54) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();
@@ -23199,7 +23143,7 @@ var _user$project$Home$main = A2(
 var Elm = {};
 Elm['Home'] = Elm['Home'] || {};
 if (typeof _user$project$Home$main !== 'undefined') {
-    _user$project$Home$main(Elm['Home'], 'Home', {"types":{"message":"Home.Msg","aliases":{"Domain.Core.LinkToCreate":{"type":"{ base : Domain.Core.Link, currentTopic : Domain.Core.Topic }","args":[]},"Services.Adapter.JsonProfile":{"type":"{ id : String , firstName : String , lastName : String , email : String , imageUrl : String , bio : String , sources : List Domain.Core.Source }","args":[]},"Domain.Core.Topic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Services.Adapter.JsonTopic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Domain.Core.Profile":{"type":"{ id : Domain.Core.Id , firstName : Domain.Core.Name , lastName : Domain.Core.Name , email : Domain.Core.Email , imageUrl : Domain.Core.Url , bio : String , sources : List Domain.Core.Source }","args":[]},"Navigation.Location":{"type":"{ href : String , host : String , hostname : String , protocol : String , origin : String , port_ : String , pathname : String , search : String , hash : String , username : String , password : String }","args":[]},"Domain.Core.NewLinks":{"type":"{ current : Domain.Core.LinkToCreate , canAdd : Bool , added : List Domain.Core.Link }","args":[]},"Http.Response":{"type":"{ url : String , status : { code : Int, message : String } , headers : Dict.Dict String String , body : body }","args":["body"]},"Services.Adapter.JsonPortfolio":{"type":"{ articles : List Services.Adapter.JsonLink , videos : List Services.Adapter.JsonLink , podcasts : List Services.Adapter.JsonLink , answers : List Services.Adapter.JsonLink }","args":[]},"Domain.Core.Link":{"type":"{ profile : Domain.Core.Profile , title : Domain.Core.Title , url : Domain.Core.Url , contentType : Domain.Core.ContentType , topics : List Domain.Core.Topic , isFeatured : Bool }","args":[]},"Domain.Core.Source":{"type":"{ platform : String, username : String, linksFound : Int }","args":[]},"Services.Adapter.JsonLink":{"type":"{ profile : Services.Adapter.JsonProfile , title : String , url : String , contentType : String , topics : List Domain.Core.Topic , isFeatured : Bool }","args":[]},"Services.Adapter.JsonProviderFields":{"type":"{ profile : Services.Adapter.JsonProfile , topics : List Services.Adapter.JsonTopic , portfolio : Services.Adapter.JsonPortfolio , recentLinks : List Services.Adapter.JsonLink , subscriptions : List Services.Adapter.JsonProvider , followers : List Services.Adapter.JsonProvider }","args":[]}},"unions":{"Controls.RecentProviderLinks.Msg":{"tags":{"None":[]},"args":[]},"Domain.Core.Name":{"tags":{"Name":["String"]},"args":[]},"Controls.ProviderTopicContentTypeLinks.Msg":{"tags":{"None":[]},"args":[]},"Controls.ProviderLinks.Msg":{"tags":{"Toggle":["( Domain.Core.Topic, Bool )"]},"args":[]},"Domain.Core.Email":{"tags":{"Email":["String"]},"args":[]},"Dict.NColor":{"tags":{"Black":[],"BBlack":[],"Red":[],"NBlack":[]},"args":[]},"Controls.ProfileThumbnail.Msg":{"tags":{"UpdateSubscription":["Domain.Core.SubscriptionUpdate"]},"args":[]},"Services.Adapter.JsonProvider":{"tags":{"JsonProvider":["Services.Adapter.JsonProviderFields"]},"args":[]},"Domain.Core.Url":{"tags":{"Url":["String"]},"args":[]},"Home.Msg":{"tags":{"NewLink":["Controls.NewLinks.Msg"],"NavigateToProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ProfileThumbnail":["Controls.ProfileThumbnail.Msg"],"ViewProviders":[],"NavigateToPortalProviderMemberResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"OnLogin":["Controls.Login.Msg"],"SourceAdded":["Controls.AddSource.Msg"],"UrlChange":["Navigation.Location"],"ProviderContentTypeLinksAction":["Controls.ProviderContentTypeLinks.Msg"],"ViewSubscriptions":[],"ViewFollowers":[],"Subscription":["Domain.Core.SubscriptionUpdate"],"NavigateToPortalProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ViewSources":[],"NavigateToPortalResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"NavigateToProviderResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"Search":["String"],"ViewRecent":[],"ProvidersResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"RecentProviderLinks":["Controls.RecentProviderLinks.Msg"],"EditProfileAction":["Controls.EditProfile.Msg"],"NavigateBack":[],"ProviderTopicContentTypeLinksAction":["Controls.ProviderTopicContentTypeLinks.Msg"],"ProviderLinksAction":["Controls.ProviderLinks.Msg"],"EditProfile":[],"AddNewLink":[],"OnRegistration":["Controls.Register.Msg"],"NavigateToPortalProviderMemberTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ViewLinks":[],"PortalLinksAction":["Controls.ProviderLinks.Msg"],"Register":[]},"args":[]},"Result.Result":{"tags":{"Err":["error"],"Ok":["value"]},"args":["error","value"]},"Http.Error":{"tags":{"Timeout":[],"BadStatus":["Http.Response String"],"BadPayload":["String","Http.Response String"],"BadUrl":["String"],"NetworkError":[]},"args":[]},"Controls.ProviderContentTypeLinks.Msg":{"tags":{"Featured":["( Domain.Core.Link, Bool )"],"Toggle":["( Domain.Core.Topic, Bool )"]},"args":[]},"Controls.AddSource.Msg":{"tags":{"InputPlatform":["String"],"InputUsername":["String"],"Remove":["Domain.Core.Source"],"Add":["Domain.Core.Source"]},"args":[]},"Controls.Register.Msg":{"tags":{"Submit":[],"ConfirmInput":["String"],"EmailInput":["String"],"FirstNameInput":["String"],"PasswordInput":["String"],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProfile"]},"args":[]},"Dict.LeafColor":{"tags":{"LBlack":[],"LBBlack":[]},"args":[]},"Controls.EditProfile.Msg":{"tags":{"EmailInput":["String"],"BioInput":["String"],"FirstNameInput":["String"],"Save":["Domain.Core.Profile"],"LastNameInput":["String"]},"args":[]},"Controls.NewLinks.Msg":{"tags":{"RemoveTopic":["Domain.Core.Topic"],"InputTopic":["String"],"InputUrl":["String"],"InputTitle":["String"],"InputContentType":["String"],"AssociateTopic":["Domain.Core.Topic"],"AddLink":["Domain.Core.NewLinks"]},"args":[]},"Domain.Core.ContentType":{"tags":{"Answer":[],"Podcast":[],"Article":[],"Unknown":[],"All":[],"Video":[]},"args":[]},"Domain.Core.Title":{"tags":{"Title":["String"]},"args":[]},"Controls.Login.Msg":{"tags":{"Attempt":["( String, String )"],"PasswordInput":["String"],"UserInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProvider"]},"args":[]},"Dict.Dict":{"tags":{"RBNode_elm_builtin":["Dict.NColor","k","v","Dict.Dict k v","Dict.Dict k v"],"RBEmpty_elm_builtin":["Dict.LeafColor"]},"args":["k","v"]},"Domain.Core.Id":{"tags":{"Id":["String"]},"args":[]},"Domain.Core.SubscriptionUpdate":{"tags":{"Subscribe":["Domain.Core.Id","Domain.Core.Id"],"Unsubscribe":["Domain.Core.Id","Domain.Core.Id"]},"args":[]}}},"versions":{"elm":"0.18.0"}});
+    _user$project$Home$main(Elm['Home'], 'Home', {"types":{"message":"Home.Msg","aliases":{"Domain.Core.LinkToCreate":{"type":"{ base : Domain.Core.Link, currentTopic : Domain.Core.Topic }","args":[]},"Domain.Core.Provider":{"type":"{ profile : Domain.Core.Profile , topics : List Domain.Core.Topic , portfolio : Domain.Core.Portfolio , filteredPortfolio : Domain.Core.Portfolio , recentLinks : List Domain.Core.Link , followers : Domain.Core.Members , subscriptions : Domain.Core.Members }","args":[]},"Services.Adapter.JsonProfile":{"type":"{ id : String , firstName : String , lastName : String , email : String , imageUrl : String , bio : String , sources : List Domain.Core.Source }","args":[]},"Domain.Core.Topic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Services.Adapter.JsonTopic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Domain.Core.Profile":{"type":"{ id : Domain.Core.Id , firstName : Domain.Core.Name , lastName : Domain.Core.Name , email : Domain.Core.Email , imageUrl : Domain.Core.Url , bio : String , sources : List Domain.Core.Source }","args":[]},"Navigation.Location":{"type":"{ href : String , host : String , hostname : String , protocol : String , origin : String , port_ : String , pathname : String , search : String , hash : String , username : String , password : String }","args":[]},"Domain.Core.NewLinks":{"type":"{ current : Domain.Core.LinkToCreate , canAdd : Bool , added : List Domain.Core.Link }","args":[]},"Http.Response":{"type":"{ url : String , status : { code : Int, message : String } , headers : Dict.Dict String String , body : body }","args":["body"]},"Services.Adapter.JsonPortfolio":{"type":"{ articles : List Services.Adapter.JsonLink , videos : List Services.Adapter.JsonLink , podcasts : List Services.Adapter.JsonLink , answers : List Services.Adapter.JsonLink }","args":[]},"Domain.Core.Link":{"type":"{ profile : Domain.Core.Profile , title : Domain.Core.Title , url : Domain.Core.Url , contentType : Domain.Core.ContentType , topics : List Domain.Core.Topic , isFeatured : Bool }","args":[]},"Domain.Core.Source":{"type":"{ platform : String, username : String, linksFound : Int }","args":[]},"Domain.Core.Portfolio":{"type":"{ answers : List Domain.Core.Link , articles : List Domain.Core.Link , videos : List Domain.Core.Link , podcasts : List Domain.Core.Link }","args":[]},"Services.Adapter.JsonLink":{"type":"{ profile : Services.Adapter.JsonProfile , title : String , url : String , contentType : String , topics : List Domain.Core.Topic , isFeatured : Bool }","args":[]},"Services.Adapter.JsonProviderFields":{"type":"{ profile : Services.Adapter.JsonProfile , topics : List Services.Adapter.JsonTopic , portfolio : Services.Adapter.JsonPortfolio , recentLinks : List Services.Adapter.JsonLink , subscriptions : List Services.Adapter.JsonProvider , followers : List Services.Adapter.JsonProvider }","args":[]}},"unions":{"Controls.RecentProviderLinks.Msg":{"tags":{"None":[]},"args":[]},"Domain.Core.Name":{"tags":{"Name":["String"]},"args":[]},"Controls.ProviderTopicContentTypeLinks.Msg":{"tags":{"None":[]},"args":[]},"Controls.ProviderLinks.Msg":{"tags":{"Toggle":["( Domain.Core.Topic, Bool )"]},"args":[]},"Domain.Core.Email":{"tags":{"Email":["String"]},"args":[]},"Dict.NColor":{"tags":{"Black":[],"BBlack":[],"Red":[],"NBlack":[]},"args":[]},"Controls.ProfileThumbnail.Msg":{"tags":{"UpdateSubscription":["Domain.Core.SubscriptionUpdate"]},"args":[]},"Services.Adapter.JsonProvider":{"tags":{"JsonProvider":["Services.Adapter.JsonProviderFields"]},"args":[]},"Domain.Core.Url":{"tags":{"Url":["String"]},"args":[]},"Home.Msg":{"tags":{"NewLink":["Controls.NewLinks.Msg"],"NavigateToProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ProfileThumbnail":["Controls.ProfileThumbnail.Msg"],"ViewProviders":[],"NavigateToPortalProviderMemberResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"OnLogin":["Controls.Login.Msg"],"SourceAdded":["Controls.AddSource.Msg"],"UrlChange":["Navigation.Location"],"ProviderContentTypeLinksAction":["Controls.ProviderContentTypeLinks.Msg"],"ViewSubscriptions":[],"ViewFollowers":[],"Subscription":["Domain.Core.SubscriptionUpdate"],"NavigateToPortalProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ViewSources":[],"NavigateToPortalResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ProvidersAndPlatformsResponse":["Result.Result Http.Error ( List Domain.Core.Provider, List Domain.Core.Platform )"],"NavigateToProviderResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"Search":["String"],"ViewRecent":[],"ProvidersResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"RecentProviderLinks":["Controls.RecentProviderLinks.Msg"],"EditProfileAction":["Controls.EditProfile.Msg"],"NavigateBack":[],"ProviderTopicContentTypeLinksAction":["Controls.ProviderTopicContentTypeLinks.Msg"],"ProviderLinksAction":["Controls.ProviderLinks.Msg"],"EditProfile":[],"AddNewLink":[],"OnRegistration":["Controls.Register.Msg"],"NavigateToPortalProviderMemberTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ViewLinks":[],"PortalLinksAction":["Controls.ProviderLinks.Msg"],"Register":[]},"args":[]},"Domain.Core.Members":{"tags":{"Members":["List Domain.Core.Provider"]},"args":[]},"Result.Result":{"tags":{"Err":["error"],"Ok":["value"]},"args":["error","value"]},"Http.Error":{"tags":{"Timeout":[],"BadStatus":["Http.Response String"],"BadPayload":["String","Http.Response String"],"BadUrl":["String"],"NetworkError":[]},"args":[]},"Controls.ProviderContentTypeLinks.Msg":{"tags":{"Featured":["( Domain.Core.Link, Bool )"],"Toggle":["( Domain.Core.Topic, Bool )"]},"args":[]},"Controls.AddSource.Msg":{"tags":{"InputPlatform":["String"],"InputUsername":["String"],"Remove":["Domain.Core.Source"],"Add":["Domain.Core.Source"]},"args":[]},"Controls.Register.Msg":{"tags":{"Submit":[],"ConfirmInput":["String"],"EmailInput":["String"],"FirstNameInput":["String"],"PasswordInput":["String"],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProfile"]},"args":[]},"Domain.Core.Platform":{"tags":{"Platform":["String"]},"args":[]},"Dict.LeafColor":{"tags":{"LBlack":[],"LBBlack":[]},"args":[]},"Controls.EditProfile.Msg":{"tags":{"EmailInput":["String"],"BioInput":["String"],"FirstNameInput":["String"],"Save":["Domain.Core.Profile"],"LastNameInput":["String"]},"args":[]},"Controls.NewLinks.Msg":{"tags":{"RemoveTopic":["Domain.Core.Topic"],"InputTopic":["String"],"InputUrl":["String"],"InputTitle":["String"],"InputContentType":["String"],"AssociateTopic":["Domain.Core.Topic"],"AddLink":["Domain.Core.NewLinks"]},"args":[]},"Domain.Core.ContentType":{"tags":{"Answer":[],"Podcast":[],"Article":[],"Unknown":[],"All":[],"Video":[]},"args":[]},"Domain.Core.Title":{"tags":{"Title":["String"]},"args":[]},"Controls.Login.Msg":{"tags":{"Attempt":["( String, String )"],"PasswordInput":["String"],"UserInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProvider"]},"args":[]},"Dict.Dict":{"tags":{"RBNode_elm_builtin":["Dict.NColor","k","v","Dict.Dict k v","Dict.Dict k v"],"RBEmpty_elm_builtin":["Dict.LeafColor"]},"args":["k","v"]},"Domain.Core.Id":{"tags":{"Id":["String"]},"args":[]},"Domain.Core.SubscriptionUpdate":{"tags":{"Subscribe":["Domain.Core.Id","Domain.Core.Id"],"Unsubscribe":["Domain.Core.Id","Domain.Core.Id"]},"args":[]}}},"versions":{"elm":"0.18.0"}});
 }
 
 if (typeof define === "function" && define['amd'])

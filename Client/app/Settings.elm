@@ -36,6 +36,7 @@ type alias Dependencies msg =
     , followers : Followersfunction msg
     , follow : Followfunction
     , unsubscribe : Unsubscribefunction
+    , providersAndPlatforms : ProvidersAndPlatformsfunction msg
     }
 
 
@@ -63,6 +64,7 @@ runtime =
                 Services.followers
                 Services.follow
                 Services.unsubscribe
+                Services.providersAndPlatforms
 
         Isolation ->
             Dependencies
@@ -85,3 +87,4 @@ runtime =
                 TestAPI.followers
                 TestAPI.follow
                 TestAPI.unsubscribe
+                TestAPI.providersAndPlatforms

@@ -3,7 +3,6 @@ module Services.Gateway exposing (..)
 import Domain.Core exposing (..)
 import Services.Adapter exposing (..)
 import Http exposing (getString)
-import Task exposing (succeed, perform)
 import Json.Decode as Decode exposing (Decoder, field)
 import Json.Encode as Encode
 
@@ -96,10 +95,6 @@ encodeRegistration form =
 
 encodeLink : Link -> Encode.Value
 encodeLink link =
-    -- let
-    --     jsonLink =
-    --         link |> toJsonLink
-    -- in
     Encode.object
         [ ( "Profile", encodeProfile link.profile )
         , ( "Title", Encode.string <| titleText link.title )
@@ -332,6 +327,11 @@ platforms msg =
     Cmd.none
 
 
+providersAndPlatforms : (Result Http.Error ( List Provider, List Platform ) -> msg) -> Cmd msg
+providersAndPlatforms msg =
+    Cmd.none
+
+
 suggestedTopics : String -> List Topic
 suggestedTopics search =
     []
@@ -339,20 +339,12 @@ suggestedTopics search =
 
 subscriptions : Id -> (Result Http.Error Members -> msg) -> Cmd msg
 subscriptions profileId msg =
-    Members []
-        |> Result.Ok
-        |> msg
-        |> Task.succeed
-        |> Task.perform identity
+    Members [] |> httpSuccess msg
 
 
 followers : Id -> (Result Http.Error Members -> msg) -> Cmd msg
 followers profileId msg =
-    Members []
-        |> Result.Ok
-        |> msg
-        |> Task.succeed
-        |> Task.perform identity
+    Members [] |> httpSuccess msg
 
 
 follow : Id -> Id -> Result String ()

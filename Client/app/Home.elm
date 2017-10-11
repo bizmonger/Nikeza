@@ -60,7 +60,7 @@ init location =
       , providers = []
       , selectedProvider = initProvider
       }
-    , runtime.providers ProvidersResponse
+    , runtime.providersAndPlatforms ProvidersAndPlatformsResponse
     )
 
 
@@ -89,6 +89,7 @@ type Msg
     | ProviderContentTypeLinksAction ProviderContentTypeLinks.Msg
     | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
     | ProvidersResponse (Result Http.Error (List JsonProvider))
+    | ProvidersAndPlatformsResponse (Result Http.Error ( List Provider, List Platform ))
     | NavigateToPortalResponse (Result Http.Error JsonProvider)
     | NavigateToPortalProviderTopicResponse (Result Http.Error JsonProvider)
     | NavigateToPortalProviderMemberResponse (Result Http.Error JsonProvider)
@@ -120,6 +121,14 @@ update msg model =
                                 jsonProviders |> List.map (\p -> p |> toProvider)
                         in
                             ( { model | providers = providers }, Cmd.none )
+
+                    Err _ ->
+                        ( model, Cmd.none )
+
+            ProvidersAndPlatformsResponse response ->
+                case response of
+                    Ok ( providers, platforms ) ->
+                        ( { model | providers = providers, platforms = platforms }, Cmd.none )
 
                     Err _ ->
                         ( model, Cmd.none )

@@ -281,49 +281,34 @@ jsonPortfolio id =
         (podcasts id |> toJsonLinks)
 
 
+httpSuccess : (Result Http.Error a -> msg) -> a -> Cmd msg
+httpSuccess msg a =
+    a
+        |> Result.Ok
+        |> msg
+        |> Task.succeed
+        |> Task.perform identity
+
+
 subscriptions : Id -> (Result Http.Error Members -> msg) -> Cmd msg
 subscriptions profileId msg =
     if profileId == profileId1 then
         -- Weird error when we have provider3
-        Members [ provider2 ]
-            |> Result.Ok
-            |> msg
-            |> Task.succeed
-            |> Task.perform identity
+        Members [ provider2 ] |> httpSuccess msg
     else
-        Members []
-            |> Result.Ok
-            |> msg
-            |> Task.succeed
-            |> Task.perform identity
+        Members [] |> httpSuccess msg
 
 
 followers : Id -> (Result Http.Error Members -> msg) -> Cmd msg
 followers profileId msg =
     if profileId == profileId1 then
-        Members [ provider4, provider5 ]
-            |> Result.Ok
-            |> msg
-            |> Task.succeed
-            |> Task.perform identity
+        Members [ provider4, provider5 ] |> httpSuccess msg
     else if profileId == profileId2 then
-        Members [ provider1B, provider5 ]
-            |> Result.Ok
-            |> msg
-            |> Task.succeed
-            |> Task.perform identity
+        Members [ provider1B, provider5 ] |> httpSuccess msg
     else if profileId == profileId3 then
-        Members [ provider4, provider5 ]
-            |> Result.Ok
-            |> msg
-            |> Task.succeed
-            |> Task.perform identity
+        Members [ provider4, provider5 ] |> httpSuccess msg
     else
-        Members []
-            |> Result.Ok
-            |> msg
-            |> Task.succeed
-            |> Task.perform identity
+        Members [] |> httpSuccess msg
 
 
 recentLinks1 : List Link
@@ -511,11 +496,7 @@ tryLogin credentials msg =
             String.toLower credentials.email == "test" && String.toLower credentials.password == "test"
     in
         if successful then
-            jsonProvider1
-                |> Result.Ok
-                |> msg
-                |> Task.succeed
-                |> Task.perform identity
+            jsonProvider1 |> httpSuccess msg
         else
             Cmd.none
 
@@ -524,10 +505,7 @@ tryRegister : Form -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
 tryRegister form msg =
     if form.password == form.confirm then
         JsonProfile (idText profileId1) form.firstName form.lastName form.email "" "" []
-            |> Result.Ok
-            |> msg
-            |> Task.succeed
-            |> Task.perform identity
+            |> httpSuccess msg
     else
         Cmd.none
 
@@ -586,10 +564,7 @@ links profileId msg =
     , videos = (profileId |> linksToContent Video) |> toJsonLinks
     , podcasts = (profileId |> linksToContent Podcast) |> toJsonLinks
     }
-        |> Result.Ok
-        |> msg
-        |> Task.succeed
-        |> Task.perform identity
+        |> httpSuccess msg
 
 
 addLink : Id -> Link -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
@@ -604,10 +579,7 @@ addLink profileId link msg =
 removeLink : Id -> Link -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
 removeLink profileId link msg =
     JsonPortfolio [] [] [] []
-        |> Result.Ok
-        |> msg
-        |> Task.succeed
-        |> Task.perform identity
+        |> httpSuccess msg
 
 
 linksToContent : ContentType -> Id -> List Link
@@ -679,35 +651,15 @@ suggestedTopics search =
 provider : Id -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
 provider id msg =
     if id == profileId1 then
-        jsonProvider1
-            |> Result.Ok
-            |> msg
-            |> Task.succeed
-            |> Task.perform identity
+        jsonProvider1 |> httpSuccess msg
     else if id == profileId2 then
-        jsonProvider2
-            |> Result.Ok
-            |> msg
-            |> Task.succeed
-            |> Task.perform identity
+        jsonProvider2 |> httpSuccess msg
     else if id == profileId3 then
-        jsonProvider3
-            |> Result.Ok
-            |> msg
-            |> Task.succeed
-            |> Task.perform identity
+        jsonProvider3 |> httpSuccess msg
     else if id == profileId4 then
-        jsonProvider4
-            |> Result.Ok
-            |> msg
-            |> Task.succeed
-            |> Task.perform identity
+        jsonProvider4 |> httpSuccess msg
     else if id == profileId5 then
-        jsonProvider5
-            |> Result.Ok
-            |> msg
-            |> Task.succeed
-            |> Task.perform identity
+        jsonProvider5 |> httpSuccess msg
     else
         Cmd.none
 
@@ -715,51 +667,32 @@ provider id msg =
 providerTopic : Id -> Topic -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
 providerTopic id topic msg =
     if id == profileId1 then
-        jsonProvider1
-            |> Result.Ok
-            |> msg
-            |> Task.succeed
-            |> Task.perform identity
+        jsonProvider1 |> httpSuccess msg
     else if id == profileId2 then
-        jsonProvider2
-            |> Result.Ok
-            |> msg
-            |> Task.succeed
-            |> Task.perform identity
+        jsonProvider2 |> httpSuccess msg
     else if id == profileId3 then
-        jsonProvider3
-            |> Result.Ok
-            |> msg
-            |> Task.succeed
-            |> Task.perform identity
+        jsonProvider3 |> httpSuccess msg
     else if id == profileId4 then
-        jsonProvider4
-            |> Result.Ok
-            |> msg
-            |> Task.succeed
-            |> Task.perform identity
+        jsonProvider4 |> httpSuccess msg
     else if id == profileId5 then
-        jsonProvider5
-            |> Result.Ok
-            |> msg
-            |> Task.succeed
-            |> Task.perform identity
+        jsonProvider5 |> httpSuccess msg
     else
         Cmd.none
 
 
-providers : (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
-providers msg =
+providersBase : List JsonProvider
+providersBase =
     [ jsonProvider1
     , jsonProvider2
     , jsonProvider3
     , jsonProvider4
     , jsonProvider5
     ]
-        |> Result.Ok
-        |> msg
-        |> Task.succeed
-        |> Task.perform identity
+
+
+providers : (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
+providers msg =
+    providersBase |> httpSuccess msg
 
 
 topics : List Topic
@@ -773,10 +706,7 @@ topicLinks profileId topic contentType msg =
         |> linksToContent contentType
         |> List.filter (\link -> link.topics |> List.any (\t -> t.name == topic.name))
         |> toJsonLinks
-        |> Result.Ok
-        |> msg
-        |> Task.succeed
-        |> Task.perform identity
+        |> httpSuccess msg
 
 
 sourcesBase : Id -> List Source
@@ -791,10 +721,7 @@ sources : Id -> (Result Http.Error (List Source) -> msg) -> Cmd msg
 sources profileId msg =
     profileId
         |> sourcesBase
-        |> Result.Ok
-        |> msg
-        |> Task.succeed
-        |> Task.perform identity
+        |> httpSuccess msg
 
 
 addSourceBase : Id -> Source -> List Source
@@ -806,10 +733,7 @@ addSource : Id -> Source -> (Result Http.Error (List Source) -> msg) -> Cmd msg
 addSource profileId source msg =
     source
         |> addSourceBase profileId
-        |> Result.Ok
-        |> msg
-        |> Task.succeed
-        |> Task.perform identity
+        |> httpSuccess msg
 
 
 removeSourceBase : Id -> Source -> List JsonSource
@@ -821,10 +745,7 @@ removeSource : Id -> Source -> (Result Http.Error (List JsonSource) -> msg) -> C
 removeSource profileId source msg =
     source
         |> removeSourceBase profileId
-        |> Result.Ok
-        |> msg
-        |> Task.succeed
-        |> Task.perform identity
+        |> httpSuccess msg
 
 
 usernameToId : String -> Id
@@ -864,11 +785,18 @@ platformsBase =
 
 platforms : (Result Http.Error (List Platform) -> msg) -> Cmd msg
 platforms msg =
-    platformsBase
-        |> Result.Ok
-        |> msg
-        |> Task.succeed
-        |> Task.perform identity
+    platformsBase |> httpSuccess msg
+
+
+providersAndPlatformsBase : ( List Provider, List Platform )
+providersAndPlatformsBase =
+    ( providersBase |> List.map toProvider, platformsBase )
+
+
+providersAndPlatforms : (Result Http.Error ( List Provider, List Platform ) -> msg) -> Cmd msg
+providersAndPlatforms msg =
+    ( providersBase |> List.map toProvider, platformsBase )
+        |> httpSuccess msg
 
 
 follow : Id -> Id -> Result String ()
