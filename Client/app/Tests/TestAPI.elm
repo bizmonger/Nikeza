@@ -2,9 +2,8 @@ module Tests.TestAPI exposing (..)
 
 import Domain.Core as Domain exposing (..)
 import String exposing (..)
-import Http exposing (..)
-import Task exposing (succeed, perform)
 import Services.Adapter exposing (..)
+import Http exposing (Error)
 
 
 profileId1 : Id
@@ -279,15 +278,6 @@ jsonPortfolio id =
         (articles id |> toJsonLinks)
         (videos id |> toJsonLinks)
         (podcasts id |> toJsonLinks)
-
-
-httpSuccess : (Result Http.Error a -> msg) -> a -> Cmd msg
-httpSuccess msg a =
-    a
-        |> Result.Ok
-        |> msg
-        |> Task.succeed
-        |> Task.perform identity
 
 
 subscriptions : Id -> (Result Http.Error Members -> msg) -> Cmd msg
@@ -570,10 +560,7 @@ links profileId msg =
 addLink : Id -> Link -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
 addLink profileId link msg =
     JsonPortfolio [] [] [] []
-        |> Result.Ok
-        |> msg
-        |> Task.succeed
-        |> Task.perform identity
+        |> httpSuccess msg
 
 
 removeLink : Id -> Link -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg

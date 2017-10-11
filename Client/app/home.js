@@ -14679,6 +14679,9 @@ var _user$project$Tests_TestAPI$platformsBase = {
 		}
 	}
 };
+var _user$project$Tests_TestAPI$platforms = function (msg) {
+	return A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$platformsBase);
+};
 var _user$project$Tests_TestAPI$sourcesBase = function (profileId) {
 	return {
 		ctor: '::',
@@ -14694,6 +14697,13 @@ var _user$project$Tests_TestAPI$sourcesBase = function (profileId) {
 		}
 	};
 };
+var _user$project$Tests_TestAPI$sources = F2(
+	function (profileId, msg) {
+		return A2(
+			_user$project$Services_Adapter$httpSuccess,
+			msg,
+			_user$project$Tests_TestAPI$sourcesBase(profileId));
+	});
 var _user$project$Tests_TestAPI$addSourceBase = F2(
 	function (profileId, source) {
 		return {
@@ -14701,6 +14711,13 @@ var _user$project$Tests_TestAPI$addSourceBase = F2(
 			_0: source,
 			_1: _user$project$Tests_TestAPI$sourcesBase(profileId)
 		};
+	});
+var _user$project$Tests_TestAPI$addSource = F3(
+	function (profileId, source, msg) {
+		return A2(
+			_user$project$Services_Adapter$httpSuccess,
+			msg,
+			A2(_user$project$Tests_TestAPI$addSourceBase, profileId, source));
 	});
 var _user$project$Tests_TestAPI$removeSourceBase = F2(
 	function (profileId, source) {
@@ -14714,20 +14731,36 @@ var _user$project$Tests_TestAPI$removeSourceBase = F2(
 			},
 			_user$project$Tests_TestAPI$sourcesBase(profileId));
 	});
+var _user$project$Tests_TestAPI$removeSource = F3(
+	function (profileId, source, msg) {
+		return A2(
+			_user$project$Services_Adapter$httpSuccess,
+			msg,
+			A2(_user$project$Tests_TestAPI$removeSourceBase, profileId, source));
+	});
+var _user$project$Tests_TestAPI$removeLink = F3(
+	function (profileId, link, msg) {
+		return A2(
+			_user$project$Services_Adapter$httpSuccess,
+			msg,
+			A4(
+				_user$project$Services_Adapter$JsonPortfolio,
+				{ctor: '[]'},
+				{ctor: '[]'},
+				{ctor: '[]'},
+				{ctor: '[]'}));
+	});
 var _user$project$Tests_TestAPI$addLink = F3(
 	function (profileId, link, msg) {
 		return A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(
-						A4(
-							_user$project$Services_Adapter$JsonPortfolio,
-							{ctor: '[]'},
-							{ctor: '[]'},
-							{ctor: '[]'},
-							{ctor: '[]'})))));
+			_user$project$Services_Adapter$httpSuccess,
+			msg,
+			A4(
+				_user$project$Services_Adapter$JsonPortfolio,
+				{ctor: '[]'},
+				{ctor: '[]'},
+				{ctor: '[]'},
+				{ctor: '[]'}));
 	});
 var _user$project$Tests_TestAPI$toJsonProfile = function (profile) {
 	return {
@@ -14754,51 +14787,6 @@ var _user$project$Tests_TestAPI$toJsonLinks = function (links) {
 			};
 		},
 		links);
-};
-var _user$project$Tests_TestAPI$httpSuccess = F2(
-	function (msg, a) {
-		return A2(
-			_elm_lang$core$Task$perform,
-			_elm_lang$core$Basics$identity,
-			_elm_lang$core$Task$succeed(
-				msg(
-					_elm_lang$core$Result$Ok(a))));
-	});
-var _user$project$Tests_TestAPI$removeLink = F3(
-	function (profileId, link, msg) {
-		return A2(
-			_user$project$Tests_TestAPI$httpSuccess,
-			msg,
-			A4(
-				_user$project$Services_Adapter$JsonPortfolio,
-				{ctor: '[]'},
-				{ctor: '[]'},
-				{ctor: '[]'},
-				{ctor: '[]'}));
-	});
-var _user$project$Tests_TestAPI$sources = F2(
-	function (profileId, msg) {
-		return A2(
-			_user$project$Tests_TestAPI$httpSuccess,
-			msg,
-			_user$project$Tests_TestAPI$sourcesBase(profileId));
-	});
-var _user$project$Tests_TestAPI$addSource = F3(
-	function (profileId, source, msg) {
-		return A2(
-			_user$project$Tests_TestAPI$httpSuccess,
-			msg,
-			A2(_user$project$Tests_TestAPI$addSourceBase, profileId, source));
-	});
-var _user$project$Tests_TestAPI$removeSource = F3(
-	function (profileId, source, msg) {
-		return A2(
-			_user$project$Tests_TestAPI$httpSuccess,
-			msg,
-			A2(_user$project$Tests_TestAPI$removeSourceBase, profileId, source));
-	});
-var _user$project$Tests_TestAPI$platforms = function (msg) {
-	return A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$platformsBase);
 };
 var _user$project$Tests_TestAPI$someEmail = _user$project$Domain_Core$Email('abc@abc.com');
 var _user$project$Tests_TestAPI$someDescrtiption = 'some description...';
@@ -15040,7 +15028,7 @@ var _user$project$Tests_TestAPI$jsonLink1 = A6(
 var _user$project$Tests_TestAPI$tryRegister = F2(
 	function (form, msg) {
 		return _elm_lang$core$Native_Utils.eq(form.password, form.confirm) ? A2(
-			_user$project$Tests_TestAPI$httpSuccess,
+			_user$project$Services_Adapter$httpSuccess,
 			msg,
 			A7(
 				_user$project$Services_Adapter$JsonProfile,
@@ -15431,7 +15419,7 @@ var _user$project$Tests_TestAPI$provider2 = A7(
 var _user$project$Tests_TestAPI$subscriptions = F2(
 	function (profileId, msg) {
 		return _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? A2(
-			_user$project$Tests_TestAPI$httpSuccess,
+			_user$project$Services_Adapter$httpSuccess,
 			msg,
 			_user$project$Domain_Core$Members(
 				{
@@ -15439,7 +15427,7 @@ var _user$project$Tests_TestAPI$subscriptions = F2(
 					_0: _user$project$Tests_TestAPI$provider2,
 					_1: {ctor: '[]'}
 				})) : A2(
-			_user$project$Tests_TestAPI$httpSuccess,
+			_user$project$Services_Adapter$httpSuccess,
 			msg,
 			_user$project$Domain_Core$Members(
 				{ctor: '[]'}));
@@ -15498,7 +15486,7 @@ var _user$project$Tests_TestAPI$provider5 = A7(
 var _user$project$Tests_TestAPI$followers = F2(
 	function (profileId, msg) {
 		return _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? A2(
-			_user$project$Tests_TestAPI$httpSuccess,
+			_user$project$Services_Adapter$httpSuccess,
 			msg,
 			_user$project$Domain_Core$Members(
 				{
@@ -15510,7 +15498,7 @@ var _user$project$Tests_TestAPI$followers = F2(
 						_1: {ctor: '[]'}
 					}
 				})) : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId2) ? A2(
-			_user$project$Tests_TestAPI$httpSuccess,
+			_user$project$Services_Adapter$httpSuccess,
 			msg,
 			_user$project$Domain_Core$Members(
 				{
@@ -15522,7 +15510,7 @@ var _user$project$Tests_TestAPI$followers = F2(
 						_1: {ctor: '[]'}
 					}
 				})) : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId3) ? A2(
-			_user$project$Tests_TestAPI$httpSuccess,
+			_user$project$Services_Adapter$httpSuccess,
 			msg,
 			_user$project$Domain_Core$Members(
 				{
@@ -15534,7 +15522,7 @@ var _user$project$Tests_TestAPI$followers = F2(
 						_1: {ctor: '[]'}
 					}
 				})) : A2(
-			_user$project$Tests_TestAPI$httpSuccess,
+			_user$project$Services_Adapter$httpSuccess,
 			msg,
 			_user$project$Domain_Core$Members(
 				{ctor: '[]'}))));
@@ -15619,7 +15607,7 @@ var _user$project$Tests_TestAPI$tryLogin = F2(
 			'test') && _elm_lang$core$Native_Utils.eq(
 			_elm_lang$core$String$toLower(credentials.password),
 			'test');
-		return successful ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider1) : _elm_lang$core$Platform_Cmd$none;
+		return successful ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider1) : _elm_lang$core$Platform_Cmd$none;
 	});
 var _user$project$Tests_TestAPI$providersBase = {
 	ctor: '::',
@@ -15643,7 +15631,7 @@ var _user$project$Tests_TestAPI$providersBase = {
 	}
 };
 var _user$project$Tests_TestAPI$providers = function (msg) {
-	return A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$providersBase);
+	return A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$providersBase);
 };
 var _user$project$Tests_TestAPI$providersAndPlatformsBase = {
 	ctor: '_Tuple2',
@@ -15652,7 +15640,7 @@ var _user$project$Tests_TestAPI$providersAndPlatformsBase = {
 };
 var _user$project$Tests_TestAPI$providersAndPlatforms = function (msg) {
 	return A2(
-		_user$project$Tests_TestAPI$httpSuccess,
+		_user$project$Services_Adapter$httpSuccess,
 		msg,
 		{
 			ctor: '_Tuple2',
@@ -15663,7 +15651,7 @@ var _user$project$Tests_TestAPI$providersAndPlatforms = function (msg) {
 var _user$project$Tests_TestAPI$links = F2(
 	function (profileId, msg) {
 		return A2(
-			_user$project$Tests_TestAPI$httpSuccess,
+			_user$project$Services_Adapter$httpSuccess,
 			msg,
 			{
 				answers: _user$project$Tests_TestAPI$toJsonLinks(
@@ -15679,7 +15667,7 @@ var _user$project$Tests_TestAPI$links = F2(
 var _user$project$Tests_TestAPI$topicLinks = F4(
 	function (profileId, topic, contentType, msg) {
 		return A2(
-			_user$project$Tests_TestAPI$httpSuccess,
+			_user$project$Services_Adapter$httpSuccess,
 			msg,
 			_user$project$Tests_TestAPI$toJsonLinks(
 				A2(
@@ -15696,11 +15684,11 @@ var _user$project$Tests_TestAPI$topicLinks = F4(
 	});
 var _user$project$Tests_TestAPI$provider = F2(
 	function (id, msg) {
-		return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider3) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId4) ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider4) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId5) ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider5) : _elm_lang$core$Platform_Cmd$none))));
+		return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider3) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId4) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider4) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId5) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider5) : _elm_lang$core$Platform_Cmd$none))));
 	});
 var _user$project$Tests_TestAPI$providerTopic = F3(
 	function (id, topic, msg) {
-		return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider3) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId4) ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider4) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId5) ? A2(_user$project$Tests_TestAPI$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider5) : _elm_lang$core$Platform_Cmd$none))));
+		return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider3) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId4) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider4) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId5) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider5) : _elm_lang$core$Platform_Cmd$none))));
 	});
 var _user$project$Tests_TestAPI$usernameToId = function (email) {
 	var _p1 = email;
