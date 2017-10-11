@@ -500,33 +500,6 @@ tryRegister form msg =
         Cmd.none
 
 
-toJsonProfile : Profile -> JsonProfile
-toJsonProfile profile =
-    { id = idText profile.id
-    , firstName = nameText profile.firstName
-    , lastName = nameText profile.lastName
-    , email = emailText profile.email
-    , imageUrl = urlText profile.imageUrl
-    , bio = profile.bio
-    , sources = profile.sources
-    }
-
-
-toJsonLinks : List Link -> List JsonLink
-toJsonLinks links =
-    links
-        |> List.map
-            (\link ->
-                { profile = link.profile |> toJsonProfile
-                , title = titleText link.title
-                , url = urlText link.url
-                , contentType = link.contentType |> contentTypeToText
-                , topics = link.topics
-                , isFeatured = link.isFeatured
-                }
-            )
-
-
 answers : Id -> List Link
 answers id =
     id |> linksToContent Answer
@@ -735,31 +708,6 @@ removeSource profileId source msg =
         |> httpSuccess msg
 
 
-usernameToId : String -> Id
-usernameToId email =
-    case email of
-        "test" ->
-            profileId1
-
-        "profile_1" ->
-            profileId1
-
-        "profile_2" ->
-            profileId2
-
-        "profile_3" ->
-            profileId3
-
-        "profile_4" ->
-            profileId4
-
-        "profile_5" ->
-            profileId5
-
-        _ ->
-            Id undefined
-
-
 platformsBase : List Platform
 platformsBase =
     [ Platform "WordPress"
@@ -786,11 +734,11 @@ providersAndPlatforms msg =
         |> httpSuccess msg
 
 
-follow : Id -> Id -> Result String ()
-follow clientId providerId =
-    Err "follow not implemented"
+follow : Id -> Id -> (Result Http.Error Members -> msg) -> Cmd msg
+follow clientId providerId msg =
+    Members [] |> httpSuccess msg
 
 
-unsubscribe : Id -> Id -> Result String ()
-unsubscribe clientId providerId =
-    Err "unsubscribe not implemented"
+unsubscribe : Id -> Id -> (Result Http.Error Members -> msg) -> Cmd msg
+unsubscribe clientId providerId msg =
+    Members [] |> httpSuccess msg

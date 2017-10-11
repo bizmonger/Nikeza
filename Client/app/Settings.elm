@@ -26,7 +26,6 @@ type alias Dependencies msg =
     , addLink : AddLinkfunction msg
     , removeLink : RemoveLinkfunction msg
     , topicLinks : TopicLinksfunction msg
-    , usernameToId : UserNameToIdfunction
     , sources : Sourcesfunction msg
     , addSource : AddSourcefunction msg
     , removeSource : RemoveSourcefunction msg
@@ -34,8 +33,8 @@ type alias Dependencies msg =
     , suggestedTopics : SuggestedTopicsfunction
     , subscriptions : Subscriptionsfunction msg
     , followers : Followersfunction msg
-    , follow : Followfunction
-    , unsubscribe : Unsubscribefunction
+    , follow : Followfunction msg
+    , unsubscribe : Unsubscribefunction msg
     , providersAndPlatforms : ProvidersAndPlatformsfunction msg
     }
 
@@ -54,7 +53,6 @@ runtime =
                 Services.addLink
                 Services.removeLink
                 Services.topicLinks
-                Services.usernameToId
                 Services.sources
                 Services.addSource
                 Services.removeSource
@@ -77,7 +75,6 @@ runtime =
                 TestAPI.addLink
                 TestAPI.removeLink
                 TestAPI.topicLinks
-                TestAPI.usernameToId
                 TestAPI.sources
                 TestAPI.addSource
                 TestAPI.removeSource

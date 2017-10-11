@@ -302,11 +302,6 @@ removeLink profileId link msg =
         Http.send msg request
 
 
-usernameToId : String -> Id
-usernameToId username =
-    Id "undefined"
-
-
 sources : Id -> (Result Http.Error (List Source) -> msg) -> Cmd msg
 sources profileId msg =
     Cmd.none
@@ -347,11 +342,11 @@ followers profileId msg =
     Members [] |> httpSuccess msg
 
 
-follow : Id -> Id -> Result String ()
-follow clientId providerId =
-    Err "follow not implemented"
+follow : Id -> Id -> (Result Http.Error Members -> msg) -> Cmd msg
+follow clientId providerId msg =
+    Members [] |> httpSuccess msg
 
 
-unsubscribe : Id -> Id -> Result String ()
-unsubscribe clientId providerId =
-    Err "unsubscribe not implemented"
+unsubscribe : Id -> Id -> (Result Http.Error Members -> msg) -> Cmd msg
+unsubscribe clientId providerId msg =
+    Members [] |> httpSuccess msg

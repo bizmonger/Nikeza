@@ -5,32 +5,32 @@ import Domain.Core exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Http
 
 
 type Msg
     = UpdateSubscription SubscriptionUpdate
+    | SubscribeResponse (Result Http.Error Members)
 
 
 update : Msg -> Provider -> ( Provider, Cmd Msg )
 update msg provider =
     case msg of
-        UpdateSubscription update ->
-            case update of
-                Subscribe clientId providerId ->
-                    case runtime.follow clientId providerId of
-                        Ok _ ->
-                            ( provider, Cmd.none )
+        SubscribeResponse result ->
+            case result of
+                Ok subscriptions ->
+                    ( { provider | subscriptions = subscriptions }, Cmd.none )
 
-                        Err _ ->
-                            ( provider, Cmd.none )
+                Err _ ->
+                    ( provider, Cmd.none )
+
+        UpdateSubscription action ->
+            case action of
+                Subscribe clientId providerId ->
+                    ( provider, (runtime.follow clientId providerId) SubscribeResponse )
 
                 Unsubscribe clientId providerId ->
-                    case runtime.follow clientId providerId of
-                        Ok _ ->
-                            ( provider, Cmd.none )
-
-                        Err _ ->
-                            ( provider, Cmd.none )
+                    ( provider, (runtime.unsubscribe clientId providerId) SubscribeResponse )
 
 
 thumbnail : Maybe Provider -> Bool -> Provider -> Html Msg

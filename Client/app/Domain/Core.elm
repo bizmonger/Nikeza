@@ -288,14 +288,6 @@ type alias SuggestedTopicsfunction =
     String -> List Topic
 
 
-type alias Followfunction =
-    Id -> Id -> Result String ()
-
-
-type alias Unsubscribefunction =
-    Id -> Id -> Result String ()
-
-
 type ContentType
     = Article
     | Video

@@ -78,6 +78,14 @@ type alias TopicLinksfunction msg =
     Id -> Topic -> ContentType -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
 
 
+type alias Followfunction msg =
+    Id -> Id -> (Result Http.Error Members -> msg) -> Cmd msg
+
+
+type alias Unsubscribefunction msg =
+    Id -> Id -> (Result Http.Error Members -> msg) -> Cmd msg
+
+
 type alias JsonProfile =
     { id : String
     , firstName : String
@@ -158,6 +166,11 @@ toJsonProfile profile =
     }
 
 
+toJsonLinks : List Link -> List JsonLink
+toJsonLinks links =
+    links |> List.map toJsonLink
+
+
 jsonProfileToProvider : JsonProfile -> Provider
 jsonProfileToProvider jsonProfile =
     Provider (toProfile jsonProfile) initTopics initPortfolio initPortfolio [] initSubscription initSubscription
@@ -168,19 +181,22 @@ toMembers jsonProviders =
     Members (jsonProviders |> List.map (\p -> p |> toProvider))
 
 
+toLink : JsonLink -> Link
+toLink =
+    (\link ->
+        { profile = link.profile |> toProfile
+        , title = Title link.title
+        , url = Url link.url
+        , contentType = link.contentType |> toContentType
+        , topics = link.topics
+        , isFeatured = link.isFeatured
+        }
+    )
+
+
 toLinks : List JsonLink -> List Link
 toLinks jsonLinks =
-    jsonLinks
-        |> List.map
-            (\link ->
-                { profile = link.profile |> toProfile
-                , title = Title link.title
-                , url = Url link.url
-                , contentType = link.contentType |> toContentType
-                , topics = link.topics
-                , isFeatured = link.isFeatured
-                }
-            )
+    jsonLinks |> List.map toLink
 
 
 toJsonLink : Link -> JsonLink
@@ -192,11 +208,6 @@ toJsonLink link =
     , topics = link.topics
     , isFeatured = link.isFeatured
     }
-
-
-toJsonLinks : List Link -> List JsonLink
-toJsonLinks links =
-    links |> List.map toJsonLink
 
 
 toPortfolio : JsonPortfolio -> Portfolio
