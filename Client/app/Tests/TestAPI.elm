@@ -249,27 +249,27 @@ someEmail =
 
 profile1 : Profile
 profile1 =
-    Profile profileId1 (Name "Scott") (Name "Nimrod") someEmail profile1ImageUrl someDescrtiption (profileId1 |> sources)
+    Profile profileId1 (Name "Scott") (Name "Nimrod") someEmail profile1ImageUrl someDescrtiption (profileId1 |> sourcesBase)
 
 
 profile2 : Profile
 profile2 =
-    Profile profileId2 (Name "Pablo") (Name "Rivera") someEmail profile2ImageUrl someDescrtiption (profileId2 |> sources)
+    Profile profileId2 (Name "Pablo") (Name "Rivera") someEmail profile2ImageUrl someDescrtiption (profileId2 |> sourcesBase)
 
 
 profile3 : Profile
 profile3 =
-    Profile profileId3 (Name "Adam") (Name "Wright") someEmail profile3ImageUrl someDescrtiption (profileId3 |> sources)
+    Profile profileId3 (Name "Adam") (Name "Wright") someEmail profile3ImageUrl someDescrtiption (profileId3 |> sourcesBase)
 
 
 profile4 : Profile
 profile4 =
-    Profile profileId4 (Name "Mitchell") (Name "Tilbrook") someEmail profile4ImageUrl someDescrtiption (profileId4 |> sources)
+    Profile profileId4 (Name "Mitchell") (Name "Tilbrook") someEmail profile4ImageUrl someDescrtiption (profileId4 |> sourcesBase)
 
 
 profile5 : Profile
 profile5 =
-    Profile profileId5 (Name "Ody") (Name "Mbegbu") someEmail profile5ImageUrl someDescrtiption (profileId5 |> sources)
+    Profile profileId5 (Name "Ody") (Name "Mbegbu") someEmail profile5ImageUrl someDescrtiption (profileId5 |> sourcesBase)
 
 
 jsonPortfolio : Id -> JsonPortfolio
@@ -779,22 +779,52 @@ topicLinks profileId topic contentType msg =
         |> Task.perform identity
 
 
-sources : Id -> List Source
-sources profileId =
+sourcesBase : Id -> List Source
+sourcesBase profileId =
     [ { platform = "WordPress", username = "bizmonger", linksFound = 0 }
     , { platform = "YouTube", username = "bizmonger", linksFound = 0 }
     , { platform = "StackOverflow", username = "scott-nimrod", linksFound = 0 }
     ]
 
 
-addSource : Id -> Source -> Result String (List Source)
-addSource profileId connection =
-    Ok <| connection :: (profileId |> sources)
+sources : Id -> (Result Http.Error (List Source) -> msg) -> Cmd msg
+sources profileId msg =
+    profileId
+        |> sourcesBase
+        |> Result.Ok
+        |> msg
+        |> Task.succeed
+        |> Task.perform identity
 
 
-removeSource : Id -> Source -> Result String (List Source)
-removeSource profileId connection =
-    Ok (profileId |> sources |> List.filter (\c -> profileId |> sources |> List.member connection))
+addSourceBase : Id -> Source -> List Source
+addSourceBase profileId source =
+    source :: (profileId |> sourcesBase)
+
+
+addSource : Id -> Source -> (Result Http.Error (List Source) -> msg) -> Cmd msg
+addSource profileId source msg =
+    source
+        |> addSourceBase profileId
+        |> Result.Ok
+        |> msg
+        |> Task.succeed
+        |> Task.perform identity
+
+
+removeSourceBase : Id -> Source -> List JsonSource
+removeSourceBase profileId source =
+    profileId |> sourcesBase |> List.filter (\c -> profileId |> sourcesBase |> List.member source)
+
+
+removeSource : Id -> Source -> (Result Http.Error (List JsonSource) -> msg) -> Cmd msg
+removeSource profileId source msg =
+    source
+        |> removeSourceBase profileId
+        |> Result.Ok
+        |> msg
+        |> Task.succeed
+        |> Task.perform identity
 
 
 usernameToId : String -> Id

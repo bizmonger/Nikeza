@@ -27,9 +27,9 @@ type alias Dependencies msg =
     , removeLink : RemoveLinkfunction msg
     , topicLinks : TopicLinksfunction msg
     , usernameToId : UserNameToIdfunction
-    , sources : Sourcesfunction
-    , addSource : AddSourcefunction
-    , removeSource : RemoveSourcefunction
+    , sources : Sourcesfunction msg
+    , addSource : AddSourcefunction msg
+    , removeSource : RemoveSourcefunction msg
     , platforms : List Platform
     , suggestedTopics : SuggestedTopicsfunction
     , subscriptions : Subscriptionsfunction msg

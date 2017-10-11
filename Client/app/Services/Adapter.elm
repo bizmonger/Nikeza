@@ -24,12 +24,24 @@ type alias Providersfunction msg =
     (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
 
 
+type alias AddSourcefunction msg =
+    Id -> Source -> (Result Http.Error (List Source) -> msg) -> Cmd msg
+
+
+type alias RemoveSourcefunction msg =
+    Id -> Source -> (Result Http.Error (List Source) -> msg) -> Cmd msg
+
+
 type alias Followersfunction msg =
     Id -> (Result Http.Error Members -> msg) -> Cmd msg
 
 
 type alias Subscriptionsfunction msg =
     Id -> (Result Http.Error Members -> msg) -> Cmd msg
+
+
+type alias Sourcesfunction msg =
+    Id -> (Result Http.Error (List Source) -> msg) -> Cmd msg
 
 
 type alias AddLinkfunction msg =

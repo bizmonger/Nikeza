@@ -280,18 +280,6 @@ type ProviderRequest
 -- INTERFACES
 
 
-type alias Sourcesfunction =
-    Id -> List Source
-
-
-type alias AddSourcefunction =
-    Id -> Source -> Result String (List Source)
-
-
-type alias RemoveSourcefunction =
-    Id -> Source -> Result String (List Source)
-
-
 type alias UserNameToIdfunction =
     String -> Id
 

@@ -312,19 +312,19 @@ usernameToId username =
     Id "undefined"
 
 
-sources : Id -> List Source
-sources profileId =
-    []
+sources : Id -> (Result Http.Error (List Source) -> msg) -> Cmd msg
+sources profileId msg =
+    Cmd.none
 
 
-addSource : Id -> Source -> Result String (List Source)
-addSource profileId connection =
-    Err "Not implemented"
+addSource : Id -> Source -> (Result Http.Error (List Source) -> msg) -> Cmd msg
+addSource profileId source msg =
+    Cmd.none
 
 
-removeSource : Id -> Source -> Result String (List Source)
-removeSource profileId connection =
-    Err "Not implemented"
+removeSource : Id -> Source -> (Result Http.Error (List Source) -> msg) -> Cmd msg
+removeSource profileId source msg =
+    Cmd.none
 
 
 platforms : List Platform

@@ -111,38 +111,32 @@ let private fetchWordpress (feedUrl) (context : HttpContext) =
     }
 
 let private fetchPlatforms  =
-     let response = getPlatforms()
-     json response
+     json <| getPlatforms()
 
 let private fetchLinks (providerId) (context : HttpContext) =
-    async { let response = getLinks providerId
-            return! json response context
-    }
+    let response = getLinks providerId
+    json response context
+    
 let private fetchFollowers (providerId) (context : HttpContext) =
-    async { let response = getFollowers providerId
-            return! json response context
-    }
+    let response = getFollowers providerId
+    json response context
+    
 let private fetchSubscriptions (providerId) (context : HttpContext) =
-    async {
         let response = getSubscriptions providerId
-        return! json response context
-    }
-
+        json response context
+    
 let private fetchProviders () (context : HttpContext) =
-    async { let response = getProviders()
-            return! json response context
-    }
+    let response = getProviders()
+    json response context
 
 let private fetchSources (providerId) (context : HttpContext) =
-    async { let response = getSources providerId
-            return! json response context
-    }
-
+    let response = getSources providerId
+    json response context
+    
 let private fetchContentTypeToId (contentType) (context : HttpContext) =
-    async { let response = contentTypeToId contentType
-            return! json response context
-    }       
-
+    let response = contentTypeToId contentType
+    json response context
+         
 let webApp : HttpContext -> HttpHandlerResult = 
 
     choose [

@@ -14175,7 +14175,7 @@ var _user$project$Tests_TestAPI$platforms = {
 		}
 	}
 };
-var _user$project$Tests_TestAPI$sources = function (profileId) {
+var _user$project$Tests_TestAPI$sourcesBase = function (profileId) {
 	return {
 		ctor: '::',
 		_0: {platform: 'WordPress', username: 'bizmonger', linksFound: 0},
@@ -14190,27 +14190,55 @@ var _user$project$Tests_TestAPI$sources = function (profileId) {
 		}
 	};
 };
-var _user$project$Tests_TestAPI$addSource = F2(
-	function (profileId, connection) {
-		return _elm_lang$core$Result$Ok(
-			{
-				ctor: '::',
-				_0: connection,
-				_1: _user$project$Tests_TestAPI$sources(profileId)
-			});
+var _user$project$Tests_TestAPI$sources = F2(
+	function (profileId, msg) {
+		return A2(
+			_elm_lang$core$Task$perform,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Task$succeed(
+				msg(
+					_elm_lang$core$Result$Ok(
+						_user$project$Tests_TestAPI$sourcesBase(profileId)))));
 	});
-var _user$project$Tests_TestAPI$removeSource = F2(
-	function (profileId, connection) {
-		return _elm_lang$core$Result$Ok(
-			A2(
-				_elm_lang$core$List$filter,
-				function (c) {
-					return A2(
-						_elm_lang$core$List$member,
-						connection,
-						_user$project$Tests_TestAPI$sources(profileId));
-				},
-				_user$project$Tests_TestAPI$sources(profileId)));
+var _user$project$Tests_TestAPI$addSourceBase = F2(
+	function (profileId, source) {
+		return {
+			ctor: '::',
+			_0: source,
+			_1: _user$project$Tests_TestAPI$sourcesBase(profileId)
+		};
+	});
+var _user$project$Tests_TestAPI$addSource = F3(
+	function (profileId, source, msg) {
+		return A2(
+			_elm_lang$core$Task$perform,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Task$succeed(
+				msg(
+					_elm_lang$core$Result$Ok(
+						A2(_user$project$Tests_TestAPI$addSourceBase, profileId, source)))));
+	});
+var _user$project$Tests_TestAPI$removeSourceBase = F2(
+	function (profileId, source) {
+		return A2(
+			_elm_lang$core$List$filter,
+			function (c) {
+				return A2(
+					_elm_lang$core$List$member,
+					source,
+					_user$project$Tests_TestAPI$sourcesBase(profileId));
+			},
+			_user$project$Tests_TestAPI$sourcesBase(profileId));
+	});
+var _user$project$Tests_TestAPI$removeSource = F3(
+	function (profileId, source, msg) {
+		return A2(
+			_elm_lang$core$Task$perform,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Task$succeed(
+				msg(
+					_elm_lang$core$Result$Ok(
+						A2(_user$project$Tests_TestAPI$removeSourceBase, profileId, source)))));
 	});
 var _user$project$Tests_TestAPI$removeLink = F3(
 	function (profileId, link, msg) {
@@ -14348,7 +14376,7 @@ var _user$project$Tests_TestAPI$profile5 = A7(
 	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$profile5ImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId5));
+	_user$project$Tests_TestAPI$sourcesBase(_user$project$Tests_TestAPI$profileId5));
 var _user$project$Tests_TestAPI$jsonProfile5 = A7(
 	_user$project$Services_Adapter$JsonProfile,
 	_user$project$Domain_Core$idText(_user$project$Tests_TestAPI$profileId5),
@@ -14367,7 +14395,7 @@ var _user$project$Tests_TestAPI$profile4 = A7(
 	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$profile4ImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId4));
+	_user$project$Tests_TestAPI$sourcesBase(_user$project$Tests_TestAPI$profileId4));
 var _user$project$Tests_TestAPI$jsonProfile4 = A7(
 	_user$project$Services_Adapter$JsonProfile,
 	_user$project$Domain_Core$idText(_user$project$Tests_TestAPI$profileId4),
@@ -14386,7 +14414,7 @@ var _user$project$Tests_TestAPI$profile3 = A7(
 	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$profile3ImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId3));
+	_user$project$Tests_TestAPI$sourcesBase(_user$project$Tests_TestAPI$profileId3));
 var _user$project$Tests_TestAPI$recentLinks3 = {
 	ctor: '::',
 	_0: A6(
@@ -14421,7 +14449,7 @@ var _user$project$Tests_TestAPI$profile2 = A7(
 	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$profile2ImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId2));
+	_user$project$Tests_TestAPI$sourcesBase(_user$project$Tests_TestAPI$profileId2));
 var _user$project$Tests_TestAPI$recentLinks2 = {
 	ctor: '::',
 	_0: A6(
@@ -14471,7 +14499,7 @@ var _user$project$Tests_TestAPI$profile1 = A7(
 	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$profile1ImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$sources(_user$project$Tests_TestAPI$profileId1));
+	_user$project$Tests_TestAPI$sourcesBase(_user$project$Tests_TestAPI$profileId1));
 var _user$project$Tests_TestAPI$recentLinks1 = {
 	ctor: '::',
 	_0: A6(
@@ -15296,17 +15324,18 @@ var _user$project$Services_Gateway$suggestedTopics = function (search) {
 	return {ctor: '[]'};
 };
 var _user$project$Services_Gateway$platforms = {ctor: '[]'};
-var _user$project$Services_Gateway$removeSource = F2(
-	function (profileId, connection) {
-		return _elm_lang$core$Result$Err('Not implemented');
+var _user$project$Services_Gateway$removeSource = F3(
+	function (profileId, source, msg) {
+		return _elm_lang$core$Platform_Cmd$none;
 	});
-var _user$project$Services_Gateway$addSource = F2(
-	function (profileId, connection) {
-		return _elm_lang$core$Result$Err('Not implemented');
+var _user$project$Services_Gateway$addSource = F3(
+	function (profileId, source, msg) {
+		return _elm_lang$core$Platform_Cmd$none;
 	});
-var _user$project$Services_Gateway$sources = function (profileId) {
-	return {ctor: '[]'};
-};
+var _user$project$Services_Gateway$sources = F2(
+	function (profileId, msg) {
+		return _elm_lang$core$Platform_Cmd$none;
+	});
 var _user$project$Services_Gateway$usernameToId = function (username) {
 	return _user$project$Domain_Core$Id('undefined');
 };
