@@ -6,8 +6,11 @@ module Nikeza.Server.Authentication
 
     [<CLIMutable>]
     type RegistrationRequest = {
-            UserName: string 
-            Password: string 
+            FirstName: string 
+            LastName: string
+            Email: string
+            Password: string
+            Confirm: string
         }
             
     [<CLIMutable>]
@@ -57,18 +60,18 @@ module Nikeza.Server.Authentication
         | None -> false
             
     open Nikeza.Server.Model
-    let register (r:RegistrationRequest) =
-        match findUser r.UserName with
+    let register (info:RegistrationRequest) =
+        match findUser info.Email with
         | Some user -> Failure
         | None ->
             let salt = generateSalt
-            let hashedPassword = getPasswordHash r.Password salt
+            let hashedPassword = getPasswordHash info.Password salt
             
-            let user:Profile = {
+            let profile = {
                 ProfileId = 0
                 FirstName = ""
                 LastName = ""
-                Email = r.UserName
+                Email = info.Email
                 ImageUrl = ""
                 Bio = ""
                 PasswordHash = hashedPassword
@@ -77,7 +80,7 @@ module Nikeza.Server.Authentication
             }
 
             try
-                execute <| Register user
+                execute <| Register profile
                 Success
             with
             | e -> Failure

@@ -49,7 +49,7 @@ update msg credentials =
                 ( credentials, Navigation.load <| "/#/portal/" ++ jsonProviderField.profile.id )
 
         Response (Err error) ->
-            ( credentials, Cmd.none )
+            Debug.crash ("Error: " ++ toString error) ( credentials, Cmd.none )
 
 
 
