@@ -3,6 +3,7 @@ module Nikeza.Server.Authentication
     open System.Security.Claims 
     open Nikeza.Server.Command
     open Nikeza.Server.Store
+    open Nikeza.Server.Model
 
     [<CLIMutable>]
     type RegistrationRequest = {
@@ -24,7 +25,7 @@ module Nikeza.Server.Authentication
         | UnAuthenticated 
 
     type RegistrationStatus = 
-        | Success   
+        | Success of Profile
         | Failure 
     
     open System
@@ -35,8 +36,8 @@ module Nikeza.Server.Authentication
         let mutable salt = Array.init (128/8)  (fun i -> byte(i*i))
         let getSalt s =                
             use rng = RandomNumberGenerator.Create()                
-            rng.GetBytes(s)
-            s
+            rng.GetBytes(s); s
+            
         getSalt salt |> Convert.ToBase64String
 
     let private getPasswordHash password saltString = 
@@ -59,7 +60,6 @@ module Nikeza.Server.Authentication
              hashedPassword = user.PasswordHash
         | None -> false
             
-    open Nikeza.Server.Model
     let register (info:RegistrationRequest) =
         match findUser info.Email with
         | Some user -> Failure
@@ -69,19 +69,19 @@ module Nikeza.Server.Authentication
             
             let profile = {
                 ProfileId = 0
-                FirstName = ""
-                LastName = ""
-                Email = info.Email
-                ImageUrl = ""
-                Bio = ""
+                FirstName = info.FirstName
+                LastName =  info.LastName
+                Email =     info.Email
+                ImageUrl =  ""
+                Bio =       ""
                 PasswordHash = hashedPassword
-                Salt = salt
-                Created = DateTime.Now
+                Salt =         salt
+                Created =      DateTime.Now
             }
 
             try
                 execute <| Register profile
-                Success
+                Success profile
             with
             | e -> Failure
     

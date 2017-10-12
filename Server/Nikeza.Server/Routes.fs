@@ -9,11 +9,11 @@ let authScheme = "Cookie"
 let private registrationHandler = 
     fun(context: HttpContext) -> 
         async {
-            let! data = context.BindJson<RegistrationRequest>()
-            let response = register data |> function
-                                         | Success -> "Registered"
-                                         | Failure -> "Not Registered"
-            return! text response context 
+            return! text "hello world" context
+            // let! data = context.BindJson<RegistrationRequest>()
+            // match register data with
+            //   | Success profile -> return! json profile context
+            //   | Failure         -> return! (setStatusCode 400 >=> json "registration failed") context
         }
 
 let private loginHandler  (authFailedHandler : HttpHandler) = 

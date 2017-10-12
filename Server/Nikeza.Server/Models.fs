@@ -59,7 +59,7 @@ type FollowRequest =      { SubscriberId: int; ProviderId: int }
 type UnsubscribeRequest = { SubscriberId: int; ProviderId: int }
 
 [<CLIMutable>]
-type RemoveLinkRequest = { LinkId: int }
+type RemoveLinkRequest =  { LinkId: int }
 
 [<CLIMutable>]
 type AddLinkRequest = { 
