@@ -38,7 +38,10 @@ let cookieAuth =
     )
 
 let configureCors (builder : CorsPolicyBuilder) =
-    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader() |> ignore
+    builder.WithOrigins("*")
+           .AllowAnyMethod()
+           .AllowAnyHeader()
+           .AllowCredentials() |> ignore
 
 let configureApp (app : IApplicationBuilder) =
     app.UseCors configureCors |> ignore
