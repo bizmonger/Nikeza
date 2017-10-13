@@ -1,0 +1,423 @@
+var _user$project$Controls_ContentProviderLinks$toggleAllFilter = F2(
+	function (model, include) {
+		var profile = model.profile;
+		var newState = (!include) ? _elm_lang$core$Native_Utils.update(
+			model,
+			{showAll: false, links: _user$project$Domain_Core$initLinks}) : _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				showAll: true,
+				links: _user$project$Settings$runtime.links(profile.id)
+			});
+		return {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
+	});
+var _user$project$Controls_ContentProviderLinks$toggleFilter = F2(
+	function (model, _p0) {
+		var _p1 = _p0;
+		var _p2 = _p1._0;
+		var links = model.links;
+		var toggleTopic = F2(
+			function (contentType, links) {
+				return _p1._1 ? A2(
+					_elm_lang$core$List$append,
+					A3(_user$project$Settings$runtime.topicLinks, _p2, contentType, model.profile.id),
+					links) : A2(
+					_elm_lang$core$List$filter,
+					function (l) {
+						return !A2(_elm_lang$core$List$member, _p2, l.topics);
+					},
+					links);
+			});
+		var newState = _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				showAll: false,
+				links: {
+					answers: A2(toggleTopic, _user$project$Domain_Core$Answer, links.answers),
+					articles: A2(toggleTopic, _user$project$Domain_Core$Article, links.articles),
+					videos: A2(toggleTopic, _user$project$Domain_Core$Video, links.videos),
+					podcasts: A2(toggleTopic, _user$project$Domain_Core$Podcast, links.podcasts)
+				}
+			});
+		return {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
+	});
+var _user$project$Controls_ContentProviderLinks$linksUI = function (links) {
+	return A2(
+		_elm_lang$core$List$map,
+		function (link) {
+			return A2(
+				_elm_lang$html$Html$a,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$href(
+						_user$project$Domain_Core$getUrl(link.url)),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_user$project$Domain_Core$getTitle(link.title)),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
+				});
+		},
+		A2(_elm_lang$core$List$take, 5, links));
+};
+var _user$project$Controls_ContentProviderLinks$contentUI = F3(
+	function (profileId, contentType, links) {
+		return A2(
+			_elm_lang$core$List$append,
+			_user$project$Controls_ContentProviderLinks$linksUI(links),
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$a,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$href(
+							_user$project$Domain_Core$getUrl(
+								A2(_user$project$Domain_Core$moreContentProviderContentUrl, profileId, contentType))),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('all'),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
+							_1: {ctor: '[]'}
+						}
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$Controls_ContentProviderLinks$update = F2(
+	function (msg, model) {
+		var _p3 = msg;
+		if (_p3.ctor === 'Toggle') {
+			return A2(
+				_user$project$Controls_ContentProviderLinks$toggleFilter,
+				model,
+				{ctor: '_Tuple2', _0: _p3._0._0, _1: _p3._0._1});
+		} else {
+			return A2(_user$project$Controls_ContentProviderLinks$toggleAllFilter, model, _p3._0);
+		}
+	});
+var _user$project$Controls_ContentProviderLinks$Toggle = function (a) {
+	return {ctor: 'Toggle', _0: a};
+};
+var _user$project$Controls_ContentProviderLinks$view = function (model) {
+	var links = model.links;
+	var toCheckBoxState = F2(
+		function (include, topic) {
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$input,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$checked(include),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onCheck(
+										function (isChecked) {
+											return _user$project$Controls_ContentProviderLinks$Toggle(
+												{ctor: '_Tuple2', _0: topic, _1: isChecked});
+										}),
+									_1: {ctor: '[]'}
+								}
+							}
+						},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$label,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(
+									_user$project$Domain_Core$getTopic(topic)),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
+				});
+		});
+	var _p4 = {ctor: '_Tuple2', _0: model.profile.id, _1: model.topics};
+	var profileId = _p4._0;
+	var topics = _p4._1;
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$table,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$tr,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$table,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$tr,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$td,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$div,
+														{ctor: '[]'},
+														A2(
+															_elm_lang$core$List$map,
+															function (t) {
+																return A2(toCheckBoxState, true, t);
+															},
+															topics)),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$table,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$tr,
+															{ctor: '[]'},
+															{
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$td,
+																	{ctor: '[]'},
+																	{
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$b,
+																			{ctor: '[]'},
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text('Answers'),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$td,
+																		{ctor: '[]'},
+																		{
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$b,
+																				{ctor: '[]'},
+																				{
+																					ctor: '::',
+																					_0: _elm_lang$html$Html$text('Articles'),
+																					_1: {ctor: '[]'}
+																				}),
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {ctor: '[]'}
+																}
+															}),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$tr,
+																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$td,
+																		{ctor: '[]'},
+																		{
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$div,
+																				{ctor: '[]'},
+																				A3(_user$project$Controls_ContentProviderLinks$contentUI, profileId, _user$project$Domain_Core$Answer, links.answers)),
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$td,
+																			{ctor: '[]'},
+																			{
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html$div,
+																					{ctor: '[]'},
+																					A3(_user$project$Controls_ContentProviderLinks$contentUI, profileId, _user$project$Domain_Core$Article, links.articles)),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {ctor: '[]'}
+																	}
+																}),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$tr,
+																	{ctor: '[]'},
+																	{
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$td,
+																			{ctor: '[]'},
+																			{
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html$b,
+																					{ctor: '[]'},
+																					{
+																						ctor: '::',
+																						_0: _elm_lang$html$Html$text('Podcasts'),
+																						_1: {ctor: '[]'}
+																					}),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$td,
+																				{ctor: '[]'},
+																				{
+																					ctor: '::',
+																					_0: A2(
+																						_elm_lang$html$Html$b,
+																						{ctor: '[]'},
+																						{
+																							ctor: '::',
+																							_0: _elm_lang$html$Html$text('Videos'),
+																							_1: {ctor: '[]'}
+																						}),
+																					_1: {ctor: '[]'}
+																				}),
+																			_1: {ctor: '[]'}
+																		}
+																	}),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$tr,
+																		{ctor: '[]'},
+																		{
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$td,
+																				{ctor: '[]'},
+																				{
+																					ctor: '::',
+																					_0: A2(
+																						_elm_lang$html$Html$div,
+																						{ctor: '[]'},
+																						A3(_user$project$Controls_ContentProviderLinks$contentUI, profileId, _user$project$Domain_Core$Podcast, links.podcasts)),
+																					_1: {ctor: '[]'}
+																				}),
+																			_1: {
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html$td,
+																					{ctor: '[]'},
+																					{
+																						ctor: '::',
+																						_0: A2(
+																							_elm_lang$html$Html$div,
+																							{ctor: '[]'},
+																							A3(_user$project$Controls_ContentProviderLinks$contentUI, profileId, _user$project$Domain_Core$Video, links.videos)),
+																						_1: {ctor: '[]'}
+																					}),
+																				_1: {ctor: '[]'}
+																			}
+																		}),
+																	_1: {ctor: '[]'}
+																}
+															}
+														}
+													}),
+												_1: {ctor: '[]'}
+											}
+										}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Controls_ContentProviderLinks$toCheckbox = function (topic) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$input,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$checked(true),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onCheck(
+								function (b) {
+									return _user$project$Controls_ContentProviderLinks$Toggle(
+										{ctor: '_Tuple2', _0: topic, _1: b});
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$label,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							_user$project$Domain_Core$getTopic(topic)),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _user$project$Controls_ContentProviderLinks$ToggleAll = function (a) {
+	return {ctor: 'ToggleAll', _0: a};
+};

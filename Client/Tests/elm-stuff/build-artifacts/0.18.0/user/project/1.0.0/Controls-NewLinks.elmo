@@ -1,0 +1,530 @@
+var _user$project$Controls_NewLinks$update = F2(
+	function (msg, model) {
+		var linkToCreateBase = model.current.base;
+		var linkToCreate = model.current;
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'InputTitle':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						current: _elm_lang$core$Native_Utils.update(
+							linkToCreate,
+							{
+								base: _elm_lang$core$Native_Utils.update(
+									linkToCreateBase,
+									{
+										title: _user$project$Domain_Core$Title(_p0._0)
+									})
+							})
+					});
+			case 'InputUrl':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						current: _elm_lang$core$Native_Utils.update(
+							linkToCreate,
+							{
+								base: _elm_lang$core$Native_Utils.update(
+									linkToCreateBase,
+									{
+										url: _user$project$Domain_Core$Url(_p0._0)
+									})
+							})
+					});
+			case 'InputTopic':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						current: _elm_lang$core$Native_Utils.update(
+							linkToCreate,
+							{
+								currentTopic: A2(_user$project$Domain_Core$Topic, _p0._0, false)
+							})
+					});
+			case 'RemoveTopic':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						current: _elm_lang$core$Native_Utils.update(
+							linkToCreate,
+							{
+								base: _elm_lang$core$Native_Utils.update(
+									linkToCreateBase,
+									{
+										topics: A2(
+											_elm_lang$core$List$filter,
+											function (t) {
+												return !_elm_lang$core$Native_Utils.eq(t, _p0._0);
+											},
+											linkToCreateBase.topics)
+									})
+							})
+					});
+			case 'AssociateTopic':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						current: _elm_lang$core$Native_Utils.update(
+							linkToCreate,
+							{
+								currentTopic: A2(_user$project$Domain_Core$Topic, '', false),
+								base: _elm_lang$core$Native_Utils.update(
+									linkToCreateBase,
+									{
+										topics: {ctor: '::', _0: _p0._0, _1: linkToCreateBase.topics}
+									})
+							})
+					});
+			case 'InputContentType':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						current: _elm_lang$core$Native_Utils.update(
+							linkToCreate,
+							{
+								base: _elm_lang$core$Native_Utils.update(
+									linkToCreateBase,
+									{
+										contentType: _user$project$Domain_Core$toContentType(_p0._0)
+									})
+							})
+					});
+			default:
+				return _p0._0;
+		}
+	});
+var _user$project$Controls_NewLinks$AssociateTopic = function (a) {
+	return {ctor: 'AssociateTopic', _0: a};
+};
+var _user$project$Controls_NewLinks$AddLink = function (a) {
+	return {ctor: 'AddLink', _0: a};
+};
+var _user$project$Controls_NewLinks$InputContentType = function (a) {
+	return {ctor: 'InputContentType', _0: a};
+};
+var _user$project$Controls_NewLinks$RemoveTopic = function (a) {
+	return {ctor: 'RemoveTopic', _0: a};
+};
+var _user$project$Controls_NewLinks$InputTopic = function (a) {
+	return {ctor: 'InputTopic', _0: a};
+};
+var _user$project$Controls_NewLinks$InputUrl = function (a) {
+	return {ctor: 'InputUrl', _0: a};
+};
+var _user$project$Controls_NewLinks$InputTitle = function (a) {
+	return {ctor: 'InputTitle', _0: a};
+};
+var _user$project$Controls_NewLinks$view = function (model) {
+	var listbox = A2(
+		_elm_lang$html$Html$select,
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html_Events$on,
+				'change',
+				A2(_elm_lang$core$Json_Decode$map, _user$project$Controls_NewLinks$InputContentType, _elm_lang$html$Html_Events$targetValue)),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$option,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$value('instructions'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Content Type'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$option,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$value('Article'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Article'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$option,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$value('Video'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Video'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$option,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$value('Answer'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Answer'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$option,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$value('Podcast'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('Podcast'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			}
+		});
+	var _p1 = {ctor: '_Tuple2', _0: model.current, _1: model.current.base};
+	var current = _p1._0;
+	var base = _p1._1;
+	var selectedTopicsUI = A2(
+		_elm_lang$core$List$map,
+		function (t) {
+			return A2(
+				_elm_lang$html$Html$label,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_user$project$Domain_Core$getTopic(t)),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('remove'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(
+										_user$project$Controls_NewLinks$RemoveTopic(t)),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Remove'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
+							_1: {ctor: '[]'}
+						}
+					}
+				});
+		},
+		current.base.topics);
+	var toButton = function (topic) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$button,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							_user$project$Controls_NewLinks$AssociateTopic(topic)),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							_user$project$Domain_Core$getTopic(topic)),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$br,
+						{ctor: '[]'},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				}
+			});
+	};
+	var topicsSelectionUI = function (search) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			A2(
+				_elm_lang$core$List$map,
+				toButton,
+				_user$project$Settings$runtime.suggestedTopics(
+					_user$project$Domain_Core$getTopic(search))));
+	};
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$table,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$tr,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$td,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$input,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('addLinkText'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$type_('text'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$placeholder('title'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_NewLinks$InputTitle),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$value(
+																_user$project$Domain_Core$getTitle(base.title)),
+															_1: {ctor: '[]'}
+														}
+													}
+												}
+											}
+										},
+										{ctor: '[]'}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$tr,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$td,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$input,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('addLinkText'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$type_('text'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$placeholder('link'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_NewLinks$InputUrl),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$value(
+																	_user$project$Domain_Core$getUrl(base.url)),
+																_1: {ctor: '[]'}
+															}
+														}
+													}
+												}
+											},
+											{ctor: '[]'}),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$tr,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$td,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$table,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$tr,
+														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$td,
+																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$input,
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$type_('text'),
+																			_1: {
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$placeholder('topic'),
+																				_1: {
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_NewLinks$InputTopic),
+																					_1: {
+																						ctor: '::',
+																						_0: _elm_lang$html$Html_Attributes$value(
+																							_user$project$Domain_Core$getTopic(current.currentTopic)),
+																						_1: {ctor: '[]'}
+																					}
+																				}
+																			}
+																		},
+																		{ctor: '[]'}),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$td,
+																	{ctor: '[]'},
+																	{
+																		ctor: '::',
+																		_0: listbox,
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {ctor: '[]'}
+															}
+														}),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$tr,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$td,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: topicsSelectionUI(current.currentTopic),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$tr,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$td,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$div,
+														{ctor: '[]'},
+														selectedTopicsUI),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$tr,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$td,
+													{ctor: '[]'},
+													{ctor: '[]'}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$td,
+														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$button,
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Events$onClick(
+																		_user$project$Controls_NewLinks$AddLink(model)),
+																	_1: {ctor: '[]'}
+																},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text('Add Link'),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}
+											}),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					}
+				}),
+			_1: {ctor: '[]'}
+		});
+};

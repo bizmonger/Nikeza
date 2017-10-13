@@ -1,0 +1,8 @@
+Server/Nikeza.Server/bin/
+Server/Nikeza.Server/obj/
+Server/Nikeza.YouTube/bin/
+Server/Nikeza.YouTube/obj/
+Server/Nikeza.Wordpress/bin/
+Server/Nikeza.Wordpress/obj/
+Client/app/node_modules
+Client/app/Elm-Stuff

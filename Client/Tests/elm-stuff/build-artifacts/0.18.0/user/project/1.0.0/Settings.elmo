@@ -1,0 +1,42 @@
+var _user$project$Settings$Dependencies = function (a) {
+	return function (b) {
+		return function (c) {
+			return function (d) {
+				return function (e) {
+					return function (f) {
+						return function (g) {
+							return function (h) {
+								return function (i) {
+									return function (j) {
+										return function (k) {
+											return function (l) {
+												return function (m) {
+													return function (n) {
+														return function (o) {
+															return {tryLogin: a, tryRegister: b, contentProvider: c, contentProviders: d, links: e, addLink: f, removeLink: g, topicLinks: h, usernameToId: i, connections: j, addSource: k, removeSource: l, platforms: m, topics: n, suggestedTopics: o};
+														};
+													};
+												};
+											};
+										};
+									};
+								};
+							};
+						};
+					};
+				};
+			};
+		};
+	};
+};
+var _user$project$Settings$Isolation = {ctor: 'Isolation'};
+var _user$project$Settings$configuration = _user$project$Settings$Isolation;
+var _user$project$Settings$runtime = function () {
+	var _p0 = _user$project$Settings$configuration;
+	if (_p0.ctor === 'Integration') {
+		return _user$project$Settings$Dependencies(_user$project$Services_Server$tryLogin)(_user$project$Services_Server$tryRegister)(_user$project$Services_Server$contentProvider)(_user$project$Services_Server$contentProviders)(_user$project$Services_Server$links)(_user$project$Services_Server$addLink)(_user$project$Services_Server$removeLink)(_user$project$Services_Server$topicLinks)(_user$project$Services_Server$usernameToId)(_user$project$Services_Server$connections)(_user$project$Services_Server$addSource)(_user$project$Services_Server$removeSource)(_user$project$Services_Server$platforms)(_user$project$Services_Server$topics)(_user$project$Services_Server$suggestedTopics);
+	} else {
+		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$contentProvider)(_user$project$Tests_TestAPI$contentProviders)(_user$project$Tests_TestAPI$links)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$usernameToId)(_user$project$Tests_TestAPI$connections)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$platforms)(_user$project$Tests_TestAPI$topics)(_user$project$Tests_TestAPI$suggestedTopics);
+	}
+}();
+var _user$project$Settings$Integration = {ctor: 'Integration'};

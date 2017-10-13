@@ -1,0 +1,10 @@
+#!/bin/bash
+
+cd ..
+
+dotnet restore Nikeza.YouTube
+dotnet build Nikeza.YouTube/Nikeza.YouTube.fsproj
+dotnet restore Nikeza.Server
+dotnet build Nikeza.Server/Nikeza.Server.fsproj
+
+dotnet run --project Nikeza.Server/Nikeza.Server.fsproj

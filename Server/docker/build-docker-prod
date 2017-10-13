@@ -1,0 +1,12 @@
+#!/bin/bash
+
+cd ..
+
+dotnet restore Nikeza.YouTube
+dotnet build Nikeza.YouTube/Nikeza.YouTube.fsproj
+dotnet restore Nikeza.Server
+dotnet build Nikeza.Server/Nikeza.Server.fsproj
+
+dotnet publish -c release Nikeza.Server -o ../dist
+
+docker build -f ./docker/Dockerfile.prod -t nikeza-server-prod .

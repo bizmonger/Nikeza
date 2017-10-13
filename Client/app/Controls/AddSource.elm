@@ -1,0 +1,84 @@
+module Controls.AddSource exposing (..)
+
+import Domain.Core exposing (..)
+import Html exposing (..)
+import Html.Attributes exposing (..)
+import Html.Events exposing (..)
+import Json.Decode exposing (map)
+
+
+-- MODEL
+
+
+type alias Model =
+    { source : Source, sources : List Source }
+
+
+type Msg
+    = InputUsername String
+    | InputPlatform String
+    | Add Source
+    | Remove Source
+
+
+
+-- UPDATE
+
+
+update : Msg -> Model -> Model
+update msg model =
+    let
+        source =
+            model.source
+    in
+        case msg of
+            InputUsername v ->
+                { model | source = { source | username = v } }
+
+            InputPlatform v ->
+                { model | source = { source | platform = v } }
+
+            Add source ->
+                { model | sources = source :: model.sources }
+
+            Remove v ->
+                { model | sources = model.sources |> List.filter (\s -> s /= v) }
+
+
+view : Model -> List Platform -> Html Msg
+view model platforms =
+    let
+        instruction =
+            (option [ value "instructions" ] [ text "Select Platform" ])
+
+        platformOption platform =
+            option [ value <| platformText platform ] [ text <| platformText platform ]
+
+        changeHandler =
+            Html.Events.on "change" (Json.Decode.map InputPlatform Html.Events.targetValue)
+
+        records =
+            [ tr []
+                [ td [] [ select [ changeHandler, value model.source.platform ] <| instruction :: (platforms |> List.map platformOption) ]
+                , td [] [ input [ type_ "text", placeholder "username", onInput InputUsername, value model.source.username ] [] ]
+                , td [] [ button [ class "addSource", onClick <| Add model.source ] [ text "Add" ] ]
+                ]
+            ]
+
+        tableRecords =
+            List.append records (model.sources |> List.map sourceUI)
+    in
+        div [ class "mainContent" ]
+            [ h3 [] [ text "Sources" ]
+            , table [] tableRecords
+            ]
+
+
+sourceUI : Source -> Html Msg
+sourceUI source =
+    tr [ class "sources" ]
+        [ td [] [ text source.platform ]
+        , td [] [ i [] [ text source.username ] ]
+        , td [] [ text <| "(" ++ (source.linksFound |> toString) ++ ") links" ]
+        , td [] [ button [ onClick <| Remove source ] [ text "Disconnect" ] ]
+        ]

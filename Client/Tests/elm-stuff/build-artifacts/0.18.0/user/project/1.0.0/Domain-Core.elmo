@@ -1,0 +1,293 @@
+var _user$project$Domain_Core$contentTypeToText = function (contentType) {
+	var _p0 = contentType;
+	switch (_p0.ctor) {
+		case 'Article':
+			return 'Articles';
+		case 'Video':
+			return 'Videos';
+		case 'Podcast':
+			return 'Podcasts';
+		case 'Answer':
+			return 'Answers';
+		case 'Unknown':
+			return 'Unknown';
+		default:
+			return '';
+	}
+};
+var _user$project$Domain_Core$toTopicNames = function (topics) {
+	return A2(
+		_elm_lang$core$List$map,
+		function (topic) {
+			return topic.name;
+		},
+		topics);
+};
+var _user$project$Domain_Core$undefined = 'undefined';
+var _user$project$Domain_Core$getLinks = F4(
+	function (topicLinksfunction, topic, contentType, id) {
+		return A3(topicLinksfunction, topic, contentType, id);
+	});
+var _user$project$Domain_Core$getContent = F2(
+	function (f, profileId) {
+		return f(profileId);
+	});
+var _user$project$Domain_Core$tryLogin = F3(
+	function (loginf, username, password) {
+		return loginf(
+			A3(_user$project$Controls_Login$Model, username, password, false));
+	});
+var _user$project$Domain_Core$getPosts = F2(
+	function (contentType, links) {
+		var _p1 = contentType;
+		switch (_p1.ctor) {
+			case 'Answer':
+				return links.answers;
+			case 'Article':
+				return links.articles;
+			case 'Podcast':
+				return links.podcasts;
+			case 'Video':
+				return links.videos;
+			case 'Unknown':
+				return {ctor: '[]'};
+			default:
+				return {ctor: '[]'};
+		}
+	});
+var _user$project$Domain_Core$getPlatform = function (platform) {
+	var _p2 = platform;
+	var value = _p2._0;
+	return value;
+};
+var _user$project$Domain_Core$getTopic = function (topic) {
+	return topic.name;
+};
+var _user$project$Domain_Core$hasMatch = F2(
+	function (topic, topics) {
+		return A2(
+			_elm_lang$core$List$member,
+			_user$project$Domain_Core$getTopic(topic),
+			_user$project$Domain_Core$toTopicNames(topics));
+	});
+var _user$project$Domain_Core$getUrl = function (url) {
+	var _p3 = url;
+	var value = _p3._0;
+	return value;
+};
+var _user$project$Domain_Core$toUrl = function (link) {
+	return _user$project$Domain_Core$getUrl(link.url);
+};
+var _user$project$Domain_Core$getTitle = function (title) {
+	var _p4 = title;
+	var value = _p4._0;
+	return value;
+};
+var _user$project$Domain_Core$getEmail = function (email) {
+	var _p5 = email;
+	var value = _p5._0;
+	return value;
+};
+var _user$project$Domain_Core$getName = function (name) {
+	var _p6 = name;
+	var value = _p6._0;
+	return value;
+};
+var _user$project$Domain_Core$getId = function (id) {
+	var _p7 = id;
+	var value = _p7._0;
+	return value;
+};
+var _user$project$Domain_Core$initLinks = {
+	answers: {ctor: '[]'},
+	articles: {ctor: '[]'},
+	videos: {ctor: '[]'},
+	podcasts: {ctor: '[]'}
+};
+var _user$project$Domain_Core$linksExist = function (links) {
+	return !_elm_lang$core$Native_Utils.eq(links, _user$project$Domain_Core$initLinks);
+};
+var _user$project$Domain_Core$initTopics = {ctor: '[]'};
+var _user$project$Domain_Core$Links = F4(
+	function (a, b, c, d) {
+		return {answers: a, articles: b, videos: c, podcasts: d};
+	});
+var _user$project$Domain_Core$ContentProvider = F4(
+	function (a, b, c, d) {
+		return {profile: a, showAll: b, topics: c, links: d};
+	});
+var _user$project$Domain_Core$Portal = F7(
+	function (a, b, c, d, e, f, g) {
+		return {contentProvider: a, sourcesNavigation: b, addLinkNavigation: c, linksNavigation: d, requested: e, newSource: f, newLinks: g};
+	});
+var _user$project$Domain_Core$Profile = F7(
+	function (a, b, c, d, e, f, g) {
+		return {id: a, firstName: b, lastName: c, email: d, imageUrl: e, bio: f, sources: g};
+	});
+var _user$project$Domain_Core$Topic = F2(
+	function (a, b) {
+		return {name: a, isFeatured: b};
+	});
+var _user$project$Domain_Core$Link = F5(
+	function (a, b, c, d, e) {
+		return {profile: a, title: b, url: c, contentType: d, topics: e};
+	});
+var _user$project$Domain_Core$LinkToCreate = F2(
+	function (a, b) {
+		return {base: a, currentTopic: b};
+	});
+var _user$project$Domain_Core$NewLinks = F3(
+	function (a, b, c) {
+		return {current: a, canAdd: b, added: c};
+	});
+var _user$project$Domain_Core$Source = F3(
+	function (a, b, c) {
+		return {platform: a, username: b, linksFound: c};
+	});
+var _user$project$Domain_Core$initSource = A3(_user$project$Domain_Core$Source, '', '', 0);
+var _user$project$Domain_Core$Id = function (a) {
+	return {ctor: 'Id', _0: a};
+};
+var _user$project$Domain_Core$Name = function (a) {
+	return {ctor: 'Name', _0: a};
+};
+var _user$project$Domain_Core$Email = function (a) {
+	return {ctor: 'Email', _0: a};
+};
+var _user$project$Domain_Core$Title = function (a) {
+	return {ctor: 'Title', _0: a};
+};
+var _user$project$Domain_Core$Url = function (a) {
+	return {ctor: 'Url', _0: a};
+};
+var _user$project$Domain_Core$initProfile = {
+	id: _user$project$Domain_Core$Id(_user$project$Domain_Core$undefined),
+	firstName: _user$project$Domain_Core$Name(_user$project$Domain_Core$undefined),
+	lastName: _user$project$Domain_Core$Name(_user$project$Domain_Core$undefined),
+	email: _user$project$Domain_Core$Email(_user$project$Domain_Core$undefined),
+	imageUrl: _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined),
+	bio: _user$project$Domain_Core$undefined,
+	sources: {ctor: '[]'}
+};
+var _user$project$Domain_Core$topicUrl = F2(
+	function (id, topic) {
+		return _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined);
+	});
+var _user$project$Domain_Core$contentProviderTopicUrl = F2(
+	function (id, topic) {
+		return _user$project$Domain_Core$Url(
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				'/#/contentProvider/',
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					_user$project$Domain_Core$getId(id),
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						'/',
+						_user$project$Domain_Core$getTopic(topic)))));
+	});
+var _user$project$Domain_Core$contentProviderUrl = function (id) {
+	return _user$project$Domain_Core$Url(
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			'/#/contentProvider/',
+			_user$project$Domain_Core$getId(id)));
+};
+var _user$project$Domain_Core$moreContentProviderContentUrl = F2(
+	function (id, contentType) {
+		return _user$project$Domain_Core$Url(
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				'/#/contentProvider/',
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					_user$project$Domain_Core$getId(id),
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						'/all/',
+						_user$project$Domain_Core$contentTypeToText(contentType)))));
+	});
+var _user$project$Domain_Core$moreContentProviderContentOnTopicUrl = F3(
+	function (id, contentType, topic) {
+		return _user$project$Domain_Core$Url(
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				'/#/contentProvider/',
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					_user$project$Domain_Core$getId(id),
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						'/',
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							_user$project$Domain_Core$getTopic(topic),
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								'/all/',
+								_user$project$Domain_Core$contentTypeToText(contentType)))))));
+	});
+var _user$project$Domain_Core$Platform = function (a) {
+	return {ctor: 'Platform', _0: a};
+};
+var _user$project$Domain_Core$EditProfile = {ctor: 'EditProfile'};
+var _user$project$Domain_Core$AddLink = {ctor: 'AddLink'};
+var _user$project$Domain_Core$ViewLinks = {ctor: 'ViewLinks'};
+var _user$project$Domain_Core$ViewSources = {ctor: 'ViewSources'};
+var _user$project$Domain_Core$Unknown = {ctor: 'Unknown'};
+var _user$project$Domain_Core$initLink = {
+	profile: _user$project$Domain_Core$initProfile,
+	title: _user$project$Domain_Core$Title(''),
+	url: _user$project$Domain_Core$Url(''),
+	contentType: _user$project$Domain_Core$Unknown,
+	topics: {ctor: '[]'}
+};
+var _user$project$Domain_Core$initLinkToCreate = {
+	base: _user$project$Domain_Core$initLink,
+	currentTopic: A2(_user$project$Domain_Core$Topic, '', false)
+};
+var _user$project$Domain_Core$initContentProvider = function () {
+	var addedLinks = A3(
+		_user$project$Domain_Core$NewLinks,
+		_user$project$Domain_Core$initLinkToCreate,
+		false,
+		{ctor: '[]'});
+	return A4(_user$project$Domain_Core$ContentProvider, _user$project$Domain_Core$initProfile, true, _user$project$Domain_Core$initTopics, _user$project$Domain_Core$initLinks);
+}();
+var _user$project$Domain_Core$initNewLinks = {
+	current: _user$project$Domain_Core$initLinkToCreate,
+	canAdd: false,
+	added: {ctor: '[]'}
+};
+var _user$project$Domain_Core$initPortal = {contentProvider: _user$project$Domain_Core$initContentProvider, sourcesNavigation: false, addLinkNavigation: false, linksNavigation: false, requested: _user$project$Domain_Core$EditProfile, newSource: _user$project$Domain_Core$initSource, newLinks: _user$project$Domain_Core$initNewLinks};
+var _user$project$Domain_Core$All = {ctor: 'All'};
+var _user$project$Domain_Core$Answer = {ctor: 'Answer'};
+var _user$project$Domain_Core$Podcast = {ctor: 'Podcast'};
+var _user$project$Domain_Core$Video = {ctor: 'Video'};
+var _user$project$Domain_Core$Article = {ctor: 'Article'};
+var _user$project$Domain_Core$toContentType = function (contentType) {
+	var _p8 = contentType;
+	switch (_p8) {
+		case 'Articles':
+			return _user$project$Domain_Core$Article;
+		case 'Article':
+			return _user$project$Domain_Core$Article;
+		case 'Videos':
+			return _user$project$Domain_Core$Video;
+		case 'Video':
+			return _user$project$Domain_Core$Video;
+		case 'Podcasts':
+			return _user$project$Domain_Core$Podcast;
+		case 'Podcast':
+			return _user$project$Domain_Core$Podcast;
+		case 'Answers':
+			return _user$project$Domain_Core$Answer;
+		case 'Answer':
+			return _user$project$Domain_Core$Answer;
+		case 'Unknown':
+			return _user$project$Domain_Core$Unknown;
+		default:
+			return _user$project$Domain_Core$Unknown;
+	}
+};

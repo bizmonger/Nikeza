@@ -1,0 +1,660 @@
+var _user$project$Tests_TestAPI$platforms = {
+	ctor: '::',
+	_0: _user$project$Domain_Core$Platform('WordPress'),
+	_1: {
+		ctor: '::',
+		_0: _user$project$Domain_Core$Platform('YouTube'),
+		_1: {
+			ctor: '::',
+			_0: _user$project$Domain_Core$Platform('Vimeo'),
+			_1: {
+				ctor: '::',
+				_0: _user$project$Domain_Core$Platform('Medium'),
+				_1: {
+					ctor: '::',
+					_0: _user$project$Domain_Core$Platform('StackOverflow'),
+					_1: {ctor: '[]'}
+				}
+			}
+		}
+	}
+};
+var _user$project$Tests_TestAPI$connections = function (profileId) {
+	return {
+		ctor: '::',
+		_0: {platform: 'WordPress', username: 'bizmonger', linksFound: 0},
+		_1: {
+			ctor: '::',
+			_0: {platform: 'YouTube', username: 'bizmonger', linksFound: 0},
+			_1: {
+				ctor: '::',
+				_0: {platform: 'StackOverflow', username: 'scott-nimrod', linksFound: 0},
+				_1: {ctor: '[]'}
+			}
+		}
+	};
+};
+var _user$project$Tests_TestAPI$addSource = F2(
+	function (profileId, connection) {
+		return _elm_lang$core$Result$Ok(
+			{
+				ctor: '::',
+				_0: connection,
+				_1: _user$project$Tests_TestAPI$connections(profileId)
+			});
+	});
+var _user$project$Tests_TestAPI$removeSource = F2(
+	function (profileId, connection) {
+		return _elm_lang$core$Result$Ok(
+			A2(
+				_elm_lang$core$List$filter,
+				function (c) {
+					return A2(
+						_elm_lang$core$List$member,
+						connection,
+						_user$project$Tests_TestAPI$connections(profileId));
+				},
+				_user$project$Tests_TestAPI$connections(profileId)));
+	});
+var _user$project$Tests_TestAPI$tryLogin = function (credentials) {
+	var successful = _elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$String$toLower(credentials.email),
+		'test') && _elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$String$toLower(credentials.password),
+		'test');
+	return successful ? {email: credentials.email, password: credentials.password, loggedIn: true} : {email: credentials.email, password: credentials.password, loggedIn: false};
+};
+var _user$project$Tests_TestAPI$someEmail = _user$project$Domain_Core$Email('abc@abc.com');
+var _user$project$Tests_TestAPI$someDescrtiption = 'some description...';
+var _user$project$Tests_TestAPI$someQuestionTitle5 = _user$project$Domain_Core$Title('Some Unit Test Question');
+var _user$project$Tests_TestAPI$someQuestionTitle4 = _user$project$Domain_Core$Title('Some Elm Question');
+var _user$project$Tests_TestAPI$someQuestionTitle3 = _user$project$Domain_Core$Title('Some F# Question');
+var _user$project$Tests_TestAPI$someQuestionTitle2 = _user$project$Domain_Core$Title('Some Xamarin.Forms Question');
+var _user$project$Tests_TestAPI$someQuestionTitle1 = _user$project$Domain_Core$Title('Some WPF Question');
+var _user$project$Tests_TestAPI$somePodcastTitle5 = _user$project$Domain_Core$Title('Some Unit Test Podcast');
+var _user$project$Tests_TestAPI$somePodcastTitle4 = _user$project$Domain_Core$Title('Some Elm Podcast');
+var _user$project$Tests_TestAPI$somePodcastTitle3 = _user$project$Domain_Core$Title('Some F# Podcast');
+var _user$project$Tests_TestAPI$somePodcastTitle2 = _user$project$Domain_Core$Title('Some Xamarin.Forms Podcast');
+var _user$project$Tests_TestAPI$somePodcastTitle1 = _user$project$Domain_Core$Title('Some WPF Podcast');
+var _user$project$Tests_TestAPI$someVideoTitle5 = _user$project$Domain_Core$Title('Some Unit Test Video');
+var _user$project$Tests_TestAPI$someVideoTitle4 = _user$project$Domain_Core$Title('Some Elm Video');
+var _user$project$Tests_TestAPI$someVideoTitle3 = _user$project$Domain_Core$Title('Some F# Video');
+var _user$project$Tests_TestAPI$someVideoTitle2 = _user$project$Domain_Core$Title('Some Xaarin.Forms Video');
+var _user$project$Tests_TestAPI$someVideoTitle1 = _user$project$Domain_Core$Title('Some WPF Video');
+var _user$project$Tests_TestAPI$someArticleTitle5 = _user$project$Domain_Core$Title('Some Unit Test Article');
+var _user$project$Tests_TestAPI$someArticleTitle4 = _user$project$Domain_Core$Title('Some Elm Article');
+var _user$project$Tests_TestAPI$someArticleTitle3 = _user$project$Domain_Core$Title('Some F# Article');
+var _user$project$Tests_TestAPI$someArticleTitle2 = _user$project$Domain_Core$Title('Some Xamarin.Forms Article');
+var _user$project$Tests_TestAPI$someArticleTitle1 = _user$project$Domain_Core$Title('Some WPF Article');
+var _user$project$Tests_TestAPI$someImageUrl = _user$project$Domain_Core$Url('http://www.ngu.edu/myimages/silhouette2230.jpg');
+var _user$project$Tests_TestAPI$someUrl = _user$project$Domain_Core$Url('http://some_url.com');
+var _user$project$Tests_TestAPI$someTopic5 = A2(_user$project$Domain_Core$Topic, 'unit-tests', false);
+var _user$project$Tests_TestAPI$someTopic4 = A2(_user$project$Domain_Core$Topic, 'Elm', true);
+var _user$project$Tests_TestAPI$someTopic3 = A2(_user$project$Domain_Core$Topic, 'F#', true);
+var _user$project$Tests_TestAPI$someTopic2 = A2(_user$project$Domain_Core$Topic, 'Xamarin.Forms', true);
+var _user$project$Tests_TestAPI$someTopic1 = A2(_user$project$Domain_Core$Topic, 'WPF', true);
+var _user$project$Tests_TestAPI$topics = {
+	ctor: '::',
+	_0: _user$project$Tests_TestAPI$someTopic1,
+	_1: {
+		ctor: '::',
+		_0: _user$project$Tests_TestAPI$someTopic2,
+		_1: {
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$someTopic3,
+			_1: {
+				ctor: '::',
+				_0: _user$project$Tests_TestAPI$someTopic4,
+				_1: {
+					ctor: '::',
+					_0: _user$project$Tests_TestAPI$someTopic5,
+					_1: {ctor: '[]'}
+				}
+			}
+		}
+	}
+};
+var _user$project$Tests_TestAPI$suggestedTopics = function (search) {
+	return (!_elm_lang$core$String$isEmpty(search)) ? A2(
+		_elm_lang$core$List$filter,
+		function (t) {
+			return A2(
+				_elm_lang$core$String$contains,
+				_elm_lang$core$String$toLower(search),
+				_elm_lang$core$String$toLower(
+					_user$project$Domain_Core$getTopic(t)));
+		},
+		_user$project$Tests_TestAPI$topics) : {ctor: '[]'};
+};
+var _user$project$Tests_TestAPI$profileId3 = _user$project$Domain_Core$Id('profile_3');
+var _user$project$Tests_TestAPI$profile3 = A7(
+	_user$project$Domain_Core$Profile,
+	_user$project$Tests_TestAPI$profileId3,
+	_user$project$Domain_Core$Name('Adam'),
+	_user$project$Domain_Core$Name('Wright'),
+	_user$project$Tests_TestAPI$someEmail,
+	_user$project$Tests_TestAPI$someImageUrl,
+	_user$project$Tests_TestAPI$someDescrtiption,
+	_user$project$Tests_TestAPI$connections(_user$project$Tests_TestAPI$profileId3));
+var _user$project$Tests_TestAPI$profileId2 = _user$project$Domain_Core$Id('profile_2');
+var _user$project$Tests_TestAPI$profile2 = A7(
+	_user$project$Domain_Core$Profile,
+	_user$project$Tests_TestAPI$profileId2,
+	_user$project$Domain_Core$Name('Pablo'),
+	_user$project$Domain_Core$Name('Rivera'),
+	_user$project$Tests_TestAPI$someEmail,
+	_user$project$Tests_TestAPI$someImageUrl,
+	_user$project$Tests_TestAPI$someDescrtiption,
+	_user$project$Tests_TestAPI$connections(_user$project$Tests_TestAPI$profileId2));
+var _user$project$Tests_TestAPI$profileId1 = _user$project$Domain_Core$Id('profile_1');
+var _user$project$Tests_TestAPI$profile1 = A7(
+	_user$project$Domain_Core$Profile,
+	_user$project$Tests_TestAPI$profileId1,
+	_user$project$Domain_Core$Name('Scott'),
+	_user$project$Domain_Core$Name('Nimrod'),
+	_user$project$Tests_TestAPI$someEmail,
+	_user$project$Tests_TestAPI$someImageUrl,
+	_user$project$Tests_TestAPI$someDescrtiption,
+	_user$project$Tests_TestAPI$connections(_user$project$Tests_TestAPI$profileId1));
+var _user$project$Tests_TestAPI$linksToContent = F2(
+	function (contentType, profileId) {
+		var _p0 = contentType;
+		switch (_p0.ctor) {
+			case 'Article':
+				return {
+					ctor: '::',
+					_0: A5(
+						_user$project$Domain_Core$Link,
+						_user$project$Tests_TestAPI$profile1,
+						_user$project$Tests_TestAPI$someArticleTitle1,
+						_user$project$Tests_TestAPI$someUrl,
+						_user$project$Domain_Core$Article,
+						{
+							ctor: '::',
+							_0: _user$project$Tests_TestAPI$someTopic1,
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A5(
+							_user$project$Domain_Core$Link,
+							_user$project$Tests_TestAPI$profile1,
+							_user$project$Tests_TestAPI$someArticleTitle2,
+							_user$project$Tests_TestAPI$someUrl,
+							_user$project$Domain_Core$Article,
+							{
+								ctor: '::',
+								_0: _user$project$Tests_TestAPI$someTopic2,
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A5(
+								_user$project$Domain_Core$Link,
+								_user$project$Tests_TestAPI$profile1,
+								_user$project$Tests_TestAPI$someArticleTitle3,
+								_user$project$Tests_TestAPI$someUrl,
+								_user$project$Domain_Core$Article,
+								{
+									ctor: '::',
+									_0: _user$project$Tests_TestAPI$someTopic3,
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A5(
+									_user$project$Domain_Core$Link,
+									_user$project$Tests_TestAPI$profile1,
+									_user$project$Tests_TestAPI$someArticleTitle4,
+									_user$project$Tests_TestAPI$someUrl,
+									_user$project$Domain_Core$Article,
+									{
+										ctor: '::',
+										_0: _user$project$Tests_TestAPI$someTopic4,
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A5(
+										_user$project$Domain_Core$Link,
+										_user$project$Tests_TestAPI$profile1,
+										_user$project$Tests_TestAPI$someArticleTitle5,
+										_user$project$Tests_TestAPI$someUrl,
+										_user$project$Domain_Core$Article,
+										{
+											ctor: '::',
+											_0: _user$project$Tests_TestAPI$someTopic5,
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				};
+			case 'Video':
+				return {
+					ctor: '::',
+					_0: A5(
+						_user$project$Domain_Core$Link,
+						_user$project$Tests_TestAPI$profile1,
+						_user$project$Tests_TestAPI$someVideoTitle1,
+						_user$project$Tests_TestAPI$someUrl,
+						_user$project$Domain_Core$Video,
+						{
+							ctor: '::',
+							_0: _user$project$Tests_TestAPI$someTopic1,
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A5(
+							_user$project$Domain_Core$Link,
+							_user$project$Tests_TestAPI$profile1,
+							_user$project$Tests_TestAPI$someVideoTitle2,
+							_user$project$Tests_TestAPI$someUrl,
+							_user$project$Domain_Core$Video,
+							{
+								ctor: '::',
+								_0: _user$project$Tests_TestAPI$someTopic2,
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A5(
+								_user$project$Domain_Core$Link,
+								_user$project$Tests_TestAPI$profile1,
+								_user$project$Tests_TestAPI$someVideoTitle3,
+								_user$project$Tests_TestAPI$someUrl,
+								_user$project$Domain_Core$Video,
+								{
+									ctor: '::',
+									_0: _user$project$Tests_TestAPI$someTopic3,
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A5(
+									_user$project$Domain_Core$Link,
+									_user$project$Tests_TestAPI$profile1,
+									_user$project$Tests_TestAPI$someVideoTitle4,
+									_user$project$Tests_TestAPI$someUrl,
+									_user$project$Domain_Core$Video,
+									{
+										ctor: '::',
+										_0: _user$project$Tests_TestAPI$someTopic4,
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A5(
+										_user$project$Domain_Core$Link,
+										_user$project$Tests_TestAPI$profile1,
+										_user$project$Tests_TestAPI$someVideoTitle5,
+										_user$project$Tests_TestAPI$someUrl,
+										_user$project$Domain_Core$Video,
+										{
+											ctor: '::',
+											_0: _user$project$Tests_TestAPI$someTopic5,
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				};
+			case 'Podcast':
+				return {
+					ctor: '::',
+					_0: A5(
+						_user$project$Domain_Core$Link,
+						_user$project$Tests_TestAPI$profile1,
+						_user$project$Tests_TestAPI$somePodcastTitle1,
+						_user$project$Tests_TestAPI$someUrl,
+						_user$project$Domain_Core$Podcast,
+						{
+							ctor: '::',
+							_0: _user$project$Tests_TestAPI$someTopic1,
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A5(
+							_user$project$Domain_Core$Link,
+							_user$project$Tests_TestAPI$profile1,
+							_user$project$Tests_TestAPI$somePodcastTitle2,
+							_user$project$Tests_TestAPI$someUrl,
+							_user$project$Domain_Core$Podcast,
+							{
+								ctor: '::',
+								_0: _user$project$Tests_TestAPI$someTopic2,
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A5(
+								_user$project$Domain_Core$Link,
+								_user$project$Tests_TestAPI$profile1,
+								_user$project$Tests_TestAPI$somePodcastTitle3,
+								_user$project$Tests_TestAPI$someUrl,
+								_user$project$Domain_Core$Podcast,
+								{
+									ctor: '::',
+									_0: _user$project$Tests_TestAPI$someTopic3,
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A5(
+									_user$project$Domain_Core$Link,
+									_user$project$Tests_TestAPI$profile1,
+									_user$project$Tests_TestAPI$somePodcastTitle4,
+									_user$project$Tests_TestAPI$someUrl,
+									_user$project$Domain_Core$Podcast,
+									{
+										ctor: '::',
+										_0: _user$project$Tests_TestAPI$someTopic4,
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A5(
+										_user$project$Domain_Core$Link,
+										_user$project$Tests_TestAPI$profile1,
+										_user$project$Tests_TestAPI$somePodcastTitle5,
+										_user$project$Tests_TestAPI$someUrl,
+										_user$project$Domain_Core$Podcast,
+										{
+											ctor: '::',
+											_0: _user$project$Tests_TestAPI$someTopic5,
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				};
+			case 'Answer':
+				return {
+					ctor: '::',
+					_0: A5(
+						_user$project$Domain_Core$Link,
+						_user$project$Tests_TestAPI$profile1,
+						_user$project$Tests_TestAPI$someQuestionTitle1,
+						_user$project$Tests_TestAPI$someUrl,
+						_user$project$Domain_Core$Answer,
+						{
+							ctor: '::',
+							_0: _user$project$Tests_TestAPI$someTopic1,
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A5(
+							_user$project$Domain_Core$Link,
+							_user$project$Tests_TestAPI$profile1,
+							_user$project$Tests_TestAPI$someQuestionTitle2,
+							_user$project$Tests_TestAPI$someUrl,
+							_user$project$Domain_Core$Answer,
+							{
+								ctor: '::',
+								_0: _user$project$Tests_TestAPI$someTopic2,
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A5(
+								_user$project$Domain_Core$Link,
+								_user$project$Tests_TestAPI$profile1,
+								_user$project$Tests_TestAPI$someQuestionTitle3,
+								_user$project$Tests_TestAPI$someUrl,
+								_user$project$Domain_Core$Answer,
+								{
+									ctor: '::',
+									_0: _user$project$Tests_TestAPI$someTopic3,
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A5(
+									_user$project$Domain_Core$Link,
+									_user$project$Tests_TestAPI$profile1,
+									_user$project$Tests_TestAPI$someQuestionTitle4,
+									_user$project$Tests_TestAPI$someUrl,
+									_user$project$Domain_Core$Answer,
+									{
+										ctor: '::',
+										_0: _user$project$Tests_TestAPI$someTopic4,
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A5(
+										_user$project$Domain_Core$Link,
+										_user$project$Tests_TestAPI$profile1,
+										_user$project$Tests_TestAPI$someQuestionTitle5,
+										_user$project$Tests_TestAPI$someUrl,
+										_user$project$Domain_Core$Answer,
+										{
+											ctor: '::',
+											_0: _user$project$Tests_TestAPI$someTopic5,
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				};
+			case 'All':
+				return {ctor: '[]'};
+			default:
+				return {ctor: '[]'};
+		}
+	});
+var _user$project$Tests_TestAPI$answers = function (id) {
+	return A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Answer, id);
+};
+var _user$project$Tests_TestAPI$articles = function (id) {
+	return A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Article, id);
+};
+var _user$project$Tests_TestAPI$videos = function (id) {
+	return A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Video, id);
+};
+var _user$project$Tests_TestAPI$podcasts = function (id) {
+	return A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Podcast, id);
+};
+var _user$project$Tests_TestAPI$contentProvider1Links = A4(
+	_user$project$Domain_Core$Links,
+	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId1),
+	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId1),
+	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId1),
+	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId1));
+var _user$project$Tests_TestAPI$contentProvider1 = A4(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile1, true, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider1Links);
+var _user$project$Tests_TestAPI$contentProvider2Links = A4(
+	_user$project$Domain_Core$Links,
+	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId2),
+	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId2),
+	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId2),
+	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId2));
+var _user$project$Tests_TestAPI$contentProvider2 = A4(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile2, true, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider2Links);
+var _user$project$Tests_TestAPI$contentProvider3Links = A4(
+	_user$project$Domain_Core$Links,
+	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId3),
+	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId3),
+	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId3),
+	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId3));
+var _user$project$Tests_TestAPI$contentProvider3 = A4(_user$project$Domain_Core$ContentProvider, _user$project$Tests_TestAPI$profile3, true, _user$project$Tests_TestAPI$topics, _user$project$Tests_TestAPI$contentProvider3Links);
+var _user$project$Tests_TestAPI$contentProviders = {
+	ctor: '::',
+	_0: _user$project$Tests_TestAPI$contentProvider1,
+	_1: {
+		ctor: '::',
+		_0: _user$project$Tests_TestAPI$contentProvider2,
+		_1: {
+			ctor: '::',
+			_0: _user$project$Tests_TestAPI$contentProvider3,
+			_1: {ctor: '[]'}
+		}
+	}
+};
+var _user$project$Tests_TestAPI$links = function (id) {
+	return {
+		answers: A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Answer, id),
+		articles: A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Article, id),
+		videos: A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Video, id),
+		podcasts: A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Podcast, id)
+	};
+};
+var _user$project$Tests_TestAPI$addLink = F2(
+	function (profileId, link) {
+		var currentLinks = _user$project$Tests_TestAPI$links(profileId);
+		var _p1 = link.contentType;
+		switch (_p1.ctor) {
+			case 'All':
+				return _elm_lang$core$Result$Err('Failed to add link: Cannot add link to \'ALL\'');
+			case 'Unknown':
+				return _elm_lang$core$Result$Err('Failed to add link: Contenttype of link is unknown');
+			case 'Answer':
+				return _elm_lang$core$Result$Ok(
+					_elm_lang$core$Native_Utils.update(
+						currentLinks,
+						{
+							answers: {ctor: '::', _0: link, _1: currentLinks.answers}
+						}));
+			case 'Article':
+				return _elm_lang$core$Result$Ok(
+					_elm_lang$core$Native_Utils.update(
+						currentLinks,
+						{
+							articles: {ctor: '::', _0: link, _1: currentLinks.articles}
+						}));
+			case 'Video':
+				return _elm_lang$core$Result$Ok(
+					_elm_lang$core$Native_Utils.update(
+						currentLinks,
+						{
+							videos: {ctor: '::', _0: link, _1: currentLinks.videos}
+						}));
+			default:
+				return _elm_lang$core$Result$Ok(
+					_elm_lang$core$Native_Utils.update(
+						currentLinks,
+						{
+							podcasts: {ctor: '::', _0: link, _1: currentLinks.podcasts}
+						}));
+		}
+	});
+var _user$project$Tests_TestAPI$removeLink = F2(
+	function (profileId, link) {
+		var currentLinks = _user$project$Tests_TestAPI$links(profileId);
+		var _p2 = link.contentType;
+		switch (_p2.ctor) {
+			case 'All':
+				return _elm_lang$core$Result$Err('Failed to add link: Cannot add link to \'ALL\'');
+			case 'Unknown':
+				return _elm_lang$core$Result$Err('Failed to add link: Contenttype of link is unknown');
+			case 'Answer':
+				var updated = A2(
+					_elm_lang$core$List$filter,
+					function (link) {
+						return A2(_elm_lang$core$List$member, link, currentLinks.answers);
+					},
+					currentLinks.answers);
+				return _elm_lang$core$Result$Ok(
+					_elm_lang$core$Native_Utils.update(
+						currentLinks,
+						{answers: updated}));
+			case 'Article':
+				var updated = A2(
+					_elm_lang$core$List$filter,
+					function (link) {
+						return A2(_elm_lang$core$List$member, link, currentLinks.articles);
+					},
+					currentLinks.articles);
+				return _elm_lang$core$Result$Ok(
+					_elm_lang$core$Native_Utils.update(
+						currentLinks,
+						{articles: updated}));
+			case 'Video':
+				var updated = A2(
+					_elm_lang$core$List$filter,
+					function (link) {
+						return A2(_elm_lang$core$List$member, link, currentLinks.videos);
+					},
+					currentLinks.videos);
+				return _elm_lang$core$Result$Ok(
+					_elm_lang$core$Native_Utils.update(
+						currentLinks,
+						{videos: updated}));
+			default:
+				var updated = A2(
+					_elm_lang$core$List$filter,
+					function (link) {
+						return A2(_elm_lang$core$List$member, link, currentLinks.podcasts);
+					},
+					currentLinks.podcasts);
+				return _elm_lang$core$Result$Ok(
+					_elm_lang$core$Native_Utils.update(
+						currentLinks,
+						{podcasts: updated}));
+		}
+	});
+var _user$project$Tests_TestAPI$topicLinks = F3(
+	function (topic, contentType, id) {
+		return A2(
+			_elm_lang$core$List$filter,
+			function (link) {
+				return A2(
+					_elm_lang$core$List$any,
+					function (t) {
+						return _elm_lang$core$Native_Utils.eq(t.name, topic.name);
+					},
+					link.topics);
+			},
+			A2(_user$project$Tests_TestAPI$linksToContent, contentType, id));
+	});
+var _user$project$Tests_TestAPI$usernameToId = function (email) {
+	var _p3 = email;
+	switch (_p3) {
+		case 'test':
+			return _user$project$Tests_TestAPI$profileId1;
+		case 'profile_1':
+			return _user$project$Tests_TestAPI$profileId1;
+		case 'profile_2':
+			return _user$project$Tests_TestAPI$profileId2;
+		case 'profile_3':
+			return _user$project$Tests_TestAPI$profileId3;
+		default:
+			return _user$project$Domain_Core$Id(_user$project$Domain_Core$undefined);
+	}
+};
+var _user$project$Tests_TestAPI$someProfileId = _user$project$Domain_Core$Id('some_profile_id');
+var _user$project$Tests_TestAPI$tryRegister = function (form) {
+	var successful = _elm_lang$core$Native_Utils.eq(form.password, form.confirm);
+	if (successful) {
+		var profile = A7(
+			_user$project$Domain_Core$Profile,
+			_user$project$Tests_TestAPI$someProfileId,
+			_user$project$Domain_Core$Name(form.firstName),
+			_user$project$Domain_Core$Name(form.lastName),
+			_user$project$Domain_Core$Email(form.email),
+			_user$project$Tests_TestAPI$someImageUrl,
+			'',
+			{ctor: '[]'});
+		return _elm_lang$core$Result$Ok(
+			A4(
+				_user$project$Domain_Core$ContentProvider,
+				profile,
+				true,
+				{ctor: '[]'},
+				_user$project$Domain_Core$initLinks));
+	} else {
+		return _elm_lang$core$Result$Err('Registration failed');
+	}
+};
+var _user$project$Tests_TestAPI$contentProvider = function (id) {
+	return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider3) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$someProfileId) ? _elm_lang$core$Maybe$Just(_user$project$Tests_TestAPI$contentProvider1) : _elm_lang$core$Maybe$Nothing)));
+};

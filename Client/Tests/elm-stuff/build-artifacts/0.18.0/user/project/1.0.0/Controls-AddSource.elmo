@@ -1,0 +1,272 @@
+var _user$project$Controls_AddSource$update = F2(
+	function (msg, model) {
+		var source = model.source;
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'InputUsername':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						source: _elm_lang$core$Native_Utils.update(
+							source,
+							{username: _p0._0})
+					});
+			case 'InputPlatform':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						source: _elm_lang$core$Native_Utils.update(
+							source,
+							{platform: _p0._0})
+					});
+			case 'Add':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						sources: {ctor: '::', _0: _p0._0, _1: model.sources}
+					});
+			default:
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						sources: A2(
+							_elm_lang$core$List$filter,
+							function (s) {
+								return !_elm_lang$core$Native_Utils.eq(s, _p0._0);
+							},
+							model.sources)
+					});
+		}
+	});
+var _user$project$Controls_AddSource$Model = F2(
+	function (a, b) {
+		return {source: a, sources: b};
+	});
+var _user$project$Controls_AddSource$Remove = function (a) {
+	return {ctor: 'Remove', _0: a};
+};
+var _user$project$Controls_AddSource$sourceUI = function (source) {
+	return A2(
+		_elm_lang$html$Html$tr,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('sources'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$td,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(source.platform),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$td,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$i,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(source.username),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$td,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									'(',
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										_elm_lang$core$Basics$toString(source.linksFound),
+										') links'))),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$td,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$button,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(
+											_user$project$Controls_AddSource$Remove(source)),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Disconnect'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		});
+};
+var _user$project$Controls_AddSource$Add = function (a) {
+	return {ctor: 'Add', _0: a};
+};
+var _user$project$Controls_AddSource$InputPlatform = function (a) {
+	return {ctor: 'InputPlatform', _0: a};
+};
+var _user$project$Controls_AddSource$InputUsername = function (a) {
+	return {ctor: 'InputUsername', _0: a};
+};
+var _user$project$Controls_AddSource$view = function (model) {
+	var changeHandler = A2(
+		_elm_lang$html$Html_Events$on,
+		'change',
+		A2(_elm_lang$core$Json_Decode$map, _user$project$Controls_AddSource$InputPlatform, _elm_lang$html$Html_Events$targetValue));
+	var platformOption = function (platform) {
+		return A2(
+			_elm_lang$html$Html$option,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$value(
+					_user$project$Domain_Core$getPlatform(platform)),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(
+					_user$project$Domain_Core$getPlatform(platform)),
+				_1: {ctor: '[]'}
+			});
+	};
+	var instruction = A2(
+		_elm_lang$html$Html$option,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$value('instructions'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Select Platform'),
+			_1: {ctor: '[]'}
+		});
+	var records = {
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$tr,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$td,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$select,
+							{
+								ctor: '::',
+								_0: changeHandler,
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$value(model.source.platform),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: instruction,
+								_1: A2(_elm_lang$core$List$map, platformOption, _user$project$Settings$runtime.platforms)
+							}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$td,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$input,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$type_('text'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$placeholder('username'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_AddSource$InputUsername),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$value(model.source.username),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								},
+								{ctor: '[]'}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$td,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$button,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(
+											_user$project$Controls_AddSource$Add(model.source)),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Add'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}
+			}),
+		_1: {ctor: '[]'}
+	};
+	var tableRecords = A2(
+		_elm_lang$core$List$append,
+		records,
+		A2(_elm_lang$core$List$map, _user$project$Controls_AddSource$sourceUI, model.sources));
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$table,
+				{ctor: '[]'},
+				tableRecords),
+			_1: {ctor: '[]'}
+		});
+};

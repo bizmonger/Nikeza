@@ -1,0 +1,8 @@
+#!/bin/bash
+
+docker run -p 8080:8080 \
+    --rm \
+    -v `pwd`/app:/opt/app \
+    -v `pwd`/docker/node_modules:/opt/app/node_modules \
+    -v `pwd`/docker/elm-stuff:/opt/app/elm-stuff \
+    nikeza-web-client

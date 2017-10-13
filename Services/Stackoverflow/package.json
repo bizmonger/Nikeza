@@ -1,0 +1,24 @@
+{
+  "name": "stackoverflow",
+  "version": "0.1.0",
+  "scripts": {
+    "pull-tags": "node ./lib/js/src/stackoverflow.js",
+    "clean": "bsb -clean-world",
+    "build": "bsb -make-world",
+    "watch": "bsb -make-world -w",
+    "serve": "node ./lib/js/src/overflowApi.js"
+  },
+  "keywords": [
+    "BuckleScript"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "bs-platform": "1.8.1"
+  },
+  "dependencies": {
+    "bs-axios": "0.0.16",
+    "bs-json": "^0.2.1",
+    "bs-node": "buckletypes/bs-node",
+    "express": "^4.15.3"
+  }
+}
