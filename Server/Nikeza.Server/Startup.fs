@@ -42,15 +42,17 @@ let configureCors (builder : CorsPolicyBuilder) =
 
 let configureApp (app : IApplicationBuilder) =
     app.UseCors configureCors |> ignore
-    app.UseGiraffeErrorHandler errorHandler
+    app.UseGiraffeErrorHandler  errorHandler
     app.UseCookieAuthentication cookieAuth |> ignore
     app.UseStaticFiles() |> ignore
     app.UseGiraffe webApp
  
 let configureServices (services : IServiceCollection) =
+
     let serviceProvider  = services.BuildServiceProvider()
-    let environment = serviceProvider.GetService<IHostingEnvironment>()
-    let viewsFolderPath = IO.Path.Combine(environment.ContentRootPath, "Views")
+    let environment =      serviceProvider.GetService<IHostingEnvironment>()
+    let viewsFolderPath =  IO.Path.Combine(environment.ContentRootPath, "Views")
+
     services.AddRazorEngine viewsFolderPath |> ignore
     services.AddAuthentication() |> ignore
     services.AddCors |> ignore // Enables CORS
