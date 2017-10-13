@@ -2,7 +2,7 @@ module Services.Gateway exposing (..)
 
 import Domain.Core exposing (..)
 import Services.Adapter exposing (..)
-import Http exposing (getString)
+import Http exposing (getString, Request, expectStringResponse, header)
 import Json.Decode as Decode exposing (Decoder, field)
 import Json.Encode as Encode
 
@@ -185,6 +185,23 @@ tryLogin credentials msg =
         Http.send msg request
 
 
+tryPostRegistration : String -> Http.Body -> Decoder JsonProfile -> Http.Request JsonProfile
+tryPostRegistration url body decoder =
+    Http.request
+        { method = "POST"
+        , headers =
+            [ header "Origin" "http://elm-lang.org"
+            , header "Access-Control-Request-Method" "POST"
+            , header "Access-Control-Request-Headers" "X-Custom-Header"
+            ]
+        , url = url
+        , body = body
+        , expect = Http.expectJson decoder
+        , timeout = Nothing
+        , withCredentials = False
+        }
+
+
 tryRegister : Form -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
 tryRegister form msg =
     let
@@ -195,7 +212,7 @@ tryRegister form msg =
             encodeRegistration form |> Http.jsonBody
 
         request =
-            Http.post url body profileDecoder
+            tryPostRegistration url body profileDecoder
     in
         Http.send msg request
 

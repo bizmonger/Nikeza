@@ -15724,6 +15724,31 @@ var _user$project$Services_Gateway$sources = F2(
 	function (profileId, msg) {
 		return _elm_lang$core$Platform_Cmd$none;
 	});
+var _user$project$Services_Gateway$tryPostRegistration = F3(
+	function (url, body, decoder) {
+		return _elm_lang$http$Http$request(
+			{
+				method: 'POST',
+				headers: {
+					ctor: '::',
+					_0: A2(_elm_lang$http$Http$header, 'Origin', 'http://elm-lang.org'),
+					_1: {
+						ctor: '::',
+						_0: A2(_elm_lang$http$Http$header, 'Access-Control-Request-Method', 'POST'),
+						_1: {
+							ctor: '::',
+							_0: A2(_elm_lang$http$Http$header, 'Access-Control-Request-Headers', 'X-Custom-Header'),
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				url: url,
+				body: body,
+				expect: _elm_lang$http$Http$expectJson(decoder),
+				timeout: _elm_lang$core$Maybe$Nothing,
+				withCredentials: false
+			});
+	});
 var _user$project$Services_Gateway$baseUrl = 'http://localhost:5000/';
 var _user$project$Services_Gateway$encodeCredentials = function (credentials) {
 	return _elm_lang$core$Json_Encode$object(
@@ -16193,7 +16218,7 @@ var _user$project$Services_Gateway$tryRegister = F2(
 		var body = _elm_lang$http$Http$jsonBody(
 			_user$project$Services_Gateway$encodeRegistration(form));
 		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'register');
-		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$profileDecoder);
+		var request = A3(_user$project$Services_Gateway$tryPostRegistration, url, body, _user$project$Services_Gateway$profileDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
 
