@@ -38,7 +38,7 @@ let cookieAuth =
     )
 
 let configureCors (builder : CorsPolicyBuilder) =
-    builder.WithOrigins("http://localhost:5000").AllowAnyMethod().AllowAnyHeader() |> ignore
+    builder.WithOrigins("http://localhost:8000").AllowAnyMethod().AllowAnyHeader() |> ignore
 
 let configureApp (app : IApplicationBuilder) =
     app.UseCors configureCors |> ignore
