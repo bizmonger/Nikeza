@@ -1,6 +1,7 @@
 module Nikeza.Server.Authentication
 
-    open System.Security.Claims 
+    open System.Security.Claims
+    open Microsoft.AspNetCore.Cors.Infrastructure
     open Nikeza.Server.Command
     open Nikeza.Server.Store
     open Nikeza.Server.Model
@@ -11,7 +12,6 @@ module Nikeza.Server.Authentication
             LastName: string
             Email: string
             Password: string
-            Confirm: string
         }
             
     [<CLIMutable>]
@@ -87,9 +87,8 @@ module Nikeza.Server.Authentication
     
     let getUserClaims userName authScheme =
         let claims =
-            [
-                Claim(ClaimTypes.Name, userName,  ClaimValueTypes.String)
+            [ Claim(ClaimTypes.Name, userName,  ClaimValueTypes.String)
             ]
 
         let identity = ClaimsIdentity(claims, authScheme)
-        ClaimsPrincipal(identity)                      
+        ClaimsPrincipal(identity)

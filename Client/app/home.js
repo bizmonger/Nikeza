@@ -18302,14 +18302,14 @@ var _user$project$Controls_Register$Response = function (a) {
 	return {ctor: 'Response', _0: a};
 };
 var _user$project$Controls_Register$update = F2(
-	function (msg, model) {
+	function (msg, form) {
 		var _p0 = msg;
 		switch (_p0.ctor) {
 			case 'FirstNameInput':
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
-						model,
+						form,
 						{firstName: _p0._0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -18317,7 +18317,7 @@ var _user$project$Controls_Register$update = F2(
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
-						model,
+						form,
 						{lastName: _p0._0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -18325,7 +18325,7 @@ var _user$project$Controls_Register$update = F2(
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
-						model,
+						form,
 						{email: _p0._0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -18333,7 +18333,7 @@ var _user$project$Controls_Register$update = F2(
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
-						model,
+						form,
 						{password: _p0._0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -18341,26 +18341,26 @@ var _user$project$Controls_Register$update = F2(
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
-						model,
+						form,
 						{confirm: _p0._0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'Submit':
 				return {
 					ctor: '_Tuple2',
-					_0: model,
-					_1: A2(_user$project$Settings$runtime.tryRegister, model, _user$project$Controls_Register$Response)
+					_0: form,
+					_1: A2(_user$project$Settings$runtime.tryRegister, form, _user$project$Controls_Register$Response)
 				};
 			default:
 				if (_p0._0.ctor === 'Ok') {
 					return {
 						ctor: '_Tuple2',
-						_0: model,
+						_0: form,
 						_1: _elm_lang$navigation$Navigation$load(
 							A2(_elm_lang$core$Basics_ops['++'], '/#/portal/', _p0._0._0.id))
 					};
 				} else {
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+					return {ctor: '_Tuple2', _0: form, _1: _elm_lang$core$Platform_Cmd$none};
 				}
 		}
 	});
@@ -18380,7 +18380,7 @@ var _user$project$Controls_Register$LastNameInput = function (a) {
 var _user$project$Controls_Register$FirstNameInput = function (a) {
 	return {ctor: 'FirstNameInput', _0: a};
 };
-var _user$project$Controls_Register$view = function (model) {
+var _user$project$Controls_Register$view = function (form) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{
@@ -18403,7 +18403,7 @@ var _user$project$Controls_Register$view = function (model) {
 							_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$FirstNameInput),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$value(model.firstName),
+								_0: _elm_lang$html$Html_Attributes$value(form.firstName),
 								_1: {ctor: '[]'}
 							}
 						}
@@ -18431,7 +18431,7 @@ var _user$project$Controls_Register$view = function (model) {
 									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$LastNameInput),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$value(model.lastName),
+										_0: _elm_lang$html$Html_Attributes$value(form.lastName),
 										_1: {ctor: '[]'}
 									}
 								}
@@ -18459,7 +18459,7 @@ var _user$project$Controls_Register$view = function (model) {
 											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$EmailInput),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$value(model.email),
+												_0: _elm_lang$html$Html_Attributes$value(form.email),
 												_1: {ctor: '[]'}
 											}
 										}
@@ -18487,7 +18487,7 @@ var _user$project$Controls_Register$view = function (model) {
 													_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$PasswordInput),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$value(model.password),
+														_0: _elm_lang$html$Html_Attributes$value(form.password),
 														_1: {ctor: '[]'}
 													}
 												}
@@ -18515,7 +18515,7 @@ var _user$project$Controls_Register$view = function (model) {
 															_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$ConfirmInput),
 															_1: {
 																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$value(model.confirm),
+																_0: _elm_lang$html$Html_Attributes$value(form.confirm),
 																_1: {ctor: '[]'}
 															}
 														}
