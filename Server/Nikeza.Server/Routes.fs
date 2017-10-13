@@ -141,6 +141,7 @@ let webApp : HttpContext -> HttpHandlerResult =
                 //route "/" >=> htmlFile "/hostingstart.html"
 
                 route  "/"              >=>  htmlFile "/home.html"
+                route  "/options"       >=>  setHttpHeader "Allow" "GET, OPTIONS, POST" // CORS support
                 route  "/platforms"     >=>  fetchPlatforms
                 route  "/providers"     >=>  fetchProviders
                 routef "/youtube/%s/%s"      fetchYoutube
