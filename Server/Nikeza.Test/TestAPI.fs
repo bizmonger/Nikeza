@@ -12,6 +12,7 @@ let prepareReader (command:SqlCommand) =
     let reader = command.ExecuteReader()
     reader.Read() |> ignore
     reader
+
 let someProviderId =   0
 let someSubscriberId = 1
 let someLinkId =       0
