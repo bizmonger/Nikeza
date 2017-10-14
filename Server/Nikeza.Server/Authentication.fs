@@ -74,6 +74,7 @@ module Nikeza.Server.Authentication
                 Email =     info.Email
                 ImageUrl =  ""
                 Bio =       ""
+                Sources =   []
                 PasswordHash = hashedPassword
                 Salt =         salt
                 Created =      DateTime.Now

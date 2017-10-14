@@ -27,12 +27,13 @@ let someLink = {
 }
 
 let someProvider: Profile = { 
-    ProfileId =     someProviderId
+    ProfileId =     someProviderId |> string
     FirstName =     "Scott"
     LastName =      "Nimrod"
     Email =         "abc@abc.com"
     ImageUrl =      "some_url_.com"
     Bio =           "Some Bio"
+    Sources =       []
     PasswordHash =  "XXX"
     Salt =          "XXX"
     Created =       DateTime.Now
@@ -54,12 +55,13 @@ let someUpdatedProvider: ProfileRequest = {
 }
 
 let someSubscriber: Profile = { 
-    ProfileId =     someSubscriberId
+    ProfileId =     someSubscriberId |> string
     FirstName =     "Scott"
     LastName =      "Nimrod"
     Email =         "abc@abc.com"
     ImageUrl =      "some_url_.com"
     Bio =           "Some Bio"
+    Sources =       []
     PasswordHash =  "XXX"
     Salt=           "XXX"
     Created =       DateTime.Now

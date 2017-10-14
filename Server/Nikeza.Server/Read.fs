@@ -23,6 +23,7 @@ let sqlReader (reader: SqlDataReader) = {
     Email =        reader.["Email"].ToString()
     ImageUrl =     reader.["ImageUrl"].ToString()
     Bio =          reader.["Bio"].ToString()
+    Sources =      [] // Todo...
     PasswordHash = reader.["PasswordHash"].ToString()
     Salt =         reader.["Salt"].ToString()
     Created =      DateTime.Parse(reader.["Created"].ToString()) 

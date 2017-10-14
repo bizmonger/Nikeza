@@ -48,6 +48,7 @@ type Profile = {
     ImageUrl:     string
     Bio:          string
     PasswordHash: string
+    Sources:      string list
     Salt:         string
     Created:      DateTime
 }
