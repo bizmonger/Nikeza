@@ -34,6 +34,9 @@ let addLinkSql = @"INSERT INTO [dbo].[Link]
                           ,ContentTypeId
                           ,IsFeatured
                           ,Created)
+                    
+                    OUTPUT INSERTED.ID
+
                     VALUES
                           (@ProviderId
                           ,@Title
@@ -49,6 +52,9 @@ let addSourceSql = @"INSERT INTO [dbo].[Source]
                           (ProfileId
                           ,Platform,
                            Username)
+                    
+                    OUTPUT INSERTED.ID
+
                     VALUES
                           (@ProfileId
                           ,@Platform
@@ -59,6 +65,9 @@ let deleteSourceSql = @"DELETE FROM Source WHERE Id = @Id"
 let followSql = @"INSERT INTO [dbo].[Subscription]
                       (SubscriberId
                       ,ProviderId)
+
+                OUTPUT INSERTED.ID
+
                 VALUES
                        ( @SubscriberId 
                        , @ProviderId
@@ -140,6 +149,4 @@ let getSourcesSql = @"SELECT ProfileId,
 
 let getPlatformsSql = @"SELECT Name FROM Platform"
 
-let getUsernameToIdSql = @"SELECT Id
-                           FROM Profile
-                           WHERE Email = @Email"
+let getUsernameToIdSql = @"SELECT Id FROM Profile WHERE Email = @Email"
