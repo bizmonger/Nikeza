@@ -45,7 +45,7 @@ update msg form =
             ( form, Navigation.load <| "/#/portal/" ++ jsonProfile.id )
 
         Response (Err error) ->
-            ( form, Cmd.none )
+            Debug.crash (toString error) ( form, Cmd.none )
 
 
 

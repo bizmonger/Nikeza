@@ -13,7 +13,7 @@ import Json.Encode as Encode
 profileDecoder : Decoder JsonProfile
 profileDecoder =
     Decode.map7 JsonProfile
-        (field "Id" Decode.string)
+        (field "ProfileId" Decode.string)
         (field "FirstName" Decode.string)
         (field "LastName" Decode.string)
         (field "Email" Decode.string)
@@ -112,7 +112,7 @@ encodeProfile profile =
             profile |> toJsonProfile
     in
         Encode.object
-            [ ( "Id", Encode.string <| jsonProfile.id )
+            [ ( "ProfileId", Encode.string <| jsonProfile.id )
             , ( "FirstName", Encode.string <| jsonProfile.firstName )
             , ( "LastName", Encode.string <| jsonProfile.lastName )
             , ( "Email", Encode.string <| jsonProfile.email )

@@ -33,56 +33,56 @@ open Nikeza.Server.Store
 let private followHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<FollowRequest>()
-                execute <| Follow data
+                ignore (execute <| Follow data)
                 return Some context
         } 
 
 let private unsubscribeHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<UnsubscribeRequest>()
-                execute <| Unsubscribe data
+                ignore (execute <| Unsubscribe data)
                 return Some context                  
         } 
 
 let private featureLinkHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<FeatureLinkRequest>()
-                execute <| FeatureLink data
+                ignore (execute <| FeatureLink data)
                 return Some context
         }
 
 let private updateProfileHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<ProfileRequest>()
-                execute <| UpdateProfile data
+                ignore (execute <| UpdateProfile data)
                 return Some context
         }
 
 let private addSourceHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<AddSourceRequest>()
-                execute <| AddSource data
+                ignore (execute <| AddSource data)
                 return Some context
         }
 
 let private removeSourceHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<RemoveSourceRequest>()
-                execute <| RemoveSource data
+                ignore (execute <| RemoveSource data)
                 return Some context
         }
 
 let private addLinkHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<AddLinkRequest>()
-                execute <| AddLink data
+                ignore (execute <| AddLink data)
                 return Some context
         }
 
 let private removeLinkHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<RemoveLinkRequest>()
-                execute <| RemoveLink data
+                ignore (execute <| RemoveLink data)
                 return Some context
         }
 
@@ -139,7 +139,6 @@ let webApp : HttpContext -> HttpHandlerResult =
         GET >=>
             choose [
                 //route "/" >=> htmlFile "/hostingstart.html"
-
                 route  "/"              >=>  htmlFile "/home.html"
                 route  "/options"       >=>  setHttpHeader "Allow" "GET, OPTIONS, POST" // CORS support
                 route  "/platforms"     >=>  fetchPlatforms

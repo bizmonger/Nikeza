@@ -68,7 +68,7 @@ module Nikeza.Server.Authentication
             let hashedPassword = getPasswordHash info.Password salt
             
             let profile = {
-                ProfileId = 0
+                ProfileId = "to be determined..."
                 FirstName = info.FirstName
                 LastName =  info.LastName
                 Email =     info.Email
@@ -80,8 +80,8 @@ module Nikeza.Server.Authentication
             }
 
             try
-                execute <| Register profile
-                Success profile
+                let profileId = execute <| Register profile
+                Success { profile with ProfileId = profileId |> string }
             with
             | e -> Failure
     

@@ -9,9 +9,7 @@ let readCommand (connection: SqlConnection) (command: SqlCommand) readerFunc =
     then connection.Open()
 
     let reader = command.ExecuteReader()
-    let data = seq { while reader.Read() do yield readerFunc(reader) }
-    connection.Close() |> ignore
-    data
+    seq { while reader.Read() do yield readerFunc(reader) }
 
 let createCommand sql connectionString =
     let connection = new SqlConnection(connectionString)
@@ -19,7 +17,7 @@ let createCommand sql connectionString =
     (connection, command)
 
 let sqlReader (reader: SqlDataReader) = { 
-    ProfileId =    reader.["Id"].ToString() |> int
+    ProfileId =    reader.["Id"].ToString()
     FirstName =    reader.["FirstName"].ToString()
     LastName =     reader.["LastName"].ToString()
     Email =        reader.["Email"].ToString()

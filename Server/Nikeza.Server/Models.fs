@@ -41,7 +41,7 @@ let contentTypeIdToString = function
 
 [<CLIMutable>]
 type Profile = {
-    ProfileId:    int
+    ProfileId:    string
     FirstName:    string
     LastName:     string
     Email:        string

@@ -10,7 +10,8 @@ let dispose (connection:SqlConnection) (command:SqlCommand) =
     command.Dispose()
 
 let addWithValue paramName obj (command: SqlCommand) =
-    command.Parameters.AddWithValue(paramName,  obj) |> ignore; command
+    command.Parameters.AddWithValue(paramName,  obj) |> ignore
+    command
 
 let createConnection connectionString = new SqlConnection(connectionString)
 
@@ -18,12 +19,21 @@ module private Commands =
     
     let executeNonQuery (command: SqlCommand) = command.ExecuteNonQuery() |> ignore
 
+    let executeScalar (command: SqlCommand) = unbox<Int32> (command.ExecuteScalar())
+
     let execute connectionString sql commandFunc = 
         use connection = createConnection connectionString
         connection.Open()
 
-        use command = (new SqlCommand(sql,connection)) |> commandFunc
-        executeNonQuery command
+        use command = new SqlCommand(sql,connection) |> commandFunc
+        // executeNonQuery command
+
+        let id = executeScalar command
+        id
+
+        // use command = (new SqlCommand(sql,connection)) |> commandFunc 
+        // let key = (command :> SqlCommand).ExecuteScalar()
+        // key
 
     let register (info:Profile) =
         let commandFunc (command: SqlCommand) = 

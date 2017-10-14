@@ -25,7 +25,8 @@ let findUser email :(Profile option) =
     use command =    new SqlCommand(findUserByEmailSql,connection)
 
     command |> addWithValue "@email"  email  |> ignore
-    readCommand connection command sqlReader |> Seq.tryHead
+    let result = readCommand connection command sqlReader |> Seq.tryHead
+    (connection.Close() |> ignore); result
     
 let getResults sql commandFunc readInData =
     let (reader, connection) = Store.query connectionString sql commandFunc

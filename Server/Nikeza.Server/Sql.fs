@@ -12,6 +12,9 @@ let registerSql = @"INSERT INTO [dbo].[Profile]
                           , PasswordHash
                           , Created
                           , Salt )
+
+                   OUTPUT INSERTED.ID
+
                    VALUES
                           ( @FirstName
                           , @LastName
