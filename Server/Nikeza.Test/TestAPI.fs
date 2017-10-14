@@ -18,7 +18,7 @@ let someLinkId =       0
 let someSourceId =     0
 
 let someLink = {
-    ProviderId=  someProviderId
+    ProviderId=  someProviderId |> string
     Title=       "some_title"
     Description= "some_description"
     Url=         "some_url.com"
@@ -40,13 +40,13 @@ let someProvider: Profile = {
 }
 
 let someSource = { 
-    ProfileId = someProviderId
+    ProfileId = someProviderId |> string
     Platform = "YouTube"
     Username = "Bizmonger" 
 }
 
 let someUpdatedProvider: ProfileRequest = { 
-    ProfileId = someProviderId
+    ProfileId = someProviderId |> string
     FirstName = "Scott"
     LastName =  "Nimrod"
     Email =     "abc@abc.com"

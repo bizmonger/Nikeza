@@ -1,5 +1,6 @@
 module Integration
 
+open System
 open FsUnit
 open NUnit.Framework
 open Nikeza.TestAPI
@@ -17,10 +18,10 @@ let ``Follow Provider`` () =
 
     // Setup
     execute <| Register someProvider
-    let providerId =   getLastId "Profile"
+    let providerId =   getLastId "Profile" |> string
     
     execute <| Register someSubscriber
-    let subscriberId = getLastId "Profile"
+    let subscriberId = getLastId "Profile" |> string
 
     // Test
     execute <| Follow { FollowRequest.ProviderId= providerId; FollowRequest.SubscriberId= subscriberId }
@@ -39,8 +40,8 @@ let ``Follow Provider`` () =
         command.Parameters.AddWithValue("@ProviderId",   providerId)   |> ignore
 
         use reader = command |> prepareReader
-        let entryAdded = reader.GetInt32(0) = subscriberId && 
-                         reader.GetInt32(1) = providerId
+        let entryAdded = reader.GetInt32(0) = Int32.Parse (subscriberId) && 
+                         reader.GetInt32(1) = Int32.Parse (providerId)
 
         entryAdded |> should equal true
 
@@ -52,16 +53,16 @@ let ``Follow Provider`` () =
 let ``Unsubscribe from Provider`` () =
 
     // Setup
-    execute <| Register someProvider
-    let providerId =   getLastId "Profile"
+    execute (Register someProvider) |> ignore
+    let providerId =   getLastId "Profile" |> string
     
-    execute <| Register someSubscriber
-    let subscriberId = getLastId "Profile"
+    execute (Register someSubscriber) |> ignore
+    let subscriberId = getLastId "Profile" |> string
 
-    execute <| Follow { FollowRequest.ProviderId= providerId; FollowRequest.SubscriberId= subscriberId }
+    execute ( Follow { FollowRequest.ProviderId= providerId; FollowRequest.SubscriberId= subscriberId }) |> ignore
 
     // Test
-    execute <| Unsubscribe { UnsubscribeRequest.SubscriberId= subscriberId; UnsubscribeRequest.ProviderId= providerId }
+    execute ( Unsubscribe { UnsubscribeRequest.SubscriberId= subscriberId; UnsubscribeRequest.ProviderId= providerId }) |> ignore
 
     // Verify
     let sql = @"SELECT SubscriberId, ProviderId
@@ -214,7 +215,7 @@ let ``Update profile`` () =
     let lastId =  getLastId "Profile"
 
     // Test
-    execute <| UpdateProfile { ProfileId =  lastId
+    execute <| UpdateProfile { ProfileId =  unbox lastId
                                FirstName =  data.FirstName
                                LastName =   modifiedName
                                Bio =        data.Bio
@@ -241,7 +242,7 @@ let ``Get links of provider`` () =
 
     let providerId = getLastId "Profile"
 
-    execute <| AddLink  { someLink with ProviderId= providerId }
+    execute <| AddLink  { someLink with ProviderId= unbox providerId }
     
     // Test
     let links = providerId |> getLinks
@@ -255,10 +256,10 @@ let ``Get followers`` () =
 
     // Setup
     execute <| Register someProvider
-    let providerId =   getLastId "Profile"
+    let providerId =   getLastId "Profile" |> string
     
     execute <| Register someSubscriber
-    let subscriberId = getLastId "Profile"
+    let subscriberId = getLastId "Profile" |> string
 
     execute <| Follow { FollowRequest.ProviderId=   providerId; 
                         FollowRequest.SubscriberId= subscriberId }
@@ -274,10 +275,10 @@ let ``Get subscriptions`` () =
 
     // Setup
     execute <| Register someProvider
-    let providerId =   getLastId "Profile"
+    let providerId =   getLastId "Profile" |> string
     
     execute <| Register someSubscriber
-    let subscriberId = getLastId "Profile"
+    let subscriberId = getLastId "Profile" |> string
 
     execute <| Follow { FollowRequest.ProviderId=   providerId; 
                         FollowRequest.SubscriberId= subscriberId }
@@ -325,7 +326,7 @@ let ``Add source`` () =
     let providerId = getLastId "Profile"
 
     // Test
-    execute <| AddSource { someSource with ProfileId= providerId }
+    execute <| AddSource { someSource with ProfileId= unbox providerId }
 
     // Verify
     let sourceId = getLastId "Source"
@@ -348,7 +349,7 @@ let ``Get sources`` () =
     execute <| Register someProvider
 
     let providerId = getLastId "Profile"
-    execute <| AddSource { someSource with ProfileId = providerId }
+    execute <| AddSource { someSource with ProfileId = unbox providerId }
 
     // Test
     let sources = providerId |> getSources
@@ -363,7 +364,7 @@ let ``Remove source`` () =
     execute <| Register someProvider
     let providerId = getLastId "Profile"
 
-    execute <| AddSource { someSource with ProfileId= providerId }
+    execute <| AddSource { someSource with ProfileId= unbox providerId }
     let sourceId = getLastId "Source"
 
     // Test

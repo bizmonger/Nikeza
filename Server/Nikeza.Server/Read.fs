@@ -34,7 +34,7 @@ let rec readInLinks links (reader:SqlDataReader) = reader.Read() |> function
     | true ->
         let link = { 
               Id =            reader.GetInt32  (0)
-              ProviderId =    reader.GetInt32  (1)
+              ProviderId =    reader.GetInt32  (1) |> string
               Title =         reader.GetString (2)
               Description =   reader.GetString (3)
               Url =           reader.GetString (4)
@@ -50,7 +50,7 @@ let rec readInProfiles profiles (reader:SqlDataReader) = reader.Read() |> functi
 
     | true ->
         let profile : ProfileRequest = {
-            ProfileId=  reader.GetInt32 (0)
+            ProfileId=  reader.GetInt32 (0) |> string
             FirstName=  reader.GetString(1)
             LastName=   reader.GetString(2)
             Email=      reader.GetString(3)
@@ -65,7 +65,7 @@ let rec readInProfiles profiles (reader:SqlDataReader) = reader.Read() |> functi
 let rec readInSources sources (reader:SqlDataReader) = reader.Read() |> function
     | true -> 
         let source : AddSourceRequest = {
-            ProfileId= reader.GetInt32  (0)
+            ProfileId= reader.GetInt32  (0) |> string
             Platform=   reader.GetString(1)
             Username=   reader.GetString(2)
          }

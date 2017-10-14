@@ -26,14 +26,7 @@ module private Commands =
         connection.Open()
 
         use command = new SqlCommand(sql,connection) |> commandFunc
-        // executeNonQuery command
-
-        let id = executeScalar command
-        id
-
-        // use command = (new SqlCommand(sql,connection)) |> commandFunc 
-        // let key = (command :> SqlCommand).ExecuteScalar()
-        // key
+        executeScalar command
 
     let register (info:Profile) =
         let commandFunc (command: SqlCommand) = 

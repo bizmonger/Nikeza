@@ -54,17 +54,17 @@ type Profile = {
 }
 
 [<CLIMutable>]
-type FollowRequest =      { SubscriberId: int; ProviderId: int }
+type FollowRequest =      { SubscriberId: string; ProviderId: string }
 
 [<CLIMutable>]
-type UnsubscribeRequest = { SubscriberId: int; ProviderId: int }
+type UnsubscribeRequest = { SubscriberId: string; ProviderId: string }
 
 [<CLIMutable>]
 type RemoveLinkRequest =  { LinkId: int }
 
 [<CLIMutable>]
 type AddLinkRequest = { 
-    ProviderId:    int
+    ProviderId:    string
     Title:         String
     Description:   String
     Url:           string
@@ -75,7 +75,7 @@ type AddLinkRequest = {
 [<CLIMutable>]
 type Link = { 
     Id:            int
-    ProviderId:    int
+    ProviderId:    string
     Title:         String
     Description:   String
     Url:           string
@@ -88,7 +88,7 @@ type FeatureLinkRequest = { LinkId: int; IsFeatured: bool }
 
 [<CLIMutable>]
 type AddSourceRequest = { 
-    ProfileId: int
+    ProfileId: string
     Platform:  string
     Username:  string
 }
@@ -98,7 +98,7 @@ type RemoveSourceRequest = { SourceId: int }
 
 [<CLIMutable>]
 type ProfileRequest = {
-    ProfileId: int
+    ProfileId:  string
     FirstName:  string
     LastName:   string
     Bio:        string
