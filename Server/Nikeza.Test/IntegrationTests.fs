@@ -17,14 +17,16 @@ let teardown() = cleanDataStore()
 let ``Follow Provider`` () =
 
     // Setup
-    execute <| Register someProvider
+    Register someProvider |> execute |> ignore
     let providerId =   getLastId "Profile" |> string
     
-    execute <| Register someSubscriber
+    Register someSubscriber |> execute |> ignore
     let subscriberId = getLastId "Profile" |> string
 
     // Test
-    execute <| Follow { FollowRequest.ProviderId= providerId; FollowRequest.SubscriberId= subscriberId }
+    Follow { FollowRequest.ProviderId= providerId
+             FollowRequest.SubscriberId= subscriberId 
+           } |> execute |> ignore
 
     // Verify
     let sql = @"SELECT SubscriberId, ProviderId
@@ -53,11 +55,8 @@ let ``Follow Provider`` () =
 let ``Unsubscribe from Provider`` () =
 
     // Setup
-    execute (Register someProvider) |> ignore
-    let providerId =   getLastId "Profile" |> string
-    
-    execute (Register someSubscriber) |> ignore
-    let subscriberId = getLastId "Profile" |> string
+    let providerId =   execute (Register someProvider)
+    let subscriberId = execute (Register someSubscriber)
 
     execute ( Follow { FollowRequest.ProviderId= providerId; FollowRequest.SubscriberId= subscriberId }) |> ignore
 
@@ -87,14 +86,12 @@ let ``Unsubscribe from Provider`` () =
 let ``Add featured link`` () =
 
     //Setup
-    execute <| Register someProvider
-    execute <| AddLink  someLink
-
-    let lastId =  getLastId "Link"
-    let data =  { LinkId=lastId; IsFeatured=true }
+    Register someProvider |> execute |> ignore
+    let lastId = AddLink  someLink |> execute
+    let data = { LinkId=Int32.Parse(lastId); IsFeatured=true }
 
     // Test
-    execute <| FeatureLink data
+    FeatureLink data |> execute |> ignore
 
     // Verify
     let sql = @"SELECT Id, IsFeatured
@@ -120,13 +117,11 @@ let ``Add featured link`` () =
 let ``Remove link`` () =
 
     //Setup
-    execute <| Register someProvider
-    execute <| AddLink  someLink
+    Register someProvider |> execute |> ignore
+    let linkId = AddLink someLink |> execute
     
-    let linkId =  getLastId "Link"
-
     // Test
-    execute <| RemoveLink  {LinkId = linkId}
+    RemoveLink { LinkId = Int32.Parse(linkId) } |> execute |> ignore
 
     // Verify
     let sql = @"SELECT Id, IsFeatured
@@ -149,13 +144,13 @@ let ``Remove link`` () =
 let ``Unfeature Link`` () =
     
     //Setup
-    execute <| Register someProvider
-    execute <| AddLink  someLink
+    Register someProvider |> execute |> ignore
+    AddLink  someLink     |> execute |> ignore
 
     let data = { LinkId=getLastId "Link"; IsFeatured=false }
 
     // Test
-    execute <| FeatureLink data
+    FeatureLink data |> execute |> ignore
 
     // Verify
     let sql = @"SELECT Id, IsFeatured
@@ -183,7 +178,7 @@ let ``Register Profile`` () =
     let data = { someProvider with FirstName="Scott"; LastName="Nimrod" }
 
     // Test
-    execute <| Register data
+    Register data |> execute |> ignore
 
     // Verify
     let sql = @"SELECT FirstName, LastName
@@ -210,18 +205,14 @@ let ``Update profile`` () =
     // Setup
     let modifiedName = "MODIFIED_NAME"
     let data = { someProvider with FirstName="Scott"; LastName="Nimrod" }
-    execute <| Register data
-
-    let lastId =  getLastId "Profile"
-
+    let lastId = Register data |> execute
     // Test
-    execute <| UpdateProfile { ProfileId =  unbox lastId
-                               FirstName =  data.FirstName
-                               LastName =   modifiedName
-                               Bio =        data.Bio
-                               Email =      data.Email
-                               ImageUrl=    data.ImageUrl
-                             }
+    UpdateProfile { ProfileId =  unbox lastId
+                    FirstName =  data.FirstName
+                    LastName =   modifiedName
+                    Bio =        data.Bio
+                    Email =      data.Email
+                    ImageUrl=    data.ImageUrl } |> execute |> ignore
     // Verify
     let sql = @"SELECT LastName FROM [dbo].[Profile] WHERE  Id = @Id"
     let (readConnection,readCommand) = createCommand sql connectionString
@@ -238,11 +229,8 @@ let ``Update profile`` () =
 let ``Get links of provider`` () =
 
     //Setup
-    execute <| Register someProvider
-
-    let providerId = getLastId "Profile"
-
-    execute <| AddLink  { someLink with ProviderId= unbox providerId }
+    let providerId = Register someProvider |> execute
+    AddLink  { someLink with ProviderId= unbox providerId } |> execute |> ignore
     
     // Test
     let links = providerId |> getLinks
@@ -255,14 +243,12 @@ let ``Get links of provider`` () =
 let ``Get followers`` () =
 
     // Setup
-    execute <| Register someProvider
-    let providerId =   getLastId "Profile" |> string
+    let providerId =   Register someProvider   |> execute
+    let subscriberId = Register someSubscriber |> execute
     
-    execute <| Register someSubscriber
-    let subscriberId = getLastId "Profile" |> string
 
-    execute <| Follow { FollowRequest.ProviderId=   providerId; 
-                        FollowRequest.SubscriberId= subscriberId }
+    Follow { FollowRequest.ProviderId=   providerId
+             FollowRequest.SubscriberId= subscriberId } |> execute |> ignore
 
     // Test
     let follower = providerId |> getFollowers |> List.head
@@ -274,14 +260,11 @@ let ``Get followers`` () =
 let ``Get subscriptions`` () =
 
     // Setup
-    execute <| Register someProvider
-    let providerId =   getLastId "Profile" |> string
-    
-    execute <| Register someSubscriber
-    let subscriberId = getLastId "Profile" |> string
+    let providerId =   Register someProvider   |> execute
+    let subscriberId = Register someSubscriber |> execute
 
-    execute <| Follow { FollowRequest.ProviderId=   providerId; 
-                        FollowRequest.SubscriberId= subscriberId }
+    Follow { FollowRequest.ProviderId=   providerId
+             FollowRequest.SubscriberId= subscriberId } |> execute |> ignore
 
     // Test
     let subscription = subscriberId |> getSubscriptions |> List.head
@@ -293,8 +276,8 @@ let ``Get subscriptions`` () =
 let ``Get providers`` () =
 
     // Setup
-    execute <| Register { someProvider with FirstName= "Provider1" }
-    execute <| Register { someProvider with FirstName= "Provider2" }
+    Register { someProvider with FirstName= "Provider1" } |> execute |> ignore
+    Register { someProvider with FirstName= "Provider2" } |> execute |> ignore
 
     // Test
     let providers = getProviders()
@@ -306,12 +289,11 @@ let ``Get providers`` () =
 let ``Get provider`` () =
 
     // Setup
-    execute <| Register someProvider
-
-    // Test
-    match getProvider <| getLastId "Profile" with
-    | Some p -> ()
-    | None   -> Assert.Fail()
+    Register someProvider 
+    |> execute
+    |> getProvider
+    |> function | Some p -> ()
+                | None   -> Assert.Fail()
 
 [<Test>]
 let ``Get platforms`` () =
@@ -322,14 +304,12 @@ let ``Get platforms`` () =
 let ``Add source`` () =
 
     //Setup
-    execute <| Register someProvider
-    let providerId = getLastId "Profile"
+    let providerId = execute <| Register someProvider
 
     // Test
-    execute <| AddSource { someSource with ProfileId= unbox providerId }
+    let sourceId = AddSource { someSource with ProfileId= unbox providerId } |> execute
 
     // Verify
-    let sourceId = getLastId "Source"
     let sql = @"SELECT Id FROM [dbo].[Source] WHERE Id = @id"
     let (connection,command) = createCommand sql connectionString
 
@@ -346,10 +326,8 @@ let ``Add source`` () =
 let ``Get sources`` () =
 
     //Setup
-    execute <| Register someProvider
-
-    let providerId = getLastId "Profile"
-    execute <| AddSource { someSource with ProfileId = unbox providerId }
+    let providerId = execute <| Register someProvider
+    AddSource { someSource with ProfileId = unbox providerId } |> execute |> ignore
 
     // Test
     let sources = providerId |> getSources
@@ -361,14 +339,12 @@ let ``Get sources`` () =
 let ``Remove source`` () =
 
     //Setup
-    execute <| Register someProvider
-    let providerId = getLastId "Profile"
-
-    execute <| AddSource { someSource with ProfileId= unbox providerId }
-    let sourceId = getLastId "Source"
-
+    let providerId = execute <| Register someProvider
+    
+    let sourceId = AddSource { someSource with ProfileId= unbox providerId } |> execute
+    
     // Test
-    execute <| RemoveSource { SourceId = sourceId }
+    RemoveSource { SourceId = Int32.Parse(sourceId) } |> execute |> ignore
 
     // Verify
     let sql = @"SELECT Id FROM [dbo].[Source] WHERE  Id  = @id"

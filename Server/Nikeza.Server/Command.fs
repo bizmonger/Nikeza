@@ -19,14 +19,20 @@ module private Commands =
     
     let executeNonQuery (command: SqlCommand) = command.ExecuteNonQuery() |> ignore
 
-    let executeScalar (command: SqlCommand) = unbox<Int32> (command.ExecuteScalar())
+    let executeScalar (command: SqlCommand) = 
+        let result =  (command.ExecuteScalar())
+        if result |> isNull
+            then None
+            else Some <| string (unbox<Int32> result)
 
     let execute connectionString sql commandFunc = 
         use connection = createConnection connectionString
         connection.Open()
 
         use command = new SqlCommand(sql,connection) |> commandFunc
-        executeScalar command
+        executeScalar command |> function
+        | Some id -> id
+        | None    -> ""
 
     let register (info:Profile) =
         let commandFunc (command: SqlCommand) = 

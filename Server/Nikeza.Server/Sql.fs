@@ -117,7 +117,7 @@ let getSubscriptionsSql = @"SELECT Profile.Id,
                                    Profile.LastName,
                                    Profile.Email,
                                    Profile.ImageUrl,
-                                   Profile.
+                                   Profile.Bio
                                    FROM       Profile
                                    INNER JOIN Subscription
                                    ON         Subscription.ProviderId =   Profile.Id
