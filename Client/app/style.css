@@ -46,6 +46,15 @@ input[type="text"].addLinkText {
     width:260px;
 }
 
+input[type="text"].profileInput {
+    width:160px;
+}
+
+textarea.inputBio {
+    width:160px;
+    height:100px;
+}
+
 div.navigationpane {
     vertical-align: text-top;
 }
@@ -61,12 +70,7 @@ button.addLink {
     margin-top: 8px;
 }
 
-label.topicAdded {
-     /* margin: 3px;  */
-}
-
 button.removeTopic {
-     /* margin: 3px; */
      float: right;
 }
 
@@ -114,6 +118,11 @@ button.selectedNavigationButton3 {
     width:115px;
     height:33px;
     background-color: lightblue;
+}
+
+button.saveProfile {
+    float: right;
+    margin-top: 3px;
 }
 
 ul.featuresList{

@@ -14381,18 +14381,22 @@ var _user$project$Controls_EditProfile$view = function (profile) {
 					_elm_lang$html$Html$input,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$type_('text'),
+						_0: _elm_lang$html$Html_Attributes$class('profileInput'),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$placeholder('first name'),
+							_0: _elm_lang$html$Html_Attributes$type_('text'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$FirstNameInput),
+								_0: _elm_lang$html$Html_Attributes$placeholder('first name'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$value(
-										_user$project$Domain_Core$nameText(profile.firstName)),
-									_1: {ctor: '[]'}
+									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$FirstNameInput),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$value(
+											_user$project$Domain_Core$nameText(profile.firstName)),
+										_1: {ctor: '[]'}
+									}
 								}
 							}
 						}
@@ -14410,18 +14414,22 @@ var _user$project$Controls_EditProfile$view = function (profile) {
 							_elm_lang$html$Html$input,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$type_('text'),
+								_0: _elm_lang$html$Html_Attributes$class('profileInput'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$placeholder('last name'),
+									_0: _elm_lang$html$Html_Attributes$type_('text'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$LastNameInput),
+										_0: _elm_lang$html$Html_Attributes$placeholder('last name'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$value(
-												_user$project$Domain_Core$nameText(profile.lastName)),
-											_1: {ctor: '[]'}
+											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$LastNameInput),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$value(
+													_user$project$Domain_Core$nameText(profile.lastName)),
+												_1: {ctor: '[]'}
+											}
 										}
 									}
 								}
@@ -14439,18 +14447,22 @@ var _user$project$Controls_EditProfile$view = function (profile) {
 									_elm_lang$html$Html$input,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$type_('text'),
+										_0: _elm_lang$html$Html_Attributes$class('profileInput'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$placeholder('email'),
+											_0: _elm_lang$html$Html_Attributes$type_('text'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$EmailInput),
+												_0: _elm_lang$html$Html_Attributes$placeholder('email'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$value(
-														_user$project$Domain_Core$emailText(profile.email)),
-													_1: {ctor: '[]'}
+													_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$EmailInput),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$value(
+															_user$project$Domain_Core$emailText(profile.email)),
+														_1: {ctor: '[]'}
+													}
 												}
 											}
 										}
@@ -14468,14 +14480,18 @@ var _user$project$Controls_EditProfile$view = function (profile) {
 											_elm_lang$html$Html$textarea,
 											{
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$placeholder('bio description'),
+												_0: _elm_lang$html$Html_Attributes$class('inputBio'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$BioInput),
+													_0: _elm_lang$html$Html_Attributes$placeholder('bio description'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$value(profile.bio),
-														_1: {ctor: '[]'}
+														_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_EditProfile$BioInput),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$value(profile.bio),
+															_1: {ctor: '[]'}
+														}
 													}
 												}
 											},
@@ -14492,9 +14508,13 @@ var _user$project$Controls_EditProfile$view = function (profile) {
 													_elm_lang$html$Html$button,
 													{
 														ctor: '::',
-														_0: _elm_lang$html$Html_Events$onClick(
-															_user$project$Controls_EditProfile$Save(profile)),
-														_1: {ctor: '[]'}
+														_0: _elm_lang$html$Html_Attributes$class('saveProfile'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Events$onClick(
+																_user$project$Controls_EditProfile$Save(profile)),
+															_1: {ctor: '[]'}
+														}
 													},
 													{
 														ctor: '::',
