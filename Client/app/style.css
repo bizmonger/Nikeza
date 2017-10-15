@@ -48,11 +48,13 @@ input[type="text"].addLinkText {
 
 input[type="text"].profileInput {
     width:160px;
+    margin-top: 3px;
 }
 
 textarea.inputBio {
     width:160px;
-    height:100px;
+    height:90px;
+    margin-top: 20px;
 }
 
 div.navigationpane {
