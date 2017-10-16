@@ -19067,7 +19067,7 @@ var _user$project$Home$footerContent = A2(
 			},
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html$text('Lamba Cartel'),
+				_0: _elm_lang$html$Html$text('Bizmonger'),
 				_1: {ctor: '[]'}
 			}),
 		_1: {ctor: '[]'}
@@ -22279,7 +22279,15 @@ var _user$project$Home$update = F2(
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+					return A2(
+						_elm_lang$core$Native_Utils.crash(
+							'Home',
+							{
+								start: {line: 134, column: 25},
+								end: {line: 134, column: 36}
+							}),
+						_elm_lang$core$Basics$toString(_p35._0),
+						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
 				}
 			case 'NavigateToPortalProviderTopicResponse':
 				var _p36 = _p33._0;
@@ -22941,7 +22949,7 @@ var _user$project$Home$homePage = function (model) {
 																				},
 																				{
 																					ctor: '::',
-																					_0: _elm_lang$html$Html$text('Set your featured links for other viewers to see'),
+																					_0: _elm_lang$html$Html$text('Set your featured links for others to view'),
 																					_1: {ctor: '[]'}
 																				}),
 																			_1: {

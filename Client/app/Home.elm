@@ -130,8 +130,8 @@ update msg model =
                     Ok ( providers, platforms ) ->
                         ( { model | providers = providers, platforms = platforms }, Cmd.none )
 
-                    Err _ ->
-                        ( model, Cmd.none )
+                    Err description ->
+                        Debug.crash (toString description) ( model, Cmd.none )
 
             NavigateToPortalProviderTopicResponse response ->
                 case response of
@@ -807,7 +807,7 @@ headerContent model =
 footerContent : Html Msg
 footerContent =
     footer [ class "copyright" ]
-        [ a [ href "" ] [ text "Lamba Cartel" ] ]
+        [ a [ href "" ] [ text "Bizmonger" ] ]
 
 
 providersUI : Maybe Provider -> List Provider -> Bool -> Html Msg
@@ -840,7 +840,7 @@ homePage model =
                                 , td []
                                     [ ul [ class "featuresList" ]
                                         [ li [ class "joinReasons" ] [ text "Import links to your articles, videos, and answers" ]
-                                        , li [ class "joinReasons" ] [ text "Set your featured links for other viewers to see" ]
+                                        , li [ class "joinReasons" ] [ text "Set your featured links for others to view" ]
                                         , li [ class "joinReasons" ] [ text "Subscribe to new links from your favorite thought leaders" ]
                                         ]
                                     ]
