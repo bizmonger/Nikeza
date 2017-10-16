@@ -46,6 +46,13 @@ portfolioDecoder =
         (field "Podcasts" <| Decode.list linkDecoder)
 
 
+bootstrapDependenciesDecoder : Decoder JsonBootstrapDependencies
+bootstrapDependenciesDecoder =
+    Decode.map2 JsonBootstrapDependencies
+        (field "Providers" <| Decode.list providerDecoder)
+        (field "Platforms" <| Decode.list Decode.string)
+
+
 linkDecoder : Decoder JsonLink
 linkDecoder =
     Decode.map6 JsonLink
@@ -57,9 +64,10 @@ linkDecoder =
         (field "IsFeatured" Decode.bool)
 
 
-listOfLinksDecoder : Decoder (List JsonLink)
-listOfLinksDecoder =
-    Decode.list linkDecoder
+
+-- listOfLinksDecoder : Decoder (List JsonLink)
+-- listOfLinksDecoder =
+--     Decode.list linkDecoder
 
 
 linksDecoder : Decoder JsonPortfolio
@@ -271,7 +279,7 @@ topicLinks profileId topic contentType msg =
             encodeId profileId |> Http.jsonBody
 
         request =
-            Http.post url body listOfLinksDecoder
+            Http.post url body (Decode.list linkDecoder)
     in
         Http.send msg request
 
@@ -333,9 +341,16 @@ platforms msg =
         Http.send msg request
 
 
-providersAndPlatforms : (Result Http.Error ( List Provider, List Platform ) -> msg) -> Cmd msg
+providersAndPlatforms : (Result Http.Error JsonBootstrapDependencies -> msg) -> Cmd msg
 providersAndPlatforms msg =
-    Cmd.none
+    let
+        url =
+            baseUrl ++ "platforms_providers"
+
+        request =
+            Http.get url bootstrapDependenciesDecoder
+    in
+        Http.send msg request
 
 
 suggestedTopics : String -> List Topic

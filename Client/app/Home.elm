@@ -89,7 +89,7 @@ type Msg
     | ProviderContentTypeLinksAction ProviderContentTypeLinks.Msg
     | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
     | ProvidersResponse (Result Http.Error (List JsonProvider))
-    | ProvidersAndPlatformsResponse (Result Http.Error ( List Provider, List Platform ))
+    | ProvidersAndPlatformsResponse (Result Http.Error JsonBootstrapDependencies)
     | NavigateToPortalResponse (Result Http.Error JsonProvider)
     | NavigateToPortalProviderTopicResponse (Result Http.Error JsonProvider)
     | NavigateToPortalProviderMemberResponse (Result Http.Error JsonProvider)
@@ -127,8 +127,13 @@ update msg model =
 
             ProvidersAndPlatformsResponse response ->
                 case response of
-                    Ok ( providers, platforms ) ->
-                        ( { model | providers = providers, platforms = platforms }, Cmd.none )
+                    Ok bootstrapDependencies ->
+                        ( { model
+                            | providers = bootstrapDependencies.providers |> List.map toProvider
+                            , platforms = bootstrapDependencies.platforms |> List.map (\p -> Platform p)
+                          }
+                        , Cmd.none
+                        )
 
                     Err description ->
                         Debug.crash (toString description) ( model, Cmd.none )

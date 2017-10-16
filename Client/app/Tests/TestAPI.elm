@@ -723,18 +723,18 @@ platforms msg =
     platformsBase |> httpSuccess msg
 
 
-providersAndPlatformsBase : ( List Provider, List Platform )
+providersAndPlatformsBase : JsonBootstrapDependencies
 providersAndPlatformsBase =
-    ( providersBase |> List.map toProvider
-    , platformsBase |> List.map (\p -> Platform p)
-    )
+    { providers = providersBase -- |> List.map toProvider
+    , platforms = platformsBase -- |> List.map (\p -> Platform p)
+    }
 
 
-providersAndPlatforms : (Result Http.Error ( List Provider, List Platform ) -> msg) -> Cmd msg
+providersAndPlatforms : (Result Http.Error JsonBootstrapDependencies -> msg) -> Cmd msg
 providersAndPlatforms msg =
-    ( providersBase |> List.map toProvider
-    , platformsBase |> List.map (\p -> Platform p)
-    )
+    { providers = providersBase -- |> List.map toProvider
+    , platforms = platformsBase -- |> List.map (\p -> Platform p)
+    }
         |> httpSuccess msg
 
 
