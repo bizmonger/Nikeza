@@ -34,6 +34,10 @@ type alias Providersfunction msg =
     (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
 
 
+type alias UpdateProfilefunction msg =
+    Profile -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
+
+
 type alias AddSourcefunction msg =
     Id -> Source -> (Result Http.Error (List Source) -> msg) -> Cmd msg
 

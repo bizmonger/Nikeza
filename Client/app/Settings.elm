@@ -19,6 +19,7 @@ type Configuration
 type alias Dependencies msg =
     { tryLogin : Loginfunction msg
     , tryRegister : Registerfunction msg
+    , updateProfile : UpdateProfilefunction msg
     , provider : Providerfunction msg
     , providerTopic : ProviderTopicfunction msg
     , providers : Providersfunction msg
@@ -45,6 +46,7 @@ runtime =
             Dependencies
                 Services.tryLogin
                 Services.tryRegister
+                Services.updateProfile
                 Services.provider
                 Services.providerTopic
                 Services.providers
@@ -66,6 +68,7 @@ runtime =
             Dependencies
                 TestAPI.tryLogin
                 TestAPI.tryRegister
+                TestAPI.updateProfile
                 TestAPI.provider
                 TestAPI.providerTopic
                 TestAPI.providers

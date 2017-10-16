@@ -677,6 +677,11 @@ sourcesBase profileId =
     ]
 
 
+updateProfile : Profile -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
+updateProfile profile msg =
+    profile |> toJsonProfile |> httpSuccess msg
+
+
 sources : Id -> (Result Http.Error (List Source) -> msg) -> Cmd msg
 sources profileId msg =
     profileId

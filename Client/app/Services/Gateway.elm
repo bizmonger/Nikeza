@@ -335,6 +335,21 @@ bootstrap msg =
         Http.send msg request
 
 
+updateProfile : Profile -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
+updateProfile profile msg =
+    let
+        url =
+            baseUrl ++ "updateprofile"
+
+        body =
+            encodeProfile profile |> Http.jsonBody
+
+        request =
+            Http.post url body profileDecoder
+    in
+        Http.send msg request
+
+
 suggestedTopics : String -> List Topic
 suggestedTopics search =
     []

@@ -89,6 +89,7 @@ type Msg
     | ProviderContentTypeLinksAction ProviderContentTypeLinks.Msg
     | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
     | ProvidersResponse (Result Http.Error (List JsonProvider))
+    | UpdateProfileResponse (Result Http.Error JsonProfile)
     | BootstrapResponse (Result Http.Error JsonBootstrap)
     | NavigateToPortalResponse (Result Http.Error JsonProvider)
     | NavigateToPortalProviderTopicResponse (Result Http.Error JsonProvider)
@@ -134,6 +135,27 @@ update msg model =
                           }
                         , Cmd.none
                         )
+
+                    Err description ->
+                        Debug.crash (toString description) ( model, Cmd.none )
+
+            UpdateProfileResponse response ->
+                case response of
+                    Ok jsonProfile ->
+                        let
+                            ( portal, provider ) =
+                                ( model.portal, model.portal.provider )
+
+                            updatedProvider =
+                                { provider | profile = jsonProfile |> toProfile }
+
+                            updatedPortal =
+                                { portal | provider = updatedProvider }
+
+                            newState =
+                                { model | portal = updatedPortal }
+                        in
+                            ( newState, Cmd.none )
 
                     Err description ->
                         Debug.crash (toString description) ( model, Cmd.none )
@@ -363,18 +385,20 @@ onEditProfile subMsg model =
             EditProfile.BioInput _ ->
                 ( newState, Cmd.none )
 
-            EditProfile.Save v ->
-                ( { model
-                    | portal =
-                        { portal
-                            | provider = { provider | profile = v }
-                            , sourcesNavigation = True
-                            , linksNavigation = not <| provider.portfolio == initPortfolio
-                            , requested = Domain.ViewSources
+            EditProfile.Save profile ->
+                let
+                    updatedModel =
+                        { model
+                            | portal =
+                                { portal
+                                    | provider = { provider | profile = profile }
+                                    , sourcesNavigation = True
+                                    , linksNavigation = not <| provider.portfolio == initPortfolio
+                                    , requested = Domain.ViewSources
+                                }
                         }
-                  }
-                , Cmd.none
-                )
+                in
+                    ( updatedModel, (runtime.updateProfile profile) UpdateProfileResponse )
 
 
 onRegistration : Registration.Msg -> Model -> ( Model, Cmd Msg )
