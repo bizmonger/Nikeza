@@ -127,10 +127,10 @@ update msg model =
 
             ProvidersAndPlatformsResponse response ->
                 case response of
-                    Ok bootstrapDependencies ->
+                    Ok bootstrap ->
                         ( { model
-                            | providers = bootstrapDependencies.providers |> List.map toProvider
-                            , platforms = bootstrapDependencies.platforms |> List.map (\p -> Platform p)
+                            | providers = bootstrap.providers |> List.map toProvider
+                            , platforms = bootstrap.platforms |> List.map (\p -> Platform p)
                           }
                         , Cmd.none
                         )
