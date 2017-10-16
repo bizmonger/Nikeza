@@ -106,6 +106,12 @@ type ProfileRequest = {
     ImageUrl:   string
 }
 
+[<CLIMutable>]
+type Bootstrap = { 
+    Providers: ProfileRequest list
+    Platforms: String list
+}
+
 type Command =
     | Register      of Profile
     | UpdateProfile of ProfileRequest

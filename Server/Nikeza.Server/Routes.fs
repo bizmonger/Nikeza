@@ -110,7 +110,10 @@ let private fetchWordpress (feedUrl) (context : HttpContext) =
     }
 
 let private fetchProviders =  json <| getProviders()
-let private fetchPlatforms  = json <| getPlatforms()
+
+let private fetchBootstrap  = 
+    let dependencies = { Providers= getProviders(); Platforms=getPlatforms() }
+    json dependencies
 
 let private fetchLinks (providerId) (context : HttpContext) =
     let response = getLinks providerId
@@ -140,8 +143,8 @@ let webApp : HttpContext -> HttpHandlerResult =
                 //route "/" >=> htmlFile "/hostingstart.html"
                 route  "/"              >=>  htmlFile "/home.html"
                 route  "/options"       >=>  setHttpHeader "Allow" "GET, OPTIONS, POST" // CORS support
-                route  "/platforms"     >=>  fetchPlatforms
                 route  "/providers"     >=>  fetchProviders
+                route  "/bootstrap"     >=>  fetchBootstrap
                 routef "/youtube/%s/%s"      fetchYoutube
                 routef "/wordpress/%s"       fetchWordpress
                 routef "/links/%s"           fetchLinks

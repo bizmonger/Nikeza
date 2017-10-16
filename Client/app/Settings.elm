@@ -29,13 +29,12 @@ type alias Dependencies msg =
     , sources : Sourcesfunction msg
     , addSource : AddSourcefunction msg
     , removeSource : RemoveSourcefunction msg
-    , platforms : Platformsfunction msg
     , suggestedTopics : SuggestedTopicsfunction
     , subscriptions : Subscriptionsfunction msg
     , followers : Followersfunction msg
     , follow : Followfunction msg
     , unsubscribe : Unsubscribefunction msg
-    , providersAndPlatforms : ProvidersAndPlatformsfunction msg
+    , bootstrap : Bootstrapfunction msg
     }
 
 
@@ -56,13 +55,12 @@ runtime =
                 Services.sources
                 Services.addSource
                 Services.removeSource
-                Services.platforms
                 Services.suggestedTopics
                 Services.subscriptions
                 Services.followers
                 Services.follow
                 Services.unsubscribe
-                Services.providersAndPlatforms
+                Services.bootstrap
 
         Isolation ->
             Dependencies
@@ -78,10 +76,9 @@ runtime =
                 TestAPI.sources
                 TestAPI.addSource
                 TestAPI.removeSource
-                TestAPI.platforms
                 TestAPI.suggestedTopics
                 TestAPI.subscriptions
                 TestAPI.followers
                 TestAPI.follow
                 TestAPI.unsubscribe
-                TestAPI.providersAndPlatforms
+                TestAPI.bootstrap

@@ -60,7 +60,7 @@ init location =
       , providers = []
       , selectedProvider = initProvider
       }
-    , runtime.providersAndPlatforms ProvidersAndPlatformsResponse
+    , runtime.bootstrap BootstrapResponse
     )
 
 
@@ -89,7 +89,7 @@ type Msg
     | ProviderContentTypeLinksAction ProviderContentTypeLinks.Msg
     | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
     | ProvidersResponse (Result Http.Error (List JsonProvider))
-    | ProvidersAndPlatformsResponse (Result Http.Error JsonBootstrapDependencies)
+    | BootstrapResponse (Result Http.Error JsonBootstrap)
     | NavigateToPortalResponse (Result Http.Error JsonProvider)
     | NavigateToPortalProviderTopicResponse (Result Http.Error JsonProvider)
     | NavigateToPortalProviderMemberResponse (Result Http.Error JsonProvider)
@@ -125,7 +125,7 @@ update msg model =
                     Err _ ->
                         ( model, Cmd.none )
 
-            ProvidersAndPlatformsResponse response ->
+            BootstrapResponse response ->
                 case response of
                     Ok bootstrap ->
                         ( { model

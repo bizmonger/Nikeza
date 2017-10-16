@@ -46,8 +46,8 @@ type alias Platformsfunction msg =
     (Result Http.Error (List String) -> msg) -> Cmd msg
 
 
-type alias ProvidersAndPlatformsfunction msg =
-    (Result Http.Error JsonBootstrapDependencies -> msg) -> Cmd msg
+type alias Bootstrapfunction msg =
+    (Result Http.Error JsonBootstrap -> msg) -> Cmd msg
 
 
 type alias Followersfunction msg =
@@ -118,7 +118,7 @@ type alias JsonPortfolio =
     }
 
 
-type alias JsonBootstrapDependencies =
+type alias JsonBootstrap =
     { providers : List JsonProvider
     , platforms : List String
     }

@@ -718,22 +718,17 @@ platformsBase =
     ]
 
 
-platforms : (Result Http.Error (List String) -> msg) -> Cmd msg
-platforms msg =
-    platformsBase |> httpSuccess msg
-
-
-providersAndPlatformsBase : JsonBootstrapDependencies
-providersAndPlatformsBase =
-    { providers = providersBase -- |> List.map toProvider
-    , platforms = platformsBase -- |> List.map (\p -> Platform p)
+bootstrapBase : JsonBootstrap
+bootstrapBase =
+    { providers = providersBase
+    , platforms = platformsBase
     }
 
 
-providersAndPlatforms : (Result Http.Error JsonBootstrapDependencies -> msg) -> Cmd msg
-providersAndPlatforms msg =
-    { providers = providersBase -- |> List.map toProvider
-    , platforms = platformsBase -- |> List.map (\p -> Platform p)
+bootstrap : (Result Http.Error JsonBootstrap -> msg) -> Cmd msg
+bootstrap msg =
+    { providers = providersBase
+    , platforms = platformsBase
     }
         |> httpSuccess msg
 

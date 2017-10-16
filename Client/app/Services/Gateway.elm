@@ -46,9 +46,9 @@ portfolioDecoder =
         (field "Podcasts" <| Decode.list linkDecoder)
 
 
-bootstrapDependenciesDecoder : Decoder JsonBootstrapDependencies
-bootstrapDependenciesDecoder =
-    Decode.map2 JsonBootstrapDependencies
+bootstrapDecoder : Decoder JsonBootstrap
+bootstrapDecoder =
+    Decode.map2 JsonBootstrap
         (field "Providers" <| Decode.list providerDecoder)
         (field "Platforms" <| Decode.list Decode.string)
 
@@ -62,12 +62,6 @@ linkDecoder =
         (field "ContentType" Decode.string)
         (field "Topics" <| Decode.list topicDecoder)
         (field "IsFeatured" Decode.bool)
-
-
-
--- listOfLinksDecoder : Decoder (List JsonLink)
--- listOfLinksDecoder =
---     Decode.list linkDecoder
 
 
 linksDecoder : Decoder JsonPortfolio
@@ -329,26 +323,14 @@ removeSource profileId source msg =
     Cmd.none
 
 
-platforms : (Result Http.Error (List String) -> msg) -> Cmd msg
-platforms msg =
+bootstrap : (Result Http.Error JsonBootstrap -> msg) -> Cmd msg
+bootstrap msg =
     let
         url =
-            baseUrl ++ "platforms"
+            baseUrl ++ "bootstrap"
 
         request =
-            Http.get url (Decode.list Decode.string)
-    in
-        Http.send msg request
-
-
-providersAndPlatforms : (Result Http.Error JsonBootstrapDependencies -> msg) -> Cmd msg
-providersAndPlatforms msg =
-    let
-        url =
-            baseUrl ++ "platforms_providers"
-
-        request =
-            Http.get url bootstrapDependenciesDecoder
+            Http.get url bootstrapDecoder
     in
         Http.send msg request
 
