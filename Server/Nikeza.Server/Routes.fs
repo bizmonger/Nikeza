@@ -110,7 +110,6 @@ let private fetchWordpress (feedUrl) (context : HttpContext) =
     }
 
 let private fetchProviders =  json <| getProviders()
-
 let private fetchPlatforms  = json <| getPlatforms()
 
 let private fetchLinks (providerId) (context : HttpContext) =

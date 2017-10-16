@@ -14686,19 +14686,19 @@ var _user$project$Tests_TestAPI$follow = F3(
 	});
 var _user$project$Tests_TestAPI$platformsBase = {
 	ctor: '::',
-	_0: _user$project$Domain_Core$Platform('WordPress'),
+	_0: 'WordPress',
 	_1: {
 		ctor: '::',
-		_0: _user$project$Domain_Core$Platform('YouTube'),
+		_0: 'YouTube',
 		_1: {
 			ctor: '::',
-			_0: _user$project$Domain_Core$Platform('Vimeo'),
+			_0: 'Vimeo',
 			_1: {
 				ctor: '::',
-				_0: _user$project$Domain_Core$Platform('Medium'),
+				_0: 'Medium',
 				_1: {
 					ctor: '::',
-					_0: _user$project$Domain_Core$Platform('StackOverflow'),
+					_0: 'StackOverflow',
 					_1: {ctor: '[]'}
 				}
 			}
@@ -15636,7 +15636,12 @@ var _user$project$Tests_TestAPI$providers = function (msg) {
 var _user$project$Tests_TestAPI$providersAndPlatformsBase = {
 	ctor: '_Tuple2',
 	_0: A2(_elm_lang$core$List$map, _user$project$Services_Adapter$toProvider, _user$project$Tests_TestAPI$providersBase),
-	_1: _user$project$Tests_TestAPI$platformsBase
+	_1: A2(
+		_elm_lang$core$List$map,
+		function (p) {
+			return _user$project$Domain_Core$Platform(p);
+		},
+		_user$project$Tests_TestAPI$platformsBase)
 };
 var _user$project$Tests_TestAPI$providersAndPlatforms = function (msg) {
 	return A2(
@@ -15645,7 +15650,12 @@ var _user$project$Tests_TestAPI$providersAndPlatforms = function (msg) {
 		{
 			ctor: '_Tuple2',
 			_0: A2(_elm_lang$core$List$map, _user$project$Services_Adapter$toProvider, _user$project$Tests_TestAPI$providersBase),
-			_1: _user$project$Tests_TestAPI$platformsBase
+			_1: A2(
+				_elm_lang$core$List$map,
+				function (p) {
+					return _user$project$Domain_Core$Platform(p);
+				},
+				_user$project$Tests_TestAPI$platformsBase)
 		});
 };
 var _user$project$Tests_TestAPI$links = F2(
@@ -15729,9 +15739,6 @@ var _user$project$Services_Gateway$suggestedTopics = function (search) {
 var _user$project$Services_Gateway$providersAndPlatforms = function (msg) {
 	return _elm_lang$core$Platform_Cmd$none;
 };
-var _user$project$Services_Gateway$platforms = function (msg) {
-	return _elm_lang$core$Platform_Cmd$none;
-};
 var _user$project$Services_Gateway$removeSource = F3(
 	function (profileId, source, msg) {
 		return _elm_lang$core$Platform_Cmd$none;
@@ -15744,32 +15751,15 @@ var _user$project$Services_Gateway$sources = F2(
 	function (profileId, msg) {
 		return _elm_lang$core$Platform_Cmd$none;
 	});
-var _user$project$Services_Gateway$tryPostRegistration = F3(
-	function (url, body, decoder) {
-		return _elm_lang$http$Http$request(
-			{
-				method: 'POST',
-				headers: {
-					ctor: '::',
-					_0: A2(_elm_lang$http$Http$header, 'Origin', 'http://elm-lang.org'),
-					_1: {
-						ctor: '::',
-						_0: A2(_elm_lang$http$Http$header, 'Access-Control-Request-Method', 'POST'),
-						_1: {
-							ctor: '::',
-							_0: A2(_elm_lang$http$Http$header, 'Access-Control-Request-Headers', 'X-Custom-Header'),
-							_1: {ctor: '[]'}
-						}
-					}
-				},
-				url: url,
-				body: body,
-				expect: _elm_lang$http$Http$expectJson(decoder),
-				timeout: _elm_lang$core$Maybe$Nothing,
-				withCredentials: false
-			});
-	});
 var _user$project$Services_Gateway$baseUrl = 'http://localhost:5000/';
+var _user$project$Services_Gateway$platforms = function (msg) {
+	var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'platforms');
+	var request = A2(
+		_elm_lang$http$Http$get,
+		url,
+		_elm_lang$core$Json_Decode$list(_elm_lang$core$Json_Decode$string));
+	return A2(_elm_lang$http$Http$send, msg, request);
+};
 var _user$project$Services_Gateway$encodeCredentials = function (credentials) {
 	return _elm_lang$core$Json_Encode$object(
 		{
@@ -16238,7 +16228,7 @@ var _user$project$Services_Gateway$tryRegister = F2(
 		var body = _elm_lang$http$Http$jsonBody(
 			_user$project$Services_Gateway$encodeRegistration(form));
 		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'register');
-		var request = A3(_user$project$Services_Gateway$tryPostRegistration, url, body, _user$project$Services_Gateway$profileDecoder);
+		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$profileDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
 

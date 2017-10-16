@@ -87,9 +87,7 @@ module Nikeza.Server.Authentication
             | e -> Failure
     
     let getUserClaims userName authScheme =
-        let claims =
-            [ Claim(ClaimTypes.Name, userName,  ClaimValueTypes.String)
-            ]
-
+        let claims = [ Claim(ClaimTypes.Name, userName,  ClaimValueTypes.String)]
         let identity = ClaimsIdentity(claims, authScheme)
+
         ClaimsPrincipal(identity)

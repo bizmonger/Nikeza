@@ -708,29 +708,33 @@ removeSource profileId source msg =
         |> httpSuccess msg
 
 
-platformsBase : List Platform
+platformsBase : List String
 platformsBase =
-    [ Platform "WordPress"
-    , Platform "YouTube"
-    , Platform "Vimeo"
-    , Platform "Medium"
-    , Platform "StackOverflow"
+    [ "WordPress"
+    , "YouTube"
+    , "Vimeo"
+    , "Medium"
+    , "StackOverflow"
     ]
 
 
-platforms : (Result Http.Error (List Platform) -> msg) -> Cmd msg
+platforms : (Result Http.Error (List String) -> msg) -> Cmd msg
 platforms msg =
     platformsBase |> httpSuccess msg
 
 
 providersAndPlatformsBase : ( List Provider, List Platform )
 providersAndPlatformsBase =
-    ( providersBase |> List.map toProvider, platformsBase )
+    ( providersBase |> List.map toProvider
+    , platformsBase |> List.map (\p -> Platform p)
+    )
 
 
 providersAndPlatforms : (Result Http.Error ( List Provider, List Platform ) -> msg) -> Cmd msg
 providersAndPlatforms msg =
-    ( providersBase |> List.map toProvider, platformsBase )
+    ( providersBase |> List.map toProvider
+    , platformsBase |> List.map (\p -> Platform p)
+    )
         |> httpSuccess msg
 
 

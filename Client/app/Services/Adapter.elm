@@ -43,7 +43,7 @@ type alias RemoveSourcefunction msg =
 
 
 type alias Platformsfunction msg =
-    (Result Http.Error (List Platform) -> msg) -> Cmd msg
+    (Result Http.Error (List String) -> msg) -> Cmd msg
 
 
 type alias ProvidersAndPlatformsfunction msg =
