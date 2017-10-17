@@ -17,7 +17,7 @@ let teardown() = cleanDataStore()
 let ``Follow Provider`` () =
 
     // Setup
-    Register someProvider |> execute |> ignore
+    Register someProfile |> execute |> ignore
     let providerId =   getLastId "Profile" |> string
     
     Register someSubscriber |> execute |> ignore
@@ -55,7 +55,7 @@ let ``Follow Provider`` () =
 let ``Unsubscribe from Provider`` () =
 
     // Setup
-    let providerId =   execute (Register someProvider)
+    let providerId =   execute (Register someProfile)
     let subscriberId = execute (Register someSubscriber)
 
     execute ( Follow { FollowRequest.ProviderId= providerId; FollowRequest.SubscriberId= subscriberId }) |> ignore
@@ -86,7 +86,7 @@ let ``Unsubscribe from Provider`` () =
 let ``Add featured link`` () =
 
     //Setup
-    Register someProvider |> execute |> ignore
+    Register someProfile |> execute |> ignore
     let lastId = AddLink  someLink |> execute
     let data = { LinkId=Int32.Parse(lastId); IsFeatured=true }
 
@@ -117,7 +117,7 @@ let ``Add featured link`` () =
 let ``Remove link`` () =
 
     //Setup
-    Register someProvider |> execute |> ignore
+    Register someProfile |> execute |> ignore
     let linkId = AddLink someLink |> execute
     
     // Test
@@ -144,7 +144,7 @@ let ``Remove link`` () =
 let ``Unfeature Link`` () =
     
     //Setup
-    Register someProvider |> execute |> ignore
+    Register someProfile |> execute |> ignore
     AddLink  someLink     |> execute |> ignore
 
     let data = { LinkId=getLastId "Link"; IsFeatured=false }
@@ -175,7 +175,7 @@ let ``Unfeature Link`` () =
 let ``Register Profile`` () =
 
     // Setup
-    let data = { someProvider with FirstName="Scott"; LastName="Nimrod" }
+    let data = { someProfile with FirstName="Scott"; LastName="Nimrod" }
 
     // Test
     Register data |> execute |> ignore
@@ -204,7 +204,7 @@ let ``Update profile`` () =
     
     // Setup
     let modifiedName = "MODIFIED_NAME"
-    let data = { someProvider with FirstName="Scott"; LastName="Nimrod" }
+    let data = { someProfile with FirstName="Scott"; LastName="Nimrod" }
     let lastId = Register data |> execute
     // Test
     UpdateProfile { ProfileId =  unbox lastId
@@ -212,7 +212,8 @@ let ``Update profile`` () =
                     LastName =   modifiedName
                     Bio =        data.Bio
                     Email =      data.Email
-                    ImageUrl=    data.ImageUrl } |> execute |> ignore
+                    ImageUrl=    data.ImageUrl
+                    Sources =    data.Sources } |> execute |> ignore
     // Verify
     let sql = @"SELECT LastName FROM [dbo].[Profile] WHERE  Id = @Id"
     let (readConnection,readCommand) = createCommand sql connectionString
@@ -229,7 +230,7 @@ let ``Update profile`` () =
 let ``Get links of provider`` () =
 
     //Setup
-    let providerId = Register someProvider |> execute
+    let providerId = Register someProfile |> execute
     AddLink  { someLink with ProviderId= unbox providerId } |> execute |> ignore
     
     // Test
@@ -243,7 +244,7 @@ let ``Get links of provider`` () =
 let ``Get followers`` () =
 
     // Setup
-    let providerId =   Register someProvider   |> execute
+    let providerId =   Register someProfile   |> execute
     let subscriberId = Register someSubscriber |> execute
     
 
@@ -260,7 +261,7 @@ let ``Get followers`` () =
 let ``Get subscriptions`` () =
 
     // Setup
-    let providerId =   Register someProvider   |> execute
+    let providerId =   Register someProfile   |> execute
     let subscriberId = Register someSubscriber |> execute
 
     Follow { FollowRequest.ProviderId=   providerId
@@ -276,8 +277,8 @@ let ``Get subscriptions`` () =
 let ``Get providers`` () =
 
     // Setup
-    Register { someProvider with FirstName= "Provider1" } |> execute |> ignore
-    Register { someProvider with FirstName= "Provider2" } |> execute |> ignore
+    Register { someProfile with FirstName= "Provider1" } |> execute |> ignore
+    Register { someProfile with FirstName= "Provider2" } |> execute |> ignore
 
     // Test
     let providers = getProviders()
@@ -289,7 +290,7 @@ let ``Get providers`` () =
 let ``Get provider`` () =
 
     // Setup
-    Register someProvider 
+    Register someProfile 
     |> execute
     |> getProvider
     |> function | Some p -> ()
@@ -304,7 +305,7 @@ let ``Get platforms`` () =
 let ``Add source`` () =
 
     //Setup
-    let providerId = execute <| Register someProvider
+    let providerId = execute <| Register someProfile
 
     // Test
     let sourceId = AddSource { someSource with ProfileId= unbox providerId } |> execute
@@ -326,7 +327,7 @@ let ``Add source`` () =
 let ``Get sources`` () =
 
     //Setup
-    let providerId = execute <| Register someProvider
+    let providerId = execute <| Register someProfile
     AddSource { someSource with ProfileId = unbox providerId } |> execute |> ignore
 
     // Test
@@ -339,7 +340,7 @@ let ``Get sources`` () =
 let ``Remove source`` () =
 
     //Setup
-    let providerId = execute <| Register someProvider
+    let providerId = execute <| Register someProfile
     
     let sourceId = AddSource { someSource with ProfileId= unbox providerId } |> execute
     

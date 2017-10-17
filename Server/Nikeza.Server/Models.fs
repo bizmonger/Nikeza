@@ -104,6 +104,7 @@ type ProfileRequest = {
     Bio:        string
     Email:      string
     ImageUrl:   string
+    Sources:    string list
 }
 
 [<CLIMutable>]

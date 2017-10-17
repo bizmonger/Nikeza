@@ -56,6 +56,7 @@ let rec readInProfiles profiles (reader:SqlDataReader) = reader.Read() |> functi
             Email=      reader.GetString(3)
             ImageUrl=   reader.GetString(4)
             Bio=        reader.GetString(5)
+            Sources=    []
         }
         
         readInProfiles (profile::profiles) reader

@@ -55,7 +55,7 @@ let private updateProfileHandler =
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<ProfileRequest>()
                 ignore (execute <| UpdateProfile data)
-                return Some context
+                return! json data context
         }
 
 let private addSourceHandler = 

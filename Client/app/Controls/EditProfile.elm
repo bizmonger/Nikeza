@@ -11,7 +11,7 @@ type Msg
     | LastNameInput String
     | EmailInput String
     | BioInput String
-    | Save Profile
+    | Update Profile
 
 
 
@@ -33,7 +33,7 @@ update msg profile =
         BioInput v ->
             { profile | bio = v }
 
-        Save v ->
+        Update v ->
             v
 
 
@@ -53,5 +53,5 @@ view profile =
         , br [] []
         , textarea [ class "inputBio", placeholder "bio description", onInput BioInput, value profile.bio ] []
         , br [] []
-        , button [ class "saveProfile", onClick <| Save profile ] [ text "Save" ]
+        , button [ class "saveProfile", onClick <| Update profile ] [ text "Save" ]
         ]

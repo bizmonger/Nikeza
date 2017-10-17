@@ -149,11 +149,16 @@ update msg model =
                             updatedProvider =
                                 { provider | profile = jsonProfile |> toProfile }
 
-                            updatedPortal =
-                                { portal | provider = updatedProvider }
-
                             newState =
-                                { model | portal = updatedPortal }
+                                { model
+                                    | portal =
+                                        { portal
+                                            | provider = updatedProvider
+                                            , sourcesNavigation = True
+                                            , linksNavigation = not <| provider.portfolio == initPortfolio
+                                            , requested = Domain.ViewSources
+                                        }
+                                }
                         in
                             ( newState, Cmd.none )
 
@@ -385,18 +390,10 @@ onEditProfile subMsg model =
             EditProfile.BioInput _ ->
                 ( newState, Cmd.none )
 
-            EditProfile.Save profile ->
+            EditProfile.Update profile ->
                 let
                     updatedModel =
-                        { model
-                            | portal =
-                                { portal
-                                    | provider = { provider | profile = profile }
-                                    , sourcesNavigation = True
-                                    , linksNavigation = not <| provider.portfolio == initPortfolio
-                                    , requested = Domain.ViewSources
-                                }
-                        }
+                        { model | portal = { portal | provider = { provider | profile = profile } } }
                 in
                     ( updatedModel, (runtime.updateProfile profile) UpdateProfileResponse )
 

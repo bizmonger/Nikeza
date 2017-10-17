@@ -13,13 +13,13 @@ let prepareReader (command:SqlCommand) =
     reader.Read() |> ignore
     reader
 
-let someProviderId =   0
+let someProfileId =   0
 let someSubscriberId = 1
 let someLinkId =       0
 let someSourceId =     0
 
 let someLink = {
-    ProviderId=  someProviderId |> string
+    ProviderId=  someProfileId |> string
     Title=       "some_title"
     Description= "some_description"
     Url=         "some_url.com"
@@ -27,8 +27,8 @@ let someLink = {
     ContentType= "article"
 }
 
-let someProvider: Profile = { 
-    ProfileId =     someProviderId |> string
+let someProfile: Profile = { 
+    ProfileId =     someProfileId |> string
     FirstName =     "Scott"
     LastName =      "Nimrod"
     Email =         "abc@abc.com"
@@ -41,18 +41,19 @@ let someProvider: Profile = {
 }
 
 let someSource = { 
-    ProfileId = someProviderId |> string
+    ProfileId = someProfileId |> string
     Platform = "YouTube"
     Username = "Bizmonger" 
 }
 
-let someUpdatedProvider: ProfileRequest = { 
-    ProfileId = someProviderId |> string
+let someUpdatedProfile: ProfileRequest = { 
+    ProfileId = someProfileId |> string
     FirstName = "Scott"
     LastName =  "Nimrod"
     Email =     "abc@abc.com"
     ImageUrl =  "someUrl.com"
     Bio =       "Some Bio"
+    Sources =   []
 }
 
 let someSubscriber: Profile = { 
