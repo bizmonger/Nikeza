@@ -40,7 +40,8 @@ let someProfile: Profile = {
     Created =       DateTime.Now
 }
 
-let someSource = { 
+let someSource = {
+    Id=         0
     ProfileId = someProfileId |> string
     Platform = "YouTube"
     Username = "Bizmonger" 

@@ -141,7 +141,8 @@ let getProviderSql = @"SELECT Id,
                        FROM   Profile
                        WHERE  Id = @ProviderId"
 
-let getSourcesSql = @"SELECT ProfileId,
+let getSourcesSql = @"SELECT Id,
+                             ProfileId,
                              Platform,
                              Username
                       FROM   Source

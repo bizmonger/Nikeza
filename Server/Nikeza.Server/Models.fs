@@ -88,13 +88,14 @@ type FeatureLinkRequest = { LinkId: int; IsFeatured: bool }
 
 [<CLIMutable>]
 type AddSourceRequest = { 
+    Id:        int
     ProfileId: string
     Platform:  string
     Username:  string
 }
 
 [<CLIMutable>]
-type RemoveSourceRequest = { SourceId: int }
+type RemoveSourceRequest = { Id: int }
 
 [<CLIMutable>]
 type ProfileRequest = {

@@ -671,9 +671,9 @@ topicLinks profileId topic contentType msg =
 
 sourcesBase : Id -> List Source
 sourcesBase profileId =
-    [ { platform = "WordPress", username = "bizmonger", linksFound = 0 }
-    , { platform = "YouTube", username = "bizmonger", linksFound = 0 }
-    , { platform = "StackOverflow", username = "scott-nimrod", linksFound = 0 }
+    [ { id = 0, platform = "WordPress", username = "bizmonger", linksFound = 0 }
+    , { id = 1, platform = "YouTube", username = "bizmonger", linksFound = 0 }
+    , { id = 2, platform = "StackOverflow", username = "scott-nimrod", linksFound = 0 }
     ]
 
 
@@ -684,9 +684,7 @@ updateProfile profile msg =
 
 sources : Id -> (Result Http.Error (List Source) -> msg) -> Cmd msg
 sources profileId msg =
-    profileId
-        |> sourcesBase
-        |> httpSuccess msg
+    profileId |> sourcesBase |> httpSuccess msg
 
 
 addSourceBase : Id -> Source -> List Source
@@ -696,9 +694,7 @@ addSourceBase profileId source =
 
 addSource : Id -> Source -> (Result Http.Error (List Source) -> msg) -> Cmd msg
 addSource profileId source msg =
-    source
-        |> addSourceBase profileId
-        |> httpSuccess msg
+    source |> addSourceBase profileId |> httpSuccess msg
 
 
 removeSourceBase : Id -> Source -> List JsonSource
@@ -708,9 +704,7 @@ removeSourceBase profileId source =
 
 removeSource : Id -> Source -> (Result Http.Error (List JsonSource) -> msg) -> Cmd msg
 removeSource profileId source msg =
-    source
-        |> removeSourceBase profileId
-        |> httpSuccess msg
+    source |> removeSourceBase profileId |> httpSuccess msg
 
 
 platformsBase : List String

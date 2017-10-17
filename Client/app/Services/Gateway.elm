@@ -24,7 +24,8 @@ profileDecoder =
 
 sourceDecoder : Decoder JsonSource
 sourceDecoder =
-    Decode.map3 JsonSource
+    Decode.map4 JsonSource
+        (field "Id" Decode.int)
         (field "Platform" Decode.string)
         (field "Usename" Decode.string)
         (field "LinksFound" Decode.int)
@@ -313,14 +314,34 @@ sources profileId msg =
     Cmd.none
 
 
-addSource : Id -> Source -> (Result Http.Error (List Source) -> msg) -> Cmd msg
+addSource : Id -> Source -> (Result Http.Error (List JsonSource) -> msg) -> Cmd msg
 addSource profileId source msg =
-    Cmd.none
+    let
+        url =
+            baseUrl ++ (idText profileId) ++ "/addsource"
+
+        body =
+            encodeSource source |> Http.jsonBody
+
+        request =
+            Http.post url body (Decode.list sourceDecoder)
+    in
+        Http.send msg request
 
 
-removeSource : Id -> Source -> (Result Http.Error (List Source) -> msg) -> Cmd msg
+removeSource : Id -> Source -> (Result Http.Error (List JsonSource) -> msg) -> Cmd msg
 removeSource profileId source msg =
-    Cmd.none
+    let
+        url =
+            baseUrl ++ (idText profileId) ++ "/removesource"
+
+        body =
+            encodeSource source |> Http.jsonBody
+
+        request =
+            Http.post url body (Decode.list sourceDecoder)
+    in
+        Http.send msg request
 
 
 bootstrap : (Result Http.Error JsonBootstrap -> msg) -> Cmd msg

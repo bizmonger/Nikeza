@@ -257,12 +257,16 @@ initNewLinks =
 
 
 type alias Source =
-    { platform : String, username : String, linksFound : Int }
+    { id : Int
+    , platform : String
+    , username : String
+    , linksFound : Int
+    }
 
 
 initSource : Source
 initSource =
-    Source "" "" 0
+    Source -1 "" "" 0
 
 
 type ProviderRequest

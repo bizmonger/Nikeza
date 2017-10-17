@@ -108,7 +108,8 @@ type alias JsonTopic =
 
 
 type alias JsonSource =
-    { platform : String
+    { id : Int
+    , platform : String
     , username : String
     , linksFound : Int
     }

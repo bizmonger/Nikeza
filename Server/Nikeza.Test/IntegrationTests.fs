@@ -345,7 +345,7 @@ let ``Remove source`` () =
     let sourceId = AddSource { someSource with ProfileId= unbox providerId } |> execute
     
     // Test
-    RemoveSource { SourceId = Int32.Parse(sourceId) } |> execute |> ignore
+    RemoveSource { Id = Int32.Parse(sourceId) } |> execute |> ignore
 
     // Verify
     let sql = @"SELECT Id FROM [dbo].[Source] WHERE  Id  = @id"

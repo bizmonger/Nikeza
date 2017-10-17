@@ -106,7 +106,7 @@ module private Commands =
 
     let removeSource (info:RemoveSourceRequest) =
         let commandFunc (command: SqlCommand) = 
-            command |> addWithValue "@Id" info.SourceId
+            command |> addWithValue "@Id" info.Id
             
         execute connectionString deleteSourceSql commandFunc
 
