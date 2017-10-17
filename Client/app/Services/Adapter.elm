@@ -39,11 +39,11 @@ type alias UpdateProfilefunction msg =
 
 
 type alias AddSourcefunction msg =
-    Source -> (Result Http.Error (List Source) -> msg) -> Cmd msg
+    Source -> (Result Http.Error JsonSource -> msg) -> Cmd msg
 
 
 type alias RemoveSourcefunction msg =
-    Id -> (Result Http.Error (List Source) -> msg) -> Cmd msg
+    Id -> (Result Http.Error JsonSource -> msg) -> Cmd msg
 
 
 type alias Platformsfunction msg =
@@ -174,6 +174,15 @@ toJsonProfile profile =
     , imageUrl = urlText profile.imageUrl
     , bio = profile.bio
     , sources = profile.sources
+    }
+
+
+toJsonSource : Source -> JsonSource
+toJsonSource source =
+    { id = source.id
+    , platform = source.platform
+    , username = source.username
+    , linksFound = source.linksFound
     }
 
 

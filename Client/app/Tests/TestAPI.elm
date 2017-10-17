@@ -687,22 +687,33 @@ sources profileId msg =
     sourcesBase |> httpSuccess msg
 
 
-addSource : Source -> (Result Http.Error (List Source) -> msg) -> Cmd msg
+addSource : Source -> (Result Http.Error JsonSource -> msg) -> Cmd msg
 addSource source msg =
-    source :: sourcesBase |> httpSuccess msg
+    source |> toJsonSource |> httpSuccess msg
 
 
-removeSourceBase : Id -> List JsonSource
+removeSourceBase : Id -> JsonSource
 removeSourceBase sourceId =
     case sourceId |> idText |> String.toInt of
         Ok id ->
-            sourcesBase |> List.filter (\s -> s.id /= id)
+            let
+                result =
+                    sourcesBase
+                        |> List.filter (\s -> s.id == id)
+                        |> List.head
+            in
+                case result of
+                    Just source ->
+                        source |> toJsonSource
+
+                    Nothing ->
+                        initSource
 
         Err _ ->
-            sourcesBase
+            initSource
 
 
-removeSource : Id -> (Result Http.Error (List JsonSource) -> msg) -> Cmd msg
+removeSource : Id -> (Result Http.Error JsonSource -> msg) -> Cmd msg
 removeSource sourceId msg =
     removeSourceBase sourceId |> httpSuccess msg
 

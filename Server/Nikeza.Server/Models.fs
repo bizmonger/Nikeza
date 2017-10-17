@@ -114,6 +114,10 @@ type Bootstrap = {
     Platforms: String list
 }
 
+type Result<'a> = 
+    | Success of 'a
+    | Failure
+
 type Command =
     | Register      of Profile
     | UpdateProfile of ProfileRequest

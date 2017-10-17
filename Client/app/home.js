@@ -14320,6 +14320,9 @@ var _user$project$Services_Adapter$toTopics = function (jsonTopics) {
 		},
 		jsonTopics);
 };
+var _user$project$Services_Adapter$toJsonSource = function (source) {
+	return {id: source.id, platform: source.platform, username: source.username, linksFound: source.linksFound};
+};
 var _user$project$Services_Adapter$toJsonProfile = function (profile) {
 	return {
 		id: _user$project$Domain_Core$idText(profile.id),
@@ -14487,6 +14490,13 @@ var _user$project$Tests_TestAPI$platformsBase = {
 		}
 	}
 };
+var _user$project$Tests_TestAPI$addSource = F2(
+	function (source, msg) {
+		return A2(
+			_user$project$Services_Adapter$httpSuccess,
+			msg,
+			_user$project$Services_Adapter$toJsonSource(source));
+	});
 var _user$project$Tests_TestAPI$updateProfile = F2(
 	function (profile, msg) {
 		return A2(
@@ -14511,25 +14521,25 @@ var _user$project$Tests_TestAPI$sources = F2(
 	function (profileId, msg) {
 		return A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$sourcesBase);
 	});
-var _user$project$Tests_TestAPI$addSource = F2(
-	function (source, msg) {
-		return A2(
-			_user$project$Services_Adapter$httpSuccess,
-			msg,
-			{ctor: '::', _0: source, _1: _user$project$Tests_TestAPI$sourcesBase});
-	});
 var _user$project$Tests_TestAPI$removeSourceBase = function (sourceId) {
 	var _p0 = _elm_lang$core$String$toInt(
 		_user$project$Domain_Core$idText(sourceId));
 	if (_p0.ctor === 'Ok') {
-		return A2(
-			_elm_lang$core$List$filter,
-			function (s) {
-				return !_elm_lang$core$Native_Utils.eq(s.id, _p0._0);
-			},
-			_user$project$Tests_TestAPI$sourcesBase);
+		var result = _elm_lang$core$List$head(
+			A2(
+				_elm_lang$core$List$filter,
+				function (s) {
+					return _elm_lang$core$Native_Utils.eq(s.id, _p0._0);
+				},
+				_user$project$Tests_TestAPI$sourcesBase));
+		var _p1 = result;
+		if (_p1.ctor === 'Just') {
+			return _user$project$Services_Adapter$toJsonSource(_p1._0);
+		} else {
+			return _user$project$Domain_Core$initSource;
+		}
 	} else {
-		return _user$project$Tests_TestAPI$sourcesBase;
+		return _user$project$Domain_Core$initSource;
 	}
 };
 var _user$project$Tests_TestAPI$removeSource = F2(
@@ -14818,8 +14828,8 @@ var _user$project$Tests_TestAPI$tryRegister = F2(
 var _user$project$Tests_TestAPI$linksToContent = F2(
 	function (contentType, profileId) {
 		var profileHolder = _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? _user$project$Tests_TestAPI$profile1 : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId2) ? _user$project$Tests_TestAPI$profile2 : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId3) ? _user$project$Tests_TestAPI$profile3 : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId4) ? _user$project$Tests_TestAPI$profile4 : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId5) ? _user$project$Tests_TestAPI$profile5 : _user$project$Tests_TestAPI$profile1))));
-		var _p1 = contentType;
-		switch (_p1.ctor) {
+		var _p2 = contentType;
+		switch (_p2.ctor) {
 			case 'Article':
 				return {
 					ctor: '::',
@@ -15783,11 +15793,7 @@ var _user$project$Services_Gateway$addSource = F2(
 		var body = _elm_lang$http$Http$jsonBody(
 			_user$project$Services_Gateway$encodeSource(source));
 		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'addsource');
-		var request = A3(
-			_elm_lang$http$Http$post,
-			url,
-			body,
-			_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$sourceDecoder));
+		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$sourceDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
 var _user$project$Services_Gateway$removeSource = F2(
@@ -15805,11 +15811,7 @@ var _user$project$Services_Gateway$removeSource = F2(
 					_elm_lang$core$Basics_ops['++'],
 					'removesource/',
 					_elm_lang$core$Basics$toString(_p1)));
-			var request = A3(
-				_elm_lang$http$Http$post,
-				url,
-				body,
-				_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$sourceDecoder));
+			var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$sourceDecoder);
 			return A2(_elm_lang$http$Http$send, msg, request);
 		} else {
 			return _elm_lang$core$Platform_Cmd$none;

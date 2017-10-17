@@ -3,6 +3,7 @@ module Nikeza.Server.Routes
 open Microsoft.AspNetCore.Http
 open Giraffe.HttpContextExtensions
 open Giraffe.HttpHandlers
+open Nikeza.Server.Model
 open Nikeza.Server.Authentication
 
 let authScheme = "Cookie"
@@ -48,29 +49,29 @@ let private unsubscribeHandler =
 let private featureLinkHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<FeatureLinkRequest>()
-                ignore (execute <| FeatureLink data)
-                return Some context
+                let link = FeatureLink data |> execute
+                return! json link context
         }
 
 let private updateProfileHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<ProfileRequest>()
-                ignore (execute <| UpdateProfile data)
-                return! json data context
+                let profile = UpdateProfile data |> execute
+                return! json profile context
         }
 
 let private addSourceHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<AddSourceRequest>()
-                ignore (execute <| AddSource data)
-                return Some context
+                let source = AddSource data |> execute
+                return! json source context
         }
 
 let private removeSourceHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<RemoveSourceRequest>()
-                ignore (execute <| RemoveSource data)
-                return Some context
+                RemoveSource data |> execute |> ignore
+                return! json data context
         }
 
 let private addLinkHandler = 

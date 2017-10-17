@@ -23,10 +23,6 @@ module Nikeza.Server.Authentication
     type LoginResponse = 
         | Authenticated of ClaimsPrincipal
         | UnAuthenticated 
-
-    type RegistrationStatus = 
-        | Success of Profile
-        | Failure 
     
     open System
     open System.Security.Cryptography
