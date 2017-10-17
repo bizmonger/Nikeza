@@ -89,7 +89,7 @@ type Msg
     | ProviderContentTypeLinksAction ProviderContentTypeLinks.Msg
     | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
     | ProvidersResponse (Result Http.Error (List JsonProvider))
-    | UpdateProfileResponse (Result Http.Error JsonProfile)
+      -- | UpdateProfileResponse (Result Http.Error JsonProfile)
     | BootstrapResponse (Result Http.Error JsonBootstrap)
     | NavigateToPortalResponse (Result Http.Error JsonProvider)
     | NavigateToPortalProviderTopicResponse (Result Http.Error JsonProvider)
@@ -135,32 +135,6 @@ update msg model =
                           }
                         , Cmd.none
                         )
-
-                    Err description ->
-                        Debug.crash (toString description) ( model, Cmd.none )
-
-            UpdateProfileResponse response ->
-                case response of
-                    Ok jsonProfile ->
-                        let
-                            ( portal, provider ) =
-                                ( model.portal, model.portal.provider )
-
-                            updatedProvider =
-                                { provider | profile = jsonProfile |> toProfile }
-
-                            newState =
-                                { model
-                                    | portal =
-                                        { portal
-                                            | provider = updatedProvider
-                                            , sourcesNavigation = True
-                                            , linksNavigation = not <| provider.portfolio == initPortfolio
-                                            , requested = Domain.ViewSources
-                                        }
-                                }
-                        in
-                            ( newState, Cmd.none )
 
                     Err description ->
                         Debug.crash (toString description) ( model, Cmd.none )
@@ -368,8 +342,11 @@ onPortalLinksAction subMsg model =
 onEditProfile : EditProfile.Msg -> Model -> ( Model, Cmd Msg )
 onEditProfile subMsg model =
     let
-        updatedProfile =
+        ( updatedProfile, subCmd ) =
             EditProfile.update subMsg model.portal.provider.profile
+
+        editCmd =
+            Cmd.map EditProfileAction subCmd
 
         ( portal, provider ) =
             ( model.portal, model.portal.provider )
@@ -379,23 +356,39 @@ onEditProfile subMsg model =
     in
         case subMsg of
             EditProfile.FirstNameInput _ ->
-                ( newState, Cmd.none )
+                ( newState, editCmd )
 
             EditProfile.LastNameInput _ ->
-                ( newState, Cmd.none )
+                ( newState, editCmd )
 
             EditProfile.EmailInput _ ->
-                ( newState, Cmd.none )
+                ( newState, editCmd )
 
             EditProfile.BioInput _ ->
-                ( newState, Cmd.none )
+                ( newState, editCmd )
 
-            EditProfile.Update profile ->
-                let
-                    updatedModel =
-                        { model | portal = { portal | provider = { provider | profile = profile } } }
-                in
-                    ( updatedModel, (runtime.updateProfile profile) UpdateProfileResponse )
+            EditProfile.Update ->
+                ( newState, editCmd )
+
+            EditProfile.Response result ->
+                case result of
+                    Result.Ok jsonProfile ->
+                        let
+                            newState =
+                                { model
+                                    | portal =
+                                        { portal
+                                            | provider = provider
+                                            , sourcesNavigation = True
+                                            , linksNavigation = not <| provider.portfolio == initPortfolio
+                                            , requested = Domain.ViewSources
+                                        }
+                                }
+                        in
+                            ( newState, editCmd )
+
+                    Result.Err _ ->
+                        ( model, editCmd )
 
 
 onRegistration : Registration.Msg -> Model -> ( Model, Cmd Msg )

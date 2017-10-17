@@ -1,12 +1,12 @@
 module Controls.Register exposing (..)
 
 import Settings exposing (..)
+import Domain.Core exposing (Form)
+import Services.Adapter exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
-import Domain.Core exposing (Form)
-import Services.Adapter exposing (..)
 import Navigation exposing (..)
 
 

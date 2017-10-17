@@ -1,9 +1,13 @@
 module Controls.EditProfile exposing (..)
 
+import Settings exposing (..)
 import Domain.Core exposing (..)
+import Services.Adapter exposing (..)
+import Http
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
+import Navigation exposing (..)
 
 
 type Msg
@@ -11,30 +15,37 @@ type Msg
     | LastNameInput String
     | EmailInput String
     | BioInput String
-    | Update Profile
+    | Update
+    | Response (Result Http.Error JsonProfile)
 
 
 
 -- UPDATE
 
 
-update : Msg -> Profile -> Profile
+update : Msg -> Profile -> ( Profile, Cmd Msg )
 update msg profile =
     case msg of
         FirstNameInput v ->
-            { profile | firstName = Name v }
+            ( { profile | firstName = Name v }, Cmd.none )
 
         LastNameInput v ->
-            { profile | lastName = Name v }
+            ( { profile | lastName = Name v }, Cmd.none )
 
         EmailInput v ->
-            { profile | email = Email v }
+            ( { profile | email = Email v }, Cmd.none )
 
         BioInput v ->
-            { profile | bio = v }
+            ( { profile | bio = v }, Cmd.none )
 
-        Update v ->
-            v
+        Update ->
+            ( profile, (runtime.updateProfile profile) Response )
+
+        Response (Ok jsonProfile) ->
+            ( jsonProfile |> toProfile, Cmd.none )
+
+        Response (Err error) ->
+            Debug.crash (toString error) ( profile, Cmd.none )
 
 
 
@@ -53,5 +64,5 @@ view profile =
         , br [] []
         , textarea [ class "inputBio", placeholder "bio description", onInput BioInput, value profile.bio ] []
         , br [] []
-        , button [ class "saveProfile", onClick <| Update profile ] [ text "Save" ]
+        , button [ class "saveProfile", onClick <| Update ] [ text "Save" ]
         ]
