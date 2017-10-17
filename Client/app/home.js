@@ -15755,7 +15755,7 @@ var _user$project$Services_Gateway$encodeRegistration = function (form) {
 				_0: {
 					ctor: '_Tuple2',
 					_0: 'LastName',
-					_1: _elm_lang$core$Json_Encode$string(form.firstName)
+					_1: _elm_lang$core$Json_Encode$string(form.lastName)
 				},
 				_1: {
 					ctor: '::',
@@ -19901,7 +19901,7 @@ var _user$project$Home$onEditProfile = F2(
 		var _p17 = {ctor: '_Tuple2', _0: model.portal, _1: model.portal.provider};
 		var portal = _p17._0;
 		var provider = _p17._1;
-		var _p18 = A2(_user$project$Controls_EditProfile$update, subMsg, model.portal.provider.profile);
+		var _p18 = A2(_user$project$Controls_EditProfile$update, subMsg, provider.profile);
 		var updatedProfile = _p18._0;
 		var subCmd = _p18._1;
 		var editCmd = A2(_elm_lang$core$Platform_Cmd$map, _user$project$Home$EditProfileAction, subCmd);
@@ -19931,19 +19931,23 @@ var _user$project$Home$onEditProfile = F2(
 			default:
 				var _p20 = _p19._0;
 				if (_p20.ctor === 'Ok') {
-					var newState = _elm_lang$core$Native_Utils.update(
-						model,
+					var updatedModel = _elm_lang$core$Native_Utils.update(
+						newState,
 						{
 							portal: _elm_lang$core$Native_Utils.update(
 								portal,
 								{
-									provider: provider,
+									provider: _elm_lang$core$Native_Utils.update(
+										provider,
+										{
+											profile: _user$project$Services_Adapter$toProfile(_p20._0)
+										}),
 									sourcesNavigation: true,
 									linksNavigation: !_elm_lang$core$Native_Utils.eq(provider.portfolio, _user$project$Domain_Core$initPortfolio),
 									requested: _user$project$Domain_Core$ViewSources
 								})
 						});
-					return {ctor: '_Tuple2', _0: newState, _1: editCmd};
+					return {ctor: '_Tuple2', _0: updatedModel, _1: editCmd};
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: editCmd};
 				}

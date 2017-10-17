@@ -342,14 +342,14 @@ onPortalLinksAction subMsg model =
 onEditProfile : EditProfile.Msg -> Model -> ( Model, Cmd Msg )
 onEditProfile subMsg model =
     let
+        ( portal, provider ) =
+            ( model.portal, model.portal.provider )
+
         ( updatedProfile, subCmd ) =
-            EditProfile.update subMsg model.portal.provider.profile
+            EditProfile.update subMsg provider.profile
 
         editCmd =
             Cmd.map EditProfileAction subCmd
-
-        ( portal, provider ) =
-            ( model.portal, model.portal.provider )
 
         newState =
             { model | portal = { portal | provider = { provider | profile = updatedProfile } } }
@@ -374,18 +374,18 @@ onEditProfile subMsg model =
                 case result of
                     Result.Ok jsonProfile ->
                         let
-                            newState =
-                                { model
+                            updatedModel =
+                                { newState
                                     | portal =
                                         { portal
-                                            | provider = provider
+                                            | provider = { provider | profile = jsonProfile |> toProfile }
                                             , sourcesNavigation = True
                                             , linksNavigation = not <| provider.portfolio == initPortfolio
                                             , requested = Domain.ViewSources
                                         }
                                 }
                         in
-                            ( newState, editCmd )
+                            ( updatedModel, editCmd )
 
                     Result.Err _ ->
                         ( model, editCmd )

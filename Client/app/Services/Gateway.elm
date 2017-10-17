@@ -94,7 +94,7 @@ encodeRegistration : Form -> Encode.Value
 encodeRegistration form =
     Encode.object
         [ ( "FirstName", Encode.string form.firstName )
-        , ( "LastName", Encode.string form.firstName )
+        , ( "LastName", Encode.string form.lastName )
         , ( "Email", Encode.string form.email )
         , ( "Password", Encode.string form.password )
         ]
