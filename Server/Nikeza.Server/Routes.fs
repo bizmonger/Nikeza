@@ -6,6 +6,7 @@ open Giraffe.HttpHandlers
 open Nikeza.Server.Authentication
 
 let authScheme = "Cookie"
+
 let private registrationHandler = 
     fun(context: HttpContext) -> 
         async {

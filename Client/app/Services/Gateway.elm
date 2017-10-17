@@ -314,11 +314,11 @@ sources profileId msg =
     Cmd.none
 
 
-addSource : Id -> Source -> (Result Http.Error (List JsonSource) -> msg) -> Cmd msg
-addSource profileId source msg =
+addSource : Source -> (Result Http.Error (List JsonSource) -> msg) -> Cmd msg
+addSource source msg =
     let
         url =
-            baseUrl ++ (idText profileId) ++ "/addsource"
+            baseUrl ++ "addsource"
 
         body =
             encodeSource source |> Http.jsonBody
@@ -329,19 +329,24 @@ addSource profileId source msg =
         Http.send msg request
 
 
-removeSource : Id -> Source -> (Result Http.Error (List JsonSource) -> msg) -> Cmd msg
-removeSource profileId source msg =
-    let
-        url =
-            baseUrl ++ (idText profileId) ++ "/removesource"
+removeSource : Id -> (Result Http.Error (List JsonSource) -> msg) -> Cmd msg
+removeSource sourceId msg =
+    case (idText sourceId) |> String.toInt of
+        Ok id ->
+            let
+                url =
+                    baseUrl ++ "removesource/" ++ (id |> toString)
 
-        body =
-            encodeSource source |> Http.jsonBody
+                body =
+                    Encode.int id |> Http.jsonBody
 
-        request =
-            Http.post url body (Decode.list sourceDecoder)
-    in
-        Http.send msg request
+                request =
+                    Http.post url body (Decode.list sourceDecoder)
+            in
+                Http.send msg request
+
+        Err _ ->
+            Cmd.none
 
 
 bootstrap : (Result Http.Error JsonBootstrap -> msg) -> Cmd msg

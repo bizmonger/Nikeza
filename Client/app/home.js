@@ -14494,61 +14494,50 @@ var _user$project$Tests_TestAPI$updateProfile = F2(
 			msg,
 			_user$project$Services_Adapter$toJsonProfile(profile));
 	});
-var _user$project$Tests_TestAPI$sourcesBase = function (profileId) {
-	return {
+var _user$project$Tests_TestAPI$sourcesBase = {
+	ctor: '::',
+	_0: {id: 0, platform: 'WordPress', username: 'bizmonger', linksFound: 0},
+	_1: {
 		ctor: '::',
-		_0: {id: 0, platform: 'WordPress', username: 'bizmonger', linksFound: 0},
+		_0: {id: 1, platform: 'YouTube', username: 'bizmonger', linksFound: 0},
 		_1: {
 			ctor: '::',
-			_0: {id: 1, platform: 'YouTube', username: 'bizmonger', linksFound: 0},
-			_1: {
-				ctor: '::',
-				_0: {id: 2, platform: 'StackOverflow', username: 'scott-nimrod', linksFound: 0},
-				_1: {ctor: '[]'}
-			}
+			_0: {id: 2, platform: 'StackOverflow', username: 'scott-nimrod', linksFound: 0},
+			_1: {ctor: '[]'}
 		}
-	};
+	}
 };
 var _user$project$Tests_TestAPI$sources = F2(
 	function (profileId, msg) {
+		return A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$sourcesBase);
+	});
+var _user$project$Tests_TestAPI$addSource = F2(
+	function (source, msg) {
 		return A2(
 			_user$project$Services_Adapter$httpSuccess,
 			msg,
-			_user$project$Tests_TestAPI$sourcesBase(profileId));
+			{ctor: '::', _0: source, _1: _user$project$Tests_TestAPI$sourcesBase});
 	});
-var _user$project$Tests_TestAPI$addSourceBase = F2(
-	function (profileId, source) {
-		return {
-			ctor: '::',
-			_0: source,
-			_1: _user$project$Tests_TestAPI$sourcesBase(profileId)
-		};
-	});
-var _user$project$Tests_TestAPI$addSource = F3(
-	function (profileId, source, msg) {
-		return A2(
-			_user$project$Services_Adapter$httpSuccess,
-			msg,
-			A2(_user$project$Tests_TestAPI$addSourceBase, profileId, source));
-	});
-var _user$project$Tests_TestAPI$removeSourceBase = F2(
-	function (profileId, source) {
+var _user$project$Tests_TestAPI$removeSourceBase = function (sourceId) {
+	var _p0 = _elm_lang$core$String$toInt(
+		_user$project$Domain_Core$idText(sourceId));
+	if (_p0.ctor === 'Ok') {
 		return A2(
 			_elm_lang$core$List$filter,
-			function (c) {
-				return A2(
-					_elm_lang$core$List$member,
-					source,
-					_user$project$Tests_TestAPI$sourcesBase(profileId));
+			function (s) {
+				return !_elm_lang$core$Native_Utils.eq(s.id, _p0._0);
 			},
-			_user$project$Tests_TestAPI$sourcesBase(profileId));
-	});
-var _user$project$Tests_TestAPI$removeSource = F3(
-	function (profileId, source, msg) {
+			_user$project$Tests_TestAPI$sourcesBase);
+	} else {
+		return _user$project$Tests_TestAPI$sourcesBase;
+	}
+};
+var _user$project$Tests_TestAPI$removeSource = F2(
+	function (sourceId, msg) {
 		return A2(
 			_user$project$Services_Adapter$httpSuccess,
 			msg,
-			A2(_user$project$Tests_TestAPI$removeSourceBase, profileId, source));
+			_user$project$Tests_TestAPI$removeSourceBase(sourceId));
 	});
 var _user$project$Tests_TestAPI$removeLink = F3(
 	function (profileId, link, msg) {
@@ -14654,7 +14643,7 @@ var _user$project$Tests_TestAPI$profile5 = A7(
 	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$profile5ImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$sourcesBase(_user$project$Tests_TestAPI$profileId5));
+	_user$project$Tests_TestAPI$sourcesBase);
 var _user$project$Tests_TestAPI$jsonProfile5 = A7(
 	_user$project$Services_Adapter$JsonProfile,
 	_user$project$Domain_Core$idText(_user$project$Tests_TestAPI$profileId5),
@@ -14673,7 +14662,7 @@ var _user$project$Tests_TestAPI$profile4 = A7(
 	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$profile4ImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$sourcesBase(_user$project$Tests_TestAPI$profileId4));
+	_user$project$Tests_TestAPI$sourcesBase);
 var _user$project$Tests_TestAPI$jsonProfile4 = A7(
 	_user$project$Services_Adapter$JsonProfile,
 	_user$project$Domain_Core$idText(_user$project$Tests_TestAPI$profileId4),
@@ -14692,7 +14681,7 @@ var _user$project$Tests_TestAPI$profile3 = A7(
 	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$profile3ImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$sourcesBase(_user$project$Tests_TestAPI$profileId3));
+	_user$project$Tests_TestAPI$sourcesBase);
 var _user$project$Tests_TestAPI$recentLinks3 = {
 	ctor: '::',
 	_0: A6(
@@ -14727,7 +14716,7 @@ var _user$project$Tests_TestAPI$profile2 = A7(
 	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$profile2ImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$sourcesBase(_user$project$Tests_TestAPI$profileId2));
+	_user$project$Tests_TestAPI$sourcesBase);
 var _user$project$Tests_TestAPI$recentLinks2 = {
 	ctor: '::',
 	_0: A6(
@@ -14777,7 +14766,7 @@ var _user$project$Tests_TestAPI$profile1 = A7(
 	_user$project$Tests_TestAPI$someEmail,
 	_user$project$Tests_TestAPI$profile1ImageUrl,
 	_user$project$Tests_TestAPI$someDescrtiption,
-	_user$project$Tests_TestAPI$sourcesBase(_user$project$Tests_TestAPI$profileId1));
+	_user$project$Tests_TestAPI$sourcesBase);
 var _user$project$Tests_TestAPI$recentLinks1 = {
 	ctor: '::',
 	_0: A6(
@@ -14829,8 +14818,8 @@ var _user$project$Tests_TestAPI$tryRegister = F2(
 var _user$project$Tests_TestAPI$linksToContent = F2(
 	function (contentType, profileId) {
 		var profileHolder = _elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId1) ? _user$project$Tests_TestAPI$profile1 : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId2) ? _user$project$Tests_TestAPI$profile2 : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId3) ? _user$project$Tests_TestAPI$profile3 : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId4) ? _user$project$Tests_TestAPI$profile4 : (_elm_lang$core$Native_Utils.eq(profileId, _user$project$Tests_TestAPI$profileId5) ? _user$project$Tests_TestAPI$profile5 : _user$project$Tests_TestAPI$profile1))));
-		var _p0 = contentType;
-		switch (_p0.ctor) {
+		var _p1 = contentType;
+		switch (_p1.ctor) {
 			case 'Article':
 				return {
 					ctor: '::',
@@ -15789,17 +15778,11 @@ var _user$project$Services_Gateway$sourceDecoder = A5(
 	A2(_elm_lang$core$Json_Decode$field, 'Platform', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'Usename', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'LinksFound', _elm_lang$core$Json_Decode$int));
-var _user$project$Services_Gateway$addSource = F3(
-	function (profileId, source, msg) {
+var _user$project$Services_Gateway$addSource = F2(
+	function (source, msg) {
 		var body = _elm_lang$http$Http$jsonBody(
 			_user$project$Services_Gateway$encodeSource(source));
-		var url = A2(
-			_elm_lang$core$Basics_ops['++'],
-			_user$project$Services_Gateway$baseUrl,
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_user$project$Domain_Core$idText(profileId),
-				'/addsource'));
+		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'addsource');
 		var request = A3(
 			_elm_lang$http$Http$post,
 			url,
@@ -15807,23 +15790,30 @@ var _user$project$Services_Gateway$addSource = F3(
 			_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$sourceDecoder));
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
-var _user$project$Services_Gateway$removeSource = F3(
-	function (profileId, source, msg) {
-		var body = _elm_lang$http$Http$jsonBody(
-			_user$project$Services_Gateway$encodeSource(source));
-		var url = A2(
-			_elm_lang$core$Basics_ops['++'],
-			_user$project$Services_Gateway$baseUrl,
-			A2(
+var _user$project$Services_Gateway$removeSource = F2(
+	function (sourceId, msg) {
+		var _p0 = _elm_lang$core$String$toInt(
+			_user$project$Domain_Core$idText(sourceId));
+		if (_p0.ctor === 'Ok') {
+			var _p1 = _p0._0;
+			var body = _elm_lang$http$Http$jsonBody(
+				_elm_lang$core$Json_Encode$int(_p1));
+			var url = A2(
 				_elm_lang$core$Basics_ops['++'],
-				_user$project$Domain_Core$idText(profileId),
-				'/removesource'));
-		var request = A3(
-			_elm_lang$http$Http$post,
-			url,
-			body,
-			_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$sourceDecoder));
-		return A2(_elm_lang$http$Http$send, msg, request);
+				_user$project$Services_Gateway$baseUrl,
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'removesource/',
+					_elm_lang$core$Basics$toString(_p1)));
+			var request = A3(
+				_elm_lang$http$Http$post,
+				url,
+				body,
+				_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$sourceDecoder));
+			return A2(_elm_lang$http$Http$send, msg, request);
+		} else {
+			return _elm_lang$core$Platform_Cmd$none;
+		}
 	});
 var _user$project$Services_Gateway$profileDecoder = A8(
 	_elm_lang$core$Json_Decode$map7,
@@ -15969,7 +15959,7 @@ var _user$project$Services_Gateway$providerDecoder = A2(
 			'Subscriptions',
 			_elm_lang$core$Json_Decode$list(
 				_elm_lang$core$Json_Decode$lazy(
-					function (_p0) {
+					function (_p2) {
 						return _user$project$Services_Gateway$providerDecoder;
 					}))),
 		A2(
@@ -15977,7 +15967,7 @@ var _user$project$Services_Gateway$providerDecoder = A2(
 			'Followers',
 			_elm_lang$core$Json_Decode$list(
 				_elm_lang$core$Json_Decode$lazy(
-					function (_p1) {
+					function (_p3) {
 						return _user$project$Services_Gateway$providerDecoder;
 					})))));
 var _user$project$Services_Gateway$bootstrapDecoder = A3(

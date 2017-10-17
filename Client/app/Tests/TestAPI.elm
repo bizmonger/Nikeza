@@ -248,27 +248,27 @@ someEmail =
 
 profile1 : Profile
 profile1 =
-    Profile profileId1 (Name "Scott") (Name "Nimrod") someEmail profile1ImageUrl someDescrtiption (profileId1 |> sourcesBase)
+    Profile profileId1 (Name "Scott") (Name "Nimrod") someEmail profile1ImageUrl someDescrtiption sourcesBase
 
 
 profile2 : Profile
 profile2 =
-    Profile profileId2 (Name "Pablo") (Name "Rivera") someEmail profile2ImageUrl someDescrtiption (profileId2 |> sourcesBase)
+    Profile profileId2 (Name "Pablo") (Name "Rivera") someEmail profile2ImageUrl someDescrtiption sourcesBase
 
 
 profile3 : Profile
 profile3 =
-    Profile profileId3 (Name "Adam") (Name "Wright") someEmail profile3ImageUrl someDescrtiption (profileId3 |> sourcesBase)
+    Profile profileId3 (Name "Adam") (Name "Wright") someEmail profile3ImageUrl someDescrtiption sourcesBase
 
 
 profile4 : Profile
 profile4 =
-    Profile profileId4 (Name "Mitchell") (Name "Tilbrook") someEmail profile4ImageUrl someDescrtiption (profileId4 |> sourcesBase)
+    Profile profileId4 (Name "Mitchell") (Name "Tilbrook") someEmail profile4ImageUrl someDescrtiption sourcesBase
 
 
 profile5 : Profile
 profile5 =
-    Profile profileId5 (Name "Ody") (Name "Mbegbu") someEmail profile5ImageUrl someDescrtiption (profileId5 |> sourcesBase)
+    Profile profileId5 (Name "Ody") (Name "Mbegbu") someEmail profile5ImageUrl someDescrtiption sourcesBase
 
 
 jsonPortfolio : Id -> JsonPortfolio
@@ -669,8 +669,8 @@ topicLinks profileId topic contentType msg =
         |> httpSuccess msg
 
 
-sourcesBase : Id -> List Source
-sourcesBase profileId =
+sourcesBase : List Source
+sourcesBase =
     [ { id = 0, platform = "WordPress", username = "bizmonger", linksFound = 0 }
     , { id = 1, platform = "YouTube", username = "bizmonger", linksFound = 0 }
     , { id = 2, platform = "StackOverflow", username = "scott-nimrod", linksFound = 0 }
@@ -684,27 +684,27 @@ updateProfile profile msg =
 
 sources : Id -> (Result Http.Error (List Source) -> msg) -> Cmd msg
 sources profileId msg =
-    profileId |> sourcesBase |> httpSuccess msg
+    sourcesBase |> httpSuccess msg
 
 
-addSourceBase : Id -> Source -> List Source
-addSourceBase profileId source =
-    source :: (profileId |> sourcesBase)
+addSource : Source -> (Result Http.Error (List Source) -> msg) -> Cmd msg
+addSource source msg =
+    source :: sourcesBase |> httpSuccess msg
 
 
-addSource : Id -> Source -> (Result Http.Error (List Source) -> msg) -> Cmd msg
-addSource profileId source msg =
-    source |> addSourceBase profileId |> httpSuccess msg
+removeSourceBase : Id -> List JsonSource
+removeSourceBase sourceId =
+    case sourceId |> idText |> String.toInt of
+        Ok id ->
+            sourcesBase |> List.filter (\s -> s.id /= id)
+
+        Err _ ->
+            sourcesBase
 
 
-removeSourceBase : Id -> Source -> List JsonSource
-removeSourceBase profileId source =
-    profileId |> sourcesBase |> List.filter (\c -> profileId |> sourcesBase |> List.member source)
-
-
-removeSource : Id -> Source -> (Result Http.Error (List JsonSource) -> msg) -> Cmd msg
-removeSource profileId source msg =
-    source |> removeSourceBase profileId |> httpSuccess msg
+removeSource : Id -> (Result Http.Error (List JsonSource) -> msg) -> Cmd msg
+removeSource sourceId msg =
+    removeSourceBase sourceId |> httpSuccess msg
 
 
 platformsBase : List String

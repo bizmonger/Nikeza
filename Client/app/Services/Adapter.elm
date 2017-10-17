@@ -39,11 +39,11 @@ type alias UpdateProfilefunction msg =
 
 
 type alias AddSourcefunction msg =
-    Id -> Source -> (Result Http.Error (List Source) -> msg) -> Cmd msg
+    Source -> (Result Http.Error (List Source) -> msg) -> Cmd msg
 
 
 type alias RemoveSourcefunction msg =
-    Id -> Source -> (Result Http.Error (List Source) -> msg) -> Cmd msg
+    Id -> (Result Http.Error (List Source) -> msg) -> Cmd msg
 
 
 type alias Platformsfunction msg =
