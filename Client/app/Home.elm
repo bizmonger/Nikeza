@@ -5,7 +5,7 @@ import Domain.Core as Domain exposing (..)
 import Controls.Login as Login exposing (..)
 import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
 import Controls.RecentProviderLinks as RecentProviderLinks exposing (..)
-import Controls.AddSource as AddSource exposing (..)
+import Controls.Sources as Sources exposing (..)
 import Controls.NewLinks as NewLinks exposing (..)
 import Controls.ProviderLinks as ProviderLinks exposing (..)
 import Controls.ProviderContentTypeLinks as ProviderContentTypeLinks exposing (..)
@@ -73,7 +73,7 @@ type Msg
     | OnLogin Login.Msg
     | ProfileThumbnail ProfileThumbnail.Msg
     | RecentProviderLinks RecentProviderLinks.Msg
-    | SourceAdded AddSource.Msg
+    | SourcesUpdated Sources.Msg
     | ViewSources
     | AddNewLink
     | ViewLinks
@@ -89,7 +89,6 @@ type Msg
     | ProviderContentTypeLinksAction ProviderContentTypeLinks.Msg
     | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
     | ProvidersResponse (Result Http.Error (List JsonProvider))
-      -- | UpdateProfileResponse (Result Http.Error JsonProfile)
     | BootstrapResponse (Result Http.Error JsonBootstrap)
     | NavigateToPortalResponse (Result Http.Error JsonProvider)
     | NavigateToPortalProviderTopicResponse (Result Http.Error JsonProvider)
@@ -261,8 +260,8 @@ update msg model =
             ViewRecent ->
                 ( { model | portal = { portal | requested = Domain.ViewRecent } }, Cmd.none )
 
-            SourceAdded subMsg ->
-                onAddedSource subMsg model
+            SourcesUpdated subMsg ->
+                onSourcesUpdated subMsg model
 
             NewLink subMsg ->
                 onNewLink subMsg model
@@ -542,29 +541,32 @@ onNewLink subMsg model =
                     ( { model | portal = updatedPortal }, Cmd.none )
 
 
-onAddedSource : AddSource.Msg -> Model -> ( Model, Cmd Msg )
-onAddedSource subMsg model =
+onSourcesUpdated : Sources.Msg -> Model -> ( Model, Cmd Msg )
+onSourcesUpdated subMsg model =
     let
         ( pendingPortal, provider, updatedProfile ) =
             ( model.portal, model.portal.provider, model.portal.provider.profile )
 
-        addSourceModel =
-            AddSource.update subMsg { source = pendingPortal.newSource, sources = provider.profile.sources }
+        ( sources, subCmd ) =
+            Sources.update subMsg { source = pendingPortal.newSource, sources = provider.profile.sources }
+
+        sourceCmd =
+            Cmd.map SourcesUpdated subCmd
 
         updatedProvider =
-            { provider | profile = { updatedProfile | sources = addSourceModel.sources } }
+            { provider | profile = { updatedProfile | sources = sources.sources } }
 
         portal =
-            { pendingPortal | newSource = addSourceModel.source, provider = updatedProvider }
+            { pendingPortal | newSource = sources.source, provider = updatedProvider }
     in
         case subMsg of
-            AddSource.InputUsername _ ->
-                ( { model | portal = portal }, Cmd.none )
+            Sources.InputUsername _ ->
+                ( { model | portal = portal }, sourceCmd )
 
-            AddSource.InputPlatform _ ->
-                ( { model | portal = portal }, Cmd.none )
+            Sources.InputPlatform _ ->
+                ( { model | portal = portal }, sourceCmd )
 
-            AddSource.Add _ ->
+            Sources.Add _ ->
                 ( { model
                     | portal =
                         { portal
@@ -573,10 +575,10 @@ onAddedSource subMsg model =
                             , sourcesNavigation = True
                         }
                   }
-                , Cmd.none
+                , sourceCmd
                 )
 
-            AddSource.Remove _ ->
+            Sources.Remove _ ->
                 ( { model
                     | portal =
                         { portal
@@ -585,8 +587,24 @@ onAddedSource subMsg model =
                             , addLinkNavigation = True
                         }
                   }
-                , Cmd.none
+                , sourceCmd
                 )
+
+            Sources.AddResponse result ->
+                case result of
+                    Ok _ ->
+                        ( model, sourceCmd )
+
+                    Err reason ->
+                        Debug.crash (toString reason) ( model, sourceCmd )
+
+            Sources.RemoveResponse result ->
+                case result of
+                    Ok _ ->
+                        ( model, sourceCmd )
+
+                    Err reason ->
+                        Debug.crash (toString reason) ( model, sourceCmd )
 
 
 filterProviders : List Provider -> String -> List Provider
@@ -967,8 +985,8 @@ content contentToEmbed model =
         case portal.requested of
             Domain.ViewSources ->
                 div []
-                    [ Html.map SourceAdded <|
-                        AddSource.view { source = portal.newSource, sources = loggedIn.profile.sources } model.platforms
+                    [ Html.map SourcesUpdated <|
+                        Sources.view { source = portal.newSource, sources = loggedIn.profile.sources } model.platforms
                     ]
 
             Domain.ViewLinks ->

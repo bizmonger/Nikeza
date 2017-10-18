@@ -56,8 +56,8 @@ let private featureLinkHandler =
 let private updateProfileHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<ProfileRequest>()
-                let profile = UpdateProfile data |> execute
-                return! json profile context
+                UpdateProfile data |> execute |> ignore
+                return! json data context
         }
 
 let private addSourceHandler = 

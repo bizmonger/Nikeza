@@ -186,6 +186,15 @@ toJsonSource source =
     }
 
 
+toSource : JsonSource -> Source
+toSource source =
+    { id = source.id
+    , platform = source.platform
+    , username = source.username
+    , linksFound = source.linksFound
+    }
+
+
 toJsonLinks : List Link -> List JsonLink
 toJsonLinks links =
     links |> List.map toJsonLink

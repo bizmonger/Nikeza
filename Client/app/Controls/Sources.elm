@@ -1,9 +1,11 @@
-module Controls.AddSource exposing (..)
+module Controls.Sources exposing (..)
 
 import Domain.Core exposing (..)
+import Services.Adapter exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Http
 import Json.Decode exposing (map)
 
 
@@ -18,14 +20,16 @@ type Msg
     = InputUsername String
     | InputPlatform String
     | Add Source
+    | AddResponse (Result Http.Error JsonSource)
     | Remove Source
+    | RemoveResponse (Result Http.Error JsonSource)
 
 
 
 -- UPDATE
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     let
         source =
@@ -33,16 +37,28 @@ update msg model =
     in
         case msg of
             InputUsername v ->
-                { model | source = { source | username = v } }
+                ( { model | source = { source | username = v } }, Cmd.none )
 
             InputPlatform v ->
-                { model | source = { source | platform = v } }
+                ( { model | source = { source | platform = v } }, Cmd.none )
 
             Add source ->
-                { model | sources = source :: model.sources }
+                ( model, Cmd.none )
 
             Remove v ->
-                { model | sources = model.sources |> List.filter (\s -> s /= v) }
+                ( model, Cmd.none )
+
+            AddResponse (Ok jsonSource) ->
+                ( { model | sources = (jsonSource |> toSource) :: model.sources }, Cmd.none )
+
+            AddResponse (Err error) ->
+                Debug.crash (toString error) ( model, Cmd.none )
+
+            RemoveResponse (Ok jsonSource) ->
+                ( { model | sources = model.sources |> List.filter (\s -> s /= (jsonSource |> toSource)) }, Cmd.none )
+
+            RemoveResponse (Err error) ->
+                Debug.crash (toString error) ( model, Cmd.none )
 
 
 view : Model -> List Platform -> Html Msg
