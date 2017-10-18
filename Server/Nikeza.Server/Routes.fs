@@ -1,5 +1,6 @@
 module Nikeza.Server.Routes
 
+open System
 open Microsoft.AspNetCore.Http
 open Giraffe.HttpContextExtensions
 open Giraffe.HttpHandlers
@@ -63,8 +64,8 @@ let private updateProfileHandler =
 let private addSourceHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<AddSourceRequest>()
-                let source = AddSource data |> execute
-                return! json source context
+                let sourceId = AddSource data |> execute
+                return! json { data with Id = Int32.Parse(sourceId) } context
         }
 
 let private removeSourceHandler = 

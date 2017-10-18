@@ -547,8 +547,11 @@ onSourcesUpdated subMsg model =
         ( pendingPortal, provider, updatedProfile ) =
             ( model.portal, model.portal.provider, model.portal.provider.profile )
 
+        source =
+            pendingPortal.newSource
+
         ( sources, subCmd ) =
-            Sources.update subMsg { profileId = updatedProfile.id, source = pendingPortal.newSource, sources = provider.profile.sources }
+            Sources.update subMsg { source = { source | profileId = updatedProfile.id }, sources = provider.profile.sources }
 
         sourceCmd =
             Cmd.map SourcesUpdated subCmd
@@ -984,7 +987,7 @@ content contentToEmbed model =
             Domain.ViewSources ->
                 div []
                     [ Html.map SourcesUpdated <|
-                        Sources.view { profileId = loggedIn.profile.id, source = portal.newSource, sources = loggedIn.profile.sources } model.platforms
+                        Sources.view { source = portal.newSource, sources = loggedIn.profile.sources } model.platforms
                     ]
 
             Domain.ViewLinks ->

@@ -44,7 +44,8 @@ let someSource = {
     Id=         0
     ProfileId = someProfileId |> string
     Platform = "YouTube"
-    Username = "Bizmonger" 
+    Username = "Bizmonger"
+    Links =     []
 }
 
 let someUpdatedProfile: ProfileRequest = { 

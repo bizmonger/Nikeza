@@ -109,7 +109,7 @@ type alias JsonTopic =
 
 type alias JsonSource =
     { id : Int
-    , profileId : Int
+    , profileId : String
     , platform : String
     , username : String
     , linksFound : Int
@@ -187,13 +187,7 @@ toJsonSource source =
 
             Err _ ->
                 -1
-    , profileId =
-        case source.profileId |> idText |> String.toInt of
-            Ok v ->
-                v
-
-            Err _ ->
-                -1
+    , profileId = idText source.profileId
     , platform = source.platform
     , username = source.username
     , linksFound = source.linksFound

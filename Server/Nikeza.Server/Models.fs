@@ -92,6 +92,7 @@ type AddSourceRequest = {
     ProfileId: string
     Platform:  string
     Username:  string
+    Links:     string list
 }
 
 [<CLIMutable>]

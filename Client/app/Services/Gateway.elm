@@ -26,9 +26,9 @@ sourceDecoder : Decoder JsonSource
 sourceDecoder =
     Decode.map5 JsonSource
         (field "Id" Decode.int)
-        (field "ProfileId" Decode.int)
+        (field "ProfileId" Decode.string)
         (field "Platform" Decode.string)
-        (field "Usename" Decode.string)
+        (field "Username" Decode.string)
         (field "LinksFound" Decode.int)
 
 

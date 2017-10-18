@@ -14,8 +14,7 @@ import Json.Decode exposing (map)
 
 
 type alias Model =
-    { profileId : Id
-    , source : Source
+    { source : Source
     , sources : List Source
     }
 
