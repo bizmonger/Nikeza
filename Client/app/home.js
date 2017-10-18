@@ -13712,6 +13712,9 @@ var _user$project$Domain_Core$Portal = F7(
 	function (a, b, c, d, e, f, g) {
 		return {provider: a, sourcesNavigation: b, addLinkNavigation: c, linksNavigation: d, requested: e, newSource: f, newLinks: g};
 	});
+var _user$project$Domain_Core$LinkFields = function (a) {
+	return {links: a};
+};
 var _user$project$Domain_Core$Profile = F7(
 	function (a, b, c, d, e, f, g) {
 		return {id: a, firstName: b, lastName: c, email: d, imageUrl: e, bio: f, sources: g};
@@ -13751,6 +13754,9 @@ var _user$project$Domain_Core$Members = function (a) {
 };
 var _user$project$Domain_Core$initSubscription = _user$project$Domain_Core$Members(
 	{ctor: '[]'});
+var _user$project$Domain_Core$ProviderLinks = function (a) {
+	return {ctor: 'ProviderLinks', _0: a};
+};
 var _user$project$Domain_Core$Id = function (a) {
 	return {ctor: 'Id', _0: a};
 };
@@ -13760,7 +13766,9 @@ var _user$project$Domain_Core$initSource = A5(
 	_user$project$Domain_Core$Id(_user$project$Domain_Core$undefined),
 	'',
 	'',
-	0);
+	_user$project$Domain_Core$ProviderLinks(
+		_user$project$Domain_Core$LinkFields(
+			{ctor: '[]'})));
 var _user$project$Domain_Core$Name = function (a) {
 	return {ctor: 'Name', _0: a};
 };
@@ -14033,63 +14041,6 @@ var _user$project$Services_Adapter$toTopics = function (jsonTopics) {
 		},
 		jsonTopics);
 };
-var _user$project$Services_Adapter$toSource = function (jsonSource) {
-	return {
-		id: _user$project$Domain_Core$Id(
-			_elm_lang$core$Basics$toString(jsonSource.id)),
-		profileId: _user$project$Domain_Core$Id(
-			_elm_lang$core$Basics$toString(jsonSource.profileId)),
-		platform: jsonSource.platform,
-		username: jsonSource.username,
-		linksFound: jsonSource.linksFound
-	};
-};
-var _user$project$Services_Adapter$toJsonSource = function (source) {
-	return {
-		id: function () {
-			var _p0 = _elm_lang$core$String$toInt(
-				_user$project$Domain_Core$idText(source.id));
-			if (_p0.ctor === 'Ok') {
-				return _p0._0;
-			} else {
-				return -1;
-			}
-		}(),
-		profileId: _user$project$Domain_Core$idText(source.profileId),
-		platform: source.platform,
-		username: source.username,
-		linksFound: source.linksFound
-	};
-};
-var _user$project$Services_Adapter$toJsonProfile = function (profile) {
-	return {
-		id: _user$project$Domain_Core$idText(profile.id),
-		firstName: _user$project$Domain_Core$nameText(profile.firstName),
-		lastName: _user$project$Domain_Core$nameText(profile.lastName),
-		email: _user$project$Domain_Core$emailText(profile.email),
-		imageUrl: _user$project$Domain_Core$urlText(profile.imageUrl),
-		bio: profile.bio,
-		sources: A2(
-			_elm_lang$core$List$map,
-			function (s) {
-				return _user$project$Services_Adapter$toJsonSource(s);
-			},
-			profile.sources)
-	};
-};
-var _user$project$Services_Adapter$toJsonLink = function (link) {
-	return {
-		profile: _user$project$Services_Adapter$toJsonProfile(link.profile),
-		title: _user$project$Domain_Core$titleText(link.title),
-		url: _user$project$Domain_Core$urlText(link.url),
-		contentType: _user$project$Domain_Core$contentTypeToText(link.contentType),
-		topics: link.topics,
-		isFeatured: link.isFeatured
-	};
-};
-var _user$project$Services_Adapter$toJsonLinks = function (links) {
-	return A2(_elm_lang$core$List$map, _user$project$Services_Adapter$toJsonLink, links);
-};
 var _user$project$Services_Adapter$toProfile = function (jsonProfile) {
 	return {
 		id: _user$project$Domain_Core$Id(jsonProfile.id),
@@ -14098,12 +14049,35 @@ var _user$project$Services_Adapter$toProfile = function (jsonProfile) {
 		email: _user$project$Domain_Core$Email(jsonProfile.email),
 		imageUrl: _user$project$Domain_Core$Url(jsonProfile.imageUrl),
 		bio: jsonProfile.bio,
-		sources: A2(
-			_elm_lang$core$List$map,
-			function (s) {
-				return _user$project$Services_Adapter$toSource(s);
-			},
-			jsonProfile.sources)
+		sources: A2(_elm_lang$core$List$map, _user$project$Services_Adapter$toSource, jsonProfile.sources)
+	};
+};
+var _user$project$Services_Adapter$toSource = function (jsonSource) {
+	var foo = function (jsonProviderLinks) {
+		var _p0 = jsonProviderLinks;
+		var fields = _p0._0;
+		return _user$project$Domain_Core$ProviderLinks(
+			_user$project$Domain_Core$LinkFields(
+				A2(_elm_lang$core$List$map, _user$project$Services_Adapter$toLink, fields.links)));
+	};
+	return {
+		id: _user$project$Domain_Core$Id(
+			_elm_lang$core$Basics$toString(jsonSource.id)),
+		profileId: _user$project$Domain_Core$Id(
+			_elm_lang$core$Basics$toString(jsonSource.profileId)),
+		platform: jsonSource.platform,
+		username: jsonSource.username,
+		linksFound: foo(jsonSource.linksFound)
+	};
+};
+var _user$project$Services_Adapter$toLink = function (link) {
+	return {
+		profile: _user$project$Services_Adapter$toProfile(link.profile),
+		title: _user$project$Domain_Core$Title(link.title),
+		url: _user$project$Domain_Core$Url(link.url),
+		contentType: _user$project$Domain_Core$toContentType(link.contentType),
+		topics: link.topics,
+		isFeatured: link.isFeatured
 	};
 };
 var _user$project$Services_Adapter$jsonProfileToProvider = function (jsonProfile) {
@@ -14116,16 +14090,6 @@ var _user$project$Services_Adapter$jsonProfileToProvider = function (jsonProfile
 		{ctor: '[]'},
 		_user$project$Domain_Core$initSubscription,
 		_user$project$Domain_Core$initSubscription);
-};
-var _user$project$Services_Adapter$toLink = function (link) {
-	return {
-		profile: _user$project$Services_Adapter$toProfile(link.profile),
-		title: _user$project$Domain_Core$Title(link.title),
-		url: _user$project$Domain_Core$Url(link.url),
-		contentType: _user$project$Domain_Core$toContentType(link.contentType),
-		topics: link.topics,
-		isFeatured: link.isFeatured
-	};
 };
 var _user$project$Services_Adapter$toLinks = function (jsonLinks) {
 	return A2(_elm_lang$core$List$map, _user$project$Services_Adapter$toLink, jsonLinks);
@@ -14153,12 +14117,7 @@ var _user$project$Services_Adapter$toProvider = function (jsonProvider) {
 };
 var _user$project$Services_Adapter$toMembers = function (jsonProviders) {
 	return _user$project$Domain_Core$Members(
-		A2(
-			_elm_lang$core$List$map,
-			function (p) {
-				return _user$project$Services_Adapter$toProvider(p);
-			},
-			jsonProviders));
+		A2(_elm_lang$core$List$map, _user$project$Services_Adapter$toProvider, jsonProviders));
 };
 var _user$project$Services_Adapter$httpSuccess = F2(
 	function (msg, a) {
@@ -14177,6 +14136,9 @@ var _user$project$Services_Adapter$JsonTopic = F2(
 	function (a, b) {
 		return {name: a, isFeatured: b};
 	});
+var _user$project$Services_Adapter$JsonLinkFields = function (a) {
+	return {links: a};
+};
 var _user$project$Services_Adapter$JsonSource = F5(
 	function (a, b, c, d, e) {
 		return {id: a, profileId: b, platform: c, username: d, linksFound: e};
@@ -14197,6 +14159,57 @@ var _user$project$Services_Adapter$JsonProviderFields = F6(
 	function (a, b, c, d, e, f) {
 		return {profile: a, topics: b, portfolio: c, recentLinks: d, subscriptions: e, followers: f};
 	});
+var _user$project$Services_Adapter$JsonProviderLinks = function (a) {
+	return {ctor: 'JsonProviderLinks', _0: a};
+};
+var _user$project$Services_Adapter$toJsonSource = function (source) {
+	var foo = function (providerLinks) {
+		var _p2 = providerLinks;
+		var fields = _p2._0;
+		return _user$project$Services_Adapter$JsonProviderLinks(
+			_user$project$Services_Adapter$JsonLinkFields(
+				A2(_elm_lang$core$List$map, _user$project$Services_Adapter$toJsonLink, fields.links)));
+	};
+	return {
+		id: function () {
+			var _p3 = _elm_lang$core$String$toInt(
+				_user$project$Domain_Core$idText(source.id));
+			if (_p3.ctor === 'Ok') {
+				return _p3._0;
+			} else {
+				return -1;
+			}
+		}(),
+		profileId: _user$project$Domain_Core$idText(source.profileId),
+		platform: source.platform,
+		username: source.username,
+		linksFound: foo(source.linksFound)
+	};
+};
+var _user$project$Services_Adapter$toJsonLink = function (link) {
+	return {
+		profile: _user$project$Services_Adapter$toJsonProfile(link.profile),
+		title: _user$project$Domain_Core$titleText(link.title),
+		url: _user$project$Domain_Core$urlText(link.url),
+		contentType: _user$project$Domain_Core$contentTypeToText(link.contentType),
+		topics: link.topics,
+		isFeatured: link.isFeatured
+	};
+};
+var _user$project$Services_Adapter$toJsonProfile = function (profile) {
+	return {
+		id: _user$project$Domain_Core$idText(profile.id),
+		firstName: _user$project$Domain_Core$nameText(profile.firstName),
+		lastName: _user$project$Domain_Core$nameText(profile.lastName),
+		email: _user$project$Domain_Core$emailText(profile.email),
+		imageUrl: _user$project$Domain_Core$urlText(profile.imageUrl),
+		bio: profile.bio,
+		sources: A2(_elm_lang$core$List$map, _user$project$Services_Adapter$toJsonSource, profile.sources)
+	};
+};
+var _user$project$Services_Adapter$toJsonLinks = function (links) {
+	return A2(_elm_lang$core$List$map, _user$project$Services_Adapter$toJsonLink, links);
+};
 var _user$project$Services_Adapter$JsonProvider = function (a) {
 	return {ctor: 'JsonProvider', _0: a};
 };
@@ -14259,7 +14272,9 @@ var _user$project$Tests_TestAPI$sourcesBase = {
 		profileId: _user$project$Domain_Core$Id('0'),
 		platform: 'WordPress',
 		username: 'bizmonger',
-		linksFound: 0
+		linksFound: _user$project$Domain_Core$ProviderLinks(
+			_user$project$Domain_Core$LinkFields(
+				{ctor: '[]'}))
 	},
 	_1: {
 		ctor: '::',
@@ -14268,7 +14283,9 @@ var _user$project$Tests_TestAPI$sourcesBase = {
 			profileId: _user$project$Domain_Core$Id('1'),
 			platform: 'YouTube',
 			username: 'bizmonger',
-			linksFound: 0
+			linksFound: _user$project$Domain_Core$ProviderLinks(
+				_user$project$Domain_Core$LinkFields(
+					{ctor: '[]'}))
 		},
 		_1: {
 			ctor: '::',
@@ -14277,7 +14294,9 @@ var _user$project$Tests_TestAPI$sourcesBase = {
 				profileId: _user$project$Domain_Core$Id('2'),
 				platform: 'StackOverflow',
 				username: 'scott-nimrod',
-				linksFound: 0
+				linksFound: _user$project$Domain_Core$ProviderLinks(
+					_user$project$Domain_Core$LinkFields(
+						{ctor: '[]'}))
 			},
 			_1: {ctor: '[]'}
 		}
@@ -15377,38 +15396,57 @@ var _user$project$Services_Gateway$encodeId = function (id) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Services_Gateway$encodeSource = function (source) {
+var _user$project$Services_Gateway$encodeLink = function (link) {
 	return _elm_lang$core$Json_Encode$object(
 		{
 			ctor: '::',
 			_0: {
 				ctor: '_Tuple2',
-				_0: 'ProfileId',
-				_1: _elm_lang$core$Json_Encode$string(
-					_user$project$Domain_Core$idText(source.profileId))
+				_0: 'Profile',
+				_1: _user$project$Services_Gateway$encodeProfile(link.profile)
 			},
 			_1: {
 				ctor: '::',
 				_0: {
 					ctor: '_Tuple2',
-					_0: 'Platform',
-					_1: _elm_lang$core$Json_Encode$string(source.platform)
+					_0: 'Title',
+					_1: _elm_lang$core$Json_Encode$string(
+						_user$project$Domain_Core$titleText(link.title))
 				},
 				_1: {
 					ctor: '::',
 					_0: {
 						ctor: '_Tuple2',
-						_0: 'Username',
-						_1: _elm_lang$core$Json_Encode$string(source.username)
+						_0: 'Url',
+						_1: _elm_lang$core$Json_Encode$string(
+							_user$project$Domain_Core$urlText(link.url))
 					},
 					_1: {
 						ctor: '::',
 						_0: {
 							ctor: '_Tuple2',
-							_0: 'LinksFound',
-							_1: _elm_lang$core$Json_Encode$int(source.linksFound)
+							_0: 'ContentType',
+							_1: _elm_lang$core$Json_Encode$string(
+								_user$project$Domain_Core$contentTypeToText(link.contentType))
 						},
-						_1: {ctor: '[]'}
+						_1: {
+							ctor: '::',
+							_0: {
+								ctor: '_Tuple2',
+								_0: 'Topics',
+								_1: _elm_lang$core$Json_Encode$list(
+									A2(_elm_lang$core$List$map, _user$project$Services_Gateway$encodeTopic, link.topics))
+							},
+							_1: {
+								ctor: '::',
+								_0: {
+									ctor: '_Tuple2',
+									_0: 'IsFeatured',
+									_1: _elm_lang$core$Json_Encode$bool(link.isFeatured)
+								},
+								_1: {ctor: '[]'}
+							}
+						}
 					}
 				}
 			}
@@ -15465,12 +15503,7 @@ var _user$project$Services_Gateway$encodeProfile = function (profile) {
 										ctor: '_Tuple2',
 										_0: 'Sources',
 										_1: _elm_lang$core$Json_Encode$list(
-											A2(
-												_elm_lang$core$List$map,
-												function (s) {
-													return _user$project$Services_Gateway$encodeSource(s);
-												},
-												profile.sources))
+											A2(_elm_lang$core$List$map, _user$project$Services_Gateway$encodeSource, profile.sources))
 									},
 									_1: {ctor: '[]'}
 								}
@@ -15481,65 +15514,56 @@ var _user$project$Services_Gateway$encodeProfile = function (profile) {
 			}
 		});
 };
-var _user$project$Services_Gateway$encodeLink = function (link) {
+var _user$project$Services_Gateway$encodeSource = function (source) {
 	return _elm_lang$core$Json_Encode$object(
 		{
 			ctor: '::',
 			_0: {
 				ctor: '_Tuple2',
-				_0: 'Profile',
-				_1: _user$project$Services_Gateway$encodeProfile(link.profile)
+				_0: 'ProfileId',
+				_1: _elm_lang$core$Json_Encode$string(
+					_user$project$Domain_Core$idText(source.profileId))
 			},
 			_1: {
 				ctor: '::',
 				_0: {
 					ctor: '_Tuple2',
-					_0: 'Title',
-					_1: _elm_lang$core$Json_Encode$string(
-						_user$project$Domain_Core$titleText(link.title))
+					_0: 'Platform',
+					_1: _elm_lang$core$Json_Encode$string(source.platform)
 				},
 				_1: {
 					ctor: '::',
 					_0: {
 						ctor: '_Tuple2',
-						_0: 'Url',
-						_1: _elm_lang$core$Json_Encode$string(
-							_user$project$Domain_Core$urlText(link.url))
+						_0: 'Username',
+						_1: _elm_lang$core$Json_Encode$string(source.username)
 					},
 					_1: {
 						ctor: '::',
 						_0: {
 							ctor: '_Tuple2',
-							_0: 'ContentType',
-							_1: _elm_lang$core$Json_Encode$string(
-								_user$project$Domain_Core$contentTypeToText(link.contentType))
+							_0: 'LinksFound',
+							_1: _user$project$Services_Gateway$encodeLinksFound(source.linksFound)
 						},
-						_1: {
-							ctor: '::',
-							_0: {
-								ctor: '_Tuple2',
-								_0: 'Topics',
-								_1: _elm_lang$core$Json_Encode$list(
-									A2(
-										_elm_lang$core$List$map,
-										function (t) {
-											return _user$project$Services_Gateway$encodeTopic(t);
-										},
-										link.topics))
-							},
-							_1: {
-								ctor: '::',
-								_0: {
-									ctor: '_Tuple2',
-									_0: 'IsFeatured',
-									_1: _elm_lang$core$Json_Encode$bool(link.isFeatured)
-								},
-								_1: {ctor: '[]'}
-							}
-						}
+						_1: {ctor: '[]'}
 					}
 				}
 			}
+		});
+};
+var _user$project$Services_Gateway$encodeLinksFound = function (providerLinks) {
+	var _p0 = providerLinks;
+	var linkFields = _p0._0;
+	return _elm_lang$core$Json_Encode$object(
+		{
+			ctor: '::',
+			_0: {
+				ctor: '_Tuple2',
+				_0: 'Links',
+				_1: _elm_lang$core$Json_Encode$list(
+					A2(_elm_lang$core$List$map, _user$project$Services_Gateway$encodeLink, linkFields.links))
+			},
+			_1: {ctor: '[]'}
 		});
 };
 var _user$project$Services_Gateway$encodeRegistration = function (form) {
@@ -15583,43 +15607,6 @@ var _user$project$Services_Gateway$topicDecoder = A3(
 	_user$project$Services_Adapter$JsonTopic,
 	A2(_elm_lang$core$Json_Decode$field, 'Name', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'IsFeatured', _elm_lang$core$Json_Decode$bool));
-var _user$project$Services_Gateway$sourceDecoder = A6(
-	_elm_lang$core$Json_Decode$map5,
-	_user$project$Services_Adapter$JsonSource,
-	A2(_elm_lang$core$Json_Decode$field, 'Id', _elm_lang$core$Json_Decode$int),
-	A2(_elm_lang$core$Json_Decode$field, 'ProfileId', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'Platform', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'Username', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'LinksFound', _elm_lang$core$Json_Decode$int));
-var _user$project$Services_Gateway$addSource = F2(
-	function (source, msg) {
-		var body = _elm_lang$http$Http$jsonBody(
-			_user$project$Services_Gateway$encodeSource(source));
-		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'addsource');
-		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$sourceDecoder);
-		return A2(_elm_lang$http$Http$send, msg, request);
-	});
-var _user$project$Services_Gateway$removeSource = F2(
-	function (sourceId, msg) {
-		var _p0 = _elm_lang$core$String$toInt(
-			_user$project$Domain_Core$idText(sourceId));
-		if (_p0.ctor === 'Ok') {
-			var _p1 = _p0._0;
-			var body = _elm_lang$http$Http$jsonBody(
-				_elm_lang$core$Json_Encode$int(_p1));
-			var url = A2(
-				_elm_lang$core$Basics_ops['++'],
-				_user$project$Services_Gateway$baseUrl,
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					'removesource/',
-					_elm_lang$core$Basics$toString(_p1)));
-			var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$sourceDecoder);
-			return A2(_elm_lang$http$Http$send, msg, request);
-		} else {
-			return _elm_lang$core$Platform_Cmd$none;
-		}
-	});
 var _user$project$Services_Gateway$profileDecoder = A8(
 	_elm_lang$core$Json_Decode$map7,
 	_user$project$Services_Adapter$JsonProfile,
@@ -15632,7 +15619,29 @@ var _user$project$Services_Gateway$profileDecoder = A8(
 	A2(
 		_elm_lang$core$Json_Decode$field,
 		'Sources',
-		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$sourceDecoder)));
+		_elm_lang$core$Json_Decode$list(
+			_elm_lang$core$Json_Decode$lazy(
+				function (_p1) {
+					return _user$project$Services_Gateway$sourceDecoder;
+				}))));
+var _user$project$Services_Gateway$sourceDecoder = A6(
+	_elm_lang$core$Json_Decode$map5,
+	_user$project$Services_Adapter$JsonSource,
+	A2(_elm_lang$core$Json_Decode$field, 'Id', _elm_lang$core$Json_Decode$int),
+	A2(_elm_lang$core$Json_Decode$field, 'ProfileId', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'Platform', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'Username', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'LinksFound', _user$project$Services_Gateway$providerLinksDecoder));
+var _user$project$Services_Gateway$providerLinksDecoder = A2(
+	_elm_lang$core$Json_Decode$map,
+	_user$project$Services_Adapter$JsonProviderLinks,
+	A2(
+		_elm_lang$core$Json_Decode$map,
+		_user$project$Services_Adapter$JsonLinkFields,
+		A2(
+			_elm_lang$core$Json_Decode$field,
+			'Links',
+			_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder))));
 var _user$project$Services_Gateway$linkDecoder = A7(
 	_elm_lang$core$Json_Decode$map6,
 	_user$project$Services_Adapter$JsonLink,
@@ -15645,6 +15654,35 @@ var _user$project$Services_Gateway$linkDecoder = A7(
 		'Topics',
 		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$topicDecoder)),
 	A2(_elm_lang$core$Json_Decode$field, 'IsFeatured', _elm_lang$core$Json_Decode$bool));
+var _user$project$Services_Gateway$addSource = F2(
+	function (source, msg) {
+		var body = _elm_lang$http$Http$jsonBody(
+			_user$project$Services_Gateway$encodeSource(source));
+		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'addsource');
+		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$sourceDecoder);
+		return A2(_elm_lang$http$Http$send, msg, request);
+	});
+var _user$project$Services_Gateway$removeSource = F2(
+	function (sourceId, msg) {
+		var _p2 = _elm_lang$core$String$toInt(
+			_user$project$Domain_Core$idText(sourceId));
+		if (_p2.ctor === 'Ok') {
+			var _p3 = _p2._0;
+			var body = _elm_lang$http$Http$jsonBody(
+				_elm_lang$core$Json_Encode$int(_p3));
+			var url = A2(
+				_elm_lang$core$Basics_ops['++'],
+				_user$project$Services_Gateway$baseUrl,
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'removesource/',
+					_elm_lang$core$Basics$toString(_p3)));
+			var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$sourceDecoder);
+			return A2(_elm_lang$http$Http$send, msg, request);
+		} else {
+			return _elm_lang$core$Platform_Cmd$none;
+		}
+	});
 var _user$project$Services_Gateway$portfolioDecoder = A5(
 	_elm_lang$core$Json_Decode$map4,
 	_user$project$Services_Adapter$JsonPortfolio,
@@ -15764,7 +15802,7 @@ var _user$project$Services_Gateway$providerDecoder = A2(
 			'Subscriptions',
 			_elm_lang$core$Json_Decode$list(
 				_elm_lang$core$Json_Decode$lazy(
-					function (_p2) {
+					function (_p4) {
 						return _user$project$Services_Gateway$providerDecoder;
 					}))),
 		A2(
@@ -15772,7 +15810,7 @@ var _user$project$Services_Gateway$providerDecoder = A2(
 			'Followers',
 			_elm_lang$core$Json_Decode$list(
 				_elm_lang$core$Json_Decode$lazy(
-					function (_p3) {
+					function (_p5) {
 						return _user$project$Services_Gateway$providerDecoder;
 					})))));
 var _user$project$Services_Gateway$bootstrapDecoder = A3(
@@ -23469,7 +23507,7 @@ var _user$project$Home$main = A2(
 var Elm = {};
 Elm['Home'] = Elm['Home'] || {};
 if (typeof _user$project$Home$main !== 'undefined') {
-    _user$project$Home$main(Elm['Home'], 'Home', {"types":{"message":"Home.Msg","aliases":{"Domain.Core.LinkToCreate":{"type":"{ base : Domain.Core.Link, currentTopic : Domain.Core.Topic }","args":[]},"Services.Adapter.JsonSource":{"type":"{ id : Int , profileId : String , platform : String , username : String , linksFound : Int }","args":[]},"Domain.Core.Provider":{"type":"{ profile : Domain.Core.Profile , topics : List Domain.Core.Topic , portfolio : Domain.Core.Portfolio , filteredPortfolio : Domain.Core.Portfolio , recentLinks : List Domain.Core.Link , followers : Domain.Core.Members , subscriptions : Domain.Core.Members }","args":[]},"Services.Adapter.JsonProfile":{"type":"{ id : String , firstName : String , lastName : String , email : String , imageUrl : String , bio : String , sources : List Services.Adapter.JsonSource }","args":[]},"Domain.Core.Topic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Services.Adapter.JsonTopic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Domain.Core.Profile":{"type":"{ id : Domain.Core.Id , firstName : Domain.Core.Name , lastName : Domain.Core.Name , email : Domain.Core.Email , imageUrl : Domain.Core.Url , bio : String , sources : List Domain.Core.Source }","args":[]},"Navigation.Location":{"type":"{ href : String , host : String , hostname : String , protocol : String , origin : String , port_ : String , pathname : String , search : String , hash : String , username : String , password : String }","args":[]},"Domain.Core.NewLinks":{"type":"{ current : Domain.Core.LinkToCreate , canAdd : Bool , added : List Domain.Core.Link }","args":[]},"Http.Response":{"type":"{ url : String , status : { code : Int, message : String } , headers : Dict.Dict String String , body : body }","args":["body"]},"Services.Adapter.JsonPortfolio":{"type":"{ articles : List Services.Adapter.JsonLink , videos : List Services.Adapter.JsonLink , podcasts : List Services.Adapter.JsonLink , answers : List Services.Adapter.JsonLink }","args":[]},"Domain.Core.Link":{"type":"{ profile : Domain.Core.Profile , title : Domain.Core.Title , url : Domain.Core.Url , contentType : Domain.Core.ContentType , topics : List Domain.Core.Topic , isFeatured : Bool }","args":[]},"Services.Adapter.JsonBootstrap":{"type":"{ providers : List Services.Adapter.JsonProvider , platforms : List String }","args":[]},"Domain.Core.Source":{"type":"{ id : Domain.Core.Id , profileId : Domain.Core.Id , platform : String , username : String , linksFound : Int }","args":[]},"Domain.Core.Portfolio":{"type":"{ answers : List Domain.Core.Link , articles : List Domain.Core.Link , videos : List Domain.Core.Link , podcasts : List Domain.Core.Link }","args":[]},"Services.Adapter.JsonLink":{"type":"{ profile : Services.Adapter.JsonProfile , title : String , url : String , contentType : String , topics : List Domain.Core.Topic , isFeatured : Bool }","args":[]},"Services.Adapter.JsonProviderFields":{"type":"{ profile : Services.Adapter.JsonProfile , topics : List Services.Adapter.JsonTopic , portfolio : Services.Adapter.JsonPortfolio , recentLinks : List Services.Adapter.JsonLink , subscriptions : List Services.Adapter.JsonProvider , followers : List Services.Adapter.JsonProvider }","args":[]}},"unions":{"Controls.RecentProviderLinks.Msg":{"tags":{"None":[]},"args":[]},"Domain.Core.Name":{"tags":{"Name":["String"]},"args":[]},"Controls.ProviderTopicContentTypeLinks.Msg":{"tags":{"None":[]},"args":[]},"Controls.ProviderLinks.Msg":{"tags":{"Toggle":["( Domain.Core.Topic, Bool )"]},"args":[]},"Domain.Core.Email":{"tags":{"Email":["String"]},"args":[]},"Dict.NColor":{"tags":{"Black":[],"BBlack":[],"Red":[],"NBlack":[]},"args":[]},"Controls.ProfileThumbnail.Msg":{"tags":{"SubscribeResponse":["Result.Result Http.Error Domain.Core.Members"],"UpdateSubscription":["Domain.Core.SubscriptionUpdate"]},"args":[]},"Services.Adapter.JsonProvider":{"tags":{"JsonProvider":["Services.Adapter.JsonProviderFields"]},"args":[]},"Domain.Core.Url":{"tags":{"Url":["String"]},"args":[]},"Home.Msg":{"tags":{"NewLink":["Controls.NewLinks.Msg"],"NavigateToProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ProfileThumbnail":["Controls.ProfileThumbnail.Msg"],"ViewProviders":[],"NavigateToPortalProviderMemberResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"OnLogin":["Controls.Login.Msg"],"UrlChange":["Navigation.Location"],"ProviderContentTypeLinksAction":["Controls.ProviderContentTypeLinks.Msg"],"ViewSubscriptions":[],"ViewFollowers":[],"Subscription":["Domain.Core.SubscriptionUpdate"],"NavigateToPortalProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ViewSources":[],"NavigateToPortalResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"NavigateToProviderResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"Search":["String"],"ViewRecent":[],"ProvidersResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"RecentProviderLinks":["Controls.RecentProviderLinks.Msg"],"BootstrapResponse":["Result.Result Http.Error Services.Adapter.JsonBootstrap"],"EditProfileAction":["Controls.EditProfile.Msg"],"NavigateBack":[],"ProviderTopicContentTypeLinksAction":["Controls.ProviderTopicContentTypeLinks.Msg"],"ProviderLinksAction":["Controls.ProviderLinks.Msg"],"EditProfile":[],"AddNewLink":[],"OnRegistration":["Controls.Register.Msg"],"SourcesUpdated":["Controls.Sources.Msg"],"NavigateToPortalProviderMemberTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ViewLinks":[],"PortalLinksAction":["Controls.ProviderLinks.Msg"],"Register":[]},"args":[]},"Domain.Core.Members":{"tags":{"Members":["List Domain.Core.Provider"]},"args":[]},"Controls.Sources.Msg":{"tags":{"RemoveResponse":["Result.Result Http.Error Services.Adapter.JsonSource"],"InputPlatform":["String"],"AddResponse":["Result.Result Http.Error Services.Adapter.JsonSource"],"InputUsername":["String"],"Remove":["Domain.Core.Source"],"Add":["Domain.Core.Source"]},"args":[]},"Result.Result":{"tags":{"Err":["error"],"Ok":["value"]},"args":["error","value"]},"Http.Error":{"tags":{"Timeout":[],"BadStatus":["Http.Response String"],"BadPayload":["String","Http.Response String"],"BadUrl":["String"],"NetworkError":[]},"args":[]},"Controls.ProviderContentTypeLinks.Msg":{"tags":{"Featured":["( Domain.Core.Link, Bool )"],"Toggle":["( Domain.Core.Topic, Bool )"]},"args":[]},"Controls.Register.Msg":{"tags":{"Submit":[],"ConfirmInput":["String"],"EmailInput":["String"],"FirstNameInput":["String"],"PasswordInput":["String"],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProfile"]},"args":[]},"Dict.LeafColor":{"tags":{"LBlack":[],"LBBlack":[]},"args":[]},"Controls.EditProfile.Msg":{"tags":{"EmailInput":["String"],"BioInput":["String"],"FirstNameInput":["String"],"Update":[],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProfile"]},"args":[]},"Controls.NewLinks.Msg":{"tags":{"RemoveTopic":["Domain.Core.Topic"],"InputTopic":["String"],"InputUrl":["String"],"InputTitle":["String"],"InputContentType":["String"],"AssociateTopic":["Domain.Core.Topic"],"AddLink":["Domain.Core.NewLinks"]},"args":[]},"Domain.Core.ContentType":{"tags":{"Answer":[],"Podcast":[],"Article":[],"Unknown":[],"All":[],"Video":[]},"args":[]},"Domain.Core.Title":{"tags":{"Title":["String"]},"args":[]},"Controls.Login.Msg":{"tags":{"Attempt":["( String, String )"],"PasswordInput":["String"],"UserInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProvider"]},"args":[]},"Dict.Dict":{"tags":{"RBNode_elm_builtin":["Dict.NColor","k","v","Dict.Dict k v","Dict.Dict k v"],"RBEmpty_elm_builtin":["Dict.LeafColor"]},"args":["k","v"]},"Domain.Core.Id":{"tags":{"Id":["String"]},"args":[]},"Domain.Core.SubscriptionUpdate":{"tags":{"Subscribe":["Domain.Core.Id","Domain.Core.Id"],"Unsubscribe":["Domain.Core.Id","Domain.Core.Id"]},"args":[]}}},"versions":{"elm":"0.18.0"}});
+    _user$project$Home$main(Elm['Home'], 'Home', {"types":{"message":"Home.Msg","aliases":{"Domain.Core.LinkToCreate":{"type":"{ base : Domain.Core.Link, currentTopic : Domain.Core.Topic }","args":[]},"Services.Adapter.JsonSource":{"type":"{ id : Int , profileId : String , platform : String , username : String , linksFound : Services.Adapter.JsonProviderLinks }","args":[]},"Domain.Core.LinkFields":{"type":"{ links : List Domain.Core.Link }","args":[]},"Domain.Core.Provider":{"type":"{ profile : Domain.Core.Profile , topics : List Domain.Core.Topic , portfolio : Domain.Core.Portfolio , filteredPortfolio : Domain.Core.Portfolio , recentLinks : List Domain.Core.Link , followers : Domain.Core.Members , subscriptions : Domain.Core.Members }","args":[]},"Services.Adapter.JsonProfile":{"type":"{ id : String , firstName : String , lastName : String , email : String , imageUrl : String , bio : String , sources : List Services.Adapter.JsonSource }","args":[]},"Domain.Core.Topic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Services.Adapter.JsonTopic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Domain.Core.Profile":{"type":"{ id : Domain.Core.Id , firstName : Domain.Core.Name , lastName : Domain.Core.Name , email : Domain.Core.Email , imageUrl : Domain.Core.Url , bio : String , sources : List Domain.Core.Source }","args":[]},"Services.Adapter.JsonLinkFields":{"type":"{ links : List Services.Adapter.JsonLink }","args":[]},"Navigation.Location":{"type":"{ href : String , host : String , hostname : String , protocol : String , origin : String , port_ : String , pathname : String , search : String , hash : String , username : String , password : String }","args":[]},"Domain.Core.NewLinks":{"type":"{ current : Domain.Core.LinkToCreate , canAdd : Bool , added : List Domain.Core.Link }","args":[]},"Http.Response":{"type":"{ url : String , status : { code : Int, message : String } , headers : Dict.Dict String String , body : body }","args":["body"]},"Services.Adapter.JsonPortfolio":{"type":"{ articles : List Services.Adapter.JsonLink , videos : List Services.Adapter.JsonLink , podcasts : List Services.Adapter.JsonLink , answers : List Services.Adapter.JsonLink }","args":[]},"Domain.Core.Link":{"type":"{ profile : Domain.Core.Profile , title : Domain.Core.Title , url : Domain.Core.Url , contentType : Domain.Core.ContentType , topics : List Domain.Core.Topic , isFeatured : Bool }","args":[]},"Services.Adapter.JsonBootstrap":{"type":"{ providers : List Services.Adapter.JsonProvider , platforms : List String }","args":[]},"Domain.Core.Source":{"type":"{ id : Domain.Core.Id , profileId : Domain.Core.Id , platform : String , username : String , linksFound : Domain.Core.ProviderLinks }","args":[]},"Domain.Core.Portfolio":{"type":"{ answers : List Domain.Core.Link , articles : List Domain.Core.Link , videos : List Domain.Core.Link , podcasts : List Domain.Core.Link }","args":[]},"Services.Adapter.JsonLink":{"type":"{ profile : Services.Adapter.JsonProfile , title : String , url : String , contentType : String , topics : List Domain.Core.Topic , isFeatured : Bool }","args":[]},"Services.Adapter.JsonProviderFields":{"type":"{ profile : Services.Adapter.JsonProfile , topics : List Services.Adapter.JsonTopic , portfolio : Services.Adapter.JsonPortfolio , recentLinks : List Services.Adapter.JsonLink , subscriptions : List Services.Adapter.JsonProvider , followers : List Services.Adapter.JsonProvider }","args":[]}},"unions":{"Controls.RecentProviderLinks.Msg":{"tags":{"None":[]},"args":[]},"Domain.Core.Name":{"tags":{"Name":["String"]},"args":[]},"Controls.ProviderTopicContentTypeLinks.Msg":{"tags":{"None":[]},"args":[]},"Controls.ProviderLinks.Msg":{"tags":{"Toggle":["( Domain.Core.Topic, Bool )"]},"args":[]},"Domain.Core.Email":{"tags":{"Email":["String"]},"args":[]},"Dict.NColor":{"tags":{"Black":[],"BBlack":[],"Red":[],"NBlack":[]},"args":[]},"Controls.ProfileThumbnail.Msg":{"tags":{"SubscribeResponse":["Result.Result Http.Error Domain.Core.Members"],"UpdateSubscription":["Domain.Core.SubscriptionUpdate"]},"args":[]},"Services.Adapter.JsonProvider":{"tags":{"JsonProvider":["Services.Adapter.JsonProviderFields"]},"args":[]},"Domain.Core.Url":{"tags":{"Url":["String"]},"args":[]},"Home.Msg":{"tags":{"NewLink":["Controls.NewLinks.Msg"],"NavigateToProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ProfileThumbnail":["Controls.ProfileThumbnail.Msg"],"ViewProviders":[],"NavigateToPortalProviderMemberResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"OnLogin":["Controls.Login.Msg"],"UrlChange":["Navigation.Location"],"ProviderContentTypeLinksAction":["Controls.ProviderContentTypeLinks.Msg"],"ViewSubscriptions":[],"ViewFollowers":[],"Subscription":["Domain.Core.SubscriptionUpdate"],"NavigateToPortalProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ViewSources":[],"NavigateToPortalResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"NavigateToProviderResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"Search":["String"],"ViewRecent":[],"ProvidersResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"RecentProviderLinks":["Controls.RecentProviderLinks.Msg"],"BootstrapResponse":["Result.Result Http.Error Services.Adapter.JsonBootstrap"],"EditProfileAction":["Controls.EditProfile.Msg"],"NavigateBack":[],"ProviderTopicContentTypeLinksAction":["Controls.ProviderTopicContentTypeLinks.Msg"],"ProviderLinksAction":["Controls.ProviderLinks.Msg"],"EditProfile":[],"AddNewLink":[],"OnRegistration":["Controls.Register.Msg"],"SourcesUpdated":["Controls.Sources.Msg"],"NavigateToPortalProviderMemberTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ViewLinks":[],"PortalLinksAction":["Controls.ProviderLinks.Msg"],"Register":[]},"args":[]},"Domain.Core.Members":{"tags":{"Members":["List Domain.Core.Provider"]},"args":[]},"Controls.Sources.Msg":{"tags":{"RemoveResponse":["Result.Result Http.Error Services.Adapter.JsonSource"],"InputPlatform":["String"],"AddResponse":["Result.Result Http.Error Services.Adapter.JsonSource"],"InputUsername":["String"],"Remove":["Domain.Core.Source"],"Add":["Domain.Core.Source"]},"args":[]},"Result.Result":{"tags":{"Err":["error"],"Ok":["value"]},"args":["error","value"]},"Http.Error":{"tags":{"Timeout":[],"BadStatus":["Http.Response String"],"BadPayload":["String","Http.Response String"],"BadUrl":["String"],"NetworkError":[]},"args":[]},"Controls.ProviderContentTypeLinks.Msg":{"tags":{"Featured":["( Domain.Core.Link, Bool )"],"Toggle":["( Domain.Core.Topic, Bool )"]},"args":[]},"Controls.Register.Msg":{"tags":{"Submit":[],"ConfirmInput":["String"],"EmailInput":["String"],"FirstNameInput":["String"],"PasswordInput":["String"],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProfile"]},"args":[]},"Dict.LeafColor":{"tags":{"LBlack":[],"LBBlack":[]},"args":[]},"Controls.EditProfile.Msg":{"tags":{"EmailInput":["String"],"BioInput":["String"],"FirstNameInput":["String"],"Update":[],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProfile"]},"args":[]},"Controls.NewLinks.Msg":{"tags":{"RemoveTopic":["Domain.Core.Topic"],"InputTopic":["String"],"InputUrl":["String"],"InputTitle":["String"],"InputContentType":["String"],"AssociateTopic":["Domain.Core.Topic"],"AddLink":["Domain.Core.NewLinks"]},"args":[]},"Domain.Core.ContentType":{"tags":{"Answer":[],"Podcast":[],"Article":[],"Unknown":[],"All":[],"Video":[]},"args":[]},"Services.Adapter.JsonProviderLinks":{"tags":{"JsonProviderLinks":["Services.Adapter.JsonLinkFields"]},"args":[]},"Domain.Core.Title":{"tags":{"Title":["String"]},"args":[]},"Controls.Login.Msg":{"tags":{"Attempt":["( String, String )"],"PasswordInput":["String"],"UserInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProvider"]},"args":[]},"Dict.Dict":{"tags":{"RBNode_elm_builtin":["Dict.NColor","k","v","Dict.Dict k v","Dict.Dict k v"],"RBEmpty_elm_builtin":["Dict.LeafColor"]},"args":["k","v"]},"Domain.Core.Id":{"tags":{"Id":["String"]},"args":[]},"Domain.Core.ProviderLinks":{"tags":{"ProviderLinks":["Domain.Core.LinkFields"]},"args":[]},"Domain.Core.SubscriptionUpdate":{"tags":{"Subscribe":["Domain.Core.Id","Domain.Core.Id"],"Unsubscribe":["Domain.Core.Id","Domain.Core.Id"]},"args":[]}}},"versions":{"elm":"0.18.0"}});
 }
 
 if (typeof define === "function" && define['amd'])

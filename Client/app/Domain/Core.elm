@@ -102,6 +102,15 @@ initPortal =
     }
 
 
+type ProviderLinks
+    = ProviderLinks LinkFields
+
+
+type alias LinkFields =
+    { links : List Link
+    }
+
+
 type alias Profile =
     { id : Id
     , firstName : Name
@@ -261,13 +270,13 @@ type alias Source =
     , profileId : Id
     , platform : String
     , username : String
-    , linksFound : Int
+    , linksFound : ProviderLinks
     }
 
 
 initSource : Source
 initSource =
-    Source (Id undefined) (Id undefined) "" "" 0
+    Source (Id undefined) (Id undefined) "" "" (ProviderLinks (LinkFields []))
 
 
 type ProviderRequest

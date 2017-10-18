@@ -107,12 +107,21 @@ type alias JsonTopic =
     }
 
 
+type JsonProviderLinks
+    = JsonProviderLinks JsonLinkFields
+
+
+type alias JsonLinkFields =
+    { links : List JsonLink
+    }
+
+
 type alias JsonSource =
     { id : Int
     , profileId : String
     , platform : String
     , username : String
-    , linksFound : Int
+    , linksFound : JsonProviderLinks
     }
 
 
@@ -162,7 +171,7 @@ toProfile jsonProfile =
     , email = Email jsonProfile.email
     , imageUrl = Url jsonProfile.imageUrl
     , bio = jsonProfile.bio
-    , sources = jsonProfile.sources |> List.map (\s -> s |> toSource)
+    , sources = jsonProfile.sources |> List.map toSource
     }
 
 
@@ -174,34 +183,50 @@ toJsonProfile profile =
     , email = emailText profile.email
     , imageUrl = urlText profile.imageUrl
     , bio = profile.bio
-    , sources = profile.sources |> List.map (\s -> s |> toJsonSource)
+    , sources = profile.sources |> List.map toJsonSource
     }
 
 
 toJsonSource : Source -> JsonSource
 toJsonSource source =
-    { id =
-        case source.id |> idText |> String.toInt of
-            Ok v ->
-                v
+    let
+        foo providerLinks =
+            let
+                (ProviderLinks fields) =
+                    providerLinks
+            in
+                JsonProviderLinks (JsonLinkFields (fields.links |> List.map toJsonLink))
+    in
+        { id =
+            case source.id |> idText |> String.toInt of
+                Ok v ->
+                    v
 
-            Err _ ->
-                -1
-    , profileId = idText source.profileId
-    , platform = source.platform
-    , username = source.username
-    , linksFound = source.linksFound
-    }
+                Err _ ->
+                    -1
+        , profileId = idText source.profileId
+        , platform = source.platform
+        , username = source.username
+        , linksFound = source.linksFound |> foo
+        }
 
 
 toSource : JsonSource -> Source
 toSource jsonSource =
-    { id = jsonSource.id |> toString |> Id
-    , profileId = jsonSource.profileId |> toString |> Id
-    , platform = jsonSource.platform
-    , username = jsonSource.username
-    , linksFound = jsonSource.linksFound
-    }
+    let
+        foo jsonProviderLinks =
+            let
+                (JsonProviderLinks fields) =
+                    jsonProviderLinks
+            in
+                ProviderLinks (LinkFields (fields.links |> List.map toLink))
+    in
+        { id = jsonSource.id |> toString |> Id
+        , profileId = jsonSource.profileId |> toString |> Id
+        , platform = jsonSource.platform
+        , username = jsonSource.username
+        , linksFound = jsonSource.linksFound |> foo
+        }
 
 
 toJsonLinks : List Link -> List JsonLink
@@ -216,7 +241,9 @@ jsonProfileToProvider jsonProfile =
 
 toMembers : List JsonProvider -> Members
 toMembers jsonProviders =
-    Members (jsonProviders |> List.map (\p -> p |> toProvider))
+    jsonProviders
+        |> List.map toProvider
+        |> Members
 
 
 toLink : JsonLink -> Link

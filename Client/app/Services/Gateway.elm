@@ -19,7 +19,7 @@ profileDecoder =
         (field "Email" Decode.string)
         (field "ImageUrl" Decode.string)
         (field "Bio" Decode.string)
-        (field "Sources" <| Decode.list sourceDecoder)
+        (field "Sources" <| Decode.list (Decode.lazy (\_ -> sourceDecoder)))
 
 
 sourceDecoder : Decoder JsonSource
@@ -29,7 +29,14 @@ sourceDecoder =
         (field "ProfileId" Decode.string)
         (field "Platform" Decode.string)
         (field "Username" Decode.string)
-        (field "LinksFound" Decode.int)
+        (field "LinksFound" providerLinksDecoder)
+
+
+providerLinksDecoder : Decoder JsonProviderLinks
+providerLinksDecoder =
+    Decode.map JsonLinkFields
+        (field "Links" <| Decode.list linkDecoder)
+        |> Decode.map JsonProviderLinks
 
 
 topicDecoder : Decoder JsonTopic
@@ -108,9 +115,19 @@ encodeLink link =
         , ( "Title", Encode.string <| titleText link.title )
         , ( "Url", Encode.string <| urlText link.url )
         , ( "ContentType", Encode.string <| contentTypeToText link.contentType )
-        , ( "Topics", Encode.list (link.topics |> List.map (\t -> encodeTopic t)) )
+        , ( "Topics", Encode.list (link.topics |> List.map encodeTopic) )
         , ( "IsFeatured", Encode.bool link.isFeatured )
         ]
+
+
+encodeLinksFound : ProviderLinks -> Encode.Value
+encodeLinksFound providerLinks =
+    let
+        (ProviderLinks linkFields) =
+            providerLinks
+    in
+        Encode.object
+            [ ( "Links", Encode.list (linkFields.links |> List.map encodeLink) ) ]
 
 
 encodeProfile : Profile -> Encode.Value
@@ -126,7 +143,7 @@ encodeProfile profile =
             , ( "Email", Encode.string <| jsonProfile.email )
             , ( "ImageUrl", Encode.string <| jsonProfile.imageUrl )
             , ( "Bio", Encode.string <| jsonProfile.bio )
-            , ( "Sources", Encode.list (profile.sources |> List.map (\s -> encodeSource s)) )
+            , ( "Sources", Encode.list (profile.sources |> List.map encodeSource) )
             ]
 
 
@@ -136,7 +153,7 @@ encodeSource source =
         [ ( "ProfileId", Encode.string <| idText source.profileId )
         , ( "Platform", Encode.string <| source.platform )
         , ( "Username", Encode.string <| source.username )
-        , ( "LinksFound", Encode.int <| source.linksFound )
+        , ( "LinksFound", encodeLinksFound <| source.linksFound )
         ]
 
 
