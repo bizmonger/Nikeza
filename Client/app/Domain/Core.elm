@@ -257,7 +257,8 @@ initNewLinks =
 
 
 type alias Source =
-    { id : Int
+    { id : Id
+    , profileId : Id
     , platform : String
     , username : String
     , linksFound : Int
@@ -266,7 +267,7 @@ type alias Source =
 
 initSource : Source
 initSource =
-    Source -1 "" "" 0
+    Source (Id undefined) (Id undefined) "" "" 0
 
 
 type ProviderRequest

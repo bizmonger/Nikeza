@@ -1,5 +1,6 @@
 module Controls.Sources exposing (..)
 
+import Settings exposing (runtime)
 import Domain.Core exposing (..)
 import Services.Adapter exposing (..)
 import Html exposing (..)
@@ -13,7 +14,10 @@ import Json.Decode exposing (map)
 
 
 type alias Model =
-    { source : Source, sources : List Source }
+    { profileId : Id
+    , source : Source
+    , sources : List Source
+    }
 
 
 type Msg
@@ -43,10 +47,10 @@ update msg model =
                 ( { model | source = { source | platform = v } }, Cmd.none )
 
             Add source ->
-                ( model, Cmd.none )
+                ( model, runtime.addSource source AddResponse )
 
-            Remove v ->
-                ( model, Cmd.none )
+            Remove source ->
+                ( model, runtime.removeSource source.id RemoveResponse )
 
             AddResponse (Ok jsonSource) ->
                 ( { model | sources = (jsonSource |> toSource) :: model.sources }, Cmd.none )

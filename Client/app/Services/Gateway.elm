@@ -24,8 +24,9 @@ profileDecoder =
 
 sourceDecoder : Decoder JsonSource
 sourceDecoder =
-    Decode.map4 JsonSource
+    Decode.map5 JsonSource
         (field "Id" Decode.int)
+        (field "ProfileId" Decode.int)
         (field "Platform" Decode.string)
         (field "Usename" Decode.string)
         (field "LinksFound" Decode.int)
@@ -125,14 +126,15 @@ encodeProfile profile =
             , ( "Email", Encode.string <| jsonProfile.email )
             , ( "ImageUrl", Encode.string <| jsonProfile.imageUrl )
             , ( "Bio", Encode.string <| jsonProfile.bio )
-            , ( "Sources", Encode.list (jsonProfile.sources |> List.map (\s -> encodeSource s)) )
+            , ( "Sources", Encode.list (profile.sources |> List.map (\s -> encodeSource s)) )
             ]
 
 
 encodeSource : Source -> Encode.Value
 encodeSource source =
     Encode.object
-        [ ( "Platform", Encode.string <| source.platform )
+        [ ( "ProfileId", Encode.string <| idText source.profileId )
+        , ( "Platform", Encode.string <| source.platform )
         , ( "Username", Encode.string <| source.username )
         , ( "LinksFound", Encode.int <| source.linksFound )
         ]

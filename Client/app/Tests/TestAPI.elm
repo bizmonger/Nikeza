@@ -329,7 +329,7 @@ jsonProfile1 =
         (profile1.email |> emailText)
         (profile1.imageUrl |> urlText)
         profile1.bio
-        profile1.sources
+        (profile1.sources |> List.map (\s -> s |> toJsonSource))
 
 
 jsonProfile2 : JsonProfile
@@ -341,7 +341,7 @@ jsonProfile2 =
         (profile2.email |> emailText)
         (profile2.imageUrl |> urlText)
         profile2.bio
-        profile2.sources
+        (profile2.sources |> List.map (\s -> s |> toJsonSource))
 
 
 jsonProfile3 : JsonProfile
@@ -353,7 +353,7 @@ jsonProfile3 =
         (profile3.email |> emailText)
         (profile3.imageUrl |> urlText)
         profile3.bio
-        profile3.sources
+        (profile3.sources |> List.map (\s -> s |> toJsonSource))
 
 
 jsonProfile4 : JsonProfile
@@ -365,7 +365,7 @@ jsonProfile4 =
         (profile4.email |> emailText)
         (profile4.imageUrl |> urlText)
         profile4.bio
-        profile4.sources
+        (profile4.sources |> List.map (\s -> s |> toJsonSource))
 
 
 jsonProfile5 : JsonProfile
@@ -377,7 +377,7 @@ jsonProfile5 =
         (profile5.email |> emailText)
         (profile5.imageUrl |> urlText)
         profile5.bio
-        profile5.sources
+        (profile5.sources |> List.map (\s -> s |> toJsonSource))
 
 
 jsonLink1 : JsonLink
@@ -671,9 +671,9 @@ topicLinks profileId topic contentType msg =
 
 sourcesBase : List Source
 sourcesBase =
-    [ { id = 0, platform = "WordPress", username = "bizmonger", linksFound = 0 }
-    , { id = 1, platform = "YouTube", username = "bizmonger", linksFound = 0 }
-    , { id = 2, platform = "StackOverflow", username = "scott-nimrod", linksFound = 0 }
+    [ { id = Id "0", profileId = Id "0", platform = "WordPress", username = "bizmonger", linksFound = 0 }
+    , { id = Id "1", profileId = Id "1", platform = "YouTube", username = "bizmonger", linksFound = 0 }
+    , { id = Id "2", profileId = Id "2", platform = "StackOverflow", username = "scott-nimrod", linksFound = 0 }
     ]
 
 
@@ -699,7 +699,7 @@ removeSourceBase sourceId =
             let
                 result =
                     sourcesBase
-                        |> List.filter (\s -> s.id == id)
+                        |> List.filter (\s -> idText s.id == (id |> toString))
                         |> List.head
             in
                 case result of
@@ -707,10 +707,10 @@ removeSourceBase sourceId =
                         source |> toJsonSource
 
                     Nothing ->
-                        initSource
+                        initSource |> toJsonSource
 
         Err _ ->
-            initSource
+            initSource |> toJsonSource
 
 
 removeSource : Id -> (Result Http.Error JsonSource -> msg) -> Cmd msg

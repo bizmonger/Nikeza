@@ -548,7 +548,7 @@ onSourcesUpdated subMsg model =
             ( model.portal, model.portal.provider, model.portal.provider.profile )
 
         ( sources, subCmd ) =
-            Sources.update subMsg { source = pendingPortal.newSource, sources = provider.profile.sources }
+            Sources.update subMsg { profileId = updatedProfile.id, source = pendingPortal.newSource, sources = provider.profile.sources }
 
         sourceCmd =
             Cmd.map SourcesUpdated subCmd
@@ -572,7 +572,6 @@ onSourcesUpdated subMsg model =
                         { portal
                             | linksNavigation = portfolioExists provider.portfolio
                             , addLinkNavigation = True
-                            , sourcesNavigation = True
                         }
                   }
                 , sourceCmd
@@ -583,7 +582,6 @@ onSourcesUpdated subMsg model =
                     | portal =
                         { portal
                             | linksNavigation = portfolioExists portal.provider.portfolio
-                            , sourcesNavigation = True
                             , addLinkNavigation = True
                         }
                   }
@@ -986,7 +984,7 @@ content contentToEmbed model =
             Domain.ViewSources ->
                 div []
                     [ Html.map SourcesUpdated <|
-                        Sources.view { source = portal.newSource, sources = loggedIn.profile.sources } model.platforms
+                        Sources.view { profileId = loggedIn.profile.id, source = portal.newSource, sources = loggedIn.profile.sources } model.platforms
                     ]
 
             Domain.ViewLinks ->
@@ -1385,8 +1383,26 @@ navigate msg model location =
             let
                 login =
                     model.login
+
+                portal =
+                    model.portal
+
+                provider =
+                    portal.provider
+
+                profile =
+                    provider.profile
+
+                updatedProfile =
+                    { profile | id = Id id }
             in
-                ( { model | login = { login | loggedIn = True }, currentRoute = location }, runtime.provider (Id id) NavigateToPortalResponse )
+                ( { model
+                    | login = { login | loggedIn = True }
+                    , portal = { portal | provider = { provider | profile = updatedProfile } }
+                    , currentRoute = location
+                  }
+                , runtime.provider (Id id) NavigateToPortalResponse
+                )
 
         [ "portal", id, topic ] ->
             let

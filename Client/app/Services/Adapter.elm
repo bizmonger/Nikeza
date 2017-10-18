@@ -97,7 +97,7 @@ type alias JsonProfile =
     , email : String
     , imageUrl : String
     , bio : String
-    , sources : List Source
+    , sources : List JsonSource
     }
 
 
@@ -109,6 +109,7 @@ type alias JsonTopic =
 
 type alias JsonSource =
     { id : Int
+    , profileId : Int
     , platform : String
     , username : String
     , linksFound : Int
@@ -161,7 +162,7 @@ toProfile jsonProfile =
     , email = Email jsonProfile.email
     , imageUrl = Url jsonProfile.imageUrl
     , bio = jsonProfile.bio
-    , sources = jsonProfile.sources
+    , sources = jsonProfile.sources |> List.map (\s -> s |> toSource)
     }
 
 
@@ -173,13 +174,26 @@ toJsonProfile profile =
     , email = emailText profile.email
     , imageUrl = urlText profile.imageUrl
     , bio = profile.bio
-    , sources = profile.sources
+    , sources = profile.sources |> List.map (\s -> s |> toJsonSource)
     }
 
 
 toJsonSource : Source -> JsonSource
 toJsonSource source =
-    { id = source.id
+    { id =
+        case source.id |> idText |> String.toInt of
+            Ok v ->
+                v
+
+            Err _ ->
+                -1
+    , profileId =
+        case source.profileId |> idText |> String.toInt of
+            Ok v ->
+                v
+
+            Err _ ->
+                -1
     , platform = source.platform
     , username = source.username
     , linksFound = source.linksFound
@@ -187,11 +201,12 @@ toJsonSource source =
 
 
 toSource : JsonSource -> Source
-toSource source =
-    { id = source.id
-    , platform = source.platform
-    , username = source.username
-    , linksFound = source.linksFound
+toSource jsonSource =
+    { id = jsonSource.id |> toString |> Id
+    , profileId = jsonSource.profileId |> toString |> Id
+    , platform = jsonSource.platform
+    , username = jsonSource.username
+    , linksFound = jsonSource.linksFound
     }
 
 
