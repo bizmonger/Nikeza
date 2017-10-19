@@ -29,13 +29,13 @@ sourceDecoder =
         (field "ProfileId" Decode.string)
         (field "Platform" Decode.string)
         (field "Username" Decode.string)
-        (field "LinksFound" providerLinksDecoder)
+        (field "Links" providerLinksDecoder)
 
 
 providerLinksDecoder : Decoder JsonProviderLinks
 providerLinksDecoder =
     Decode.map JsonLinkFields
-        (field "Links" <| Decode.list linkDecoder)
+        (field "Links" <| Decode.list (Decode.lazy (\_ -> linkDecoder)))
         |> Decode.map JsonProviderLinks
 
 

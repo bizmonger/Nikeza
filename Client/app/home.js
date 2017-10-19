@@ -15631,7 +15631,7 @@ var _user$project$Services_Gateway$sourceDecoder = A6(
 	A2(_elm_lang$core$Json_Decode$field, 'ProfileId', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'Platform', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'Username', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'LinksFound', _user$project$Services_Gateway$providerLinksDecoder));
+	A2(_elm_lang$core$Json_Decode$field, 'Links', _user$project$Services_Gateway$providerLinksDecoder));
 var _user$project$Services_Gateway$providerLinksDecoder = A2(
 	_elm_lang$core$Json_Decode$map,
 	_user$project$Services_Adapter$JsonProviderLinks,
@@ -15641,7 +15641,11 @@ var _user$project$Services_Gateway$providerLinksDecoder = A2(
 		A2(
 			_elm_lang$core$Json_Decode$field,
 			'Links',
-			_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder))));
+			_elm_lang$core$Json_Decode$list(
+				_elm_lang$core$Json_Decode$lazy(
+					function (_p2) {
+						return _user$project$Services_Gateway$linkDecoder;
+					})))));
 var _user$project$Services_Gateway$linkDecoder = A7(
 	_elm_lang$core$Json_Decode$map6,
 	_user$project$Services_Adapter$JsonLink,
@@ -15664,19 +15668,19 @@ var _user$project$Services_Gateway$addSource = F2(
 	});
 var _user$project$Services_Gateway$removeSource = F2(
 	function (sourceId, msg) {
-		var _p2 = _elm_lang$core$String$toInt(
+		var _p3 = _elm_lang$core$String$toInt(
 			_user$project$Domain_Core$idText(sourceId));
-		if (_p2.ctor === 'Ok') {
-			var _p3 = _p2._0;
+		if (_p3.ctor === 'Ok') {
+			var _p4 = _p3._0;
 			var body = _elm_lang$http$Http$jsonBody(
-				_elm_lang$core$Json_Encode$int(_p3));
+				_elm_lang$core$Json_Encode$int(_p4));
 			var url = A2(
 				_elm_lang$core$Basics_ops['++'],
 				_user$project$Services_Gateway$baseUrl,
 				A2(
 					_elm_lang$core$Basics_ops['++'],
 					'removesource/',
-					_elm_lang$core$Basics$toString(_p3)));
+					_elm_lang$core$Basics$toString(_p4)));
 			var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$sourceDecoder);
 			return A2(_elm_lang$http$Http$send, msg, request);
 		} else {
@@ -15802,7 +15806,7 @@ var _user$project$Services_Gateway$providerDecoder = A2(
 			'Subscriptions',
 			_elm_lang$core$Json_Decode$list(
 				_elm_lang$core$Json_Decode$lazy(
-					function (_p4) {
+					function (_p5) {
 						return _user$project$Services_Gateway$providerDecoder;
 					}))),
 		A2(
@@ -15810,7 +15814,7 @@ var _user$project$Services_Gateway$providerDecoder = A2(
 			'Followers',
 			_elm_lang$core$Json_Decode$list(
 				_elm_lang$core$Json_Decode$lazy(
-					function (_p5) {
+					function (_p6) {
 						return _user$project$Services_Gateway$providerDecoder;
 					})))));
 var _user$project$Services_Gateway$bootstrapDecoder = A3(
