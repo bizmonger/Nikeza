@@ -22,14 +22,13 @@ let private loginHandler  (authFailedHandler : HttpHandler) =
     fun(context: HttpContext) -> 
         async {
             let! data = context.BindJson<LogInRequest>()
-            if  authenticate data.UserName data.Password
-                then let user = getUserClaims data.UserName authScheme
+            if  authenticate data.Username data.Password
+                then let user = getUserClaims data.Username authScheme
                      do! context.Authentication.SignInAsync(authScheme, user) |> Async.AwaitTask 
                      return Some context 
                 else return! authFailedHandler context                                                           
         }
 
-open Nikeza.Server.Model
 open Nikeza.Server.Command
 open Nikeza.Server.Store
 

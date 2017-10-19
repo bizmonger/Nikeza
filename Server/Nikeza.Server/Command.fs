@@ -16,8 +16,6 @@ let addWithValue paramName obj (command: SqlCommand) =
 let createConnection connectionString = new SqlConnection(connectionString)
 
 module private Commands =
-    
-    let executeNonQuery (command: SqlCommand) = command.ExecuteNonQuery() |> ignore
 
     let executeScalar (command: SqlCommand) = 
         let result =  (command.ExecuteScalar())

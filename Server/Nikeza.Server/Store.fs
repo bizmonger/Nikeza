@@ -61,11 +61,11 @@ let getSubscriptions subscriberId =
 
 let getProviders () =
     let commandFunc (command: SqlCommand) = command
-    let providers = readInProfiles |>  getResults getProvidersSql commandFunc
+    let providers = readInProviders |>  getResults getProfilesSql commandFunc
     providers
 
 let getProvider providerId =
-    let profiles = getProfiles providerId getProviderSql "@ProviderId"
+    let profiles = getProfiles providerId getProfileSql "@ProviderId"
     profiles |> List.tryHead
 
 let getSources providerId =

@@ -124,6 +124,15 @@ let getSubscriptionsSql = @"SELECT Profile.Id,
                                    WHERE      Subscription.SubscriberId = @SubscriberId"
 
 let getProvidersSql = @"SELECT Id,
+                               ...
+                       FROM    Provider"
+
+let getProviderSql = @"SELECT Id,
+                              ...
+                       FROM   Provider
+                       WHERE  Id = @ProviderId"
+
+let getProfilesSql = @"SELECT  Id,
                                FirstName,
                                LastName,
                                Email,
@@ -132,7 +141,7 @@ let getProvidersSql = @"SELECT Id,
 
                        FROM    Profile"
 
-let getProviderSql = @"SELECT Id,
+let getProfileSql = @"SELECT  Id,
                               FirstName,
                               LastName,
                               Email,

@@ -63,6 +63,11 @@ let rec readInProfiles profiles (reader:SqlDataReader) = reader.Read() |> functi
 
     | false -> profiles
 
+let rec readInProviders providers (reader:SqlDataReader) = reader.Read() |> function
+
+    | true -> providers
+    | false -> providers
+
 let rec readInSources sources (reader:SqlDataReader) = reader.Read() |> function
     | true -> 
         let source : AddSourceRequest = {

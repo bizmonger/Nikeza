@@ -16,7 +16,7 @@ module Nikeza.Server.Authentication
             
     [<CLIMutable>]
     type LogInRequest = {
-            UserName: string
+            Username: string
             Password: string 
         }
 
