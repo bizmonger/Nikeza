@@ -238,7 +238,7 @@ let ``Get links of provider`` () =
 
     // Verify
     let linkFound = links |> Seq.head
-    linkFound.ProviderId  |> should equal providerId
+    linkFound.ProfileId  |> should equal providerId
 
 [<Test>]
 let ``Get followers`` () =
