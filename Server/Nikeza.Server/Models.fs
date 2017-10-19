@@ -75,12 +75,12 @@ type AddLinkRequest = {
 [<CLIMutable>]
 type Link = { 
     Id:            int
-    ProviderId:    string
+    ProfileId:     string
     Title:         String
     Description:   String
     Url:           string
-    IsFeatured:    bool
     ContentType:   string
+    IsFeatured:    bool
 }
 
 [<CLIMutable>]
@@ -92,7 +92,7 @@ type AddSourceRequest = {
     ProfileId: string
     Platform:  string
     Username:  string
-    Links:     string list
+    Links:     Link list
 }
 
 [<CLIMutable>]

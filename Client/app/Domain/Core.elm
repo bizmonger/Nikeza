@@ -222,7 +222,8 @@ platformText platform =
 
 
 type alias Link =
-    { profile : Profile
+    { id : Int
+    , profileId : Id
     , title : Title
     , url : Url
     , contentType : ContentType
@@ -237,7 +238,8 @@ type alias LinkToCreate =
 
 initLink : Link
 initLink =
-    { profile = initProfile
+    { id = -1
+    , profileId = Id undefined
     , title = Title ""
     , url = Url ""
     , contentType = Unknown

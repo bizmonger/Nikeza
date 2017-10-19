@@ -19,7 +19,11 @@ profileDecoder =
         (field "Email" Decode.string)
         (field "ImageUrl" Decode.string)
         (field "Bio" Decode.string)
-        (field "Sources" <| Decode.list (Decode.lazy (\_ -> sourceDecoder)))
+        (field "Sources" <| Decode.list sourceDecoder)
+
+
+
+--(Decode.lazy (\_ -> sourceDecoder)))
 
 
 sourceDecoder : Decoder JsonSource
@@ -64,8 +68,9 @@ bootstrapDecoder =
 
 linkDecoder : Decoder JsonLink
 linkDecoder =
-    Decode.map6 JsonLink
-        (field "Profile" profileDecoder)
+    Decode.map7 JsonLink
+        (field "Id" Decode.int)
+        (field "ProfileId" Decode.string)
         (field "Title" Decode.string)
         (field "Url" Decode.string)
         (field "ContentType" Decode.string)
@@ -102,7 +107,7 @@ encodeRegistration form =
 encodeLink : Link -> Encode.Value
 encodeLink link =
     Encode.object
-        [ ( "Profile", encodeProfile link.profile )
+        [ ( "ProfileId", Encode.string (idText link.profileId) )
         , ( "Title", Encode.string <| titleText link.title )
         , ( "Url", Encode.string <| urlText link.url )
         , ( "ContentType", Encode.string <| contentTypeToText link.contentType )

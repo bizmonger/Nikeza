@@ -140,7 +140,8 @@ type alias JsonBootstrap =
 
 
 type alias JsonLink =
-    { profile : JsonProfile
+    { id : Int
+    , profileId : String
     , title : String
     , url : String
     , contentType : String
@@ -249,7 +250,8 @@ toMembers jsonProviders =
 toLink : JsonLink -> Link
 toLink =
     (\link ->
-        { profile = link.profile |> toProfile
+        { id = link.id
+        , profileId = Id (link.profileId |> toString)
         , title = Title link.title
         , url = Url link.url
         , contentType = link.contentType |> toContentType
@@ -266,7 +268,8 @@ toLinks jsonLinks =
 
 toJsonLink : Link -> JsonLink
 toJsonLink link =
-    { profile = link.profile |> toJsonProfile
+    { id = link.id
+    , profileId = idText link.profileId
     , title = titleText link.title
     , url = urlText link.url
     , contentType = link.contentType |> contentTypeToText
