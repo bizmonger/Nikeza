@@ -33,37 +33,33 @@ let sqlReader (reader: SqlDataReader) = {
 let rec readInLinks links (reader:SqlDataReader) = reader.Read() |> function
 
     | true ->
-        let link = { 
-              Id =            reader.GetInt32  (0)
-              ProviderId =    reader.GetInt32  (1) |> string
-              Title =         reader.GetString (2)
-              Description =   reader.GetString (3)
-              Url =           reader.GetString (4)
-              ContentType =   reader.GetInt32  (5) |> contentTypeIdToString
-              IsFeatured =    reader.GetBoolean(6)
+        let link : Link = { 
+              Id=          reader.GetInt32  (0)
+              ProfileId=   reader.GetInt32  (1) |> string
+              Title=       reader.GetString (2)
+              Description= reader.GetString (3)
+              Url=         reader.GetString (4)
+              ContentType= reader.GetInt32  (5) |> contentTypeIdToString
+              IsFeatured=  reader.GetBoolean(6)
         }
         
         readInLinks (link::links) reader
 
     | false -> links
 
+and readInTopic (reader:SqlDataReader) = {
+  Id=         reader.GetInt32  (0)
+  Name=       reader.GetString (1)
+  IsFeatured= reader.GetBoolean(2) }
 
-
-and readInTopic (reader:SqlDataReader) =
-    { Id=         reader.GetInt32  (0)
-      Name=       reader.GetString (1)
-      IsFeatured= reader.GetBoolean(2)
-    }
-
-and readInLink (reader:SqlDataReader) =
-    { Id=          reader.GetInt32  (0)
-      ProviderId=  reader.GetInt32  (1) |> string
-      Title=       reader.GetString (2)
-      Description= reader.GetString (3)
-      Url=         reader.GetString (4)
-      IsFeatured=  reader.GetBoolean(5)
-      ContentType= reader.GetString (6)
-    }
+and readInLink (reader:SqlDataReader) = {
+  Id=          reader.GetInt32  (0)
+  ProfileId=   reader.GetInt32  (1) |> string
+  Title=       reader.GetString (2)
+  Description= reader.GetString (3)
+  Url=         reader.GetString (4)
+  IsFeatured=  reader.GetBoolean(5)
+  ContentType= reader.GetString (6) }
 
 let rec readInTopics topics (reader:SqlDataReader) = reader.Read() |> function
     | true -> let topic = reader |> readInTopic
@@ -71,34 +67,33 @@ let rec readInTopics topics (reader:SqlDataReader) = reader.Read() |> function
     | false -> topics
 
 
-and readInProfile (reader:SqlDataReader) =
-    { ProfileId=  reader.GetInt32 (0) |> string
-      FirstName=  reader.GetString(1)
-      LastName=   reader.GetString(2)
-      Email=      reader.GetString(3)
-      ImageUrl=   reader.GetString(4)
-      Bio=        reader.GetString(5)
-      Sources=    []
-    }
+and readInProfile (reader:SqlDataReader) = { 
+    ProfileId=  reader.GetInt32 (0) |> string
+    FirstName=  reader.GetString(1)
+    LastName=   reader.GetString(2)
+    Email=      reader.GetString(3)
+    ImageUrl=   reader.GetString(4)
+    Bio=        reader.GetString(5)
+    Sources=    [] 
+}
 
 let rec readInProfiles profiles (reader:SqlDataReader) = reader.Read() |> function
     | true -> let profile = reader |> readInProfile
               readInProfiles (profile::profiles) reader
     | false -> profiles
 
-and readInProvider (reader:SqlDataReader) =
-    { Profile=       reader |> readInProfile
-      Topics=        reader |> readInTopics []
-      Portfolio=     reader |> readInLinks  [] |> toPortfolio
-      Subscriptions= [] // reader |> readInSubscriptions
-      Followers=     [] // reader |> readInFollowers
-    }
+and readInProvider (reader:SqlDataReader) = { 
+    Profile=       reader |> readInProfile
+    Topics=        reader |> readInTopics []
+    Portfolio=     reader |> readInLinks  [] |> toPortfolio
+    Subscriptions= [] // reader |> readInSubscriptions
+    Followers=     [] // reader |> readInFollowers
+}
 
 let rec readInProviders providers (reader:SqlDataReader) = reader.Read() |> function
     | true -> let provider = reader |> readInProvider
               readInProviders (provider::providers) reader
     | false -> providers
-
 
 let rec readInSources sources (reader:SqlDataReader) = reader.Read() |> function
     | true -> 
