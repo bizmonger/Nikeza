@@ -520,8 +520,8 @@ podcasts id =
     id |> linksToContent Podcast
 
 
-links : Id -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
-links profileId msg =
+portfolio : Id -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
+portfolio profileId msg =
     { answers = (profileId |> linksToContent Answer) |> toJsonLinks
     , articles = (profileId |> linksToContent Article) |> toJsonLinks
     , videos = (profileId |> linksToContent Video) |> toJsonLinks

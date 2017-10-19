@@ -74,7 +74,7 @@ type alias RemoveLinkfunction msg =
     Id -> Link -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
 
 
-type alias Linksfunction msg =
+type alias Portfoliofunction msg =
     Id -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
 
 

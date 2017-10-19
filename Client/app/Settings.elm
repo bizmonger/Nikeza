@@ -23,7 +23,7 @@ type alias Dependencies msg =
     , provider : Providerfunction msg
     , providerTopic : ProviderTopicfunction msg
     , providers : Providersfunction msg
-    , links : Linksfunction msg
+    , portfolio : Portfoliofunction msg
     , addLink : AddLinkfunction msg
     , removeLink : RemoveLinkfunction msg
     , topicLinks : TopicLinksfunction msg
@@ -50,7 +50,7 @@ runtime =
                 Services.provider
                 Services.providerTopic
                 Services.providers
-                Services.links
+                Services.portfolio
                 Services.addLink
                 Services.removeLink
                 Services.topicLinks
@@ -72,7 +72,7 @@ runtime =
                 TestAPI.provider
                 TestAPI.providerTopic
                 TestAPI.providers
-                TestAPI.links
+                TestAPI.portfolio
                 TestAPI.addLink
                 TestAPI.removeLink
                 TestAPI.topicLinks

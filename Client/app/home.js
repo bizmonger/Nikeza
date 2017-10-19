@@ -15237,7 +15237,7 @@ var _user$project$Tests_TestAPI$bootstrap = function (msg) {
 		msg,
 		{providers: _user$project$Tests_TestAPI$providersBase, platforms: _user$project$Tests_TestAPI$platformsBase});
 };
-var _user$project$Tests_TestAPI$links = F2(
+var _user$project$Tests_TestAPI$portfolio = F2(
 	function (profileId, msg) {
 		return A2(
 			_user$project$Services_Adapter$httpSuccess,
@@ -15631,7 +15631,13 @@ var _user$project$Services_Gateway$sourceDecoder = A6(
 	A2(_elm_lang$core$Json_Decode$field, 'ProfileId', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'Platform', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'Username', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'Links', _user$project$Services_Gateway$providerLinksDecoder));
+	A2(
+		_elm_lang$core$Json_Decode$field,
+		'Links',
+		_elm_lang$core$Json_Decode$lazy(
+			function (_p2) {
+				return _user$project$Services_Gateway$providerLinksDecoder;
+			})));
 var _user$project$Services_Gateway$providerLinksDecoder = A2(
 	_elm_lang$core$Json_Decode$map,
 	_user$project$Services_Adapter$JsonProviderLinks,
@@ -15643,7 +15649,7 @@ var _user$project$Services_Gateway$providerLinksDecoder = A2(
 			'Links',
 			_elm_lang$core$Json_Decode$list(
 				_elm_lang$core$Json_Decode$lazy(
-					function (_p2) {
+					function (_p3) {
 						return _user$project$Services_Gateway$linkDecoder;
 					})))));
 var _user$project$Services_Gateway$linkDecoder = A7(
@@ -15668,19 +15674,19 @@ var _user$project$Services_Gateway$addSource = F2(
 	});
 var _user$project$Services_Gateway$removeSource = F2(
 	function (sourceId, msg) {
-		var _p3 = _elm_lang$core$String$toInt(
+		var _p4 = _elm_lang$core$String$toInt(
 			_user$project$Domain_Core$idText(sourceId));
-		if (_p3.ctor === 'Ok') {
-			var _p4 = _p3._0;
+		if (_p4.ctor === 'Ok') {
+			var _p5 = _p4._0;
 			var body = _elm_lang$http$Http$jsonBody(
-				_elm_lang$core$Json_Encode$int(_p4));
+				_elm_lang$core$Json_Encode$int(_p5));
 			var url = A2(
 				_elm_lang$core$Basics_ops['++'],
 				_user$project$Services_Gateway$baseUrl,
 				A2(
 					_elm_lang$core$Basics_ops['++'],
 					'removesource/',
-					_elm_lang$core$Basics$toString(_p4)));
+					_elm_lang$core$Basics$toString(_p5)));
 			var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$sourceDecoder);
 			return A2(_elm_lang$http$Http$send, msg, request);
 		} else {
@@ -15706,6 +15712,20 @@ var _user$project$Services_Gateway$portfolioDecoder = A5(
 		_elm_lang$core$Json_Decode$field,
 		'Podcasts',
 		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder)));
+var _user$project$Services_Gateway$portfolio = F2(
+	function (profileId, msg) {
+		var body = _elm_lang$http$Http$jsonBody(
+			_user$project$Services_Gateway$encodeId(profileId));
+		var url = A2(
+			_elm_lang$core$Basics_ops['++'],
+			_user$project$Services_Gateway$baseUrl,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_user$project$Domain_Core$idText(profileId),
+				'links'));
+		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$portfolioDecoder);
+		return A2(_elm_lang$http$Http$send, msg, request);
+	});
 var _user$project$Services_Gateway$addLink = F3(
 	function (profileId, link, msg) {
 		var body = _elm_lang$http$Http$jsonBody(
@@ -15732,39 +15752,6 @@ var _user$project$Services_Gateway$removeLink = F3(
 				_user$project$Domain_Core$idText(profileId),
 				'/removelink'));
 		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$portfolioDecoder);
-		return A2(_elm_lang$http$Http$send, msg, request);
-	});
-var _user$project$Services_Gateway$linksDecoder = A5(
-	_elm_lang$core$Json_Decode$map4,
-	_user$project$Services_Adapter$JsonPortfolio,
-	A2(
-		_elm_lang$core$Json_Decode$field,
-		'Articles',
-		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder)),
-	A2(
-		_elm_lang$core$Json_Decode$field,
-		'Videos',
-		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder)),
-	A2(
-		_elm_lang$core$Json_Decode$field,
-		'Podcasts',
-		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder)),
-	A2(
-		_elm_lang$core$Json_Decode$field,
-		'Answers',
-		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder)));
-var _user$project$Services_Gateway$links = F2(
-	function (profileId, msg) {
-		var body = _elm_lang$http$Http$jsonBody(
-			_user$project$Services_Gateway$encodeId(profileId));
-		var url = A2(
-			_elm_lang$core$Basics_ops['++'],
-			_user$project$Services_Gateway$baseUrl,
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_user$project$Domain_Core$idText(profileId),
-				'links'));
-		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$linksDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
 var _user$project$Services_Gateway$topicLinks = F4(
@@ -15796,7 +15783,7 @@ var _user$project$Services_Gateway$providerDecoder = A2(
 			_elm_lang$core$Json_Decode$field,
 			'Topics',
 			_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$topicDecoder)),
-		A2(_elm_lang$core$Json_Decode$field, 'Links', _user$project$Services_Gateway$linksDecoder),
+		A2(_elm_lang$core$Json_Decode$field, 'Links', _user$project$Services_Gateway$portfolioDecoder),
 		A2(
 			_elm_lang$core$Json_Decode$field,
 			'RecentLinks',
@@ -15806,7 +15793,7 @@ var _user$project$Services_Gateway$providerDecoder = A2(
 			'Subscriptions',
 			_elm_lang$core$Json_Decode$list(
 				_elm_lang$core$Json_Decode$lazy(
-					function (_p5) {
+					function (_p6) {
 						return _user$project$Services_Gateway$providerDecoder;
 					}))),
 		A2(
@@ -15814,7 +15801,7 @@ var _user$project$Services_Gateway$providerDecoder = A2(
 			'Followers',
 			_elm_lang$core$Json_Decode$list(
 				_elm_lang$core$Json_Decode$lazy(
-					function (_p6) {
+					function (_p7) {
 						return _user$project$Services_Gateway$providerDecoder;
 					})))));
 var _user$project$Services_Gateway$bootstrapDecoder = A3(
@@ -15901,7 +15888,7 @@ var _user$project$Settings$Dependencies = function (a) {
 																return function (q) {
 																	return function (r) {
 																		return function (s) {
-																			return {tryLogin: a, tryRegister: b, updateProfile: c, provider: d, providerTopic: e, providers: f, links: g, addLink: h, removeLink: i, topicLinks: j, sources: k, addSource: l, removeSource: m, suggestedTopics: n, subscriptions: o, followers: p, follow: q, unsubscribe: r, bootstrap: s};
+																			return {tryLogin: a, tryRegister: b, updateProfile: c, provider: d, providerTopic: e, providers: f, portfolio: g, addLink: h, removeLink: i, topicLinks: j, sources: k, addSource: l, removeSource: m, suggestedTopics: n, subscriptions: o, followers: p, follow: q, unsubscribe: r, bootstrap: s};
 																		};
 																	};
 																};
@@ -15927,9 +15914,9 @@ var _user$project$Settings$configuration = _user$project$Settings$Integration;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return _user$project$Settings$Dependencies(_user$project$Services_Gateway$tryLogin)(_user$project$Services_Gateway$tryRegister)(_user$project$Services_Gateway$updateProfile)(_user$project$Services_Gateway$provider)(_user$project$Services_Gateway$providerTopic)(_user$project$Services_Gateway$providers)(_user$project$Services_Gateway$links)(_user$project$Services_Gateway$addLink)(_user$project$Services_Gateway$removeLink)(_user$project$Services_Gateway$topicLinks)(_user$project$Services_Gateway$sources)(_user$project$Services_Gateway$addSource)(_user$project$Services_Gateway$removeSource)(_user$project$Services_Gateway$suggestedTopics)(_user$project$Services_Gateway$subscriptions)(_user$project$Services_Gateway$followers)(_user$project$Services_Gateway$follow)(_user$project$Services_Gateway$unsubscribe)(_user$project$Services_Gateway$bootstrap);
+		return _user$project$Settings$Dependencies(_user$project$Services_Gateway$tryLogin)(_user$project$Services_Gateway$tryRegister)(_user$project$Services_Gateway$updateProfile)(_user$project$Services_Gateway$provider)(_user$project$Services_Gateway$providerTopic)(_user$project$Services_Gateway$providers)(_user$project$Services_Gateway$portfolio)(_user$project$Services_Gateway$addLink)(_user$project$Services_Gateway$removeLink)(_user$project$Services_Gateway$topicLinks)(_user$project$Services_Gateway$sources)(_user$project$Services_Gateway$addSource)(_user$project$Services_Gateway$removeSource)(_user$project$Services_Gateway$suggestedTopics)(_user$project$Services_Gateway$subscriptions)(_user$project$Services_Gateway$followers)(_user$project$Services_Gateway$follow)(_user$project$Services_Gateway$unsubscribe)(_user$project$Services_Gateway$bootstrap);
 	} else {
-		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$updateProfile)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$providerTopic)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$links)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$bootstrap);
+		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$updateProfile)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$providerTopic)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$portfolio)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$bootstrap);
 	}
 }();
 

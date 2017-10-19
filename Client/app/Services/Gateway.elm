@@ -29,7 +29,7 @@ sourceDecoder =
         (field "ProfileId" Decode.string)
         (field "Platform" Decode.string)
         (field "Username" Decode.string)
-        (field "Links" providerLinksDecoder)
+        (field "Links" (Decode.lazy (\_ -> providerLinksDecoder)))
 
 
 providerLinksDecoder : Decoder JsonProviderLinks
@@ -73,21 +73,12 @@ linkDecoder =
         (field "IsFeatured" Decode.bool)
 
 
-linksDecoder : Decoder JsonPortfolio
-linksDecoder =
-    Decode.map4 JsonPortfolio
-        (field "Articles" <| Decode.list linkDecoder)
-        (field "Videos" <| Decode.list linkDecoder)
-        (field "Podcasts" <| Decode.list linkDecoder)
-        (field "Answers" <| Decode.list linkDecoder)
-
-
 providerDecoder : Decoder JsonProvider
 providerDecoder =
     Decode.map6 JsonProviderFields
         (field "Profile" profileDecoder)
         (field "Topics" <| Decode.list topicDecoder)
-        (field "Links" <| linksDecoder)
+        (field "Links" <| portfolioDecoder)
         (field "RecentLinks" <| Decode.list linkDecoder)
         (field "Subscriptions" <| Decode.list (Decode.lazy (\_ -> providerDecoder)))
         (field "Followers" <| Decode.list (Decode.lazy (\_ -> providerDecoder)))
@@ -268,8 +259,8 @@ providerTopic id topic msg =
         Http.send msg request
 
 
-links : Id -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
-links profileId msg =
+portfolio : Id -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
+portfolio profileId msg =
     let
         url =
             baseUrl ++ (idText profileId) ++ "links"
@@ -278,7 +269,7 @@ links profileId msg =
             (encodeId profileId) |> Http.jsonBody
 
         request =
-            Http.post url body linksDecoder
+            Http.post url body portfolioDecoder
     in
         Http.send msg request
 

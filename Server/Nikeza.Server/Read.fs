@@ -3,6 +3,7 @@ module Nikeza.Server.Read
 open System
 open System.Data.SqlClient
 open Nikeza.Server.Model
+open Nikeza.Server.Converters
 
 let readCommand (connection: SqlConnection) (command: SqlCommand) readerFunc =
     if connection.State = Data.ConnectionState.Closed
@@ -88,7 +89,7 @@ let rec readInProfiles profiles (reader:SqlDataReader) = reader.Read() |> functi
 and readInProvider (reader:SqlDataReader) =
     { Profile=       reader |> readInProfile
       Topics=        reader |> readInTopics []
-      Links=         reader |> readInLinks  []
+      Portfolio=     reader |> readInLinks  [] |> toPortfolio
       Subscriptions= [] // reader |> readInSubscriptions
       Followers=     [] // reader |> readInFollowers
     }
