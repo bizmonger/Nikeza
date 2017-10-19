@@ -37,7 +37,7 @@ let getResults sql commandFunc readInData =
                 connection.Close()
     entities
 
-let getProfiles profileId sql parameterName =
+let getMemberNetwork profileId sql parameterName =
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue parameterName profileId
         
@@ -52,20 +52,20 @@ let getLinks providerId =
     links
 
 let getFollowers providerId =
-    let profiles = getProfiles providerId getFollowersSql "@ProviderId"
+    let profiles = getMemberNetwork providerId getFollowersSql "@ProviderId"
     profiles
 
 let getSubscriptions subscriberId =
-    let profiles = getProfiles subscriberId getSubscriptionsSql "@SubscriberId"
+    let profiles = getMemberNetwork subscriberId getSubscriptionsSql "@SubscriberId"
     profiles
 
 let getProviders () =
     let commandFunc (command: SqlCommand) = command
-    let providers = readInProviders |>  getResults getProfilesSql commandFunc
+    let providers = readInProviders |>  getResults getProvidersSql commandFunc
     providers
 
 let getProvider providerId =
-    let profiles = getProfiles providerId getProfileSql "@ProviderId"
+    let profiles = getMemberNetwork providerId getProviderSql "@ProviderId"
     profiles |> List.tryHead
 
 let getSources providerId =

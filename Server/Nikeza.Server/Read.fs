@@ -46,26 +46,37 @@ let rec readInLinks links (reader:SqlDataReader) = reader.Read() |> function
 
     | false -> links
 
+let readInProfile (reader:SqlDataReader) =
+    { ProfileId=  reader.GetInt32 (0) |> string
+      FirstName=  reader.GetString(1)
+      LastName=   reader.GetString(2)
+      Email=      reader.GetString(3)
+      ImageUrl=   reader.GetString(4)
+      Bio=        reader.GetString(5)
+      Sources=    []
+    }
+
 let rec readInProfiles profiles (reader:SqlDataReader) = reader.Read() |> function
-
-    | true ->
-        let profile : ProfileRequest = {
-            ProfileId=  reader.GetInt32 (0) |> string
-            FirstName=  reader.GetString(1)
-            LastName=   reader.GetString(2)
-            Email=      reader.GetString(3)
-            ImageUrl=   reader.GetString(4)
-            Bio=        reader.GetString(5)
-            Sources=    []
-        }
-        
-        readInProfiles (profile::profiles) reader
-
+    | true -> let profile = reader |> readInProfile
+              readInProfiles (profile::profiles) reader
     | false -> profiles
 
 let rec readInProviders providers (reader:SqlDataReader) = reader.Read() |> function
 
     | true -> providers
+        // let profileId = reader.GetInt32 (0)
+
+        // let provider : ProviderRequest = {
+        //     Profile=       readInProfile       profileId
+        //     Topics=        readInTopics        profileId
+        //     Links=         readInLinks         profileId
+        //     RecentLinks=   readInRecentLinks   profileId
+        //     Subscriptions= readInSubscriptions profileId
+        //     Followers=     readInFollowers     profileId
+        // }
+        
+        // readInProviders (provider::providers) reader
+
     | false -> providers
 
 let rec readInSources sources (reader:SqlDataReader) = reader.Read() |> function
