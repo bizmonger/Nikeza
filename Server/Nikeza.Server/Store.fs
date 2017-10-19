@@ -61,7 +61,7 @@ let getSubscriptions subscriberId =
 
 let getProviders () =
     let commandFunc (command: SqlCommand) = command
-    let providers = readInProviders |>  getResults getProvidersSql commandFunc
+    let providers = readInProviders |> getResults getProvidersSql commandFunc
     providers
 
 let getProvider providerId =
@@ -81,8 +81,9 @@ let getPlatforms () =
     platforms
 
 let usernameToId username =
-    let commandFunc (command: SqlCommand) = 
-        command |> addWithValue "@Email" username
-        
-    let profileId = readInProfileId |> getResults getUsernameToIdSql commandFunc
-    profileId
+    use connection = new SqlConnection(connectionString)
+    use command =    new SqlCommand(findUserByEmailSql,connection)
+    command |> addWithValue "@email"  username  |> ignore
+
+    let result = readCommand connection command sqlReader |> Seq.tryHead
+    (connection.Close() |> ignore); result

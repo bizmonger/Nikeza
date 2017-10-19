@@ -123,14 +123,36 @@ let getSubscriptionsSql = @"SELECT Profile.Id,
                                    ON         Subscription.ProviderId =   Profile.Id
                                    WHERE      Subscription.SubscriberId = @SubscriberId"
 
-let getProvidersSql = @"SELECT Id,
-                               ...
-                       FROM    Provider"
+let filterOnProfileId = "WHERE [Profile].Id = @ProviderId"
 
-let getProviderSql = @"SELECT Id,
-                              ...
-                       FROM   Provider
-                       WHERE  Id = @ProviderId"
+let getProvidersSql =
+    @"SELECT	[Profile].FirstName, 
+		        [Profile].LastName, 
+		        [Profile].Email, 
+		        [Profile].ImageUrl, 
+		        [Profile].Bio, 
+		        [Topic].Name as TopicName,
+		        [Link].Title as LinkTitle,
+		        [Link].Url as LinkUrl,
+		        [ContentType].Type as LinkContentType,
+		        [Link].IsFeatured as LinkFeatured,
+		        [Link].Description as LinkDescription,
+		        [Link].Created as LinkPostedDate
+
+    FROM	Profile
+
+    INNER JOIN	ProfileTopics
+			    ON [Profile].Id = [ProfileTopics].ProfileId
+    INNER JOIN	Topic
+			    ON [Topic].Id =   [ProfileTopics].TopicId
+    INNER JOIN  ProfileLinks
+			    ON [Profile].Id = [ProfileLinks].ProfileId
+    INNER JOIN  Link
+			    ON [ProfileLinks].LinkId = [Link].Id
+    INNER JOIN ContentType
+			    ON [Link].ContentTypeId = [Link].ContentTypeId"
+
+let getProviderSql = getProvidersSql + " " + filterOnProfileId
 
 let getProfilesSql = @"SELECT  Id,
                                FirstName,

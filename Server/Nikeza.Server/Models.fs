@@ -100,9 +100,9 @@ type RemoveSourceRequest = { Id: int }
 
 [<CLIMutable>]
 type Topic = { 
-    Id: int
-    Name: string
-    isFeatured: bool 
+    Id:         int
+    Name:       string
+    IsFeatured: bool 
 }
 
 [<CLIMutable>]
@@ -119,11 +119,10 @@ type ProfileRequest = {
 [<CLIMutable>]
 type ProviderRequest = {
     Profile:       ProfileRequest
-    Topics:        Topic list
-    Links:         Link list
-    RecentLinks:   Link list
-    Subscriptions: ProviderRequest
-    Followers:     ProviderRequest
+    Topics:        Topic  list
+    Links:         Link   list
+    Subscriptions: string list
+    Followers:     string list
 }
 
 [<CLIMutable>]
