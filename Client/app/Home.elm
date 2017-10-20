@@ -544,23 +544,29 @@ onNewLink subMsg model =
 onSourcesUpdated : Sources.Msg -> Model -> ( Model, Cmd Msg )
 onSourcesUpdated subMsg model =
     let
-        ( pendingPortal, provider, updatedProfile ) =
-            ( model.portal, model.portal.provider, model.portal.provider.profile )
+        pendingPortal =
+            model.portal
+
+        provider =
+            pendingPortal.provider
+
+        profile =
+            provider.profile
 
         source =
             pendingPortal.newSource
 
         ( sources, subCmd ) =
-            Sources.update subMsg { source = { source | profileId = updatedProfile.id }, sources = provider.profile.sources }
+            Sources.update subMsg { source = { source | profileId = model.portal.provider.profile.id }, sources = model.portal.provider.profile.sources }
 
         sourceCmd =
             Cmd.map SourcesUpdated subCmd
 
         updatedProvider =
-            { provider | profile = { updatedProfile | sources = sources.sources } }
+            { provider | profile = { profile | sources = sources.sources } }
 
         portal =
-            { pendingPortal | newSource = sources.source, provider = updatedProvider }
+            { pendingPortal | newSource = source, provider = updatedProvider }
     in
         case subMsg of
             Sources.InputUsername _ ->

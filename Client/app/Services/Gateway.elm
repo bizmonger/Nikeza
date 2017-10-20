@@ -2,6 +2,7 @@ module Services.Gateway exposing (..)
 
 import Domain.Core exposing (..)
 import Services.Adapter exposing (..)
+import String exposing (..)
 import Http exposing (getString, Request, expectStringResponse, header)
 import Json.Decode as Decode exposing (Decoder, field)
 import Json.Encode as Encode
@@ -22,10 +23,6 @@ profileDecoder =
         (field "Sources" <| Decode.list sourceDecoder)
 
 
-
---(Decode.lazy (\_ -> sourceDecoder)))
-
-
 sourceDecoder : Decoder JsonSource
 sourceDecoder =
     Decode.map5 JsonSource
@@ -33,7 +30,7 @@ sourceDecoder =
         (field "ProfileId" Decode.string)
         (field "Platform" Decode.string)
         (field "Username" Decode.string)
-        (field "Links" (Decode.lazy (\_ -> providerLinksDecoder)))
+        (field "Links" (Decode.list linkDecoder))
 
 
 providerLinksDecoder : Decoder JsonProviderLinks
@@ -107,17 +104,18 @@ encodeRegistration form =
 encodeLink : Link -> Encode.Value
 encodeLink link =
     Encode.object
-        [ ( "ProfileId", Encode.string (idText link.profileId) )
+        [ ( "Id", Encode.int <| link.id )
+        , ( "ProfileId", Encode.string (idText link.profileId) )
         , ( "Title", Encode.string <| titleText link.title )
         , ( "Url", Encode.string <| urlText link.url )
-        , ( "ContentType", Encode.string <| contentTypeToText link.contentType )
         , ( "Topics", Encode.list (link.topics |> List.map encodeTopic) )
+        , ( "ContentType", Encode.string <| contentTypeToText link.contentType )
         , ( "IsFeatured", Encode.bool link.isFeatured )
         ]
 
 
-encodeLinksFound : ProviderLinks -> Encode.Value
-encodeLinksFound providerLinks =
+encodeLinks : ProviderLinks -> Encode.Value
+encodeLinks providerLinks =
     let
         (ProviderLinks linkFields) =
             providerLinks
@@ -133,12 +131,12 @@ encodeProfile profile =
             profile |> toJsonProfile
     in
         Encode.object
-            [ ( "ProfileId", Encode.string <| jsonProfile.id )
-            , ( "FirstName", Encode.string <| jsonProfile.firstName )
-            , ( "LastName", Encode.string <| jsonProfile.lastName )
-            , ( "Email", Encode.string <| jsonProfile.email )
-            , ( "ImageUrl", Encode.string <| jsonProfile.imageUrl )
-            , ( "Bio", Encode.string <| jsonProfile.bio )
+            [ ( "ProfileId", Encode.string jsonProfile.id )
+            , ( "FirstName", Encode.string jsonProfile.firstName )
+            , ( "LastName", Encode.string jsonProfile.lastName )
+            , ( "Email", Encode.string jsonProfile.email )
+            , ( "ImageUrl", Encode.string jsonProfile.imageUrl )
+            , ( "Bio", Encode.string jsonProfile.bio )
             , ( "Sources", Encode.list (profile.sources |> List.map encodeSource) )
             ]
 
@@ -146,10 +144,20 @@ encodeProfile profile =
 encodeSource : Source -> Encode.Value
 encodeSource source =
     Encode.object
-        [ ( "ProfileId", Encode.string <| idText source.profileId )
-        , ( "Platform", Encode.string <| source.platform )
-        , ( "Username", Encode.string <| source.username )
-        , ( "LinksFound", encodeLinksFound <| source.linksFound )
+        [ ( "Id"
+          , Encode.int <|
+                case source.id |> idText |> String.toInt of
+                    Ok id ->
+                        id
+
+                    Err _ ->
+                        -1
+          )
+        , ( "ProfileId", Encode.string <| idText source.profileId )
+        , ( "Platform", Encode.string source.platform )
+        , ( "Username", Encode.string source.username )
+
+        -- , ( "Links", encodeLinks source.links )
         ]
 
 

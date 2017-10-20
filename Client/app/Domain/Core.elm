@@ -226,8 +226,8 @@ type alias Link =
     , profileId : Id
     , title : Title
     , url : Url
-    , contentType : ContentType
     , topics : List Topic
+    , contentType : ContentType
     , isFeatured : Bool
     }
 
@@ -272,13 +272,13 @@ type alias Source =
     , profileId : Id
     , platform : String
     , username : String
-    , linksFound : ProviderLinks
+    , links : List Link
     }
 
 
 initSource : Source
 initSource =
-    Source (Id undefined) (Id undefined) "" "" (ProviderLinks (LinkFields []))
+    Source (Id undefined) (Id undefined) "" "" []
 
 
 type ProviderRequest

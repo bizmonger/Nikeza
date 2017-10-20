@@ -121,7 +121,7 @@ type alias JsonSource =
     , profileId : String
     , platform : String
     , username : String
-    , linksFound : JsonProviderLinks
+    , links : List JsonLink
     }
 
 
@@ -190,44 +190,28 @@ toJsonProfile profile =
 
 toJsonSource : Source -> JsonSource
 toJsonSource source =
-    let
-        foo providerLinks =
-            let
-                (ProviderLinks fields) =
-                    providerLinks
-            in
-                JsonProviderLinks (JsonLinkFields (fields.links |> List.map toJsonLink))
-    in
-        { id =
-            case source.id |> idText |> String.toInt of
-                Ok v ->
-                    v
+    { id =
+        case source.id |> idText |> String.toInt of
+            Ok id ->
+                id
 
-                Err _ ->
-                    -1
-        , profileId = idText source.profileId
-        , platform = source.platform
-        , username = source.username
-        , linksFound = source.linksFound |> foo
-        }
+            Err _ ->
+                -1
+    , profileId = idText source.profileId
+    , platform = source.platform
+    , username = source.username
+    , links = source.links |> List.map toJsonLink
+    }
 
 
 toSource : JsonSource -> Source
 toSource jsonSource =
-    let
-        foo jsonProviderLinks =
-            let
-                (JsonProviderLinks fields) =
-                    jsonProviderLinks
-            in
-                ProviderLinks (LinkFields (fields.links |> List.map toLink))
-    in
-        { id = jsonSource.id |> toString |> Id
-        , profileId = jsonSource.profileId |> toString |> Id
-        , platform = jsonSource.platform
-        , username = jsonSource.username
-        , linksFound = jsonSource.linksFound |> foo
-        }
+    { id = jsonSource.id |> toString |> Id
+    , profileId = jsonSource.profileId |> toString |> Id
+    , platform = jsonSource.platform
+    , username = jsonSource.username
+    , links = jsonSource.links |> List.map toLink
+    }
 
 
 toJsonLinks : List Link -> List JsonLink

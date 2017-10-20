@@ -303,20 +303,20 @@ followers profileId msg =
 
 recentLinks1 : List Link
 recentLinks1 =
-    [ Link 0 profile1.id someVideoTitle6 someUrl Video [ someTopic1 ] True
+    [ Link 0 profile1.id someVideoTitle6 someUrl [ someTopic1 ] Video True
     ]
 
 
 recentLinks2 : List Link
 recentLinks2 =
-    [ Link 1 profile2.id somePodcastTitle6 someUrl Video [ someTopic1 ] True
-    , Link 2 profile2.id someAnswerTitle6 someUrl Video [ someTopic1 ] True
+    [ Link 1 profile2.id somePodcastTitle6 someUrl [ someTopic1 ] Video True
+    , Link 2 profile2.id someAnswerTitle6 someUrl [ someTopic1 ] Video True
     ]
 
 
 recentLinks3 : List Link
 recentLinks3 =
-    [ Link 3 profile3.id someArticleTitle6 someUrl Video [ someTopic1 ] True
+    [ Link 3 profile3.id someArticleTitle6 someUrl [ someTopic1 ] Video True
     ]
 
 
@@ -562,35 +562,35 @@ linksToContent contentType profileId =
         -- NOTE !!! We're hardcoding a profile here due to some unresolved bug
         case contentType of
             Article ->
-                [ Link 0 profileHolder.id someArticleTitle1 someUrl Article [ someTopic1 ] False
-                , Link 1 profileHolder.id someArticleTitle2 someUrl Article [ someTopic2 ] True
-                , Link 2 profileHolder.id someArticleTitle3 someUrl Article [ someTopic3 ] False
-                , Link 3 profileHolder.id someArticleTitle4 someUrl Article [ someTopic4 ] True
-                , Link 4 profileHolder.id someArticleTitle5 someUrl Article [ someTopic5 ] False
+                [ Link 0 profileHolder.id someArticleTitle1 someUrl [ someTopic1 ] Article False
+                , Link 1 profileHolder.id someArticleTitle2 someUrl [ someTopic2 ] Article True
+                , Link 2 profileHolder.id someArticleTitle3 someUrl [ someTopic3 ] Article False
+                , Link 3 profileHolder.id someArticleTitle4 someUrl [ someTopic4 ] Article True
+                , Link 4 profileHolder.id someArticleTitle5 someUrl [ someTopic5 ] Article False
                 ]
 
             Video ->
-                [ Link 0 profileHolder.id someVideoTitle1 someUrl Video [ someTopic1 ] False
-                , Link 1 profileHolder.id someVideoTitle2 someUrl Video [ someTopic2 ] True
-                , Link 2 profileHolder.id someVideoTitle3 someUrl Video [ someTopic3 ] False
-                , Link 3 profileHolder.id someVideoTitle4 someUrl Video [ someTopic4 ] True
-                , Link 4 profileHolder.id someVideoTitle5 someUrl Video [ someTopic5 ] False
+                [ Link 0 profileHolder.id someVideoTitle1 someUrl [ someTopic1 ] Video False
+                , Link 1 profileHolder.id someVideoTitle2 someUrl [ someTopic2 ] Video True
+                , Link 2 profileHolder.id someVideoTitle3 someUrl [ someTopic3 ] Video False
+                , Link 3 profileHolder.id someVideoTitle4 someUrl [ someTopic4 ] Video True
+                , Link 4 profileHolder.id someVideoTitle5 someUrl [ someTopic5 ] Video False
                 ]
 
             Podcast ->
-                [ Link 0 profileHolder.id somePodcastTitle1 someUrl Podcast [ someTopic1 ] False
-                , Link 1 profileHolder.id somePodcastTitle2 someUrl Podcast [ someTopic2 ] True
-                , Link 2 profileHolder.id somePodcastTitle3 someUrl Podcast [ someTopic3 ] False
-                , Link 3 profileHolder.id somePodcastTitle4 someUrl Podcast [ someTopic4 ] True
-                , Link 4 profileHolder.id somePodcastTitle5 someUrl Podcast [ someTopic5 ] False
+                [ Link 0 profileHolder.id somePodcastTitle1 someUrl [ someTopic1 ] Podcast False
+                , Link 1 profileHolder.id somePodcastTitle2 someUrl [ someTopic2 ] Podcast True
+                , Link 2 profileHolder.id somePodcastTitle3 someUrl [ someTopic3 ] Podcast False
+                , Link 3 profileHolder.id somePodcastTitle4 someUrl [ someTopic4 ] Podcast True
+                , Link 4 profileHolder.id somePodcastTitle5 someUrl [ someTopic5 ] Podcast False
                 ]
 
             Answer ->
-                [ Link 0 profileHolder.id someAnswerTitle1 someUrl Answer [ someTopic1 ] False
-                , Link 1 profileHolder.id someAnswerTitle2 someUrl Answer [ someTopic2 ] True
-                , Link 2 profileHolder.id someAnswerTitle3 someUrl Answer [ someTopic3 ] False
-                , Link 3 profileHolder.id someAnswerTitle4 someUrl Answer [ someTopic4 ] True
-                , Link 4 profileHolder.id someAnswerTitle5 someUrl Answer [ someTopic5 ] False
+                [ Link 0 profileHolder.id someAnswerTitle1 someUrl [ someTopic1 ] Answer False
+                , Link 1 profileHolder.id someAnswerTitle2 someUrl [ someTopic2 ] Answer True
+                , Link 2 profileHolder.id someAnswerTitle3 someUrl [ someTopic3 ] Answer False
+                , Link 3 profileHolder.id someAnswerTitle4 someUrl [ someTopic4 ] Answer True
+                , Link 4 profileHolder.id someAnswerTitle5 someUrl [ someTopic5 ] Answer False
                 ]
 
             All ->
@@ -671,9 +671,9 @@ topicLinks profileId topic contentType msg =
 
 sourcesBase : List Source
 sourcesBase =
-    [ { id = Id "0", profileId = Id "0", platform = "WordPress", username = "bizmonger", linksFound = (ProviderLinks (LinkFields [])) }
-    , { id = Id "1", profileId = Id "1", platform = "YouTube", username = "bizmonger", linksFound = (ProviderLinks (LinkFields [])) }
-    , { id = Id "2", profileId = Id "2", platform = "StackOverflow", username = "scott-nimrod", linksFound = (ProviderLinks (LinkFields [])) }
+    [ { id = Id "0", profileId = Id "0", platform = "WordPress", username = "bizmonger", links = [] }
+    , { id = Id "1", profileId = Id "1", platform = "YouTube", username = "bizmonger", links = [] }
+    , { id = Id "2", profileId = Id "2", platform = "StackOverflow", username = "scott-nimrod", links = [] }
     ]
 
 

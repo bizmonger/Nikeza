@@ -1,6 +1,7 @@
 module Nikeza.Server.Model
 
 open System
+open Newtonsoft.Json
 
 type ContentType = 
     | Article
@@ -73,12 +74,21 @@ type AddLinkRequest = {
 }
 
 [<CLIMutable>]
+[<JsonObject>]
+type Topic = { 
+    Id:         int
+    Name:       string
+    IsFeatured: bool 
+}
+
+[<CLIMutable>]
+[<JsonObject>]
 type Link = { 
     Id:            int
     ProfileId:     string
     Title:         String
-    Description:   String
     Url:           string
+    Topics:        Topic list
     ContentType:   string
     IsFeatured:    bool
 }
@@ -87,6 +97,7 @@ type Link = {
 type FeatureLinkRequest = { LinkId: int; IsFeatured: bool }
 
 [<CLIMutable>]
+[<JsonObject>]
 type AddSourceRequest = { 
     Id:        int
     ProfileId: string
@@ -97,13 +108,6 @@ type AddSourceRequest = {
 
 [<CLIMutable>]
 type RemoveSourceRequest = { Id: int }
-
-[<CLIMutable>]
-type Topic = { 
-    Id:         int
-    Name:       string
-    IsFeatured: bool 
-}
 
 [<CLIMutable>]
 type ProfileRequest = {
