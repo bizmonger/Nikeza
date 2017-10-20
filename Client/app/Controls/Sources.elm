@@ -52,7 +52,12 @@ update msg model =
                 ( model, runtime.removeSource source.id RemoveResponse )
 
             AddResponse (Ok jsonSource) ->
-                ( { model | sources = (jsonSource |> toSource) :: model.sources }, Cmd.none )
+                ( { model
+                    | sources = (jsonSource |> toSource) :: model.sources
+                    , source = initSource
+                  }
+                , Cmd.none
+                )
 
             AddResponse (Err error) ->
                 Debug.crash (toString error) ( model, Cmd.none )
@@ -76,10 +81,16 @@ view model platforms =
         changeHandler =
             Html.Events.on "change" (Json.Decode.map InputPlatform Html.Events.targetValue)
 
+        placeholderText =
+            if model.source.platform == "YouTube" then
+                "channel-id"
+            else
+                "username"
+
         records =
             [ tr []
                 [ td [] [ select [ changeHandler, value model.source.platform ] <| instruction :: (platforms |> List.map platformOption) ]
-                , td [] [ input [ type_ "text", placeholder "username", onInput InputUsername, value model.source.username ] [] ]
+                , td [] [ input [ type_ "text", placeholder placeholderText, onInput InputUsername, value model.source.username ] [] ]
                 , td [] [ button [ class "addSource", onClick <| Add model.source ] [ text "Add" ] ]
                 ]
             ]

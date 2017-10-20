@@ -18676,7 +18676,8 @@ var _user$project$Controls_Sources$update = F2(
 									ctor: '::',
 									_0: _user$project$Services_Adapter$toSource(_p0._0._0),
 									_1: model.sources
-								}
+								},
+								source: _user$project$Domain_Core$initSource
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
@@ -18685,8 +18686,8 @@ var _user$project$Controls_Sources$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Controls.Sources',
 							{
-								start: {line: 58, column: 17},
-								end: {line: 58, column: 28}
+								start: {line: 63, column: 17},
+								end: {line: 63, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p0._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -18714,8 +18715,8 @@ var _user$project$Controls_Sources$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Controls.Sources',
 							{
-								start: {line: 64, column: 17},
-								end: {line: 64, column: 28}
+								start: {line: 69, column: 17},
+								end: {line: 69, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p0._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -18733,6 +18734,7 @@ var _user$project$Controls_Sources$InputUsername = function (a) {
 };
 var _user$project$Controls_Sources$view = F2(
 	function (model, platforms) {
+		var placeholderText = _elm_lang$core$Native_Utils.eq(model.source.platform, 'YouTube') ? 'channel-id' : 'username';
 		var changeHandler = A2(
 			_elm_lang$html$Html_Events$on,
 			'change',
@@ -18809,7 +18811,7 @@ var _user$project$Controls_Sources$view = F2(
 										_0: _elm_lang$html$Html_Attributes$type_('text'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$placeholder('username'),
+											_0: _elm_lang$html$Html_Attributes$placeholder(placeholderText),
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Sources$InputUsername),
