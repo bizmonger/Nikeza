@@ -80,6 +80,13 @@ let getSources profileId =
     let sources = readInSources |> getResults getSourcesSql commandFunc
     sources
 
+let getSource sourceId =
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue "@SourceId" sourceId
+        
+    let sources = readInSources |> getResults getSourceSql commandFunc
+    sources |> List.tryHead
+
 let getPlatforms () =
     let commandFunc (command: SqlCommand) = command
     let platforms = readInPlatforms |> getResults getPlatformsSql commandFunc

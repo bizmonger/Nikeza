@@ -289,7 +289,6 @@ let ``Get profiles`` () =
 [<Test>]
 let ``Get profile`` () =
 
-    // Setup
     Register someProfile 
     |> execute
     |> getProfile
@@ -299,13 +298,15 @@ let ``Get profile`` () =
 [<Test>]
 let ``Get platforms`` () =
 
-    getPlatforms() |> List.isEmpty |> should equal false
+    getPlatforms() 
+    |> List.isEmpty 
+    |> should equal false
 
 [<Test>]
-let ``Add source`` () =
+let ``Add data source`` () =
 
     //Setup
-    let providerId = execute <| Register someProfile
+    let providerId = Register someProfile |> execute
 
     // Test
     let sourceId = AddSource { someSource with ProfileId= unbox providerId } |> execute
@@ -323,6 +324,20 @@ let ``Add source`` () =
     // Teardown
     finally dispose connection command
 
+[<Test>]
+let ``Adding data source results in links found`` () =
+
+    //Setup
+    let providerId = Register someProfile |> execute
+
+    // Test
+    let sourceId = AddSource { someSource with ProfileId= unbox providerId } |> execute
+
+    // Verify
+    getSource sourceId |> function
+    | Some source -> source.Links |> List.isEmpty |> should equal false
+    | None        -> Assert.Fail()
+    
 [<Test>]
 let ``Get sources`` () =
 
@@ -363,5 +378,5 @@ let ``Remove source`` () =
 [<EntryPoint>]
 let main argv =
     cleanDataStore()                      
-    ``Add source`` ()
+    ``Add data source`` ()
     0

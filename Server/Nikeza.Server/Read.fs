@@ -97,7 +97,7 @@ let rec readInProviders providers (reader:SqlDataReader) = reader.Read() |> func
 
 let rec readInSources sources (reader:SqlDataReader) = reader.Read() |> function
     | true -> 
-        let source : AddSourceRequest = {
+        let source : SourceRequest = {
             Id=         reader.GetInt32 (0)
             ProfileId=  reader.GetInt32 (1) |> string
             Platform=   reader.GetString(2)

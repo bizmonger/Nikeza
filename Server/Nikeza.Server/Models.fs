@@ -10,6 +10,12 @@ type ContentType =
     | Podcast
     | Unknown
 
+type PlatformType =
+    | YouTube
+    | WordPress
+    | StackOverflow
+    | Other
+
 type RawContentType = string
 
 let contentTypeFromString = function
@@ -96,9 +102,14 @@ type Link = {
 [<CLIMutable>]
 type FeatureLinkRequest = { LinkId: int; IsFeatured: bool }
 
+type PlatformUsername = {
+    Platform:  PlatformType
+    Username:  string
+}
+
 [<CLIMutable>]
 [<JsonObject>]
-type AddSourceRequest = { 
+type SourceRequest = { 
     Id:        int
     ProfileId: string
     Platform:  string
@@ -158,5 +169,5 @@ type Command =
     | RemoveLink    of RemoveLinkRequest
     | FeatureLink   of FeatureLinkRequest
 
-    | AddSource     of AddSourceRequest
+    | AddSource     of SourceRequest
     | RemoveSource  of RemoveSourceRequest

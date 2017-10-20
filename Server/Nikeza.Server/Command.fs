@@ -43,9 +43,9 @@ module private Commands =
                     |> addWithValue "@Created"       info.Created
                     |> addWithValue "@Salt"          "security_mechanism"
         
-        execute connectionString registerSql commandFunc
+        commandFunc |> execute connectionString registerSql
 
-    let addLink (info:AddLinkRequest) =
+    let addSourceLink (info:AddLinkRequest) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@ProfileId"     info.ProfileId
                     |> addWithValue "@Title"         info.Title
@@ -55,34 +55,34 @@ module private Commands =
                     |> addWithValue "@IsFeatured"    info.IsFeatured
                     |> addWithValue "@Created"       DateTime.Now
         
-        execute connectionString addLinkSql commandFunc
+        commandFunc |> execute connectionString addLinkSql
 
     let removeLink (info:RemoveLinkRequest) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@LinkId" info.LinkId
         
-        execute connectionString deleteLinkSql commandFunc
+        commandFunc |> execute connectionString deleteLinkSql
 
     let follow (info:FollowRequest) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@SubscriberId" info.SubscriberId
                     |> addWithValue "@ProfileId"   info.ProfileId
         
-        execute connectionString followSql commandFunc
+        commandFunc |> execute connectionString followSql
 
     let unsubscribe (info:UnsubscribeRequest) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@SubscriberId" info.SubscriberId
                     |> addWithValue "@ProfileId"   info.ProfileId
 
-        execute connectionString unsubscribeSql commandFunc
+        commandFunc |> execute connectionString unsubscribeSql
 
     let featureLink (info:FeatureLinkRequest) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@Id"         info.LinkId
                     |> addWithValue "@IsFeatured" info.IsFeatured
 
-        execute connectionString featureLinkSql commandFunc
+        commandFunc |> execute connectionString featureLinkSql
 
     let updateProfile (info:ProfileRequest) =
         let commandFunc (command: SqlCommand) = 
@@ -92,9 +92,38 @@ module private Commands =
                     |> addWithValue "@bio"       info.Bio
                     |> addWithValue "@email"     info.Email
 
-        execute connectionString updateProfileSql commandFunc
+        commandFunc |> execute connectionString updateProfileSql
+
+    let addLink (link:AddLinkRequest) =
+        let commandFunc (command: SqlCommand) = 
+            command |> addWithValue "@ProfileId"   link.ProfileId
+                    |> addWithValue "@Title"       link.Title
+                    |> addWithValue "@Url"         link.Url
+                    |> addWithValue "@ContentType" link.ContentType
+                    |> addWithValue "@IsFeatured"  link.IsFeatured
+
+        commandFunc |> execute connectionString addLinkSql
+
+    let toPlatformType = function
+        | "YouTube"       -> YouTube
+        | "WordPress"     -> WordPress
+        | "StackOverflow" -> StackOverflow
+        | _               -> Other
+
+    let toLinks (platformUser:PlatformUsername) =
+        platformUser.Platform |> function
+        | YouTube       -> []
+        | WordPress     -> []
+        | StackOverflow -> []
+        | Other         -> []
         
-    let addSource (info:AddSourceRequest) =
+    let addSource (info:SourceRequest) =
+
+        { Platform= info.Platform |> toPlatformType; Username= info.Username }
+        |> toLinks
+        |> List.map addLink 
+        |> ignore
+
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@ProfileId" info.ProfileId
                     |> addWithValue "@Platform"  info.Platform
@@ -106,7 +135,7 @@ module private Commands =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@Id" info.Id
             
-        execute connectionString deleteSourceSql commandFunc
+        commandFunc |> execute connectionString deleteSourceSql
 
 open Commands
 let execute = function

@@ -62,7 +62,7 @@ let private updateProfileHandler =
 
 let private addSourceHandler = 
     fun(context: HttpContext) -> 
-        async { let! data = context.BindJson<AddSourceRequest>()
+        async { let! data = context.BindJson<SourceRequest>()
                 let sourceId = AddSource data |> execute
                 let source = { data with Id = Int32.Parse(sourceId); Links = [] }
                 return! json source context

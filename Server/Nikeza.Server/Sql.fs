@@ -180,6 +180,13 @@ let getSourcesSql = @"SELECT Id,
                       FROM   Source
                       WHERE  ProfileId = @ProfileId"
 
+let getSourceSql = @"SELECT  Id,
+                             ProfileId,
+                             Platform,
+                             Username
+                      FROM   Source
+                      WHERE  ProfileId = @SourceId"
+
 let getPlatformsSql = @"SELECT Name FROM Platform"
 
 let getUsernameToIdSql = @"SELECT Id FROM Profile WHERE Email = @Email"
