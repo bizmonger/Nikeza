@@ -13,7 +13,7 @@ type Video = {
     Title:       string
     Url:         string
     Description: string
-    PostDate:    DateTime
+    PostDate:    string
     Tags:        string list
 }
 
@@ -92,8 +92,8 @@ module Playlist =
                             { Title=    snippet.Title
                               Url=      UrlPrefix + snippet.ResourceId.VideoId
                               Description= snippet.Description
-                              PostDate= snippet.PublishedAt.Value
-                              Tags = [snippet.ETag] 
+                              PostDate= (snippet.PublishedAt.Value.ToString("d"))
+                              Tags = [] 
                             })
                     return! pager (Seq.concat [acc; videos]) playlistItemRep.NextPageToken 
             }    
@@ -122,7 +122,7 @@ let getVideos youtube parameters =
                                                              video.Title 
                                                              (UrlPrefix + video.Url) 
                                                              video.Description
-                                                             (video.PostDate.ToShortDateString())
+                                                             video.PostDate
                                        )
                              |> Seq.reduce(+)
         return out
