@@ -94,8 +94,6 @@ module private Commands =
 
         commandFunc |> execute connectionString updateProfileSql
 
-
-
     let toPlatformType = function
         | "YouTube"       -> YouTube
         | "WordPress"     -> WordPress
