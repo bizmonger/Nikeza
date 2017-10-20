@@ -566,7 +566,7 @@ onSourcesUpdated subMsg model =
             { provider | profile = { profile | sources = sources.sources } }
 
         portal =
-            { pendingPortal | newSource = source, provider = updatedProvider }
+            { pendingPortal | newSource = sources.source, provider = updatedProvider }
     in
         case subMsg of
             Sources.InputUsername _ ->
@@ -576,15 +576,7 @@ onSourcesUpdated subMsg model =
                 ( { model | portal = portal }, sourceCmd )
 
             Sources.Add _ ->
-                ( { model
-                    | portal =
-                        { portal
-                            | linksNavigation = portfolioExists provider.portfolio
-                            , addLinkNavigation = True
-                        }
-                  }
-                , sourceCmd
-                )
+                ( model, sourceCmd )
 
             Sources.Remove _ ->
                 ( { model
@@ -600,7 +592,15 @@ onSourcesUpdated subMsg model =
             Sources.AddResponse result ->
                 case result of
                     Ok _ ->
-                        ( model, sourceCmd )
+                        ( { model
+                            | portal =
+                                { portal
+                                    | linksNavigation = portfolioExists provider.portfolio
+                                    , addLinkNavigation = True
+                                }
+                          }
+                        , sourceCmd
+                        )
 
                     Err reason ->
                         Debug.crash (toString reason) ( model, sourceCmd )

@@ -22092,7 +22092,7 @@ var _user$project$Home$onSourcesUpdated = F2(
 			});
 		var portal = _elm_lang$core$Native_Utils.update(
 			pendingPortal,
-			{newSource: source, provider: updatedProvider});
+			{newSource: sources.source, provider: updatedProvider});
 		var _p27 = subMsg;
 		switch (_p27.ctor) {
 			case 'InputUsername':
@@ -22112,20 +22112,7 @@ var _user$project$Home$onSourcesUpdated = F2(
 					_1: sourceCmd
 				};
 			case 'Add':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							portal: _elm_lang$core$Native_Utils.update(
-								portal,
-								{
-									linksNavigation: _user$project$Domain_Core$portfolioExists(provider.portfolio),
-									addLinkNavigation: true
-								})
-						}),
-					_1: sourceCmd
-				};
+				return {ctor: '_Tuple2', _0: model, _1: sourceCmd};
 			case 'Remove':
 				return {
 					ctor: '_Tuple2',
@@ -22144,7 +22131,20 @@ var _user$project$Home$onSourcesUpdated = F2(
 			case 'AddResponse':
 				var _p28 = _p27._0;
 				if (_p28.ctor === 'Ok') {
-					return {ctor: '_Tuple2', _0: model, _1: sourceCmd};
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								portal: _elm_lang$core$Native_Utils.update(
+									portal,
+									{
+										linksNavigation: _user$project$Domain_Core$portfolioExists(provider.portfolio),
+										addLinkNavigation: true
+									})
+							}),
+						_1: sourceCmd
+					};
 				} else {
 					return A2(
 						_elm_lang$core$Native_Utils.crash(
