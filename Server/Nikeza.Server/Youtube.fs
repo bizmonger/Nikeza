@@ -6,6 +6,9 @@ open Google.Apis.Services
 open Google.Apis.YouTube.v3
 open Google.Apis.YouTube.v3.Data
 
+[<Literal>]
+let UrlPrefix = "https://www.youtube.com/watch?v="
+
 type Video = { title: string; videoId: string }
 
 type Content =  Details | Snippet
@@ -61,7 +64,7 @@ module Playlist =
         request
 
     type Uploads = Channel -> YouTubeService -> Async<seq<Video>>
-
+    
     let uploads: Uploads = 
         fun channel youTubeService ->
             let playlistId = channel.ContentDetails.RelatedPlaylists.Uploads
@@ -77,7 +80,7 @@ module Playlist =
                     let! playlistItemRep = playlistItemListReq.ExecuteAsync() |> Async.AwaitTask
                     let videos = 
                         playlistItemRep.Items
-                        |> Seq.map(fun video -> { title = video.Snippet.Title; videoId = video.Snippet.ResourceId.VideoId})
+                        |> Seq.map(fun video -> { title = video.Snippet.Title; videoId = UrlPrefix + video.Snippet.ResourceId.VideoId})
                     return! pager (Seq.concat [acc; videos]) playlistItemRep.NextPageToken 
             }    
             pager [] ""
@@ -90,6 +93,7 @@ let uploadsOrEmpty channel youTubeService = channel |> function
     | None   -> async { return Seq.empty }
 
 type UploadList = YouTubeService -> Id -> Async<seq<Video>>
+
 let uploadList: UploadList = fun youTubeService id -> 
     async { let! channelList = Channel.list youTubeService id
             let videos = channelList |> getFirstChannel
@@ -100,7 +104,7 @@ let uploadList: UploadList = fun youTubeService id ->
 let getVideos youtube parameters = 
     async {
         let! videos = uploadList youtube parameters
-        let  out =    videos |> Seq.map(fun video -> sprintf "Title: %s\nVideoId: %s\n" video.title video.videoId)
+        let  out =    videos |> Seq.map(fun video -> sprintf "Title: %s\nVideoId: %s\n" video.title (UrlPrefix + video.videoId))
                              |> Seq.reduce(+)
         return out
     }   |> Async.RunSynchronously
