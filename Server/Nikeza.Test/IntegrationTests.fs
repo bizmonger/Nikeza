@@ -292,7 +292,7 @@ let ``Get profile`` () =
     Register someProfile 
     |> execute
     |> getProfile
-    |> function | Some p -> ()
+    |> function | Some _ -> ()
                 | None   -> Assert.Fail()
 
 [<Test>]

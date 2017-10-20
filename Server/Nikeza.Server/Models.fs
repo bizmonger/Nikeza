@@ -102,9 +102,9 @@ type Link = {
 [<CLIMutable>]
 type FeatureLinkRequest = { LinkId: int; IsFeatured: bool }
 
-type PlatformUsername = {
-    Platform:  PlatformType
-    Username:  string
+type PlatformUser = {
+    Platform: PlatformType
+    User:     string
 }
 
 [<CLIMutable>]

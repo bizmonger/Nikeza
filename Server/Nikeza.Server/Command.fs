@@ -45,7 +45,7 @@ module private Commands =
         
         commandFunc |> execute connectionString registerSql
 
-    let addSourceLink (info:AddLinkRequest) =
+    let addLink (info:AddLinkRequest) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@ProfileId"     info.ProfileId
                     |> addWithValue "@Title"         info.Title
@@ -94,15 +94,7 @@ module private Commands =
 
         commandFunc |> execute connectionString updateProfileSql
 
-    let addLink (link:AddLinkRequest) =
-        let commandFunc (command: SqlCommand) = 
-            command |> addWithValue "@ProfileId"   link.ProfileId
-                    |> addWithValue "@Title"       link.Title
-                    |> addWithValue "@Url"         link.Url
-                    |> addWithValue "@ContentType" link.ContentType
-                    |> addWithValue "@IsFeatured"  link.IsFeatured
 
-        commandFunc |> execute connectionString addLinkSql
 
     let toPlatformType = function
         | "YouTube"       -> YouTube
@@ -110,16 +102,16 @@ module private Commands =
         | "StackOverflow" -> StackOverflow
         | _               -> Other
 
-    let toLinks (platformUser:PlatformUsername) =
+    let toLinks (platformUser:PlatformUser) =
         platformUser.Platform |> function
-        | YouTube       -> []
-        | WordPress     -> []
-        | StackOverflow -> []
-        | Other         -> []
+        | YouTube       -> [] // todo...
+        | WordPress     -> [] // todo...
+        | StackOverflow -> [] // todo...
+        | Other         -> [] // todo...
         
     let addSource (info:SourceRequest) =
 
-        { Platform= info.Platform |> toPlatformType; Username= info.Username }
+        { Platform= info.Platform |> toPlatformType; User= info.Username }
         |> toLinks
         |> List.map addLink 
         |> ignore
