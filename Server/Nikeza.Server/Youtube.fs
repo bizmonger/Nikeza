@@ -91,11 +91,10 @@ let uploadsOrEmpty channel youTubeService = channel |> function
 
 type UploadList = YouTubeService -> Id -> Async<seq<Video>>
 let uploadList: UploadList = fun youTubeService id -> 
-    async {
-        let! channelList = Channel.list youTubeService id
-        let videos = channelList |> getFirstChannel
-                                 |> uploadsOrEmpty <| youTubeService
-        return! videos
+    async { let! channelList = Channel.list youTubeService id
+            let videos = channelList |> getFirstChannel
+                                     |> uploadsOrEmpty <| youTubeService
+            return! videos
     }
 
 let getVideos youtube parameters = 
