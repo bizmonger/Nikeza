@@ -9,7 +9,13 @@ open Google.Apis.YouTube.v3.Data
 [<Literal>]
 let UrlPrefix = "https://www.youtube.com/watch?v="
 
-type Video = { title: string; videoId: string }
+type Video = { 
+    Title:       string
+    Url:         string
+    Description: string
+    PostDate:    DateTime
+    Tags:        string list
+}
 
 type Content =  Details | Snippet
 
@@ -80,7 +86,15 @@ module Playlist =
                     let! playlistItemRep = playlistItemListReq.ExecuteAsync() |> Async.AwaitTask
                     let videos = 
                         playlistItemRep.Items
-                        |> Seq.map(fun video -> { title = video.Snippet.Title; videoId = UrlPrefix + video.Snippet.ResourceId.VideoId})
+                        |> Seq.map(fun video -> 
+                            let snippet = video.Snippet
+                            
+                            { Title=    snippet.Title
+                              Url=      UrlPrefix + snippet.ResourceId.VideoId
+                              Description= snippet.Description
+                              PostDate= snippet.PublishedAt.Value
+                              Tags = [snippet.ETag] 
+                            })
                     return! pager (Seq.concat [acc; videos]) playlistItemRep.NextPageToken 
             }    
             pager [] ""
@@ -104,7 +118,12 @@ let uploadList: UploadList = fun youTubeService id ->
 let getVideos youtube parameters = 
     async {
         let! videos = uploadList youtube parameters
-        let  out =    videos |> Seq.map(fun video -> sprintf "Title: %s\nVideoId: %s\n" video.title (UrlPrefix + video.videoId))
+        let  out =    videos |> Seq.map(fun video -> sprintf "Title: %s\nUrl: %s\nDescription: %s\nPostdate: %s" 
+                                                             video.Title 
+                                                             (UrlPrefix + video.Url) 
+                                                             video.Description
+                                                             (video.PostDate.ToShortDateString())
+                                       )
                              |> Seq.reduce(+)
         return out
     }   |> Async.RunSynchronously
