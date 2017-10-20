@@ -27,7 +27,7 @@ let registerSql = @"INSERT INTO [dbo].[Profile]
                           )"
    
 let addLinkSql = @"INSERT INTO [dbo].[Link]
-                          (ProviderId
+                          (ProfileId
                           ,Title
                           ,Description
                           ,Url
@@ -38,7 +38,7 @@ let addLinkSql = @"INSERT INTO [dbo].[Link]
                     OUTPUT INSERTED.ID
 
                     VALUES
-                          (@ProviderId
+                          (@ProfileId
                           ,@Title
                           ,@Description
                           ,@Url
@@ -64,18 +64,18 @@ let deleteSourceSql = @"DELETE FROM Source WHERE Id = @Id"
 
 let followSql = @"INSERT INTO [dbo].[Subscription]
                       (SubscriberId
-                      ,ProviderId)
+                      ,ProfileId)
 
                 OUTPUT INSERTED.ID
 
                 VALUES
                        ( @SubscriberId 
-                       , @ProviderId
+                       , @ProfileId
                        )"
 
 let unsubscribeSql = @"DELETE FROM [dbo].[Subscription]
                        WHERE SubscriberId  = @SubscriberId AND 
-                             ProviderId =    @ProviderId"
+                             ProfileId =    @ProfileId"
 
 let featureLinkSql = @"UPDATE Link
                        SET    IsFeatured = @IsFeatured
@@ -89,7 +89,7 @@ let updateProfileSql = @"UPDATE [dbo].[Profile]
                         WHERE   Id =          @Id"
 
 let getLinksSql = "SELECT Id, 
-                          ProviderId, 
+                          ProfileId, 
                           Title, 
                           Description, 
                           Url, 
@@ -98,7 +98,7 @@ let getLinksSql = "SELECT Id,
                           Created
 
                    FROM   [dbo].[Link]
-                   WHERE  ProviderId = @ProviderId"
+                   WHERE  ProfileId = @ProfileId"
 
 let getFollowersSql = @"SELECT Profile.Id,
                                Profile.FirstName,
@@ -110,7 +110,7 @@ let getFollowersSql = @"SELECT Profile.Id,
                        FROM       Profile
                        INNER JOIN Subscription
                        ON         Subscription.SubscriberId = Profile.Id
-                       WHERE      Subscription.ProviderId = @ProviderId"
+                       WHERE      Subscription.ProfileId = @ProfileId"
 
 let getSubscriptionsSql = @"SELECT Profile.Id,
                                    Profile.FirstName,
@@ -120,13 +120,14 @@ let getSubscriptionsSql = @"SELECT Profile.Id,
                                    Profile.Bio
                                    FROM       Profile
                                    INNER JOIN Subscription
-                                   ON         Subscription.ProviderId =   Profile.Id
+                                   ON         Subscription.ProfileId =   Profile.Id
                                    WHERE      Subscription.SubscriberId = @SubscriberId"
 
-let filterOnProfileId = "WHERE [Profile].Id = @ProviderId"
+let filterOnProfileId = "WHERE [Profile].Id = @ProfileId"
 
 let getProvidersSql =
-    @"SELECT	[Profile].FirstName, 
+    @"SELECT	[Profile].Id, 
+                [Profile].FirstName, 
 		        [Profile].LastName, 
 		        [Profile].Email, 
 		        [Profile].ImageUrl, 
@@ -170,7 +171,7 @@ let getProfileSql = @"SELECT  Id,
                               ImageUrl,
                               Bio
                        FROM   Profile
-                       WHERE  Id = @ProviderId"
+                       WHERE  Id = @ProfileId"
 
 let getSourcesSql = @"SELECT Id,
                              ProfileId,

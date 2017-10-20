@@ -19,7 +19,7 @@ let someLinkId =       0
 let someSourceId =     0
 
 let someLink = {
-    ProviderId=  someProfileId |> string
+    ProfileId=  someProfileId |> string
     Title=       "some_title"
     Description= "some_description"
     Url=         "some_url.com"

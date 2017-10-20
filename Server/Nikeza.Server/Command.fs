@@ -47,7 +47,7 @@ module private Commands =
 
     let addLink (info:AddLinkRequest) =
         let commandFunc (command: SqlCommand) = 
-            command |> addWithValue "@ProviderId"    info.ProviderId
+            command |> addWithValue "@ProfileId"     info.ProfileId
                     |> addWithValue "@Title"         info.Title
                     |> addWithValue "@Description"   info.Description
                     |> addWithValue "@Url"           info.Url
@@ -66,14 +66,14 @@ module private Commands =
     let follow (info:FollowRequest) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@SubscriberId" info.SubscriberId
-                    |> addWithValue "@ProviderId"   info.ProviderId
+                    |> addWithValue "@ProfileId"   info.ProfileId
         
         execute connectionString followSql commandFunc
 
     let unsubscribe (info:UnsubscribeRequest) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@SubscriberId" info.SubscriberId
-                    |> addWithValue "@ProviderId"   info.ProviderId
+                    |> addWithValue "@ProfileId"   info.ProfileId
 
         execute connectionString unsubscribeSql commandFunc
 

@@ -24,22 +24,22 @@ let ``Follow Provider`` () =
     let subscriberId = getLastId "Profile" |> string
 
     // Test
-    Follow { FollowRequest.ProviderId= providerId
+    Follow { FollowRequest.ProfileId= providerId
              FollowRequest.SubscriberId= subscriberId 
            } |> execute |> ignore
 
     // Verify
-    let sql = @"SELECT SubscriberId, ProviderId
+    let sql = @"SELECT SubscriberId, ProfileId
                 FROM   Subscription
                 WHERE  SubscriberId = @SubscriberId
-                AND    ProviderId =   @ProviderId"
+                AND    ProfileId =    @ProfileId"
 
     let (connection,command) = createCommand sql connectionString
 
     try
         connection.Open()
         command.Parameters.AddWithValue("@SubscriberId", subscriberId) |> ignore
-        command.Parameters.AddWithValue("@ProviderId",   providerId)   |> ignore
+        command.Parameters.AddWithValue("@ProfileId",   providerId)   |> ignore
 
         use reader = command |> prepareReader
         let entryAdded = reader.GetInt32(0) = Int32.Parse (subscriberId) && 
@@ -58,23 +58,23 @@ let ``Unsubscribe from Provider`` () =
     let providerId =   execute (Register someProfile)
     let subscriberId = execute (Register someSubscriber)
 
-    execute ( Follow { FollowRequest.ProviderId= providerId; FollowRequest.SubscriberId= subscriberId }) |> ignore
+    execute ( Follow { FollowRequest.ProfileId= providerId; FollowRequest.SubscriberId= subscriberId }) |> ignore
 
     // Test
-    execute ( Unsubscribe { UnsubscribeRequest.SubscriberId= subscriberId; UnsubscribeRequest.ProviderId= providerId }) |> ignore
+    execute ( Unsubscribe { UnsubscribeRequest.SubscriberId= subscriberId; UnsubscribeRequest.ProfileId= providerId }) |> ignore
 
     // Verify
-    let sql = @"SELECT SubscriberId, ProviderId
+    let sql = @"SELECT SubscriberId, ProfileId
                 FROM   Subscription
                 WHERE  SubscriberId = @SubscriberId
-                AND    ProviderId =   @ProviderId"
+                AND    ProfileId =   @ProfileId"
 
     let (connection,command) = createCommand sql connectionString
 
     try
         connection.Open()
         command.Parameters.AddWithValue("@SubscriberId", subscriberId) |> ignore
-        command.Parameters.AddWithValue("@ProviderId",   providerId)   |> ignore
+        command.Parameters.AddWithValue("@ProfileId",   providerId)   |> ignore
 
         use reader = command.ExecuteReader()
         reader.Read() |> should equal false
@@ -231,7 +231,7 @@ let ``Get links of provider`` () =
 
     //Setup
     let providerId = Register someProfile |> execute
-    AddLink  { someLink with ProviderId= unbox providerId } |> execute |> ignore
+    AddLink  { someLink with ProfileId= unbox providerId } |> execute |> ignore
     
     // Test
     let links = providerId |> getLinks
@@ -248,7 +248,7 @@ let ``Get followers`` () =
     let subscriberId = Register someSubscriber |> execute
     
 
-    Follow { FollowRequest.ProviderId=   providerId
+    Follow { FollowRequest.ProfileId=   providerId
              FollowRequest.SubscriberId= subscriberId } |> execute |> ignore
 
     // Test
@@ -264,7 +264,7 @@ let ``Get subscriptions`` () =
     let providerId =   Register someProfile   |> execute
     let subscriberId = Register someSubscriber |> execute
 
-    Follow { FollowRequest.ProviderId=   providerId
+    Follow { FollowRequest.ProfileId=   providerId
              FollowRequest.SubscriberId= subscriberId } |> execute |> ignore
 
     // Test
@@ -274,25 +274,25 @@ let ``Get subscriptions`` () =
     subscription.ProfileId |> should equal providerId
 
 [<Test>]
-let ``Get providers`` () =
+let ``Get profiles`` () =
 
     // Setup
-    Register { someProfile with FirstName= "Provider1" } |> execute |> ignore
-    Register { someProfile with FirstName= "Provider2" } |> execute |> ignore
+    Register { someProfile with FirstName= "profile1" } |> execute |> ignore
+    Register { someProfile with FirstName= "profile2" } |> execute |> ignore
 
     // Test
-    let providers = getProviders()
+    let profiles = getAllProfiles()
     
     // Verify
-    providers |> List.length |> should equal 2
+    profiles |> List.length |> should equal 2
 
 [<Test>]
-let ``Get provider`` () =
+let ``Get profile`` () =
 
     // Setup
     Register someProfile 
     |> execute
-    |> getProvider
+    |> getProfile
     |> function | Some p -> ()
                 | None   -> Assert.Fail()
 

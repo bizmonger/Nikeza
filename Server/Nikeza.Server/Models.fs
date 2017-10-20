@@ -55,17 +55,17 @@ type Profile = {
 }
 
 [<CLIMutable>]
-type FollowRequest =      { SubscriberId: string; ProviderId: string }
+type FollowRequest =      { SubscriberId: string; ProfileId: string }
 
 [<CLIMutable>]
-type UnsubscribeRequest = { SubscriberId: string; ProviderId: string }
+type UnsubscribeRequest = { SubscriberId: string; ProfileId: string }
 
 [<CLIMutable>]
 type RemoveLinkRequest =  { LinkId: int }
 
 [<CLIMutable>]
 type AddLinkRequest = { 
-    ProviderId:    string
+    ProfileId:    string
     Title:         String
     Description:   String
     Url:           string
