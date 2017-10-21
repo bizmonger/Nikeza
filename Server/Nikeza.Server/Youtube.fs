@@ -9,7 +9,11 @@ open Google.Apis.YouTube.v3.Data
 [<Literal>]
 let UrlPrefix = "https://www.youtube.com/watch?v="
 
-type Video = { 
+[<Literal>]
+let requestTagsUrl = "https://www.googleapis.com/youtube/v3/videos?key={0}&fields=items(snippet(title,tags))&part=snippet&id={1}"
+
+type Video = {
+    Id:          string
     Title:       string
     Url:         string
     Description: string
@@ -19,7 +23,7 @@ type Video = {
 
 type Content =  Details | Snippet
 
-type Id = 
+type AccountId = 
     | UserName  of string
     | ChannelId of string
 
@@ -53,7 +57,7 @@ module Channel =
     
     let private execute (req: Request) = req.ExecuteAsync() |> Async.AwaitTask
 
-    type private RequestChannelById = YouTubeService -> Id -> Async<ChannelListResponse>
+    type private RequestChannelById = YouTubeService -> AccountId -> Async<ChannelListResponse>
     let list: RequestChannelById = fun youTubeService id ->
         youTubeService.Channels.List(ContentStr(Details))
         |> setupRequest <| id
@@ -89,10 +93,11 @@ module Playlist =
                         |> Seq.map(fun video -> 
                             let snippet = video.Snippet
                             
-                            { Title=    snippet.Title
-                              Url=      UrlPrefix + snippet.ResourceId.VideoId
+                            { Id=          snippet.ResourceId.VideoId
+                              Title=       snippet.Title
+                              Url=         UrlPrefix + snippet.ResourceId.VideoId
                               Description= snippet.Description
-                              PostDate= (snippet.PublishedAt.Value.ToString("d"))
+                              PostDate=    (snippet.PublishedAt.Value.ToString("d"))
                               Tags = [] 
                             })
                     return! pager (Seq.concat [acc; videos]) playlistItemRep.NextPageToken 
@@ -106,7 +111,7 @@ let uploadsOrEmpty channel youTubeService = channel |> function
     | Some c -> Playlist.uploads c youTubeService
     | None   -> async { return Seq.empty }
 
-type UploadList = YouTubeService -> Id -> Async<seq<Video>>
+type UploadList = YouTubeService -> AccountId -> Async<seq<Video>>
 
 let uploadList: UploadList = fun youTubeService id -> 
     async { let! channelList = Channel.list youTubeService id
@@ -118,12 +123,15 @@ let uploadList: UploadList = fun youTubeService id ->
 let getVideos youtube parameters = 
     async {
         let! videos = uploadList youtube parameters
-        let  out =    videos |> Seq.map(fun video -> sprintf "Title: %s\nUrl: %s\nDescription: %s\nPostdate: %s" 
-                                                             video.Title 
-                                                             (UrlPrefix + video.Url) 
-                                                             video.Description
-                                                             video.PostDate
-                                       )
+        let  out =    videos 
+                      |> Seq.map(fun video -> 
+                          sprintf "Id: %s\nTitle: %s\nUrl: %s\nDescription: %s\nPostdate: %s"
+                                  video.Id
+                                  video.Title 
+                                  (sprintf "%s%s" UrlPrefix video.Url)
+                                  video.Description
+                                  video.PostDate
+                                 )
                              |> Seq.reduce(+)
         return out
     }   |> Async.RunSynchronously
