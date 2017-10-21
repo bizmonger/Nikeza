@@ -1,6 +1,9 @@
 module Nikeza.Server.YouTube
 
 open System
+open System.Net.Http
+open System.Net.Http.Headers
+open System.Net.Http.Formatting
 open FSharp.Control
 open Google.Apis.Services
 open Google.Apis.YouTube.v3
@@ -8,6 +11,9 @@ open Google.Apis.YouTube.v3.Data
 
 [<Literal>]
 let UrlPrefix = "https://www.youtube.com/watch?v="
+
+[<Literal>]
+let BaseAddress = "https://www.googleapis.com/youtube/v3/"
 
 [<Literal>]
 let requestTagsUrl = "https://www.googleapis.com/youtube/v3/videos?key={0}&fields=items(snippet(title,tags))&part=snippet&id={1}"
@@ -120,18 +126,32 @@ let uploadList: UploadList = fun youTubeService id ->
             return! videos
     }
 
-let getVideos youtube parameters = 
+let httpClient =
+    let client = new HttpClient()
+    client.BaseAddress <- Uri(BaseAddress)
+    client.DefaultRequestHeaders.Accept.Clear()
+    client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue("application/json"))
+    client
+
+let getVideos apiKey youtube parameters = 
     async {
         let! videos = uploadList youtube parameters
-        let  out =    videos 
-                      |> Seq.map(fun video -> 
-                          sprintf "Id: %s\nTitle: %s\nUrl: %s\nDescription: %s\nPostdate: %s"
-                                  video.Id
-                                  video.Title 
-                                  (sprintf "%s%s" UrlPrefix video.Url)
-                                  video.Description
-                                  video.PostDate
-                                 )
-                             |> Seq.reduce(+)
-        return out
+        let  delimitedIds = videos |> Seq.map (fun v -> v.Id)
+        let  url = String.Format(requestTagsUrl, apiKey, delimitedIds)
+        let! response = httpClient.GetAsync(url) |> Async.AwaitTask
+
+        if (response.IsSuccessStatusCode)
+            then let tags = response.Content.ReadAsAsync<List<String>>()
+                 let out =  videos 
+                            |> Seq.map(fun video -> 
+                                sprintf "Id: %s\nTitle: %s\nUrl: %s\nDescription: %s\nPostdate: %s"
+                                        video.Id
+                                        video.Title 
+                                        (sprintf "%s%s" UrlPrefix video.Url)
+                                        video.Description
+                                        video.PostDate
+                                       )
+                            |> Seq.reduce(+)
+                 return out
+            else return "[]"
     }   |> Async.RunSynchronously
