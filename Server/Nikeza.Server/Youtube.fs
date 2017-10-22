@@ -155,6 +155,7 @@ let tagsfrom videos apiKey =
                                      |> List.map (fun item -> item.snippet.tags)
              tags
         else []
+        
 let getVideos apiKey youtube parameters = 
 
     async {

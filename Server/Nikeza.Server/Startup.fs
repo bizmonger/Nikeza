@@ -26,16 +26,16 @@ let errorHandler (ex : Exception) (logger : ILogger) (context : HttpContext) =
 // ---------------------------------
 // Config and Main
 // ---------------------------------
-let cookieAuth =
-    CookieAuthenticationOptions(
-            AuthenticationScheme    = authScheme,
-            AutomaticAuthenticate   = true,
-            AutomaticChallenge      = false,
-            CookieHttpOnly          = true,
-            CookieSecure            = CookieSecurePolicy.SameAsRequest,
-            SlidingExpiration       = true,
-            ExpireTimeSpan          = TimeSpan.FromDays 7.0
-    )
+// let cookieAuth =
+//     CookieAuthenticationOptions(
+//             AuthenticationScheme    = authScheme,
+//             AutomaticAuthenticate   = true,
+//             AutomaticChallenge      = false,
+//             CookieHttpOnly          = true,
+//             CookieSecure            = CookieSecurePolicy.SameAsRequest,
+//             SlidingExpiration       = true,
+//             ExpireTimeSpan          = TimeSpan.FromDays 7.0
+//     )
 
 let configureCors (builder : CorsPolicyBuilder) =
     builder.WithOrigins("*")
@@ -46,7 +46,7 @@ let configureCors (builder : CorsPolicyBuilder) =
 let configureApp (app : IApplicationBuilder) =
     app.UseCors configureCors |> ignore
     app.UseGiraffeErrorHandler  errorHandler
-    app.UseCookieAuthentication cookieAuth |> ignore
+    // app.UseCookieAuthentication cookieAuth |> ignore
     app.UseStaticFiles() |> ignore
     app.UseGiraffe webApp
  
@@ -54,9 +54,8 @@ let configureServices (services : IServiceCollection) =
 
     let serviceProvider  = services.BuildServiceProvider()
     let environment =      serviceProvider.GetService<IHostingEnvironment>()
-    let viewsFolderPath =  IO.Path.Combine(environment.ContentRootPath, "Views")
-
-    services.AddRazorEngine viewsFolderPath |> ignore
+    // let viewsFolderPath =  IO.Path.Combine(environment.ContentRootPath, "Views")
+    //services.AddRazorEngine viewsFolderPath |> ignore
     services.AddAuthentication() |> ignore
     services.AddCors |> ignore // Enables CORS
 

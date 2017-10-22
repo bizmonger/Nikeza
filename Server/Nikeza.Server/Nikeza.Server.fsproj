@@ -13,18 +13,18 @@
   <!-- ASP.NET Core -->
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.3" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="1.1.*" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.WebApiCompatShim" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.*" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.*" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.1.*" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.*" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.*" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.*" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="1.1.*" />
-    <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" version="1.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 
@@ -36,12 +36,12 @@
 
   <!-- External Packages -->
   <ItemGroup>
-    <PackageReference Include="System.Data.SqlClient" Version="4.3.1" />
-    <PackageReference Include="System.Net.Http" Version="4.3.*" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.4.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.3" />
     <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.*" />
-    <PackageReference Include="Google.Apis" Version="1.27.1" />
-    <PackageReference Include="Google.Apis.Auth" Version="1.27.1" />
-    <PackageReference Include="Google.Apis.YouTube.v3" Version="1.27.1.760" />
+    <PackageReference Include="Google.Apis" Version="1.29.2" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.29.2" />
+    <PackageReference Include="Google.Apis.YouTube.v3" Version="1.29.2.1006" />
   </ItemGroup>
 
   <!-- Watcher -->
@@ -74,5 +74,8 @@
     <Content Include="*.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.2.3" />
   </ItemGroup>
 </Project>
