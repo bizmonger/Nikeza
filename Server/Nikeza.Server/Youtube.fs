@@ -8,6 +8,7 @@ open FSharp.Control
 open Google.Apis.Services
 open Google.Apis.YouTube.v3
 open Google.Apis.YouTube.v3.Data
+open Newtonsoft.Json
 
 [<Literal>]
 let UrlPrefix = "https://www.youtube.com/watch?v="
@@ -17,6 +18,15 @@ let BaseAddress = "https://www.googleapis.com/youtube/v3/"
 
 [<Literal>]
 let requestTagsUrl = "https://www.googleapis.com/youtube/v3/videos?key={0}&fields=items(snippet(title,tags))&part=snippet&id={1}"
+
+[<CLIMutable>]
+type Snippet =    { title: string; tags: Collections.Generic.List<String> }
+
+[<CLIMutable>]
+type Item =       { snippet : Snippet }
+
+[<CLIMutable>]
+type Response =   { items : Collections.Generic.List<Item> }
 
 type Video = {
     Id:          string
@@ -134,24 +144,32 @@ let httpClient =
     client
 
 let getVideos apiKey youtube parameters = 
+
+    let tagsfrom (videos:Video seq) =
+        let  delimitedIds = videos |> Seq.map (fun v -> v.Id) |> String.concat ","
+        let  url = String.Format(requestTagsUrl, apiKey, delimitedIds)
+        let response = httpClient.GetAsync(url) |> Async.AwaitTask 
+                                                |> Async.RunSynchronously
+        if response.IsSuccessStatusCode
+            then let json = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+                 let result = JsonConvert.DeserializeObject<Response>(json)
+                 let tags = result.items |> List.ofSeq 
+                                         |> List.map (fun item -> item.snippet.tags)
+                 tags
+            else []
+
     async {
         let! videos = uploadList youtube parameters
-        let  delimitedIds = videos |> Seq.map (fun v -> v.Id)
-        let  url = String.Format(requestTagsUrl, apiKey, delimitedIds)
-        let! response = httpClient.GetAsync(url) |> Async.AwaitTask
-
-        if (response.IsSuccessStatusCode)
-            then let tags = response.Content.ReadAsAsync<List<String>>()
-                 let out =  videos 
-                            |> Seq.map(fun video -> 
-                                sprintf "Id: %s\nTitle: %s\nUrl: %s\nDescription: %s\nPostdate: %s"
-                                        video.Id
-                                        video.Title 
-                                        (sprintf "%s%s" UrlPrefix video.Url)
-                                        video.Description
-                                        video.PostDate
-                                       )
-                            |> Seq.reduce(+)
-                 return out
-            else return "[]"
-    }   |> Async.RunSynchronously
+        let  tags = tagsfrom videos
+        let  out =  videos 
+                    |> Seq.map(fun video -> 
+                        sprintf "Id: %s\nTitle: %s\nUrl: %s\nDescription: %s\nPostdate: %s"
+                                video.Id
+                                video.Title 
+                                (sprintf "%s%s" UrlPrefix video.Url)
+                                video.Description
+                                video.PostDate
+                               )
+                    |> Seq.reduce(+)
+        return out
+        }   |> Async.RunSynchronously

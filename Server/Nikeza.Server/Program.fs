@@ -17,7 +17,7 @@ let main argv =
         .UseIISIntegration()
         .Configure(Action<IApplicationBuilder> configureApp)
         .ConfigureServices(Action<IServiceCollection> configureServices)
-        .ConfigureLogging(Action<ILoggerFactory> configureLogging)
+        // .ConfigureLogging(Action<ILoggerFactory> configureLogging)
         .Build()
         .Run()
     0
