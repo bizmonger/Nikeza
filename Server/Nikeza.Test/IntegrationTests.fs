@@ -15,10 +15,6 @@ open System.Net.Http.Headers
 open System.Net.Http
 open Newtonsoft.Json
 
-
-[<Literal>]
-let apiKey = "AIzaSyBKiNql09UQIIiEKpnm89o_TxXNF2Ukl7Y"
-
 [<TearDownAttribute>]
 let teardown() = cleanDataStore()
 

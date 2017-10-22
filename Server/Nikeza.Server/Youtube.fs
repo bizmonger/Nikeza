@@ -34,7 +34,7 @@ type Video = {
     Url:         string
     Description: string
     PostDate:    string
-    Tags:        string list
+    Tags:        string
 }
 
 type Content =  Details | Snippet
@@ -114,7 +114,7 @@ module Playlist =
                               Url=         UrlPrefix + snippet.ResourceId.VideoId
                               Description= snippet.Description
                               PostDate=    (snippet.PublishedAt.Value.ToString("d"))
-                              Tags = [] 
+                              Tags = ""
                             })
                     return! pager (Seq.concat [acc; videos]) playlistItemRep.NextPageToken 
             }    
@@ -143,33 +143,36 @@ let httpClient =
     client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue("application/json"))
     client
 
+let tagsfrom videos apiKey =
+    let  delimitedIds = videos |> Seq.map (fun v -> v.Id) |> String.concat ","
+    let  url = String.Format(requestTagsUrl, apiKey, delimitedIds)
+    let response = httpClient.GetAsync(url) |> Async.AwaitTask 
+                                            |> Async.RunSynchronously
+    if response.IsSuccessStatusCode
+        then let json = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+             let result = JsonConvert.DeserializeObject<Response>(json)
+             let tags = result.items |> List.ofSeq 
+                                     |> List.map (fun item -> item.snippet.tags)
+             tags
+        else []
 let getVideos apiKey youtube parameters = 
 
-    let tagsfrom (videos:Video seq) =
-        let  delimitedIds = videos |> Seq.map (fun v -> v.Id) |> String.concat ","
-        let  url = String.Format(requestTagsUrl, apiKey, delimitedIds)
-        let response = httpClient.GetAsync(url) |> Async.AwaitTask 
-                                                |> Async.RunSynchronously
-        if response.IsSuccessStatusCode
-            then let json = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
-                 let result = JsonConvert.DeserializeObject<Response>(json)
-                 let tags = result.items |> List.ofSeq 
-                                         |> List.map (fun item -> item.snippet.tags)
-                 tags
-            else []
-
     async {
-        let! videos = uploadList youtube parameters
-        let  tags = tagsfrom videos
-        let  out =  videos 
-                    |> Seq.map(fun video -> 
-                        sprintf "Id: %s\nTitle: %s\nUrl: %s\nDescription: %s\nPostdate: %s"
-                                video.Id
-                                video.Title 
-                                (sprintf "%s%s" UrlPrefix video.Url)
-                                video.Description
-                                video.PostDate
-                               )
-                    |> Seq.reduce(+)
+        let! allVideos = uploadList youtube parameters
+        let  allTags =   tagsfrom allVideos apiKey |> List.ofSeq
+        let  zipped =    (allVideos |> List.ofSeq ,allTags) ||> List.zip
+        let  out =       zipped 
+                         |> Seq.map(fun pair ->
+                             let video = fst pair
+                             let tags  = snd pair |> List.ofSeq |> String.concat ","
+                             sprintf "Id: %s\nTitle: %s\nUrl: %s\nTags: %s\nDescription: %s\nPostdate: %s"
+                                     video.Id
+                                     video.Title 
+                                     (sprintf "%s%s" UrlPrefix video.Url)
+                                     tags
+                                     video.Description
+                                     video.PostDate
+                                    )
+                         |> Seq.reduce(+)
         return out
         }   |> Async.RunSynchronously
