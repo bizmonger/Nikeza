@@ -102,9 +102,12 @@ type Link = {
 [<CLIMutable>]
 type FeatureLinkRequest = { LinkId: int; IsFeatured: bool }
 
+type User = { AccessId: string; ProfileId: string }
+
 type PlatformUser = {
     Platform: PlatformType
-    User:     string
+    User:     User
+    APIKey:   string
 }
 
 [<CLIMutable>]
@@ -113,8 +116,9 @@ type SourceRequest = {
     Id:        int
     ProfileId: string
     Platform:  string
-    Username:  string
+    AccessId:  string
     Links:     Link list
+    APIKey:    string
 }
 
 [<CLIMutable>]

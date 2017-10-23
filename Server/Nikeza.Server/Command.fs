@@ -4,6 +4,9 @@ open System
 open System.Data.SqlClient
 open Nikeza.Server.Model
 open Nikeza.Server.Sql
+open Nikeza.Server.YouTube
+open Nikeza.Server.YouTube.Authentication
+open Nikeza.Server.YouTube.Playlist
 
 let dispose (connection:SqlConnection) (command:SqlCommand) =
     connection.Dispose()
@@ -100,16 +103,45 @@ module private Commands =
         | "StackOverflow" -> StackOverflow
         | _               -> Other
 
+    let youtubeLinks apiKey channelId = 
+        async { let    youtube = youTubeService apiKey
+                let!   videos =  uploadList youtube <| ChannelId channelId
+                return videos
+        }
+
     let toLinks (platformUser:PlatformUser) =
         platformUser.Platform |> function
-        | YouTube       -> [] // todo...
+        | YouTube       ->
+            let  user = platformUser.User
+            let youTubeLinks = youtubeLinks platformUser.APIKey user.AccessId |> Async.RunSynchronously
+            // let links = 
+            //     youTubeLinks 
+            //     |> Seq.map (fun l -> 
+            //                  { Id=        0
+            //                    ProfileId=   user.ProfileId
+            //                    Title=       l.Title
+            //                    Url=         l.Url
+            //                    Topics=      l.Topics
+            //                    ContentType= "Video"
+            //                    IsFeatured=  false
+            //                  })
+            // links
+            []
+  
+
         | WordPress     -> [] // todo...
         | StackOverflow -> [] // todo...
         | Other         -> [] // todo...
         
     let addSource (info:SourceRequest) =
 
-        { Platform= info.Platform |> toPlatformType; User= info.Username }
+        let platformUser = { 
+            Platform=   info.Platform |> toPlatformType
+            User=     { AccessId = info.AccessId; ProfileId= info.ProfileId }
+            APIKey=   info.APIKey
+        }
+
+        platformUser
         |> toLinks
         |> List.map addLink 
         |> ignore
@@ -117,7 +149,7 @@ module private Commands =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@ProfileId" info.ProfileId
                     |> addWithValue "@Platform"  info.Platform
-                    |> addWithValue "@Username"  info.Username
+                    |> addWithValue "@Username"  info.AccessId
 
         execute connectionString addSourceSql commandFunc
 

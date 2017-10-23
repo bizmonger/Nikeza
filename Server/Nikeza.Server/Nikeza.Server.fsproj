@@ -56,11 +56,11 @@
     <Compile Include="Configuration.fs" />
     <Compile Include="Sql.fs" />
     <Compile Include="Read.fs" />
+    <Compile Include="Youtube.fs" />
+    <Compile Include="Wordpress.fs" />
     <Compile Include="Command.fs" />
     <Compile Include="Store.fs" />
     <Compile Include="Authentication.fs" />
-    <Compile Include="Youtube.fs" />
-    <Compile Include="Wordpress.fs" />
     <Compile Include="Routes.fs" />
     <Compile Include="Startup.fs" />
     <Compile Include="Program.fs" />

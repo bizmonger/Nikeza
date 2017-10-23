@@ -101,7 +101,8 @@ let rec readInSources sources (reader:SqlDataReader) = reader.Read() |> function
             Id=         reader.GetInt32 (0)
             ProfileId=  reader.GetInt32 (1) |> string
             Platform=   reader.GetString(2)
-            Username=   reader.GetString(3)
+            AccessId=   reader.GetString(3)
+            APIKey =    ""
             Links =     []
          }
 
