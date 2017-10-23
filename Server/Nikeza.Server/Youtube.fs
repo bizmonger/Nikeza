@@ -103,7 +103,7 @@ module Playlist =
                         |> playListItemConfig <| nextPageToken
 
                     let! playlistItemRep = playlistItemListReq.ExecuteAsync() |> Async.AwaitTask
-                    let videos = 
+                    let videosWithTags = 
                         playlistItemRep.Items
                         |> Seq.map(fun video -> 
                             let snippet = video.Snippet
@@ -115,7 +115,7 @@ module Playlist =
                               PostDate=    (snippet.PublishedAt.Value.ToString("d"))
                               Tags = []
                             })
-                    return! pager (Seq.concat [acc; videos]) playlistItemRep.NextPageToken 
+                    return! pager (Seq.concat [acc; videosWithTags]) playlistItemRep.NextPageToken 
             }    
             pager [] ""
 
@@ -133,34 +133,43 @@ let httpClient =
     client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue("application/json"))
     client
 
-let tagsfrom videos apiKey =
-    let  delimitedIds = videos |> Seq.map (fun v -> v.Id) |> String.concat ","
-    let  url = String.Format(requestTagsUrl, apiKey, delimitedIds)
-    let response = httpClient.GetAsync(url) |> Async.AwaitTask 
-                                            |> Async.RunSynchronously
-    if response.IsSuccessStatusCode
-        then let json = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
-             let result = JsonConvert.DeserializeObject<Response>(json)
-             let tags = result.items |> List.ofSeq 
-                                     |> List.map (fun item -> List.ofSeq item.snippet.tags)
-             tags
-        else []
+let getTags apiKey videosWithTags =
 
+       let getTags item =
+           if item.snippet.tags |> isNull
+               then []
+               else List.ofSeq item.snippet.tags
+            
+       let delimitedIds = videosWithTags |> Seq.ofArray 
+                                         |> Seq.map (fun v -> v.Id) 
+                                         |> String.concat ","
+    
+       let url = String.Format(requestTagsUrl, apiKey, delimitedIds)
+       let response = httpClient.GetAsync(url) |> Async.AwaitTask 
+                                               |> Async.RunSynchronously
+       if response.IsSuccessStatusCode
+           then let json =   response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+                let result = JsonConvert.DeserializeObject<Response>(json)
+                let tags =   result.items |> List.ofSeq 
+                                          |> List.map getTags
+                tags
+           else []
 
-let attachTags videoAndTags =
+let applyVideoTags videoAndTags =
     let video = fst videoAndTags
-    let tags  = snd videoAndTags |> List.ofSeq
+    let tags  = snd videoAndTags
     { video with Tags = tags }
 
 type UploadList = YouTubeService -> AccountId -> Async<seq<Video>>
 
 let uploadList: UploadList = fun youTubeService id ->
-    async { let! channelList = Channel.list youTubeService id
-            let! allVideos =   channelList |> getFirstChannel
-                                           |> uploadsOrEmpty <| youTubeService
-
-            let    allTags =   tagsfrom allVideos youTubeService.ApiKey |> List.ofSeq
-            let    zipped =    (allVideos |> List.ofSeq ,allTags) ||> List.zip
-            let    videos =    zipped |> Seq.map attachTags
-            return videos
+    async { let!   channelList =   Channel.list youTubeService id
+            let!   videos=         channelList |> getFirstChannel
+                                               |> uploadsOrEmpty <| youTubeService
+            let    maxRequestIdsAllowed = 50
+            let    videosWithTags= videos |> Seq.chunkBySize maxRequestIdsAllowed
+                                          |> Seq.collect (fun chunks -> chunks |> getTags youTubeService.ApiKey) 
+                                          |> Seq.zip videos
+                                          |> Seq.map applyVideoTags
+            return videosWithTags
     }
