@@ -3,7 +3,6 @@ module Nikeza.Server.YouTube
 open System
 open System.Net.Http
 open System.Net.Http.Headers
-open System.Net.Http.Formatting
 open FSharp.Control
 open Google.Apis.Services
 open Google.Apis.YouTube.v3
@@ -20,13 +19,13 @@ let BaseAddress = "https://www.googleapis.com/youtube/v3/"
 let requestTagsUrl = "https://www.googleapis.com/youtube/v3/videos?key={0}&fields=items(snippet(title,tags))&part=snippet&id={1}"
 
 [<CLIMutable>]
-type Snippet =    { title: string; tags: Collections.Generic.List<String> }
+type Snippet =    { title: string; tags: String seq }
 
 [<CLIMutable>]
 type Item =       { snippet : Snippet }
 
 [<CLIMutable>]
-type Response =   { items : Collections.Generic.List<Item> }
+type Response =   { items : Item seq }
 
 type Video = {
     Id:          string
@@ -34,7 +33,7 @@ type Video = {
     Url:         string
     Description: string
     PostDate:    string
-    Tags:        string
+    Tags:        string list
 }
 
 type Content =  Details | Snippet
@@ -114,7 +113,7 @@ module Playlist =
                               Url=         UrlPrefix + snippet.ResourceId.VideoId
                               Description= snippet.Description
                               PostDate=    (snippet.PublishedAt.Value.ToString("d"))
-                              Tags = ""
+                              Tags = []
                             })
                     return! pager (Seq.concat [acc; videos]) playlistItemRep.NextPageToken 
             }    
@@ -126,15 +125,6 @@ let private getFirstChannel (channelList: ChannelListResponse) =
 let uploadsOrEmpty channel youTubeService = channel |> function
     | Some c -> Playlist.uploads c youTubeService
     | None   -> async { return Seq.empty }
-
-type UploadList = YouTubeService -> AccountId -> Async<seq<Video>>
-
-let uploadList: UploadList = fun youTubeService id -> 
-    async { let! channelList = Channel.list youTubeService id
-            let videos = channelList |> getFirstChannel
-                                     |> uploadsOrEmpty <| youTubeService
-            return! videos
-    }
 
 let httpClient =
     let client = new HttpClient()
@@ -152,28 +142,25 @@ let tagsfrom videos apiKey =
         then let json = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
              let result = JsonConvert.DeserializeObject<Response>(json)
              let tags = result.items |> List.ofSeq 
-                                     |> List.map (fun item -> item.snippet.tags)
+                                     |> List.map (fun item -> List.ofSeq item.snippet.tags)
              tags
         else []
-        
-let getVideos apiKey youtube parameters = 
 
-    async {
-        let! allVideos = uploadList youtube parameters
-        let  allTags =   tagsfrom allVideos apiKey |> List.ofSeq
-        let  zipped =    (allVideos |> List.ofSeq ,allTags) ||> List.zip
-        let  out =       zipped 
-                         |> Seq.map(fun pair ->
-                             let video = fst pair
-                             let tags  = snd pair |> List.ofSeq |> String.concat ","
-                             sprintf "Id: %s\nTitle: %s\nUrl: %s\nTags: %s\nDescription: %s\nPostdate: %s"
-                                     video.Id
-                                     video.Title 
-                                     (sprintf "%s%s" UrlPrefix video.Url)
-                                     tags
-                                     video.Description
-                                     video.PostDate
-                                    )
-                         |> Seq.reduce(+)
-        return out
-        }   |> Async.RunSynchronously
+
+let attachTags videoAndTags =
+    let video = fst videoAndTags
+    let tags  = snd videoAndTags |> List.ofSeq
+    { video with Tags = tags }
+
+type UploadList = YouTubeService -> AccountId -> Async<seq<Video>>
+
+let uploadList: UploadList = fun youTubeService id ->
+    async { let! channelList = Channel.list youTubeService id
+            let! allVideos =   channelList |> getFirstChannel
+                                           |> uploadsOrEmpty <| youTubeService
+
+            let    allTags =   tagsfrom allVideos youTubeService.ApiKey |> List.ofSeq
+            let    zipped =    (allVideos |> List.ofSeq ,allTags) ||> List.zip
+            let    videos =    zipped |> Seq.map attachTags
+            return videos
+    }

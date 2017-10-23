@@ -9,11 +9,6 @@ open Nikeza.Server.Store
 open Nikeza.Server.Sql
 open Nikeza.Server.Read
 open Nikeza.Server.Model
-open Nikeza.Server.YouTube
-open System.Net.Http.Formatting
-open System.Net.Http.Headers
-open System.Net.Http
-open Newtonsoft.Json
 
 [<TearDownAttribute>]
 let teardown() = cleanDataStore()

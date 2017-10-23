@@ -44,7 +44,7 @@ let configureCors (builder : CorsPolicyBuilder) =
            .AllowCredentials() |> ignore
 
 let configureApp (app : IApplicationBuilder) =
-    app.UseCors configureCors |> ignore
+    // app.UseCors configureCors |> ignore
     app.UseGiraffeErrorHandler  errorHandler
     // app.UseCookieAuthentication cookieAuth |> ignore
     app.UseStaticFiles() |> ignore
@@ -57,7 +57,7 @@ let configureServices (services : IServiceCollection) =
     // let viewsFolderPath =  IO.Path.Combine(environment.ContentRootPath, "Views")
     //services.AddRazorEngine viewsFolderPath |> ignore
     services.AddAuthentication() |> ignore
-    services.AddCors |> ignore // Enables CORS
+    // services.AddCors |> ignore // Enables CORS
 
 let configureLogging (loggerFactory : ILoggerFactory) =
     loggerFactory.AddConsole(LogLevel.Trace).AddDebug() |> ignore
