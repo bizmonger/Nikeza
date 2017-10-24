@@ -154,9 +154,12 @@ module private Commands =
         let links =   source |> getLinks
         let linkIds = links  |> Seq.map addLink |> Seq.toList
         let zipped =  Seq.zip links linkIds
-        let updatedLinks = zipped |> Seq.map (fun linkAndId -> let link = fst linkAndId
-                                                               let id   = snd linkAndId
-                                                               { link with Id = Int32.Parse(id) })
+        let updatedLinks = 
+            zipped |> Seq.map (fun linkAndId -> 
+                                let link = fst linkAndId
+                                let id   = snd linkAndId
+                                { link with Id = Int32.Parse(id) })
+
         let updatedSource = { info with Links= updatedLinks }
         addSource updatedSource
 
