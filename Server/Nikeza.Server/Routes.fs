@@ -64,6 +64,7 @@ let private addSourceHandler =
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<DataSourceRequest>()
                 let sourceId = AddSource data |> execute
+                let links =    getLinks
                 let source = { data with Id = Int32.Parse(sourceId); Links = [] }
                 return! json source context
         }

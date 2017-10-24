@@ -16,6 +16,12 @@ type Platform =
     | StackOverflow
     | Other
 
+let PlatformToString = function
+    | YouTube       -> "youtube"
+    | WordPress     -> "wordpress"
+    | StackOverflow -> "stackoverflow"
+    | Other         -> "other"
+
 let contentTypeFromString = function
     | ArticleText -> Article
     | VideoText   -> Video

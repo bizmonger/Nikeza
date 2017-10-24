@@ -18734,7 +18734,7 @@ var _user$project$Controls_Sources$InputUsername = function (a) {
 };
 var _user$project$Controls_Sources$view = F2(
 	function (model, platforms) {
-		var placeholderText = _elm_lang$core$Native_Utils.eq(model.source.platform, 'YouTube') ? 'channel-id' : 'username';
+		var placeholderText = _elm_lang$core$Native_Utils.eq(model.source.platform, 'YouTube') ? 'channel-id: (YouTube -> Settings -> Advanced)' : 'username';
 		var changeHandler = A2(
 			_elm_lang$html$Html_Events$on,
 			'change',

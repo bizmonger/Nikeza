@@ -102,6 +102,24 @@ let getLinksSql = "SELECT Id,
                    FROM   [dbo].[Link]
                    WHERE  ProfileId = @ProfileId"
 
+let getSourceLinksSql = 
+                  "SELECT Id, 
+                   ProfileId, 
+                   Title, 
+                   Description, 
+                   Url, 
+                   ContentTypeId, 
+                   IsFeatured, 
+                   Created
+
+                   FROM         Link
+                   INNER JOIN   Source
+                   ON           Link.ProfileId = Source.ProfileId
+                   INNER JOIN   SourceLinks
+                   ON           SourceLinks.LinkId = Link.LinkId
+                   
+                   WHERE        Link.ProfileId = @ProfileId AND Source.Platform = @Platform"
+
 let getFollowersSql = @"SELECT Profile.Id,
                                Profile.FirstName,
                                Profile.LastName,
