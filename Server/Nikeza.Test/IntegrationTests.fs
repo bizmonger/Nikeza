@@ -12,22 +12,22 @@ open Nikeza.Server.Read
 open Nikeza.Server.Model
 
 [<Literal>]
-let APIKeyFile = @"C:\Temp\Nikeza\YouTube_APIKey.txt"
+let APIKeyFile = @"C:\Nikeza\YouTube_APIKey.txt"
 
 [<Literal>]
-let ChannelIdFile = @"C:\Temp\Nikeza\YouTube_ChannelId.txt"
+let ChannelIdFile = @"C:\Nikeza\YouTube_ChannelId.txt"
 
 [<TearDownAttribute>]
 let teardown() = cleanDataStore()
 
 [<Test>]
 let ``Read YouTube APIKey file`` () =
-    let text = File.ReadAllText(@"C:\Temp\Nikeza\YouTube_APIKey.txt");
+    let text = File.ReadAllText(APIKeyFile);
     text.Length |> should (be greaterThan) 0
 
 [<Test>]
 let ``Read YouTube AccessId file`` () =
-    let text = File.ReadAllText(@"C:\Temp\Nikeza\YouTube_ChannelId.txt");
+    let text = File.ReadAllText(ChannelIdFile);
     text.Length |> should (be greaterThan) 0
 
 [<Test>]
