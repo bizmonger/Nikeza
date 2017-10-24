@@ -63,7 +63,7 @@ module private Commands =
     let addSource (info:PlatformUser) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@ProfileId"     info.ProfileId
-                    |> addWithValue "@Platform"      info.Platform
+                    |> addWithValue "@Platform"      (info.Platform |> platformToString)
                     |> addWithValue "@AccessId"      info.User.AccessId
                     |> addWithValue "@APIKey"        info.APIKey
         

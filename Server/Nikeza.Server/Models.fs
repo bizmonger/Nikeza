@@ -10,13 +10,19 @@ type ContentType =
     | Podcast
     | Unknown
 
-type PlatformType =
+type Platform =
     | YouTube
     | WordPress
     | StackOverflow
     | Other
 
 type RawContentType = string
+
+let platformToString = function
+    | YouTube       -> "YouTube"
+    | WordPress     -> "WordPress"
+    | StackOverflow -> "StackOverflow"
+    | Other         -> "Other"
 
 let contentTypeFromString = function
     | ArticleText -> Article
@@ -95,7 +101,7 @@ type User = { AccessId: string; ProfileId: string }
 
 type PlatformUser = {
     ProfileId: string
-    Platform:  PlatformType
+    Platform:  Platform
     User:      User
     APIKey:    string
 }

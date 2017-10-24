@@ -11,6 +11,12 @@ open Nikeza.Server.Sql
 open Nikeza.Server.Read
 open Nikeza.Server.Model
 
+[<Literal>]
+let APIKeyFile = @"C:\Temp\Nikeza\YouTube_APIKey.txt"
+
+[<Literal>]
+let ChannelIdFile = @"C:\Temp\Nikeza\YouTube_ChannelId.txt"
+
 [<TearDownAttribute>]
 let teardown() = cleanDataStore()
 
@@ -318,9 +324,10 @@ let ``Add data source`` () =
 
     //Setup
     let providerId = Register someProfile |> execute
+    let source = { someSource with APIKey= File.ReadAllText(APIKeyFile); AccessId= File.ReadAllText(ChannelIdFile) }
 
     // Test
-    let sourceId = AddSource { someSource with ProfileId= unbox providerId } |> execute
+    let sourceId = AddSource { source with ProfileId= unbox providerId } |> execute
 
     // Verify
     let sql = @"SELECT Id FROM [dbo].[Source] WHERE Id = @id"
