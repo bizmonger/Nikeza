@@ -322,7 +322,7 @@ let ``Get platforms`` () =
 [<Test>]
 let ``Add data source`` () =
 
-    //Setup
+    // Setup
     let providerId = Register someProfile |> execute
     let source = { someSource with APIKey= File.ReadAllText(APIKeyFile); AccessId= File.ReadAllText(ChannelIdFile) }
 

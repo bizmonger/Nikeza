@@ -50,7 +50,7 @@ module private Commands =
 
     let addLink (info:Link) =
         let commandFunc (command: SqlCommand) = 
-            command |> addWithValue "@ProfileId"     info.ProfileId
+            command |> addWithValue "@ProfileId"     (Int32.Parse(info.ProfileId))
                     |> addWithValue "@Title"         info.Title
                     |> addWithValue "@Description"   info.Description
                     |> addWithValue "@Url"           info.Url
@@ -62,7 +62,7 @@ module private Commands =
 
     let addSource (info:DataSourceRequest) =
         let commandFunc (command: SqlCommand) = 
-            command |> addWithValue "@ProfileId"     info.ProfileId
+            command |> addWithValue "@ProfileId"     (Int32.Parse(info.ProfileId))
                     |> addWithValue "@Platform"      info.Platform
                     |> addWithValue "@AccessId"      info.AccessId
                     |> addWithValue "@APIKey"        info.APIKey
@@ -98,7 +98,7 @@ module private Commands =
 
     let updateProfile (info:ProfileRequest) =
         let commandFunc (command: SqlCommand) = 
-            command |> addWithValue "@Id"        info.ProfileId
+            command |> addWithValue "@Id"        (Int32.Parse(info.ProfileId))
                     |> addWithValue "@FirstName" info.FirstName
                     |> addWithValue "@LastName"  info.LastName
                     |> addWithValue "@bio"       info.Bio
@@ -152,7 +152,7 @@ module private Commands =
         }
 
         let links =   source |> getLinks
-        let linkIds = links  |> Seq.map addLink
+        let linkIds = links  |> Seq.map addLink |> Seq.toList
         let zipped =  Seq.zip links linkIds
         let updatedLinks = zipped |> Seq.map (fun linkAndId -> let link = fst linkAndId
                                                                let id   = snd linkAndId
