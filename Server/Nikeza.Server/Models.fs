@@ -16,14 +16,6 @@ type Platform =
     | StackOverflow
     | Other
 
-type RawContentType = string
-
-let platformToString = function
-    | YouTube       -> "YouTube"
-    | WordPress     -> "WordPress"
-    | StackOverflow -> "StackOverflow"
-    | Other         -> "Other"
-
 let contentTypeFromString = function
     | ArticleText -> Article
     | VideoText   -> Video
@@ -112,7 +104,7 @@ type DataSourceRequest = {
     ProfileId: string
     Platform:  string
     AccessId:  string
-    Links:     Link list
+    Links:     Link seq
     APIKey:    string
 }
 

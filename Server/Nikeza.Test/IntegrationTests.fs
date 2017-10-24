@@ -353,7 +353,7 @@ let ``Adding data source results in links found`` () =
 
     // Verify
     getSource sourceId |> function
-    | Some source -> source.Links |> List.isEmpty |> should equal false
+    | Some source -> source.Links |> Seq.isEmpty |> should equal false
     | None        -> Assert.Fail()
     
 [<Test>]
