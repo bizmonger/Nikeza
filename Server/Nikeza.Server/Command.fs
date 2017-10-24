@@ -62,12 +62,19 @@ module private Commands =
 
     let addSource (info:DataSourceRequest) =
         let commandFunc (command: SqlCommand) = 
-            command |> addWithValue "@ProfileId"     (Int32.Parse(info.ProfileId))
-                    |> addWithValue "@Platform"      info.Platform
-                    |> addWithValue "@AccessId"      info.AccessId
-                    |> addWithValue "@APIKey"        info.APIKey
+            command |> addWithValue "@ProfileId" (Int32.Parse(info.ProfileId))
+                    |> addWithValue "@Platform"  info.Platform
+                    |> addWithValue "@AccessId"  info.AccessId
+                    |> addWithValue "@APIKey"    info.APIKey
         
         commandFunc |> execute connectionString addDataSourceSql
+
+    let addSourceLink (source:DataSourceRequest) (link:Link) =
+        let commandFunc (command: SqlCommand) = 
+            command |> addWithValue "@SourceId" source.Id
+                    |> addWithValue "@LinkId"   link.Id
+        
+        commandFunc |> execute connectionString addSourceLinkSql
 
     let removeLink (info:RemoveLinkRequest) =
         let commandFunc (command: SqlCommand) = 
@@ -118,7 +125,7 @@ module private Commands =
                 return videos
         }
 
-    let videoToLink video profileId =
+    let linkOf video profileId =
          { Id=          0
            ProfileId=   profileId
            Title=       video.Title
@@ -135,7 +142,7 @@ module private Commands =
             let user =  source.User
             let links = user.AccessId |> youtubeLinks source.APIKey  
                                       |> Async.RunSynchronously
-                                      |> Seq.map (fun v -> videoToLink v user.ProfileId )
+                                      |> Seq.map (fun video -> linkOf video user.ProfileId )
             links
 
         | WordPress     -> Seq.empty // todo...
@@ -160,8 +167,14 @@ module private Commands =
                                 let id   = snd linkAndId
                                 { link with Id = Int32.Parse(id) })
 
-        let updatedSource = { info with Links= updatedLinks }
-        addSource updatedSource
+        let pendingSource = { info with Links= updatedLinks }
+        let sourceId =        addSource pendingSource
+        let updatedSource = { pendingSource with Id = Int32.Parse(sourceId) }
+
+        updatedLinks |> Seq.toList 
+                     |> List.map (fun link -> addSourceLink updatedSource link ) 
+                     |> ignore
+        sourceId
 
     let removeDataSource (info:RemoveDataSourceRequest) =
         let commandFunc (command: SqlCommand) = 

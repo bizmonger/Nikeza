@@ -35,13 +35,13 @@ let ``Follow Provider`` () =
 
     // Setup
     Register someProfile |> execute |> ignore
-    let providerId =   getLastId "Profile" |> string
+    let profileId =   getLastId "Profile" |> string
     
     Register someSubscriber |> execute |> ignore
     let subscriberId = getLastId "Profile" |> string
 
     // Test
-    Follow { FollowRequest.ProfileId= providerId
+    Follow { FollowRequest.ProfileId= profileId
              FollowRequest.SubscriberId= subscriberId 
            } |> execute |> ignore
 
@@ -56,11 +56,11 @@ let ``Follow Provider`` () =
     try
         connection.Open()
         command.Parameters.AddWithValue("@SubscriberId", subscriberId) |> ignore
-        command.Parameters.AddWithValue("@ProfileId",   providerId)   |> ignore
+        command.Parameters.AddWithValue("@ProfileId",   profileId)   |> ignore
 
         use reader = command |> prepareReader
         let entryAdded = reader.GetInt32(0) = Int32.Parse (subscriberId) && 
-                         reader.GetInt32(1) = Int32.Parse (providerId)
+                         reader.GetInt32(1) = Int32.Parse (profileId)
 
         entryAdded |> should equal true
 
@@ -72,13 +72,13 @@ let ``Follow Provider`` () =
 let ``Unsubscribe from Provider`` () =
 
     // Setup
-    let providerId =   execute (Register someProfile)
+    let profileId =   execute (Register someProfile)
     let subscriberId = execute (Register someSubscriber)
 
-    execute ( Follow { FollowRequest.ProfileId= providerId; FollowRequest.SubscriberId= subscriberId }) |> ignore
+    execute ( Follow { FollowRequest.ProfileId= profileId; FollowRequest.SubscriberId= subscriberId }) |> ignore
 
     // Test
-    execute ( Unsubscribe { UnsubscribeRequest.SubscriberId= subscriberId; UnsubscribeRequest.ProfileId= providerId }) |> ignore
+    execute ( Unsubscribe { UnsubscribeRequest.SubscriberId= subscriberId; UnsubscribeRequest.ProfileId= profileId }) |> ignore
 
     // Verify
     let sql = @"SELECT SubscriberId, ProfileId
@@ -91,7 +91,7 @@ let ``Unsubscribe from Provider`` () =
     try
         connection.Open()
         command.Parameters.AddWithValue("@SubscriberId", subscriberId) |> ignore
-        command.Parameters.AddWithValue("@ProfileId",   providerId)   |> ignore
+        command.Parameters.AddWithValue("@ProfileId",   profileId)   |> ignore
 
         use reader = command.ExecuteReader()
         reader.Read() |> should equal false
@@ -247,29 +247,29 @@ let ``Update profile`` () =
 let ``Get links of provider`` () =
 
     //Setup
-    let providerId = Register someProfile |> execute
-    AddLink  { someLink with ProfileId= unbox providerId } |> execute |> ignore
+    let profileId = Register someProfile |> execute
+    AddLink  { someLink with ProfileId= unbox profileId } |> execute |> ignore
     
     // Test
-    let links = providerId |> getLinks
+    let links = profileId |> getLinks
 
     // Verify
     let linkFound = links |> Seq.head
-    linkFound.ProfileId  |> should equal providerId
+    linkFound.ProfileId  |> should equal profileId
 
 [<Test>]
 let ``Get followers`` () =
 
     // Setup
-    let providerId =   Register someProfile   |> execute
+    let profileId =   Register someProfile   |> execute
     let subscriberId = Register someSubscriber |> execute
     
 
-    Follow { FollowRequest.ProfileId=   providerId
+    Follow { FollowRequest.ProfileId=   profileId
              FollowRequest.SubscriberId= subscriberId } |> execute |> ignore
 
     // Test
-    let follower = providerId |> getFollowers |> List.head
+    let follower = profileId |> getFollowers |> List.head
     
     // Verify
     follower.ProfileId |> should equal subscriberId
@@ -278,17 +278,17 @@ let ``Get followers`` () =
 let ``Get subscriptions`` () =
 
     // Setup
-    let providerId =   Register someProfile   |> execute
+    let profileId =   Register someProfile   |> execute
     let subscriberId = Register someSubscriber |> execute
 
-    Follow { FollowRequest.ProfileId=   providerId
+    Follow { FollowRequest.ProfileId=   profileId
              FollowRequest.SubscriberId= subscriberId } |> execute |> ignore
 
     // Test
     let subscription = subscriberId |> getSubscriptions |> List.head
     
     // Verify
-    subscription.ProfileId |> should equal providerId
+    subscription.ProfileId |> should equal profileId
 
 [<Test>]
 let ``Get profiles`` () =
@@ -320,14 +320,28 @@ let ``Get platforms`` () =
     |> should equal false
 
 [<Test>]
+let ``Adding data source results in links saved`` () =
+
+    // Setup
+    let profileId = Register someProfile |> execute
+    let source = { someSource with APIKey= File.ReadAllText(APIKeyFile); AccessId= File.ReadAllText(ChannelIdFile) }
+    AddSource { source with ProfileId= unbox profileId } |> execute |> ignore
+
+    // Test
+    let links = linksFrom source.Platform profileId
+
+    // Verify
+    links |> List.isEmpty |> should equal false
+
+[<Test>]
 let ``Add data source`` () =
 
     // Setup
-    let providerId = Register someProfile |> execute
+    let profileId = Register someProfile |> execute
     let source = { someSource with APIKey= File.ReadAllText(APIKeyFile); AccessId= File.ReadAllText(ChannelIdFile) }
 
     // Test
-    let sourceId = AddSource { source with ProfileId= unbox providerId } |> execute
+    let sourceId = AddSource { source with ProfileId= unbox profileId } |> execute
 
     // Verify
     let sql = @"SELECT Id FROM [dbo].[Source] WHERE Id = @id"
@@ -346,10 +360,10 @@ let ``Add data source`` () =
 let ``Adding data source results in links found`` () =
 
     //Setup
-    let providerId = Register someProfile |> execute
+    let profileId = Register someProfile |> execute
 
     // Test
-    let sourceId = AddSource { someSource with ProfileId= unbox providerId } |> execute
+    let sourceId = AddSource { someSource with ProfileId= unbox profileId } |> execute
 
     // Verify
     getSource sourceId |> function
@@ -360,11 +374,11 @@ let ``Adding data source results in links found`` () =
 let ``Get sources`` () =
 
     //Setup
-    let providerId = execute <| Register someProfile
-    AddSource { someSource with ProfileId = unbox providerId } |> execute |> ignore
+    let profileId = execute <| Register someProfile
+    AddSource { someSource with ProfileId = unbox profileId } |> execute |> ignore
 
     // Test
-    let sources = providerId |> getSources
+    let sources = profileId |> getSources
     
     // Verify
     sources |> List.isEmpty |> should equal false
@@ -373,9 +387,9 @@ let ``Get sources`` () =
 let ``Remove source`` () =
 
     //Setup
-    let providerId = execute <| Register someProfile
+    let profileId = execute <| Register someProfile
     
-    let sourceId = AddSource { someSource with ProfileId= unbox providerId } |> execute
+    let sourceId = AddSource { someSource with ProfileId= unbox profileId } |> execute
     
     // Test
     RemoveSource { Id = Int32.Parse(sourceId) } |> execute |> ignore

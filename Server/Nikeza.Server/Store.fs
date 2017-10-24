@@ -51,7 +51,7 @@ let getLinks profileId =
     let links = readInLinks |> getResults getLinksSql commandFunc
     links
 
-let getPlatformLinks profileId platform =
+let linksFrom platform profileId =
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue "@ProfileId" profileId
                 |> addWithValue "@Platform"  platform

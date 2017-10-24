@@ -62,6 +62,16 @@ let addDataSourceSql = @"INSERT INTO [dbo].[Source]
                                 ,@AccessId
                                 ,@APIKey)"
 
+let addSourceLinkSql = @"INSERT INTO [dbo].[SourceLinks]
+                          (SourceId
+                           ,LinkId)
+                    
+                          OUTPUT INSERTED.ID
+
+                          VALUES
+                                (@SourceId
+                                ,@LinkId)"
+
 let deleteSourceSql = @"DELETE FROM Source WHERE Id = @Id"
 
 let followSql = @"INSERT INTO [dbo].[Subscription]
@@ -103,20 +113,21 @@ let getLinksSql = "SELECT Id,
                    WHERE  ProfileId = @ProfileId"
 
 let getSourceLinksSql = 
-                  "SELECT Id, 
-                   ProfileId, 
-                   Title, 
-                   Description, 
-                   Url, 
-                   ContentTypeId, 
-                   IsFeatured, 
-                   Created
+                  "SELECT Link.Id, 
+                          Link.ProfileId, 
+                          Link.Title, 
+                          Link.Description, 
+                          Link.Url, 
+                          Link.ContentTypeId, 
+                          Link.IsFeatured, 
+                          Link.Created
 
                    FROM         Link
                    INNER JOIN   Source
                    ON           Link.ProfileId = Source.ProfileId
                    INNER JOIN   SourceLinks
-                   ON           SourceLinks.LinkId = Link.LinkId
+                   ON           SourceLinks.LinkId   = Link.Id   AND 
+                                SourceLinks.SourceId = Source.Id
                    
                    WHERE        Link.ProfileId = @ProfileId AND Source.Platform = @Platform"
 
@@ -166,10 +177,6 @@ let getProvidersSql =
 			    ON [Profile].Id = [ProfileTopics].ProfileId
     INNER JOIN	Topic
 			    ON [Topic].Id =   [ProfileTopics].TopicId
-    INNER JOIN  ProfileLinks
-			    ON [Profile].Id = [ProfileLinks].ProfileId
-    INNER JOIN  Link
-			    ON [ProfileLinks].LinkId = [Link].Id
     INNER JOIN ContentType
 			    ON [Link].ContentTypeId = [Link].ContentTypeId"
 
