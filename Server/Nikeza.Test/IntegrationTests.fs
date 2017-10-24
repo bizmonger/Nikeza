@@ -1,6 +1,7 @@
 module Integration
 
 open System
+open System.IO
 open FsUnit
 open NUnit.Framework
 open Nikeza.TestAPI
@@ -14,7 +15,14 @@ open Nikeza.Server.Model
 let teardown() = cleanDataStore()
 
 [<Test>]
-let ````
+let ``Read YouTube APIKey file`` () =
+    let text = File.ReadAllText(@"C:\Temp\Nikeza\YouTube_APIKey.txt");
+    text.Length |> should (be greaterThan) 0
+
+[<Test>]
+let ``Read YouTube AccessId file`` () =
+    let text = File.ReadAllText(@"C:\Temp\Nikeza\YouTube_ChannelId.txt");
+    text.Length |> should (be greaterThan) 0
 
 [<Test>]
 let ``Follow Provider`` () =

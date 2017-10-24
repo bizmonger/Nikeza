@@ -4,6 +4,7 @@ open System
 open System.Data.SqlClient
 open Nikeza.Server.Sql
 open Nikeza.Server.Read
+open Nikeza.Server.Literals
 open Nikeza.Server.Command
 open Nikeza.Server.Store
 open Nikeza.Server.Model
@@ -19,15 +20,17 @@ let someLinkId =       0
 let someSourceId =     0
 
 let someLink = {
+    Id=         0
     ProfileId=  someProfileId |> string
     Title=       "some_title"
     Description= "some_description"
     Url=         "some_url.com"
+    Topics=      []
+    ContentType= ArticleText
     IsFeatured=  false
-    ContentType= "article"
 }
 
-let someProfile: Profile = { 
+let someProfile = { 
     ProfileId =     someProfileId |> string
     FirstName =     "Scott"
     LastName =      "Nimrod"
@@ -44,8 +47,9 @@ let someSource = {
     Id=         0
     ProfileId = someProfileId |> string
     Platform = "YouTube"
-    Username = "Bizmonger"
+    AccessId = "some_access_id"
     Links =     []
+    APIKey=    "some_api_key"
 }
 
 let someUpdatedProfile: ProfileRequest = { 
