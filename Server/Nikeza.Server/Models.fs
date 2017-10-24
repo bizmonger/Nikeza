@@ -1,21 +1,7 @@
 module Nikeza.Server.Model
 
 open System
-
-[<Literal>]
-let VideoText = "video"
-
-[<Literal>]
-let ArticleText = "article"
-
-[<Literal>]
-let PodcastText = "podcast"
-
-[<Literal>]
-let AnswerText = "answer"
-
-[<Literal>]
-let UnknownText = "unknown"
+open Nikeza.Server.Literals
 
 type ContentType = 
     | Article

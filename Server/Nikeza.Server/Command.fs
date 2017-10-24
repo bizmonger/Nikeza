@@ -2,6 +2,7 @@ module Nikeza.Server.Command
 
 open System
 open System.Data.SqlClient
+open Nikeza.Server.Literals
 open Nikeza.Server.Model
 open Nikeza.Server.Sql
 open Nikeza.Server.YouTube

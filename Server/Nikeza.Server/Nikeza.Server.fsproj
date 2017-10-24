@@ -51,6 +51,7 @@
 
   <!-- Compile Order -->
   <ItemGroup>
+    <Compile Include="Literals.fs" />
     <Compile Include="Models.fs" />
     <Compile Include="Converters.fs" />
     <Compile Include="Configuration.fs" />
