@@ -1,7 +1,21 @@
 module Nikeza.Server.Model
 
 open System
-open Newtonsoft.Json
+
+[<Literal>]
+let VideoText = "video"
+
+[<Literal>]
+let ArticleText = "article"
+
+[<Literal>]
+let PodcastText = "podcast"
+
+[<Literal>]
+let AnswerText = "answer"
+
+[<Literal>]
+let UnknownText = "unknown"
 
 type ContentType = 
     | Article
@@ -19,32 +33,32 @@ type PlatformType =
 type RawContentType = string
 
 let contentTypeFromString = function
-    | "article" -> Article
-    | "video"   -> Video
-    | "answer"  -> Answer
-    | "podcast" -> Podcast
-    | _         -> Unknown
+    | ArticleText -> Article
+    | VideoText   -> Video
+    | AnswerText  -> Answer
+    | PodcastText -> Podcast
+    | _           -> Unknown
 
 let contentTypeToId = function
-    | "article" ->  0
-    | "video"   ->  1
-    | "answer"  ->  2
-    | "podcast" ->  3
-    | _         -> -1
+    | ArticleText ->  0
+    | VideoText   ->  1
+    | AnswerText  ->  2
+    | PodcastText ->  3
+    | _           -> -1
 
 let contentTypeToString = function
-    | Article -> "article"
-    | Video   -> "video"  
-    | Answer  -> "answer" 
-    | Podcast -> "podcast"
-    | Unknown -> "unknown"    
+    | Article -> ArticleText
+    | Video   -> VideoText  
+    | Answer  -> AnswerText 
+    | Podcast -> PodcastText
+    | Unknown -> UnknownText   
 
 let contentTypeIdToString = function
-    | 0 -> "article"
-    | 1 -> "video"  
-    | 2 -> "answer" 
-    | 3 -> "podcast"
-    | _ -> "unknown"    
+    | 0 -> ArticleText
+    | 1 -> VideoText  
+    | 2 -> AnswerText 
+    | 3 -> PodcastText
+    | _ -> UnknownText  
 
 [<CLIMutable>]
 type Profile = {
@@ -70,17 +84,6 @@ type UnsubscribeRequest = { SubscriberId: string; ProfileId: string }
 type RemoveLinkRequest =  { LinkId: int }
 
 [<CLIMutable>]
-type AddLinkRequest = { 
-    ProfileId:    string
-    Title:         String
-    Description:   String
-    Url:           string
-    IsFeatured:    bool
-    ContentType:   string
-}
-
-[<CLIMutable>]
-[<JsonObject>]
 type Topic = { 
     Id:         int
     Name:       string
@@ -88,11 +91,11 @@ type Topic = {
 }
 
 [<CLIMutable>]
-[<JsonObject>]
 type Link = { 
     Id:            int
     ProfileId:     string
     Title:         String
+    Description:   String
     Url:           string
     Topics:        Topic list
     ContentType:   string
@@ -105,14 +108,14 @@ type FeatureLinkRequest = { LinkId: int; IsFeatured: bool }
 type User = { AccessId: string; ProfileId: string }
 
 type PlatformUser = {
-    Platform: PlatformType
-    User:     User
-    APIKey:   string
+    ProfileId: string
+    Platform:  PlatformType
+    User:      User
+    APIKey:    string
 }
 
 [<CLIMutable>]
-[<JsonObject>]
-type SourceRequest = { 
+type DataSourceRequest = { 
     Id:        int
     ProfileId: string
     Platform:  string
@@ -122,7 +125,7 @@ type SourceRequest = {
 }
 
 [<CLIMutable>]
-type RemoveSourceRequest = { Id: int }
+type RemoveDataSourceRequest = { Id: int }
 
 [<CLIMutable>]
 type ProfileRequest = {
@@ -169,9 +172,9 @@ type Command =
     | Follow        of FollowRequest
     | Unsubscribe   of UnsubscribeRequest  
 
-    | AddLink       of AddLinkRequest
+    | AddLink       of Link
     | RemoveLink    of RemoveLinkRequest
     | FeatureLink   of FeatureLinkRequest
 
-    | AddSource     of SourceRequest
-    | RemoveSource  of RemoveSourceRequest
+    | AddSource     of DataSourceRequest
+    | RemoveSource  of RemoveDataSourceRequest

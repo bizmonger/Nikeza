@@ -6,7 +6,6 @@ open Nikeza.Server.Model
 open Nikeza.Server.Sql
 open Nikeza.Server.YouTube
 open Nikeza.Server.YouTube.Authentication
-open Nikeza.Server.YouTube.Playlist
 
 let dispose (connection:SqlConnection) (command:SqlCommand) =
     connection.Dispose()
@@ -48,7 +47,7 @@ module private Commands =
         
         commandFunc |> execute connectionString registerSql
 
-    let addLink (info:AddLinkRequest) =
+    let addLink (info:Link) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@ProfileId"     info.ProfileId
                     |> addWithValue "@Title"         info.Title
@@ -59,6 +58,15 @@ module private Commands =
                     |> addWithValue "@Created"       DateTime.Now
         
         commandFunc |> execute connectionString addLinkSql
+
+    let addSource (info:PlatformUser) =
+        let commandFunc (command: SqlCommand) = 
+            command |> addWithValue "@ProfileId"     info.ProfileId
+                    |> addWithValue "@Platform"      info.Platform
+                    |> addWithValue "@AccessId"      info.User.AccessId
+                    |> addWithValue "@APIKey"        info.APIKey
+        
+        commandFunc |> execute connectionString addDataSourceSql
 
     let removeLink (info:RemoveLinkRequest) =
         let commandFunc (command: SqlCommand) = 
@@ -109,51 +117,46 @@ module private Commands =
                 return videos
         }
 
-    let toLinks (platformUser:PlatformUser) =
+    let videoToLink video profileId =
+         { Id=          0
+           ProfileId=   profileId
+           Title=       video.Title
+           Description= video.Description
+           Url=         video.Url
+           Topics=      video.Tags |> List.map (fun t -> { Id=0; Name=t; IsFeatured=false })
+           ContentType= VideoText
+           IsFeatured=  false
+         }
+
+    let getLinks (platformUser:PlatformUser) =
         platformUser.Platform |> function
         | YouTube       ->
             let  user = platformUser.User
-            let youTubeLinks = youtubeLinks platformUser.APIKey user.AccessId |> Async.RunSynchronously
-            // let links = 
-            //     youTubeLinks 
-            //     |> Seq.map (fun l -> 
-            //                  { Id=        0
-            //                    ProfileId=   user.ProfileId
-            //                    Title=       l.Title
-            //                    Url=         l.Url
-            //                    Topics=      l.Topics
-            //                    ContentType= "Video"
-            //                    IsFeatured=  false
-            //                  })
-            // links
-            []
-  
+            let links = user.AccessId |> youtubeLinks platformUser.APIKey  
+                                      |> Async.RunSynchronously
+                                      |> Seq.map (fun v -> videoToLink v user.ProfileId )
+            links
 
-        | WordPress     -> [] // todo...
-        | StackOverflow -> [] // todo...
-        | Other         -> [] // todo...
+        | WordPress     -> Seq.empty // todo...
+        | StackOverflow -> Seq.empty // todo...
+        | Other         -> Seq.empty // todo...
         
-    let addSource (info:SourceRequest) =
+    let addDataSource (info:DataSourceRequest) =
 
-        let platformUser = { 
+        let source = {
+            ProfileId=  info.ProfileId
             Platform=   info.Platform |> toPlatformType
+            APIKey=     info.APIKey
             User=     { AccessId = info.AccessId; ProfileId= info.ProfileId }
-            APIKey=   info.APIKey
         }
 
-        platformUser
-        |> toLinks
-        |> List.map addLink 
-        |> ignore
+        source |> getLinks
+               |> Seq.map addLink
+               |> ignore
 
-        let commandFunc (command: SqlCommand) = 
-            command |> addWithValue "@ProfileId" info.ProfileId
-                    |> addWithValue "@Platform"  info.Platform
-                    |> addWithValue "@Username"  info.AccessId
+        addSource source
 
-        execute connectionString addSourceSql commandFunc
-
-    let removeSource (info:RemoveSourceRequest) =
+    let removeDataSource (info:RemoveDataSourceRequest) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@Id" info.Id
             
@@ -161,15 +164,15 @@ module private Commands =
 
 open Commands
 let execute = function
-    | Register      info -> register      info
-    | UpdateProfile info -> updateProfile info
+    | Register      info -> register         info
+    | UpdateProfile info -> updateProfile    info
+   
+    | Follow        info -> follow           info
+    | Unsubscribe   info -> unsubscribe      info
+   
+    | AddLink       info -> addLink          info
+    | RemoveLink    info -> removeLink       info
+    | FeatureLink   info -> featureLink      info
 
-    | Follow        info -> follow        info
-    | Unsubscribe   info -> unsubscribe   info
-
-    | AddLink       info -> addLink       info
-    | RemoveLink    info -> removeLink    info
-    | FeatureLink   info -> featureLink   info
-
-    | AddSource     info -> addSource     info
-    | RemoveSource  info -> removeSource  info
+    | AddSource     info -> addDataSource    info
+    | RemoveSource  info -> removeDataSource info

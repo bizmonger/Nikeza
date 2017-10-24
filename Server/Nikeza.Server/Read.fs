@@ -37,6 +37,7 @@ let rec readInLinks links (reader:SqlDataReader) = reader.Read() |> function
               Id=          reader.GetInt32  (0)
               ProfileId=   reader.GetInt32  (1) |> string
               Title=       reader.GetString (2)
+              Description= reader.GetString (3)
               Url=         reader.GetString (4)
               Topics=      []
               ContentType= reader.GetInt32  (5) |> contentTypeIdToString
@@ -56,10 +57,12 @@ and readInLink (reader:SqlDataReader) = {
   Id=          reader.GetInt32  (0)
   ProfileId=   reader.GetInt32  (1) |> string
   Title=       reader.GetString (2)
+  Description= reader.GetString (3)
   Topics=      []
   Url=         reader.GetString (4)
   IsFeatured=  reader.GetBoolean(5)
-  ContentType= reader.GetString (6) }
+  ContentType= reader.GetString (6) 
+  }
 
 let rec readInTopics topics (reader:SqlDataReader) = reader.Read() |> function
     | true -> let topic = reader |> readInTopic
@@ -97,7 +100,7 @@ let rec readInProviders providers (reader:SqlDataReader) = reader.Read() |> func
 
 let rec readInSources sources (reader:SqlDataReader) = reader.Read() |> function
     | true -> 
-        let source : SourceRequest = {
+        let source : DataSourceRequest = {
             Id=         reader.GetInt32 (0)
             ProfileId=  reader.GetInt32 (1) |> string
             Platform=   reader.GetString(2)
