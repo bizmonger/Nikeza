@@ -25,12 +25,11 @@ profileDecoder =
 
 sourceDecoder : Decoder JsonSource
 sourceDecoder =
-    Decode.map6 JsonSource
+    Decode.map5 JsonSource
         (field "Id" Decode.int)
         (field "ProfileId" Decode.string)
         (field "Platform" Decode.string)
         (field "Username" Decode.string)
-        (field "APIKey" Decode.string)
         (field "Links" (Decode.list linkDecoder))
 
 
@@ -157,7 +156,6 @@ encodeSource source =
         , ( "ProfileId", Encode.string <| idText source.profileId )
         , ( "Platform", Encode.string source.platform )
         , ( "AccessId", Encode.string source.username )
-        , ( "APIKey", Encode.string source.apiKey )
 
         -- , ( "Links", encodeLinks source.links )
         ]

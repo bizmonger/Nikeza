@@ -121,7 +121,6 @@ type alias JsonSource =
     , profileId : String
     , platform : String
     , username : String
-    , apiKey : String
     , links : List JsonLink
     }
 
@@ -201,7 +200,6 @@ toJsonSource source =
     , profileId = idText source.profileId
     , platform = source.platform
     , username = source.username
-    , apiKey = source.apiKey
     , links = source.links |> List.map toJsonLink
     }
 
@@ -212,7 +210,6 @@ toSource jsonSource =
     , profileId = jsonSource.profileId |> toString |> Id
     , platform = jsonSource.platform
     , username = jsonSource.username
-    , apiKey = jsonSource.username
     , links = jsonSource.links |> List.map toLink
     }
 

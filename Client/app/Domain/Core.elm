@@ -272,14 +272,13 @@ type alias Source =
     , profileId : Id
     , platform : String
     , username : String
-    , apiKey : String
     , links : List Link
     }
 
 
 initSource : Source
 initSource =
-    Source (Id undefined) (Id undefined) "" "" "" []
+    Source (Id undefined) (Id undefined) "" "" []
 
 
 type ProviderRequest
