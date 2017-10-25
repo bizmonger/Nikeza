@@ -110,5 +110,5 @@ sourceUI source =
         [ td [] [ text source.platform ]
         , td [] [ i [] [ text source.username ] ]
         , td [] [ text <| "(" ++ (source.links |> List.length |> toString) ++ ") links" ]
-        , td [] [ button [ onClick <| Remove source ] [ text "Disconnect" ] ]
+        , td [] [ button [ class "disconnectSource", onClick <| Remove source ] [ text "Disconnect" ] ]
         ]

@@ -18604,9 +18604,13 @@ var _user$project$Controls_Sources$sourceUI = function (source) {
 									_elm_lang$html$Html$button,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onClick(
-											_user$project$Controls_Sources$Remove(source)),
-										_1: {ctor: '[]'}
+										_0: _elm_lang$html$Html_Attributes$class('disconnectSource'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(
+												_user$project$Controls_Sources$Remove(source)),
+											_1: {ctor: '[]'}
+										}
 									},
 									{
 										ctor: '::',
