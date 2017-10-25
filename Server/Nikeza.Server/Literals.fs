@@ -1,6 +1,9 @@
 module Nikeza.Server.Literals
 
 [<Literal>]
+let APIKeyFile = @"C:\Nikeza\YouTube_APIKey.txt"
+
+[<Literal>]
 let VideoText = "video"
 
 [<Literal>]

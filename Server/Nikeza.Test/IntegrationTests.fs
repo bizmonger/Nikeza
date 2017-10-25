@@ -12,9 +12,6 @@ open Nikeza.Server.Read
 open Nikeza.Server.Model
 
 [<Literal>]
-let APIKeyFile = @"C:\Nikeza\YouTube_APIKey.txt"
-
-[<Literal>]
 let ChannelIdFile = @"C:\Nikeza\YouTube_ChannelId.txt"
 
 [<TearDownAttribute>]

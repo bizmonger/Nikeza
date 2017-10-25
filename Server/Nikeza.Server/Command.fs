@@ -1,6 +1,7 @@
 module Nikeza.Server.Command
 
 open System
+open System.IO
 open System.Data.SqlClient
 open Nikeza.Server.Literals
 open Nikeza.Server.Model
@@ -154,7 +155,7 @@ module private Commands =
         let source = {
             ProfileId=  info.ProfileId
             Platform=   info.Platform |> toPlatformType
-            APIKey=     info.APIKey
+            APIKey=     File.ReadAllText(APIKeyFile);
             User=     { AccessId = info.AccessId; ProfileId= info.ProfileId }
         }
 
