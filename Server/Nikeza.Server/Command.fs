@@ -141,11 +141,10 @@ module private Commands =
         source.Platform |> function
         | YouTube       ->
             let user =  source.User
-            let links = user.AccessId |> youtubeLinks source.APIKey  
-                                      |> Async.RunSynchronously
-                                      |> Seq.map (fun video -> linkOf video user.ProfileId )
-            links
-
+            user.AccessId |> youtubeLinks source.APIKey  
+                          |> Async.RunSynchronously
+                          |> Seq.map (fun video -> linkOf video user.ProfileId )
+                          
         | WordPress     -> Seq.empty // todo...
         | StackOverflow -> Seq.empty // todo...
         | Other         -> Seq.empty // todo...
