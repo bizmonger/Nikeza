@@ -14,20 +14,20 @@ let prepareReader (command:SqlCommand) =
     reader.Read() |> ignore
     reader
 
-let someProfileId =   0
+let someProfileId =    0
 let someSubscriberId = 1
 let someLinkId =       0
 let someSourceId =     0
 
 let someLink = {
     Id=         0
-    ProfileId=  someProfileId |> string
+    ProfileId=    someProfileId |> string
     Title=       "some_title"
     Description= "some_description"
     Url=         "some_url.com"
-    Topics=      []
-    ContentType= ArticleText
-    IsFeatured=  false
+    Topics=       []
+    ContentType=  ArticleText
+    IsFeatured=   false
 }
 
 let someProfile = { 
@@ -37,10 +37,10 @@ let someProfile = {
     Email =         "abc@abc.com"
     ImageUrl =      "some_url_.com"
     Bio =           "Some Bio"
-    Sources =       []
+    Sources =        []
     PasswordHash =  "XXX"
     Salt =          "XXX"
-    Created =       DateTime.Now
+    Created =        DateTime.Now
 }
 
 let someSource = {
@@ -59,7 +59,7 @@ let someUpdatedProfile: ProfileRequest = {
     Email =     "abc@abc.com"
     ImageUrl =  "someUrl.com"
     Bio =       "Some Bio"
-    Sources =   []
+    Sources =    []
 }
 
 let someSubscriber: Profile = { 
@@ -69,7 +69,7 @@ let someSubscriber: Profile = {
     Email =         "abc@abc.com"
     ImageUrl =      "some_url_.com"
     Bio =           "Some Bio"
-    Sources =       []
+    Sources =        []
     PasswordHash =  "XXX"
     Salt=           "XXX"
     Created =       DateTime.Now
