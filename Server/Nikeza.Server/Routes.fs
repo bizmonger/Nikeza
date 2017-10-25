@@ -98,15 +98,7 @@ let private setCode (handler:HttpHandler)=
                 else handler
         response context
 
-open Nikeza.Server.YouTube
-open Nikeza.Server.YouTube.Authentication
 open Nikeza.Server.Wordpress
-
-let private fetchYoutube (apiKey, channelId) (context : HttpContext) = 
-    async { let  youtube = youTubeService apiKey
-            let! videos =  uploadList youtube <| ChannelId channelId
-            return! json videos context
-    }
 
 let private fetchWordpress (feedUrl) (context : HttpContext) =
     async { let! response = jsonRssFeed feedUrl
@@ -149,7 +141,6 @@ let webApp : HttpContext -> HttpHandlerResult =
                 route  "/options"       >=>  setHttpHeader "Allow" "GET, OPTIONS, POST" // CORS support
                 route  "/providers"     >=>  fetchProviders
                 route  "/bootstrap"     >=>  fetchBootstrap
-                routef "/youtube/%s/%s"      fetchYoutube
                 routef "/wordpress/%s"       fetchWordpress
                 routef "/links/%s"           fetchLinks
                 routef "/followers/%s"       fetchFollowers
