@@ -1,12 +1,12 @@
 module Nikeza.TestAPI
 
 open System
+open System.Data
 open System.Data.SqlClient
 open Nikeza.Server.Sql
 open Nikeza.Server.Read
 open Nikeza.Server.Literals
 open Nikeza.Server.Command
-open Nikeza.Server.Store
 open Nikeza.Server.Model
 
 let prepareReader (command:SqlCommand) =
@@ -78,13 +78,14 @@ let someSubscriber: Profile = {
 let executeCommand sql =
     let (connection,command) = createCommand sql connectionString
 
-    if connection.State = System.Data.ConnectionState.Closed
+    if connection.State = ConnectionState.Closed
     then connection.Open()
 
     command.ExecuteNonQuery()  |> ignore
     dispose connection command
 
 let cleanDataStore() =
+    executeCommand @"DELETE FROM SourceLinks"
     executeCommand @"DELETE FROM Link"
     executeCommand @"DELETE FROM Topic"
     executeCommand @"DELETE FROM Source"
