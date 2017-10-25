@@ -157,28 +157,25 @@ let getSubscriptionsSql = @"SELECT Profile.Id,
 let filterOnProfileId = "WHERE [Profile].Id = @ProfileId"
 
 let getProvidersSql =
-    @"SELECT	[Profile].Id, 
-                [Profile].FirstName, 
-		        [Profile].LastName, 
-		        [Profile].Email, 
-		        [Profile].ImageUrl, 
-		        [Profile].Bio, 
-		        [Topic].Name as TopicName,
-		        [Link].Title as LinkTitle,
-		        [Link].Url as LinkUrl,
-		        [ContentType].Type as LinkContentType,
-		        [Link].IsFeatured as LinkFeatured,
-		        [Link].Description as LinkDescription,
-		        [Link].Created as LinkPostedDate
+    @"SELECT      [Profile].Id, 
+                  [Profile].FirstName, 
+		      [Profile].LastName, 
+		      [Profile].Email, 
+		      [Profile].ImageUrl, 
+		      [Profile].Bio, 
+		      [Topic].Name as TopicName,
+		      [Link].Title as LinkTitle,
+		      [Link].Url as LinkUrl,
+		      [ContentType].Type as LinkContentType,
+		      [Link].IsFeatured as LinkFeatured,
+		      [Link].Description as LinkDescription
+      
+    FROM	      Profile
 
-    FROM	Profile
-
-    INNER JOIN	ProfileTopics
-			    ON [Profile].Id = [ProfileTopics].ProfileId
-    INNER JOIN	Topic
-			    ON [Topic].Id =   [ProfileTopics].TopicId
-    INNER JOIN ContentType
-			    ON [Link].ContentTypeId = [Link].ContentTypeId"
+    INNER JOIN    Link          ON [Link].ProfileId = [Profile].Id
+    INNER JOIN    ContentType   ON ContentType.Id   = Link.ContentTypeId
+    INNER JOIN	ProfileTopics ON [Profile].Id     = [ProfileTopics].ProfileId
+    INNER JOIN	Topic         ON [Topic].Id       = [ProfileTopics].TopicId"
 
 let getProviderSql = getProvidersSql + " " + filterOnProfileId
 
