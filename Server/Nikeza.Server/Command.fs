@@ -154,7 +154,7 @@ module private Commands =
         let source = {
             ProfileId=  info.ProfileId
             Platform=   info.Platform |> toPlatformType
-            APIKey=     File.ReadAllText(APIKeyFile);
+            APIKey=     File.ReadAllText(APIKeyFile)
             User=     { AccessId = info.AccessId; ProfileId= info.ProfileId }
         }
 
@@ -167,7 +167,7 @@ module private Commands =
                                 let id   = snd linkAndId
                                 { link with Id = Int32.Parse(id) })
 
-        let pendingSource = { info with Links= updatedLinks }
+        let pendingSource = { info with Links= updatedLinks; APIKey= source.APIKey }
         let sourceId =        addSource pendingSource
         let updatedSource = { pendingSource with Id = Int32.Parse(sourceId) }
 

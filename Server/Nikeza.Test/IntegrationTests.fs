@@ -20,12 +20,12 @@ let teardown() = cleanDataStore()
 
 [<Test>]
 let ``Read YouTube APIKey file`` () =
-    let text = File.ReadAllText(APIKeyFile);
+    let text = File.ReadAllText(APIKeyFile)
     text.Length |> should (be greaterThan) 0
 
 [<Test>]
 let ``Read YouTube AccessId file`` () =
-    let text = File.ReadAllText(ChannelIdFile);
+    let text = File.ReadAllText(ChannelIdFile)
     text.Length |> should (be greaterThan) 0
 
 [<Test>]

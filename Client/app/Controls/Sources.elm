@@ -83,14 +83,14 @@ view model platforms =
 
         placeholderText =
             if model.source.platform == "YouTube" then
-                "channel-id: (Settings -> Advanced)"
+                "channel-id: (In Settings)"
             else
                 "username"
 
         records =
             [ tr []
-                [ td [] [ select [ changeHandler, value model.source.platform ] <| instruction :: (platforms |> List.map platformOption) ]
-                , td [] [ input [ type_ "text", placeholder placeholderText, onInput InputUsername, value model.source.username ] [] ]
+                [ td [] [ select [ class "selectPlatform", changeHandler, value model.source.platform ] <| instruction :: (platforms |> List.map platformOption) ]
+                , td [] [ input [ class "inputUsername", type_ "text", placeholder placeholderText, onInput InputUsername, value model.source.username ] [] ]
                 , td [] [ button [ class "addSource", onClick <| Add model.source ] [ text "Add" ] ]
                 ]
             ]

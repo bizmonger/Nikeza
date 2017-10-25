@@ -27,7 +27,7 @@ header {
 }
 
 a.featured {
-    background: #EEEEEE;
+    background: #FFF7D9;
 }
 
 input[type="image"].backbutton {
@@ -49,6 +49,14 @@ input[type="text"].addLinkText {
 input[type="text"].profileInput {
     width:160px;
     margin-top: 3px;
+}
+
+input[type="text"].inputUsername {
+    width:210px;
+}
+
+select.selectPlatform {
+    width:160px;
 }
 
 textarea.inputBio {

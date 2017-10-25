@@ -8,7 +8,7 @@ import Services.Adapter as Adapter exposing (..)
 
 configuration : Configuration
 configuration =
-    Integration
+    Isolation
 
 
 type Configuration

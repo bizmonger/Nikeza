@@ -29,7 +29,7 @@ sourceDecoder =
         (field "Id" Decode.int)
         (field "ProfileId" Decode.string)
         (field "Platform" Decode.string)
-        (field "Username" Decode.string)
+        (field "AccessId" Decode.string)
         (field "Links" (Decode.list linkDecoder))
 
 
