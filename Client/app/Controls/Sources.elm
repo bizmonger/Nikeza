@@ -83,7 +83,7 @@ view model platforms =
 
         placeholderText =
             if model.source.platform == "YouTube" then
-                "channel-id: (YouTube -> Settings -> Advanced)"
+                "channel-id: (Settings -> Advanced)"
             else
                 "username"
 
