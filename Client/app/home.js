@@ -15928,7 +15928,8 @@ var _user$project$Settings$Dependencies = function (a) {
 	};
 };
 var _user$project$Settings$Isolation = {ctor: 'Isolation'};
-var _user$project$Settings$configuration = _user$project$Settings$Isolation;
+var _user$project$Settings$Integration = {ctor: 'Integration'};
+var _user$project$Settings$configuration = _user$project$Settings$Integration;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
@@ -15937,7 +15938,6 @@ var _user$project$Settings$runtime = function () {
 		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$updateProfile)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$providerTopic)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$portfolio)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$bootstrap);
 	}
 }();
-var _user$project$Settings$Integration = {ctor: 'Integration'};
 
 var _user$project$Controls_EditProfile$Response = function (a) {
 	return {ctor: 'Response', _0: a};
@@ -18734,7 +18734,7 @@ var _user$project$Controls_Sources$InputUsername = function (a) {
 };
 var _user$project$Controls_Sources$view = F2(
 	function (model, platforms) {
-		var placeholderText = _elm_lang$core$Native_Utils.eq(model.source.platform, 'YouTube') ? 'channel-id: (In Settings)' : 'username';
+		var placeholderText = _elm_lang$core$Native_Utils.eq(model.source.platform, 'YouTube') ? 'channel-id: (Settings menu)' : 'username';
 		var changeHandler = A2(
 			_elm_lang$html$Html_Events$on,
 			'change',
@@ -22160,8 +22160,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 606, column: 25},
-								end: {line: 606, column: 36}
+								start: {line: 604, column: 25},
+								end: {line: 604, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p28._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -22175,8 +22175,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 614, column: 25},
-								end: {line: 614, column: 36}
+								start: {line: 612, column: 25},
+								end: {line: 612, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p29._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -22637,8 +22637,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 139, column: 25},
-								end: {line: 139, column: 36}
+								start: {line: 137, column: 25},
+								end: {line: 137, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p40._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});

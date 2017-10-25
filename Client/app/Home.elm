@@ -23,8 +23,6 @@ import String exposing (..)
 
 -- elm-live Home.elm --open --output=home.js --debug
 -- elm-package install elm-lang/navigation
--- dotnet new webapi -lang F# -o MyProjectDir
-
 
 main =
     Navigation.program UrlChange
