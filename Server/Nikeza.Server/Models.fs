@@ -48,7 +48,7 @@ let contentTypeIdToString = function
     | 1 -> VideoText  
     | 2 -> AnswerText 
     | 3 -> PodcastText
-    | _ -> UnknownText  
+    | _ -> UnknownText
 
 [<CLIMutable>]
 type Profile = {

@@ -4,6 +4,7 @@ open System
 open Microsoft.AspNetCore.Http
 open Giraffe.HttpContextExtensions
 open Giraffe.HttpHandlers
+open Nikeza.Server.Store
 open Nikeza.Server.Model
 open Nikeza.Server.Authentication
 
@@ -14,23 +15,22 @@ let private registrationHandler =
         async {
             let! data = context.BindJson<RegistrationRequest>()
             match register data with
-              | Success profile -> return! json profile context
-              | Failure         -> return! (setStatusCode 400 >=> json "registration failed") context
+            | Success profile -> return! json profile context
+            | Failure         -> return! (setStatusCode 400 >=> json "registration failed") context
         }
 
-let private loginHandler  (authFailedHandler : HttpHandler) = 
+let private loginHandler = 
     fun(context: HttpContext) -> 
         async {
             let! data = context.BindJson<LogInRequest>()
-            if  authenticate data.Username data.Password
-                then let user = getUserClaims data.Username authScheme
-                     do! context.Authentication.SignInAsync(authScheme, user) |> Async.AwaitTask 
-                     return Some context 
-                else return! authFailedHandler context                                                           
+            if  authenticate data.Email data.Password
+                then match getLoginProfile data.Email with
+                     | Some profile -> return! json profile context 
+                     | None         -> return! (setStatusCode 400 >=> json "Invalid login") context
+                else return! (setStatusCode 400 >=> json "Invalid login") context                                                        
         }
 
 open Nikeza.Server.Command
-open Nikeza.Server.Store
 
 let private followHandler = 
     fun(context: HttpContext) -> 
@@ -160,7 +160,7 @@ let webApp : HttpContext -> HttpHandlerResult =
         POST >=> 
             choose [
                 route "/register"      >=> registrationHandler
-                route "/login"         >=> loginHandler (setStatusCode 401 >=> text "invalid credentials")
+                route "/login"         >=> loginHandler
                 route "/logout"        >=> signOff authScheme >=> text "logged out"
                 route "/follow"        >=> followHandler
                 route "/unsubscribe"   >=> unsubscribeHandler

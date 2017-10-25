@@ -2,7 +2,8 @@ module Nikeza.Server.Sql
 
 let connectionString = "Data Source=DESKTOP-GE7O8JT\\SQLEXPRESS;Initial Catalog=Nikeza;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
 
-let findUserByEmailSql = "SELECT * FROM Profile Where Email = @email"
+let findUserByEmailSql = "SELECT * FROM Profile Where Email = @Email"
+
 let registerSql = @"INSERT INTO [dbo].[Profile]
                           ( FirstName
                           , LastName

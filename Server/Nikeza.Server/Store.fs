@@ -19,14 +19,6 @@ module private Store =
 
 open Nikeza.Server.Model
 open Nikeza.Server.Sql
-
-let findUser email :(Profile option) =
-    use connection = new SqlConnection(connectionString)
-    use command =    new SqlCommand(findUserByEmailSql,connection)
-
-    command |> addWithValue "@email"  email  |> ignore
-    let result = readCommand connection command sqlReader |> Seq.tryHead
-    (connection.Close() |> ignore); result
     
 let getResults sql commandFunc readInData =
     let (reader, connection) = Store.query connectionString sql commandFunc
@@ -36,6 +28,15 @@ let getResults sql commandFunc readInData =
         finally reader.Dispose()
                 connection.Close()
     entities
+
+let getLoginProfile email =
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue "@Email" email
+        
+    let profileRequest = 
+        readInProfiles |> getResults findUserByEmailSql commandFunc
+                       |> List.tryHead
+    profileRequest            
 
 let getProfiles profileId sql parameterName =
     let commandFunc (command: SqlCommand) = 

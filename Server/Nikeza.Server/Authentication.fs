@@ -1,22 +1,22 @@
 module Nikeza.Server.Authentication
 
     open System.Security.Claims
-    open Microsoft.AspNetCore.Cors.Infrastructure
     open Nikeza.Server.Command
     open Nikeza.Server.Store
     open Nikeza.Server.Model
+    open Nikeza.Server.Sql
 
     [<CLIMutable>]
     type RegistrationRequest = {
             FirstName: string 
-            LastName: string
-            Email: string
-            Password: string
+            LastName:  string
+            Email:     string
+            Password:  string
         }
             
     [<CLIMutable>]
     type LogInRequest = {
-            Username: string
+            Email:    string
             Password: string 
         }
 
@@ -36,8 +36,8 @@ module Nikeza.Server.Authentication
             
         getSalt salt |> Convert.ToBase64String
 
-    let private getPasswordHash password saltString = 
-        let salt = Convert.FromBase64String(saltString)
+    let private getPasswordHash password salt = 
+        let salt = Convert.FromBase64String(salt)
         let hashedPassword = 
             Convert.ToBase64String(
                 KeyDerivation.Pbkdf2(
@@ -49,16 +49,18 @@ module Nikeza.Server.Authentication
             ))
         hashedPassword                           
 
-    let authenticate username password = 
-        match findUser username with
+    let authenticate email password = 
+        let result = getLoginProfile email
+        match result with
         | Some user -> 
              let hashedPassword = getPasswordHash password user.Salt
              hashedPassword = user.PasswordHash
         | None -> false
             
     let register (info:RegistrationRequest) =
-        match findUser info.Email with
-        | Some user -> Failure
+        let result = getLoginProfile info.Email
+        match result with
+        | Some _ -> Failure
         | None ->
             let salt = generateSalt
             let hashedPassword = getPasswordHash info.Password salt
@@ -80,7 +82,7 @@ module Nikeza.Server.Authentication
                 let profileId = execute <| Register profile
                 Success { profile with ProfileId = profileId |> string }
             with
-            | e -> Failure
+            | _ -> Failure
     
     let getUserClaims userName authScheme =
         let claims = [ Claim(ClaimTypes.Name, userName,  ClaimValueTypes.String)]

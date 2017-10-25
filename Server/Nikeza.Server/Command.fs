@@ -45,7 +45,7 @@ module private Commands =
                     |> addWithValue "@Bio"           info.Bio
                     |> addWithValue "@PasswordHash"  info.PasswordHash
                     |> addWithValue "@Created"       info.Created
-                    |> addWithValue "@Salt"          "security_mechanism"
+                    |> addWithValue "@Salt"          info.Salt
         
         commandFunc |> execute connectionString registerSql
 

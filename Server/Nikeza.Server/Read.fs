@@ -71,13 +71,16 @@ let rec readInTopics topics (reader:SqlDataReader) = reader.Read() |> function
 
 
 and readInProfile (reader:SqlDataReader) = { 
-    ProfileId=  reader.GetInt32 (0) |> string
-    FirstName=  reader.GetString(1)
-    LastName=   reader.GetString(2)
-    Email=      reader.GetString(3)
-    ImageUrl=   reader.GetString(4)
-    Bio=        reader.GetString(5)
-    Sources=    [] 
+    ProfileId=    reader.GetInt32 (0) |> string
+    FirstName=    reader.GetString(1)
+    LastName=     reader.GetString(2)
+    Email=        reader.GetString(3)
+    ImageUrl=     reader.GetString(4)
+    Bio=          reader.GetString(5)
+    PasswordHash= reader.GetString(6)
+    Salt=         reader.GetString(7)
+    Created=      reader.GetDateTime(8)
+    Sources=      [] 
 }
 
 let rec readInProfiles profiles (reader:SqlDataReader) = reader.Read() |> function
@@ -86,7 +89,7 @@ let rec readInProfiles profiles (reader:SqlDataReader) = reader.Read() |> functi
     | false -> profiles
 
 and readInProvider (reader:SqlDataReader) = { 
-    Profile=       reader |> readInProfile
+    Profile=       reader |> readInProfile |> toProfileEssentials
     Topics=        reader |> readInTopics []
     Portfolio=     reader |> readInLinks  [] |> toPortfolio
     Subscriptions= [] // reader |> readInSubscriptions
