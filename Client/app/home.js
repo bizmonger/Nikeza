@@ -15287,47 +15287,7 @@ var _user$project$Tests_TestAPI$providerTopic = F3(
 		return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider3) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId4) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider4) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId5) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider5) : _elm_lang$core$Platform_Cmd$none))));
 	});
 
-var _user$project$Services_Gateway$unsubscribe = F3(
-	function (clientId, providerId, msg) {
-		return A2(
-			_user$project$Services_Adapter$httpSuccess,
-			msg,
-			_user$project$Domain_Core$Members(
-				{ctor: '[]'}));
-	});
-var _user$project$Services_Gateway$follow = F3(
-	function (clientId, providerId, msg) {
-		return A2(
-			_user$project$Services_Adapter$httpSuccess,
-			msg,
-			_user$project$Domain_Core$Members(
-				{ctor: '[]'}));
-	});
-var _user$project$Services_Gateway$followers = F2(
-	function (profileId, msg) {
-		return A2(
-			_user$project$Services_Adapter$httpSuccess,
-			msg,
-			_user$project$Domain_Core$Members(
-				{ctor: '[]'}));
-	});
-var _user$project$Services_Gateway$subscriptions = F2(
-	function (profileId, msg) {
-		return A2(
-			_user$project$Services_Adapter$httpSuccess,
-			msg,
-			_user$project$Domain_Core$Members(
-				{ctor: '[]'}));
-	});
-var _user$project$Services_Gateway$suggestedTopics = function (search) {
-	return {ctor: '[]'};
-};
-var _user$project$Services_Gateway$sources = F2(
-	function (profileId, msg) {
-		return _elm_lang$core$Platform_Cmd$none;
-	});
-var _user$project$Services_Gateway$baseUrl = 'http://localhost:5000/';
-var _user$project$Services_Gateway$encodeCredentials = function (credentials) {
+var _user$project$Services_Encoders$encodeCredentials = function (credentials) {
 	return _elm_lang$core$Json_Encode$object(
 		{
 			ctor: '::',
@@ -15347,7 +15307,7 @@ var _user$project$Services_Gateway$encodeCredentials = function (credentials) {
 			}
 		});
 };
-var _user$project$Services_Gateway$encodeProviderWithTopic = F2(
+var _user$project$Services_Encoders$encodeProviderWithTopic = F2(
 	function (id, topic) {
 		return _elm_lang$core$Json_Encode$object(
 			{
@@ -15370,7 +15330,7 @@ var _user$project$Services_Gateway$encodeProviderWithTopic = F2(
 				}
 			});
 	});
-var _user$project$Services_Gateway$encodeTopic = function (topic) {
+var _user$project$Services_Encoders$encodeTopic = function (topic) {
 	return _elm_lang$core$Json_Encode$object(
 		{
 			ctor: '::',
@@ -15390,7 +15350,7 @@ var _user$project$Services_Gateway$encodeTopic = function (topic) {
 			}
 		});
 };
-var _user$project$Services_Gateway$encodeId = function (id) {
+var _user$project$Services_Encoders$encodeId = function (id) {
 	return _elm_lang$core$Json_Encode$object(
 		{
 			ctor: '::',
@@ -15403,7 +15363,7 @@ var _user$project$Services_Gateway$encodeId = function (id) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Services_Gateway$encodeSource = function (source) {
+var _user$project$Services_Encoders$encodeSource = function (source) {
 	return _elm_lang$core$Json_Encode$object(
 		{
 			ctor: '::',
@@ -15449,7 +15409,7 @@ var _user$project$Services_Gateway$encodeSource = function (source) {
 			}
 		});
 };
-var _user$project$Services_Gateway$encodeProfile = function (profile) {
+var _user$project$Services_Encoders$encodeProfile = function (profile) {
 	var jsonProfile = _user$project$Services_Adapter$toJsonProfile(profile);
 	return _elm_lang$core$Json_Encode$object(
 		{
@@ -15500,7 +15460,7 @@ var _user$project$Services_Gateway$encodeProfile = function (profile) {
 										ctor: '_Tuple2',
 										_0: 'Sources',
 										_1: _elm_lang$core$Json_Encode$list(
-											A2(_elm_lang$core$List$map, _user$project$Services_Gateway$encodeSource, profile.sources))
+											A2(_elm_lang$core$List$map, _user$project$Services_Encoders$encodeSource, profile.sources))
 									},
 									_1: {ctor: '[]'}
 								}
@@ -15511,7 +15471,7 @@ var _user$project$Services_Gateway$encodeProfile = function (profile) {
 			}
 		});
 };
-var _user$project$Services_Gateway$encodeLink = function (link) {
+var _user$project$Services_Encoders$encodeLink = function (link) {
 	return _elm_lang$core$Json_Encode$object(
 		{
 			ctor: '::',
@@ -15550,7 +15510,7 @@ var _user$project$Services_Gateway$encodeLink = function (link) {
 								ctor: '_Tuple2',
 								_0: 'Topics',
 								_1: _elm_lang$core$Json_Encode$list(
-									A2(_elm_lang$core$List$map, _user$project$Services_Gateway$encodeTopic, link.topics))
+									A2(_elm_lang$core$List$map, _user$project$Services_Encoders$encodeTopic, link.topics))
 							},
 							_1: {
 								ctor: '::',
@@ -15576,7 +15536,7 @@ var _user$project$Services_Gateway$encodeLink = function (link) {
 			}
 		});
 };
-var _user$project$Services_Gateway$encodeLinks = function (providerLinks) {
+var _user$project$Services_Encoders$encodeLinks = function (providerLinks) {
 	var _p1 = providerLinks;
 	var linkFields = _p1._0;
 	return _elm_lang$core$Json_Encode$object(
@@ -15586,12 +15546,12 @@ var _user$project$Services_Gateway$encodeLinks = function (providerLinks) {
 				ctor: '_Tuple2',
 				_0: 'Links',
 				_1: _elm_lang$core$Json_Encode$list(
-					A2(_elm_lang$core$List$map, _user$project$Services_Gateway$encodeLink, linkFields.links))
+					A2(_elm_lang$core$List$map, _user$project$Services_Encoders$encodeLink, linkFields.links))
 			},
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Services_Gateway$encodeRegistration = function (form) {
+var _user$project$Services_Encoders$encodeRegistration = function (form) {
 	return _elm_lang$core$Json_Encode$object(
 		{
 			ctor: '::',
@@ -15627,12 +15587,13 @@ var _user$project$Services_Gateway$encodeRegistration = function (form) {
 			}
 		});
 };
-var _user$project$Services_Gateway$topicDecoder = A3(
+
+var _user$project$Services_Decoders$topicDecoder = A3(
 	_elm_lang$core$Json_Decode$map2,
 	_user$project$Services_Adapter$JsonTopic,
 	A2(_elm_lang$core$Json_Decode$field, 'Name', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'IsFeatured', _elm_lang$core$Json_Decode$bool));
-var _user$project$Services_Gateway$linkDecoder = A8(
+var _user$project$Services_Decoders$linkDecoder = A8(
 	_elm_lang$core$Json_Decode$map7,
 	_user$project$Services_Adapter$JsonLink,
 	A2(_elm_lang$core$Json_Decode$field, 'Id', _elm_lang$core$Json_Decode$int),
@@ -15643,88 +15604,28 @@ var _user$project$Services_Gateway$linkDecoder = A8(
 	A2(
 		_elm_lang$core$Json_Decode$field,
 		'Topics',
-		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$topicDecoder)),
+		_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$topicDecoder)),
 	A2(_elm_lang$core$Json_Decode$field, 'IsFeatured', _elm_lang$core$Json_Decode$bool));
-var _user$project$Services_Gateway$portfolioDecoder = A5(
+var _user$project$Services_Decoders$portfolioDecoder = A5(
 	_elm_lang$core$Json_Decode$map4,
 	_user$project$Services_Adapter$JsonPortfolio,
 	A2(
 		_elm_lang$core$Json_Decode$field,
 		'Answers',
-		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder)),
+		_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$linkDecoder)),
 	A2(
 		_elm_lang$core$Json_Decode$field,
 		'Articles',
-		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder)),
+		_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$linkDecoder)),
 	A2(
 		_elm_lang$core$Json_Decode$field,
 		'Videos',
-		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder)),
+		_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$linkDecoder)),
 	A2(
 		_elm_lang$core$Json_Decode$field,
 		'Podcasts',
-		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder)));
-var _user$project$Services_Gateway$portfolio = F2(
-	function (profileId, msg) {
-		var body = _elm_lang$http$Http$jsonBody(
-			_user$project$Services_Gateway$encodeId(profileId));
-		var url = A2(
-			_elm_lang$core$Basics_ops['++'],
-			_user$project$Services_Gateway$baseUrl,
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_user$project$Domain_Core$idText(profileId),
-				'links'));
-		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$portfolioDecoder);
-		return A2(_elm_lang$http$Http$send, msg, request);
-	});
-var _user$project$Services_Gateway$addLink = F3(
-	function (profileId, link, msg) {
-		var body = _elm_lang$http$Http$jsonBody(
-			_user$project$Services_Gateway$encodeLink(link));
-		var url = A2(
-			_elm_lang$core$Basics_ops['++'],
-			_user$project$Services_Gateway$baseUrl,
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_user$project$Domain_Core$idText(profileId),
-				'/addlink'));
-		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$portfolioDecoder);
-		return A2(_elm_lang$http$Http$send, msg, request);
-	});
-var _user$project$Services_Gateway$removeLink = F3(
-	function (profileId, link, msg) {
-		var body = _elm_lang$http$Http$jsonBody(
-			_user$project$Services_Gateway$encodeLink(link));
-		var url = A2(
-			_elm_lang$core$Basics_ops['++'],
-			_user$project$Services_Gateway$baseUrl,
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_user$project$Domain_Core$idText(profileId),
-				'/removelink'));
-		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$portfolioDecoder);
-		return A2(_elm_lang$http$Http$send, msg, request);
-	});
-var _user$project$Services_Gateway$topicLinks = F4(
-	function (profileId, topic, contentType, msg) {
-		var body = _elm_lang$http$Http$jsonBody(
-			_user$project$Services_Gateway$encodeId(profileId));
-		var url = A2(
-			_elm_lang$core$Basics_ops['++'],
-			_user$project$Services_Gateway$baseUrl,
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_user$project$Domain_Core$idText(profileId),
-				'/topiclinks'));
-		var request = A3(
-			_elm_lang$http$Http$post,
-			url,
-			body,
-			_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder));
-		return A2(_elm_lang$http$Http$send, msg, request);
-	});
-var _user$project$Services_Gateway$providerLinksDecoder = A2(
+		_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$linkDecoder)));
+var _user$project$Services_Decoders$providerLinksDecoder = A2(
 	_elm_lang$core$Json_Decode$map,
 	_user$project$Services_Adapter$JsonProviderLinks,
 	A2(
@@ -15735,10 +15636,10 @@ var _user$project$Services_Gateway$providerLinksDecoder = A2(
 			'Links',
 			_elm_lang$core$Json_Decode$list(
 				_elm_lang$core$Json_Decode$lazy(
-					function (_p2) {
-						return _user$project$Services_Gateway$linkDecoder;
+					function (_p0) {
+						return _user$project$Services_Decoders$linkDecoder;
 					})))));
-var _user$project$Services_Gateway$sourceDecoder = A6(
+var _user$project$Services_Decoders$sourceDecoder = A6(
 	_elm_lang$core$Json_Decode$map5,
 	_user$project$Services_Adapter$JsonSource,
 	A2(_elm_lang$core$Json_Decode$field, 'Id', _elm_lang$core$Json_Decode$int),
@@ -15748,37 +15649,8 @@ var _user$project$Services_Gateway$sourceDecoder = A6(
 	A2(
 		_elm_lang$core$Json_Decode$field,
 		'Links',
-		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder)));
-var _user$project$Services_Gateway$addSource = F2(
-	function (source, msg) {
-		var body = _elm_lang$http$Http$jsonBody(
-			_user$project$Services_Gateway$encodeSource(source));
-		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'addsource');
-		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$sourceDecoder);
-		return A2(_elm_lang$http$Http$send, msg, request);
-	});
-var _user$project$Services_Gateway$removeSource = F2(
-	function (sourceId, msg) {
-		var _p3 = _elm_lang$core$String$toInt(
-			_user$project$Domain_Core$idText(sourceId));
-		if (_p3.ctor === 'Ok') {
-			var _p4 = _p3._0;
-			var body = _elm_lang$http$Http$jsonBody(
-				_elm_lang$core$Json_Encode$int(_p4));
-			var url = A2(
-				_elm_lang$core$Basics_ops['++'],
-				_user$project$Services_Gateway$baseUrl,
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					'removesource/',
-					_elm_lang$core$Basics$toString(_p4)));
-			var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$sourceDecoder);
-			return A2(_elm_lang$http$Http$send, msg, request);
-		} else {
-			return _elm_lang$core$Platform_Cmd$none;
-		}
-	});
-var _user$project$Services_Gateway$profileDecoder = A8(
+		_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$linkDecoder)));
+var _user$project$Services_Decoders$profileDecoder = A8(
 	_elm_lang$core$Json_Decode$map7,
 	_user$project$Services_Adapter$JsonProfile,
 	A2(_elm_lang$core$Json_Decode$field, 'ProfileId', _elm_lang$core$Json_Decode$string),
@@ -15790,61 +15662,105 @@ var _user$project$Services_Gateway$profileDecoder = A8(
 	A2(
 		_elm_lang$core$Json_Decode$field,
 		'Sources',
-		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$sourceDecoder)));
-var _user$project$Services_Gateway$providerDecoder = A2(
+		_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$sourceDecoder)));
+var _user$project$Services_Decoders$providerDecoder = A2(
 	_elm_lang$core$Json_Decode$map,
 	_user$project$Services_Adapter$JsonProvider,
 	A7(
 		_elm_lang$core$Json_Decode$map6,
 		_user$project$Services_Adapter$JsonProviderFields,
-		A2(_elm_lang$core$Json_Decode$field, 'Profile', _user$project$Services_Gateway$profileDecoder),
+		A2(_elm_lang$core$Json_Decode$field, 'Profile', _user$project$Services_Decoders$profileDecoder),
 		A2(
 			_elm_lang$core$Json_Decode$field,
 			'Topics',
-			_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$topicDecoder)),
-		A2(_elm_lang$core$Json_Decode$field, 'Links', _user$project$Services_Gateway$portfolioDecoder),
+			_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$topicDecoder)),
+		A2(_elm_lang$core$Json_Decode$field, 'Links', _user$project$Services_Decoders$portfolioDecoder),
 		A2(
 			_elm_lang$core$Json_Decode$field,
 			'RecentLinks',
-			_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$linkDecoder)),
+			_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$linkDecoder)),
 		A2(
 			_elm_lang$core$Json_Decode$field,
 			'Subscriptions',
 			_elm_lang$core$Json_Decode$list(
 				_elm_lang$core$Json_Decode$lazy(
-					function (_p5) {
-						return _user$project$Services_Gateway$providerDecoder;
+					function (_p1) {
+						return _user$project$Services_Decoders$providerDecoder;
 					}))),
 		A2(
 			_elm_lang$core$Json_Decode$field,
 			'Followers',
 			_elm_lang$core$Json_Decode$list(
 				_elm_lang$core$Json_Decode$lazy(
-					function (_p6) {
-						return _user$project$Services_Gateway$providerDecoder;
+					function (_p2) {
+						return _user$project$Services_Decoders$providerDecoder;
 					})))));
-var _user$project$Services_Gateway$bootstrapDecoder = A3(
+var _user$project$Services_Decoders$bootstrapDecoder = A3(
 	_elm_lang$core$Json_Decode$map2,
 	_user$project$Services_Adapter$JsonBootstrap,
 	A2(
 		_elm_lang$core$Json_Decode$field,
 		'Providers',
-		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$providerDecoder)),
+		_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$providerDecoder)),
 	A2(
 		_elm_lang$core$Json_Decode$field,
 		'Platforms',
 		_elm_lang$core$Json_Decode$list(_elm_lang$core$Json_Decode$string)));
-var _user$project$Services_Gateway$bootstrap = function (msg) {
-	var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'bootstrap');
-	var request = A2(_elm_lang$http$Http$get, url, _user$project$Services_Gateway$bootstrapDecoder);
-	return A2(_elm_lang$http$Http$send, msg, request);
+
+var _user$project$Services_Gateway$unsubscribe = F3(
+	function (clientId, providerId, msg) {
+		return A2(
+			_user$project$Services_Adapter$httpSuccess,
+			msg,
+			_user$project$Domain_Core$Members(
+				{ctor: '[]'}));
+	});
+var _user$project$Services_Gateway$follow = F3(
+	function (clientId, providerId, msg) {
+		return A2(
+			_user$project$Services_Adapter$httpSuccess,
+			msg,
+			_user$project$Domain_Core$Members(
+				{ctor: '[]'}));
+	});
+var _user$project$Services_Gateway$followers = F2(
+	function (profileId, msg) {
+		return A2(
+			_user$project$Services_Adapter$httpSuccess,
+			msg,
+			_user$project$Domain_Core$Members(
+				{ctor: '[]'}));
+	});
+var _user$project$Services_Gateway$subscriptions = F2(
+	function (profileId, msg) {
+		return A2(
+			_user$project$Services_Adapter$httpSuccess,
+			msg,
+			_user$project$Domain_Core$Members(
+				{ctor: '[]'}));
+	});
+var _user$project$Services_Gateway$suggestedTopics = function (search) {
+	return {ctor: '[]'};
 };
+var _user$project$Services_Gateway$sources = F2(
+	function (profileId, msg) {
+		return _elm_lang$core$Platform_Cmd$none;
+	});
+var _user$project$Services_Gateway$baseUrl = 'http://localhost:5000/';
 var _user$project$Services_Gateway$tryLogin = F2(
 	function (credentials, msg) {
 		var body = _elm_lang$http$Http$jsonBody(
-			_user$project$Services_Gateway$encodeCredentials(credentials));
+			_user$project$Services_Encoders$encodeCredentials(credentials));
 		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'login');
-		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$providerDecoder);
+		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Decoders$providerDecoder);
+		return A2(_elm_lang$http$Http$send, msg, request);
+	});
+var _user$project$Services_Gateway$tryRegister = F2(
+	function (form, msg) {
+		var body = _elm_lang$http$Http$jsonBody(
+			_user$project$Services_Encoders$encodeRegistration(form));
+		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'register');
+		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Decoders$profileDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
 var _user$project$Services_Gateway$providers = function (msg) {
@@ -15852,39 +15768,125 @@ var _user$project$Services_Gateway$providers = function (msg) {
 	var request = A2(
 		_elm_lang$http$Http$get,
 		url,
-		_elm_lang$core$Json_Decode$list(_user$project$Services_Gateway$providerDecoder));
+		_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$providerDecoder));
 	return A2(_elm_lang$http$Http$send, msg, request);
 };
 var _user$project$Services_Gateway$provider = F2(
 	function (id, msg) {
 		var body = _elm_lang$http$Http$jsonBody(
-			_user$project$Services_Gateway$encodeId(id));
+			_user$project$Services_Encoders$encodeId(id));
 		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'provider');
-		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$providerDecoder);
+		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Decoders$providerDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
 var _user$project$Services_Gateway$providerTopic = F3(
 	function (id, topic, msg) {
 		var body = _elm_lang$http$Http$jsonBody(
-			A2(_user$project$Services_Gateway$encodeProviderWithTopic, id, topic));
+			A2(_user$project$Services_Encoders$encodeProviderWithTopic, id, topic));
 		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'providertopic');
-		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$providerDecoder);
+		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Decoders$providerDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
-var _user$project$Services_Gateway$tryRegister = F2(
-	function (form, msg) {
+var _user$project$Services_Gateway$portfolio = F2(
+	function (profileId, msg) {
 		var body = _elm_lang$http$Http$jsonBody(
-			_user$project$Services_Gateway$encodeRegistration(form));
-		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'register');
-		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$profileDecoder);
+			_user$project$Services_Encoders$encodeId(profileId));
+		var url = A2(
+			_elm_lang$core$Basics_ops['++'],
+			_user$project$Services_Gateway$baseUrl,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_user$project$Domain_Core$idText(profileId),
+				'links'));
+		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Decoders$portfolioDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
+var _user$project$Services_Gateway$topicLinks = F4(
+	function (profileId, topic, contentType, msg) {
+		var body = _elm_lang$http$Http$jsonBody(
+			_user$project$Services_Encoders$encodeId(profileId));
+		var url = A2(
+			_elm_lang$core$Basics_ops['++'],
+			_user$project$Services_Gateway$baseUrl,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_user$project$Domain_Core$idText(profileId),
+				'/topiclinks'));
+		var request = A3(
+			_elm_lang$http$Http$post,
+			url,
+			body,
+			_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$linkDecoder));
+		return A2(_elm_lang$http$Http$send, msg, request);
+	});
+var _user$project$Services_Gateway$addLink = F3(
+	function (profileId, link, msg) {
+		var body = _elm_lang$http$Http$jsonBody(
+			_user$project$Services_Encoders$encodeLink(link));
+		var url = A2(
+			_elm_lang$core$Basics_ops['++'],
+			_user$project$Services_Gateway$baseUrl,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_user$project$Domain_Core$idText(profileId),
+				'/addlink'));
+		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Decoders$portfolioDecoder);
+		return A2(_elm_lang$http$Http$send, msg, request);
+	});
+var _user$project$Services_Gateway$removeLink = F3(
+	function (profileId, link, msg) {
+		var body = _elm_lang$http$Http$jsonBody(
+			_user$project$Services_Encoders$encodeLink(link));
+		var url = A2(
+			_elm_lang$core$Basics_ops['++'],
+			_user$project$Services_Gateway$baseUrl,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_user$project$Domain_Core$idText(profileId),
+				'/removelink'));
+		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Decoders$portfolioDecoder);
+		return A2(_elm_lang$http$Http$send, msg, request);
+	});
+var _user$project$Services_Gateway$addSource = F2(
+	function (source, msg) {
+		var body = _elm_lang$http$Http$jsonBody(
+			_user$project$Services_Encoders$encodeSource(source));
+		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'addsource');
+		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Decoders$sourceDecoder);
+		return A2(_elm_lang$http$Http$send, msg, request);
+	});
+var _user$project$Services_Gateway$removeSource = F2(
+	function (sourceId, msg) {
+		var _p0 = _elm_lang$core$String$toInt(
+			_user$project$Domain_Core$idText(sourceId));
+		if (_p0.ctor === 'Ok') {
+			var _p1 = _p0._0;
+			var body = _elm_lang$http$Http$jsonBody(
+				_elm_lang$core$Json_Encode$int(_p1));
+			var url = A2(
+				_elm_lang$core$Basics_ops['++'],
+				_user$project$Services_Gateway$baseUrl,
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'removesource/',
+					_elm_lang$core$Basics$toString(_p1)));
+			var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Decoders$sourceDecoder);
+			return A2(_elm_lang$http$Http$send, msg, request);
+		} else {
+			return _elm_lang$core$Platform_Cmd$none;
+		}
+	});
+var _user$project$Services_Gateway$bootstrap = function (msg) {
+	var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'bootstrap');
+	var request = A2(_elm_lang$http$Http$get, url, _user$project$Services_Decoders$bootstrapDecoder);
+	return A2(_elm_lang$http$Http$send, msg, request);
+};
 var _user$project$Services_Gateway$updateProfile = F2(
 	function (profile, msg) {
 		var body = _elm_lang$http$Http$jsonBody(
-			_user$project$Services_Gateway$encodeProfile(profile));
+			_user$project$Services_Encoders$encodeProfile(profile));
 		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'updateprofile');
-		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Gateway$profileDecoder);
+		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Decoders$profileDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
 
