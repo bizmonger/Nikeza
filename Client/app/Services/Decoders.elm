@@ -70,10 +70,11 @@ linkDecoder =
 
 providerDecoder : Decoder JsonProvider
 providerDecoder =
-    Decode.map5 JsonProviderFields
+    Decode.map6 JsonProviderFields
         (field "Profile" profileDecoder)
         (field "Topics" <| Decode.list topicDecoder)
         (field "Portfolio" <| portfolioDecoder)
+        (field "RecentLinks" <| Decode.list linkDecoder)
         (field "Subscriptions" <| Decode.list (Decode.lazy (\_ -> providerDecoder)))
         (field "Followers" <| Decode.list (Decode.lazy (\_ -> providerDecoder)))
         |> Decode.map JsonProvider

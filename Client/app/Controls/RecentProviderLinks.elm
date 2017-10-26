@@ -21,7 +21,7 @@ thumbnail : Id -> Provider -> Html Msg
 thumbnail clientId provider =
     let
         ( profile, links ) =
-            ( provider.profile, [] {- Todo: get recent links based on what loggedIn user hasn't observed -} )
+            ( provider.profile, provider.recentLinks ) 
 
         linksUI =
             div [] (links |> List.map formatLink)

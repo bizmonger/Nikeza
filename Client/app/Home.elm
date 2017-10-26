@@ -1050,30 +1050,26 @@ content contentToEmbed model =
 
 recentLinks : List Provider -> List Link
 recentLinks providers =
-    []
-
-
-
--- let
---     onRecentLinks provider =
---         if
---             provider.recentLinks
---                 |> List.isEmpty
---                 |> not
---         then
---             Just provider.recentLinks
---         else
---             Nothing
--- in
---     providers
---         |> List.filterMap onRecentLinks
---         |> List.concat
+    let
+        onRecentLinks provider =
+            if
+                provider.recentLinks
+                    |> List.isEmpty
+                    |> not
+            then
+                Just provider.recentLinks
+            else
+                Nothing
+    in
+        providers
+            |> List.filterMap onRecentLinks
+            |> List.concat
 
 
 recentLinksContent : Id -> List Provider -> Html Msg
 recentLinksContent profileId providers =
     providers
-        -- |> List.filter (\p -> p.recentLinks /= []) -- Todo: get recent links based on what loggedin user hasn't observed
+        |> List.filter (\p -> p.recentLinks /= [])
         |> recentProvidersUI profileId
 
 

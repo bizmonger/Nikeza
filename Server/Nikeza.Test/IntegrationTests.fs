@@ -26,14 +26,51 @@ let ``Read YouTube AccessId file`` () =
     text.Length |> should (be greaterThan) 0
 
 [<Test>]
+let ``Subscriber observes provider's link`` () =
+
+    // Setup
+    let profileId =    Register someProfile    |> execute
+    let subscriberId = Register someSubscriber |> execute
+
+    Follow { FollowRequest.ProfileId= profileId
+             FollowRequest.SubscriberId= subscriberId 
+           } |> execute |> ignore
+
+    let linkId = AddLink  { someLink with ProfileId = profileId } |> execute
+
+    // Test
+    let providerLink = { SubscriberId= subscriberId; LinkId=Int32.Parse(linkId) }
+    let linkObservedId = Observed providerLink |> execute
+
+    // Verify
+    linkObservedId |> should (be greaterThan) 0 |> string
+
+[<Test>]
+let ``Get recent links`` () =
+
+    // Setup
+    let profileId =    Register someProfile    |> execute
+    let subscriberId = Register someSubscriber |> execute
+
+    Follow { FollowRequest.ProfileId= profileId
+             FollowRequest.SubscriberId= subscriberId 
+           } |> execute |> ignore
+
+    let linkId = AddLink  { someLink with ProfileId = profileId } |> execute
+
+    // Test
+    ???
+
+    // Verify
+    ???
+
+
+[<Test>]
 let ``Follow Provider`` () =
 
     // Setup
-    Register someProfile |> execute |> ignore
-    let profileId =   getLastId "Profile" |> string
-    
-    Register someSubscriber |> execute |> ignore
-    let subscriberId = getLastId "Profile" |> string
+    let profileId =    Register someProfile    |> execute
+    let subscriberId = Register someSubscriber |> execute
 
     // Test
     Follow { FollowRequest.ProfileId= profileId
@@ -67,8 +104,8 @@ let ``Follow Provider`` () =
 let ``Unsubscribe from Provider`` () =
 
     // Setup
-    let profileId =   execute (Register someProfile)
-    let subscriberId = execute (Register someSubscriber)
+    let profileId =    Register someProfile    |> execute 
+    let subscriberId = Register someSubscriber |> execute
 
     execute ( Follow { FollowRequest.ProfileId= profileId; FollowRequest.SubscriberId= subscriberId }) |> ignore
 
@@ -99,6 +136,7 @@ let ``Add featured link`` () =
 
     //Setup
     Register someProfile |> execute |> ignore
+
     let lastId = AddLink  someLink |> execute
     let data = { LinkId=Int32.Parse(lastId); IsFeatured=true }
 
@@ -157,9 +195,9 @@ let ``Unfeature Link`` () =
     
     //Setup
     Register someProfile |> execute |> ignore
-    AddLink  someLink     |> execute |> ignore
 
-    let data = { LinkId=getLastId "Link"; IsFeatured=false }
+    let linkId = AddLink  someLink |> execute
+    let data = { LinkId=Int32.Parse(linkId); IsFeatured=false }
 
     // Test
     FeatureLink data |> execute |> ignore
@@ -319,7 +357,7 @@ let ``Adding data source results in links saved`` () =
 
     // Setup
     let profileId = Register someProfile |> execute
-    let source = { someSource with AccessId= File.ReadAllText(ChannelIdFile) }
+    let source =  { someSource with AccessId= File.ReadAllText(ChannelIdFile) }
     AddSource { source with ProfileId= unbox profileId } |> execute |> ignore
 
     // Test
@@ -333,7 +371,7 @@ let ``Add data source`` () =
 
     // Setup
     let profileId = Register someProfile |> execute
-    let source = { someSource with AccessId= File.ReadAllText(ChannelIdFile) }
+    let source =  { someSource with AccessId= File.ReadAllText(ChannelIdFile) }
 
     // Test
     let sourceId = AddSource { source with ProfileId= unbox profileId } |> execute
@@ -383,8 +421,7 @@ let ``Remove source`` () =
 
     //Setup
     let profileId = execute <| Register someProfile
-    
-    let sourceId = AddSource { someSource with ProfileId= unbox profileId } |> execute
+    let sourceId =  AddSource { someSource with ProfileId= unbox profileId } |> execute
     
     // Test
     RemoveSource { Id = Int32.Parse(sourceId) } |> execute |> ignore

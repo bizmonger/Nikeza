@@ -103,6 +103,9 @@ type DataSourceRequest = {
 type RemoveDataSourceRequest = { Id: int }
 
 [<CLIMutable>]
+type ObservedNotice = { SubscriberId: string; LinkId: int }
+
+[<CLIMutable>]
 type Profile = {
     ProfileId:    string
     FirstName:    string
@@ -159,7 +162,8 @@ type Command =
     | UpdateProfile of ProfileRequest
 
     | Follow        of FollowRequest
-    | Unsubscribe   of UnsubscribeRequest  
+    | Unsubscribe   of UnsubscribeRequest
+    | Observed      of ObservedNotice
 
     | AddLink       of Link
     | RemoveLink    of RemoveLinkRequest

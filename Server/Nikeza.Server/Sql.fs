@@ -88,6 +88,17 @@ let unsubscribeSql = @"DELETE FROM [dbo].[Subscription]
                        WHERE SubscriberId  = @SubscriberId AND 
                              ProfileId =    @ProfileId"
 
+let observedSql = @"INSERT INTO [dbo].[LinkObserved]
+                      (SubscriberId
+                      ,LinkId)
+
+                OUTPUT INSERTED.ID
+
+                VALUES
+                       ( @SubscriberId 
+                       , @LinkId
+                       )"
+
 let featureLinkSql = @"UPDATE Link
                        SET    IsFeatured = @IsFeatured
                        WHERE  Id = @Id"
