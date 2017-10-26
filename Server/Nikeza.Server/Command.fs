@@ -96,12 +96,17 @@ module private Commands =
 
         commandFunc |> execute connectionString unsubscribeSql
 
-    let observeLink (info:ObservedNotice) =
-        let commandFunc (command: SqlCommand) = 
-            command |> addWithValue "@SubscriberId" info.SubscriberId
-                    |> addWithValue "@LinkId"       info.LinkId
-
-        commandFunc |> execute connectionString observeLinkSql
+    let observeLinks (info:ObservedLinks) =
+        let ids = 
+            info.LinkIds 
+            |> List.map (fun linkId ->
+                          let commandFunc (command: SqlCommand) = 
+                              command |> addWithValue "@SubscriberId" info.SubscriberId
+                                      |> addWithValue "@LinkId"       linkId
+                          commandFunc |> execute connectionString observeLinkSql |> ignore
+                          linkId |> string
+                        )
+        ids |> Seq.ofList |> String.concat ","
 
     let getRecent (info:RecentRequest) =
         let commandFunc (command: SqlCommand) = 
@@ -205,7 +210,7 @@ let execute = function
     | AddLink       info -> addLink          info
     | RemoveLink    info -> removeLink       info
     | FeatureLink   info -> featureLink      info
-    | ObserveLink   info -> observeLink      info
+    | ObserveLinks  info -> observeLinks     info
 
     | AddSource     info -> addDataSource    info
     | RemoveSource  info -> removeDataSource info

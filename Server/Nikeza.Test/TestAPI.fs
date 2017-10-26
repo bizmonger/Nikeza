@@ -88,6 +88,7 @@ let executeCommand sql =
     dispose connection command
 
 let cleanDataStore() =
+    executeCommand @"DELETE FROM ObservedLinks"
     executeCommand @"DELETE FROM SourceLinks"
     executeCommand @"DELETE FROM Link"
     executeCommand @"DELETE FROM Topic"

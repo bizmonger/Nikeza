@@ -88,7 +88,7 @@ let unsubscribeSql = @"DELETE FROM [dbo].[Subscription]
                        WHERE SubscriberId  = @SubscriberId AND 
                              ProfileId =    @ProfileId"
 
-let observeLinkSql = @"INSERT INTO [dbo].[LinkObserved]
+let observeLinkSql = @"INSERT INTO [dbo].[ObservedLinks]
                       (SubscriberId
                       ,LinkId)
 
@@ -153,8 +153,8 @@ let getRecentSql = @"  SELECT       Link.Id,
                        FROM       Link
                        WHERE Link.Id NOT IN 
                                     (SELECT LinkId
-									 FROM   LinkObserved
-                                     WHERE  LinkObserved.SubscriberId = SubscriberId)"
+									 FROM   ObservedLinks
+                                     WHERE  ObservedLinks.SubscriberId = SubscriberId)"
                                      
 
 let getFollowersSql = @"SELECT Profile.Id,

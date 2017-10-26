@@ -107,7 +107,7 @@ type DataSourceRequest = {
 type RemoveDataSourceRequest = { Id: int }
 
 [<CLIMutable>]
-type ObservedNotice = { SubscriberId: string; LinkId: int }
+type ObservedLinks = { SubscriberId: string; LinkIds: int list }
 
 [<CLIMutable>]
 type Profile = {
@@ -171,7 +171,7 @@ type Command =
     | AddLink       of Link
     | RemoveLink    of RemoveLinkRequest
     | FeatureLink   of FeatureLinkRequest
-    | ObserveLink   of ObservedNotice
+    | ObserveLinks  of ObservedLinks
 
     | AddSource     of DataSourceRequest
     | RemoveSource  of RemoveDataSourceRequest
