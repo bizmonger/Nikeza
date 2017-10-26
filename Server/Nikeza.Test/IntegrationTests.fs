@@ -84,7 +84,7 @@ let ``Subscriber observes recent links`` () =
     let recentLinks = subscriberId |> getRecent
 
     // Verify
-    recentLinks |> (List.contains link) |> should equal false
+    recentLinks |> (List.contains link) |> should equal true
 
 [<Test>]
 let ``Follow Provider`` () =
