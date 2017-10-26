@@ -67,6 +67,26 @@ let ``Get recent links`` () =
 
 
 [<Test>]
+let ``Subscriber observes recent links`` () =
+
+    // Setup
+    let profileId =    Register someProfile    |> execute
+    let subscriberId = Register someSubscriber |> execute
+    let link =      { someLink with ProfileId = profileId }
+
+    Follow { FollowRequest.ProfileId= profileId
+             FollowRequest.SubscriberId= subscriberId 
+           } |> execute |> ignore
+
+    AddLink link |> execute |> ignore
+
+    // Test
+    let recentLinks = subscriberId |> getRecent
+
+    // Verify
+    recentLinks |> (List.contains link) |> should equal false
+
+[<Test>]
 let ``Follow Provider`` () =
 
     // Setup
