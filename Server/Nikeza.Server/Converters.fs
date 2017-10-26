@@ -10,7 +10,7 @@ let toPortfolio links = {
 }
 
 
-let toProfileEssentials (profile:Profile) : ProfileRequest =
+let toProfileRequest (profile:Profile) : ProfileRequest =
     {
         ProfileId=    profile.ProfileId
         FirstName=    profile.FirstName

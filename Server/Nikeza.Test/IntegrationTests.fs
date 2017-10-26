@@ -322,7 +322,7 @@ let ``Adding data source results in links saved`` () =
 
     // Setup
     let profileId = Register someProfile |> execute
-    let source = { someSource with APIKey= File.ReadAllText(APIKeyFile); AccessId= File.ReadAllText(ChannelIdFile) }
+    let source = { someSource with AccessId= File.ReadAllText(ChannelIdFile) }
     AddSource { source with ProfileId= unbox profileId } |> execute |> ignore
 
     // Test
@@ -336,7 +336,7 @@ let ``Add data source`` () =
 
     // Setup
     let profileId = Register someProfile |> execute
-    let source = { someSource with APIKey= File.ReadAllText(APIKeyFile); AccessId= File.ReadAllText(ChannelIdFile) }
+    let source = { someSource with AccessId= File.ReadAllText(ChannelIdFile) }
 
     // Test
     let sourceId = AddSource { source with ProfileId= unbox profileId } |> execute

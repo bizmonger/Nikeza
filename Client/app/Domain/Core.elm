@@ -59,7 +59,6 @@ type alias Provider =
     , topics : List Topic
     , portfolio : Portfolio
     , filteredPortfolio : Portfolio
-    , recentLinks : List Link
     , followers : Members
     , subscriptions : Members
     }
@@ -76,7 +75,7 @@ initSubscription =
 
 initProvider : Provider
 initProvider =
-    Provider initProfile initTopics initPortfolio initPortfolio [] initSubscription initSubscription
+    Provider initProfile initTopics initPortfolio initPortfolio initSubscription initSubscription
 
 
 type alias Portal =

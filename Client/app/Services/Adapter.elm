@@ -158,7 +158,6 @@ type alias JsonProviderFields =
     { profile : JsonProfile
     , topics : List JsonTopic
     , portfolio : JsonPortfolio
-    , recentLinks : List JsonLink
     , subscriptions : List JsonProvider
     , followers : List JsonProvider
     }
@@ -221,7 +220,7 @@ toJsonLinks links =
 
 jsonProfileToProvider : JsonProfile -> Provider
 jsonProfileToProvider jsonProfile =
-    Provider (toProfile jsonProfile) initTopics initPortfolio initPortfolio [] initSubscription initSubscription
+    Provider (toProfile jsonProfile) initTopics initPortfolio initPortfolio initSubscription initSubscription
 
 
 toMembers : List JsonProvider -> Members
@@ -286,7 +285,6 @@ toProvider jsonProvider =
         , topics = field.topics |> toTopics
         , portfolio = field.portfolio |> toPortfolio
         , filteredPortfolio = field.portfolio |> toPortfolio
-        , recentLinks = field.recentLinks |> toLinks
         , followers = field.followers |> toMembers
         , subscriptions = field.subscriptions |> toMembers
         }

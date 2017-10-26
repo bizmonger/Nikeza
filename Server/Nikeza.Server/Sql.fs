@@ -50,18 +50,16 @@ let addLinkSql = @"INSERT INTO [dbo].[Link]
 let deleteLinkSql = @"DELETE FROM Link WHERE Id = @LinkId"
 
 let addDataSourceSql = @"INSERT INTO [dbo].[Source]
-                          (ProfileId
-                           ,Platform
-                           ,AccessId
-                           ,APIKey)
+                              (ProfileId
+                               ,Platform
+                               ,AccessId)
                     
                           OUTPUT INSERTED.ID
 
                           VALUES
                                 (@ProfileId
                                 ,@Platform
-                                ,@AccessId
-                                ,@APIKey)"
+                                ,@AccessId)"
 
 let addSourceLinkSql = @"INSERT INTO [dbo].[SourceLinks]
                           (SourceId

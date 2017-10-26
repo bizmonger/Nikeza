@@ -51,20 +51,6 @@ let contentTypeIdToString = function
     | _ -> UnknownText
 
 [<CLIMutable>]
-type Profile = {
-    ProfileId:    string
-    FirstName:    string
-    LastName:     string
-    Email:        string
-    ImageUrl:     string
-    Bio:          string
-    PasswordHash: string
-    Sources:      string list
-    Salt:         string
-    Created:      DateTime
-}
-
-[<CLIMutable>]
 type FollowRequest =      { SubscriberId: string; ProfileId: string }
 
 [<CLIMutable>]
@@ -111,11 +97,24 @@ type DataSourceRequest = {
     Platform:  string
     AccessId:  string
     Links:     Link seq
-    APIKey:    string
 }
 
 [<CLIMutable>]
 type RemoveDataSourceRequest = { Id: int }
+
+[<CLIMutable>]
+type Profile = {
+    ProfileId:    string
+    FirstName:    string
+    LastName:     string
+    Email:        string
+    ImageUrl:     string
+    Bio:          string
+    PasswordHash: string
+    Sources:      DataSourceRequest list
+    Salt:         string
+    Created:      DateTime
+}
 
 [<CLIMutable>]
 type ProfileRequest = {
@@ -125,7 +124,7 @@ type ProfileRequest = {
     Bio:        string
     Email:      string
     ImageUrl:   string
-    Sources:    string list
+    Sources:    DataSourceRequest list
 }
 
 [<CLIMutable>]

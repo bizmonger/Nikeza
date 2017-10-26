@@ -89,7 +89,7 @@ let rec readInProfiles profiles (reader:SqlDataReader) = reader.Read() |> functi
     | false -> profiles
 
 and readInProvider (reader:SqlDataReader) = { 
-    Profile=       reader |> readInProfile |> toProfileEssentials
+    Profile=       reader |> readInProfile |> toProfileRequest
     Topics=        reader |> readInTopics []
     Portfolio=     reader |> readInLinks  [] |> toPortfolio
     Subscriptions= [] // reader |> readInSubscriptions
@@ -108,7 +108,6 @@ let rec readInSources sources (reader:SqlDataReader) = reader.Read() |> function
             ProfileId=  reader.GetInt32 (1) |> string
             Platform=   reader.GetString(2)
             AccessId=   reader.GetString(3)
-            APIKey =    ""
             Links =     []
          }
 

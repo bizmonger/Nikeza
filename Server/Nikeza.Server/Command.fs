@@ -66,7 +66,6 @@ module private Commands =
             command |> addWithValue "@ProfileId" (Int32.Parse(info.ProfileId))
                     |> addWithValue "@Platform"  info.Platform
                     |> addWithValue "@AccessId"  info.AccessId
-                    |> addWithValue "@APIKey"    info.APIKey
         
         commandFunc |> execute connectionString addDataSourceSql
 
@@ -167,7 +166,7 @@ module private Commands =
                                 let id   = snd linkAndId
                                 { link with Id = Int32.Parse(id) })
 
-        let pendingSource = { info with Links= updatedLinks; APIKey= source.APIKey }
+        let pendingSource = { info with Links= updatedLinks }
         let sourceId =        addSource pendingSource
         let updatedSource = { pendingSource with Id = Int32.Parse(sourceId) }
 

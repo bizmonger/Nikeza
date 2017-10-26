@@ -50,7 +50,7 @@ module Nikeza.Server.Authentication
         hashedPassword                           
 
     let authenticate email password = 
-        let result = getLoginProfile email
+        let result = loginProfile email
         match result with
         | Some user -> 
              let hashedPassword = getPasswordHash password user.Salt
@@ -58,7 +58,7 @@ module Nikeza.Server.Authentication
         | None -> false
             
     let register (info:RegistrationRequest) =
-        let result = getLoginProfile info.Email
+        let result = loginProfile info.Email
         match result with
         | Some _ -> Failure
         | None ->

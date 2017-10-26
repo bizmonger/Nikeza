@@ -49,7 +49,6 @@ let someSource = {
     Platform = "YouTube"
     AccessId = "some_access_id"
     Links =     []
-    APIKey=    "some_api_key"
 }
 
 let someUpdatedProfile: ProfileRequest = { 

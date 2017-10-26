@@ -3,7 +3,8 @@ module Nikeza.Server.Store
 open System.Data.SqlClient
 open Nikeza.Server.Command
 open Nikeza.Server.Read
-    
+open Nikeza.Server.Converters
+
 module private Store = 
     let executeQuery (command: SqlCommand) = command.ExecuteReader()
 
@@ -29,14 +30,32 @@ let getResults sql commandFunc readInData =
                 connection.Close()
     entities
 
-let getLoginProfile email =
+let loginProfile email =
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue "@Email" email
         
     let profileRequest = 
         readInProfiles |> getResults findUserByEmailSql commandFunc
                        |> List.tryHead
-    profileRequest            
+    profileRequest
+
+let getPortfolio profileId =
+    {   Answers =  []
+        Articles = []
+        Videos =   []
+        Podcasts = []
+    }
+
+let loginProvider email =
+    email |> loginProfile |> function
+    | Some profile ->
+        Some { Profile=        profile |> toProfileRequest
+               Topics=         []
+               Portfolio =     getPortfolio profile.ProfileId
+               Subscriptions = []
+               Followers =     []
+            }
+    | None -> None
 
 let getProfiles profileId sql parameterName =
     let commandFunc (command: SqlCommand) = 

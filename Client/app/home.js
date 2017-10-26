@@ -13704,9 +13704,9 @@ var _user$project$Domain_Core$Portfolio = F4(
 	function (a, b, c, d) {
 		return {answers: a, articles: b, videos: c, podcasts: d};
 	});
-var _user$project$Domain_Core$Provider = F7(
-	function (a, b, c, d, e, f, g) {
-		return {profile: a, topics: b, portfolio: c, filteredPortfolio: d, recentLinks: e, followers: f, subscriptions: g};
+var _user$project$Domain_Core$Provider = F6(
+	function (a, b, c, d, e, f) {
+		return {profile: a, topics: b, portfolio: c, filteredPortfolio: d, followers: e, subscriptions: f};
 	});
 var _user$project$Domain_Core$Portal = F7(
 	function (a, b, c, d, e, f, g) {
@@ -13788,15 +13788,7 @@ var _user$project$Domain_Core$initProfile = {
 	bio: _user$project$Domain_Core$undefined,
 	sources: {ctor: '[]'}
 };
-var _user$project$Domain_Core$initProvider = A7(
-	_user$project$Domain_Core$Provider,
-	_user$project$Domain_Core$initProfile,
-	_user$project$Domain_Core$initTopics,
-	_user$project$Domain_Core$initPortfolio,
-	_user$project$Domain_Core$initPortfolio,
-	{ctor: '[]'},
-	_user$project$Domain_Core$initSubscription,
-	_user$project$Domain_Core$initSubscription);
+var _user$project$Domain_Core$initProvider = A6(_user$project$Domain_Core$Provider, _user$project$Domain_Core$initProfile, _user$project$Domain_Core$initTopics, _user$project$Domain_Core$initPortfolio, _user$project$Domain_Core$initPortfolio, _user$project$Domain_Core$initSubscription, _user$project$Domain_Core$initSubscription);
 var _user$project$Domain_Core$topicUrl = F2(
 	function (id, topic) {
 		return _user$project$Domain_Core$Url(_user$project$Domain_Core$undefined);
@@ -14128,13 +14120,12 @@ var _user$project$Services_Adapter$toProfile = function (jsonProfile) {
 	};
 };
 var _user$project$Services_Adapter$jsonProfileToProvider = function (jsonProfile) {
-	return A7(
+	return A6(
 		_user$project$Domain_Core$Provider,
 		_user$project$Services_Adapter$toProfile(jsonProfile),
 		_user$project$Domain_Core$initTopics,
 		_user$project$Domain_Core$initPortfolio,
 		_user$project$Domain_Core$initPortfolio,
-		{ctor: '[]'},
 		_user$project$Domain_Core$initSubscription,
 		_user$project$Domain_Core$initSubscription);
 };
@@ -14146,7 +14137,6 @@ var _user$project$Services_Adapter$toProvider = function (jsonProvider) {
 		topics: _user$project$Services_Adapter$toTopics(field.topics),
 		portfolio: _user$project$Services_Adapter$toPortfolio(field.portfolio),
 		filteredPortfolio: _user$project$Services_Adapter$toPortfolio(field.portfolio),
-		recentLinks: _user$project$Services_Adapter$toLinks(field.recentLinks),
 		followers: _user$project$Services_Adapter$toMembers(field.followers),
 		subscriptions: _user$project$Services_Adapter$toMembers(field.subscriptions)
 	};
@@ -14191,9 +14181,9 @@ var _user$project$Services_Adapter$JsonLink = F7(
 	function (a, b, c, d, e, f, g) {
 		return {id: a, profileId: b, title: c, url: d, contentType: e, topics: f, isFeatured: g};
 	});
-var _user$project$Services_Adapter$JsonProviderFields = F6(
-	function (a, b, c, d, e, f) {
-		return {profile: a, topics: b, portfolio: c, recentLinks: d, subscriptions: e, followers: f};
+var _user$project$Services_Adapter$JsonProviderFields = F5(
+	function (a, b, c, d, e) {
+		return {profile: a, topics: b, portfolio: c, subscriptions: d, followers: e};
 	});
 var _user$project$Services_Adapter$JsonProviderLinks = function (a) {
 	return {ctor: 'JsonProviderLinks', _0: a};
@@ -14981,24 +14971,22 @@ var _user$project$Tests_TestAPI$provider1Portfolio = A4(
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId1),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId1),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId1));
-var _user$project$Tests_TestAPI$provider1 = A7(
+var _user$project$Tests_TestAPI$provider1 = A6(
 	_user$project$Domain_Core$Provider,
 	_user$project$Tests_TestAPI$profile1,
 	_user$project$Tests_TestAPI$topics,
 	_user$project$Tests_TestAPI$provider1Portfolio,
 	_user$project$Tests_TestAPI$provider1Portfolio,
-	_user$project$Tests_TestAPI$recentLinks1,
 	_user$project$Domain_Core$Members(
 		{ctor: '[]'}),
 	_user$project$Domain_Core$Members(
 		{ctor: '[]'}));
-var _user$project$Tests_TestAPI$provider1B = A7(
+var _user$project$Tests_TestAPI$provider1B = A6(
 	_user$project$Domain_Core$Provider,
 	_user$project$Tests_TestAPI$profile1,
 	_user$project$Tests_TestAPI$topics,
 	_user$project$Tests_TestAPI$provider1Portfolio,
 	_user$project$Tests_TestAPI$provider1Portfolio,
-	_user$project$Tests_TestAPI$recentLinks1,
 	_user$project$Domain_Core$Members(
 		{ctor: '[]'}),
 	_user$project$Domain_Core$Members(
@@ -15009,13 +14997,12 @@ var _user$project$Tests_TestAPI$provider2Portfolio = A4(
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId2),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId2),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId2));
-var _user$project$Tests_TestAPI$provider2 = A7(
+var _user$project$Tests_TestAPI$provider2 = A6(
 	_user$project$Domain_Core$Provider,
 	_user$project$Tests_TestAPI$profile2,
 	_user$project$Tests_TestAPI$topics,
 	_user$project$Tests_TestAPI$provider2Portfolio,
 	_user$project$Tests_TestAPI$provider2Portfolio,
-	_user$project$Tests_TestAPI$recentLinks2,
 	_user$project$Domain_Core$Members(
 		{ctor: '[]'}),
 	_user$project$Domain_Core$Members(
@@ -15042,13 +15029,12 @@ var _user$project$Tests_TestAPI$provider3Portfolio = A4(
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId3),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId3),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId3));
-var _user$project$Tests_TestAPI$provider3 = A7(
+var _user$project$Tests_TestAPI$provider3 = A6(
 	_user$project$Domain_Core$Provider,
 	_user$project$Tests_TestAPI$profile3,
 	_user$project$Tests_TestAPI$topics,
 	_user$project$Tests_TestAPI$provider3Portfolio,
 	_user$project$Tests_TestAPI$provider3Portfolio,
-	_user$project$Tests_TestAPI$recentLinks3,
 	_user$project$Domain_Core$Members(
 		{ctor: '[]'}),
 	_user$project$Domain_Core$Members(
@@ -15059,13 +15045,12 @@ var _user$project$Tests_TestAPI$provider4Portfolio = A4(
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId4),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId4),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId4));
-var _user$project$Tests_TestAPI$provider4 = A7(
+var _user$project$Tests_TestAPI$provider4 = A6(
 	_user$project$Domain_Core$Provider,
 	_user$project$Tests_TestAPI$profile4,
 	_user$project$Tests_TestAPI$topics,
 	_user$project$Tests_TestAPI$provider4Portfolio,
 	_user$project$Tests_TestAPI$provider4Portfolio,
-	{ctor: '[]'},
 	_user$project$Domain_Core$Members(
 		{ctor: '[]'}),
 	_user$project$Domain_Core$Members(
@@ -15076,13 +15061,12 @@ var _user$project$Tests_TestAPI$provider5Portfolio = A4(
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId5),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId5),
 	_user$project$Tests_TestAPI$podcasts(_user$project$Tests_TestAPI$profileId5));
-var _user$project$Tests_TestAPI$provider5 = A7(
+var _user$project$Tests_TestAPI$provider5 = A6(
 	_user$project$Domain_Core$Provider,
 	_user$project$Tests_TestAPI$profile5,
 	_user$project$Tests_TestAPI$topics,
 	_user$project$Tests_TestAPI$provider5Portfolio,
 	_user$project$Tests_TestAPI$provider5Portfolio,
-	{ctor: '[]'},
 	_user$project$Domain_Core$Members(
 		{ctor: '[]'}),
 	_user$project$Domain_Core$Members(
@@ -15148,7 +15132,6 @@ var _user$project$Tests_TestAPI$jsonProvider2 = _user$project$Services_Adapter$J
 		profile: _user$project$Tests_TestAPI$jsonProfile2,
 		topics: _user$project$Tests_TestAPI$topics,
 		portfolio: _user$project$Tests_TestAPI$jsonPortfolio(_user$project$Tests_TestAPI$profileId2),
-		recentLinks: _user$project$Services_Adapter$toJsonLinks(_user$project$Tests_TestAPI$recentLinks2),
 		subscriptions: {ctor: '[]'},
 		followers: {ctor: '[]'}
 	});
@@ -15157,7 +15140,6 @@ var _user$project$Tests_TestAPI$jsonProvider3 = _user$project$Services_Adapter$J
 		profile: _user$project$Tests_TestAPI$jsonProfile3,
 		topics: _user$project$Tests_TestAPI$topics,
 		portfolio: _user$project$Tests_TestAPI$jsonPortfolio(_user$project$Tests_TestAPI$profileId3),
-		recentLinks: _user$project$Services_Adapter$toJsonLinks(_user$project$Tests_TestAPI$recentLinks3),
 		subscriptions: {ctor: '[]'},
 		followers: {ctor: '[]'}
 	});
@@ -15166,7 +15148,6 @@ var _user$project$Tests_TestAPI$jsonProvider4 = _user$project$Services_Adapter$J
 		profile: _user$project$Tests_TestAPI$jsonProfile4,
 		topics: _user$project$Tests_TestAPI$topics,
 		portfolio: _user$project$Tests_TestAPI$jsonPortfolio(_user$project$Tests_TestAPI$profileId4),
-		recentLinks: _user$project$Services_Adapter$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
 		subscriptions: {ctor: '[]'},
 		followers: {ctor: '[]'}
 	});
@@ -15175,7 +15156,6 @@ var _user$project$Tests_TestAPI$jsonProvider5 = _user$project$Services_Adapter$J
 		profile: _user$project$Tests_TestAPI$jsonProfile5,
 		topics: _user$project$Tests_TestAPI$topics,
 		portfolio: _user$project$Tests_TestAPI$jsonPortfolio(_user$project$Tests_TestAPI$profileId5),
-		recentLinks: _user$project$Services_Adapter$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
 		subscriptions: {ctor: '[]'},
 		followers: {ctor: '[]'}
 	});
@@ -15184,7 +15164,6 @@ var _user$project$Tests_TestAPI$jsonProvider1 = _user$project$Services_Adapter$J
 		profile: _user$project$Tests_TestAPI$jsonProfile1,
 		topics: _user$project$Tests_TestAPI$topics,
 		portfolio: _user$project$Tests_TestAPI$jsonPortfolio(_user$project$Tests_TestAPI$profileId1),
-		recentLinks: _user$project$Services_Adapter$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
 		subscriptions: {
 			ctor: '::',
 			_0: _user$project$Tests_TestAPI$jsonProvider2,
@@ -15666,19 +15645,15 @@ var _user$project$Services_Decoders$profileDecoder = A8(
 var _user$project$Services_Decoders$providerDecoder = A2(
 	_elm_lang$core$Json_Decode$map,
 	_user$project$Services_Adapter$JsonProvider,
-	A7(
-		_elm_lang$core$Json_Decode$map6,
+	A6(
+		_elm_lang$core$Json_Decode$map5,
 		_user$project$Services_Adapter$JsonProviderFields,
 		A2(_elm_lang$core$Json_Decode$field, 'Profile', _user$project$Services_Decoders$profileDecoder),
 		A2(
 			_elm_lang$core$Json_Decode$field,
 			'Topics',
 			_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$topicDecoder)),
-		A2(_elm_lang$core$Json_Decode$field, 'Links', _user$project$Services_Decoders$portfolioDecoder),
-		A2(
-			_elm_lang$core$Json_Decode$field,
-			'RecentLinks',
-			_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$linkDecoder)),
+		A2(_elm_lang$core$Json_Decode$field, 'Portfolio', _user$project$Services_Decoders$portfolioDecoder),
 		A2(
 			_elm_lang$core$Json_Decode$field,
 			'Subscriptions',
@@ -18147,7 +18122,11 @@ var _user$project$Controls_RecentProviderLinks$formatLink = function (link) {
 };
 var _user$project$Controls_RecentProviderLinks$thumbnail = F2(
 	function (clientId, provider) {
-		var _p0 = {ctor: '_Tuple2', _0: provider.profile, _1: provider.recentLinks};
+		var _p0 = {
+			ctor: '_Tuple2',
+			_0: provider.profile,
+			_1: {ctor: '[]'}
+		};
 		var profile = _p0._0;
 		var links = _p0._1;
 		var linksUI = A2(
@@ -18991,11 +18970,7 @@ var _user$project$Home$removeProvider = F2(
 			providers);
 	});
 var _user$project$Home$recentLinks = function (providers) {
-	var onRecentLinks = function (provider) {
-		return (!_elm_lang$core$List$isEmpty(provider.recentLinks)) ? _elm_lang$core$Maybe$Just(provider.recentLinks) : _elm_lang$core$Maybe$Nothing;
-	};
-	return _elm_lang$core$List$concat(
-		A2(_elm_lang$core$List$filterMap, onRecentLinks, providers));
+	return {ctor: '[]'};
 };
 var _user$project$Home$providerTopicPage = F2(
 	function (linksfrom, model) {
@@ -22166,8 +22141,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 604, column: 25},
-								end: {line: 604, column: 36}
+								start: {line: 605, column: 25},
+								end: {line: 605, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p28._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -22181,8 +22156,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 612, column: 25},
-								end: {line: 612, column: 36}
+								start: {line: 613, column: 25},
+								end: {line: 613, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p29._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -22235,17 +22210,7 @@ var _user$project$Home$recentProvidersUI = F2(
 	});
 var _user$project$Home$recentLinksContent = F2(
 	function (profileId, providers) {
-		return A2(
-			_user$project$Home$recentProvidersUI,
-			profileId,
-			A2(
-				_elm_lang$core$List$filter,
-				function (p) {
-					return !_elm_lang$core$Native_Utils.eq(
-						p.recentLinks,
-						{ctor: '[]'});
-				},
-				providers));
+		return A2(_user$project$Home$recentProvidersUI, profileId, providers);
 	});
 var _user$project$Home$ProfileThumbnail = function (a) {
 	return {ctor: 'ProfileThumbnail', _0: a};
@@ -22643,8 +22608,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 137, column: 25},
-								end: {line: 137, column: 36}
+								start: {line: 138, column: 25},
+								end: {line: 138, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p40._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -23533,7 +23498,7 @@ var _user$project$Home$main = A2(
 var Elm = {};
 Elm['Home'] = Elm['Home'] || {};
 if (typeof _user$project$Home$main !== 'undefined') {
-    _user$project$Home$main(Elm['Home'], 'Home', {"types":{"message":"Home.Msg","aliases":{"Domain.Core.LinkToCreate":{"type":"{ base : Domain.Core.Link, currentTopic : Domain.Core.Topic }","args":[]},"Services.Adapter.JsonSource":{"type":"{ id : Int , profileId : String , platform : String , username : String , links : List Services.Adapter.JsonLink }","args":[]},"Domain.Core.Provider":{"type":"{ profile : Domain.Core.Profile , topics : List Domain.Core.Topic , portfolio : Domain.Core.Portfolio , filteredPortfolio : Domain.Core.Portfolio , recentLinks : List Domain.Core.Link , followers : Domain.Core.Members , subscriptions : Domain.Core.Members }","args":[]},"Services.Adapter.JsonProfile":{"type":"{ id : String , firstName : String , lastName : String , email : String , imageUrl : String , bio : String , sources : List Services.Adapter.JsonSource }","args":[]},"Domain.Core.Topic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Services.Adapter.JsonTopic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Domain.Core.Profile":{"type":"{ id : Domain.Core.Id , firstName : Domain.Core.Name , lastName : Domain.Core.Name , email : Domain.Core.Email , imageUrl : Domain.Core.Url , bio : String , sources : List Domain.Core.Source }","args":[]},"Navigation.Location":{"type":"{ href : String , host : String , hostname : String , protocol : String , origin : String , port_ : String , pathname : String , search : String , hash : String , username : String , password : String }","args":[]},"Domain.Core.NewLinks":{"type":"{ current : Domain.Core.LinkToCreate , canAdd : Bool , added : List Domain.Core.Link }","args":[]},"Http.Response":{"type":"{ url : String , status : { code : Int, message : String } , headers : Dict.Dict String String , body : body }","args":["body"]},"Services.Adapter.JsonPortfolio":{"type":"{ articles : List Services.Adapter.JsonLink , videos : List Services.Adapter.JsonLink , podcasts : List Services.Adapter.JsonLink , answers : List Services.Adapter.JsonLink }","args":[]},"Domain.Core.Link":{"type":"{ id : Int , profileId : Domain.Core.Id , title : Domain.Core.Title , url : Domain.Core.Url , topics : List Domain.Core.Topic , contentType : Domain.Core.ContentType , isFeatured : Bool }","args":[]},"Services.Adapter.JsonBootstrap":{"type":"{ providers : List Services.Adapter.JsonProvider , platforms : List String }","args":[]},"Domain.Core.Source":{"type":"{ id : Domain.Core.Id , profileId : Domain.Core.Id , platform : String , username : String , links : List Domain.Core.Link }","args":[]},"Domain.Core.Portfolio":{"type":"{ answers : List Domain.Core.Link , articles : List Domain.Core.Link , videos : List Domain.Core.Link , podcasts : List Domain.Core.Link }","args":[]},"Services.Adapter.JsonLink":{"type":"{ id : Int , profileId : String , title : String , url : String , contentType : String , topics : List Domain.Core.Topic , isFeatured : Bool }","args":[]},"Services.Adapter.JsonProviderFields":{"type":"{ profile : Services.Adapter.JsonProfile , topics : List Services.Adapter.JsonTopic , portfolio : Services.Adapter.JsonPortfolio , recentLinks : List Services.Adapter.JsonLink , subscriptions : List Services.Adapter.JsonProvider , followers : List Services.Adapter.JsonProvider }","args":[]}},"unions":{"Controls.RecentProviderLinks.Msg":{"tags":{"None":[]},"args":[]},"Domain.Core.Name":{"tags":{"Name":["String"]},"args":[]},"Controls.ProviderTopicContentTypeLinks.Msg":{"tags":{"None":[]},"args":[]},"Controls.ProviderLinks.Msg":{"tags":{"Toggle":["( Domain.Core.Topic, Bool )"]},"args":[]},"Domain.Core.Email":{"tags":{"Email":["String"]},"args":[]},"Dict.NColor":{"tags":{"Black":[],"BBlack":[],"Red":[],"NBlack":[]},"args":[]},"Controls.ProfileThumbnail.Msg":{"tags":{"SubscribeResponse":["Result.Result Http.Error Domain.Core.Members"],"UpdateSubscription":["Domain.Core.SubscriptionUpdate"]},"args":[]},"Services.Adapter.JsonProvider":{"tags":{"JsonProvider":["Services.Adapter.JsonProviderFields"]},"args":[]},"Domain.Core.Url":{"tags":{"Url":["String"]},"args":[]},"Home.Msg":{"tags":{"NewLink":["Controls.NewLinks.Msg"],"NavigateToProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ProfileThumbnail":["Controls.ProfileThumbnail.Msg"],"ViewProviders":[],"NavigateToPortalProviderMemberResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"OnLogin":["Controls.Login.Msg"],"UrlChange":["Navigation.Location"],"ProviderContentTypeLinksAction":["Controls.ProviderContentTypeLinks.Msg"],"ViewSubscriptions":[],"ViewFollowers":[],"Subscription":["Domain.Core.SubscriptionUpdate"],"NavigateToPortalProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ViewSources":[],"NavigateToPortalResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"NavigateToProviderResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"Search":["String"],"ViewRecent":[],"ProvidersResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"RecentProviderLinks":["Controls.RecentProviderLinks.Msg"],"BootstrapResponse":["Result.Result Http.Error Services.Adapter.JsonBootstrap"],"EditProfileAction":["Controls.EditProfile.Msg"],"NavigateBack":[],"ProviderTopicContentTypeLinksAction":["Controls.ProviderTopicContentTypeLinks.Msg"],"ProviderLinksAction":["Controls.ProviderLinks.Msg"],"EditProfile":[],"AddNewLink":[],"OnRegistration":["Controls.Register.Msg"],"SourcesUpdated":["Controls.Sources.Msg"],"NavigateToPortalProviderMemberTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ViewLinks":[],"PortalLinksAction":["Controls.ProviderLinks.Msg"],"Register":[]},"args":[]},"Domain.Core.Members":{"tags":{"Members":["List Domain.Core.Provider"]},"args":[]},"Controls.Sources.Msg":{"tags":{"RemoveResponse":["Result.Result Http.Error Services.Adapter.JsonSource"],"InputPlatform":["String"],"AddResponse":["Result.Result Http.Error Services.Adapter.JsonSource"],"InputUsername":["String"],"Remove":["Domain.Core.Source"],"Add":["Domain.Core.Source"]},"args":[]},"Result.Result":{"tags":{"Err":["error"],"Ok":["value"]},"args":["error","value"]},"Http.Error":{"tags":{"Timeout":[],"BadStatus":["Http.Response String"],"BadPayload":["String","Http.Response String"],"BadUrl":["String"],"NetworkError":[]},"args":[]},"Controls.ProviderContentTypeLinks.Msg":{"tags":{"Featured":["( Domain.Core.Link, Bool )"],"Toggle":["( Domain.Core.Topic, Bool )"]},"args":[]},"Controls.Register.Msg":{"tags":{"Submit":[],"ConfirmInput":["String"],"EmailInput":["String"],"FirstNameInput":["String"],"PasswordInput":["String"],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProfile"]},"args":[]},"Dict.LeafColor":{"tags":{"LBlack":[],"LBBlack":[]},"args":[]},"Controls.EditProfile.Msg":{"tags":{"EmailInput":["String"],"BioInput":["String"],"FirstNameInput":["String"],"Update":[],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProfile"]},"args":[]},"Controls.NewLinks.Msg":{"tags":{"RemoveTopic":["Domain.Core.Topic"],"InputTopic":["String"],"InputUrl":["String"],"InputTitle":["String"],"InputContentType":["String"],"AssociateTopic":["Domain.Core.Topic"],"AddLink":["Domain.Core.NewLinks"]},"args":[]},"Domain.Core.ContentType":{"tags":{"Answer":[],"Podcast":[],"Article":[],"Unknown":[],"All":[],"Video":[]},"args":[]},"Domain.Core.Title":{"tags":{"Title":["String"]},"args":[]},"Controls.Login.Msg":{"tags":{"Attempt":["( String, String )"],"PasswordInput":["String"],"UserInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProvider"]},"args":[]},"Dict.Dict":{"tags":{"RBNode_elm_builtin":["Dict.NColor","k","v","Dict.Dict k v","Dict.Dict k v"],"RBEmpty_elm_builtin":["Dict.LeafColor"]},"args":["k","v"]},"Domain.Core.Id":{"tags":{"Id":["String"]},"args":[]},"Domain.Core.SubscriptionUpdate":{"tags":{"Subscribe":["Domain.Core.Id","Domain.Core.Id"],"Unsubscribe":["Domain.Core.Id","Domain.Core.Id"]},"args":[]}}},"versions":{"elm":"0.18.0"}});
+    _user$project$Home$main(Elm['Home'], 'Home', {"types":{"message":"Home.Msg","aliases":{"Domain.Core.LinkToCreate":{"type":"{ base : Domain.Core.Link, currentTopic : Domain.Core.Topic }","args":[]},"Services.Adapter.JsonSource":{"type":"{ id : Int , profileId : String , platform : String , username : String , links : List Services.Adapter.JsonLink }","args":[]},"Domain.Core.Provider":{"type":"{ profile : Domain.Core.Profile , topics : List Domain.Core.Topic , portfolio : Domain.Core.Portfolio , filteredPortfolio : Domain.Core.Portfolio , followers : Domain.Core.Members , subscriptions : Domain.Core.Members }","args":[]},"Services.Adapter.JsonProfile":{"type":"{ id : String , firstName : String , lastName : String , email : String , imageUrl : String , bio : String , sources : List Services.Adapter.JsonSource }","args":[]},"Domain.Core.Topic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Services.Adapter.JsonTopic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Domain.Core.Profile":{"type":"{ id : Domain.Core.Id , firstName : Domain.Core.Name , lastName : Domain.Core.Name , email : Domain.Core.Email , imageUrl : Domain.Core.Url , bio : String , sources : List Domain.Core.Source }","args":[]},"Navigation.Location":{"type":"{ href : String , host : String , hostname : String , protocol : String , origin : String , port_ : String , pathname : String , search : String , hash : String , username : String , password : String }","args":[]},"Domain.Core.NewLinks":{"type":"{ current : Domain.Core.LinkToCreate , canAdd : Bool , added : List Domain.Core.Link }","args":[]},"Http.Response":{"type":"{ url : String , status : { code : Int, message : String } , headers : Dict.Dict String String , body : body }","args":["body"]},"Services.Adapter.JsonPortfolio":{"type":"{ articles : List Services.Adapter.JsonLink , videos : List Services.Adapter.JsonLink , podcasts : List Services.Adapter.JsonLink , answers : List Services.Adapter.JsonLink }","args":[]},"Domain.Core.Link":{"type":"{ id : Int , profileId : Domain.Core.Id , title : Domain.Core.Title , url : Domain.Core.Url , topics : List Domain.Core.Topic , contentType : Domain.Core.ContentType , isFeatured : Bool }","args":[]},"Services.Adapter.JsonBootstrap":{"type":"{ providers : List Services.Adapter.JsonProvider , platforms : List String }","args":[]},"Domain.Core.Source":{"type":"{ id : Domain.Core.Id , profileId : Domain.Core.Id , platform : String , username : String , links : List Domain.Core.Link }","args":[]},"Domain.Core.Portfolio":{"type":"{ answers : List Domain.Core.Link , articles : List Domain.Core.Link , videos : List Domain.Core.Link , podcasts : List Domain.Core.Link }","args":[]},"Services.Adapter.JsonLink":{"type":"{ id : Int , profileId : String , title : String , url : String , contentType : String , topics : List Domain.Core.Topic , isFeatured : Bool }","args":[]},"Services.Adapter.JsonProviderFields":{"type":"{ profile : Services.Adapter.JsonProfile , topics : List Services.Adapter.JsonTopic , portfolio : Services.Adapter.JsonPortfolio , subscriptions : List Services.Adapter.JsonProvider , followers : List Services.Adapter.JsonProvider }","args":[]}},"unions":{"Controls.RecentProviderLinks.Msg":{"tags":{"None":[]},"args":[]},"Domain.Core.Name":{"tags":{"Name":["String"]},"args":[]},"Controls.ProviderTopicContentTypeLinks.Msg":{"tags":{"None":[]},"args":[]},"Controls.ProviderLinks.Msg":{"tags":{"Toggle":["( Domain.Core.Topic, Bool )"]},"args":[]},"Domain.Core.Email":{"tags":{"Email":["String"]},"args":[]},"Dict.NColor":{"tags":{"Black":[],"BBlack":[],"Red":[],"NBlack":[]},"args":[]},"Controls.ProfileThumbnail.Msg":{"tags":{"SubscribeResponse":["Result.Result Http.Error Domain.Core.Members"],"UpdateSubscription":["Domain.Core.SubscriptionUpdate"]},"args":[]},"Services.Adapter.JsonProvider":{"tags":{"JsonProvider":["Services.Adapter.JsonProviderFields"]},"args":[]},"Domain.Core.Url":{"tags":{"Url":["String"]},"args":[]},"Home.Msg":{"tags":{"NewLink":["Controls.NewLinks.Msg"],"NavigateToProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ProfileThumbnail":["Controls.ProfileThumbnail.Msg"],"ViewProviders":[],"NavigateToPortalProviderMemberResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"OnLogin":["Controls.Login.Msg"],"UrlChange":["Navigation.Location"],"ProviderContentTypeLinksAction":["Controls.ProviderContentTypeLinks.Msg"],"ViewSubscriptions":[],"ViewFollowers":[],"Subscription":["Domain.Core.SubscriptionUpdate"],"NavigateToPortalProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ViewSources":[],"NavigateToPortalResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"NavigateToProviderResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"Search":["String"],"ViewRecent":[],"ProvidersResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"RecentProviderLinks":["Controls.RecentProviderLinks.Msg"],"BootstrapResponse":["Result.Result Http.Error Services.Adapter.JsonBootstrap"],"EditProfileAction":["Controls.EditProfile.Msg"],"NavigateBack":[],"ProviderTopicContentTypeLinksAction":["Controls.ProviderTopicContentTypeLinks.Msg"],"ProviderLinksAction":["Controls.ProviderLinks.Msg"],"EditProfile":[],"AddNewLink":[],"OnRegistration":["Controls.Register.Msg"],"SourcesUpdated":["Controls.Sources.Msg"],"NavigateToPortalProviderMemberTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ViewLinks":[],"PortalLinksAction":["Controls.ProviderLinks.Msg"],"Register":[]},"args":[]},"Domain.Core.Members":{"tags":{"Members":["List Domain.Core.Provider"]},"args":[]},"Controls.Sources.Msg":{"tags":{"RemoveResponse":["Result.Result Http.Error Services.Adapter.JsonSource"],"InputPlatform":["String"],"AddResponse":["Result.Result Http.Error Services.Adapter.JsonSource"],"InputUsername":["String"],"Remove":["Domain.Core.Source"],"Add":["Domain.Core.Source"]},"args":[]},"Result.Result":{"tags":{"Err":["error"],"Ok":["value"]},"args":["error","value"]},"Http.Error":{"tags":{"Timeout":[],"BadStatus":["Http.Response String"],"BadPayload":["String","Http.Response String"],"BadUrl":["String"],"NetworkError":[]},"args":[]},"Controls.ProviderContentTypeLinks.Msg":{"tags":{"Featured":["( Domain.Core.Link, Bool )"],"Toggle":["( Domain.Core.Topic, Bool )"]},"args":[]},"Controls.Register.Msg":{"tags":{"Submit":[],"ConfirmInput":["String"],"EmailInput":["String"],"FirstNameInput":["String"],"PasswordInput":["String"],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProfile"]},"args":[]},"Dict.LeafColor":{"tags":{"LBlack":[],"LBBlack":[]},"args":[]},"Controls.EditProfile.Msg":{"tags":{"EmailInput":["String"],"BioInput":["String"],"FirstNameInput":["String"],"Update":[],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProfile"]},"args":[]},"Controls.NewLinks.Msg":{"tags":{"RemoveTopic":["Domain.Core.Topic"],"InputTopic":["String"],"InputUrl":["String"],"InputTitle":["String"],"InputContentType":["String"],"AssociateTopic":["Domain.Core.Topic"],"AddLink":["Domain.Core.NewLinks"]},"args":[]},"Domain.Core.ContentType":{"tags":{"Answer":[],"Podcast":[],"Article":[],"Unknown":[],"All":[],"Video":[]},"args":[]},"Domain.Core.Title":{"tags":{"Title":["String"]},"args":[]},"Controls.Login.Msg":{"tags":{"Attempt":["( String, String )"],"PasswordInput":["String"],"UserInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProvider"]},"args":[]},"Dict.Dict":{"tags":{"RBNode_elm_builtin":["Dict.NColor","k","v","Dict.Dict k v","Dict.Dict k v"],"RBEmpty_elm_builtin":["Dict.LeafColor"]},"args":["k","v"]},"Domain.Core.Id":{"tags":{"Id":["String"]},"args":[]},"Domain.Core.SubscriptionUpdate":{"tags":{"Subscribe":["Domain.Core.Id","Domain.Core.Id"],"Unsubscribe":["Domain.Core.Id","Domain.Core.Id"]},"args":[]}}},"versions":{"elm":"0.18.0"}});
 }
 
 if (typeof define === "function" && define['amd'])
