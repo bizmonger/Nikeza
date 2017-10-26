@@ -73,7 +73,7 @@ let getLinks profileId =
 
 let getRecent subscriberId =
     let commandFunc (command: SqlCommand) = 
-        command |> addWithValue "@ProfileId" subscriberId
+        command |> addWithValue "@SubscriberId" subscriberId
 
     let links = readInLinks |> getResults getRecentSql commandFunc
     links

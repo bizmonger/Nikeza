@@ -141,19 +141,21 @@ let getSourceLinksSql =
                    
                    WHERE        Link.ProfileId = @ProfileId AND Source.Platform = @Platform"
 
-let getRecentSql = @"SELECT Link.Id, 
-                          Link.ProfileId, 
-                          Link.Title, 
-                          Link.Description, 
-                          Link.Url, 
-                          Link.ContentTypeId, 
-                          Link.IsFeatured, 
-                          Link.Created
+let getRecentSql = @"  SELECT       Link.Id, 
+                                  Link.ProfileId, 
+                                  Link.Title, 
+                                  Link.Description, 
+                                  Link.Url, 
+                                  Link.ContentTypeId, 
+                                  Link.IsFeatured, 
+                                  Link.Created
 
                        FROM       Link
-                       INNER JOIN LinkObserved
-                       ON         LinkObserved.SubscriberId = Profile.Id
-                       WHERE    LinkId = '??'"
+                       WHERE Link.Id NOT IN 
+                                    (SELECT LinkId
+									 FROM   LinkObserved
+                                     WHERE  LinkObserved.SubscriberId = SubscriberId)"
+                                     
 
 let getFollowersSql = @"SELECT Profile.Id,
                                Profile.FirstName,
