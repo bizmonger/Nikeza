@@ -108,7 +108,7 @@ let rec readInSources sources (reader:SqlDataReader) = reader.Read() |> function
             ProfileId=  reader.GetInt32 (1) |> string
             Platform=   reader.GetString(2)
             AccessId=   reader.GetString(3)
-            Links =     []
+            Links =     [] // Todo: Read in links from Link table
          }
 
         readInSources (source::sources) reader

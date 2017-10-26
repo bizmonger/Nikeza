@@ -45,6 +45,18 @@ tryRegister form msg =
         Http.send msg request
 
 
+recentLinks : Id -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
+recentLinks profileId msg =
+    let
+        url =
+            baseUrl ++ "recentlinks"
+
+        request =
+            Http.get url (Decode.list linkDecoder)
+    in
+        Http.send msg request
+
+
 providers : (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
 providers msg =
     let

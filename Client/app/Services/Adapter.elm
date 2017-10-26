@@ -90,6 +90,10 @@ type alias Unsubscribefunction msg =
     Id -> Id -> (Result Http.Error Members -> msg) -> Cmd msg
 
 
+type alias RecentLinksfunction msg =
+    Id -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
+
+
 type alias JsonProfile =
     { id : String
     , firstName : String

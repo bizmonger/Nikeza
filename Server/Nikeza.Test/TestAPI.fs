@@ -1,6 +1,7 @@
 module Nikeza.TestAPI
 
 open System
+open System.IO
 open System.Data
 open System.Data.SqlClient
 open Nikeza.Server.Sql
@@ -8,6 +9,9 @@ open Nikeza.Server.Read
 open Nikeza.Server.Literals
 open Nikeza.Server.Command
 open Nikeza.Server.Model
+
+[<Literal>]
+let ChannelIdFile = @"C:\Nikeza\YouTube_ChannelId.txt"
 
 let prepareReader (command:SqlCommand) =
     let reader = command.ExecuteReader()
@@ -47,7 +51,7 @@ let someSource = {
     Id=         0
     ProfileId = someProfileId |> string
     Platform = "YouTube"
-    AccessId = "some_access_id"
+    AccessId =  File.ReadAllText(ChannelIdFile)
     Links =     []
 }
 

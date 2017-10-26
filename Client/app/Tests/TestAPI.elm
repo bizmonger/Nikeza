@@ -495,6 +495,15 @@ tryRegister form msg =
         Cmd.none
 
 
+recentLinks : Id -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
+recentLinks profileId msg =
+    [ recentLinks1 |> toJsonLinks
+    , recentLinks2 |> toJsonLinks
+    ]
+        |> List.concat
+        |> httpSuccess msg
+
+
 answers : Id -> List Link
 answers id =
     id |> linksToContent Answer

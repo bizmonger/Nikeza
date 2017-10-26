@@ -12,9 +12,6 @@ open Nikeza.Server.Read
 open Nikeza.Server.Model
 open Nikeza.Server.Literals
 
-[<Literal>]
-let ChannelIdFile = @"C:\Nikeza\YouTube_ChannelId.txt"
-
 [<TearDownAttribute>]
 let teardown() = cleanDataStore()        
 

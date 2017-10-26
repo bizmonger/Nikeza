@@ -199,16 +199,16 @@ let getProfileSql = @"SELECT  Id,
 let getSourcesSql = @"SELECT Id,
                              ProfileId,
                              Platform,
-                             Username
+                             AccessId
                       FROM   Source
                       WHERE  ProfileId = @ProfileId"
 
 let getSourceSql = @"SELECT  Id,
                              ProfileId,
                              Platform,
-                             Username
+                             AccessId
                       FROM   Source
-                      WHERE  ProfileId = @SourceId"
+                      WHERE  Id = @SourceId"
 
 let getPlatformsSql = @"SELECT Name FROM Platform"
 

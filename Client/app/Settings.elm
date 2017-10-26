@@ -8,7 +8,7 @@ import Services.Adapter as Adapter exposing (..)
 
 configuration : Configuration
 configuration =
-    Integration
+    Isolation
 
 
 type Configuration
@@ -17,7 +17,8 @@ type Configuration
 
 
 type alias Dependencies msg =
-    { tryLogin : Loginfunction msg
+    { bootstrap : Bootstrapfunction msg
+    , tryLogin : Loginfunction msg
     , tryRegister : Registerfunction msg
     , updateProfile : UpdateProfilefunction msg
     , provider : Providerfunction msg
@@ -35,7 +36,7 @@ type alias Dependencies msg =
     , followers : Followersfunction msg
     , follow : Followfunction msg
     , unsubscribe : Unsubscribefunction msg
-    , bootstrap : Bootstrapfunction msg
+    , recentLinks : RecentLinksfunction msg
     }
 
 
@@ -44,6 +45,7 @@ runtime =
     case configuration of
         Integration ->
             Dependencies
+                Services.bootstrap
                 Services.tryLogin
                 Services.tryRegister
                 Services.updateProfile
@@ -62,10 +64,11 @@ runtime =
                 Services.followers
                 Services.follow
                 Services.unsubscribe
-                Services.bootstrap
+                Services.recentLinks
 
         Isolation ->
             Dependencies
+                TestAPI.bootstrap
                 TestAPI.tryLogin
                 TestAPI.tryRegister
                 TestAPI.updateProfile
@@ -84,4 +87,4 @@ runtime =
                 TestAPI.followers
                 TestAPI.follow
                 TestAPI.unsubscribe
-                TestAPI.bootstrap
+                TestAPI.recentLinks
