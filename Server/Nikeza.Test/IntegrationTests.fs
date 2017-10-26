@@ -40,7 +40,7 @@ let ``Subscriber observes provider's link`` () =
 
     // Test
     let providerLink = { SubscriberId= subscriberId; LinkId=Int32.Parse(linkId) }
-    let linkObservedId = Observed providerLink |> execute
+    let linkObservedId = ObserveLink providerLink |> execute
 
     // Verify
     linkObservedId |> should (be greaterThan) 0 |> string
@@ -59,10 +59,11 @@ let ``Get recent links`` () =
     let linkId = AddLink  { someLink with ProfileId = profileId } |> execute
 
     // Test
-    ???
+    let recentLinks = getRecent subscriberId
 
     // Verify
-    ???
+    let link = List.head recentLinks
+    link.Id |> should equal linkId
 
 
 [<Test>]

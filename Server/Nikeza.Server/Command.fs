@@ -96,12 +96,18 @@ module private Commands =
 
         commandFunc |> execute connectionString unsubscribeSql
 
-    let observed (info:ObservedNotice) =
+    let observeLink (info:ObservedNotice) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@SubscriberId" info.SubscriberId
                     |> addWithValue "@LinkId"       info.LinkId
 
-        commandFunc |> execute connectionString observedSql
+        commandFunc |> execute connectionString observeLinkSql
+
+    let getRecent (info:RecentRequest) =
+        let commandFunc (command: SqlCommand) = 
+            command |> addWithValue "@SubscriberId" info.SubscriberId
+
+        commandFunc |> execute connectionString getRecentSql
 
     let featureLink (info:FeatureLinkRequest) =
         let commandFunc (command: SqlCommand) = 
@@ -195,11 +201,11 @@ let execute = function
    
     | Follow        info -> follow           info
     | Unsubscribe   info -> unsubscribe      info
-    | Observed      info -> observed         info
    
     | AddLink       info -> addLink          info
     | RemoveLink    info -> removeLink       info
     | FeatureLink   info -> featureLink      info
+    | ObserveLink   info -> observeLink      info
 
     | AddSource     info -> addDataSource    info
     | RemoveSource  info -> removeDataSource info

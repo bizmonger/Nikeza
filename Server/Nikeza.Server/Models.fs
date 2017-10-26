@@ -81,6 +81,10 @@ type Link = {
 [<CLIMutable>]
 type FeatureLinkRequest = { LinkId: int; IsFeatured: bool }
 
+[<CLIMutable>]
+type RecentRequest = { SubscriberId: string }
+
+
 type User = { AccessId: string; ProfileId: string }
 
 type PlatformUser = {
@@ -163,11 +167,11 @@ type Command =
 
     | Follow        of FollowRequest
     | Unsubscribe   of UnsubscribeRequest
-    | Observed      of ObservedNotice
 
     | AddLink       of Link
     | RemoveLink    of RemoveLinkRequest
     | FeatureLink   of FeatureLinkRequest
+    | ObserveLink   of ObservedNotice
 
     | AddSource     of DataSourceRequest
     | RemoveSource  of RemoveDataSourceRequest
