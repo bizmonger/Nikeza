@@ -59,7 +59,7 @@ type alias Provider =
     , topics : List Topic
     , portfolio : Portfolio
     , filteredPortfolio : Portfolio
-    , recentLinks : List Link 
+    , recentLinks : List Link
     , followers : Members
     , subscriptions : Members
     }
@@ -76,7 +76,7 @@ initSubscription =
 
 initProvider : Provider
 initProvider =
-    Provider initProfile initTopics initPortfolio initPortfolio [] initSubscription initSubscription 
+    Provider initProfile initTopics initPortfolio initPortfolio [] initSubscription initSubscription
 
 
 type alias Portal =
@@ -256,7 +256,8 @@ initLinkToCreate =
 
 
 type alias NewLinks =
-    { current : LinkToCreate
+    { profileId : Id
+    , current : LinkToCreate
     , canAdd : Bool
     , added : List Link
     }
@@ -264,7 +265,7 @@ type alias NewLinks =
 
 initNewLinks : NewLinks
 initNewLinks =
-    { current = initLinkToCreate, canAdd = False, added = [] }
+    { profileId = Id undefined, current = initLinkToCreate, canAdd = False, added = [] }
 
 
 type alias Source =

@@ -147,6 +147,7 @@ type ProviderRequest = {
     Profile:       ProfileRequest
     Topics:        Topic     list
     Portfolio:     Portfolio
+    RecentLinks:   Link list
     Subscriptions: string    list
     Followers:     string    list
 }

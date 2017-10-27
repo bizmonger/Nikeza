@@ -92,6 +92,7 @@ and readInProvider (reader:SqlDataReader) = {
     Profile=       reader |> readInProfile |> toProfileRequest
     Topics=        reader |> readInTopics []
     Portfolio=     reader |> readInLinks  [] |> toPortfolio
+    RecentLinks=   [] // reader |> readInRecentLinks
     Subscriptions= [] // reader |> readInSubscriptions
     Followers=     [] // reader |> readInFollowers
 }

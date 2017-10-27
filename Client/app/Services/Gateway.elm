@@ -133,7 +133,7 @@ addLink : Link -> (Result Http.Error JsonLink -> msg) -> Cmd msg
 addLink link msg =
     let
         url =
-            baseUrl ++ (idText link.profileId) ++ "/addlink"
+            baseUrl ++ "addlink"
 
         body =
             encodeLink link |> Http.jsonBody
@@ -148,7 +148,7 @@ removeLink : Link -> (Result Http.Error JsonLink -> msg) -> Cmd msg
 removeLink link msg =
     let
         url =
-            baseUrl ++ (idText link.profileId) ++ "/removelink"
+            baseUrl ++ "removelink"
 
         body =
             encodeLink link |> Http.jsonBody

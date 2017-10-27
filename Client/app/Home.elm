@@ -499,8 +499,11 @@ onNewLink subMsg model =
         ( pendingPortal, provider ) =
             ( model.portal, model.portal.provider )
 
+        pendingNewLinks =
+            pendingPortal.newLinks
+
         ( newLinks, subCmd ) =
-            NewLinks.update subMsg pendingPortal.newLinks
+            NewLinks.update subMsg { pendingNewLinks | profileId = provider.profile.id }
 
         newLinkCmd =
             Cmd.map NewLink subCmd
@@ -532,8 +535,9 @@ onNewLink subMsg model =
 
             NewLinks.Response result ->
                 case result of
-                    Result.Ok jsonProvider ->
+                    Result.Ok _ ->
                         let
+                            -- Todo: Update filteredPortfolio if contentType list is less than count displayed pn portfoio
                             updatedPortal =
                                 { portal
                                     | newLinks = newLinks
@@ -1269,7 +1273,7 @@ renderNavigation portal providers =
                     , button [ class "selectedNavigationButton4", onClick ViewProviders ] [ text membersText ]
                     ]
 
-        sourcesButNoLinks =
+        enableOnlySourcesAndLinks =
             let
                 noSelectedButton =
                     [ button [ class "navigationButton3", onClick ViewSources ] [ text sourcesText ]
@@ -1340,10 +1344,12 @@ renderNavigation portal providers =
         displayNavigation buttons =
             [ div [ class "navigationpane" ] buttons ]
     in
-        if not portal.sourcesNavigation && not portal.linksNavigation then
+        if not portal.sourcesNavigation && not portal.linksNavigation && String.isEmpty profile.bio then
             displayNavigation noSourcesNoLinks
+        else if not portal.sourcesNavigation && not portal.linksNavigation then
+            displayNavigation enableOnlySourcesAndLinks
         else if portal.sourcesNavigation && not portal.linksNavigation then
-            displayNavigation sourcesButNoLinks
+            displayNavigation enableOnlySourcesAndLinks
         else
             displayNavigation allNavigation
 

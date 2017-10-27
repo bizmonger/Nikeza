@@ -54,7 +54,17 @@ update msg model =
                 ( { model | current = { linkToCreate | base = { linkToCreateBase | contentType = toContentType v } } }, Cmd.none )
 
             AddLink v ->
-                ( model, runtime.addLink v.current.base Response )
+                let
+                    ( link, current ) =
+                        ( v.current.base, v.current )
+
+                    updatedCurrent =
+                        { current | base = { link | profileId = model.profileId } }
+
+                    preparedLink =
+                        updatedCurrent.base
+                in
+                    ( { model | current = updatedCurrent }, runtime.addLink preparedLink Response )
 
             Response (Ok jsonLink) ->
                 ( { model

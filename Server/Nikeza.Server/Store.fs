@@ -39,21 +39,29 @@ let loginProfile email =
                        |> List.tryHead
     profileRequest
 
-let getPortfolio profileId =
-    {   Answers =  []
+let getPortfolio profileId = {   
+        Answers =  []
         Articles = []
         Videos =   []
         Podcasts = []
     }
 
+let getRecent subscriberId =
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue "@SubscriberId" subscriberId
+
+    let links = readInLinks |> getResults getRecentSql commandFunc
+    links
+
 let loginProvider email =
     email |> loginProfile |> function
     | Some profile ->
         Some { Profile=        profile |> toProfileRequest
-               Topics=         []
-               Portfolio =     getPortfolio profile.ProfileId
-               Subscriptions = []
-               Followers =     []
+               Topics=         [] // Todo: Derive distinct topics from links
+               Portfolio=      getPortfolio profile.ProfileId
+               RecentLinks=    getRecent    profile.ProfileId
+               Subscriptions=  []
+               Followers=      []
             }
     | None -> None
 
@@ -69,13 +77,6 @@ let getLinks profileId =
         command |> addWithValue "@ProfileId" profileId
 
     let links = readInLinks |> getResults getLinksSql commandFunc
-    links
-
-let getRecent subscriberId =
-    let commandFunc (command: SqlCommand) = 
-        command |> addWithValue "@SubscriberId" subscriberId
-
-    let links = readInLinks |> getResults getRecentSql commandFunc
     links
 
 let linksFrom platform profileId =
