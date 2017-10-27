@@ -90,14 +90,6 @@ let private removeLinkHandler =
                 return Some context
         }
 
-let private setCode (handler:HttpHandler)= 
-    fun(context: HttpContext) ->     
-        let response =
-             if context.Response.Body.ToString() = ""
-                then setStatusCode 401
-                else handler
-        response context
-
 open Nikeza.Server.Wordpress
 
 let private fetchWordpress (feedUrl) (context : HttpContext) =
