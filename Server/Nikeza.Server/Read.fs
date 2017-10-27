@@ -62,7 +62,7 @@ and readInLink (reader:SqlDataReader) = {
   Url=         reader.GetString (4)
   IsFeatured=  reader.GetBoolean(5)
   ContentType= reader.GetString (6) 
-  }
+}
 
 let rec readInTopics topics (reader:SqlDataReader) = reader.Read() |> function
     | true -> let topic = reader |> readInTopic
@@ -108,7 +108,7 @@ let rec readInSources sources (reader:SqlDataReader) = reader.Read() |> function
             ProfileId=  reader.GetInt32 (1) |> string
             Platform=   reader.GetString(2)
             AccessId=   reader.GetString(3)
-            Links =     [] // Todo: Read in links from Link table
+            Links =     [] // Should be handled in a separate step
          }
 
         readInSources (source::sources) reader

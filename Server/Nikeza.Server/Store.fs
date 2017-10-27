@@ -116,11 +116,15 @@ let getSources profileId =
     sources
 
 let getSource sourceId =
-    let commandFunc (command: SqlCommand) = 
+    let sourceCommandFunc (command: SqlCommand) = 
         command |> addWithValue "@SourceId" sourceId
         
-    let sources = readInSources |> getResults getSourceSql commandFunc
+    let sources = readInSources |> getResults getSourceSql sourceCommandFunc
     sources |> List.tryHead
+            |> function
+            | Some source -> let links = linksFrom source.Platform source.ProfileId
+                             Some { source with Links= links }
+            | None -> None
 
 let getPlatforms () =
     let commandFunc (command: SqlCommand) = command

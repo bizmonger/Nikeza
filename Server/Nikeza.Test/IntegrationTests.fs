@@ -294,10 +294,9 @@ let ``Get links of provider`` () =
 let ``Get followers`` () =
 
     // Setup
-    let profileId =   Register someProfile   |> execute
+    let profileId =    Register someProfile    |> execute
     let subscriberId = Register someSubscriber |> execute
     
-
     Follow { FollowRequest.ProfileId=   profileId
              FollowRequest.SubscriberId= subscriberId } |> execute |> ignore
 

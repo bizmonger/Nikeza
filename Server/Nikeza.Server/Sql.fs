@@ -123,14 +123,14 @@ let getLinksSql = "SELECT Id,
                    WHERE  ProfileId = @ProfileId"
 
 let getSourceLinksSql = 
-                  "SELECT Link.Id, 
-                          Link.ProfileId, 
-                          Link.Title, 
-                          Link.Description, 
-                          Link.Url, 
-                          Link.ContentTypeId, 
-                          Link.IsFeatured, 
-                          Link.Created
+                  "SELECT       Link.Id,
+                                Link.ProfileId, 
+                                Link.Title, 
+                                Link.Description, 
+                                Link.Url, 
+                                Link.ContentTypeId, 
+                                Link.IsFeatured, 
+                                Link.Created
 
                    FROM         Link
                    INNER JOIN   Source
@@ -141,20 +141,19 @@ let getSourceLinksSql =
                    
                    WHERE        Link.ProfileId = @ProfileId AND Source.Platform = @Platform"
 
-let getRecentSql = @"  SELECT       Link.Id, 
-                                  Link.ProfileId, 
-                                  Link.Title, 
-                                  Link.Description, 
-                                  Link.Url, 
-                                  Link.ContentTypeId, 
-                                  Link.IsFeatured, 
-                                  Link.Created
-
-                       FROM       Link
-                       WHERE Link.Id NOT IN 
-                                    (SELECT LinkId
-									 FROM   ObservedLinks
-                                     WHERE  ObservedLinks.SubscriberId = SubscriberId)"
+let getRecentSql = @"SELECT     Link.Id, 
+                                Link.ProfileId, 
+                                Link.Title, 
+                                Link.Description, 
+                                Link.Url, 
+                                Link.ContentTypeId, 
+                                Link.IsFeatured, 
+                                Link.Created
+                     FROM       Link
+                     WHERE Link.Id NOT IN 
+                                  (SELECT LinkId
+					               FROM   ObservedLinks
+                                   WHERE  ObservedLinks.SubscriberId = SubscriberId)"
                                      
 
 let getFollowersSql = @"SELECT Profile.Id,
@@ -162,7 +161,10 @@ let getFollowersSql = @"SELECT Profile.Id,
                                Profile.LastName,
                                Profile.Email,
                                Profile.ImageUrl,
-                               Profile.Bio
+                               Profile.Bio,
+                               PasswordHash,
+                               Salt,         
+                               Created
 
                        FROM       Profile
                        INNER JOIN Subscription
@@ -174,17 +176,21 @@ let getSubscriptionsSql = @"SELECT Profile.Id,
                                    Profile.LastName,
                                    Profile.Email,
                                    Profile.ImageUrl,
-                                   Profile.Bio
-                                   FROM       Profile
-                                   INNER JOIN Subscription
-                                   ON         Subscription.ProfileId =   Profile.Id
-                                   WHERE      Subscription.SubscriberId = @SubscriberId"
+                                   Profile.Bio,
+                                   PasswordHash,
+                                   Salt,         
+                                   Created
+
+                            FROM       Profile
+                            INNER JOIN Subscription
+                            ON         Subscription.ProfileId =   Profile.Id
+                            WHERE      Subscription.SubscriberId = @SubscriberId"
 
 let filterOnProfileId = "WHERE [Profile].Id = @ProfileId"
 
 let getProvidersSql =
-    @"SELECT      [Profile].Id, 
-                  [Profile].FirstName, 
+    @"SELECT  [Profile].Id, 
+              [Profile].FirstName, 
 		      [Profile].LastName, 
 		      [Profile].Email, 
 		      [Profile].ImageUrl, 
@@ -210,7 +216,10 @@ let getProfilesSql = @"SELECT  Id,
                                LastName,
                                Email,
                                ImageUrl,
-                               Bio
+                               Bio,
+                               PasswordHash,
+                               Salt,         
+                               Created
 
                        FROM    Profile"
 
@@ -219,21 +228,23 @@ let getProfileSql = @"SELECT  Id,
                               LastName,
                               Email,
                               ImageUrl,
-                              Bio
+                              Bio,
+                              PasswordHash,
+                              Salt,         
+                              Created
+                              
                        FROM   Profile
                        WHERE  Id = @ProfileId"
-
 let getSourcesSql = @"SELECT Id,
                              ProfileId,
                              Platform,
                              AccessId
                       FROM   Source
                       WHERE  ProfileId = @ProfileId"
-
-let getSourceSql = @"SELECT  Id,
-                             ProfileId,
-                             Platform,
-                             AccessId
+let getSourceSql = @"SELECT  Source.Id,
+                             Source.ProfileId,
+                             Source.Platform,
+                             Source.AccessId
                       FROM   Source
                       WHERE  Id = @SourceId"
 
