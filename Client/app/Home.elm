@@ -22,7 +22,6 @@ import String exposing (..)
 
 
 -- elm-live Home.elm --open --output=home.js --debug
--- elm-package install elm-lang/navigation
 
 
 main =
@@ -500,7 +499,7 @@ onNewLink subMsg model =
         ( pendingPortal, provider ) =
             ( model.portal, model.portal.provider )
 
-        newLinks =
+        ( newLinks, subCmd ) =
             NewLinks.update subMsg pendingPortal.newLinks
 
         portal =
@@ -538,6 +537,14 @@ onNewLink subMsg model =
                         }
                 in
                     ( { model | portal = updatedPortal }, Cmd.none )
+
+            NewLinks.Response result ->
+                case result of
+                    Result.Ok jsonProvider ->
+                        ( model, Cmd.none )
+
+                    Result.Err _ ->
+                        ( model, Cmd.none )
 
 
 onSourcesUpdated : Sources.Msg -> Model -> ( Model, Cmd Msg )

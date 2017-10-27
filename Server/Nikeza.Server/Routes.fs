@@ -79,8 +79,8 @@ let private removeSourceHandler =
 let private addLinkHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<Link>()
-                ignore (execute <| AddLink data)
-                return Some context
+                let linkId = AddLink data |> execute
+                return! json { data with Id = Int32.Parse(linkId) } context
         }
 
 let private removeLinkHandler = 
@@ -114,6 +114,10 @@ let private fetchBootstrap  =
 let private fetchLinks (providerId) (context : HttpContext) =
     let response = getLinks providerId
     json response context
+
+let private fetchRecent (subscriberId) (context : HttpContext) =
+    let response = getRecent subscriberId
+    json response context
     
 let private fetchFollowers (providerId) (context : HttpContext) =
     let response = getFollowers providerId
@@ -143,6 +147,7 @@ let webApp : HttpContext -> HttpHandlerResult =
                 route  "/bootstrap"     >=>  fetchBootstrap
                 routef "/wordpress/%s"       fetchWordpress
                 routef "/links/%s"           fetchLinks
+                routef "/recent/%s"          fetchRecent
                 routef "/followers/%s"       fetchFollowers
                 routef "/subscriptions/%s"   fetchSubscriptions
                 routef "/sources/%s"         fetchSources

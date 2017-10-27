@@ -539,15 +539,17 @@ portfolio profileId msg =
         |> httpSuccess msg
 
 
-addLink : Id -> Link -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
-addLink profileId link msg =
-    JsonPortfolio [] [] [] []
+addLink : Link -> (Result Http.Error JsonLink -> msg) -> Cmd msg
+addLink link msg =
+    link
+        |> toJsonLink
         |> httpSuccess msg
 
 
-removeLink : Id -> Link -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
-removeLink profileId link msg =
-    JsonPortfolio [] [] [] []
+removeLink : Link -> (Result Http.Error JsonLink -> msg) -> Cmd msg
+removeLink link msg =
+    link
+        |> toJsonLink
         |> httpSuccess msg
 
 

@@ -1,11 +1,13 @@
 module Controls.NewLinks exposing (..)
 
-import Settings exposing (..)
-import Domain.Core exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Json.Decode exposing (map)
+import Http
+import Settings exposing (..)
+import Domain.Core exposing (..)
+import Services.Adapter exposing (..)
 
 
 type Msg
@@ -16,9 +18,10 @@ type Msg
     | InputContentType String
     | AddLink NewLinks
     | AssociateTopic Topic
+    | Response (Result Http.Error JsonLink)
 
 
-update : Msg -> NewLinks -> NewLinks
+update : Msg -> NewLinks -> ( NewLinks, Cmd Msg )
 update msg model =
     let
         linkToCreate =
@@ -29,25 +32,35 @@ update msg model =
     in
         case msg of
             InputTitle v ->
-                { model | current = { linkToCreate | base = { linkToCreateBase | title = Title v } } }
+                ( { model | current = { linkToCreate | base = { linkToCreateBase | title = Title v } } }, Cmd.none )
 
             InputUrl v ->
-                { model | current = { linkToCreate | base = { linkToCreateBase | url = Url v } } }
+                ( { model | current = { linkToCreate | base = { linkToCreateBase | url = Url v } } }, Cmd.none )
 
             InputTopic v ->
-                { model | current = { linkToCreate | currentTopic = Topic v False } }
+                ( { model | current = { linkToCreate | currentTopic = Topic v False } }, Cmd.none )
 
             RemoveTopic v ->
-                { model | current = { linkToCreate | base = { linkToCreateBase | topics = linkToCreateBase.topics |> List.filter (\t -> t /= v) } } }
+                let
+                    link =
+                        { linkToCreateBase | topics = linkToCreateBase.topics |> List.filter (\t -> t /= v) }
+                in
+                    ( { model | current = { linkToCreate | base = link } }, Cmd.none )
 
             AssociateTopic v ->
-                { model | current = { linkToCreate | currentTopic = Topic "" False, base = { linkToCreateBase | topics = v :: linkToCreateBase.topics } } }
+                ( { model | current = { linkToCreate | currentTopic = Topic "" False, base = { linkToCreateBase | topics = v :: linkToCreateBase.topics } } }, Cmd.none )
 
             InputContentType v ->
-                { model | current = { linkToCreate | base = { linkToCreateBase | contentType = toContentType v } } }
+                ( { model | current = { linkToCreate | base = { linkToCreateBase | contentType = toContentType v } } }, Cmd.none )
 
             AddLink v ->
-                v
+                ( model, runtime.addLink v.current.base Response )
+
+            Response (Ok jsonLink) ->
+                ( { model | added = (jsonLink |> toLink) :: model.added }, Cmd.none )
+
+            Response (Err error) ->
+                Debug.crash ("Error: " ++ toString error) ( model, Cmd.none )
 
 
 

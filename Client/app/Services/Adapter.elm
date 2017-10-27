@@ -67,11 +67,11 @@ type alias Sourcesfunction msg =
 
 
 type alias AddLinkfunction msg =
-    Id -> Link -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
+    Link -> (Result Http.Error JsonLink -> msg) -> Cmd msg
 
 
 type alias RemoveLinkfunction msg =
-    Id -> Link -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
+    Link -> (Result Http.Error JsonLink -> msg) -> Cmd msg
 
 
 type alias Portfoliofunction msg =
@@ -162,7 +162,7 @@ type alias JsonProviderFields =
     { profile : JsonProfile
     , topics : List JsonTopic
     , portfolio : JsonPortfolio
-    , recentLinks : List JsonLink 
+    , recentLinks : List JsonLink
     , subscriptions : List JsonProvider
     , followers : List JsonProvider
     }
@@ -225,7 +225,7 @@ toJsonLinks links =
 
 jsonProfileToProvider : JsonProfile -> Provider
 jsonProfileToProvider jsonProfile =
-    Provider (toProfile jsonProfile) initTopics initPortfolio initPortfolio [] initSubscription initSubscription 
+    Provider (toProfile jsonProfile) initTopics initPortfolio initPortfolio [] initSubscription initSubscription
 
 
 toMembers : List JsonProvider -> Members
@@ -290,7 +290,7 @@ toProvider jsonProvider =
         , topics = field.topics |> toTopics
         , portfolio = field.portfolio |> toPortfolio
         , filteredPortfolio = field.portfolio |> toPortfolio
-        , recentLinks = field.recentLinks |> toLinks 
+        , recentLinks = field.recentLinks |> toLinks
         , followers = field.followers |> toMembers
         , subscriptions = field.subscriptions |> toMembers
         }

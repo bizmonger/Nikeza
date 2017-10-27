@@ -49,7 +49,7 @@ recentLinks : Id -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
 recentLinks profileId msg =
     let
         url =
-            baseUrl ++ "recentlinks"
+            baseUrl ++ "recent"
 
         request =
             Http.get url (Decode.list linkDecoder)
@@ -129,32 +129,32 @@ topicLinks profileId topic contentType msg =
         Http.send msg request
 
 
-addLink : Id -> Link -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
-addLink profileId link msg =
+addLink : Link -> (Result Http.Error JsonLink -> msg) -> Cmd msg
+addLink link msg =
     let
         url =
-            baseUrl ++ (idText profileId) ++ "/addlink"
+            baseUrl ++ (idText link.profileId) ++ "/addlink"
 
         body =
             encodeLink link |> Http.jsonBody
 
         request =
-            Http.post url body portfolioDecoder
+            Http.post url body linkDecoder
     in
         Http.send msg request
 
 
-removeLink : Id -> Link -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
-removeLink profileId link msg =
+removeLink : Link -> (Result Http.Error JsonLink -> msg) -> Cmd msg
+removeLink link msg =
     let
         url =
-            baseUrl ++ (idText profileId) ++ "/removelink"
+            baseUrl ++ (idText link.profileId) ++ "/removelink"
 
         body =
             encodeLink link |> Http.jsonBody
 
         request =
-            Http.post url body portfolioDecoder
+            Http.post url body linkDecoder
     in
         Http.send msg request
 

@@ -7,7 +7,6 @@ import Http
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
-import Navigation exposing (..)
 
 
 type Msg
