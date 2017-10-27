@@ -26,7 +26,7 @@ let ``Read YouTube AccessId file`` () =
     text.Length |> should (be greaterThan) 0
 
 [<Test>]
-let ``Subscriber observes provider's link`` () =
+let ``Subscriber observes provider link`` () =
 
     // Setup
     let profileId =    Register someProfile    |> execute
@@ -39,14 +39,14 @@ let ``Subscriber observes provider's link`` () =
     let linkId = AddLink  { someLink with ProfileId = profileId } |> execute
 
     // Test
-    let providerLink =  { SubscriberId= subscriberId; LinkIds=[Int32.Parse(linkId)] }
-    let linkObservedIds = ObserveLinks providerLink |> execute
+    let link = { SubscriberId= subscriberId; LinkIds=[Int32.Parse(linkId)] }
+    let linkObservedIds = ObserveLinks link |> execute
 
     // Verify
     linkObservedIds |> should equal linkId
 
 [<Test>]
-let ``Subscriber observes recent links`` () =
+let ``No recent links after subscriber observes new link`` () =
 
     // Setup
     let profileId =    Register someProfile    |> execute
@@ -57,13 +57,15 @@ let ``Subscriber observes recent links`` () =
            } |> execute |> ignore
 
     let linkId = AddLink  { someLink with ProfileId = profileId } |> execute
+    let link = { SubscriberId= subscriberId; LinkIds=[Int32.Parse(linkId)] }
+
+    ObserveLinks link |> execute |> ignore
 
     // Test
-    let recentLinks = getRecent subscriberId
+    let recentLinks = subscriberId |> getRecent
 
     // Verify
-    let link = List.head recentLinks
-    link.Id |> string |> should equal linkId
+    recentLinks |> List.isEmpty |> should equal true
 
 [<Test>]
 let ``Follow Provider`` () =
