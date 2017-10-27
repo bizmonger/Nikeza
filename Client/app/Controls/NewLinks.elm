@@ -57,7 +57,12 @@ update msg model =
                 ( model, runtime.addLink v.current.base Response )
 
             Response (Ok jsonLink) ->
-                ( { model | added = (jsonLink |> toLink) :: model.added }, Cmd.none )
+                ( { model
+                    | added = (jsonLink |> toLink) :: model.added
+                    , current = initLinkToCreate
+                  }
+                , Cmd.none
+                )
 
             Response (Err error) ->
                 Debug.crash ("Error: " ++ toString error) ( model, Cmd.none )
@@ -124,7 +129,7 @@ view model =
                                 [ td []
                                     [ table []
                                         [ tr []
-                                            [ td [] [ input [ type_ "text", placeholder "topic", onInput InputTopic, value (topicText current.currentTopic) ] [] ]
+                                            [ td [] [ input [ class "addTopic", type_ "text", placeholder "topic", onInput InputTopic, value (topicText current.currentTopic) ] [] ]
                                             , td [] [ listbox ]
                                             ]
                                         ]

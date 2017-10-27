@@ -31,6 +31,13 @@ view linksFrom provider =
 
         filtered =
             provider.filteredPortfolio
+
+        ( answerCount, articleCount, podcastCount, videoCount ) =
+            ( provider.portfolio |> getLinks Answer |> List.length
+            , provider.portfolio |> getLinks Article |> List.length
+            , provider.portfolio |> getLinks Podcast |> List.length
+            , provider.portfolio |> getLinks Video |> List.length
+            )
     in
         div []
             [ table []
@@ -44,16 +51,16 @@ view linksFrom provider =
                                     , td [] [ b [] [ text "Articles" ] ]
                                     ]
                                 , tr []
-                                    [ td [] [ div [] <| requestAllContent linksFrom profileId Answer filtered.answers ]
-                                    , td [] [ div [] <| requestAllContent linksFrom profileId Article filtered.articles ]
+                                    [ td [] [ div [] <| requestAllContent linksFrom profileId Answer filtered.answers answerCount ]
+                                    , td [] [ div [] <| requestAllContent linksFrom profileId Article filtered.articles articleCount ]
                                     ]
                                 , tr []
                                     [ td [] [ b [] [ text "Podcasts" ] ]
                                     , td [] [ b [] [ text "Videos" ] ]
                                     ]
                                 , tr []
-                                    [ td [] [ div [] <| requestAllContent linksFrom profileId Podcast filtered.podcasts ]
-                                    , td [] [ div [] <| requestAllContent linksFrom profileId Video filtered.videos ]
+                                    [ td [] [ div [] <| requestAllContent linksFrom profileId Podcast filtered.podcasts podcastCount ]
+                                    , td [] [ div [] <| requestAllContent linksFrom profileId Video filtered.videos videoCount ]
                                     ]
                                 ]
                             ]
@@ -63,16 +70,12 @@ view linksFrom provider =
             ]
 
 
-requestAllContent : Linksfrom -> Id -> ContentType -> List Link -> List (Html Msg)
-requestAllContent linksFrom profileId contentType links =
-    let
-        totalLinks =
-            links |> List.length |> toString
-    in
-        List.append (linksUI links)
-            [ a [ href <| urlText <| allContentUrl linksFrom profileId contentType ]
-                [ text <| ("All (" ++ totalLinks ++ ") links"), br [] [] ]
-            ]
+requestAllContent : Linksfrom -> Id -> ContentType -> List Link -> Int -> List (Html Msg)
+requestAllContent linksFrom profileId contentType links count =
+    List.append (linksUI links)
+        [ a [ href <| urlText <| allContentUrl linksFrom profileId contentType ]
+            [ text <| ("All (" ++ toString count ++ ") links"), br [] [] ]
+        ]
 
 
 decorateIfFeatured : Link -> Html Msg

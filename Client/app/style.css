@@ -55,6 +55,10 @@ input[type="text"].inputUsername {
     width:210px;
 }
 
+input[type="text"].addTopic {
+    margin-left: -2px;
+}
+
 select.selectPlatform {
     width:120px;
 }

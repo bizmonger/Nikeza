@@ -502,49 +502,49 @@ onNewLink subMsg model =
         ( newLinks, subCmd ) =
             NewLinks.update subMsg pendingPortal.newLinks
 
+        newLinkCmd =
+            Cmd.map NewLink subCmd
+
         portal =
             { pendingPortal | newLinks = newLinks }
     in
         case subMsg of
             NewLinks.InputTitle _ ->
-                ( { model | portal = portal }, Cmd.none )
+                ( { model | portal = portal }, newLinkCmd )
 
             NewLinks.InputUrl _ ->
-                ( { model | portal = portal }, Cmd.none )
+                ( { model | portal = portal }, newLinkCmd )
 
             NewLinks.InputTopic _ ->
-                ( { model | portal = portal }, Cmd.none )
+                ( { model | portal = portal }, newLinkCmd )
 
             NewLinks.RemoveTopic _ ->
-                ( { model | portal = portal }, Cmd.none )
+                ( { model | portal = portal }, newLinkCmd )
 
             NewLinks.AssociateTopic _ ->
-                ( { model | portal = portal }, Cmd.none )
+                ( { model | portal = portal }, newLinkCmd )
 
             NewLinks.InputContentType _ ->
-                ( { model | portal = portal }, Cmd.none )
+                ( { model | portal = portal }, newLinkCmd )
 
             NewLinks.AddLink v ->
-                let
-                    updatedLinks =
-                        { newLinks | canAdd = True, added = v.current.base :: v.added }
-
-                    updatedPortal =
-                        { portal
-                            | newLinks = updatedLinks
-                            , linksNavigation = True
-                            , provider = { provider | portfolio = refreshLinks provider updatedLinks.added }
-                        }
-                in
-                    ( { model | portal = updatedPortal }, Cmd.none )
+                ( model, newLinkCmd )
 
             NewLinks.Response result ->
                 case result of
                     Result.Ok jsonProvider ->
-                        ( model, Cmd.none )
+                        let
+                            updatedPortal =
+                                { portal
+                                    | newLinks = newLinks
+                                    , linksNavigation = True
+                                    , provider = { provider | portfolio = refreshLinks provider newLinks.added }
+                                }
+                        in
+                            ( { model | portal = updatedPortal }, newLinkCmd )
 
-                    Result.Err _ ->
-                        ( model, Cmd.none )
+                    Result.Err reason ->
+                        Debug.crash (toString reason) ( model, newLinkCmd )
 
 
 onSourcesUpdated : Sources.Msg -> Model -> ( Model, Cmd Msg )
