@@ -39,11 +39,30 @@ let loginProfile email =
                        |> List.tryHead
     profileRequest
 
-let getPortfolio profileId = {   
-        Answers =  []
-        Articles = []
-        Videos =   []
-        Podcasts = []
+
+
+let getProfiles profileId sql parameterName =
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue parameterName profileId
+        
+    let profiles = readInProfiles |> getResults sql commandFunc
+    profiles
+    
+let getLinks profileId =
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue "@ProfileId" profileId
+
+    let links = readInLinks |> getResults getLinksSql commandFunc
+    links
+
+let getPortfolio profileId = 
+
+    let links = getLinks profileId
+
+    { Answers =  links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = Answer)
+      Articles = links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = Article)
+      Videos =   links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = Video)
+      Podcasts = links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = Podcast)
     }
 
 let getRecent subscriberId =
@@ -64,20 +83,6 @@ let loginProvider email =
                Followers=      []
             }
     | None -> None
-
-let getProfiles profileId sql parameterName =
-    let commandFunc (command: SqlCommand) = 
-        command |> addWithValue parameterName profileId
-        
-    let profiles = readInProfiles |> getResults sql commandFunc
-    profiles
-    
-let getLinks profileId =
-    let commandFunc (command: SqlCommand) = 
-        command |> addWithValue "@ProfileId" profileId
-
-    let links = readInLinks |> getResults getLinksSql commandFunc
-    links
 
 let linksFrom platform profileId =
     let commandFunc (command: SqlCommand) = 

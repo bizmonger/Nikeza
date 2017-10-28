@@ -109,7 +109,7 @@ let rec readInSources sources (reader:SqlDataReader) = reader.Read() |> function
             ProfileId=  reader.GetInt32 (1) |> string
             Platform=   reader.GetString(2)
             AccessId=   reader.GetString(3)
-            Links =     [] // Should be handled in a separate step
+            Links =     [] // Handled in a separate step
          }
 
         readInSources (source::sources) reader

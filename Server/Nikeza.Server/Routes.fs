@@ -97,8 +97,6 @@ let private fetchWordpress (feedUrl) (context : HttpContext) =
             return! json response context
     }
 
-let private fetchProviders =  json <| getProviders()
-
 let private fetchBootstrap  = 
     let dependencies = { Providers= getProviders(); Platforms=getPlatforms() }
     json dependencies
@@ -135,7 +133,6 @@ let webApp : HttpContext -> HttpHandlerResult =
                 //route "/" >=> htmlFile "/hostingstart.html"
                 route  "/"              >=>  htmlFile "/home.html"
                 route  "/options"       >=>  setHttpHeader "Allow" "GET, OPTIONS, POST" // CORS support
-                route  "/providers"     >=>  fetchProviders
                 route  "/bootstrap"     >=>  fetchBootstrap
                 routef "/wordpress/%s"       fetchWordpress
                 routef "/links/%s"           fetchLinks
