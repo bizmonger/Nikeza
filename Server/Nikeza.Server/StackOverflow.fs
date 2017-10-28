@@ -3,6 +3,6 @@ module Nikeza.Server.StackOverflow
 // https://api.stackexchange.com/docs/tags#page=5&pagesize=100&order=desc&sort=popular&filter=!-.G.68grSaJm&site=stackoverflow&run=true
 
 // Answers
-// https://api.stackexchange.com/2.2/me/answers?order=desc&sort=activity&site=stackoverflow&filter=!t)IWLZ7mozzQ*GF(wuyVijpoZYBf1WW
+// https://api.stackexchange.com/2.2/users/492701/answers?order=desc&sort=activity&site=stackoverflow&filter=!Fcazzsr2b3M)LbUjGAu-Fs0Wf8
 
 let getTags pages = []
