@@ -535,14 +535,58 @@ onNewLink subMsg model =
 
             NewLinks.Response result ->
                 case result of
-                    Result.Ok _ ->
+                    Result.Ok jsonLink ->
                         let
-                            -- Todo: Update filteredPortfolio if contentType list is less than count displayed pn portfoio
+                            ( articles, answers, videos, podcasts ) =
+                                ( provider.filteredPortfolio.articles
+                                , provider.filteredPortfolio.answers
+                                , provider.filteredPortfolio.videos
+                                , provider.filteredPortfolio.podcasts
+                                )
+
+                            updateFilter contentType contentTypeLinks =
+                                let
+                                    updatedContentTypeLinks =
+                                        (jsonLink |> toLink) :: contentTypeLinks
+
+                                    filteredPortfolio =
+                                        provider.filteredPortfolio
+                                in
+                                    case contentType of
+                                        Article ->
+                                            { filteredPortfolio | articles = updatedContentTypeLinks }
+
+                                        Answer ->
+                                            { filteredPortfolio | answers = updatedContentTypeLinks }
+
+                                        Video ->
+                                            { filteredPortfolio | videos = updatedContentTypeLinks }
+
+                                        Podcast ->
+                                            { filteredPortfolio | podcasts = updatedContentTypeLinks }
+
+                                        All ->
+                                            provider.filteredPortfolio
+
+                                        Unknown ->
+                                            provider.filteredPortfolio
+
+                            newFilteredPortfolio =
+                                let
+                                    contentType =
+                                        jsonLink.contentType |> toContentType
+                                in
+                                    articles |> updateFilter contentType
+
                             updatedPortal =
                                 { portal
-                                    | newLinks = newLinks
+                                    | newLinks = initNewLinks
                                     , linksNavigation = True
-                                    , provider = { provider | portfolio = refreshLinks provider newLinks.added }
+                                    , provider =
+                                        { provider
+                                            | portfolio = refreshLinks provider newLinks.added
+                                            , filteredPortfolio = newFilteredPortfolio
+                                        }
                                 }
                         in
                             ( { model | portal = updatedPortal }, newLinkCmd )

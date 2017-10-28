@@ -4,16 +4,16 @@ module Nikeza.Server.Literals
 let APIKeyFile = @"C:\Nikeza\YouTube_APIKey.txt"
 
 [<Literal>]
-let VideoText = "video"
+let VideoText = "Videos"
 
 [<Literal>]
-let ArticleText = "article"
+let ArticleText = "Articles"
 
 [<Literal>]
-let PodcastText = "podcast"
+let PodcastText = "Podcasts"
 
 [<Literal>]
-let AnswerText = "answer"
+let AnswerText = "Answers"
 
 [<Literal>]
 let UnknownText = "unknown"
