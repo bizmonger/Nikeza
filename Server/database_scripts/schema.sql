@@ -1,11 +1,18 @@
+/*    ==Scripting Parameters==
+
+    Source Server Version : SQL Server 2016 (13.0.4001)
+    Source Database Engine Edition : Microsoft SQL Server Express Edition
+    Source Database Engine Type : Standalone SQL Server
+
+    Target Server Version : SQL Server 2016
+    Target Database Engine Edition : Microsoft SQL Server Express Edition
+    Target Database Engine Type : Standalone SQL Server
+*/
+
 USE [master]
 GO
 
-/****** Object:  Database [Nikeza]    Script Date: 8/16/2017 9:57:22 PM ******/
-DROP DATABASE [Nikeza]
-GO
-
-/****** Object:  Database [Nikeza]    Script Date: 8/16/2017 9:57:22 PM ******/
+/****** Object:  Database [Nikeza]    Script Date: 10/28/2017 2:21:24 PM ******/
 CREATE DATABASE [Nikeza]
  CONTAINMENT = NONE
  ON  PRIMARY 

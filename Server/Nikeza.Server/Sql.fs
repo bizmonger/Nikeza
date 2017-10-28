@@ -26,7 +26,13 @@ let registerSql = @"INSERT INTO [dbo].[Profile]
                           , @Created
                           , @Salt
                           )"
-   
+
+let addLinkTopicSql = @"INSERT INTO [dbo].addLinkTopicSql
+                        (LinkId , TopicId)
+                        
+                        OUTPUT INSERTED.ID
+
+                        VALUES (@LinkId, TopicId)"
 let addLinkSql = @"INSERT INTO [dbo].[Link]
                           (ProfileId
                           ,Title

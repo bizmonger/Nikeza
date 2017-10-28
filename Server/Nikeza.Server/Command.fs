@@ -49,6 +49,18 @@ module private Commands =
         
         commandFunc |> execute connectionString registerSql
 
+    let addLinkTopics (link:Link) =
+        let linkTopicIds =
+            link.Topics 
+            |> List.map (fun topic ->
+                let linkTopicsCommandFunc (command: SqlCommand) =
+                    command |> addWithValue "@LinkId"     link.Id
+                            |> addWithValue "@TopicId"    topic
+
+                linkTopicsCommandFunc |> execute connectionString addLinkTopicSql
+                        )
+        linkTopicIds |> String.concat ","
+
     let addLink (info:Link) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@ProfileId"     (Int32.Parse(info.ProfileId))
@@ -59,7 +71,10 @@ module private Commands =
                     |> addWithValue "@IsFeatured"    info.IsFeatured
                     |> addWithValue "@Created"       DateTime.Now
         
-        commandFunc |> execute connectionString addLinkSql
+        let linkId = commandFunc |> execute connectionString addLinkSql
+
+        addLinkTopics info |> ignore; linkId
+
 
     let addSource (info:DataSourceRequest) =
         let commandFunc (command: SqlCommand) = 
