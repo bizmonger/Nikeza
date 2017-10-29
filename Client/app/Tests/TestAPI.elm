@@ -619,7 +619,7 @@ suggestedTopics search msg =
             |> List.filter (\t -> t |> toLower |> contains (search |> toLower))
             |> httpSuccess msg
     else
-        Debug.crash ("Failed to retrieve suggestions") Cmd.none
+        Cmd.none
 
 
 provider : Id -> (Result Http.Error JsonProvider -> msg) -> Cmd msg

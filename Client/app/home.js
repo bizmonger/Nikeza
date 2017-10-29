@@ -14411,15 +14411,7 @@ var _user$project$Tests_TestAPI$suggestedTopics = F2(
 					function (t) {
 						return t.name;
 					},
-					_user$project$Tests_TestAPI$topics))) : A2(
-			_elm_lang$core$Native_Utils.crash(
-				'Tests.TestAPI',
-				{
-					start: {line: 622, column: 9},
-					end: {line: 622, column: 20}
-				}),
-			'Failed to retrieve suggestions',
-			_elm_lang$core$Platform_Cmd$none);
+					_user$project$Tests_TestAPI$topics))) : _elm_lang$core$Platform_Cmd$none;
 	});
 var _user$project$Tests_TestAPI$profileId5 = _user$project$Domain_Core$Id('profile_5');
 var _user$project$Tests_TestAPI$profile5 = A7(
