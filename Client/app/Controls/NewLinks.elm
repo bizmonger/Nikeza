@@ -175,9 +175,6 @@ view model =
                             ]
                         ]
                     , td [] [ button [ class "addLink", onClick <| AddLink model ] [ text "Add Link" ] ]
-
-                    --, td [] [ label [] [ text <| toString model.current.base ] ]
-                    , td [] [ label [] [ text <| toString model.current.topicSuggestions ] ]
                     ]
                 ]
             ]
