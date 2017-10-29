@@ -17,7 +17,8 @@ type Msg
     | RemoveTopic Topic
     | InputContentType String
     | AddLink NewLinks
-    | AssociateTopic Topic
+    | AddTopic Topic
+    | TopicSuggestionResponse (Result Http.Error (List Topic))
     | Response (Result Http.Error JsonLink)
 
 
@@ -38,7 +39,7 @@ update msg model =
                 ( { model | current = { linkToCreate | base = { linkToCreateBase | url = Url v } } }, Cmd.none )
 
             InputTopic v ->
-                ( { model | current = { linkToCreate | currentTopic = Topic v False } }, Cmd.none )
+                ( { model | current = { linkToCreate | currentTopic = Topic v False } }, runtime.suggestedTopics v TopicSuggestionResponse )
 
             RemoveTopic v ->
                 let
@@ -47,8 +48,17 @@ update msg model =
                 in
                     ( { model | current = { linkToCreate | base = link } }, Cmd.none )
 
-            AssociateTopic v ->
-                ( { model | current = { linkToCreate | currentTopic = Topic "" False, base = { linkToCreateBase | topics = v :: linkToCreateBase.topics } } }, Cmd.none )
+            AddTopic v ->
+                ( { model
+                    | current =
+                        { linkToCreate
+                            | currentTopic = Topic "" False
+                            , base =
+                                { linkToCreateBase | topics = v :: linkToCreateBase.topics }
+                        }
+                  }
+                , Cmd.none
+                )
 
             InputContentType v ->
                 ( { model | current = { linkToCreate | base = { linkToCreateBase | contentType = toContentType v } } }, Cmd.none )
@@ -65,6 +75,12 @@ update msg model =
                         updatedCurrent.base
                 in
                     ( { model | current = updatedCurrent }, runtime.addLink preparedLink Response )
+
+            TopicSuggestionResponse (Ok topics) ->
+                ( model, Cmd.none )
+
+            TopicSuggestionResponse (Err reason) ->
+                Debug.crash (toString reason) ( model, Cmd.none )
 
             Response (Ok jsonLink) ->
                 ( { model
@@ -87,18 +103,17 @@ view model =
     let
         toButton topic =
             div []
-                [ button [ onClick <| AssociateTopic topic ] [ text <| topicText topic ]
+                [ button [ onClick <| AddTopic topic ] [ text <| topicText topic ]
                 , br [] []
                 ]
 
-        topicsSelectionUI search =
-            div []
-                (search
-                    |> topicText
-                    |> runtime.suggestedTopics
-                    |> List.map toButton
-                )
-
+        -- topicsSelectionUI search =
+        --     div []
+        --         (search
+        --             |> topicText
+        --             |> runtime.suggestedTopics
+        --             |> List.map toButton
+        --         )
         selectedTopicsUI =
             current.base.topics
                 |> List.map
@@ -145,11 +160,13 @@ view model =
                                         ]
                                     ]
                                 ]
-                            , tr [] [ td [] [ topicsSelectionUI current.currentTopic ] ]
+
+                            -- , tr [] [ td [] [ topicsSelectionUI current.currentTopic ] ]
                             , tr [] [ td [] [ div [] selectedTopicsUI ] ]
                             ]
                         ]
                     , td [] [ button [ class "addLink", onClick <| AddLink model ] [ text "Add Link" ] ]
+                    , td [] [ label [] [ text <| toString model.current.base ] ]
                     ]
                 ]
             ]

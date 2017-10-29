@@ -524,13 +524,19 @@ onNewLink subMsg model =
             NewLinks.RemoveTopic _ ->
                 ( { model | portal = portal }, newLinkCmd )
 
-            NewLinks.AssociateTopic _ ->
+            NewLinks.AddTopic _ ->
                 ( { model | portal = portal }, newLinkCmd )
+
+            NewLinks.TopicSuggestionResponse (Ok _) ->
+                ( model, newLinkCmd )
+
+            NewLinks.TopicSuggestionResponse (Err _) ->
+                ( model, newLinkCmd )
 
             NewLinks.InputContentType _ ->
                 ( { model | portal = portal }, newLinkCmd )
 
-            NewLinks.AddLink v ->
+            NewLinks.AddLink _ ->
                 ( model, newLinkCmd )
 
             NewLinks.Response result ->

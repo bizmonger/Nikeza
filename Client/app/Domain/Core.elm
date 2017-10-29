@@ -301,10 +301,6 @@ type alias UserNameToIdfunction =
     String -> Id
 
 
-type alias SuggestedTopicsfunction =
-    String -> List Topic
-
-
 type ContentType
     = Article
     | Video

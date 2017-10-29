@@ -611,12 +611,14 @@ linksToContent contentType profileId =
                 []
 
 
-suggestedTopics : String -> List Topic
-suggestedTopics search =
+suggestedTopics : String -> (Result Http.Error (List Topic) -> msg) -> Cmd msg
+suggestedTopics search msg =
     if not <| isEmpty search then
-        topics |> List.filter (\t -> (topicText t) |> toLower |> contains (search |> toLower))
+        topics
+            |> List.filter (\t -> (topicText t) |> toLower |> contains (search |> toLower))
+            |> httpSuccess msg
     else
-        []
+        Cmd.none
 
 
 provider : Id -> (Result Http.Error JsonProvider -> msg) -> Cmd msg

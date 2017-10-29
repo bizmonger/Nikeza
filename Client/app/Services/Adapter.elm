@@ -94,6 +94,10 @@ type alias RecentLinksfunction msg =
     Id -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
 
 
+type alias SuggestedTopicsfunction msg =
+    String -> (Result Http.Error (List Topic) -> msg) -> Cmd msg
+
+
 type alias JsonProfile =
     { id : String
     , firstName : String

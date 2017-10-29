@@ -8,7 +8,7 @@ import Services.Adapter as Adapter exposing (..)
 
 configuration : Configuration
 configuration =
-    Integration
+    Isolation
 
 
 type Configuration
@@ -31,7 +31,7 @@ type alias Dependencies msg =
     , sources : Sourcesfunction msg
     , addSource : AddSourcefunction msg
     , removeSource : RemoveSourcefunction msg
-    , suggestedTopics : SuggestedTopicsfunction
+    , suggestedTopics : SuggestedTopicsfunction msg
     , subscriptions : Subscriptionsfunction msg
     , followers : Followersfunction msg
     , follow : Followfunction msg

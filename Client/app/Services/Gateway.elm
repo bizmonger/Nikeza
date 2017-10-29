@@ -226,9 +226,16 @@ updateProfile profile msg =
         Http.send msg request
 
 
-suggestedTopics : String -> List Topic
-suggestedTopics search =
-    []
+suggestedTopics : String -> (Result Http.Error (List Topic) -> msg) -> Cmd msg
+suggestedTopics search msg =
+    let
+        url =
+            baseUrl ++ "suggestedtopics"
+
+        request =
+            Http.get url (Decode.list topicDecoder)
+    in
+        Http.send msg request
 
 
 subscriptions : Id -> (Result Http.Error Members -> msg) -> Cmd msg

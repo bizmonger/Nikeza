@@ -90,16 +90,16 @@ let rec readInProfiles profiles (reader:SqlDataReader) = reader.Read() |> functi
 
 and readInProvider (reader:SqlDataReader) = { 
     Profile=       reader |> readInProfile |> toProfileRequest
-    Topics=        reader |> readInTopics []
+    Topics=        []
     Portfolio=     reader |> readInLinks  [] |> toPortfolio
-    RecentLinks=   [] // reader |> readInRecentLinks
-    Subscriptions= [] // reader |> readInSubscriptions
-    Followers=     [] // reader |> readInFollowers
+    RecentLinks=   []
+    Subscriptions= []
+    Followers=     []
 }
 
 let rec readInProviders providers (reader:SqlDataReader) = reader.Read() |> function
-    | true -> let provider = reader |> readInProvider
-              readInProviders (provider::providers) reader
+    | true  -> let provider = reader |> readInProvider
+               readInProviders (provider::providers) reader
     | false -> providers
 
 let rec readInSources sources (reader:SqlDataReader) = reader.Read() |> function
