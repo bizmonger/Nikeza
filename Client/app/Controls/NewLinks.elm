@@ -18,7 +18,7 @@ type Msg
     | InputContentType String
     | AddLink NewLinks
     | AddTopic Topic
-    | TopicSuggestionResponse (Result Http.Error (List Topic))
+    | TopicSuggestionResponse (Result Http.Error (List String))
     | Response (Result Http.Error JsonLink)
 
 
@@ -53,6 +53,7 @@ update msg model =
                     | current =
                         { linkToCreate
                             | currentTopic = Topic "" False
+                            , topicSuggestions = []
                             , base =
                                 { linkToCreateBase | topics = v :: linkToCreateBase.topics }
                         }
@@ -69,7 +70,7 @@ update msg model =
                         ( v.current.base, v.current )
 
                     updatedCurrent =
-                        { current | base = { link | profileId = model.profileId } }
+                        { current | base = { link | profileId = model.profileId }, topicSuggestions = [] }
 
                     preparedLink =
                         updatedCurrent.base
@@ -77,7 +78,14 @@ update msg model =
                     ( { model | current = updatedCurrent }, runtime.addLink preparedLink Response )
 
             TopicSuggestionResponse (Ok topics) ->
-                ( model, Cmd.none )
+                let
+                    current =
+                        model.current
+
+                    suggestions =
+                        topics |> List.map (\t -> Topic t False)
+                in
+                    ( { model | current = { current | topicSuggestions = suggestions } }, Cmd.none )
 
             TopicSuggestionResponse (Err reason) ->
                 Debug.crash (toString reason) ( model, Cmd.none )
@@ -107,13 +115,15 @@ view model =
                 , br [] []
                 ]
 
-        -- topicsSelectionUI search =
-        --     div []
-        --         (search
-        --             |> topicText
-        --             |> runtime.suggestedTopics
-        --             |> List.map toButton
-        --         )
+        suggestionsUI textItems =
+            let
+                buttonsContainer =
+                    textItems
+                        |> List.map (\textItem -> Topic textItem False)
+                        |> List.map (\t -> t |> toButton)
+            in
+                div [] buttonsContainer
+
         selectedTopicsUI =
             current.base.topics
                 |> List.map
@@ -160,13 +170,14 @@ view model =
                                         ]
                                     ]
                                 ]
-
-                            -- , tr [] [ td [] [ topicsSelectionUI current.currentTopic ] ]
+                            , tr [] [ td [] [ suggestionsUI (current.topicSuggestions |> List.map (\t -> topicText t)) ] ]
                             , tr [] [ td [] [ div [] selectedTopicsUI ] ]
                             ]
                         ]
                     , td [] [ button [ class "addLink", onClick <| AddLink model ] [ text "Add Link" ] ]
-                    , td [] [ label [] [ text <| toString model.current.base ] ]
+
+                    --, td [] [ label [] [ text <| toString model.current.base ] ]
+                    , td [] [ label [] [ text <| toString model.current.topicSuggestions ] ]
                     ]
                 ]
             ]

@@ -95,7 +95,7 @@ type alias RecentLinksfunction msg =
 
 
 type alias SuggestedTopicsfunction msg =
-    String -> (Result Http.Error (List Topic) -> msg) -> Cmd msg
+    String -> (Result Http.Error (List String) -> msg) -> Cmd msg
 
 
 type alias JsonProfile =

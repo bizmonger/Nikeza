@@ -528,10 +528,10 @@ onNewLink subMsg model =
                 ( { model | portal = portal }, newLinkCmd )
 
             NewLinks.TopicSuggestionResponse (Ok _) ->
-                ( model, newLinkCmd )
+                ( { model | portal = portal }, newLinkCmd )
 
             NewLinks.TopicSuggestionResponse (Err _) ->
-                ( model, newLinkCmd )
+                ( { model | portal = portal }, newLinkCmd )
 
             NewLinks.InputContentType _ ->
                 ( { model | portal = portal }, newLinkCmd )

@@ -233,7 +233,7 @@ type alias Link =
 
 
 type alias LinkToCreate =
-    { base : Link, currentTopic : Topic }
+    { base : Link, currentTopic : Topic, topicSuggestions : List Topic }
 
 
 initLink : Link
@@ -252,6 +252,7 @@ initLinkToCreate : LinkToCreate
 initLinkToCreate =
     { base = initLink
     , currentTopic = Topic "" False
+    , topicSuggestions = []
     }
 
 
