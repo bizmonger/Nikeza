@@ -57,6 +57,7 @@
     <Compile Include="Configuration.fs" />
     <Compile Include="Sql.fs" />
     <Compile Include="Read.fs" />
+    <Compile Include="Http.fs" />
     <Compile Include="Youtube.fs" />
     <Compile Include="Wordpress.fs" />
     <Compile Include="Stackoverflow.fs" />

@@ -1,8 +1,7 @@
 module Nikeza.Server.YouTube
 
 open System
-open System.Net.Http
-open System.Net.Http.Headers
+open Nikeza.Server.Http
 open FSharp.Control
 open Google.Apis.Services
 open Google.Apis.YouTube.v3
@@ -126,13 +125,6 @@ let uploadsOrEmpty channel youTubeService = channel |> function
     | Some c -> Playlist.uploads c youTubeService
     | None   -> async { return Seq.empty }
 
-let httpClient =
-    let client = new HttpClient()
-    client.BaseAddress <- Uri(BaseAddress)
-    client.DefaultRequestHeaders.Accept.Clear()
-    client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue("application/json"))
-    client
-
 let getTags apiKey videosWithTags =
 
        let getTags item =
@@ -144,8 +136,9 @@ let getTags apiKey videosWithTags =
                                          |> Seq.map (fun v -> v.Id) 
                                          |> String.concat ","
     
-       let url = String.Format(requestTagsUrl, apiKey, delimitedIds)
-       let response = httpClient.GetAsync(url) |> Async.AwaitTask 
+       let url =      String.Format(requestTagsUrl, apiKey, delimitedIds)
+       let client =   httpClient BaseAddress
+       let response = client.GetAsync(url) |> Async.AwaitTask 
                                                |> Async.RunSynchronously
        if response.IsSuccessStatusCode
            then let json =   response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
