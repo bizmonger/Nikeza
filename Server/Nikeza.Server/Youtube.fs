@@ -139,7 +139,7 @@ let getTags apiKey videosWithTags =
        let url =      String.Format(RequestTagsUrl, apiKey, delimitedIds)
        let client =   httpClient BaseAddress
        let response = client.GetAsync(url) |> Async.AwaitTask 
-                                               |> Async.RunSynchronously
+                                           |> Async.RunSynchronously
        if response.IsSuccessStatusCode
            then let json =   response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
                 let result = JsonConvert.DeserializeObject<Response>(json)
@@ -149,8 +149,10 @@ let getTags apiKey videosWithTags =
            else []
 
 let applyVideoTags videoAndTags =
+
     let video = fst videoAndTags
     let tags  = snd videoAndTags
+
     { video with Tags = tags }
 
 type UploadList = YouTubeService -> AccountId -> Async<seq<Video>>

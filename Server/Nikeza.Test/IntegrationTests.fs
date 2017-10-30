@@ -17,17 +17,19 @@ let teardown() = cleanDataStore()
 
 [<Test>]
 let ``Parse related tags`` () =
-    let result = "\n" + "xamarin|26555\nxamarin.ios|11115\nxamarin.forms|10614\nxamarin.android|10138\nxamarin-studio|1364\nxamarin.mac|394"
-    let topics =  result.Split('\n') 
-                  |> List.ofArray 
-                  |> List.filter (fun i -> i <> "")
-                  |> List.choose(fun p -> let index = p.IndexOf("|")
-                                          if  index > 0
-                                              then Some <| p.Substring(0,index)
-                                              else None
-                                 )
+    let result =     "\n\"wpf|135579\\nwpf-controls|4950\\nwpfdatagrid|2178\\nwpftoolkit|971\\nwpf-4.0|426\\nwpf-style|179\""
+    let parts =       result.Split('\n') |> List.ofArray |> List.filter (fun x -> x <> "")
+    let formatted =   List.head parts
+    let reformatted = formatted.Split  ("\\n") |> List.ofArray
+    let entries =     reformatted |> List.choose(fun p -> let index = p.IndexOf("|")
+                                                          if  index > 0
+                                                              then Some <| p.Substring(0,index)
+                                                              else None
+                                                )
 
-    let foo = topics |> String.concat ","
+    let tags = entries |> List.map (fun tag -> tag.Replace(@"""", ""))
+
+    let foo = tags |> String.concat ","
 
     foo |> should equal false
 

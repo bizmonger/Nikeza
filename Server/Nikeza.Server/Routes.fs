@@ -92,6 +92,7 @@ let private removeLinkHandler =
 
 open Nikeza.Server.Wordpress
 open Nikeza.Server.StackOverflow.Suggestions
+open Nikeza.Server.StackOverflow
 open Newtonsoft.Json
 
 let private fetchWordpress (feedUrl) (context : HttpContext) =
@@ -99,7 +100,8 @@ let private fetchWordpress (feedUrl) (context : HttpContext) =
             return! json response context
     }
 
-let private fetchBootstrap  = 
+let private fetchBootstrap =
+    CachedTags.Instance() |> ignore
     let dependencies = { Providers= getProviders(); Platforms=getPlatforms() }
     json dependencies
 
@@ -107,10 +109,9 @@ let private fetchLinks (providerId) (context : HttpContext) =
     let response = getLinks providerId
     json response context
 
-let private fetchSuggestions (text) (context : HttpContext) =
+let private fetchSuggestedTopics (text) (context : HttpContext) =
     let suggestions = getSuggestions text
-    let response =    JsonConvert.SerializeObject(suggestions);
-    json response context
+    json suggestions context
 
 let private fetchRecent (subscriberId) (context : HttpContext) =
     let response = getRecent subscriberId
@@ -138,17 +139,17 @@ let webApp : HttpContext -> HttpHandlerResult =
         GET >=>
             choose [
                 //route "/" >=> htmlFile "/hostingstart.html"
-                route  "/"              >=>  htmlFile "/home.html"
-                route  "/options"       >=>  setHttpHeader "Allow" "GET, OPTIONS, POST" // CORS support
-                route  "/bootstrap"     >=>  fetchBootstrap
-                routef "/wordpress/%s"       fetchWordpress
-                routef "/links/%s"           fetchLinks
-                routef "/suggestions/%s"     fetchSuggestions
-                routef "/recent/%s"          fetchRecent
-                routef "/followers/%s"       fetchFollowers
-                routef "/subscriptions/%s"   fetchSubscriptions
-                routef "/sources/%s"         fetchSources
-                routef "/contenttypetoid/%s" fetchContentTypeToId
+                route  "/"                  >=>  htmlFile "/home.html"
+                route  "/options"           >=>  setHttpHeader "Allow" "GET, OPTIONS, POST" // CORS support
+                route  "/bootstrap"         >=>  fetchBootstrap
+                routef "/wordpress/%s"           fetchWordpress
+                routef "/links/%s"               fetchLinks
+                routef "/suggestedtopics/%s"     fetchSuggestedTopics
+                routef "/recent/%s"              fetchRecent
+                routef "/followers/%s"           fetchFollowers
+                routef "/subscriptions/%s"       fetchSubscriptions
+                routef "/sources/%s"             fetchSources
+                routef "/contenttypetoid/%s"     fetchContentTypeToId
             ]
         POST >=> 
             choose [
