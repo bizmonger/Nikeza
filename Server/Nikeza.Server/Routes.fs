@@ -91,6 +91,8 @@ let private removeLinkHandler =
         }
 
 open Nikeza.Server.Wordpress
+open Nikeza.Server.StackOverflow.Suggestions
+open Newtonsoft.Json
 
 let private fetchWordpress (feedUrl) (context : HttpContext) =
     async { let! response = jsonRssFeed feedUrl
@@ -103,6 +105,11 @@ let private fetchBootstrap  =
 
 let private fetchLinks (providerId) (context : HttpContext) =
     let response = getLinks providerId
+    json response context
+
+let private fetchSuggestions (text) (context : HttpContext) =
+    let suggestions = getSuggestions text
+    let response =    JsonConvert.SerializeObject(suggestions);
     json response context
 
 let private fetchRecent (subscriberId) (context : HttpContext) =
@@ -136,6 +143,7 @@ let webApp : HttpContext -> HttpHandlerResult =
                 route  "/bootstrap"     >=>  fetchBootstrap
                 routef "/wordpress/%s"       fetchWordpress
                 routef "/links/%s"           fetchLinks
+                routef "/suggestions/%s"     fetchSuggestions
                 routef "/recent/%s"          fetchRecent
                 routef "/followers/%s"       fetchFollowers
                 routef "/subscriptions/%s"   fetchSubscriptions

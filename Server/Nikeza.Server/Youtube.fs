@@ -15,7 +15,7 @@ let UrlPrefix = "https://www.youtube.com/watch?v="
 let BaseAddress = "https://www.googleapis.com/youtube/v3/"
 
 [<Literal>]
-let requestTagsUrl = "https://www.googleapis.com/youtube/v3/videos?key={0}&fields=items(snippet(title,tags))&part=snippet&id={1}"
+let RequestTagsUrl = "https://www.googleapis.com/youtube/v3/videos?key={0}&fields=items(snippet(title,tags))&part=snippet&id={1}"
 
 [<CLIMutable>]
 type Snippet =    { title: string; tags: String seq }
@@ -136,7 +136,7 @@ let getTags apiKey videosWithTags =
                                          |> Seq.map (fun v -> v.Id) 
                                          |> String.concat ","
     
-       let url =      String.Format(requestTagsUrl, apiKey, delimitedIds)
+       let url =      String.Format(RequestTagsUrl, apiKey, delimitedIds)
        let client =   httpClient BaseAddress
        let response = client.GetAsync(url) |> Async.AwaitTask 
                                                |> Async.RunSynchronously
