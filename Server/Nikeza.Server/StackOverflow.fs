@@ -23,19 +23,23 @@ module Tags =
     type Response = { items: Item list }
 
     let getTags (pageNumber:int) : string list =
+        
+        let client = httpClient APIBaseAddress
 
-        let url =      String.Format(TagsUrl, pageNumber |> string)
-        let client =   httpClient APIBaseAddress
-        let response = client.GetAsync(url) |> Async.AwaitTask 
-                                            |> Async.RunSynchronously
+        try
+            let url =      String.Format(TagsUrl, pageNumber |> string)
+            let response = client.GetAsync(url) |> Async.AwaitTask 
+                                                |> Async.RunSynchronously
 
-        if response.IsSuccessStatusCode
-        then let json =   response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
-             let result = JsonConvert.DeserializeObject<Response>(json)
-             let tags =   result.items |> List.ofSeq 
-                                       |> List.map (fun i -> i.name)
-             tags
-        else []
+            if response.IsSuccessStatusCode
+            then let json =   response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+                 let result = JsonConvert.DeserializeObject<Response>(json)
+                 let tags =   result.items |> List.ofSeq 
+                                           |> List.map (fun i -> i.name)
+                 tags
+            else []
+
+        finally  client.Dispose()
 
 open Tags
 
@@ -55,24 +59,27 @@ module Suggestions =
             if  index > 0
                 then Some <| text.Substring(0,index)
                 else None
-    
-        let relatedTagsUrl = sprintf "filter/tags?q=%s" tag
-        let client =         httpClient SiteBaseAddress
-        let response =       client.GetAsync(relatedTagsUrl) |> Async.AwaitTask 
-                                                             |> Async.RunSynchronously
-        if response.IsSuccessStatusCode
-            then let result = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously 
-                 let parts =       result.Split('\n') |> List.ofArray |> List.filter (fun x -> x <> "")
-                 parts |> List.tryHead
-                 |> function 
-                    | Some formatted ->
-                        let tags = formatted.Split("\\n") 
-                                   |> List.ofArray
-                                   |> List.choose parseTag
-                                   |> List.map (fun tag -> tag.Replace(@"""", ""))
-                        tags
-                    | None -> []
-            else []
+        
+        let client = httpClient SiteBaseAddress
+
+        try let relatedTagsUrl = sprintf "filter/tags?q=%s" tag
+            let response =       client.GetAsync(relatedTagsUrl) |> Async.AwaitTask 
+                                                                 |> Async.RunSynchronously
+            if response.IsSuccessStatusCode
+                then let result = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously 
+                     let parts =       result.Split('\n') |> List.ofArray |> List.filter (fun x -> x <> "")
+                     parts |> List.tryHead
+                     |> function 
+                        | Some formatted ->
+                            let tags = formatted.Split("\\n") 
+                                       |> List.ofArray
+                                       |> List.choose parseTag
+                                       |> List.map (fun tag -> tag.Replace(@"""", ""))
+                            tags
+                        | None -> []
+                else []
+
+        finally client.Dispose()
             
     let getSuggestions (searchItem:string) =
 

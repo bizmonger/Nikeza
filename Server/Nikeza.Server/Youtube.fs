@@ -135,18 +135,21 @@ let getTags apiKey videosWithTags =
        let delimitedIds = videosWithTags |> Seq.ofArray 
                                          |> Seq.map (fun v -> v.Id) 
                                          |> String.concat ","
-    
-       let url =      String.Format(RequestTagsUrl, apiKey, delimitedIds)
-       let client =   httpClient BaseAddress
-       let response = client.GetAsync(url) |> Async.AwaitTask 
-                                           |> Async.RunSynchronously
-       if response.IsSuccessStatusCode
-           then let json =   response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
-                let result = JsonConvert.DeserializeObject<Response>(json)
-                let tags =   result.items |> List.ofSeq 
-                                          |> List.map getTags
-                tags
-           else []
+
+       let client = httpClient BaseAddress
+
+       try  let url =      String.Format(RequestTagsUrl, apiKey, delimitedIds)
+            let response = client.GetAsync(url) |> Async.AwaitTask 
+                                                |> Async.RunSynchronously
+            if response.IsSuccessStatusCode
+                then let json =   response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+                     let result = JsonConvert.DeserializeObject<Response>(json)
+                     let tags =   result.items |> List.ofSeq 
+                                               |> List.map getTags
+                     tags
+                else []
+
+        finally client.Dispose()
 
 let applyVideoTags videoAndTags =
 
