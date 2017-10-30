@@ -104,6 +104,11 @@ type DataSourceRequest = {
 }
 
 [<CLIMutable>]
+type TopicRequest = { Name:string }
+
+type LinkTopic = { Link:Link; Topic:Topic }
+
+[<CLIMutable>]
 type RemoveDataSourceRequest = { Id: int }
 
 [<CLIMutable>]

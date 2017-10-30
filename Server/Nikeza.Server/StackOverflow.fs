@@ -3,9 +3,11 @@ namespace Nikeza.Server.StackOverflow
 module Tags =
 
     open System
-    open Nikeza.Server.Http
-    open Newtonsoft.Json
     open System.Text
+    open System.IO
+    open Newtonsoft.Json
+    open Nikeza.Server.Http
+    open Nikeza.Server.Literals
 
     (* Answers *)
     // https://api.stackexchange.com/2.2/users/492701/answers?order=desc&sort=activity&site=stackoverflow&filter=!Fcazzsr2b3M)LbUjGAu-Fs0Wf8
@@ -28,8 +30,9 @@ module Tags =
 
         try
             let url =      String.Format(TagsUrl, pageNumber |> string)
-            let response = client.GetAsync(url) |> Async.AwaitTask 
-                                                |> Async.RunSynchronously
+            let urlWithKey = sprintf "%s&key=%s" url (File.ReadAllText(KeyFile_StackOverflow))
+            let response = client.GetAsync(urlWithKey) |> Async.AwaitTask 
+                                                       |> Async.RunSynchronously
 
             if response.IsSuccessStatusCode
             then let json =   response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously

@@ -39,8 +39,6 @@ let loginProfile email =
                        |> List.tryHead
     profileRequest
 
-
-
 let getProfiles profileId sql parameterName =
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue parameterName profileId

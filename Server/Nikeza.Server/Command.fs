@@ -49,17 +49,26 @@ module private Commands =
         
         commandFunc |> execute connectionString registerSql
 
-    let addLinkTopics (link:Link) =
-        let linkTopicIds =
-            link.Topics 
-            |> List.map (fun topic ->
+    let addLinkTopic (linkTopic:LinkTopic) =
+        let linkTopicId =
                 let linkTopicsCommandFunc (command: SqlCommand) =
-                    command |> addWithValue "@LinkId"     link.Id
-                            |> addWithValue "@TopicId"    topic
+                    command |> addWithValue "@LinkId"  linkTopic.Link.Id
+                            |> addWithValue "@TopicId" linkTopic.Topic.Id
 
                 linkTopicsCommandFunc |> execute connectionString addLinkTopicSql
-                        )
-        linkTopicIds |> String.concat ","
+        linkTopicId
+
+    let getTopic (info:TopicRequest) =
+        let commandFunc (command: SqlCommand) = 
+            command |> addWithValue "@Name" info.Name
+
+        commandFunc |> execute connectionString getTopicSql
+
+    let addTopic (info:TopicRequest) =
+        let commandFunc (command: SqlCommand) = 
+            command |> addWithValue "@Name" info.Name
+        
+        commandFunc |> execute connectionString addTopicSql
 
     let addLink (info:Link) =
         let commandFunc (command: SqlCommand) = 
@@ -73,8 +82,19 @@ module private Commands =
         
         let linkId = commandFunc |> execute connectionString addLinkSql
 
-        addLinkTopics info |> ignore; linkId
+        let notFound = info.Topics 
+                       |> List.choose (fun t -> let result = getTopic { Name= t.Name }
+                                                if result = ""
+                                                   then Some { Link= info; Topic= { Id= -1; Name= t.Name; IsFeatured= false} }
+                                                   else None)
 
+        let topicIds = notFound |> List.map (fun lt -> let topicId = addTopic { Name=lt.Topic.Name }
+                                                       let link=  { lt.Link  with Id= Int32.Parse(linkId) }
+                                                       let topic= { lt.Topic with Id= Int32.Parse(topicId)}
+                                                       let linkTopic = { Link= link; Topic= topic }
+                                                       addLinkTopic linkTopic |> ignore
+                                            )
+        linkId
 
     let addSource (info:DataSourceRequest) =
         let commandFunc (command: SqlCommand) = 
@@ -183,10 +203,14 @@ module private Commands =
         
     let addDataSource (info:DataSourceRequest) =
 
+        let apikey = info.Platform |> toPlatformType 
+                                   |> function
+                                      | YouTube -> File.ReadAllText(KeyFile_YouTube)
+                                      | _ -> "no key provided"
         let source = {
             ProfileId=  info.ProfileId
             Platform=   info.Platform |> toPlatformType
-            APIKey=     File.ReadAllText(APIKeyFile)
+            APIKey=     File.ReadAllText(apikey)
             User=     { AccessId = info.AccessId; ProfileId= info.ProfileId }
         }
 

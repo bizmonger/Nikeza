@@ -27,12 +27,18 @@ let registerSql = @"INSERT INTO [dbo].[Profile]
                           , @Salt
                           )"
 
-let addLinkTopicSql = @"INSERT INTO [dbo].addLinkTopicSql
+let addLinkTopicSql = @"INSERT INTO [dbo].LinkTopic
                         (LinkId , TopicId)
                         
                         OUTPUT INSERTED.ID
 
                         VALUES (@LinkId, TopicId)"
+
+let addTopicSql = @"INSERT INTO [dbo].Topic
+                        (Name)
+                        OUTPUT INSERTED.ID
+                        VALUES (@Name)"
+
 let addLinkSql = @"INSERT INTO [dbo].[Link]
                           (ProfileId
                           ,Title
@@ -127,6 +133,14 @@ let getLinksSql = "SELECT Id,
 
                    FROM   [dbo].[Link]
                    WHERE  ProfileId = @ProfileId"
+
+let getTopicSql = "SELECT Id, 
+                          Name, 
+                          IsFeatured
+                          Created
+
+                   FROM   [dbo].[Topic]
+                   WHERE  Name = @Name"
 
 let getSourceLinksSql = 
                   "SELECT       Link.Id,
