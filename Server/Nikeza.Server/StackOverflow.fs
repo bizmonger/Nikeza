@@ -87,7 +87,7 @@ module Suggestions =
                  else []
  
              finally client.Dispose()
-            else []
+        else []
             
     let getSuggestions (searchItem:string) =
         if searchItem <> ""
