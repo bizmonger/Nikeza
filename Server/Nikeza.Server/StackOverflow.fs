@@ -57,40 +57,45 @@ module Suggestions =
 
     let getRelatedTags (tag:string) =
 
-        let parseTag (text:string) =
-            let index = text.IndexOf("|")
-            if  index > 0
-                then Some <| text.Substring(0,index)
-                else None
-        
-        let client = httpClient SiteBaseAddress
-
-        try let relatedTagsUrl = sprintf "filter/tags?q=%s" tag
-            let response =       client.GetAsync(relatedTagsUrl) |> Async.AwaitTask 
-                                                                 |> Async.RunSynchronously
-            if response.IsSuccessStatusCode
-                then let result = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously 
-                     let parts =       result.Split('\n') |> List.ofArray |> List.filter (fun x -> x <> "")
-                     parts |> List.tryHead
-                     |> function 
-                        | Some formatted ->
-                            let tags = formatted.Split("\\n") 
-                                       |> List.ofArray
-                                       |> List.choose parseTag
-                                       |> List.map (fun tag -> tag.Replace(@"""", ""))
-                                       |> List.filter(fun current -> current <> tag)
-                            tag::tags
-                        | None -> []
-                else []
-
-        finally client.Dispose()
+        if tag <> ""
+        then let parseTag (text:string) =
+                 let index = text.IndexOf("|")
+                 if  index > 0
+                     then Some <| text.Substring(0,index)
+                     else None
+             
+             let client = httpClient SiteBaseAddress
+     
+             try let relatedTagsUrl = sprintf "filter/tags?q=%s" tag
+                 let response =       client.GetAsync(relatedTagsUrl) |> Async.AwaitTask 
+                                                                      |> Async.RunSynchronously
+                 if response.IsSuccessStatusCode
+                 then let result = response.Content.ReadAsStringAsync() |> Async.AwaitTask 
+                                                                        |> Async.RunSynchronously 
+                      result.Split('\n') |> List.ofArray 
+                                         |> List.filter (fun x -> x <> "")
+                                         |> List.tryHead
+                                         |> function 
+                                            | None -> []
+                                            | Some formatted ->
+                                                let tags = formatted.Split("\\n") 
+                                                           |> List.ofArray
+                                                           |> List.choose parseTag
+                                                           |> List.map   (fun tag -> tag.Replace(@"""", ""))
+                                                           |> List.filter(fun current -> current <> tag)
+                                                tag::tags
+                 else []
+ 
+             finally client.Dispose()
+            else []
             
     let getSuggestions (searchItem:string) =
+        if searchItem <> ""
+        then let tags =         CachedTags.Instance() |> List.map (fun t -> t.ToLower())
+             let filteredTags = tags |> List.filter(fun t -> t.Contains(searchItem.ToLower()))
+             let matchingTags = filteredTags |> List.filter (fun t -> t = searchItem)
 
-        let tags =         CachedTags.Instance() |> List.map (fun t -> t.ToLower())
-        let filteredTags = tags |> List.filter(fun t -> t.Contains(searchItem.ToLower()))
-        let matchingTags = filteredTags |> List.filter (fun t -> t = searchItem)
-
-        if matchingTags |> List.isEmpty |> not
-            then getRelatedTags matchingTags.Head
-            else filteredTags
+             if matchingTags |> List.isEmpty |> not
+                 then getRelatedTags matchingTags.Head
+                 else filteredTags
+        else []
