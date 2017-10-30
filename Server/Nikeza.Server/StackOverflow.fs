@@ -78,7 +78,8 @@ module Suggestions =
                                        |> List.ofArray
                                        |> List.choose parseTag
                                        |> List.map (fun tag -> tag.Replace(@"""", ""))
-                            tags
+                                       |> List.filter(fun current -> current <> tag)
+                            tag::tags
                         | None -> []
                 else []
 
