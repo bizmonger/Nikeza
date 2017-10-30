@@ -88,12 +88,12 @@ module private Commands =
                                                    then Some { Link= info; Topic= { Id= -1; Name= t.Name; IsFeatured= false} }
                                                    else None)
 
-        let topicIds = notFound |> List.map (fun lt -> let topicId = addTopic { Name=lt.Topic.Name }
-                                                       let link=  { lt.Link  with Id= Int32.Parse(linkId) }
-                                                       let topic= { lt.Topic with Id= Int32.Parse(topicId)}
-                                                       let linkTopic = { Link= link; Topic= topic }
-                                                       addLinkTopic linkTopic |> ignore
-                                            )
+        notFound |> List.map (fun lt -> let topicId = addTopic { Name=lt.Topic.Name }
+                                        let link=  { lt.Link  with Id= Int32.Parse(linkId) }
+                                        let topic= { lt.Topic with Id= Int32.Parse(topicId)}
+                                        let linkTopic = { Link= link; Topic= topic }
+                                        addLinkTopic linkTopic |> ignore
+        ) |> ignore
         linkId
 
     let addSource (info:DataSourceRequest) =
