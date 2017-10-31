@@ -16,24 +16,6 @@ open Nikeza.Server.Literals
 let teardown() = cleanDataStore()
 
 [<Test>]
-let ``Parse related tags`` () =
-    let result =     "\n\"wpf|135579\\nwpf-controls|4950\\nwpfdatagrid|2178\\nwpftoolkit|971\\nwpf-4.0|426\\nwpf-style|179\""
-    let parts =       result.Split('\n') |> List.ofArray |> List.filter (fun x -> x <> "")
-    let formatted =   List.head parts
-    let reformatted = formatted.Split  ("\\n") |> List.ofArray
-    let entries =     reformatted |> List.choose(fun p -> let index = p.IndexOf("|")
-                                                          if  index > 0
-                                                              then Some <| p.Substring(0,index)
-                                                              else None
-                                                )
-
-    let tags = entries |> List.map (fun tag -> tag.Replace(@"""", ""))
-
-    let foo = tags |> String.concat ","
-
-    foo |> should equal false
-
-[<Test>]
 let ``Read YouTube APIKey file`` () =
     let text = File.ReadAllText(KeyFile_YouTube)
     text.Length |> should (be greaterThan) 0

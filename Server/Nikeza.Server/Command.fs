@@ -199,7 +199,7 @@ module private Commands =
         let source = {
             ProfileId=  info.ProfileId
             Platform=   info.Platform |> toPlatformType
-            APIKey=     File.ReadAllText(apikey)
+            APIKey=     apikey
             User=     { AccessId = info.AccessId; ProfileId= info.ProfileId }
         }
 
