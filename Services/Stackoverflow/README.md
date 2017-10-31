@@ -14,8 +14,20 @@ yarn watch
 ```
 
 # Run
+Runs the stack-overflow Rest service
 ```
 yarn serve
+```
+
+## API
+`/tags/:tag` returns an array of tags
+```
+[
+  {
+    count: int,
+    name: string
+  }
+]
 ```
 
 # Test API
