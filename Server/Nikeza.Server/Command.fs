@@ -78,9 +78,9 @@ module private Commands =
         let linkId = commandFunc |> execute connectionString addLinkSql
 
         let notFound = info.Topics 
-                       |> List.choose (fun t -> let result = getTopic { Name= t.Name }
+                       |> List.choose (fun t -> let result = getTopic t.Name
                                                 if result = None
-                                                   then Some { Link= info; Topic= { Id= -1; Name= t.Name; IsFeatured= false} }
+                                                   then Some { Link= info; Topic= { Id= -1; Name= t.Name} }
                                                    else None)
 
         notFound |> List.map (fun lt -> let topicId = addTopic { Name=lt.Topic.Name }
@@ -173,7 +173,7 @@ module private Commands =
            Title=       video.Title
            Description= video.Description
            Url=         video.Url
-           Topics=      video.Tags |> List.map (fun t -> { Id=0; Name=t; IsFeatured=false })
+           Topics=      video.Tags |> List.map (fun t -> { Id=0; Name=t })
            ContentType= VideoText
            IsFeatured=  false
          }

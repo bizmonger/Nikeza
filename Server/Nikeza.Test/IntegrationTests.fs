@@ -189,31 +189,13 @@ let ``Adding link results in new topics added to database`` () =
     //Setup
     Register someProfile |> execute |> ignore
 
-    let lastId = AddLink  someLink |> execute
-    let data = { LinkId=Int32.Parse(lastId); IsFeatured=true }
-
     // Test
-    FeatureLink data |> execute |> ignore
+    AddLink { someLink with Topics= [someTopic] } |> execute |> ignore
 
     // Verify
-    let sql = @"SELECT Id, IsFeatured
-                FROM   Link
-                WHERE  Id  = @id
-                AND    IsFeatured = @isFeatured"
-
-    let (connection,command) = createCommand sql connectionString
-
-    try
-        connection.Open()
-        command.Parameters.AddWithValue("@id",         data.LinkId)     |> ignore
-        command.Parameters.AddWithValue("@isFeatured", data.IsFeatured) |> ignore
-
-        use reader = command |> prepareReader
-        let isFeatured = reader.GetBoolean(1)
-        isFeatured |> should equal true
-
-    // Teardown
-    finally dispose connection command
+    match getTopic someTopic.Name with
+    | Some topic -> topic.Name |> should equal someTopic.Name
+    | None       -> Assert.Fail()
 
 [<Test>]
 let ``Remove link`` () =

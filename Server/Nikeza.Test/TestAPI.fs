@@ -22,11 +22,9 @@ let someProfileId =    0
 let someSubscriberId = 1
 let someLinkId =       0
 let someSourceId =     0
-
 let someTopic = {
     Id= -1
     Name= "SomeTopic"
-    IsFeatured= false
 }
 
 let someLink = {
@@ -96,11 +94,11 @@ let executeCommand sql =
 let cleanDataStore() =
     executeCommand @"DELETE FROM ObservedLinks"
     executeCommand @"DELETE FROM SourceLinks"
+    executeCommand @"DELETE FROM LinkTopic"
     executeCommand @"DELETE FROM Link"
     executeCommand @"DELETE FROM Topic"
     executeCommand @"DELETE FROM Source"
     executeCommand @"DELETE FROM Subscription"
-    executeCommand @"DELETE FROM LinkTopic"
     executeCommand @"DELETE FROM ProviderSources"
     executeCommand @"DELETE FROM Profile"
 

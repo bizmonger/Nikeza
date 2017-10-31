@@ -49,9 +49,8 @@ let rec readInLinks links (reader:SqlDataReader) = reader.Read() |> function
     | false -> links
 
 and readInTopic (reader:SqlDataReader) = {
-  Id=         reader.GetInt32  (0)
-  Name=       reader.GetString (1)
-  IsFeatured= reader.GetBoolean(2) }
+  Id=   reader.GetInt32  (0)
+  Name= reader.GetString (1) }
 
 and readInLink (reader:SqlDataReader) = {
   Id=          reader.GetInt32  (0)

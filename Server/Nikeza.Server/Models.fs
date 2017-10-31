@@ -63,7 +63,6 @@ type RemoveLinkRequest =  { LinkId: int }
 type Topic = { 
     Id:         int
     Name:       string
-    IsFeatured: bool 
 }
 
 [<CLIMutable>]
