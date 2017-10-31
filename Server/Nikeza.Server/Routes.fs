@@ -1,12 +1,15 @@
 module Nikeza.Server.Routes
 
 open System
+open System.IO
 open Microsoft.AspNetCore.Http
 open Giraffe.HttpContextExtensions
 open Giraffe.HttpHandlers
+open Nikeza.Server.Literals
 open Nikeza.Server.Store
 open Nikeza.Server.Model
 open Nikeza.Server.Authentication
+open Nikeza.Server.YouTube
 
 let authScheme = "Cookie"
 
@@ -93,7 +96,6 @@ let private removeLinkHandler =
 open Nikeza.Server.Wordpress
 open Nikeza.Server.StackOverflow.Suggestions
 open Nikeza.Server.StackOverflow
-open Newtonsoft.Json
 
 let private fetchWordpress (feedUrl) (context : HttpContext) =
     async { let! response = jsonRssFeed feedUrl
@@ -102,7 +104,7 @@ let private fetchWordpress (feedUrl) (context : HttpContext) =
 
 let private fetchBootstrap =
     CachedTags.Instance() |> ignore
-    let dependencies = { Providers= getProviders(); Platforms=getPlatforms() }
+    let  dependencies = { Providers= getProviders(); Platforms=getPlatforms() }
     json dependencies
 
 let private fetchLinks (providerId) (context : HttpContext) =
@@ -110,15 +112,15 @@ let private fetchLinks (providerId) (context : HttpContext) =
     json response context
 
 let private fetchSuggestedTopics (text) (context : HttpContext) =
-    let suggestions = getSuggestions text
+    let  suggestions = getSuggestions text
     json suggestions context
 
 let private fetchRecent (subscriberId) (context : HttpContext) =
-    let response = getRecent subscriberId
+    let  response = getRecent subscriberId
     json response context
     
 let private fetchFollowers (providerId) (context : HttpContext) =
-    let response = getFollowers providerId
+    let  response = getFollowers providerId
     json response context
     
 let private fetchSubscriptions (providerId) (context : HttpContext) =
@@ -126,7 +128,18 @@ let private fetchSubscriptions (providerId) (context : HttpContext) =
         json response context
 
 let private fetchSources (providerId) (context : HttpContext) =
-    let response = getSources providerId
+    let  response = getSources providerId
+    json response context
+
+let private fetchThumbnail (platform:string, accessId:string) (context : HttpContext) =
+
+    let response = 
+        match platform.ToLower() |> PlatformFromString with
+        | YouTube       -> getThumbnail accessId (File.ReadAllText(KeyFile_YouTube));
+        | StackOverflow -> ThumbnailUrl
+        | Wordpress     -> ThumbnailUrl
+        | Other         -> ThumbnailUrl
+
     json response context
     
 let private fetchContentTypeToId (contentType) (context : HttpContext) =
@@ -149,6 +162,7 @@ let webApp : HttpContext -> HttpHandlerResult =
                 routef "/followers/%s"           fetchFollowers
                 routef "/subscriptions/%s"       fetchSubscriptions
                 routef "/sources/%s"             fetchSources
+                routef "/thumbnail/%s/%s"        fetchThumbnail
                 routef "/contenttypetoid/%s"     fetchContentTypeToId
             ]
         POST >=> 

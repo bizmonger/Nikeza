@@ -15,7 +15,10 @@ let UrlPrefix = "https://www.youtube.com/watch?v="
 let BaseAddress = "https://www.googleapis.com/youtube/v3/"
 
 [<Literal>]
-let RequestTagsUrl = "https://www.googleapis.com/youtube/v3/videos?key={0}&fields=items(snippet(title,tags))&part=snippet&id={1}"
+let tagsUrl = "videos?key={0}&fields=items(snippet(title,tags))&part=snippet&id={1}"
+
+[<Literal>]
+let thumbnailUrl = "channels?part=snippet&fields=items%2Fsnippet%2Fthumbnails%2Fdefault&id={0}&key={1}"
 
 [<CLIMutable>]
 type Snippet =    { title: string; tags: String seq }
@@ -125,6 +128,19 @@ let uploadsOrEmpty channel youTubeService = channel |> function
     | Some c -> Playlist.uploads c youTubeService
     | None   -> async { return Seq.empty }
 
+let getThumbnail (channelId:string) (apiKey:string) =
+
+   let client = httpClient BaseAddress
+
+   try  let url =      String.Format(thumbnailUrl, channelId, apiKey)
+        let response = client.GetAsync(url) |> Async.AwaitTask 
+                                            |> Async.RunSynchronously
+        if response.IsSuccessStatusCode
+            then let url = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+                 url
+            else thumbnailUrl
+    finally client.Dispose()
+
 let getTags apiKey videosWithTags =
 
        let getTags item =
@@ -138,7 +154,7 @@ let getTags apiKey videosWithTags =
 
        let client = httpClient BaseAddress
 
-       try  let url =      String.Format(RequestTagsUrl, apiKey, delimitedIds)
+       try  let url =      String.Format(tagsUrl, apiKey, delimitedIds)
             let response = client.GetAsync(url) |> Async.AwaitTask 
                                                 |> Async.RunSynchronously
             if response.IsSuccessStatusCode
@@ -148,7 +164,6 @@ let getTags apiKey videosWithTags =
                                                |> List.map getTags
                      tags
                 else []
-
         finally client.Dispose()
 
 let applyVideoTags videoAndTags =

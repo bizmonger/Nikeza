@@ -1,4 +1,6 @@
 module Nikeza.Server.Literals
+[<Literal>]
+let ThumbnailUrl = "http://www.ngu.edu/myimages/silhouette2230.jpg"
 
 [<Literal>]
 let KeyFile_YouTube = @"C:\Nikeza\YouTube_APIKey.txt"

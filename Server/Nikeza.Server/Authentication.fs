@@ -1,10 +1,10 @@
 module Nikeza.Server.Authentication
 
     open System.Security.Claims
+    open Nikeza.Server.Literals
     open Nikeza.Server.Command
     open Nikeza.Server.Store
     open Nikeza.Server.Model
-    open Nikeza.Server.Sql
 
     [<CLIMutable>]
     type RegistrationRequest = {
@@ -70,7 +70,7 @@ module Nikeza.Server.Authentication
                 FirstName = info.FirstName
                 LastName =  info.LastName
                 Email =     info.Email
-                ImageUrl =  "http://www.ngu.edu/myimages/silhouette2230.jpg"
+                ImageUrl =  ThumbnailUrl
                 Bio =       ""
                 Sources =   []
                 PasswordHash = hashedPassword
