@@ -1,15 +1,12 @@
 module Nikeza.Server.Routes
 
 open System
-open System.IO
 open Microsoft.AspNetCore.Http
 open Giraffe.HttpContextExtensions
 open Giraffe.HttpHandlers
-open Nikeza.Server.Literals
 open Nikeza.Server.Store
 open Nikeza.Server.Model
 open Nikeza.Server.Authentication
-open Nikeza.Server.YouTube
 
 let authScheme = "Cookie"
 
@@ -133,14 +130,10 @@ let private fetchSources (providerId) (context : HttpContext) =
 
 let private fetchThumbnail (platform:string, accessId:string) (context : HttpContext) =
 
-    let response = 
-        match platform.ToLower() |> PlatformFromString with
-        | YouTube       -> getThumbnail accessId (File.ReadAllText(KeyFile_YouTube));
-        | StackOverflow -> ThumbnailUrl
-        | Wordpress     -> ThumbnailUrl
-        | Other         -> ThumbnailUrl
+    let platform =  platform.ToLower() |> PlatformFromString
+    let thumbnail = Platforms.getThumbnail platform accessId
 
-    json response context
+    json thumbnail context
     
 let private fetchContentTypeToId (contentType) (context : HttpContext) =
     let response = contentTypeToId contentType

@@ -7,8 +7,7 @@ open Nikeza.Server.Store
 open Nikeza.Server.Literals
 open Nikeza.Server.Model
 open Nikeza.Server.Sql
-open Nikeza.Server.YouTube
-open Nikeza.Server.YouTube.Authentication
+open Nikeza.Server.Platforms
 
 let dispose (connection:SqlConnection) (command:SqlCommand) =
     connection.Dispose()
@@ -84,8 +83,8 @@ module private Commands =
                                                    else None)
 
         notFound |> List.map (fun lt -> let topicId = addTopic { Name=lt.Topic.Name }
-                                        let link=  { lt.Link  with Id= Int32.Parse(linkId) }
-                                        let topic= { lt.Topic with Id= Int32.Parse(topicId)}
+                                        let link=       { lt.Link  with Id= Int32.Parse(linkId) }
+                                        let topic=      { lt.Topic with Id= Int32.Parse(topicId)}
                                         let linkTopic = { Link= link; Topic= topic }
                                         addLinkTopic linkTopic |> ignore
                              ) |> ignore
@@ -155,41 +154,6 @@ module private Commands =
 
         commandFunc |> execute connectionString updateProfileSql
 
-    let toPlatformType = function
-        | "YouTube"       -> YouTube
-        | "WordPress"     -> WordPress
-        | "StackOverflow" -> StackOverflow
-        | _               -> Other
-
-    let youtubeLinks apiKey channelId = 
-        async { let    youtube = youTubeService apiKey
-                let!   videos =  uploadList youtube <| ChannelId channelId
-                return videos
-        }
-
-    let linkOf video profileId =
-         { Id=          0
-           ProfileId=   profileId
-           Title=       video.Title
-           Description= video.Description
-           Url=         video.Url
-           Topics=      video.Tags |> List.map (fun t -> { Id=0; Name=t })
-           ContentType= VideoText
-           IsFeatured=  false
-         }
-
-    let getLinks (source:PlatformUser) =
-        source.Platform |> function
-        | YouTube       ->
-            let user =  source.User
-            user.AccessId |> youtubeLinks source.APIKey  
-                          |> Async.RunSynchronously
-                          |> Seq.map (fun video -> linkOf video user.ProfileId )
-                          
-        | WordPress     -> Seq.empty // todo...
-        | StackOverflow -> Seq.empty // todo...
-        | Other         -> Seq.empty // todo...
-        
     let addDataSource (info:DataSourceRequest) =
 
         let apikey = info.Platform |> toPlatformType 

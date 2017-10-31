@@ -68,7 +68,6 @@ let rec readInTopics topics (reader:SqlDataReader) = reader.Read() |> function
               readInTopics (topic::topics) reader
     | false -> topics
 
-
 and readInProfile (reader:SqlDataReader) = { 
     ProfileId=    reader.GetInt32 (0) |> string
     FirstName=    reader.GetString(1)

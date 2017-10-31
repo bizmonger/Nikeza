@@ -1,6 +1,9 @@
 module Nikeza.Server.Authentication
 
+    open System
     open System.Security.Claims
+    open System.Security.Cryptography
+    open Microsoft.AspNetCore.Cryptography.KeyDerivation
     open Nikeza.Server.Literals
     open Nikeza.Server.Command
     open Nikeza.Server.Store
@@ -23,10 +26,6 @@ module Nikeza.Server.Authentication
     type LoginResponse = 
         | Authenticated of ClaimsPrincipal
         | UnAuthenticated 
-    
-    open System
-    open System.Security.Cryptography
-    open Microsoft.AspNetCore.Cryptography.KeyDerivation
                   
     let private generateSalt =            
         let mutable salt = Array.init (128/8)  (fun i -> byte(i*i))

@@ -1,11 +1,9 @@
 module Nikeza.Server.Wordpress
 
-open System
 open System.Text
 open System.Net.Http
 open Newtonsoft.Json
 open System.IO
-open System.Xml
 open System.Xml.Serialization   
 
 [<CLIMutable>]
