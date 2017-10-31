@@ -35,7 +35,7 @@ let ``Parse related tags`` () =
 
 [<Test>]
 let ``Read YouTube APIKey file`` () =
-    let text = File.ReadAllText(APIKeyFile)
+    let text = File.ReadAllText(KeyFile_YouTube)
     text.Length |> should (be greaterThan) 0
 
 [<Test>]
@@ -153,6 +153,38 @@ let ``Unsubscribe from Provider`` () =
 
 [<Test>]
 let ``Add featured link`` () =
+
+    //Setup
+    Register someProfile |> execute |> ignore
+
+    let lastId = AddLink  someLink |> execute
+    let data = { LinkId=Int32.Parse(lastId); IsFeatured=true }
+
+    // Test
+    FeatureLink data |> execute |> ignore
+
+    // Verify
+    let sql = @"SELECT Id, IsFeatured
+                FROM   Link
+                WHERE  Id  = @id
+                AND    IsFeatured = @isFeatured"
+
+    let (connection,command) = createCommand sql connectionString
+
+    try
+        connection.Open()
+        command.Parameters.AddWithValue("@id",         data.LinkId)     |> ignore
+        command.Parameters.AddWithValue("@isFeatured", data.IsFeatured) |> ignore
+
+        use reader = command |> prepareReader
+        let isFeatured = reader.GetBoolean(1)
+        isFeatured |> should equal true
+
+    // Teardown
+    finally dispose connection command
+
+[<Test>]
+let ``Adding link results in new topics added to database`` () =
 
     //Setup
     Register someProfile |> execute |> ignore

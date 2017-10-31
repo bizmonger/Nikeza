@@ -23,6 +23,12 @@ let someSubscriberId = 1
 let someLinkId =       0
 let someSourceId =     0
 
+let someTopic = {
+    Id= -1
+    Name= "SomeTopic"
+    IsFeatured= false
+}
+
 let someLink = {
     Id=         0
     ProfileId=    someProfileId |> string

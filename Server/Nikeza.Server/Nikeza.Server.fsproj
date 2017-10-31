@@ -61,8 +61,9 @@
     <Compile Include="Youtube.fs" />
     <Compile Include="Wordpress.fs" />
     <Compile Include="Stackoverflow.fs" />
-    <Compile Include="Command.fs" />
+    <Compile Include="CommandDetails.fs" />
     <Compile Include="Store.fs" />
+    <Compile Include="Command.fs" />
     <Compile Include="Authentication.fs" />
     <Compile Include="Routes.fs" />
     <Compile Include="Startup.fs" />

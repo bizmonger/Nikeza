@@ -3,6 +3,8 @@ module Nikeza.Server.Command
 open System
 open System.IO
 open System.Data.SqlClient
+open Nikeza.Server.CommandDetails
+open Nikeza.Server.Store
 open Nikeza.Server.Literals
 open Nikeza.Server.Model
 open Nikeza.Server.Sql
@@ -58,12 +60,6 @@ module private Commands =
                 linkTopicsCommandFunc |> execute connectionString addLinkTopicSql
         linkTopicId
 
-    let getTopic (info:TopicRequest) =
-        let commandFunc (command: SqlCommand) = 
-            command |> addWithValue "@Name" info.Name
-
-        commandFunc |> execute connectionString getTopicSql
-
     let addTopic (info:TopicRequest) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@Name" info.Name
@@ -84,7 +80,7 @@ module private Commands =
 
         let notFound = info.Topics 
                        |> List.choose (fun t -> let result = getTopic { Name= t.Name }
-                                                if result = ""
+                                                if result = None
                                                    then Some { Link= info; Topic= { Id= -1; Name= t.Name; IsFeatured= false} }
                                                    else None)
 
@@ -142,12 +138,6 @@ module private Commands =
                           linkId |> string
                         )
         ids |> Seq.ofList |> String.concat ","
-
-    let getRecent (info:RecentRequest) =
-        let commandFunc (command: SqlCommand) = 
-            command |> addWithValue "@SubscriberId" info.SubscriberId
-
-        commandFunc |> execute connectionString getRecentSql
 
     let featureLink (info:FeatureLinkRequest) =
         let commandFunc (command: SqlCommand) = 

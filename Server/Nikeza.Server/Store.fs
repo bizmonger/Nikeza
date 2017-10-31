@@ -1,7 +1,7 @@
 module Nikeza.Server.Store
 
 open System.Data.SqlClient
-open Nikeza.Server.Command
+open Nikeza.Server.CommandDetails
 open Nikeza.Server.Read
 open Nikeza.Server.Converters
 
@@ -45,6 +45,13 @@ let getProfiles profileId sql parameterName =
         
     let profiles = readInProfiles |> getResults sql commandFunc
     profiles
+
+let getTopics name sql parameterName =
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue parameterName name
+        
+    let topics = readInTopics |> getResults sql commandFunc
+    topics
     
 let getLinks profileId =
     let commandFunc (command: SqlCommand) = 
@@ -106,6 +113,10 @@ let getProviders () =
 let getProfile profileId =
     let profiles = getProfiles profileId getProfileSql "@ProfileId"
     profiles |> List.tryHead
+
+let getTopic name =
+    let topics = getTopics name getTopicSql "@Name"
+    topics |> List.tryHead
 
 let getAllProfiles () =
     let commandFunc (command: SqlCommand) = command
