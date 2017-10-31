@@ -47,9 +47,8 @@ module Tags =
 open Tags
 
 module CachedTags =
-    let private x = 
-        Lazy.Create(fun() -> [1..25] |> List.collect (fun page -> getTags(page)))
-    let Instance() = x.Value
+    let private x = [1..25] |> List.collect (fun page -> getTags(page))
+    let Instance() = x
 
 module Suggestions =
     

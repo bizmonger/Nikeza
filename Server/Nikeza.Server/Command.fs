@@ -3,7 +3,6 @@ module Nikeza.Server.Command
 open System
 open System.IO
 open System.Data.SqlClient
-open Nikeza.Server.CommandDetails
 open Nikeza.Server.Store
 open Nikeza.Server.Literals
 open Nikeza.Server.Model

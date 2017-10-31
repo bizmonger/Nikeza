@@ -159,7 +159,7 @@ view model =
                             [ tr []
                                 [ td [] [ input [ class "addLinkText", type_ "text", placeholder "title", onInput InputTitle, value <| titleText base.title ] [] ]
                                 ]
-                            , tr [] [ td [] [ input [ class "addLinkText", type_ "text", placeholder "link", onInput InputUrl, value <| urlText base.url ] [] ] ]
+                            , tr [] [ td [] [ input [ class "addLinkText", type_ "text", placeholder "link url", onInput InputUrl, value <| urlText base.url ] [] ] ]
                             , tr []
                                 [ td []
                                     [ table []
