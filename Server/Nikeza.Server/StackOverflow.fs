@@ -8,14 +8,15 @@ module StackOverflow =
         open System
         open System.IO
         open Newtonsoft.Json
+        open Nikeza.Server.Model
         open Nikeza.Server.Http
         open Nikeza.Server.Literals
 
-        (* Answers *)
-        // https://api.stackexchange.com/2.2/users/492701/answers?order=desc&sort=activity&site=stackoverflow&filter=!Fcazzsr2b3M)LbUjGAu-Fs0Wf8
+        [<Literal>]
+        let TagsUrl =    "2.2/tags?page={0}&order=desc&sort=popular&site=stackoverflow&filter=!-.G.68grSaJm"
 
         [<Literal>]
-        let TagsUrl = "2.2/tags?page={0}&order=desc&sort=popular&site=stackoverflow&filter=!-.G.68grSaJm"
+        let AnswersUrl = "2.2/users/{0}/answers?order=desc&sort=activity&site=stackoverflow&filter=!Fcazzsr2b3M)LbUjGAu-Fs0Wf8"
 
         [<Literal>]
         let APIBaseAddress = "https://api.stackexchange.com/"
@@ -23,22 +24,64 @@ module StackOverflow =
         [<Literal>]
         let SiteBaseAddress = "https://stackoverflow.com/"
 
-        type Item =     { name : string }
-        type Response = { items: Item list }
+        type Tag =          { name : string }
+        type TagsResponse = { items: Tag list }
+
+        type Answer = {
+            link:          string
+            title:         string
+            name:          string
+            tags:          string list
+            isAccepted:    bool
+            creation_date: int
+            answer_id:     int
+            question_id:   int
+        }
+
+        type AnswersResponse = { 
+            items:           Answer list
+            has_more:        bool
+            quota_max:       int
+            quota_remaining: int
+        }
+
+        let toLink profileId item =
+            { Id= -1
+              ProfileId= profileId
+              Title= item.title
+              Description= ""
+              Url= item.link
+              Topics= item.tags |> List.map (fun t -> { Id= -1; Name= t })
+              ContentType="Answers"
+              IsFeatured= false
+            }
+
+        let getLinks (user:User) =
+            let client = httpClient APIBaseAddress
+
+            try let url =        String.Format(AnswersUrl, user.AccessId)
+                let response =   client.GetAsync(url) |> Async.AwaitTask 
+                                                      |> Async.RunSynchronously
+                if response.IsSuccessStatusCode
+                then let json =    response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+                     let result =  JsonConvert.DeserializeObject<AnswersResponse>(json)
+                     let links =   result.items |> List.ofSeq 
+                                                |> List.map (fun item -> toLink user.ProfileId item)
+                     links
+                else []
+            finally client.Dispose()
 
         let getTags (pageNumber:int) : string list =
             
             let client = httpClient APIBaseAddress
 
-            try
-                let url =      String.Format(TagsUrl, pageNumber |> string)
+            try let url =        String.Format(TagsUrl, pageNumber |> string)
                 let urlWithKey = sprintf "%s&key=%s" url (File.ReadAllText(KeyFile_StackOverflow))
-                let response = client.GetAsync(urlWithKey) |> Async.AwaitTask 
-                                                           |> Async.RunSynchronously
-
+                let response =   client.GetAsync(urlWithKey) |> Async.AwaitTask 
+                                                             |> Async.RunSynchronously
                 if response.IsSuccessStatusCode
                 then let json =   response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
-                     let result = JsonConvert.DeserializeObject<Response>(json)
+                     let result = JsonConvert.DeserializeObject<TagsResponse>(json)
                      let tags =   result.items |> List.ofSeq 
                                                |> List.map (fun i -> i.name)
                      tags
