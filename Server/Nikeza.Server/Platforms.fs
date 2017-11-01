@@ -46,6 +46,6 @@ let getLinks (source:PlatformUser) =
                       |> Async.RunSynchronously
                       |> Seq.map (fun video -> linkOf video user.ProfileId )
 
-    | StackOverflow -> user |> stackOverflowLinks
+    | StackOverflow -> user |> stackoverflowLinks
     | WordPress     -> Seq.empty // todo...
     | Other         -> Seq.empty // todo...

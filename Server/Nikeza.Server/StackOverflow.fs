@@ -51,7 +51,7 @@ module StackOverflow =
           IsFeatured= false
         }
 
-    let stackOverflowLinks (user:User) =
+    let stackoverflowLinks (user:User) =
         let client = httpClient APIBaseAddress
 
         try let url =        String.Format(AnswersUrl, user.AccessId)
