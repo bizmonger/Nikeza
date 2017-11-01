@@ -14228,6 +14228,10 @@ var _user$project$Services_Adapter$JsonProvider = function (a) {
 	return {ctor: 'JsonProvider', _0: a};
 };
 var _user$project$Services_Adapter$toJsonProvider = function (provider) {
+	var _p2 = provider.followers;
+	var followers = _p2._0;
+	var _p3 = provider.subscriptions;
+	var subscriptions = _p3._0;
 	return _user$project$Services_Adapter$JsonProvider(
 		{
 			profile: _user$project$Services_Adapter$toJsonProfile(provider.profile),
@@ -14239,8 +14243,18 @@ var _user$project$Services_Adapter$toJsonProvider = function (provider) {
 					return _user$project$Services_Adapter$toJsonLink(l);
 				},
 				provider.recentLinks),
-			subscriptions: {ctor: '[]'},
-			followers: {ctor: '[]'}
+			subscriptions: A2(
+				_elm_lang$core$List$map,
+				function (s) {
+					return _user$project$Services_Adapter$toJsonProvider(s);
+				},
+				subscriptions),
+			followers: A2(
+				_elm_lang$core$List$map,
+				function (f) {
+					return _user$project$Services_Adapter$toJsonProvider(f);
+				},
+				followers)
 		});
 };
 

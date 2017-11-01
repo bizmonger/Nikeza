@@ -207,14 +207,21 @@ toJsonPortfolio portfolio =
 
 toJsonProvider : Provider -> JsonProvider
 toJsonProvider provider =
-    JsonProvider
-        { profile = provider.profile |> toJsonProfile
-        , topics = provider.topics
-        , portfolio = provider.portfolio |> toJsonPortfolio
-        , recentLinks = provider.recentLinks |> List.map (\l -> l |> toJsonLink)
-        , subscriptions = []
-        , followers = []
-        }
+    let
+        (Members subscriptions) =
+            provider.subscriptions
+
+        (Members followers) =
+            provider.followers
+    in
+        JsonProvider
+            { profile = provider.profile |> toJsonProfile
+            , topics = provider.topics
+            , portfolio = provider.portfolio |> toJsonPortfolio
+            , recentLinks = provider.recentLinks |> List.map (\l -> l |> toJsonLink)
+            , subscriptions = subscriptions |> List.map (\s -> s |> toJsonProvider)
+            , followers = followers |> List.map (\f -> f |> toJsonProvider)
+            }
 
 
 toJsonSource : Source -> JsonSource
