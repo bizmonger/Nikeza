@@ -91,8 +91,8 @@ let private removeLinkHandler =
         }
 
 open Nikeza.Server.Wordpress
-open Nikeza.Server.StackOverflow.Suggestions
 open Nikeza.Server.StackOverflow
+open Nikeza.Server.StackOverflow.Suggestions
 
 let private fetchWordpress (feedUrl) (context : HttpContext) =
     async { let response = ""

@@ -18997,7 +18997,19 @@ var _user$project$Controls_Sources$InputUsername = function (a) {
 };
 var _user$project$Controls_Sources$view = F2(
 	function (model, platforms) {
-		var placeholderText = _elm_lang$core$Native_Utils.eq(model.source.platform, 'YouTube') ? 'channel-id: (Settings menu)' : 'username';
+		var placeholderText = function () {
+			var _p1 = model.source.platform;
+			switch (_p1) {
+				case 'YouTube':
+					return 'channel-id: (Settings menu)';
+				case 'StackOverflow':
+					return 'user-id (Example: 492701)';
+				case 'WordPress':
+					return 'xyz.wordpress.com';
+				default:
+					return 'username';
+			}
+		}();
 		var changeHandler = A2(
 			_elm_lang$html$Html_Events$on,
 			'change',

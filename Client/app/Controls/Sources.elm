@@ -82,10 +82,18 @@ view model platforms =
             Html.Events.on "change" (Json.Decode.map InputPlatform Html.Events.targetValue)
 
         placeholderText =
-            if model.source.platform == "YouTube" then
-                "channel-id: (Settings menu)"
-            else
-                "username"
+            case model.source.platform of
+                "YouTube" ->
+                    "channel-id: (Settings menu)"
+
+                "StackOverflow" ->
+                    "user-id (Example: 492701)"
+
+                "WordPress" ->
+                    "xyz.wordpress.com"
+
+                _ ->
+                    "username"
 
         records =
             [ tr []

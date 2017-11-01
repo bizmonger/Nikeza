@@ -37,13 +37,15 @@ let linkOf video profileId =
      }
 
 let getLinks (source:PlatformUser) =
+
+    let user =  source.User
+    
     source.Platform |> function
     | YouTube       ->
-        let user =  source.User
         user.AccessId |> youtubeLinks source.APIKey  
                       |> Async.RunSynchronously
                       |> Seq.map (fun video -> linkOf video user.ProfileId )
-                      
+
+    | StackOverflow -> user |> stackOverflowLinks
     | WordPress     -> Seq.empty // todo...
-    | StackOverflow -> Seq.empty // todo...
     | Other         -> Seq.empty // todo...
