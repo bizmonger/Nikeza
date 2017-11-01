@@ -2,6 +2,7 @@ module Controls.ProfileThumbnail exposing (..)
 
 import Settings exposing (..)
 import Domain.Core exposing (..)
+import Services.Adapter exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -10,7 +11,7 @@ import Http
 
 type Msg
     = UpdateSubscription SubscriptionUpdate
-    | SubscribeResponse (Result Http.Error Members)
+    | SubscribeResponse (Result Http.Error JsonProvider)
 
 
 update : Msg -> Provider -> ( Provider, Cmd Msg )
@@ -18,8 +19,15 @@ update msg provider =
     case msg of
         SubscribeResponse result ->
             case result of
-                Ok subscriptions ->
-                    ( { provider | subscriptions = subscriptions }, Cmd.none )
+                Ok jsonProvider ->
+                    let
+                        (Members providers) =
+                            provider.subscriptions
+
+                        subscriptions =
+                            (jsonProvider |> toProvider) :: providers
+                    in
+                        ( { provider | subscriptions = Members subscriptions }, Cmd.none )
 
                 Err _ ->
                     ( provider, Cmd.none )
@@ -27,10 +35,10 @@ update msg provider =
         UpdateSubscription action ->
             case action of
                 Subscribe clientId providerId ->
-                    ( provider, (runtime.follow clientId providerId) SubscribeResponse )
+                    ( provider, (runtime.follow { subscriberId = clientId, providerId = providerId }) SubscribeResponse )
 
                 Unsubscribe clientId providerId ->
-                    ( provider, (runtime.unsubscribe clientId providerId) SubscribeResponse )
+                    ( provider, (runtime.unsubscribe { subscriberId = clientId, providerId = providerId }) SubscribeResponse )
 
 
 thumbnail : Maybe Provider -> Bool -> Provider -> Html Msg

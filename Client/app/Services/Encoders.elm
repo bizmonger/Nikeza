@@ -55,6 +55,14 @@ encodeProfile profile =
             ]
 
 
+encodeSubscriptionRequest : SubscriptionRequest -> Encode.Value
+encodeSubscriptionRequest request =
+    Encode.object
+        [ ( "SubscriberId", Encode.string <| idText request.subscriberId )
+        , ( "ProviderId", Encode.string <| idText request.providerId )
+        ]
+
+
 encodeSource : Source -> Encode.Value
 encodeSource source =
     Encode.object

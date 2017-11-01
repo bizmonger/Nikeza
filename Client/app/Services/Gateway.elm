@@ -248,11 +248,31 @@ followers profileId msg =
     Members [] |> httpSuccess msg
 
 
-follow : Id -> Id -> (Result Http.Error Members -> msg) -> Cmd msg
-follow clientId providerId msg =
-    Members [] |> httpSuccess msg
+follow : SubscriptionRequest -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+follow followRequest msg =
+    let
+        url =
+            baseUrl ++ "follow"
+
+        body =
+            encodeSubscriptionRequest followRequest |> Http.jsonBody
+
+        request =
+            Http.post url body providerDecoder
+    in
+        Http.send msg request
 
 
-unsubscribe : Id -> Id -> (Result Http.Error Members -> msg) -> Cmd msg
-unsubscribe clientId providerId msg =
-    Members [] |> httpSuccess msg
+unsubscribe : SubscriptionRequest -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+unsubscribe unsubscribeRequest msg =
+    let
+        url =
+            baseUrl ++ "unsubscribe"
+
+        body =
+            encodeSubscriptionRequest unsubscribeRequest |> Http.jsonBody
+
+        request =
+            Http.post url body providerDecoder
+    in
+        Http.send msg request

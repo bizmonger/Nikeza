@@ -269,6 +269,12 @@ initNewLinks =
     { profileId = Id undefined, current = initLinkToCreate, canAdd = False, added = [] }
 
 
+type alias SubscriptionRequest =
+    { subscriberId : Id
+    , providerId : Id
+    }
+
+
 type alias Source =
     { id : Id
     , profileId : Id

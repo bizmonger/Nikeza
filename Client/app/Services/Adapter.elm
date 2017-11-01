@@ -83,11 +83,11 @@ type alias TopicLinksfunction msg =
 
 
 type alias Followfunction msg =
-    Id -> Id -> (Result Http.Error Members -> msg) -> Cmd msg
+    SubscriptionRequest -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
 
 
 type alias Unsubscribefunction msg =
-    Id -> Id -> (Result Http.Error Members -> msg) -> Cmd msg
+    SubscriptionRequest -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
 
 
 type alias RecentLinksfunction msg =
@@ -196,6 +196,27 @@ toJsonProfile profile =
     }
 
 
+toJsonPortfolio : Portfolio -> JsonPortfolio
+toJsonPortfolio portfolio =
+    { answers = portfolio.answers |> List.map (\l -> l |> toJsonLink)
+    , articles = portfolio.articles |> List.map (\l -> l |> toJsonLink)
+    , videos = portfolio.videos |> List.map (\l -> l |> toJsonLink)
+    , podcasts = portfolio.podcasts |> List.map (\l -> l |> toJsonLink)
+    }
+
+
+toJsonProvider : Provider -> JsonProvider
+toJsonProvider provider =
+    JsonProvider
+        { profile = provider.profile |> toJsonProfile
+        , topics = provider.topics
+        , portfolio = provider.portfolio |> toJsonPortfolio
+        , recentLinks = provider.recentLinks |> List.map (\l -> l |> toJsonLink)
+        , subscriptions = []
+        , followers = []
+        }
+
+
 toJsonSource : Source -> JsonSource
 toJsonSource source =
     { id =
@@ -279,11 +300,6 @@ toPortfolio jsonPortfolio =
         (jsonPortfolio.answers |> toLinks)
 
 
-toTopics : List JsonTopic -> List Topic
-toTopics jsonTopics =
-    jsonTopics |> List.map (\t -> { name = t.name, isFeatured = t.isFeatured })
-
-
 toProvider : JsonProvider -> Provider
 toProvider jsonProvider =
     let
@@ -291,7 +307,7 @@ toProvider jsonProvider =
             jsonProvider
     in
         { profile = field.profile |> toProfile
-        , topics = field.topics |> toTopics
+        , topics = field.topics
         , portfolio = field.portfolio |> toPortfolio
         , filteredPortfolio = field.portfolio |> toPortfolio
         , recentLinks = field.recentLinks |> toLinks

@@ -757,11 +757,11 @@ bootstrap msg =
         |> httpSuccess msg
 
 
-follow : Id -> Id -> (Result Http.Error Members -> msg) -> Cmd msg
-follow clientId providerId msg =
-    Members [] |> httpSuccess msg
+follow : SubscriptionRequest -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+follow request msg =
+    provider2 |> toJsonProvider |> httpSuccess msg
 
 
-unsubscribe : Id -> Id -> (Result Http.Error Members -> msg) -> Cmd msg
-unsubscribe clientId providerId msg =
-    Members [] |> httpSuccess msg
+unsubscribe : SubscriptionRequest -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+unsubscribe request msg =
+    provider2 |> toJsonProvider |> httpSuccess msg
