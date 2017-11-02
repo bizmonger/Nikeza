@@ -47,6 +47,6 @@ let getLinks (source:PlatformUser) =
                       |> Async.RunSynchronously
                       |> Seq.map (fun video -> linkOf video user.ProfileId )
 
-    | StackOverflow -> user |> stackoverflowLinks
-    | WordPress     -> []   |> wordpressLinks user 1
+    | StackOverflow -> source |> stackoverflowLinks
+    | WordPress     -> []     |> wordpressLinks user 1
     | Other         -> Seq.empty

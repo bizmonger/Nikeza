@@ -158,7 +158,8 @@ module private Commands =
 
         let apikey = info.Platform |> toPlatformType 
                                    |> function
-                                      | YouTube -> File.ReadAllText(KeyFile_YouTube)
+                                      | YouTube       -> File.ReadAllText(KeyFile_YouTube)
+                                      | StackOverflow -> File.ReadAllText(KeyFile_StackOverflow)
                                       | _ -> "no key provided"
         let source = {
             ProfileId=  info.ProfileId

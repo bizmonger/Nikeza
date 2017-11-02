@@ -18844,12 +18844,9 @@ var _user$project$Controls_Sources$sourceUI = function (source) {
 							_0: _elm_lang$html$Html$text(
 								A2(
 									_elm_lang$core$Basics_ops['++'],
-									'(',
-									A2(
-										_elm_lang$core$Basics_ops['++'],
-										_elm_lang$core$Basics$toString(
-											_elm_lang$core$List$length(source.links)),
-										') links'))),
+									_elm_lang$core$Basics$toString(
+										_elm_lang$core$List$length(source.links)),
+									' links')),
 							_1: {ctor: '[]'}
 						}),
 					_1: {

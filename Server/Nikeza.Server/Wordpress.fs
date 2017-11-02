@@ -29,16 +29,20 @@ module Nikeza.Server.Wordpress
     type Response = { found: int; posts: Post list }
 
     let toLink profileId (post:Post) =
+        let stringToTag t = { 
+            Id= -1
+            Name= t.ToString()                   
+                   .Remove(0,1)
+                   .Split(",")
+                   .[0] 
+            }
+
         { Id= -1
           ProfileId= profileId
           Title= post.title
           Description= ""
           Url= post.URL
-          Topics= List.ofSeq post.Tags |> List.map (fun t -> { Id= -1; Name= t.ToString()                   
-                                                                              .Remove(0,1)
-                                                                              .Split(",")
-                                                                              .[0] }
-                                                   )
+          Topics= List.ofSeq post.Tags |> List.map stringToTag
           ContentType="Answers"
           IsFeatured= false
         }

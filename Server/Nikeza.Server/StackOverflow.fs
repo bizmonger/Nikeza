@@ -14,7 +14,7 @@ module StackOverflow =
     let TagsUrl =    "2.2/tags?page={0}&order=desc&sort=popular&site=stackoverflow&filter=!-.G.68grSaJm"
 
     [<Literal>]
-    let AnswersUrl = "2.2/users/{0}/answers?order=desc&sort=activity&site=stackoverflow&filter=!Fcazzsr2b3M)LbUjGAu-Fs0Wf8"
+    let AnswersUrl = "2.2/users/{0}/answers?order=desc&sort=activity&site=stackoverflow&filter=!Fcazzsr2b3M)LbUjGAu-Fs0Wf8&key={1}"
 
     [<Literal>]
     let APIBaseAddress = "https://api.stackexchange.com/"
@@ -51,20 +51,19 @@ module StackOverflow =
           IsFeatured= false
         }
 
-    let stackoverflowLinks (user:User) =
-        let client = httpClient APIBaseAddress
+    let stackoverflowLinks (platformUser:PlatformUser) =
 
-        try let url =        String.Format(AnswersUrl, user.AccessId)
-            let response =   client.GetAsync(url) |> Async.AwaitTask 
-                                                  |> Async.RunSynchronously
-            if response.IsSuccessStatusCode
-            then let json =    response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
-                 let result =  JsonConvert.DeserializeObject<AnswersResponse>(json)
-                 let links =   result.items |> Seq.map (fun item -> toLink user.ProfileId item)
-                 links
-            else seq []
-            
-        finally client.Dispose()
+        use client =   httpClient APIBaseAddress
+        let user =     platformUser.User
+        let url =      String.Format(AnswersUrl, user.AccessId, platformUser.APIKey)
+        let response = client.GetAsync(url) |> Async.AwaitTask 
+                                            |> Async.RunSynchronously
+        if response.IsSuccessStatusCode
+        then let json =    response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+             let result =  JsonConvert.DeserializeObject<AnswersResponse>(json)
+             let links =   result.items |> Seq.map (fun item -> toLink user.ProfileId item)
+             links
+        else seq []
 
     type Tag =          { name : string }
     type TagsResponse = { items: Tag list }
