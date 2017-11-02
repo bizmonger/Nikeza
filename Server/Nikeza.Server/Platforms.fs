@@ -6,6 +6,7 @@ open Nikeza.Server.Model
 open Nikeza.Server.YouTube
 open Nikeza.Server.YouTube.Authentication
 open Nikeza.Server.StackOverflow
+open Nikeza.Server.Wordpress
 
 let toPlatformType = function
     | "YouTube"       -> YouTube
@@ -13,9 +14,9 @@ let toPlatformType = function
     | "StackOverflow" -> StackOverflow
     | _               -> Other
 
-let getThumbnail (platform:Platform) accessId = platform |> function
-    | YouTube       -> YouTube.getThumbnail       accessId (File.ReadAllText(KeyFile_YouTube));
-    | StackOverflow -> StackOverflow.getThumbnail accessId (File.ReadAllText(KeyFile_StackOverflow));
+let getThumbnail platform accessId = platform |> function
+    | YouTube       -> YouTube       .getThumbnail accessId (File.ReadAllText(KeyFile_YouTube));
+    | StackOverflow -> StackOverflow .getThumbnail accessId (File.ReadAllText(KeyFile_StackOverflow));
     | Wordpress     -> ThumbnailUrl
     | Other         -> ThumbnailUrl
 
@@ -47,5 +48,5 @@ let getLinks (source:PlatformUser) =
                       |> Seq.map (fun video -> linkOf video user.ProfileId )
 
     | StackOverflow -> user |> stackoverflowLinks
-    | WordPress     -> Seq.empty // todo...
-    | Other         -> Seq.empty // todo...
+    | WordPress     -> []   |> wordpressLinks user 1
+    | Other         -> Seq.empty

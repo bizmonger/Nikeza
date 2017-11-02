@@ -89,7 +89,8 @@ button.removeTopic {
 }
 
 button.disconnectSource {
-    background-color: #FFF2F7;
+    background-color: red;
+    color: white;
 }
 
 button.navigationButton4 {
