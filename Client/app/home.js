@@ -17821,6 +17821,28 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 			});
 	});
 
+var _user$project$Controls_ProviderLinks$formatTitle = function (link) {
+	var _p0 = {
+		ctor: '_Tuple2',
+		_0: 50,
+		_1: _elm_lang$core$String$length(
+			_user$project$Domain_Core$titleText(link.title))
+	};
+	var maxLength = _p0._0;
+	var titleLength = _p0._1;
+	var title = function () {
+		if (_elm_lang$core$Native_Utils.cmp(titleLength, maxLength) > 0) {
+			var partialTitle = A2(
+				_elm_lang$core$String$dropRight,
+				(titleLength - maxLength) - 3,
+				_user$project$Domain_Core$titleText(link.title));
+			return A2(_elm_lang$core$Basics_ops['++'], partialTitle, '...');
+		} else {
+			return _user$project$Domain_Core$titleText(link.title);
+		}
+	}();
+	return title;
+};
 var _user$project$Controls_ProviderLinks$decorateIfFeatured = function (link) {
 	return (!link.isFeatured) ? A2(
 		_elm_lang$html$Html$a,
@@ -17837,7 +17859,7 @@ var _user$project$Controls_ProviderLinks$decorateIfFeatured = function (link) {
 		{
 			ctor: '::',
 			_0: _elm_lang$html$Html$text(
-				_user$project$Domain_Core$titleText(link.title)),
+				_user$project$Controls_ProviderLinks$formatTitle(link)),
 			_1: {
 				ctor: '::',
 				_0: A2(
@@ -17908,11 +17930,11 @@ var _user$project$Controls_ProviderLinks$requestAllContent = F5(
 						_0: _elm_lang$html$Html$text(
 							A2(
 								_elm_lang$core$Basics_ops['++'],
-								'All (',
+								'( view all ',
 								A2(
 									_elm_lang$core$Basics_ops['++'],
 									_elm_lang$core$Basics$toString(count),
-									') links'))),
+									' links )'))),
 						_1: {
 							ctor: '::',
 							_0: A2(
@@ -17927,18 +17949,18 @@ var _user$project$Controls_ProviderLinks$requestAllContent = F5(
 	});
 var _user$project$Controls_ProviderLinks$update = F2(
 	function (msg, provider) {
-		var _p0 = msg;
+		var _p1 = msg;
 		return A2(
 			_user$project$Domain_Core$toggleFilter,
 			provider,
-			{ctor: '_Tuple2', _0: _p0._0._0, _1: _p0._0._1});
+			{ctor: '_Tuple2', _0: _p1._0._0, _1: _p1._0._1});
 	});
 var _user$project$Controls_ProviderLinks$Toggle = function (a) {
 	return {ctor: 'Toggle', _0: a};
 };
 var _user$project$Controls_ProviderLinks$view = F2(
 	function (linksFrom, provider) {
-		var _p1 = {
+		var _p2 = {
 			ctor: '_Tuple4',
 			_0: _elm_lang$core$List$length(
 				A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$Answer, provider.portfolio)),
@@ -17949,10 +17971,10 @@ var _user$project$Controls_ProviderLinks$view = F2(
 			_3: _elm_lang$core$List$length(
 				A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$Video, provider.portfolio))
 		};
-		var answerCount = _p1._0;
-		var articleCount = _p1._1;
-		var podcastCount = _p1._2;
-		var videoCount = _p1._3;
+		var answerCount = _p2._0;
+		var articleCount = _p2._1;
+		var podcastCount = _p2._2;
+		var videoCount = _p2._3;
 		var filtered = provider.filteredPortfolio;
 		var toCheckBoxState = F2(
 			function (include, topic) {
@@ -17996,9 +18018,9 @@ var _user$project$Controls_ProviderLinks$view = F2(
 						}
 					});
 			});
-		var _p2 = {ctor: '_Tuple2', _0: provider.profile.id, _1: provider.topics};
-		var profileId = _p2._0;
-		var topics = _p2._1;
+		var _p3 = {ctor: '_Tuple2', _0: provider.profile.id, _1: provider.topics};
+		var profileId = _p3._0;
+		var topics = _p3._1;
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
@@ -18096,7 +18118,11 @@ var _user$project$Controls_ProviderLinks$view = F2(
 																		ctor: '::',
 																		_0: A2(
 																			_elm_lang$html$Html$td,
-																			{ctor: '[]'},
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$class('portfolioContent'),
+																				_1: {ctor: '[]'}
+																			},
 																			{
 																				ctor: '::',
 																				_0: A2(
@@ -18109,7 +18135,11 @@ var _user$project$Controls_ProviderLinks$view = F2(
 																			ctor: '::',
 																			_0: A2(
 																				_elm_lang$html$Html$td,
-																				{ctor: '[]'},
+																				{
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Attributes$class('portfolioContent'),
+																					_1: {ctor: '[]'}
+																				},
 																				{
 																					ctor: '::',
 																					_0: A2(
@@ -18172,7 +18202,11 @@ var _user$project$Controls_ProviderLinks$view = F2(
 																				ctor: '::',
 																				_0: A2(
 																					_elm_lang$html$Html$td,
-																					{ctor: '[]'},
+																					{
+																						ctor: '::',
+																						_0: _elm_lang$html$Html_Attributes$class('portfolioContent'),
+																						_1: {ctor: '[]'}
+																					},
 																					{
 																						ctor: '::',
 																						_0: A2(
@@ -18185,7 +18219,11 @@ var _user$project$Controls_ProviderLinks$view = F2(
 																					ctor: '::',
 																					_0: A2(
 																						_elm_lang$html$Html$td,
-																						{ctor: '[]'},
+																						{
+																							ctor: '::',
+																							_0: _elm_lang$html$Html_Attributes$class('portfolioContent'),
+																							_1: {ctor: '[]'}
+																						},
 																						{
 																							ctor: '::',
 																							_0: A2(
@@ -19180,6 +19218,7 @@ var _user$project$Home$linksUI = function (links) {
 	return A2(
 		_elm_lang$core$List$map,
 		function (link) {
+			var title = _user$project$Controls_ProviderLinks$formatTitle(link);
 			return A2(
 				_elm_lang$html$Html$a,
 				{
@@ -19194,8 +19233,7 @@ var _user$project$Home$linksUI = function (links) {
 				},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text(
-						_user$project$Domain_Core$titleText(link.title)),
+					_0: _elm_lang$html$Html$text(title),
 					_1: {
 						ctor: '::',
 						_0: A2(
@@ -19339,7 +19377,11 @@ var _user$project$Home$providerTopicPage = F2(
 									ctor: '::',
 									_0: A2(
 										_elm_lang$html$Html$td,
-										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('portfolioContent'),
+											_1: {ctor: '[]'}
+										},
 										{
 											ctor: '::',
 											_0: A2(
@@ -19358,7 +19400,11 @@ var _user$project$Home$providerTopicPage = F2(
 										ctor: '::',
 										_0: A2(
 											_elm_lang$html$Html$td,
-											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('portfolioContent'),
+												_1: {ctor: '[]'}
+											},
 											{
 												ctor: '::',
 												_0: A2(
@@ -19427,7 +19473,11 @@ var _user$project$Home$providerTopicPage = F2(
 											ctor: '::',
 											_0: A2(
 												_elm_lang$html$Html$td,
-												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('portfolioContent'),
+													_1: {ctor: '[]'}
+												},
 												{
 													ctor: '::',
 													_0: A2(
@@ -19446,7 +19496,11 @@ var _user$project$Home$providerTopicPage = F2(
 												ctor: '::',
 												_0: A2(
 													_elm_lang$html$Html$td,
-													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$class('portfolioContent'),
+														_1: {ctor: '[]'}
+													},
 													{
 														ctor: '::',
 														_0: A2(

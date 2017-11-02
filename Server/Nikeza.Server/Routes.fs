@@ -94,11 +94,6 @@ open Nikeza.Server.Wordpress
 open Nikeza.Server.StackOverflow
 open Nikeza.Server.StackOverflow.Suggestions
 
-let private fetchWordpress (feedUrl) (context : HttpContext) =
-    async { let response = ""
-            return json response context
-    }
-
 let private fetchBootstrap =
     CachedTags.Instance() |> ignore
     let  dependencies = { Providers= getProviders(); Platforms=getPlatforms() }
@@ -148,7 +143,6 @@ let webApp : HttpContext -> HttpHandlerResult =
                 route  "/"                  >=>  htmlFile "/home.html"
                 route  "/options"           >=>  setHttpHeader "Allow" "GET, OPTIONS, POST" // CORS support
                 route  "/bootstrap"         >=>  fetchBootstrap
-                // routef "/wordpress/%s"           fetchWordpress
                 routef "/links/%s"               fetchLinks
                 routef "/suggestedtopics/%s"     fetchSuggestedTopics
                 routef "/recent/%s"              fetchRecent

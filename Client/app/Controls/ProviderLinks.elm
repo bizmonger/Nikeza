@@ -51,16 +51,16 @@ view linksFrom provider =
                                     , td [] [ b [] [ text "Articles" ] ]
                                     ]
                                 , tr []
-                                    [ td [] [ div [] <| requestAllContent linksFrom profileId Answer filtered.answers answerCount ]
-                                    , td [] [ div [] <| requestAllContent linksFrom profileId Article filtered.articles articleCount ]
+                                    [ td [ class "portfolioContent" ] [ div [] <| requestAllContent linksFrom profileId Answer filtered.answers answerCount ]
+                                    , td [ class "portfolioContent" ] [ div [] <| requestAllContent linksFrom profileId Article filtered.articles articleCount ]
                                     ]
                                 , tr []
                                     [ td [] [ b [] [ text "Podcasts" ] ]
                                     , td [] [ b [] [ text "Videos" ] ]
                                     ]
                                 , tr []
-                                    [ td [] [ div [] <| requestAllContent linksFrom profileId Podcast filtered.podcasts podcastCount ]
-                                    , td [] [ div [] <| requestAllContent linksFrom profileId Video filtered.videos videoCount ]
+                                    [ td [ class "portfolioContent" ] [ div [] <| requestAllContent linksFrom profileId Podcast filtered.podcasts podcastCount ]
+                                    , td [ class "portfolioContent" ] [ div [] <| requestAllContent linksFrom profileId Video filtered.videos videoCount ]
                                     ]
                                 ]
                             ]
@@ -74,14 +74,35 @@ requestAllContent : Linksfrom -> Id -> ContentType -> List Link -> Int -> List (
 requestAllContent linksFrom profileId contentType links count =
     List.append (linksUI links)
         [ a [ href <| urlText <| allContentUrl linksFrom profileId contentType ]
-            [ text <| ("All (" ++ toString count ++ ") links"), br [] [] ]
+            [ text <| ("( view all " ++ toString count ++ " links )"), br [] [] ]
         ]
+
+
+formatTitle : Link -> String
+formatTitle link =
+    let
+        ( maxLength, titleLength ) =
+            ( 50, String.length <| titleText link.title )
+
+        title =
+            if titleLength > maxLength then
+                let
+                    partialTitle =
+                        link.title
+                            |> titleText
+                            |> String.dropRight (titleLength - maxLength - 3)
+                in
+                    partialTitle ++ "..."
+            else
+                titleText link.title
+    in
+        title
 
 
 decorateIfFeatured : Link -> Html Msg
 decorateIfFeatured link =
     if not link.isFeatured then
-        a [ href <| urlText link.url, target "_blank" ] [ text <| titleText link.title, br [] [] ]
+        a [ href <| urlText link.url, target "_blank" ] [ text <| formatTitle link, br [] [] ]
     else
         a [ class "featured", href <| urlText link.url, target "_blank" ] [ text <| titleText link.title, br [] [] ]
 

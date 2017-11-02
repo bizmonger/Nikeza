@@ -43,7 +43,7 @@ module Nikeza.Server.Wordpress
           Description= ""
           Url= post.URL
           Topics= List.ofSeq post.Tags |> List.map stringToTag
-          ContentType="Answers"
+          ContentType="Articles"
           IsFeatured= false
         }
 

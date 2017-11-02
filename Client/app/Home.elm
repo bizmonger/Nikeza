@@ -997,10 +997,10 @@ providerTopicPage linksfrom model =
                     ]
                 , tr []
                     -- [ td [] [ div [] <| contentWithTopicUI linksfrom profileId Answer topic (runtime.topicLinks topic Answer profileId) ]
-                    [ td [] [ div [] <| contentWithTopicUI linksfrom profileId Answer topic [] ]
+                    [ td [ class "portfolioContent" ] [ div [] <| contentWithTopicUI linksfrom profileId Answer topic [] ]
 
                     -- , td [] [ div [] <| contentWithTopicUI linksfrom profileId Article topic (runtime.topicLinks topic Article profileId) ]
-                    , td [] [ div [] <| contentWithTopicUI linksfrom profileId Article topic [] ]
+                    , td [ class "portfolioContent" ] [ div [] <| contentWithTopicUI linksfrom profileId Article topic [] ]
                     ]
                 , tr []
                     [ td [] [ b [] [ text "Podcasts" ] ]
@@ -1008,10 +1008,10 @@ providerTopicPage linksfrom model =
                     ]
                 , tr []
                     -- [ td [] [ div [] <| contentWithTopicUI linksfrom profileId Podcast topic (runtime.topicLinks topic Podcast profileId) ]
-                    [ td [] [ div [] <| contentWithTopicUI linksfrom profileId Podcast topic [] ]
+                    [ td [ class "portfolioContent" ] [ div [] <| contentWithTopicUI linksfrom profileId Podcast topic [] ]
 
                     -- , td [] [ div [] <| contentWithTopicUI linksfrom profileId Video topic (runtime.topicLinks topic Video profileId) ]
-                    , td [] [ div [] <| contentWithTopicUI linksfrom profileId Video topic [] ]
+                    , td [ class "portfolioContent" ] [ div [] <| contentWithTopicUI linksfrom profileId Video topic [] ]
                     ]
                 ]
     in
@@ -1413,7 +1413,14 @@ linksUI : List Link -> List (Html Msg)
 linksUI links =
     links
         |> List.take 5
-        |> List.map (\link -> a [ href <| urlText link.url, target "_blank" ] [ text <| titleText link.title, br [] [] ])
+        |> List.map
+            (\link ->
+                let
+                    title =
+                        formatTitle link
+                in
+                    a [ href <| urlText link.url, target "_blank" ] [ text title, br [] [] ]
+            )
 
 
 contentWithTopicUI : Linksfrom -> Id -> ContentType -> Topic -> List Link -> List (Html Msg)

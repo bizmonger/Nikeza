@@ -89,7 +89,7 @@ button.removeTopic {
 }
 
 button.disconnectSource {
-    background-color: red;
+    background-color: maroon;
     color: white;
 }
 
@@ -178,6 +178,10 @@ button.remove {
 
 table td, table td * {
     vertical-align: top;
+}
+
+td.portfolioContent {
+    width: 400px;
 }
 
 td.login {

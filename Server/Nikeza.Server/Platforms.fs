@@ -42,11 +42,10 @@ let getLinks (source:PlatformUser) =
     let user =  source.User
     
     source.Platform |> function
-    | YouTube       ->
-        user.AccessId |> youtubeLinks source.APIKey  
-                      |> Async.RunSynchronously
-                      |> Seq.map (fun video -> linkOf video user.ProfileId )
-
+    | YouTube       -> user.AccessId |> youtubeLinks source.APIKey  
+                       |> Async.RunSynchronously
+                       |> Seq.map (fun video -> linkOf video user.ProfileId )
+                       
     | StackOverflow -> source |> stackoverflowLinks
     | WordPress     -> []     |> wordpressLinks user 1
     | Other         -> Seq.empty
