@@ -3,13 +3,10 @@ module Nikeza.Server.Wordpress
     let getThumbnail accessId apiKey = ""
 
     open System
-    open System.IO
     open System.Net.Http
     open Newtonsoft.Json
     open Nikeza.Server.Model
     open Nikeza.Server.Http
-    open Nikeza.Server.Literals
-    open Newtonsoft.Json.Linq
     open System.Collections.Generic
 
     [<Literal>]

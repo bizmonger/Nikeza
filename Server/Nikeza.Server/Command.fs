@@ -156,14 +156,14 @@ module private Commands =
 
     let addDataSource (info:DataSourceRequest) =
 
-        let apikey = info.Platform |> toPlatformType 
+        let apikey = info.Platform |> PlatformFromString 
                                    |> function
                                       | YouTube       -> File.ReadAllText(KeyFile_YouTube)
                                       | StackOverflow -> File.ReadAllText(KeyFile_StackOverflow)
                                       | _ -> "no key provided"
         let source = {
             ProfileId=  info.ProfileId
-            Platform=   info.Platform |> toPlatformType
+            Platform=   info.Platform |> PlatformFromString
             APIKey=     apikey
             User=     { AccessId = info.AccessId; ProfileId= info.ProfileId }
         }

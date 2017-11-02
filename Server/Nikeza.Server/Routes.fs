@@ -6,6 +6,7 @@ open Giraffe.HttpContextExtensions
 open Giraffe.HttpHandlers
 open Nikeza.Server.Store
 open Nikeza.Server.Model
+open Nikeza.Server.Platforms
 open Nikeza.Server.Authentication
 
 let authScheme = "Cookie"

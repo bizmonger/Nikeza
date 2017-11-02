@@ -3,31 +3,19 @@ module Nikeza.Server.Model
 open System
 open Nikeza.Server.Literals
 
+type Platform =
+    | YouTube
+    | WordPress
+    | StackOverflow
+    | Medium
+    | Other
+
 type ContentType = 
     | Article
     | Video
     | Answer
     | Podcast
     | Unknown
-
-type Platform =
-    | YouTube
-    | WordPress
-    | StackOverflow
-    | Other
-
-let PlatformToString = function
-    | YouTube       -> "youtube"
-    | WordPress     -> "wordpress"
-    | StackOverflow -> "stackoverflow"
-    | Other         -> "other"
-
-let PlatformFromString = function
-    | "youtube"       -> YouTube
-    | "wordpress"     -> WordPress
-    | "stackoverflow" -> StackOverflow
-    | "other"         -> Other
-    | _               -> Other
 
 let contentTypeFromString = function
     | ArticleText -> Article

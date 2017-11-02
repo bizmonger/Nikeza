@@ -8,16 +8,27 @@ open Nikeza.Server.YouTube.Authentication
 open Nikeza.Server.StackOverflow
 open Nikeza.Server.Wordpress
 
-let toPlatformType = function
-    | "YouTube"       -> YouTube
-    | "WordPress"     -> WordPress
-    | "StackOverflow" -> StackOverflow
+let PlatformToString = function
+    | YouTube       -> "youtube"
+    | WordPress     -> "wordpress"
+    | StackOverflow -> "stackoverflow"
+    | Medium        -> "Medium"
+    | Other         -> "other"
+
+let PlatformFromString (platform:string) =
+    match platform.ToLower() with
+    | "youtube"       -> YouTube
+    | "wordpress"     -> WordPress
+    | "stackoverflow" -> StackOverflow
+    | "medium"        -> Medium
+    | "other"         -> Other
     | _               -> Other
 
 let getThumbnail platform accessId = platform |> function
     | YouTube       -> YouTube       .getThumbnail accessId (File.ReadAllText(KeyFile_YouTube));
     | StackOverflow -> StackOverflow .getThumbnail accessId (File.ReadAllText(KeyFile_StackOverflow));
     | Wordpress     -> ThumbnailUrl
+    | Medium        -> ThumbnailUrl
     | Other         -> ThumbnailUrl
 
 let youtubeLinks apiKey channelId = 
@@ -48,4 +59,5 @@ let getLinks (source:PlatformUser) =
                        
     | StackOverflow -> source |> stackoverflowLinks
     | WordPress     -> []     |> wordpressLinks user 1
+    | Medium        -> Seq.empty
     | Other         -> Seq.empty
