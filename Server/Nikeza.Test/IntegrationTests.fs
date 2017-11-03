@@ -119,7 +119,7 @@ let ``Parse Medium JSON`` () =
         let nextPost = remainingText nextPostIndex truncatedText2
         nextPost
 
-    let rec getLinks (partial:string) (originalContent:string) links =
+    let rec linksFrom (partial:string) (originalContent:string) links =
 
         let identifier =   "\"homeCollectionId\":"
         let nextTagIndex =  partial.IndexOf(identifier)
@@ -135,18 +135,21 @@ let ``Parse Medium JSON`` () =
                          let content =         getNextPost nextPost postBlock
                          
                          [link] |> List.append links 
-                                |> getLinks content originalContent
+                                |> linksFrom content originalContent
 
                     else let link = createLink partial
                          List.append links [link]
             else links
 
-    let text =        File.ReadAllText(@"C:\Nikeza\Medium_json_examle.txt")
-    let postsIndex =  text.IndexOf("\"Post\": {") + 11
-    let postsBlock =  text.Substring(postsIndex, text.Length - postsIndex)
-    let links =       [] |> getLinks postsBlock text
-    let y = links
-    
+    let getLinks url =
+        let text =        File.ReadAllText(@"C:\Nikeza\Medium_json_examle.txt")
+        let postsIndex =  text.IndexOf("\"Post\": {") + 11
+        let postsBlock =  text.Substring(postsIndex, text.Length - postsIndex)
+        let links =       [] |> linksFrom postsBlock text
+        links
+
+    let links = getLinks @"C:\Nikeza\Medium_json_examle.txt"
+        
     links |> List.length |> should (be greaterThan) 0
 
 [<Test>]

@@ -40,7 +40,7 @@ module StackOverflow =
         quota_remaining: int
     }
 
-    let toLink profileId item =
+    let private toLink profileId item =
         { Id= -1
           ProfileId= profileId
           Title= item.title
@@ -68,7 +68,7 @@ module StackOverflow =
     type Tag =          { name : string }
     type TagsResponse = { items: Tag list }
 
-    let getTags (pageNumber:int) : string list =
+    let private getTags (pageNumber:int) : string list =
         
         let client = httpClient APIBaseAddress
 

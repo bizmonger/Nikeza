@@ -25,7 +25,7 @@ module Nikeza.Server.Wordpress
 
     type Response = { found: int; posts: Post list }
 
-    let toLink profileId (post:Post) =
+    let private toLink profileId (post:Post) =
         let stringToTag t = { 
             Id= -1
             Name= t.ToString()                   
