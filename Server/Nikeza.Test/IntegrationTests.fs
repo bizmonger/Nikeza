@@ -19,12 +19,14 @@ let teardown() = cleanDataStore()
 let ``Parse Medium JSON`` () =
 
     let parseValue (line:string) =
-        line.Split(':')
-             .[1]
-             .Replace("\"", "")
-             .Trim()
-             .TrimEnd(',')
-
+        if line.Contains(":")
+            then Some <| line.Split(':')
+                             .[1]
+                             .Replace("\"", "")
+                             .Trim()
+                             .TrimEnd(',')
+            else None
+                     
     let getPostBlock (text:string) =
         let postsIndex =  text.IndexOf("\"Post\": {") + 11
         let partial =     text.Substring(postsIndex, text.Length - postsIndex)
@@ -33,28 +35,37 @@ let ``Parse Medium JSON`` () =
         postBlock
 
     let createLink (postBlock:string) =
+        let getTag (text:string) =
+            let tagsIndex =  text.IndexOf("\"tags\": [")
+            let tagsBlock1 = text.Substring(tagsIndex, text.Length - tagsIndex)
+            let startIndex = tagsBlock1.IndexOf('{')
+            let endIndex =   tagsBlock1.IndexOf('}')
+            let tagBlock =   tagsBlock1.Substring(startIndex, endIndex)
+            let tagParts =   tagBlock.Split('\n')
+            let tag =        parseValue(tagParts.[2])
+            tag
 
-        let postParts =   postBlock.Split("\n")
+        let postParts = postBlock.Split("\n")
+        let topicResult = match getTag postBlock with
+                          | Some tag -> Some { Id= -1; Name=tag }
+                          | None     -> None
 
         { Id= -1
-          ProfileId= "no value yet..."
-          Title= parseValue(postParts.[5])
-          Description= ""
-          Url= "{0}" + parseValue(postParts.[1])
-          Topics= []
+          ProfileId=   "to be derived..."
+          Title=        parseValue(postParts.[5]) |> function | Some title -> title | None -> ""
+          Description=  ""
+          Url=          parseValue(postParts.[1]) |> function | Some title -> "{0}" + title | None -> ""
+          Topics=       match topicResult with Some t -> [t] | None -> []
           ContentType= "Article"
-          IsFeatured= false
+          IsFeatured=   false
         }
 
-    let getTag (text:string) =
-        let tagsIndex =    text.IndexOf("\"tags\": [")
-        let tagsBlock1 =   text.Substring(tagsIndex, text.Length - tagsIndex)
-        let startIndex=    tagsBlock1.IndexOf('{')
-        let endIndex=      tagsBlock1.IndexOf('}')
-        let tagBlock=      tagsBlock1.Substring(startIndex, endIndex)
-        let tagParts =     tagBlock.Split('\n')
-        let tag =          parseValue(tagParts.[2])
-        tag
+    let remainingText nextTagIndex (text:string) =
+        let newIndex =       if nextTagIndex >= 300 then nextTagIndex - 300 else nextTagIndex
+        let nextPostTemp =   text.Substring(newIndex, text.Length - newIndex)
+        let newEndIndex =    nextPostTemp.IndexOf(": {")
+        let nextPost =       nextPostTemp.Substring(newEndIndex, nextPostTemp.Length - newEndIndex)
+        nextPost
 
     let getNextPost (text:string) (postBlock:string) =
         let tagsIndex =      text.IndexOf("\"tags\": [")
@@ -64,28 +75,36 @@ let ``Parse Medium JSON`` () =
         let truncatedText1 = text.Replace(removeTagBlock, "")
         let truncatedText2 = truncatedText1.Replace(postBlock, "")
 
-        let nextTagIndex =   truncatedText2.IndexOf("\"homeCollectionId\":")
-        let newIndex =       nextTagIndex - 300
-        let nextPostTemp =   truncatedText2.Substring(newIndex, truncatedText2.Length - newIndex)
-        let newEndIndex =    nextPostTemp.IndexOf(": {")
-        let nextPost =       nextPostTemp.Substring(newEndIndex, nextPostTemp.Length - newEndIndex)
+        let nextTagIndex = truncatedText2.IndexOf("\"homeCollectionId\":")
+        let nextPost = remainingText nextTagIndex truncatedText2
         nextPost
 
     let text =        File.ReadAllText(@"C:\Nikeza\Medium_json_examle.txt")
     let postsIndex =  text.IndexOf("\"Post\": {") + 11
     let partial =     text.Substring(postsIndex, text.Length - postsIndex)
 
-    let link1 =        createLink partial
-    let tag =         getTag partial
+    let rec getLinks (partial:string) links =
 
-    let postBlock =   getPostBlock text
-    let nextPost =    getNextPost partial postBlock
+        let identifier =   "\"homeCollectionId\":"
+        let nextTagIndex =  partial.IndexOf(identifier)
 
-    let link2 =       createLink nextPost
+        if nextTagIndex >= 0
+            then let nextPost = remainingText nextTagIndex partial
 
-    let temp = link2
+                 if nextPost.Contains(identifier)
+                    then let link =      createLink partial
+                         let postBlock = getPostBlock text
+                         let content =   getNextPost nextPost postBlock
+                         getLinks content (List.append links [link])
+
+                    else let link = createLink partial
+                         List.append links [link]
+            else links
+
+    let links = [] |> getLinks partial
+    let y = links
     
-    link2.Title |> should (be greaterThan) 0
+    links |> List.length |> should (be greaterThan) 0
 
 [<Test>]
 let ``Read YouTube APIKey file`` () =
