@@ -25,31 +25,64 @@ let ``Parse Medium JSON`` () =
              .Trim()
              .TrimEnd(',')
 
+    let getPostBlock (text:string) =
+        let postsIndex =  text.IndexOf("\"Post\": {")
+        let partial =     text.Substring(postsIndex, text.Length - postsIndex)
+        let postEndIndex= partial.IndexOf("},")
+        let postBlock=    partial.Substring(0, postEndIndex)
+        postBlock
 
-    let text =       File.ReadAllText(@"C:\Nikeza\Medium_json_examle.txt")
-    let postsIndex = text.IndexOf("\"Post\": {")
-    let postsBlock = text.Substring(postsIndex, text.Length - postsIndex)
+    let createLink (postBlock:string) =
+        let postParts =   postBlock.Split("\n")
+        let id =          parseValue(postParts.[2])
+        let title =       parseValue(postParts.[6])
+        let timestamp =   parseValue(postParts.[12])
+        let createdOn =   DateTime(Convert.ToInt64(timestamp))
 
-    let postParts = postsBlock.Split("\n")
-    let id =        parseValue(postParts.[2])
-    let title =     parseValue(postParts.[6])
-    let timestamp = parseValue(postParts.[12])
-    let createdOn = DateTime(Convert.ToInt64(timestamp))
+        { Id= -1
+          ProfileId= "no value yet..."
+          Title= title
+          Description= ""
+          Url= "generated later..."
+          Topics= []
+          ContentType= "Article"
+          IsFeatured= false
+        }
 
-    let tagsIndex =    postsBlock.IndexOf("\"tags\": [")
-    let tagsBlock =    postsBlock.Substring(tagsIndex, postsBlock.Length - tagsIndex)
-    let startIndex=    tagsBlock.IndexOf('{')
-    let endIndex=      tagsBlock.IndexOf('}')
-    let tagBlock=      tagsBlock.Substring(startIndex, endIndex)
-    let tagParts =     tagBlock.Split('\n')
-    let tag =          parseValue(tagParts.[2])
+    let getTag (text:string) =
+        let tagsIndex =    text.IndexOf("\"tags\": [")
+        let tagsBlock1 =   text.Substring(tagsIndex, text.Length - tagsIndex)
+        let startIndex=    tagsBlock1.IndexOf('{')
+        let endIndex=      tagsBlock1.IndexOf('}')
+        let tagBlock=      tagsBlock1.Substring(startIndex, endIndex)
+        let tagParts =     tagBlock.Split('\n')
+        let tag =          parseValue(tagParts.[2])
+        tag
+
+    let getNextPost (text:string) (postBlock:string) =
+        let tagsIndex =      text.IndexOf("\"tags\": [")
+        let tagsBlock1 =     text.Substring(tagsIndex, text.Length - tagsIndex)
+        let tagsEndIndex=    tagsBlock1.IndexOf("],")
+        let removeTagBlock=  tagsBlock1.Substring(0, tagsEndIndex)
+        let truncatedText1 = text.Replace(removeTagBlock, "")
+        let truncatedText2 = truncatedText1.Replace(postBlock, "")
+
+        let nextTagIndex =   truncatedText2.IndexOf("\"homeCollectionId\":")
+        let newIndex =       nextTagIndex - 300
+        let nextPostTemp =   truncatedText2.Substring(newIndex, truncatedText2.Length - newIndex)
+        let newEndIndex =    nextPostTemp.IndexOf(": {")
+        let nextPost =       nextPostTemp.Substring(newEndIndex, nextPostTemp.Length - newEndIndex)
+        nextPost
+
+    let text =        File.ReadAllText(@"C:\Nikeza\Medium_json_examle.txt")
+    let postsIndex =  text.IndexOf("\"Post\": {")
+    let partial =     text.Substring(postsIndex, text.Length - postsIndex)
+    let tag =         getTag partial
+
+    let postBlock =   getPostBlock text
+    let nextPost =    getNextPost partial postBlock
     
-    let truncatedText = text.Replace(tagBlock, "")
-    let length =        truncatedText.Length
-
-    let x = tagParts
-    
-    tag.Length |> should (be greaterThan) 0
+    nextPost.Length |> should (be greaterThan) 0
 
 [<Test>]
 let ``Read YouTube APIKey file`` () =
