@@ -26,24 +26,21 @@ let ``Parse Medium JSON`` () =
              .TrimEnd(',')
 
     let getPostBlock (text:string) =
-        let postsIndex =  text.IndexOf("\"Post\": {")
+        let postsIndex =  text.IndexOf("\"Post\": {") + 11
         let partial =     text.Substring(postsIndex, text.Length - postsIndex)
         let postEndIndex= partial.IndexOf("},")
         let postBlock=    partial.Substring(0, postEndIndex)
         postBlock
 
     let createLink (postBlock:string) =
+
         let postParts =   postBlock.Split("\n")
-        let id =          parseValue(postParts.[2])
-        let title =       parseValue(postParts.[6])
-        let timestamp =   parseValue(postParts.[12])
-        let createdOn =   DateTime(Convert.ToInt64(timestamp))
 
         { Id= -1
           ProfileId= "no value yet..."
-          Title= title
+          Title= parseValue(postParts.[5])
           Description= ""
-          Url= "generated later..."
+          Url= "{0}" + parseValue(postParts.[1])
           Topics= []
           ContentType= "Article"
           IsFeatured= false
@@ -75,14 +72,20 @@ let ``Parse Medium JSON`` () =
         nextPost
 
     let text =        File.ReadAllText(@"C:\Nikeza\Medium_json_examle.txt")
-    let postsIndex =  text.IndexOf("\"Post\": {")
+    let postsIndex =  text.IndexOf("\"Post\": {") + 11
     let partial =     text.Substring(postsIndex, text.Length - postsIndex)
+
+    let link1 =        createLink partial
     let tag =         getTag partial
 
     let postBlock =   getPostBlock text
     let nextPost =    getNextPost partial postBlock
+
+    let link2 =       createLink nextPost
+
+    let temp = link2
     
-    nextPost.Length |> should (be greaterThan) 0
+    link2.Title |> should (be greaterThan) 0
 
 [<Test>]
 let ``Read YouTube APIKey file`` () =
