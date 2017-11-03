@@ -46,7 +46,7 @@ module Nikeza.Server.Wordpress
 
     let rec wordpressLinks (user:User) (pageNumber:int) existingLinks =
 
-        let foo (client:HttpClient) =
+        let getLinks (client:HttpClient) =
             let url =        String.Format(ArticlesUrl, user.AccessId, pageNumber |> string)
             let response =   client.GetAsync(url) |> Async.AwaitTask 
                                                   |> Async.RunSynchronously
@@ -67,4 +67,4 @@ module Nikeza.Server.Wordpress
             else seq []
         
         use client = httpClient APIBaseAddress
-        foo client
+        getLinks client

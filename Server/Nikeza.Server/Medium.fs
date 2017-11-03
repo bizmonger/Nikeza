@@ -1,7 +1,8 @@
-module Medium
+module Nikeza.Server.Medium
 
-    open System.IO
-    open Nikeza.Server.Model
+    open System
+    open Model
+    open Http
 
     let private parseValue (line:string) =
         if line.Contains(":")
@@ -126,9 +127,17 @@ module Medium
                          List.append links [link]
             else links
 
-    let getLinks url =
-        let text =        File.ReadAllText(@"C:\Nikeza\Medium_json_examle.txt")
-        let postsIndex =  text.IndexOf("\"Post\": {") + 11
-        let postsBlock =  text.Substring(postsIndex, text.Length - postsIndex)
-        let links =       [] |> linksFrom postsBlock text
-        links
+    let mediumLinks (user:User) =
+
+        let url =      String.Format("@{0}/latest?format=json", user.AccessId)
+        let client =   httpClient "https://medium.com/"
+        let response = client.GetAsync(url) |> Async.AwaitTask 
+                                            |> Async.RunSynchronously
+        if response.IsSuccessStatusCode
+            then let json = response.Content.ReadAsStringAsync() |> Async.AwaitTask 
+                                                                 |> Async.RunSynchronously
+                 let postsIndex = json.IndexOf("\"Post\": {") + 11
+                 let postsBlock = json.Substring(postsIndex, json.Length - postsIndex)
+                 (json,[]) ||> linksFrom postsBlock
+                            |> List.toSeq
+            else Seq.empty

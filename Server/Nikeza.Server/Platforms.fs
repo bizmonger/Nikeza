@@ -7,6 +7,7 @@ open Nikeza.Server.YouTube
 open Nikeza.Server.YouTube.Authentication
 open Nikeza.Server.StackOverflow
 open Nikeza.Server.Wordpress
+open Nikeza.Server.Medium
 
 let PlatformToString = function
     | YouTube       -> "youtube"
@@ -59,5 +60,5 @@ let getLinks (source:PlatformUser) =
                        
     | StackOverflow -> source |> stackoverflowLinks
     | WordPress     -> []     |> wordpressLinks user 1
-    | Medium        -> Seq.empty
+    | Medium        -> user   |> mediumLinks
     | Other         -> Seq.empty
