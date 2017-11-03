@@ -16,6 +16,42 @@ open Nikeza.Server.Literals
 let teardown() = cleanDataStore()
 
 [<Test>]
+let ``Parse Medium JSON`` () =
+
+    let parseValue (line:string) =
+        line.Split(':')
+             .[1]
+             .Replace("\"", "")
+             .Trim()
+             .TrimEnd(',')
+
+
+    let text =       File.ReadAllText(@"C:\Nikeza\Medium_json_examle.txt")
+    let postsIndex = text.IndexOf("\"Post\": {")
+    let postsBlock = text.Substring(postsIndex, text.Length - postsIndex)
+
+    let postParts = postsBlock.Split("\n")
+    let id =        parseValue(postParts.[2])
+    let title =     parseValue(postParts.[6])
+    let timestamp = parseValue(postParts.[12])
+    let createdOn = DateTime(Convert.ToInt64(timestamp))
+
+    let tagsIndex =    postsBlock.IndexOf("\"tags\": [")
+    let tagsBlock =    postsBlock.Substring(tagsIndex, postsBlock.Length - tagsIndex)
+    let startIndex=    tagsBlock.IndexOf('{')
+    let endIndex=      tagsBlock.IndexOf('}')
+    let tagBlock=      tagsBlock.Substring(startIndex, endIndex)
+    let tagParts =     tagBlock.Split('\n')
+    let tag =          parseValue(tagParts.[2])
+    
+    let truncatedText = text.Replace(tagBlock, "")
+    let length =        truncatedText.Length
+
+    let x = tagParts
+    
+    tag.Length |> should (be greaterThan) 0
+
+[<Test>]
 let ``Read YouTube APIKey file`` () =
     let text = File.ReadAllText(KeyFile_YouTube)
     text.Length |> should (be greaterThan) 0
