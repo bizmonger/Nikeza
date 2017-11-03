@@ -4,6 +4,9 @@ module Nikeza.Server.Medium
     open Model
     open Http
 
+    [<Literal>]
+    let BaseAddress = "https://medium.com/"
+
     let private parseValue (line:string) =
         if line.Contains(":")
             then Some <| line.Split(':')
@@ -20,7 +23,7 @@ module Nikeza.Server.Medium
         let postBlock=    partial.Substring(0, postEndIndex)
         postBlock
 
-    let private createLink (postBlock:string) =
+    let private createLink (postBlock:string) (user:User) =
 
         let getTagsBlock (postBlock:string) =
             let startIndex = postBlock.IndexOf("\"tags\": [")
@@ -71,16 +74,18 @@ module Nikeza.Server.Medium
 
         let  postParts = postBlock.Split("\n")
 
-        let topics = [] |> getTags postBlock 
+        let topics = [] |> getTags postBlock
                         |> List.choose(fun tag -> match tag with
                                                   | Some t -> Some { Id= -1; Name=t; }
                                                   | None   -> None
                                       )
+        let id = parseValue(postParts.[1]) |> function | Some title -> "{0}" + title | None -> ""
+
         { Id= -1
-          ProfileId=   "to be derived..."
+          ProfileId=    user.ProfileId
           Title=        parseValue(postParts.[5]) |> function | Some title -> title | None -> ""
           Description=  ""
-          Url=          parseValue(postParts.[1]) |> function | Some title -> "{0}" + title | None -> ""
+          Url=          String.Format("{0}{1}/{2}", BaseAddress, "@" + user.AccessId, id)
           Topics=       topics |>List.toSeq |> Seq.distinct |> Seq.toList
           ContentType= "Article"
           IsFeatured=   false
@@ -100,12 +105,11 @@ module Nikeza.Server.Medium
         let removeTagBlock=  tagsBlock1.Substring(0, tagsEndIndex)
         let truncatedText1 = text.Replace(removeTagBlock, "")
         let truncatedText2 = truncatedText1.Replace(postBlock, "")
-
-        let nextPostIndex = truncatedText2.IndexOf("\"homeCollectionId\":")
-        let nextPost = remainingText nextPostIndex truncatedText2
+        let nextPostIndex =  truncatedText2.IndexOf("\"homeCollectionId\":")
+        let nextPost =       remainingText nextPostIndex truncatedText2
         nextPost
 
-    let rec private linksFrom (partial:string) (originalContent:string) links =
+    let rec private linksFrom (partial:string) (user:User) (originalContent:string) links =
 
         let identifier =   "\"homeCollectionId\":"
         let nextTagIndex =  partial.IndexOf(identifier)
@@ -116,21 +120,21 @@ module Nikeza.Server.Medium
                  if nextPost.Contains(identifier)
                     then let endIndex =        partial.IndexOf("\"homeCollectionId\":", partial.IndexOf("\"homeCollectionId\":") + 1)
                          let entirePostBlock = partial.Substring(0, endIndex - 300)
-                         let link =            createLink entirePostBlock
+                         let link =            user |> createLink entirePostBlock
                          let postBlock =       getPostBlock originalContent
                          let content =         getNextPost nextPost postBlock
                          
                          [link] |> List.append links 
-                                |> linksFrom content originalContent
+                                |> linksFrom content user originalContent
 
-                    else let link = createLink partial
+                    else let link = user |> createLink partial
                          List.append links [link]
             else links
 
     let mediumLinks (user:User) =
 
         let url =      String.Format("@{0}/latest?format=json", user.AccessId)
-        let client =   httpClient "https://medium.com/"
+        let client =   httpClient BaseAddress
         let response = client.GetAsync(url) |> Async.AwaitTask 
                                             |> Async.RunSynchronously
         if response.IsSuccessStatusCode
@@ -138,6 +142,6 @@ module Nikeza.Server.Medium
                                                                  |> Async.RunSynchronously
                  let postsIndex = json.IndexOf("\"Post\": {") + 11
                  let postsBlock = json.Substring(postsIndex, json.Length - postsIndex)
-                 (json,[]) ||> linksFrom postsBlock
-                            |> List.toSeq
+                 [] |> linksFrom postsBlock user json
+                    |> List.toSeq
             else Seq.empty
