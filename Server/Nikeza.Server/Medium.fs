@@ -28,10 +28,13 @@ module Nikeza.Server.Medium
 
         let getTagsBlock (postBlock:string) =
             let startIndex = postBlock.IndexOf("\"tags\": [")
-            let block = postBlock.Substring(startIndex, postBlock.Length - startIndex)
-            let endIndex = block.IndexOf("],")
-            let tagsBlock = block.Substring(0, endIndex)
-            tagsBlock
+
+            if startIndex = -1
+                then ""
+                else let block = postBlock.Substring(startIndex, postBlock.Length - startIndex)
+                     let endIndex = block.IndexOf("],")
+                     let tagsBlock = block.Substring(0, endIndex)
+                     tagsBlock
 
         let getTagBlock (tagsBlock:string) =
             let startIndex = tagsBlock.IndexOf('{')
@@ -100,15 +103,23 @@ module Nikeza.Server.Medium
         nextPost
 
     let private getNextPost (text:string) (postBlock:string) =
+
         let tagsIndex =      text.IndexOf("\"tags\": [")
-        let tagsBlock1 =     text.Substring(tagsIndex, text.Length - tagsIndex)
-        let tagsEndIndex=    tagsBlock1.IndexOf("],")
-        let removeTagBlock=  tagsBlock1.Substring(0, tagsEndIndex)
-        let truncatedText1 = text.Replace(removeTagBlock, "")
-        let truncatedText2 = truncatedText1.Replace(postBlock, "")
-        let nextPostIndex =  truncatedText2.IndexOf("\"homeCollectionId\":")
-        let nextPost =       remainingText nextPostIndex truncatedText2
-        nextPost
+
+        if tagsIndex = -1
+            then
+                let nextPostIndex =  postBlock.IndexOf("\"homeCollectionId\":")
+                let nextPost =       remainingText nextPostIndex text
+                nextPost
+            else
+                let tagsBlock1 =     text.Substring(tagsIndex, text.Length - tagsIndex)
+                let tagsEndIndex=    tagsBlock1.IndexOf("],")
+                let removeTagBlock=  tagsBlock1.Substring(0, tagsEndIndex)
+                let truncatedText1 = text.Replace(removeTagBlock, "")
+                let truncatedText2 = truncatedText1.Replace(postBlock, "")
+                let nextPostIndex =  truncatedText2.IndexOf("\"homeCollectionId\":")
+                let nextPost =       remainingText nextPostIndex truncatedText2
+                nextPost
 
     let rec private linksFrom (partial:string) (user:User) (originalContent:string) links =
 
@@ -116,21 +127,26 @@ module Nikeza.Server.Medium
         let nextTagIndex =  partial.IndexOf(identifier)
 
         if nextTagIndex >= 0
-            then let nextPost = remainingText nextTagIndex partial
+           then let nextPost = remainingText nextTagIndex partial
 
-                 if nextPost.Contains(identifier)
-                    then let endIndex =        partial.IndexOf("\"homeCollectionId\":", partial.IndexOf("\"homeCollectionId\":") + 1)
-                         let entirePostBlock = partial.Substring(0, endIndex - 300)
-                         let link =            user |> createLink entirePostBlock
-                         let postBlock =       getPostBlock originalContent
-                         let content =         getNextPost nextPost postBlock
+                if nextPost.Contains(identifier)
+                   then let endIndex = partial.IndexOf("\"homeCollectionId\":", partial.IndexOf("\"homeCollectionId\":") + 1)
+
+                        let entirePostBlock = 
+                            if endIndex = -1
+                            then partial.Substring(0, partial.Length)
+                            else partial.Substring(0, endIndex - 300)
+                        
+                        let link =      user |> createLink entirePostBlock
+                        let postBlock = getPostBlock originalContent
+                        let content =   getNextPost nextPost postBlock
                          
-                         [link] |> List.append links 
-                                |> linksFrom content user originalContent
-
-                    else let link = user |> createLink partial
-                         List.append links [link]
-            else links
+                        [link] |> List.append links 
+                               |> linksFrom content user originalContent
+                        
+                   else let link = user |> createLink partial
+                        List.append links [link]
+           else links
 
 
     let formatJson json =
