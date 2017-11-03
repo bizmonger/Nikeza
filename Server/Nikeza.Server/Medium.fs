@@ -3,6 +3,7 @@ module Nikeza.Server.Medium
     open System
     open Model
     open Http
+    open Newtonsoft.Json
 
     [<Literal>]
     let BaseAddress = "https://medium.com/"
@@ -51,7 +52,7 @@ module Nikeza.Server.Medium
                     | Some block ->
                         if block.Contains("\"slug\":")
                             then let tagParts = block.Split('\n')
-                                 let tag =      parseValue(tagParts.[2])
+                                 let tag =      parseValue(tagParts.[1])
                                  tag
                             else let truncated = postBlock.Replace(block, "")
                                  getTag truncated
@@ -131,6 +132,11 @@ module Nikeza.Server.Medium
                          List.append links [link]
             else links
 
+
+    let formatJson json =
+        let parsedJson = JsonConvert.DeserializeObject(json);
+        JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
+
     let mediumLinks (user:User) =
 
         let url =      String.Format("@{0}/latest?format=json", user.AccessId)
@@ -138,8 +144,10 @@ module Nikeza.Server.Medium
         let response = client.GetAsync(url) |> Async.AwaitTask 
                                             |> Async.RunSynchronously
         if response.IsSuccessStatusCode
-            then let json = response.Content.ReadAsStringAsync() |> Async.AwaitTask 
-                                                                 |> Async.RunSynchronously
+            then let rawText = response.Content.ReadAsStringAsync() |> Async.AwaitTask 
+                                                                    |> Async.RunSynchronously
+                 let text = rawText.Replace("])}while(1);</x>", "")
+                 let json = text |> formatJson
                  let postsIndex = json.IndexOf("\"Post\": {") + 11
                  let postsBlock = json.Substring(postsIndex, json.Length - postsIndex)
                  [] |> linksFrom postsBlock user json

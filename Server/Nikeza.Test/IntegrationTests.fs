@@ -11,6 +11,7 @@ open Nikeza.Server.Sql
 open Nikeza.Server.Read
 open Nikeza.Server.Model
 open Nikeza.Server.Literals
+open Nikeza.Server.Medium
 
 [<TearDownAttribute>]
 let teardown() = cleanDataStore()
@@ -55,14 +56,14 @@ let ``Parse Medium JSON`` () =
         let rec getTags (postBlock:string) (tags: (string option) list) =
 
             let rec getTag (postBlock:string) : string option =
-                let tagBlock =   postBlock |> getTagsBlock |> getTagBlock
+                let tagBlock = postBlock |> getTagsBlock |> getTagBlock
 
                 match tagBlock with
                     | None       -> None
                     | Some block ->
                         if block.Contains("\"slug\":")
                             then let tagParts = block.Split('\n')
-                                 let tag =      parseValue(tagParts.[2])
+                                 let tag =      parseValue(tagParts.[1])
                                  tag
                             else let truncated = postBlock.Replace(block, "")
                                  getTag truncated
@@ -142,13 +143,16 @@ let ``Parse Medium JSON`` () =
             else links
 
     let getLinks url =
-        let text =        File.ReadAllText(@"C:\Nikeza\Medium_json_examle.txt")
-        let postsIndex =  text.IndexOf("\"Post\": {") + 11
-        let postsBlock =  text.Substring(postsIndex, text.Length - postsIndex)
-        let links =       [] |> linksFrom postsBlock text
+        let rawText =      File.ReadAllText(@"C:\Nikeza\Medium_json_examle.txt")
+        let text =         rawText.Replace("])}while(1);</x>", "")
+        let formattedText= text |> formatJson
+        let postsIndex =   formattedText.IndexOf("\"Post\": {") + 11
+        let postsBlock =   formattedText.Substring(postsIndex, formattedText.Length - postsIndex)
+        let links =        [] |> linksFrom postsBlock formattedText
         links
 
     let links = getLinks @"C:\Nikeza\Medium_json_examle.txt"
+    let x = links
         
     links |> List.length |> should (be greaterThan) 0
 
