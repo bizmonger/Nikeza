@@ -56,16 +56,9 @@ module StackOverflow =
           IsFeatured= false
         }
 
-    let sendRequest (url:string) accessId key =
-        use client =   httpClient APIBaseAddress
-        let url =      String.Format(url, accessId, key)
-        let response = client.GetAsync(url) |> Async.AwaitTask 
-                                            |> Async.RunSynchronously
-        response
-
     let getThumbnail accessId key =
         let url =      String.Format(ThumbnailUrl, accessId, key)
-        let response = sendRequest url accessId key
+        let response = sendRequest APIBaseAddress url accessId key
 
         if response.IsSuccessStatusCode
            then let json =   response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
@@ -78,7 +71,7 @@ module StackOverflow =
 
     let stackoverflowLinks platformUser =
         let url =      String.Format(AnswersUrl, platformUser.User.AccessId, platformUser.APIKey)
-        let response = sendRequest url platformUser.User.AccessId platformUser.APIKey
+        let response = sendRequest SiteBaseAddress url platformUser.User.AccessId platformUser.APIKey
 
         if response.IsSuccessStatusCode
            then let json =    response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously

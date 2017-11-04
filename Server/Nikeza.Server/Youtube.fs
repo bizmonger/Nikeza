@@ -141,24 +141,18 @@ let uploadsOrEmpty channel youTubeService = channel |> function
 
 let getThumbnail accessId key =
 
-   use client = httpClient BaseAddress
+    let response = sendRequest BaseAddress thumbnailUrl accessId key
+    if  response.IsSuccessStatusCode
+        then let json =     response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+             let settings = JsonSerializerSettings()
+             settings.MissingMemberHandling <- MissingMemberHandling.Ignore
 
-   try  let url =      String.Format(thumbnailUrl, accessId, key)
-        let response = client.GetAsync(url) |> Async.AwaitTask 
-                                            |> Async.RunSynchronously
-        if response.IsSuccessStatusCode
-            then let json =     response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
-                 let settings = JsonSerializerSettings()
-                 settings.MissingMemberHandling <- MissingMemberHandling.Ignore
- 
-                 let result = JsonConvert.DeserializeObject<Response>(json, settings)
-                 match result.items |> Seq.toList with
-                 | h::_ -> h.snippet.thumbnails.``default``.url
-                 | _   ->  ThumbnailUrl
+             let result = JsonConvert.DeserializeObject<Response>(json, settings)
+             match result.items |> Seq.toList with
+             | h::_ -> h.snippet.thumbnails.``default``.url
+             | _   ->  ThumbnailUrl
 
-            else ThumbnailUrl
-
-    finally client.Dispose()
+        else ThumbnailUrl
 
 let getTags apiKey videosWithTags =
 
