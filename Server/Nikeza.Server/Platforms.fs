@@ -32,9 +32,9 @@ let getKey = function
     | Medium        -> "no key provided"
     | Other         -> "no key provided"
 
-let getThumbnail accessId key platform = platform |> function
-    | YouTube       -> YouTube       .getThumbnail accessId key
-    | StackOverflow -> StackOverflow .getThumbnail accessId key
+let getThumbnail accessId platform = platform |> function
+    | YouTube       -> YouTube       .getThumbnail accessId <| getKey platform
+    | StackOverflow -> StackOverflow .getThumbnail accessId <| getKey platform
     | WordPress     -> ThumbnailUrl
     | Medium        -> ThumbnailUrl
     | Other         -> ThumbnailUrl

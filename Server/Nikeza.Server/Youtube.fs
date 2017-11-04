@@ -22,7 +22,17 @@ let private tagsUrl = "videos?key={0}&fields=items(snippet(title,tags))&part=sni
 let private thumbnailUrl = "channels?part=snippet&fields=items%2Fsnippet%2Fthumbnails%2Fdefault&id={0}&key={1}"
 
 [<CLIMutable>]
-type Snippet =    { title: string; tags: String seq }
+type Default =    { url:string }
+
+[<CLIMutable>]
+type Thumbnails = { ``default``:Default }
+ 
+[<CLIMutable>]
+type Snippet = { 
+    title: string
+    tags: String seq
+    thumbnails: Thumbnails
+}
 
 [<CLIMutable>]
 type Item =       { snippet : Snippet }
@@ -131,15 +141,23 @@ let uploadsOrEmpty channel youTubeService = channel |> function
 
 let getThumbnail accessId key =
 
-   let client = httpClient BaseAddress
+   use client = httpClient BaseAddress
 
    try  let url =      String.Format(thumbnailUrl, accessId, key)
         let response = client.GetAsync(url) |> Async.AwaitTask 
                                             |> Async.RunSynchronously
         if response.IsSuccessStatusCode
-            then let url = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
-                 url
+            then let json =     response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+                 let settings = JsonSerializerSettings()
+                 settings.MissingMemberHandling <- MissingMemberHandling.Ignore
+ 
+                 let result = JsonConvert.DeserializeObject<Response>(json, settings)
+                 match result.items |> Seq.toList with
+                 | h::_ -> h.snippet.thumbnails.``default``.url
+                 | _   ->  ThumbnailUrl
+
             else ThumbnailUrl
+
     finally client.Dispose()
 
 let getTags apiKey videosWithTags =

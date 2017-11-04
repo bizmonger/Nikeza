@@ -17,11 +17,23 @@ open Platforms
 let teardown() = cleanDataStore()
 
 [<Test>]
+let ``Get profile image from StackOverflow`` () =
+
+    StackOverflow |> getThumbnail stackoverflowUserId
+                  |> should equal someStackoverflowImage
+
+[<Test>]
+let ``Get profile image from YouTube`` () =
+
+    YouTube |> getThumbnail youtubeUserId
+            |> should equal someYoutubeImage
+
+[<Test>]
 let ``Load links from Medium`` () =
 
     // Setup
     let profileId = Register someProfile |> execute
-    let source =  { someSource with AccessId= "mike"
+    let source =  { someSource with AccessId=  mediumUserId
                                     ProfileId= profileId
                                     Platform=  Medium |> PlatformToString }
     // Test
@@ -36,7 +48,7 @@ let ``Load links from WordPress`` () =
 
     // Setup
     let profileId = Register someProfile |> execute
-    let source =  { someSource with AccessId= "bizmonger.wordpress.com"
+    let source =  { someSource with AccessId=  wordpressUserId
                                     ProfileId= profileId
                                     Platform=  WordPress |> PlatformToString }
     // Test
@@ -51,7 +63,7 @@ let ``Load links from StackOverflow`` () =
 
     // Setup
     let profileId = Register someProfile |> execute
-    let source =  { someSource with AccessId= "492701"
+    let source =  { someSource with AccessId= stackoverflowUserId
                                     ProfileId= profileId
                                     Platform=  StackOverflow |> PlatformToString }
     // Test

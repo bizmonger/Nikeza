@@ -13,6 +13,14 @@ open Model
 [<Literal>]
 let ChannelIdFile = @"C:\Nikeza\YouTube_ChannelId.txt"
 
+let someStackoverflowImage = "https://www.gravatar.com/avatar/189471ba701cd80f6dfec2f8db53f7a8?s=128&d=identicon&r=PG"
+let someYoutubeImage =       "https://yt3.ggpht.com/-AblAm4NIM8k/AAAAAAAAAAI/AAAAAAAAAAA/W-4O4xNRYVk/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+
+let stackoverflowUserId = "492701"
+let mediumUserId =        "mike"
+let wordpressUserId =     "bizmonger.wordpress.com"
+let youtubeUserId =       File.ReadAllText(ChannelIdFile)
+
 let prepareReader (command:SqlCommand) =
     let reader = command.ExecuteReader()
     reader.Read() |> ignore
