@@ -1,7 +1,8 @@
 module Nikeza.Server.YouTube
 
 open System
-open Nikeza.Server.Http
+open Http
+open Literals
 open FSharp.Control
 open Google.Apis.Services
 open Google.Apis.YouTube.v3
@@ -9,16 +10,16 @@ open Google.Apis.YouTube.v3.Data
 open Newtonsoft.Json
 
 [<Literal>]
-let UrlPrefix = "https://www.youtube.com/watch?v="
+let private UrlPrefix = "https://www.youtube.com/watch?v="
 
 [<Literal>]
-let BaseAddress = "https://www.googleapis.com/youtube/v3/"
+let private BaseAddress = "https://www.googleapis.com/youtube/v3/"
 
 [<Literal>]
-let tagsUrl = "videos?key={0}&fields=items(snippet(title,tags))&part=snippet&id={1}"
+let private tagsUrl = "videos?key={0}&fields=items(snippet(title,tags))&part=snippet&id={1}"
 
 [<Literal>]
-let thumbnailUrl = "channels?part=snippet&fields=items%2Fsnippet%2Fthumbnails%2Fdefault&id={0}&key={1}"
+let private thumbnailUrl = "channels?part=snippet&fields=items%2Fsnippet%2Fthumbnails%2Fdefault&id={0}&key={1}"
 
 [<CLIMutable>]
 type Snippet =    { title: string; tags: String seq }
@@ -128,17 +129,17 @@ let uploadsOrEmpty channel youTubeService = channel |> function
     | Some c -> Playlist.uploads c youTubeService
     | None   -> async { return Seq.empty }
 
-let getThumbnail (channelId:string) (apiKey:string) =
+let getThumbnail accessId key =
 
    let client = httpClient BaseAddress
 
-   try  let url =      String.Format(thumbnailUrl, channelId, apiKey)
+   try  let url =      String.Format(thumbnailUrl, accessId, key)
         let response = client.GetAsync(url) |> Async.AwaitTask 
                                             |> Async.RunSynchronously
         if response.IsSuccessStatusCode
             then let url = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
                  url
-            else thumbnailUrl
+            else ThumbnailUrl
     finally client.Dispose()
 
 let getTags apiKey videosWithTags =

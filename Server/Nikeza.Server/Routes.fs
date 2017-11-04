@@ -125,9 +125,9 @@ let private fetchSources (providerId) (context : HttpContext) =
 
 let private fetchThumbnail (platform:string, accessId:string) (context : HttpContext) =
 
-    let platform =  platform.ToLower() |> PlatformFromString
-    let thumbnail = Platforms.getThumbnail platform accessId
-
+    let key = platform |> platformFromString |> getKey
+    let thumbnail = platform.ToLower() |> platformFromString 
+                                       |> Platforms.getThumbnail accessId key
     json thumbnail context
     
 let private fetchContentTypeToId (contentType) (context : HttpContext) =

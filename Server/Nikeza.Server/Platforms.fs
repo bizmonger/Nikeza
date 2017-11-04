@@ -16,7 +16,7 @@ let PlatformToString = function
     | Medium        -> "medium"
     | Other         -> "other"
 
-let PlatformFromString (platform:string) =
+let platformFromString (platform:string) =
     match platform.ToLower() with
     | "youtube"       -> YouTube
     | "wordpress"     -> WordPress
@@ -25,10 +25,17 @@ let PlatformFromString (platform:string) =
     | "other"         -> Other
     | _               -> Other
 
-let getThumbnail platform accessId = platform |> function
-    | YouTube       -> YouTube       .getThumbnail accessId (File.ReadAllText(KeyFile_YouTube));
-    | StackOverflow -> StackOverflow .getThumbnail accessId (File.ReadAllText(KeyFile_StackOverflow));
-    | Wordpress     -> ThumbnailUrl
+let getKey = function
+    | YouTube       -> File.ReadAllText(KeyFile_YouTube)
+    | StackOverflow -> File.ReadAllText(KeyFile_StackOverflow)
+    | WordPress     -> "no key provided"
+    | Medium        -> "no key provided"
+    | Other         -> "no key provided"
+
+let getThumbnail accessId key platform = platform |> function
+    | YouTube       -> YouTube       .getThumbnail accessId key
+    | StackOverflow -> StackOverflow .getThumbnail accessId key
+    | WordPress     -> ThumbnailUrl
     | Medium        -> ThumbnailUrl
     | Other         -> ThumbnailUrl
 

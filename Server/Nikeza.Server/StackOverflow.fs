@@ -1,26 +1,28 @@
 namespace Nikeza.Server
 
 module StackOverflow =
-    let getThumbnail accessId apiKey = ""
 
     open System
     open System.IO
     open Newtonsoft.Json
-    open Nikeza.Server.Model
-    open Nikeza.Server.Http
-    open Nikeza.Server.Literals
+    open Model
+    open Http
+    open Literals
 
     [<Literal>]
-    let TagsUrl =    "2.2/tags?page={0}&order=desc&sort=popular&site=stackoverflow&filter=!-.G.68grSaJm"
+    let private TagsUrl =    "2.2/tags?page={0}&order=desc&sort=popular&site=stackoverflow&filter=!-.G.68grSaJm"
 
     [<Literal>]
-    let AnswersUrl = "2.2/users/{0}/answers?order=desc&sort=activity&site=stackoverflow&filter=!Fcazzsr2b3M)LbUjGAu-Fs0Wf8&key={1}"
+    let private ThumbnailUrl = "2.2/users/{0}?order=desc&sort=reputation&site=stackoverflow&filter=!40DELPbCy)uCaG7xi&key={1}"
 
     [<Literal>]
-    let APIBaseAddress = "https://api.stackexchange.com/"
+    let private AnswersUrl = "2.2/users/{0}/answers?order=desc&sort=activity&site=stackoverflow&filter=!Fcazzsr2b3M)LbUjGAu-Fs0Wf8&key={1}"
 
     [<Literal>]
-    let SiteBaseAddress = "https://stackoverflow.com/"
+    let private APIBaseAddress = "https://api.stackexchange.com/"
+
+    [<Literal>]
+    let private SiteBaseAddress = "https://stackoverflow.com/"
 
     type Answer = {
         link:          string
@@ -40,6 +42,9 @@ module StackOverflow =
         quota_remaining: int
     }
 
+    type Thumbnail =         { profile_image: string }
+    type ThumbnailResponse = { items: Thumbnail list }
+
     let private toLink profileId item =
         { Id= -1
           ProfileId= profileId
@@ -51,19 +56,36 @@ module StackOverflow =
           IsFeatured= false
         }
 
-    let stackoverflowLinks (platformUser:PlatformUser) =
-
+    let sendRequest (url:string) accessId key =
         use client =   httpClient APIBaseAddress
-        let user =     platformUser.User
-        let url =      String.Format(AnswersUrl, user.AccessId, platformUser.APIKey)
+        let url =      String.Format(url, accessId, key)
         let response = client.GetAsync(url) |> Async.AwaitTask 
                                             |> Async.RunSynchronously
+        response
+
+    let getThumbnail accessId key =
+        let url =      String.Format(ThumbnailUrl, accessId, key)
+        let response = sendRequest url accessId key
+
         if response.IsSuccessStatusCode
-        then let json =    response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
-             let result =  JsonConvert.DeserializeObject<AnswersResponse>(json)
-             let links =   result.items |> Seq.map (fun item -> toLink user.ProfileId item)
-             links
-        else seq []
+           then let json =   response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+                let result = JsonConvert.DeserializeObject<ThumbnailResponse>(json)
+                result.items |> function
+                | h::_ -> h.profile_image
+                | []   -> ThumbnailUrl
+
+           else ThumbnailUrl
+
+    let stackoverflowLinks platformUser =
+        let url =      String.Format(AnswersUrl, platformUser.User.AccessId, platformUser.APIKey)
+        let response = sendRequest url platformUser.User.AccessId platformUser.APIKey
+
+        if response.IsSuccessStatusCode
+           then let json =    response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+                let result =  JsonConvert.DeserializeObject<AnswersResponse>(json)
+                let links =   result.items |> Seq.map (fun item -> toLink platformUser.User.ProfileId item)
+                links
+           else seq []
 
     type Tag =          { name : string }
     type TagsResponse = { items: Tag list }
