@@ -69,7 +69,7 @@ module Nikeza.Server.Authentication
                 FirstName = info.FirstName
                 LastName =  info.LastName
                 Email =     info.Email
-                ImageUrl =  ThumbnailUrl
+                ImageUrl =  DefaultThumbnail
                 Bio =       ""
                 Sources =   []
                 PasswordHash = hashedPassword

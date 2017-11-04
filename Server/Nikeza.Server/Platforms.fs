@@ -28,16 +28,16 @@ let platformFromString (platform:string) =
 let getKey = function
     | YouTube       -> File.ReadAllText(KeyFile_YouTube)
     | StackOverflow -> File.ReadAllText(KeyFile_StackOverflow)
-    | WordPress     -> "no key provided"
-    | Medium        -> "no key provided"
-    | Other         -> "no key provided"
+    | WordPress     -> KeyNotProvided
+    | Medium        -> KeyNotProvided
+    | Other         -> KeyNotProvided
 
 let getThumbnail accessId platform = platform |> function
     | YouTube       -> YouTube       .getThumbnail accessId <| getKey platform
     | StackOverflow -> StackOverflow .getThumbnail accessId <| getKey platform
     | WordPress     -> WordPress     .getThumbnail accessId
     | Medium        -> Medium        .getThumbnail accessId
-    | Other         -> ThumbnailUrl
+    | Other         -> DefaultThumbnail
 
 let youtubeLinks apiKey channelId = 
     async { let    youtube = youTubeService apiKey

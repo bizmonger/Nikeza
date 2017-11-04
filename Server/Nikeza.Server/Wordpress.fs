@@ -12,7 +12,7 @@ module Nikeza.Server.WordPress
     let private ArticlesUrl =    "rest/v1/sites/{0}/posts?number=100&page={1}"
 
     [<Literal>]
-    let private ThumbnailUrl =   "rest/v1/sites/bizmonger.wordpress.com/posts?number=1&page=1"
+    let private DefaultThumbnail =   "rest/v1/sites/bizmonger.wordpress.com/posts?number=1&page=1"
 
     type Tag = { ID: string; name: string }
 
@@ -45,7 +45,7 @@ module Nikeza.Server.WordPress
 
     let getThumbnail accessId =
  
-        let response = sendRequest APIBaseAddress ThumbnailUrl accessId <| string 1
+        let response = sendRequest APIBaseAddress DefaultThumbnail accessId <| string 1
 
         if response.IsSuccessStatusCode
            then let json = response.Content.ReadAsStringAsync() |> Async.AwaitTask 

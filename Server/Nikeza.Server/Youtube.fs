@@ -150,9 +150,9 @@ let getThumbnail accessId key =
              let result = JsonConvert.DeserializeObject<Response>(json, settings)
              match result.items |> Seq.toList with
              | h::_ -> h.snippet.thumbnails.``default``.url
-             | _   ->  ThumbnailUrl
+             | _   ->  DefaultThumbnail
 
-        else ThumbnailUrl
+        else DefaultThumbnail
 
 let getTags apiKey videosWithTags =
 

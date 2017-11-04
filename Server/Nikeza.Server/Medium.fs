@@ -31,7 +31,7 @@ module Nikeza.Server.Medium
                      .Split("</url>")
                      .[0]
 
-            else ThumbnailUrl
+            else DefaultThumbnail
 
     let private parseValue (line:string) =
         if line.Contains(":")
