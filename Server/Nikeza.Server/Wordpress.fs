@@ -50,7 +50,6 @@ module Nikeza.Server.WordPress
         if response.IsSuccessStatusCode
            then let json = response.Content.ReadAsStringAsync() |> Async.AwaitTask 
                                                                 |> Async.RunSynchronously
-
                 let line = json.Split("\"avatar_URL\"")
                                 .[1]
                                 .Split(',')

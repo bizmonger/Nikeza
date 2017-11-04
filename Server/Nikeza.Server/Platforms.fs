@@ -36,7 +36,7 @@ let getThumbnail accessId platform = platform |> function
     | YouTube       -> YouTube       .getThumbnail accessId <| getKey platform
     | StackOverflow -> StackOverflow .getThumbnail accessId <| getKey platform
     | WordPress     -> WordPress     .getThumbnail accessId
-    | Medium        -> ThumbnailUrl
+    | Medium        -> Medium        .getThumbnail accessId
     | Other         -> ThumbnailUrl
 
 let youtubeLinks apiKey channelId = 

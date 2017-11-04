@@ -71,7 +71,7 @@ module StackOverflow =
 
     let stackoverflowLinks platformUser =
         let url =      String.Format(AnswersUrl, platformUser.User.AccessId, platformUser.APIKey)
-        let response = sendRequest SiteBaseAddress url platformUser.User.AccessId platformUser.APIKey
+        let response = sendRequest APIBaseAddress url platformUser.User.AccessId platformUser.APIKey
 
         if response.IsSuccessStatusCode
            then let json =    response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously

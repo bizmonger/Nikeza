@@ -16,7 +16,6 @@ open Platforms
 [<TearDownAttribute>]
 let teardown() = cleanDataStore()
 
-
 [<Test>]
 let ``Get profile image from StackOverflow`` () =
 
@@ -34,6 +33,12 @@ let ``Get profile image from WordPress`` () =
 
     WordPress |> getThumbnail wordpressUserId
               |> should equal someWordpressImage
+
+[<Test>]
+let ``Get profile image from Medium`` () =
+
+    Medium |> getThumbnail mediumUserId
+           |> should equal someMediumImage
 
 [<Test>]
 let ``Load links from Medium`` () =

@@ -16,6 +16,8 @@ let ChannelIdFile = @"C:\Nikeza\YouTube_ChannelId.txt"
 let someStackoverflowImage = "https://www.gravatar.com/avatar/189471ba701cd80f6dfec2f8db53f7a8?s=128&d=identicon&r=PG"
 let someYoutubeImage =       "https://yt3.ggpht.com/-AblAm4NIM8k/AAAAAAAAAAI/AAAAAAAAAAA/W-4O4xNRYVk/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
 let someWordpressImage =     "https://1.gravatar.com/avatar/189471ba701cd80f6dfec2f8db53f7a8?s=96&d=identicon&r=G"
+let someMediumImage =        "https://cdn-images-1.medium.com/fit/c/150/150/1*5Ov1SzK7a_XUDlCc42yIGA@2x.jpeg"
+
 let stackoverflowUserId = "492701"
 let mediumUserId =        "mike"
 let wordpressUserId =     "bizmonger.wordpress.com"

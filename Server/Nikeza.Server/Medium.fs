@@ -3,10 +3,35 @@ module Nikeza.Server.Medium
     open System
     open Model
     open Http
+    open Literals
     open Newtonsoft.Json
 
     [<Literal>]
     let BaseAddress = "https://medium.com/"
+
+    [<Literal>]
+    let PostsUrl =   "@{0}/latest?format=json"
+
+    [<Literal>]
+    let RssFeedUrl = "feed/@{0}"
+    
+    let getThumbnail (accessId:string) =
+
+        let url =      String.Format(RssFeedUrl, accessId)
+        use client =   httpClient BaseAddress
+        let response = client.GetAsync(url) |> Async.AwaitTask 
+                                            |> Async.RunSynchronously
+        if response.IsSuccessStatusCode
+            then let text = response.Content.ReadAsStringAsync() 
+                            |> Async.AwaitTask 
+                            |> Async.RunSynchronously
+
+                 text.Split("<url>")
+                     .[1]
+                     .Split("</url>")
+                     .[0]
+
+            else ThumbnailUrl
 
     let private parseValue (line:string) =
         if line.Contains(":")
@@ -155,8 +180,8 @@ module Nikeza.Server.Medium
 
     let mediumLinks (user:User) =
 
-        let url =      String.Format("@{0}/latest?format=json", user.AccessId)
-        let client =   httpClient BaseAddress
+        let url =      String.Format(PostsUrl, user.AccessId)
+        use client =   httpClient BaseAddress
         let response = client.GetAsync(url) |> Async.AwaitTask 
                                             |> Async.RunSynchronously
         if response.IsSuccessStatusCode
