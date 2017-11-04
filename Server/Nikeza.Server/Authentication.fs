@@ -4,10 +4,10 @@ module Nikeza.Server.Authentication
     open System.Security.Claims
     open System.Security.Cryptography
     open Microsoft.AspNetCore.Cryptography.KeyDerivation
-    open Nikeza.Server.Literals
-    open Nikeza.Server.Command
-    open Nikeza.Server.Store
-    open Nikeza.Server.Model
+    open Literals
+    open Command
+    open Store
+    open Model
 
     [<CLIMutable>]
     type RegistrationRequest = {
@@ -49,39 +49,33 @@ module Nikeza.Server.Authentication
         hashedPassword                           
 
     let authenticate email password = 
-        let result = loginProfile email
-        match result with
-        | Some user -> 
-             let hashedPassword = getPasswordHash password user.Salt
-             hashedPassword = user.PasswordHash
-        | None -> false
+        loginProfile email |> function
+        | Some user -> let hashedPassword = getPasswordHash password user.Salt
+                       hashedPassword = user.PasswordHash
+        | None      -> false
             
     let register (info:RegistrationRequest) =
-        let result = loginProfile info.Email
-        match result with
+        loginProfile info.Email |> function
         | Some _ -> Failure
-        | None ->
-            let salt = generateSalt
-            let hashedPassword = getPasswordHash info.Password salt
-            
-            let profile = {
-                ProfileId = "to be determined..."
-                FirstName = info.FirstName
-                LastName =  info.LastName
-                Email =     info.Email
-                ImageUrl =  DefaultThumbnail
-                Bio =       ""
-                Sources =   []
-                PasswordHash = hashedPassword
-                Salt =         salt
-                Created =      DateTime.Now
-            }
+        | None -> let salt = generateSalt
+                  let hashedPassword = getPasswordHash info.Password salt
+                  let profile = {
+                      ProfileId =    "to be determined..."
+                      FirstName =    info.FirstName
+                      LastName =     info.LastName
+                      Email =        info.Email
+                      ImageUrl =     DefaultThumbnail
+                      Bio =          ""
+                      Sources =      []
+                      PasswordHash = hashedPassword
+                      Salt =         salt
+                      Created =      DateTime.Now
+                  }
 
-            try
-                let profileId = execute <| Register profile
-                Success { profile with ProfileId = profileId |> string }
-            with
-            | _ -> Failure
+                  try let profileId = execute <| Register profile
+                      Success { profile with ProfileId = profileId |> string }
+                  with
+                  | _ -> Failure
     
     let getUserClaims userName authScheme =
         let claims = [ Claim(ClaimTypes.Name, userName,  ClaimValueTypes.String)]
