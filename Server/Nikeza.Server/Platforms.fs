@@ -6,7 +6,7 @@ open Model
 open YouTube
 open Authentication
 open StackOverflow
-open Wordpress
+open WordPress
 open Medium
 
 let PlatformToString = function
@@ -35,7 +35,7 @@ let getKey = function
 let getThumbnail accessId platform = platform |> function
     | YouTube       -> YouTube       .getThumbnail accessId <| getKey platform
     | StackOverflow -> StackOverflow .getThumbnail accessId <| getKey platform
-    | WordPress     -> ThumbnailUrl
+    | WordPress     -> WordPress     .getThumbnail accessId
     | Medium        -> ThumbnailUrl
     | Other         -> ThumbnailUrl
 

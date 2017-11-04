@@ -1,19 +1,18 @@
-module Nikeza.Server.Wordpress
+module Nikeza.Server.WordPress
 
-    let getThumbnail accessId apiKey = ""
-
-    open System
-    open System.Net.Http
     open Newtonsoft.Json
     open Nikeza.Server.Model
     open Nikeza.Server.Http
     open System.Collections.Generic
 
     [<Literal>]
-    let APIBaseAddress = "https://public-api.wordpress.com/"
+    let private APIBaseAddress = "https://public-api.wordpress.com/"
 
     [<Literal>]
-    let ArticlesUrl =     "rest/v1/sites/{0}/posts?number=100&page={1}"
+    let private ArticlesUrl =    "rest/v1/sites/{0}/posts?number=100&page={1}"
+
+    [<Literal>]
+    let private ThumbnailUrl =   "rest/v1/sites/bizmonger.wordpress.com/posts?number=1&page=1"
 
     type Tag = { ID: string; name: string }
 
@@ -44,13 +43,29 @@ module Nikeza.Server.Wordpress
           IsFeatured= false
         }
 
+    let getThumbnail accessId =
+ 
+        let response = sendRequest APIBaseAddress ThumbnailUrl accessId <| string 1
+
+        if response.IsSuccessStatusCode
+           then let json = response.Content.ReadAsStringAsync() |> Async.AwaitTask 
+                                                                |> Async.RunSynchronously
+
+                let line = json.Split("\"avatar_URL\"")
+                                .[1]
+                                .Split(',')
+                                .[0]
+                                .Replace("\\", "")      
+                let startIndex = line.IndexOf("https:")
+                let url = line.Substring(startIndex, line.Length - 3)
+                url
+           else ""
+
     let rec wordpressLinks (user:User) (pageNumber:int) existingLinks =
 
-        let getLinks (client:HttpClient) =
-            let url =        String.Format(ArticlesUrl, user.AccessId, pageNumber |> string)
-            let response =   client.GetAsync(url) |> Async.AwaitTask 
-                                                  |> Async.RunSynchronously
-            if response.IsSuccessStatusCode
+        let response = sendRequest APIBaseAddress ArticlesUrl user.AccessId <| string pageNumber
+
+        if  response.IsSuccessStatusCode
             then let json =     response.Content.ReadAsStringAsync() |> Async.AwaitTask 
                                                                      |> Async.RunSynchronously
                  let settings = JsonSerializerSettings()
@@ -65,6 +80,3 @@ module Nikeza.Server.Wordpress
                                        |> wordpressLinks user (pageNumber + 1)
                      else existingLinks
             else seq []
-        
-        use client = httpClient APIBaseAddress
-        getLinks client
