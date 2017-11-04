@@ -1,19 +1,19 @@
 ﻿module Nikeza.Server.Platforms
 
 open System.IO
-open Nikeza.Server.Literals
-open Nikeza.Server.Model
-open Nikeza.Server.YouTube
-open Nikeza.Server.YouTube.Authentication
-open Nikeza.Server.StackOverflow
-open Nikeza.Server.Wordpress
-open Nikeza.Server.Medium
+open Literals
+open Model
+open YouTube
+open Authentication
+open StackOverflow
+open Wordpress
+open Medium
 
 let PlatformToString = function
     | YouTube       -> "youtube"
     | WordPress     -> "wordpress"
     | StackOverflow -> "stackoverflow"
-    | Medium        -> "Medium"
+    | Medium        -> "medium"
     | Other         -> "other"
 
 let PlatformFromString (platform:string) =
@@ -49,16 +49,16 @@ let linkOf video profileId =
        IsFeatured=  false
      }
 
-let getLinks (source:PlatformUser) =
+let linksFrom (platformUser:PlatformUser) =
 
-    let user =  source.User
+    let user =  platformUser.User
     
-    source.Platform |> function
-    | YouTube       -> user.AccessId |> youtubeLinks source.APIKey  
-                       |> Async.RunSynchronously
-                       |> Seq.map (fun video -> linkOf video user.ProfileId )
+    platformUser.Platform |> function
+    | YouTube       -> user.AccessId |> youtubeLinks platformUser.APIKey  
+                                     |> Async.RunSynchronously
+                                     |> Seq.map (fun video -> linkOf video user.ProfileId )
                        
-    | StackOverflow -> source |> stackoverflowLinks
-    | WordPress     -> []     |> wordpressLinks user 1
-    | Medium        -> user   |> mediumLinks
+    | StackOverflow -> platformUser |> stackoverflowLinks
+    | WordPress     -> []           |> wordpressLinks user 1
+    | Medium        -> user         |> mediumLinks
     | Other         -> Seq.empty

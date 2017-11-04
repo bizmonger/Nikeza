@@ -91,7 +91,7 @@ module Nikeza.Server.Medium
           Description=  ""
           Url=          String.Format("{0}{1}/{2}", BaseAddress, "@" + user.AccessId, id)
           Topics=       topics |>List.toSeq |> Seq.distinct |> Seq.toList
-          ContentType= "Article"
+          ContentType= "Articles"
           IsFeatured=   false
         }
 

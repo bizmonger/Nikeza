@@ -3,11 +3,11 @@ module Nikeza.Server.Command
 open System
 open System.IO
 open System.Data.SqlClient
-open Nikeza.Server.Store
-open Nikeza.Server.Literals
-open Nikeza.Server.Model
-open Nikeza.Server.Sql
-open Nikeza.Server.Platforms
+open Store
+open Literals
+open Model
+open Sql
+open Platforms
 
 let dispose (connection:SqlConnection) (command:SqlCommand) =
     connection.Dispose()
@@ -160,16 +160,18 @@ module private Commands =
                                    |> function
                                       | YouTube       -> File.ReadAllText(KeyFile_YouTube)
                                       | StackOverflow -> File.ReadAllText(KeyFile_StackOverflow)
-                                      | _ -> "no key provided"
-        let source = {
+                                      | Medium        -> "no key provided"
+                                      | WordPress     -> "no key provided"
+                                      | Other         -> "no key provided"
+        let platformUser = {
             ProfileId=  info.ProfileId
             Platform=   info.Platform |> PlatformFromString
             APIKey=     apikey
             User=     { AccessId = info.AccessId; ProfileId= info.ProfileId }
         }
 
-        let links =   source |> getLinks
-        let linkIds = links  |> Seq.map addLink |> Seq.toList
+        let links =   linksFrom platformUser
+        let linkIds = links |> Seq.map addLink |> Seq.toList
         let zipped =  Seq.zip links linkIds
         let updatedLinks = 
             zipped |> Seq.map (fun linkAndId -> 

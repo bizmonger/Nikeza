@@ -4,10 +4,10 @@ open System
 open Microsoft.AspNetCore.Http
 open Giraffe.HttpContextExtensions
 open Giraffe.HttpHandlers
-open Nikeza.Server.Store
-open Nikeza.Server.Model
-open Nikeza.Server.Platforms
-open Nikeza.Server.Authentication
+open Store
+open Model
+open Platforms
+open Authentication
 
 let authScheme = "Cookie"
 
@@ -31,7 +31,7 @@ let private loginHandler =
                 else return! (setStatusCode 400 >=> json "Invalid login") context                                                        
         }
 
-open Nikeza.Server.Command
+open Command
 
 let private followHandler = 
     fun(context: HttpContext) -> 
@@ -65,7 +65,7 @@ let private addSourceHandler =
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<DataSourceRequest>()
                 let sourceId = AddSource data |> execute
-                let links =    data.ProfileId |> linksFrom data.Platform |> List.toSeq
+                let links =    data.ProfileId |> Store.linksFrom data.Platform |> List.toSeq
                 let source = { data with Id = Int32.Parse(sourceId); Links = links }
                 return! json source context
         }
@@ -91,9 +91,8 @@ let private removeLinkHandler =
                 return Some context
         }
 
-open Nikeza.Server.Wordpress
-open Nikeza.Server.StackOverflow
-open Nikeza.Server.StackOverflow.Suggestions
+open StackOverflow
+open Suggestions
 
 let private fetchBootstrap =
     CachedTags.Instance() |> ignore

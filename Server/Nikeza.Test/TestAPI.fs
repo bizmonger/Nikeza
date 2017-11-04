@@ -1,14 +1,14 @@
-module Nikeza.TestAPI
+module Nikeza.Server.TestAPI
 
 open System
 open System.IO
 open System.Data
 open System.Data.SqlClient
-open Nikeza.Server.Sql
-open Nikeza.Server.Read
-open Nikeza.Server.Literals
-open Nikeza.Server.Command
-open Nikeza.Server.Model
+open Sql
+open Read
+open Literals
+open Command
+open Model
 
 [<Literal>]
 let ChannelIdFile = @"C:\Nikeza\YouTube_ChannelId.txt"

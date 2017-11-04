@@ -1,9 +1,9 @@
 module Nikeza.Server.Store
 
 open System.Data.SqlClient
-open Nikeza.Server.CommandDetails
-open Nikeza.Server.Read
-open Nikeza.Server.Converters
+open CommandDetails
+open Read
+open Converters
 
 module private Store = 
     let executeQuery (command: SqlCommand) = command.ExecuteReader()
@@ -18,8 +18,8 @@ module private Store =
         
         (reader,connection)
 
-open Nikeza.Server.Model
-open Nikeza.Server.Sql
+open Model
+open Sql
     
 let getResults sql commandFunc readInData =
     let (reader, connection) = Store.query connectionString sql commandFunc
@@ -53,7 +53,7 @@ let getTopics name sql parameterName =
     let topics = readInTopics |> getResults sql commandFunc
     topics
     
-let getLinks profileId =
+let getLinks (profileId:string) =
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue "@ProfileId" profileId
 

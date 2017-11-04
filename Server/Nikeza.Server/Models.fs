@@ -1,7 +1,7 @@
 module Nikeza.Server.Model
 
 open System
-open Nikeza.Server.Literals
+open Literals
 
 type Platform =
     | YouTube
