@@ -36,14 +36,14 @@ open Command
 let private followHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<FollowRequest>()
-                ignore (execute <| Follow data)
+                Follow data |> execute |> ignore
                 return Some context
         } 
 
 let private unsubscribeHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<UnsubscribeRequest>()
-                ignore (execute <| Unsubscribe data)
+                Unsubscribe data |> execute |> ignore
                 return Some context                  
         } 
 

@@ -468,8 +468,8 @@ onRemove model sources =
         ( newState, Cmd.none )
 
 
-refreshLinks : Provider -> List Link -> Portfolio
-refreshLinks provider addedLinks =
+updatePortfolio : Provider -> List Link -> Portfolio
+updatePortfolio provider addedLinks =
     let
         links =
             provider.portfolio
@@ -590,7 +590,7 @@ onNewLink subMsg model =
                                     , linksNavigation = True
                                     , provider =
                                         { provider
-                                            | portfolio = refreshLinks provider newLinks.added
+                                            | portfolio = updatePortfolio provider newLinks.added
                                             , filteredPortfolio = newFilteredPortfolio
                                         }
                                 }
@@ -651,16 +651,26 @@ onSourcesUpdated subMsg model =
 
             Sources.AddResponse result ->
                 case result of
-                    Ok _ ->
-                        ( { model
-                            | portal =
-                                { portal
-                                    | linksNavigation = portfolioExists provider.portfolio
-                                    , addLinkNavigation = True
-                                }
-                          }
-                        , sourceCmd
-                        )
+                    Ok jsonSource ->
+                        let
+                            portfolio =
+                                (jsonSource |> toSource).links |> updatePortfolio provider
+                        in
+                            ( { model
+                                | portal =
+                                    { portal
+                                        | provider =
+                                            { provider
+                                                | portfolio = portfolio
+                                                , filteredPortfolio = portfolio
+                                                , profile = { profile | sources = source :: profile.sources }
+                                            }
+                                        , linksNavigation = portfolioExists portfolio
+                                        , addLinkNavigation = True
+                                    }
+                              }
+                            , sourceCmd
+                            )
 
                     Err reason ->
                         Debug.crash (toString reason) ( model, sourceCmd )

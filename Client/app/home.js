@@ -18884,7 +18884,11 @@ var _user$project$Controls_Sources$sourceUI = function (source) {
 						ctor: '::',
 						_0: A2(
 							_elm_lang$html$Html$i,
-							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('accessId'),
+								_1: {ctor: '[]'}
+							},
 							{
 								ctor: '::',
 								_0: _elm_lang$html$Html$text(source.username),
@@ -18899,12 +18903,23 @@ var _user$project$Controls_Sources$sourceUI = function (source) {
 						{ctor: '[]'},
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html$text(
-								A2(
-									_elm_lang$core$Basics_ops['++'],
-									_elm_lang$core$Basics$toString(
-										_elm_lang$core$List$length(source.links)),
-									' links')),
+							_0: A2(
+								_elm_lang$html$Html$label,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('linksCount'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(
+										A2(
+											_elm_lang$core$Basics_ops['++'],
+											_elm_lang$core$Basics$toString(
+												_elm_lang$core$List$length(source.links)),
+											' links')),
+									_1: {ctor: '[]'}
+								}),
 							_1: {ctor: '[]'}
 						}),
 					_1: {
@@ -19892,7 +19907,7 @@ var _user$project$Home$matchProviders = F2(
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
-var _user$project$Home$refreshLinks = F2(
+var _user$project$Home$updatePortfolio = F2(
 	function (provider, addedLinks) {
 		var links = provider.portfolio;
 		var articles = A2(
@@ -20517,7 +20532,7 @@ var _user$project$Home$onNewLink = F2(
 							provider: _elm_lang$core$Native_Utils.update(
 								provider,
 								{
-									portfolio: A2(_user$project$Home$refreshLinks, provider, newLinks.added),
+									portfolio: A2(_user$project$Home$updatePortfolio, provider, newLinks.added),
 									filteredPortfolio: newFilteredPortfolio
 								})
 						});
@@ -22565,6 +22580,10 @@ var _user$project$Home$onSourcesUpdated = F2(
 			case 'AddResponse':
 				var _p32 = _p31._0;
 				if (_p32.ctor === 'Ok') {
+					var portfolio = A2(
+						_user$project$Home$updatePortfolio,
+						provider,
+						_user$project$Services_Adapter$toSource(_p32._0).links);
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -22573,7 +22592,18 @@ var _user$project$Home$onSourcesUpdated = F2(
 								portal: _elm_lang$core$Native_Utils.update(
 									portal,
 									{
-										linksNavigation: _user$project$Domain_Core$portfolioExists(provider.portfolio),
+										provider: _elm_lang$core$Native_Utils.update(
+											provider,
+											{
+												portfolio: portfolio,
+												filteredPortfolio: portfolio,
+												profile: _elm_lang$core$Native_Utils.update(
+													profile,
+													{
+														sources: {ctor: '::', _0: source, _1: profile.sources}
+													})
+											}),
+										linksNavigation: _user$project$Domain_Core$portfolioExists(portfolio),
 										addLinkNavigation: true
 									})
 							}),
@@ -22584,8 +22614,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 666, column: 25},
-								end: {line: 666, column: 36}
+								start: {line: 676, column: 25},
+								end: {line: 676, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p32._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -22599,8 +22629,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 674, column: 25},
-								end: {line: 674, column: 36}
+								start: {line: 684, column: 25},
+								end: {line: 684, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p33._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
