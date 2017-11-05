@@ -15879,8 +15879,8 @@ var _user$project$Services_Gateway$updateThumbnail = F2(
 	function (updateThumbnailRequest, msg) {
 		var body = _elm_lang$http$Http$jsonBody(
 			_user$project$Services_Encoders$encodeThumbnailUpdate(updateThumbnailRequest));
-		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'savethumbnail');
-		var request = A3(_elm_lang$http$Http$post, url, _elm_lang$http$Http$emptyBody, _elm_lang$core$Json_Decode$string);
+		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'updatethumbnail');
+		var request = A3(_elm_lang$http$Http$post, url, body, _elm_lang$core$Json_Decode$string);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
 var _user$project$Services_Gateway$imageUrl = F3(

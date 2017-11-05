@@ -201,26 +201,6 @@ let getSubscriptionsSql = @"SELECT Profile.Id,
 
 let filterOnProfileId = "WHERE [Profile].Id = @ProfileId"
 
-let getProvidersSql =
-    @"SELECT    [Profile].Id, 
-                [Profile].FirstName, 
-		        [Profile].LastName, 
-		        [Profile].Email, 
-		        [Profile].ImageUrl, 
-		        [Profile].Bio, 
-		        [Link].Title as LinkTitle,
-		        [Link].Url as LinkUrl,
-		        [ContentType].Type as LinkContentType,
-		        [Link].IsFeatured as LinkFeatured,
-		        [Link].Description as LinkDescription
-      
-    FROM	    Profile
-
-    INNER JOIN  Link          ON [Link].ProfileId = [Profile].Id
-    INNER JOIN  ContentType   ON ContentType.Id   = Link.ContentTypeId"
-
-let getProviderSql = getProvidersSql + " " + filterOnProfileId
-
 let getProfilesSql = @"SELECT  Id,
                                FirstName,
                                LastName,

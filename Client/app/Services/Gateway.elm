@@ -49,13 +49,13 @@ updateThumbnail : UpdateThumbnailRequest -> (Result Http.Error String -> msg) ->
 updateThumbnail updateThumbnailRequest msg =
     let
         url =
-            baseUrl ++ "savethumbnail"
+            baseUrl ++ "updatethumbnail"
 
         body =
             encodeThumbnailUpdate updateThumbnailRequest |> Http.jsonBody
 
         request =
-            Http.post url Http.emptyBody Decode.string
+            Http.post url body Decode.string
     in
         Http.send msg request
 

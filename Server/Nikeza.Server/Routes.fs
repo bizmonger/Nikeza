@@ -91,7 +91,7 @@ let private removeLinkHandler =
                 return Some context
         }
 
-let private saveThumbnailHandler = 
+let private updateThumbnailHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<UpdateThumbnailRequest>()
                 UpdateThumbnail data |> execute |> ignore
@@ -171,7 +171,7 @@ let webApp : HttpContext -> HttpHandlerResult =
                 route "/removesource"  >=> removeSourceHandler
                 route "/addlink"       >=> addLinkHandler
                 route "/removelink"    >=> removeLinkHandler
-                route "/savethumbnail" >=> saveThumbnailHandler
+                route "/updatethumbnail" >=> updateThumbnailHandler
             ]
             
         setStatusCode 404 >=> text "Not Found" ]

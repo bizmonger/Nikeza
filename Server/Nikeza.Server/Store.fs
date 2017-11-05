@@ -107,7 +107,7 @@ let getSubscriptions subscriberId =
 
 let getProviders () =
     let commandFunc (command: SqlCommand) = command
-    let providers = readInProviders |> getResults getProvidersSql commandFunc
+    let providers = readInProviders |> getResults getProfilesSql commandFunc
     providers
 
 let getProfile profileId =
