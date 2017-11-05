@@ -45,6 +45,21 @@ tryRegister form msg =
         Http.send msg request
 
 
+imageUrl : Platform -> String -> (Result Http.Error String -> msg) -> Cmd msg
+imageUrl platform accessId msg =
+    let
+        url =
+            baseUrl ++ "thumbnail/" ++ (platform |> platformText) ++ "/" ++ accessId
+
+        body =
+            Encode.string accessId |> Http.jsonBody
+
+        request =
+            Http.post url body Decode.string
+    in
+        Http.send msg request
+
+
 recentLinks : Id -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
 recentLinks profileId msg =
     let

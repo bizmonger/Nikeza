@@ -20,6 +20,7 @@ type alias Dependencies msg =
     , tryLogin : Loginfunction msg
     , tryRegister : Registerfunction msg
     , updateProfile : UpdateProfilefunction msg
+    , imageUrl : ImageUrlfunction msg
     , provider : Providerfunction msg
     , providerTopic : ProviderTopicfunction msg
     , providers : Providersfunction msg
@@ -48,6 +49,7 @@ runtime =
                 Services.tryLogin
                 Services.tryRegister
                 Services.updateProfile
+                Services.imageUrl
                 Services.provider
                 Services.providerTopic
                 Services.providers
@@ -71,6 +73,7 @@ runtime =
                 TestAPI.tryLogin
                 TestAPI.tryRegister
                 TestAPI.updateProfile
+                TestAPI.imageUrl
                 TestAPI.provider
                 TestAPI.providerTopic
                 TestAPI.providers

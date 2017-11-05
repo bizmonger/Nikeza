@@ -14405,6 +14405,13 @@ var _user$project$Tests_TestAPI$profile3ImageUrl = _user$project$Domain_Core$Url
 var _user$project$Tests_TestAPI$profile2ImageUrl = _user$project$Domain_Core$Url('Assets/ProfileImages/Pablo.jpg');
 var _user$project$Tests_TestAPI$profile1ImageUrl = _user$project$Domain_Core$Url('Assets/ProfileImages/Bizmonger.png');
 var _user$project$Tests_TestAPI$someImageUrl = _user$project$Domain_Core$Url('http://www.ngu.edu/myimages/silhouette2230.jpg');
+var _user$project$Tests_TestAPI$imageUrl = F3(
+	function (platform, accessId, msg) {
+		return A2(
+			_user$project$Services_Adapter$httpSuccess,
+			msg,
+			_user$project$Domain_Core$urlText(_user$project$Tests_TestAPI$someImageUrl));
+	});
 var _user$project$Tests_TestAPI$someUrl = _user$project$Domain_Core$Url('http://some_url.com');
 var _user$project$Tests_TestAPI$someTopic5 = A2(_user$project$Domain_Core$Topic, 'unit-tests', false);
 var _user$project$Tests_TestAPI$someTopic4 = A2(_user$project$Domain_Core$Topic, 'Elm', true);
@@ -15835,6 +15842,23 @@ var _user$project$Services_Gateway$tryRegister = F2(
 		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Decoders$profileDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
+var _user$project$Services_Gateway$imageUrl = F3(
+	function (platform, accessId, msg) {
+		var body = _elm_lang$http$Http$jsonBody(
+			_elm_lang$core$Json_Encode$string(accessId));
+		var url = A2(
+			_elm_lang$core$Basics_ops['++'],
+			_user$project$Services_Gateway$baseUrl,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				'thumbnail/',
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					_user$project$Domain_Core$platformText(platform),
+					A2(_elm_lang$core$Basics_ops['++'], '/', accessId))));
+		var request = A3(_elm_lang$http$Http$post, url, body, _elm_lang$core$Json_Decode$string);
+		return A2(_elm_lang$http$Http$send, msg, request);
+	});
 var _user$project$Services_Gateway$recentLinks = F2(
 	function (profileId, msg) {
 		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'recent');
@@ -16007,7 +16031,9 @@ var _user$project$Settings$Dependencies = function (a) {
 																	return function (r) {
 																		return function (s) {
 																			return function (t) {
-																				return {bootstrap: a, tryLogin: b, tryRegister: c, updateProfile: d, provider: e, providerTopic: f, providers: g, portfolio: h, addLink: i, removeLink: j, topicLinks: k, sources: l, addSource: m, removeSource: n, suggestedTopics: o, subscriptions: p, followers: q, follow: r, unsubscribe: s, recentLinks: t};
+																				return function (u) {
+																					return {bootstrap: a, tryLogin: b, tryRegister: c, updateProfile: d, imageUrl: e, provider: f, providerTopic: g, providers: h, portfolio: i, addLink: j, removeLink: k, topicLinks: l, sources: m, addSource: n, removeSource: o, suggestedTopics: p, subscriptions: q, followers: r, follow: s, unsubscribe: t, recentLinks: u};
+																				};
 																			};
 																		};
 																	};
@@ -16034,9 +16060,9 @@ var _user$project$Settings$configuration = _user$project$Settings$Integration;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return _user$project$Settings$Dependencies(_user$project$Services_Gateway$bootstrap)(_user$project$Services_Gateway$tryLogin)(_user$project$Services_Gateway$tryRegister)(_user$project$Services_Gateway$updateProfile)(_user$project$Services_Gateway$provider)(_user$project$Services_Gateway$providerTopic)(_user$project$Services_Gateway$providers)(_user$project$Services_Gateway$portfolio)(_user$project$Services_Gateway$addLink)(_user$project$Services_Gateway$removeLink)(_user$project$Services_Gateway$topicLinks)(_user$project$Services_Gateway$sources)(_user$project$Services_Gateway$addSource)(_user$project$Services_Gateway$removeSource)(_user$project$Services_Gateway$suggestedTopics)(_user$project$Services_Gateway$subscriptions)(_user$project$Services_Gateway$followers)(_user$project$Services_Gateway$follow)(_user$project$Services_Gateway$unsubscribe)(_user$project$Services_Gateway$recentLinks);
+		return _user$project$Settings$Dependencies(_user$project$Services_Gateway$bootstrap)(_user$project$Services_Gateway$tryLogin)(_user$project$Services_Gateway$tryRegister)(_user$project$Services_Gateway$updateProfile)(_user$project$Services_Gateway$imageUrl)(_user$project$Services_Gateway$provider)(_user$project$Services_Gateway$providerTopic)(_user$project$Services_Gateway$providers)(_user$project$Services_Gateway$portfolio)(_user$project$Services_Gateway$addLink)(_user$project$Services_Gateway$removeLink)(_user$project$Services_Gateway$topicLinks)(_user$project$Services_Gateway$sources)(_user$project$Services_Gateway$addSource)(_user$project$Services_Gateway$removeSource)(_user$project$Services_Gateway$suggestedTopics)(_user$project$Services_Gateway$subscriptions)(_user$project$Services_Gateway$followers)(_user$project$Services_Gateway$follow)(_user$project$Services_Gateway$unsubscribe)(_user$project$Services_Gateway$recentLinks);
 	} else {
-		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$bootstrap)(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$updateProfile)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$providerTopic)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$portfolio)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$recentLinks);
+		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$bootstrap)(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$updateProfile)(_user$project$Tests_TestAPI$imageUrl)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$providerTopic)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$portfolio)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$recentLinks);
 	}
 }();
 

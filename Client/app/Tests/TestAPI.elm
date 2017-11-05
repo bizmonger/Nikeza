@@ -696,6 +696,11 @@ updateProfile profile msg =
     profile |> toJsonProfile |> httpSuccess msg
 
 
+imageUrl : Platform -> String -> (Result Http.Error String -> msg) -> Cmd msg
+imageUrl platform accessId msg =
+    someImageUrl |> urlText |> httpSuccess msg
+
+
 sources : Id -> (Result Http.Error (List Source) -> msg) -> Cmd msg
 sources profileId msg =
     sourcesBase |> httpSuccess msg
