@@ -15,6 +15,14 @@ encodeRegistration form =
         ]
 
 
+encodeThumbnailUpdate : UpdateThumbnailRequest -> Encode.Value
+encodeThumbnailUpdate request =
+    Encode.object
+        [ ( "ProfileId", Encode.string <| idText request.profileId )
+        , ( "ImageUrl", Encode.string <| urlText request.imageUrl )
+        ]
+
+
 encodeLink : Link -> Encode.Value
 encodeLink link =
     Encode.object

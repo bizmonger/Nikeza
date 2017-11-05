@@ -53,7 +53,7 @@ update msg model =
 
             AddResponse (Ok jsonSource) ->
                 ( { model
-                    | sources = (jsonSource |> toSource) :: model.sources
+                    | sources = toSource jsonSource :: model.sources
                     , source = initSource
                   }
                 , Cmd.none
@@ -119,5 +119,4 @@ sourceUI source =
         , td [] [ i [ class "accessId" ] [ text source.username ] ]
         , td [] [ label [ class "linksCount" ] [ text <| (source.links |> List.length |> toString) ++ " links" ] ]
         , td [] [ button [ class "disconnectSource", onClick <| Remove source ] [ text "Disconnect" ] ]
-        , td [] [ label [] [ text <| toString source ] ]
         ]

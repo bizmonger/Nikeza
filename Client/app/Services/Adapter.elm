@@ -42,6 +42,10 @@ type alias ImageUrlfunction msg =
     Platform -> String -> (Result Http.Error String -> msg) -> Cmd msg
 
 
+type alias SaveThumbnailfunction msg =
+    UpdateThumbnailRequest -> (Result Http.Error String -> msg) -> Cmd msg
+
+
 type alias AddSourcefunction msg =
     Source -> (Result Http.Error JsonSource -> msg) -> Cmd msg
 

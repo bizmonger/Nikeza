@@ -226,6 +226,12 @@ platformText platform =
         value
 
 
+type alias UpdateThumbnailRequest =
+    { profileId : Id
+    , imageUrl : Url
+    }
+
+
 type alias Link =
     { id : Int
     , profileId : Id

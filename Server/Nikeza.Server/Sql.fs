@@ -108,18 +108,18 @@ let observeLinkSql = @"INSERT INTO [dbo].[ObservedLinks]
                        ( @SubscriberId 
                        , @LinkId
                        )"
-
 let featureLinkSql = @"UPDATE Link
                        SET    IsFeatured = @IsFeatured
                        WHERE  Id = @Id"
-
 let updateProfileSql = @"UPDATE [dbo].[Profile]
                         SET     [FirstName] = @FirstName,
                                 [LastName] =  @LastName,
                                 [Bio] =       @bio,
                                 [Email] =     @email
                         WHERE   Id =          @Id"
-
+let updateThumbnailSql = @"UPDATE [dbo].[Profile]
+                           SET     [ImageUrl] =  @ImageUrl
+                           WHERE   Id =          @ProfileId"
 let getLinksSql = "SELECT Id, 
                           ProfileId, 
                           Title, 

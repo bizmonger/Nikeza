@@ -45,6 +45,21 @@ tryRegister form msg =
         Http.send msg request
 
 
+updateThumbnail : UpdateThumbnailRequest -> (Result Http.Error String -> msg) -> Cmd msg
+updateThumbnail updateThumbnailRequest msg =
+    let
+        url =
+            baseUrl ++ "savethumbnail"
+
+        body =
+            encodeThumbnailUpdate updateThumbnailRequest |> Http.jsonBody
+
+        request =
+            Http.post url Http.emptyBody Decode.string
+    in
+        Http.send msg request
+
+
 imageUrl : Platform -> String -> (Result Http.Error String -> msg) -> Cmd msg
 imageUrl platform accessId msg =
     let

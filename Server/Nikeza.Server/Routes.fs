@@ -87,7 +87,14 @@ let private addLinkHandler =
 let private removeLinkHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<RemoveLinkRequest>()
-                ignore (execute <| RemoveLink data)
+                RemoveLink data |> execute |> ignore
+                return Some context
+        }
+
+let private saveThumbnailHandler = 
+    fun(context: HttpContext) -> 
+        async { let! data = context.BindJson<UpdateThumbnailRequest>()
+                UpdateThumbnail data |> execute |> ignore
                 return Some context
         }
 
@@ -123,11 +130,11 @@ let private fetchSources (providerId) (context : HttpContext) =
     let  response = getSources providerId
     json response context
 
-let private fetchThumbnail (platform:string , accessId:string) =
+let private fetchThumbnail (platform:string , accessId:string) (context : HttpContext) =
 
     let thumbnail = platform.ToLower() |> platformFromString 
                                        |> Platforms.getThumbnail accessId
-    json thumbnail
+    json thumbnail context
     
 let private fetchContentTypeToId (contentType) (context : HttpContext) =
     let response = contentTypeToId contentType
@@ -164,6 +171,7 @@ let webApp : HttpContext -> HttpHandlerResult =
                 route "/removesource"  >=> removeSourceHandler
                 route "/addlink"       >=> addLinkHandler
                 route "/removelink"    >=> removeLinkHandler
+                route "/savethumbnail" >=> saveThumbnailHandler
             ]
             
         setStatusCode 404 >=> text "Not Found" ]

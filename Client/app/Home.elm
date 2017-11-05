@@ -87,6 +87,7 @@ type Msg
     | ProviderContentTypeLinksAction ProviderContentTypeLinks.Msg
     | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
     | ThumbnailResponse (Result Http.Error String)
+    | SaveThumbnailResponse (Result Http.Error String)
     | ProvidersResponse (Result Http.Error (List JsonProvider))
     | BootstrapResponse (Result Http.Error JsonBootstrap)
     | NavigateToPortalResponse (Result Http.Error JsonProvider)
@@ -118,6 +119,14 @@ update msg model =
             UrlChange location ->
                 location |> navigate msg model
 
+            SaveThumbnailResponse response ->
+                case response of
+                    Ok _ ->
+                        ( model, Cmd.none )
+
+                    Err _ ->
+                        ( model, Cmd.none )
+
             ThumbnailResponse response ->
                 case response of
                     Ok url ->
@@ -130,8 +139,11 @@ update msg model =
 
                             updatedPortal =
                                 { portal | provider = updatedProvider }
+
+                            request =
+                                { profileId = profile.id, imageUrl = Url url }
                         in
-                            ( { model | portal = updatedPortal }, Cmd.none )
+                            ( { model | portal = updatedPortal }, runtime.updateThumbnail request SaveThumbnailResponse )
 
                     Err _ ->
                         ( model, Cmd.none )
@@ -478,14 +490,14 @@ onRemove model sources =
         sourcesLeft =
             profile.sources |> List.filter (\c -> c /= sources)
 
-        updatedProvider =
+        pendingProvider =
             { provider | profile = updatedProfile }
 
         updatedProfile =
             { profile | sources = sourcesLeft }
 
         portal =
-            { pendingPortal | provider = updatedProvider, newSource = initSource }
+            { pendingPortal | provider = pendingProvider, newSource = initSource }
 
         newState =
             { model | portal = portal }
@@ -647,11 +659,11 @@ onSourcesUpdated subMsg model =
         sourceCmd =
             Cmd.map SourcesUpdated subCmd
 
-        updatedProvider =
+        pendingProvider =
             { provider | profile = { profile | sources = sources.sources } }
 
         portal =
-            { pendingPortal | newSource = sources.source, provider = updatedProvider }
+            { pendingPortal | newSource = sources.source, provider = pendingProvider }
     in
         case subMsg of
             Sources.InputUsername _ ->
@@ -678,15 +690,14 @@ onSourcesUpdated subMsg model =
                 case result of
                     Ok jsonSource ->
                         let
+                            source =
+                                jsonSource |> toSource
+
                             portfolio =
-                                (jsonSource |> toSource).links |> updatePortfolio provider
+                                source.links |> updatePortfolio provider
 
                             updatedProvider =
-                                { provider
-                                    | portfolio = portfolio
-                                    , filteredPortfolio = portfolio
-                                    , profile = { profile | sources = source :: profile.sources }
-                                }
+                                { pendingProvider | portfolio = portfolio, filteredPortfolio = portfolio }
                         in
                             ( { model
                                 | portal =

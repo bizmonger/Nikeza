@@ -154,6 +154,13 @@ module private Commands =
 
         commandFunc |> execute connectionString updateProfileSql
 
+    let updateThumbnail (info:UpdateThumbnailRequest) =
+        let commandFunc (command: SqlCommand) = 
+            command |> addWithValue "@ProfileId" (Int32.Parse(info.ProfileId))
+                    |> addWithValue "@ImageUrl"   info.ImageUrl
+
+        commandFunc |> execute connectionString updateThumbnailSql
+
     let addDataSource (info:DataSourceRequest) =
 
         let apikey = info.Platform |> platformFromString |> getKey
@@ -190,16 +197,17 @@ module private Commands =
 
 open Commands
 let execute = function
-    | Register      info -> register         info
-    | UpdateProfile info -> updateProfile    info
+    | Register        info -> register         info
+    | UpdateProfile   info -> updateProfile    info
+    | UpdateThumbnail info -> updateThumbnail  info
    
-    | Follow        info -> follow           info
-    | Unsubscribe   info -> unsubscribe      info
-   
-    | AddLink       info -> addLink          info
-    | RemoveLink    info -> removeLink       info
-    | FeatureLink   info -> featureLink      info
-    | ObserveLinks  info -> observeLinks     info
-
-    | AddSource     info -> addDataSource    info
-    | RemoveSource  info -> removeDataSource info
+    | Follow          info -> follow           info
+    | Unsubscribe     info -> unsubscribe      info
+  
+    | AddLink         info -> addLink          info
+    | RemoveLink      info -> removeLink       info
+    | FeatureLink     info -> featureLink      info
+    | ObserveLinks    info -> observeLinks     info
+  
+    | AddSource       info -> addDataSource    info
+    | RemoveSource    info -> removeDataSource info

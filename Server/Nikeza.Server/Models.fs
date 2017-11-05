@@ -55,6 +55,12 @@ type UnsubscribeRequest = { SubscriberId: string; ProfileId: string }
 type RemoveLinkRequest =  { LinkId: int }
 
 [<CLIMutable>]
+type UpdateThumbnailRequest = {
+    ProfileId: string
+    ImageUrl:  string
+}
+
+[<CLIMutable>]
 type Topic = { 
     Id:         int
     Name:       string
@@ -164,6 +170,7 @@ type Result<'a> =
 type Command =
     | Register      of Profile
     | UpdateProfile of ProfileRequest
+    | UpdateThumbnail of UpdateThumbnailRequest
 
     | Follow        of FollowRequest
     | Unsubscribe   of UnsubscribeRequest

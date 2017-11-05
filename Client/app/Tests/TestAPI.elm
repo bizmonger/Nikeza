@@ -701,6 +701,11 @@ imageUrl platform accessId msg =
     someImageUrl |> urlText |> httpSuccess msg
 
 
+updateThumbnail : UpdateThumbnailRequest -> (Result Http.Error String -> msg) -> Cmd msg
+updateThumbnail request msg =
+    someImageUrl |> urlText |> httpSuccess msg
+
+
 sources : Id -> (Result Http.Error (List Source) -> msg) -> Cmd msg
 sources profileId msg =
     sourcesBase |> httpSuccess msg
