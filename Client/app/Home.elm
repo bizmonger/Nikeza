@@ -51,7 +51,7 @@ type alias Model =
 init : Navigation.Location -> ( Model, Cmd Msg )
 init location =
     ( { currentRoute = location
-      , login = Login.init
+      , login = initCredentials
       , registration = initForm
       , platforms = []
       , portal = initPortal
@@ -940,14 +940,14 @@ homePage model =
                     , td []
                         [ table []
                             [ tr []
-                                [ td [] [ button [ class "join", onClick Register ] [ text "Join!" ] ]
-                                , td []
+                                [ td []
                                     [ ul [ class "featuresList" ]
                                         [ li [ class "joinReasons" ] [ text "Import links to your articles, videos, and answers" ]
                                         , li [ class "joinReasons" ] [ text "Set your featured links for others to view" ]
                                         , li [ class "joinReasons" ] [ text "Subscribe to new links from your favorite thought leaders" ]
                                         ]
                                     ]
+                                , td [] [ Html.map OnRegistration <| Registration.view model.registration ]
                                 ]
                             ]
                         ]
@@ -1394,9 +1394,7 @@ renderNavigation portal providers =
         displayNavigation buttons =
             [ div [ class "navigationpane" ] buttons ]
     in
-        if not portal.sourcesNavigation && not portal.linksNavigation && String.isEmpty profile.bio then
-            displayNavigation noSourcesNoLinks
-        else if not portal.sourcesNavigation && not portal.linksNavigation then
+        if not portal.sourcesNavigation && not portal.linksNavigation then
             displayNavigation enableOnlySourcesAndLinks
         else if portal.sourcesNavigation && not portal.linksNavigation then
             displayNavigation enableOnlySourcesAndLinks

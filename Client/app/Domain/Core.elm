@@ -22,6 +22,11 @@ type alias Credentials =
     }
 
 
+initCredentials : Credentials
+initCredentials =
+    Credentials "" "" False
+
+
 initTopics : List Topic
 initTopics =
     []

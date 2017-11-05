@@ -59,6 +59,21 @@ input[type="text"].addTopic {
     margin-left: -2px;
 }
 
+input[type="text"].registrationInput {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+input[type="email"].registrationEmail {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+input[type="password"].registrationPassword {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
 select.selectPlatform {
     width:120px;
 }
@@ -76,7 +91,8 @@ div.navigationpane {
 div.RegistrationForm {
     width: 200px;
     height: 200px;
-    margin: 0px auto;
+    margin-left: 15px;
+    margin-top: 8px;
 }
 
 button.addLink {
@@ -148,6 +164,7 @@ ul.featuresList{
     background-color: #F7FCFD;
     margin-top: 10px;
     width: 380px;
+    margin-left: 15px;
 }
 
 li.joinReasons{
@@ -168,8 +185,12 @@ button.addSource {
 }
 
 button.register {
-    margin-left: 2px; 
+    margin-left: 1px;
+    margin-top: -10px;
     width: 150px;
+    height:30px;
+    background-color:rgb(137, 212, 240);
+    color:black;
 }
 
 button.remove {
@@ -198,6 +219,7 @@ label.title {
 
 .signin {
     margin-top: -13px;
+    margin-right: 2px;
     float:right;
     text-align: center;
 }

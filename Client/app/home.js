@@ -13700,6 +13700,7 @@ var _user$project$Domain_Core$Credentials = F3(
 	function (a, b, c) {
 		return {email: a, password: b, loggedIn: c};
 	});
+var _user$project$Domain_Core$initCredentials = A3(_user$project$Domain_Core$Credentials, '', '', false);
 var _user$project$Domain_Core$Portfolio = F4(
 	function (a, b, c, d) {
 		return {answers: a, articles: b, videos: c, podcasts: d};
@@ -16299,7 +16300,6 @@ var _user$project$Controls_EditProfile$view = function (profile) {
 		});
 };
 
-var _user$project$Controls_Login$init = A3(_user$project$Domain_Core$Credentials, '', '', false);
 var _user$project$Controls_Login$Response = function (a) {
 	return {ctor: 'Response', _0: a};
 };
@@ -16344,8 +16344,8 @@ var _user$project$Controls_Login$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Controls.Login',
 							{
-								start: {line: 52, column: 13},
-								end: {line: 52, column: 24}
+								start: {line: 40, column: 13},
+								end: {line: 40, column: 24}
 							}),
 						A2(
 							_elm_lang$core$Basics_ops['++'],
@@ -18650,17 +18650,21 @@ var _user$project$Controls_Register$view = function (form) {
 				_elm_lang$html$Html$input,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$type_('text'),
+					_0: _elm_lang$html$Html_Attributes$class('registrationInput'),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$placeholder('first name'),
+						_0: _elm_lang$html$Html_Attributes$type_('text'),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$FirstNameInput),
+							_0: _elm_lang$html$Html_Attributes$placeholder('first name'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$value(form.firstName),
-								_1: {ctor: '[]'}
+								_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$FirstNameInput),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$value(form.firstName),
+									_1: {ctor: '[]'}
+								}
 							}
 						}
 					}
@@ -18678,17 +18682,21 @@ var _user$project$Controls_Register$view = function (form) {
 						_elm_lang$html$Html$input,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$type_('text'),
+							_0: _elm_lang$html$Html_Attributes$class('registrationInput'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$placeholder('last name'),
+								_0: _elm_lang$html$Html_Attributes$type_('text'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$LastNameInput),
+									_0: _elm_lang$html$Html_Attributes$placeholder('last name'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$value(form.lastName),
-										_1: {ctor: '[]'}
+										_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$LastNameInput),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$value(form.lastName),
+											_1: {ctor: '[]'}
+										}
 									}
 								}
 							}
@@ -18706,17 +18714,21 @@ var _user$project$Controls_Register$view = function (form) {
 								_elm_lang$html$Html$input,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$type_('email'),
+									_0: _elm_lang$html$Html_Attributes$class('registrationEmail'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$placeholder('email'),
+										_0: _elm_lang$html$Html_Attributes$type_('email'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$EmailInput),
+											_0: _elm_lang$html$Html_Attributes$placeholder('email'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$value(form.email),
-												_1: {ctor: '[]'}
+												_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$EmailInput),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$value(form.email),
+													_1: {ctor: '[]'}
+												}
 											}
 										}
 									}
@@ -18734,17 +18746,21 @@ var _user$project$Controls_Register$view = function (form) {
 										_elm_lang$html$Html$input,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$type_('password'),
+											_0: _elm_lang$html$Html_Attributes$class('registrationPassword'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$placeholder('password'),
+												_0: _elm_lang$html$Html_Attributes$type_('password'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$PasswordInput),
+													_0: _elm_lang$html$Html_Attributes$placeholder('password'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$value(form.password),
-														_1: {ctor: '[]'}
+														_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$PasswordInput),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$value(form.password),
+															_1: {ctor: '[]'}
+														}
 													}
 												}
 											}
@@ -18762,17 +18778,21 @@ var _user$project$Controls_Register$view = function (form) {
 												_elm_lang$html$Html$input,
 												{
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$type_('password'),
+													_0: _elm_lang$html$Html_Attributes$class('registrationPassword'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$placeholder('confirm'),
+														_0: _elm_lang$html$Html_Attributes$type_('password'),
 														_1: {
 															ctor: '::',
-															_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$ConfirmInput),
+															_0: _elm_lang$html$Html_Attributes$placeholder('confirm'),
 															_1: {
 																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$value(form.confirm),
-																_1: {ctor: '[]'}
+																_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$ConfirmInput),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$value(form.confirm),
+																	_1: {ctor: '[]'}
+																}
 															}
 														}
 													}
@@ -20268,7 +20288,7 @@ var _user$project$Home$init = function (location) {
 		ctor: '_Tuple2',
 		_0: {
 			currentRoute: location,
-			login: _user$project$Controls_Login$init,
+			login: _user$project$Domain_Core$initCredentials,
 			registration: _user$project$Domain_Core$initForm,
 			platforms: {ctor: '[]'},
 			portal: _user$project$Domain_Core$initPortal,
@@ -22382,7 +22402,7 @@ var _user$project$Home$renderNavigation = F2(
 			}
 		}();
 		var links = portal.provider.portfolio;
-		return ((!portal.sourcesNavigation) && ((!portal.linksNavigation) && _elm_lang$core$String$isEmpty(profile.bio))) ? displayNavigation(noSourcesNoLinks) : (((!portal.sourcesNavigation) && (!portal.linksNavigation)) ? displayNavigation(enableOnlySourcesAndLinks) : ((portal.sourcesNavigation && (!portal.linksNavigation)) ? displayNavigation(enableOnlySourcesAndLinks) : displayNavigation(allNavigation)));
+		return ((!portal.sourcesNavigation) && (!portal.linksNavigation)) ? displayNavigation(enableOnlySourcesAndLinks) : ((portal.sourcesNavigation && (!portal.linksNavigation)) ? displayNavigation(enableOnlySourcesAndLinks) : displayNavigation(allNavigation));
 	});
 var _user$project$Home$render = F4(
 	function (provider, content, portal, providers) {
@@ -23651,38 +23671,27 @@ var _user$project$Home$homePage = function (model) {
 														{
 															ctor: '::',
 															_0: A2(
-																_elm_lang$html$Html$button,
+																_elm_lang$html$Html$ul,
 																{
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$class('join'),
-																	_1: {
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$Register),
-																		_1: {ctor: '[]'}
-																	}
+																	_0: _elm_lang$html$Html_Attributes$class('featuresList'),
+																	_1: {ctor: '[]'}
 																},
 																{
 																	ctor: '::',
-																	_0: _elm_lang$html$Html$text('Join!'),
-																	_1: {ctor: '[]'}
-																}),
-															_1: {ctor: '[]'}
-														}),
-													_1: {
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$td,
-															{ctor: '[]'},
-															{
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$ul,
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Attributes$class('featuresList'),
-																		_1: {ctor: '[]'}
-																	},
-																	{
+																	_0: A2(
+																		_elm_lang$html$Html$li,
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$class('joinReasons'),
+																			_1: {ctor: '[]'}
+																		},
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html$text('Import links to your articles, videos, and answers'),
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {
 																		ctor: '::',
 																		_0: A2(
 																			_elm_lang$html$Html$li,
@@ -23693,7 +23702,7 @@ var _user$project$Home$homePage = function (model) {
 																			},
 																			{
 																				ctor: '::',
-																				_0: _elm_lang$html$Html$text('Import links to your articles, videos, and answers'),
+																				_0: _elm_lang$html$Html$text('Set your featured links for others to view'),
 																				_1: {ctor: '[]'}
 																			}),
 																		_1: {
@@ -23707,27 +23716,26 @@ var _user$project$Home$homePage = function (model) {
 																				},
 																				{
 																					ctor: '::',
-																					_0: _elm_lang$html$Html$text('Set your featured links for others to view'),
+																					_0: _elm_lang$html$Html$text('Subscribe to new links from your favorite thought leaders'),
 																					_1: {ctor: '[]'}
 																				}),
-																			_1: {
-																				ctor: '::',
-																				_0: A2(
-																					_elm_lang$html$Html$li,
-																					{
-																						ctor: '::',
-																						_0: _elm_lang$html$Html_Attributes$class('joinReasons'),
-																						_1: {ctor: '[]'}
-																					},
-																					{
-																						ctor: '::',
-																						_0: _elm_lang$html$Html$text('Subscribe to new links from your favorite thought leaders'),
-																						_1: {ctor: '[]'}
-																					}),
-																				_1: {ctor: '[]'}
-																			}
+																			_1: {ctor: '[]'}
 																		}
-																	}),
+																	}
+																}),
+															_1: {ctor: '[]'}
+														}),
+													_1: {
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$td,
+															{ctor: '[]'},
+															{
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$map,
+																	_user$project$Home$OnRegistration,
+																	_user$project$Controls_Register$view(model.registration)),
 																_1: {ctor: '[]'}
 															}),
 														_1: {ctor: '[]'}

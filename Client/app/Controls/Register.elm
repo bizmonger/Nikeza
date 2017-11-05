@@ -55,15 +55,15 @@ update msg form =
 view : Form -> Html Msg
 view form =
     div [ class "RegistrationForm" ]
-        [ input [ type_ "text", placeholder "first name", onInput FirstNameInput, value form.firstName ] []
+        [ input [ class "registrationInput", type_ "text", placeholder "first name", onInput FirstNameInput, value form.firstName ] []
         , br [] []
-        , input [ type_ "text", placeholder "last name", onInput LastNameInput, value form.lastName ] []
+        , input [ class "registrationInput", type_ "text", placeholder "last name", onInput LastNameInput, value form.lastName ] []
         , br [] []
-        , input [ type_ "email", placeholder "email", onInput EmailInput, value form.email ] []
+        , input [ class "registrationEmail", type_ "email", placeholder "email", onInput EmailInput, value form.email ] []
         , br [] []
-        , input [ type_ "password", placeholder "password", onInput PasswordInput, value form.password ] []
+        , input [ class "registrationPassword", type_ "password", placeholder "password", onInput PasswordInput, value form.password ] []
         , br [] []
-        , input [ type_ "password", placeholder "confirm", onInput ConfirmInput, value form.confirm ] []
+        , input [ class "registrationPassword", type_ "password", placeholder "confirm", onInput ConfirmInput, value form.confirm ] []
         , br [] []
         , br [] []
         , button

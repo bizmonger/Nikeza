@@ -10,18 +10,6 @@ import Settings exposing (..)
 import Services.Adapter exposing (..)
 
 
--- MODEL
-
-
-init : Credentials
-init =
-    Credentials "" "" False
-
-
-
--- UPDATE
-
-
 type Msg
     = UserInput String
     | PasswordInput String
