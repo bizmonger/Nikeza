@@ -119,4 +119,5 @@ sourceUI source =
         , td [] [ i [ class "accessId" ] [ text source.username ] ]
         , td [] [ label [ class "linksCount" ] [ text <| (source.links |> List.length |> toString) ++ " links" ] ]
         , td [] [ button [ class "disconnectSource", onClick <| Remove source ] [ text "Disconnect" ] ]
+        , td [] [ label [] [ text <| toString source ] ]
         ]

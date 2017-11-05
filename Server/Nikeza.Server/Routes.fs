@@ -116,18 +116,18 @@ let private fetchFollowers (providerId) (context : HttpContext) =
     json response context
     
 let private fetchSubscriptions (providerId) (context : HttpContext) =
-        let response = getSubscriptions providerId
-        json response context
+    let response = getSubscriptions providerId
+    json response context
 
 let private fetchSources (providerId) (context : HttpContext) =
     let  response = getSources providerId
     json response context
 
-let private fetchThumbnail (platform:string, accessId:string) (context : HttpContext) =
+let private fetchThumbnail (platform:string , accessId:string) =
 
     let thumbnail = platform.ToLower() |> platformFromString 
                                        |> Platforms.getThumbnail accessId
-    json thumbnail context
+    json thumbnail
     
 let private fetchContentTypeToId (contentType) (context : HttpContext) =
     let response = contentTypeToId contentType

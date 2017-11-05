@@ -86,7 +86,7 @@ type Msg
     | EditProfileAction EditProfile.Msg
     | ProviderContentTypeLinksAction ProviderContentTypeLinks.Msg
     | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
-    | ThumbnailResponse (Result Http.Error Url)
+    | ThumbnailResponse (Result Http.Error String)
     | ProvidersResponse (Result Http.Error (List JsonProvider))
     | BootstrapResponse (Result Http.Error JsonBootstrap)
     | NavigateToPortalResponse (Result Http.Error JsonProvider)
@@ -123,7 +123,7 @@ update msg model =
                     Ok url ->
                         let
                             updatedProfile =
-                                { profile | imageUrl = url }
+                                { profile | imageUrl = Url url }
 
                             updatedProvider =
                                 { provider | profile = updatedProfile }
@@ -680,21 +680,23 @@ onSourcesUpdated subMsg model =
                         let
                             portfolio =
                                 (jsonSource |> toSource).links |> updatePortfolio provider
+
+                            updatedProvider =
+                                { provider
+                                    | portfolio = portfolio
+                                    , filteredPortfolio = portfolio
+                                    , profile = { profile | sources = source :: profile.sources }
+                                }
                         in
                             ( { model
                                 | portal =
                                     { portal
-                                        | provider =
-                                            { provider
-                                                | portfolio = portfolio
-                                                , filteredPortfolio = portfolio
-                                                , profile = { profile | sources = source :: profile.sources }
-                                            }
+                                        | provider = updatedProvider
                                         , linksNavigation = portfolioExists portfolio
                                         , addLinkNavigation = True
                                     }
                               }
-                            , sourceCmd
+                            , runtime.imageUrl (Platform jsonSource.platform) jsonSource.username <| ThumbnailResponse
                             )
 
                     Err reason ->

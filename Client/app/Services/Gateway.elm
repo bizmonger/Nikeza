@@ -49,13 +49,10 @@ imageUrl : Platform -> String -> (Result Http.Error String -> msg) -> Cmd msg
 imageUrl platform accessId msg =
     let
         url =
-            baseUrl ++ "thumbnail/" ++ (platform |> platformText) ++ "/" ++ accessId
-
-        body =
-            Encode.string accessId |> Http.jsonBody
+            baseUrl ++ "thumbnail/" ++ (platform |> platformText |> String.toLower) ++ "/" ++ accessId
 
         request =
-            Http.post url body Decode.string
+            Http.get url Decode.string
     in
         Http.send msg request
 
