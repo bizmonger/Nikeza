@@ -68,10 +68,6 @@ init location =
 
 type Msg
     = UrlChange Navigation.Location
-    | OnLogin Login.Msg
-    | ProfileThumbnail ProfileThumbnail.Msg
-    | RecentProviderLinks RecentProviderLinks.Msg
-    | SourcesUpdated Sources.Msg
     | ViewSources
     | AddNewLink
     | ViewLinks
@@ -80,12 +76,17 @@ type Msg
     | ViewFollowers
     | ViewProviders
     | ViewRecent
+    | OnLogin Login.Msg
+    | ProfileThumbnail ProfileThumbnail.Msg
+    | RecentProviderLinks RecentProviderLinks.Msg
+    | SourcesUpdated Sources.Msg
     | NewLink NewLinks.Msg
     | ProviderLinksAction ProviderLinks.Msg
     | PortalLinksAction ProviderLinks.Msg
     | EditProfileAction EditProfile.Msg
     | ProviderContentTypeLinksAction ProviderContentTypeLinks.Msg
     | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
+    | ThumbnailResponse (Result Http.Error Url)
     | ProvidersResponse (Result Http.Error (List JsonProvider))
     | BootstrapResponse (Result Http.Error JsonBootstrap)
     | NavigateToPortalResponse (Result Http.Error JsonProvider)
@@ -106,10 +107,34 @@ update msg model =
     let
         portal =
             model.portal
+
+        provider =
+            portal.provider
+
+        profile =
+            provider.profile
     in
         case msg of
             UrlChange location ->
                 location |> navigate msg model
+
+            ThumbnailResponse response ->
+                case response of
+                    Ok url ->
+                        let
+                            updatedProfile =
+                                { profile | imageUrl = url }
+
+                            updatedProvider =
+                                { provider | profile = updatedProfile }
+
+                            updatedPortal =
+                                { portal | provider = updatedProvider }
+                        in
+                            ( { model | portal = updatedPortal }, Cmd.none )
+
+                    Err _ ->
+                        ( model, Cmd.none )
 
             ProvidersResponse response ->
                 case response of
