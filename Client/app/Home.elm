@@ -659,7 +659,6 @@ onSourcesUpdated subMsg model =
                 , platforms = model.platforms
                 , source = { source | profileId = model.portal.provider.profile.id }
                 , sources = model.portal.provider.profile.sources
-                , isInitialized = True
                 }
 
         sourceCmd =
@@ -720,14 +719,6 @@ onSourcesUpdated subMsg model =
                         Debug.crash (toString reason) ( model, sourceCmd )
 
             Sources.RemoveResponse result ->
-                case result of
-                    Ok _ ->
-                        ( model, sourceCmd )
-
-                    Err reason ->
-                        Debug.crash (toString reason) ( model, sourceCmd )
-
-            Sources.SourcesResponse result ->
                 case result of
                     Ok _ ->
                         ( model, sourceCmd )
@@ -1120,7 +1111,6 @@ content contentToEmbed model =
                             , platforms = model.platforms
                             , source = portal.newSource
                             , sources = loggedIn.profile.sources
-                            , isInitialized = False
                             }
                     ]
 

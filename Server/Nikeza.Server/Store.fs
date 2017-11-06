@@ -30,14 +30,43 @@ let getResults sql commandFunc readInData =
                 connection.Close()
     entities
 
+let linksFrom platform profileId =
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue "@ProfileId" profileId
+                |> addWithValue "@Platform"  platform
+
+    let links = readInLinks |> getResults getSourceLinksSql commandFunc
+    links
+
+let getSource sourceId =
+    let sourceCommandFunc (command: SqlCommand) = 
+        command |> addWithValue "@SourceId" sourceId
+        
+    let sources = readInSources |> getResults getSourceSql sourceCommandFunc
+    sources |> List.tryHead
+            |> function
+            | Some source -> let links = linksFrom source.Platform source.ProfileId
+                             Some { source with Links= links }
+            | None -> None
+
+let getSources profileId =
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue "@ProfileId" profileId
+        
+    let sources = readInSources |> getResults getSourcesSql commandFunc
+                                |> List.map (fun s -> s.Id |> getSource)
+    sources
+
 let loginProfile email =
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue "@Email" email
         
-    let profileRequest = 
-        readInProfiles |> getResults findUserByEmailSql commandFunc
-                       |> List.tryHead
-    profileRequest
+    readInProfiles |> getResults findUserByEmailSql commandFunc
+                   |> List.tryHead
+                   |> function
+                      | Some p -> let sources = getSources p.ProfileId |> List.choose id
+                                  Some { p with Sources = sources }
+                      | None   -> None
 
 let getProfiles profileId sql parameterName =
     let commandFunc (command: SqlCommand) = 
@@ -89,14 +118,6 @@ let loginProvider email =
             }
     | None -> None
 
-let linksFrom platform profileId =
-    let commandFunc (command: SqlCommand) = 
-        command |> addWithValue "@ProfileId" profileId
-                |> addWithValue "@Platform"  platform
-
-    let links = readInLinks |> getResults getSourceLinksSql commandFunc
-    links
-
 let getFollowers profileId =
     let profiles = getProfiles profileId getFollowersSql "@ProfileId"
     profiles
@@ -122,24 +143,6 @@ let getAllProfiles () =
     let commandFunc (command: SqlCommand) = command
     let profiles = readInProfiles |> getResults getProfilesSql commandFunc
     profiles
-
-let getSources profileId =
-    let commandFunc (command: SqlCommand) = 
-        command |> addWithValue "@ProfileId" profileId
-        
-    let sources = readInSources |> getResults getSourcesSql commandFunc
-    sources
-
-let getSource sourceId =
-    let sourceCommandFunc (command: SqlCommand) = 
-        command |> addWithValue "@SourceId" sourceId
-        
-    let sources = readInSources |> getResults getSourceSql sourceCommandFunc
-    sources |> List.tryHead
-            |> function
-            | Some source -> let links = linksFrom source.Platform source.ProfileId
-                             Some { source with Links= links }
-            | None -> None
 
 let getPlatforms () =
     let commandFunc (command: SqlCommand) = command
