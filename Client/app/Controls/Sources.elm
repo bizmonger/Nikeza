@@ -13,10 +13,26 @@ import Json.Decode exposing (map)
 -- MODEL
 
 
+main =
+    Html.program
+        { init = ( init, Cmd.none )
+        , view = view
+        , update = update
+        , subscriptions = (\_ -> Sub.none)
+        }
+
+
 type alias Model =
-    { source : Source
+    { platforms : List Platform
+    , source : Source
     , sources : List Source
+    , isInitialized : Bool
     }
+
+
+init : Model
+init =
+    Model [] initSource [] False
 
 
 type Msg
@@ -26,6 +42,7 @@ type Msg
     | AddResponse (Result Http.Error JsonSource)
     | Remove Source
     | RemoveResponse (Result Http.Error JsonSource)
+    | SourcesResponse (Result Http.Error (List JsonSource))
 
 
 
@@ -34,43 +51,52 @@ type Msg
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    let
-        source =
-            model.source
-    in
-        case msg of
-            InputUsername v ->
-                ( { model | source = { source | username = v } }, Cmd.none )
+    if not model.isInitialized then
+        ( model, runtime.sources model.source.profileId SourcesResponse )
+    else
+        let
+            source =
+                model.source
+        in
+            case msg of
+                InputUsername v ->
+                    ( { model | source = { source | username = v } }, Cmd.none )
 
-            InputPlatform v ->
-                ( { model | source = { source | platform = v } }, Cmd.none )
+                InputPlatform v ->
+                    ( { model | source = { source | platform = v } }, Cmd.none )
 
-            Add source ->
-                ( model, runtime.addSource source AddResponse )
+                Add source ->
+                    ( model, runtime.addSource source AddResponse )
 
-            Remove source ->
-                ( model, runtime.removeSource source.id RemoveResponse )
+                Remove source ->
+                    ( model, runtime.removeSource source.id RemoveResponse )
 
-            AddResponse (Ok jsonSource) ->
-                ( { model
-                    | sources = toSource jsonSource :: model.sources
-                    , source = initSource
-                  }
-                , Cmd.none
-                )
+                AddResponse (Ok jsonSource) ->
+                    ( { model
+                        | sources = toSource jsonSource :: model.sources
+                        , source = initSource
+                      }
+                    , Cmd.none
+                    )
 
-            AddResponse (Err error) ->
-                Debug.crash (toString error) ( model, Cmd.none )
+                AddResponse (Err error) ->
+                    Debug.crash (toString error) ( model, Cmd.none )
 
-            RemoveResponse (Ok jsonSource) ->
-                ( { model | sources = model.sources |> List.filter (\s -> s /= (jsonSource |> toSource)) }, Cmd.none )
+                RemoveResponse (Ok jsonSource) ->
+                    ( { model | sources = model.sources |> List.filter (\s -> s /= (jsonSource |> toSource)) }, Cmd.none )
 
-            RemoveResponse (Err error) ->
-                Debug.crash (toString error) ( model, Cmd.none )
+                RemoveResponse (Err error) ->
+                    Debug.crash (toString error) ( model, Cmd.none )
+
+                SourcesResponse (Ok jsonSources) ->
+                    ( { model | sources = jsonSources |> List.map toSource, isInitialized = True }, Cmd.none )
+
+                SourcesResponse (Err _) ->
+                    ( model, Cmd.none )
 
 
-view : Model -> List Platform -> Html Msg
-view model platforms =
+view : Model -> Html Msg
+view model =
     let
         instruction =
             (option [ value "instructions" ] [ text "Select Platform" ])
@@ -97,7 +123,7 @@ view model platforms =
 
         records =
             [ tr []
-                [ td [] [ select [ class "selectPlatform", changeHandler, value model.source.platform ] <| instruction :: (platforms |> List.map platformOption) ]
+                [ td [] [ select [ class "selectPlatform", changeHandler, value model.source.platform ] <| instruction :: (model.platforms |> List.map platformOption) ]
                 , td [] [ input [ class "inputUsername", type_ "text", placeholder placeholderText, onInput InputUsername, value model.source.username ] [] ]
                 , td [] [ button [ class "addSource", onClick <| Add model.source ] [ text "Add" ] ]
                 ]
@@ -109,6 +135,7 @@ view model platforms =
         div [ class "mainContent" ]
             [ h3 [] [ text "Sources" ]
             , table [] tableRecords
+            , td [] [ text <| toString model ]
             ]
 
 

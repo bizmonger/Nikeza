@@ -654,7 +654,12 @@ onSourcesUpdated subMsg model =
             pendingPortal.newSource
 
         ( sources, subCmd ) =
-            Sources.update subMsg { source = { source | profileId = model.portal.provider.profile.id }, sources = model.portal.provider.profile.sources }
+            Sources.update subMsg
+                { platforms = model.platforms
+                , source = { source | profileId = model.portal.provider.profile.id }
+                , sources = model.portal.provider.profile.sources
+                , isInitialized = True
+                }
 
         sourceCmd =
             Cmd.map SourcesUpdated subCmd
@@ -714,6 +719,14 @@ onSourcesUpdated subMsg model =
                         Debug.crash (toString reason) ( model, sourceCmd )
 
             Sources.RemoveResponse result ->
+                case result of
+                    Ok _ ->
+                        ( model, sourceCmd )
+
+                    Err reason ->
+                        Debug.crash (toString reason) ( model, sourceCmd )
+
+            Sources.SourcesResponse result ->
                 case result of
                     Ok _ ->
                         ( model, sourceCmd )
@@ -1101,7 +1114,12 @@ content contentToEmbed model =
             Domain.ViewSources ->
                 div []
                     [ Html.map SourcesUpdated <|
-                        Sources.view { source = portal.newSource, sources = loggedIn.profile.sources } model.platforms
+                        Sources.view
+                            { platforms = model.platforms
+                            , source = portal.newSource
+                            , sources = loggedIn.profile.sources
+                            , isInitialized = False
+                            }
                     ]
 
             Domain.ViewLinks ->
