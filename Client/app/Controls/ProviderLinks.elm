@@ -73,8 +73,8 @@ view linksFrom provider =
 requestAllContent : Linksfrom -> Id -> ContentType -> List Link -> Int -> List (Html Msg)
 requestAllContent linksFrom profileId contentType links count =
     List.append (linksUI links)
-        [ a [ href <| urlText <| allContentUrl linksFrom profileId contentType ]
-            [ text <| ("( view all " ++ toString count ++ " links )"), br [] [] ]
+        [ a [ class "allLinks", href <| urlText <| allContentUrl linksFrom profileId contentType ]
+            [ text <| ("  view all " ++ toString count ++ " links  "), br [] [] ]
         ]
 
 

@@ -539,6 +539,24 @@ let ``Remove source`` () =
     // Teardown
     finally dispose connection command
 
+
+[<Test>]
+let ``Add featured topic`` () =
+
+    //Setup
+    let profileId = Register someProfile |> execute
+
+    let linkId = AddLink  someLink |> execute
+    let topic = getTopic someLink.Topics.Head
+    let request = { ProfileId=profileId; TopicId= topic.Value.Id; IsFeatured=true }
+    // Test
+    let featuredTopicId = FeatureTopic request |> execute
+
+    // Verify
+    Int32.Parse(featuredTopicId) |> should (be greaterThan) 0
+    
+
+
 [<EntryPoint>]
 let main argv =
     cleanDataStore()                      

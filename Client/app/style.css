@@ -30,6 +30,10 @@ a.featured {
     background: #FFF7D9;
 }
 
+a.allLinks {
+    color: navy;
+}
+
 label.linksCount {
     text-align: right;
     float: right;
@@ -172,12 +176,13 @@ button.saveProfile {
 ul.featuresList{
     background-color: #F7FCFD;
     margin-top: 10px;
-    width: 380px;
+    width: 480px;
     margin-left: 15px;
 }
 
 li.joinReasons{
     color: navy;
+    font-size: 19px;
 }
 
 button.join {

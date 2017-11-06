@@ -101,6 +101,13 @@ type PlatformUser = {
 }
 
 [<CLIMutable>]
+type FeatureTopicRequest = {
+    ProfileId:  string
+    TopicId:    int
+    IsFeatured: bool
+}
+
+[<CLIMutable>]
 type DataSourceRequest = { 
     Id:        int
     ProfileId: string
@@ -185,6 +192,8 @@ type Command =
     | RemoveLink    of RemoveLinkRequest
     | FeatureLink   of FeatureLinkRequest
     | ObserveLinks  of ObservedLinks
+
+    | FeatureTopic  of FeatureTopicRequest
 
     | AddSource     of DataSourceRequest
     | RemoveSource  of RemoveDataSourceRequest
