@@ -38,8 +38,8 @@ type alias UpdateProfilefunction msg =
     Profile -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
 
 
-type alias ImageUrlfunction msg =
-    Platform -> String -> (Result Http.Error String -> msg) -> Cmd msg
+type alias ThumbnailFunction msg =
+    Platform -> String -> (Result Http.Error JsonThumbnail -> msg) -> Cmd msg
 
 
 type alias SaveThumbnailfunction msg =
@@ -146,6 +146,12 @@ type alias JsonPortfolio =
     , videos : List JsonLink
     , podcasts : List JsonLink
     , answers : List JsonLink
+    }
+
+
+type alias JsonThumbnail =
+    { imageUrl : String
+    , platform : String
     }
 
 

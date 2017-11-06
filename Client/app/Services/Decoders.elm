@@ -56,6 +56,13 @@ bootstrapDecoder =
         (field "Platforms" <| Decode.list Decode.string)
 
 
+thumbnailDecoder : Decoder JsonThumbnail
+thumbnailDecoder =
+    Decode.map2 JsonThumbnail
+        (field "ImageUrl" Decode.string)
+        (field "Platform" Decode.string)
+
+
 linkDecoder : Decoder JsonLink
 linkDecoder =
     Decode.map7 JsonLink

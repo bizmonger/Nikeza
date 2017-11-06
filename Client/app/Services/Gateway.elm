@@ -60,14 +60,14 @@ updateThumbnail updateThumbnailRequest msg =
         Http.send msg request
 
 
-imageUrl : Platform -> String -> (Result Http.Error String -> msg) -> Cmd msg
-imageUrl platform accessId msg =
+thumbnail : Platform -> String -> (Result Http.Error JsonThumbnail -> msg) -> Cmd msg
+thumbnail platform accessId msg =
     let
         url =
             baseUrl ++ "thumbnail/" ++ (platform |> platformText |> String.toLower) ++ "/" ++ accessId
 
         request =
-            Http.get url Decode.string
+            Http.get url thumbnailDecoder
     in
         Http.send msg request
 

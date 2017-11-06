@@ -696,9 +696,9 @@ updateProfile profile msg =
     profile |> toJsonProfile |> httpSuccess msg
 
 
-imageUrl : Platform -> String -> (Result Http.Error String -> msg) -> Cmd msg
-imageUrl platform accessId msg =
-    someImageUrl |> urlText |> httpSuccess msg
+thumbnail : Platform -> String -> (Result Http.Error JsonThumbnail -> msg) -> Cmd msg
+thumbnail platform accessId msg =
+    { platform = "youtube", imageUrl = urlText someImageUrl } |> httpSuccess msg
 
 
 updateThumbnail : UpdateThumbnailRequest -> (Result Http.Error String -> msg) -> Cmd msg

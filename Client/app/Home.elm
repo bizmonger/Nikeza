@@ -86,7 +86,7 @@ type Msg
     | EditProfileAction EditProfile.Msg
     | ProviderContentTypeLinksAction ProviderContentTypeLinks.Msg
     | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
-    | ThumbnailResponse (Result Http.Error String)
+    | ThumbnailResponse (Result Http.Error JsonThumbnail)
     | SaveThumbnailResponse (Result Http.Error String)
     | ProvidersResponse (Result Http.Error (List JsonProvider))
     | BootstrapResponse (Result Http.Error JsonBootstrap)
@@ -129,10 +129,10 @@ update msg model =
 
             ThumbnailResponse response ->
                 case response of
-                    Ok url ->
+                    Ok thumbnail ->
                         let
                             updatedProfile =
-                                { profile | imageUrl = Url url }
+                                { profile | imageUrl = Url thumbnail.imageUrl }
 
                             updatedProvider =
                                 { provider | profile = updatedProfile }
@@ -141,7 +141,7 @@ update msg model =
                                 { portal | provider = updatedProvider }
 
                             request =
-                                { profileId = profile.id, imageUrl = Url url }
+                                { profileId = profile.id, imageUrl = Url thumbnail.imageUrl }
                         in
                             ( { model | portal = updatedPortal }, runtime.updateThumbnail request SaveThumbnailResponse )
 
@@ -707,7 +707,7 @@ onSourcesUpdated subMsg model =
                                         , addLinkNavigation = True
                                     }
                               }
-                            , runtime.imageUrl (Platform jsonSource.platform) jsonSource.username <| ThumbnailResponse
+                            , runtime.thumbnail (Platform jsonSource.platform) jsonSource.username <| ThumbnailResponse
                             )
 
                     Err reason ->

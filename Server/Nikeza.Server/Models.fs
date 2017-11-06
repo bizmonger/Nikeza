@@ -61,6 +61,12 @@ type UpdateThumbnailRequest = {
 }
 
 [<CLIMutable>]
+type ThumbnailResponse = {
+    ImageUrl: string
+    Platform: string
+}
+
+[<CLIMutable>]
 type Topic = { 
     Id:         int
     Name:       string

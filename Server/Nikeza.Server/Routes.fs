@@ -134,7 +134,8 @@ let private fetchThumbnail (platform:string , accessId:string) (context : HttpCo
 
     let thumbnail = platform.ToLower() |> platformFromString 
                                        |> Platforms.getThumbnail accessId
-    json thumbnail context
+                                       
+    json { ImageUrl= thumbnail; Platform= platform } context
     
 let private fetchContentTypeToId (contentType) (context : HttpContext) =
     let response = contentTypeToId contentType
