@@ -655,7 +655,8 @@ onSourcesUpdated subMsg model =
 
         ( sources, subCmd ) =
             Sources.update subMsg
-                { platforms = model.platforms
+                { profileId = profile.id
+                , platforms = model.platforms
                 , source = { source | profileId = model.portal.provider.profile.id }
                 , sources = model.portal.provider.profile.sources
                 , isInitialized = True
@@ -1115,7 +1116,8 @@ content contentToEmbed model =
                 div []
                     [ Html.map SourcesUpdated <|
                         Sources.view
-                            { platforms = model.platforms
+                            { profileId = portal.provider.profile.id
+                            , platforms = model.platforms
                             , source = portal.newSource
                             , sources = loggedIn.profile.sources
                             , isInitialized = False

@@ -13,26 +13,27 @@ import Json.Decode exposing (map)
 -- MODEL
 
 
-main =
-    Html.program
-        { init = ( init, Cmd.none )
-        , view = view
-        , update = update
-        , subscriptions = (\_ -> Sub.none)
-        }
-
-
 type alias Model =
-    { platforms : List Platform
+    { profileId : Id
+    , platforms : List Platform
     , source : Source
     , sources : List Source
     , isInitialized : Bool
     }
 
 
-init : Model
-init =
-    Model [] initSource [] False
+
+-- main : Id -> Program Never Model Msg
+-- main profileId =
+--     Html.program
+--         { init = ( init, runtime.sources profileId SourcesResponse )
+--         , view = view
+--         , update = update
+--         , subscriptions = (\_ -> Sub.none)
+--         }
+-- init: Model -> (Model, Cmd Msg)
+-- init model =
+--     (model, runtime.sources model SourcesResponse)
 
 
 type Msg
