@@ -135,9 +135,15 @@ let getProfile profileId =
     let profiles = getProfiles profileId getProfileSql "@ProfileId"
     profiles |> List.tryHead
 
-let getTopic name =
+let getTopic (name:string) =
     let topics = getTopics name getTopicSql "@Name"
     topics |> List.tryHead
+
+let getFeaturedTopics (profileId:string) =
+    let commandFunc (command: SqlCommand) =
+        command |> addWithValue "@ProfileId" profileId
+    let featuredTopics = readInFeaturedTopics |> getResults getFeaturedTopicsSql commandFunc
+    featuredTopics
 
 let getAllProfiles () =
     let commandFunc (command: SqlCommand) = command

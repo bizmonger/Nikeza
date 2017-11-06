@@ -97,7 +97,6 @@ let followSql = @"INSERT INTO [dbo].[Subscription]
 let unsubscribeSql = @"DELETE FROM [dbo].[Subscription]
                        WHERE SubscriberId  = @SubscriberId AND 
                              ProfileId =    @ProfileId"
-
 let observeLinkSql = @"INSERT INTO [dbo].[ObservedLinks]
                       (SubscriberId
                       ,LinkId)
@@ -111,6 +110,23 @@ let observeLinkSql = @"INSERT INTO [dbo].[ObservedLinks]
 let featureLinkSql = @"UPDATE Link
                        SET    IsFeatured = @IsFeatured
                        WHERE  Id = @Id"
+let featureTopicSql = @"INSERT INTO [dbo].[FeaturedTopic]
+                       (ProfileId, TopicId)
+
+                       OUTPUT INSERTED.ID
+
+                       VALUES
+                        (@ProfileId, @TopicId)"
+
+let unfeatureTopicSql = @"DELETE FROM [dbo].[FeaturedTopic]
+                         WHERE ProfileId = @ProfileId AND TopicId = @TopicId"
+
+let getFeaturedTopicsSql = @"SELECT      FeaturedTopic.TopicId, FeaturedTopic.ProfileId, Topic.Name
+                             FROM        FeaturedTopic
+                             INNER JOIN  Topic
+                                   ON    Topic.Id = FeaturedTopic.TopicId
+                             WHERE       FeaturedTopic.ProfileId = @ProfileId"
+
 let updateProfileSql = @"UPDATE [dbo].[Profile]
                         SET     [FirstName] = @FirstName,
                                 [LastName] =  @LastName,

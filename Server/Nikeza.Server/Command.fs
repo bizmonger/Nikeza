@@ -144,6 +144,20 @@ module private Commands =
 
         commandFunc |> execute connectionString featureLinkSql
 
+    let featureTopic (info:FeatureTopicRequest) =
+        let commandFunc (command: SqlCommand) = 
+            command |> addWithValue "@ProfileId"  info.ProfileId
+                    |> addWithValue "TopicId"     info.TopicId
+
+        commandFunc |> execute connectionString featureTopicSql
+
+    let unfeatureTopic (info:FeatureTopicRequest) =
+        let commandFunc (command: SqlCommand) = 
+            command |> addWithValue "@ProfileId"  info.ProfileId
+                    |> addWithValue "TopicId"     info.TopicId
+
+        commandFunc |> execute connectionString unfeatureTopicSql
+
     let updateProfile (info:ProfileRequest) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@Id"        (Int32.Parse(info.ProfileId))
@@ -208,6 +222,9 @@ let execute = function
     | RemoveLink      info -> removeLink       info
     | FeatureLink     info -> featureLink      info
     | ObserveLinks    info -> observeLinks     info
+
+    | FeatureTopic    info -> featureTopic     info
+    | UnfeatureTopic  info -> unfeatureTopic   info
   
     | AddSource       info -> addDataSource    info
     | RemoveSource    info -> removeDataSource info

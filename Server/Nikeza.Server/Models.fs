@@ -181,19 +181,20 @@ type Result<'a> =
     | Failure
 
 type Command =
-    | Register      of Profile
-    | UpdateProfile of ProfileRequest
+    | Register        of Profile
+    | UpdateProfile   of ProfileRequest
     | UpdateThumbnail of UpdateThumbnailRequest
 
-    | Follow        of FollowRequest
-    | Unsubscribe   of UnsubscribeRequest
-
-    | AddLink       of Link
-    | RemoveLink    of RemoveLinkRequest
-    | FeatureLink   of FeatureLinkRequest
-    | ObserveLinks  of ObservedLinks
-
-    | FeatureTopic  of FeatureTopicRequest
-
-    | AddSource     of DataSourceRequest
-    | RemoveSource  of RemoveDataSourceRequest
+    | Follow          of FollowRequest
+    | Unsubscribe     of UnsubscribeRequest
+  
+    | AddLink         of Link
+    | RemoveLink      of RemoveLinkRequest
+    | FeatureLink     of FeatureLinkRequest
+    | ObserveLinks    of ObservedLinks
+  
+    | FeatureTopic    of FeatureTopicRequest
+    | UnfeatureTopic  of FeatureTopicRequest
+  
+    | AddSource       of DataSourceRequest
+    | RemoveSource    of RemoveDataSourceRequest

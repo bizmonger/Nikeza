@@ -411,7 +411,7 @@ let ``Get followers`` () =
 let ``Get subscriptions`` () =
 
     // Setup
-    let profileId =   Register someProfile   |> execute
+    let profileId =    Register someProfile   |> execute
     let subscriberId = Register someSubscriber |> execute
 
     Follow { FollowRequest.ProfileId=   profileId
@@ -546,16 +546,36 @@ let ``Add featured topic`` () =
     //Setup
     let profileId = Register someProfile |> execute
 
-    let linkId = AddLink  someLink |> execute
-    let topic = getTopic someLink.Topics.Head
+    let link = { someLink with Topics= [someTopic] }
+    AddLink  link |> execute |> ignore
+    let topic = getTopic link.Topics.Head.Name
     let request = { ProfileId=profileId; TopicId= topic.Value.Id; IsFeatured=true }
+
     // Test
     let featuredTopicId = FeatureTopic request |> execute
 
     // Verify
     Int32.Parse(featuredTopicId) |> should (be greaterThan) 0
-    
 
+[<Test>]
+let ``Remove featured topic`` () =
+
+    //Setup
+    let profileId = Register someProfile |> execute
+
+    let link = { someLink with Topics= [someTopic] }
+    AddLink  link |> execute |> ignore
+
+    let topic = getTopic link.Topics.Head.Name
+    let request = { ProfileId=profileId; TopicId= topic.Value.Id; IsFeatured=true }
+    FeatureTopic request |> execute |> ignore
+
+    // Test
+    UnfeatureTopic request |> execute |> ignore
+
+    // Verify
+    let featuredTopics = getFeaturedTopics profileId
+    featuredTopics |> List.isEmpty |> should equal true
 
 [<EntryPoint>]
 let main argv =

@@ -68,7 +68,11 @@ let rec readInTopics topics (reader:SqlDataReader) = reader.Read() |> function
               readInTopics (topic::topics) reader
     | false -> topics
 
-and readInProfile (reader:SqlDataReader) = { 
+let readInFeaturedTopic (reader:SqlDataReader) = {
+    Name= reader.GetString(2)
+}
+
+let readInProfile (reader:SqlDataReader) = { 
     ProfileId=    reader.GetInt32 (0) |> string
     FirstName=    reader.GetString(1)
     LastName=     reader.GetString(2)
@@ -82,9 +86,14 @@ and readInProfile (reader:SqlDataReader) = {
 }
 
 let rec readInProfiles profiles (reader:SqlDataReader) = reader.Read() |> function
-    | true -> let profile = reader |> readInProfile
-              readInProfiles (profile::profiles) reader
+    | true  -> let profile = reader |> readInProfile
+               readInProfiles (profile::profiles) reader
     | false -> profiles
+
+let rec readInFeaturedTopics topics (reader:SqlDataReader) = reader.Read() |> function
+    | true  -> let topic = reader |> readInFeaturedTopic
+               readInFeaturedTopics (topic::topics) reader
+    | false -> topics
 
 and readInProvider (reader:SqlDataReader) = { 
     Profile=       reader |> readInProfile |> toProfileRequest
