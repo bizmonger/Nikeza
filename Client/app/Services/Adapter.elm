@@ -71,7 +71,7 @@ type alias Subscriptionsfunction msg =
 
 
 type alias Sourcesfunction msg =
-    Id -> (Result Http.Error (List Source) -> msg) -> Cmd msg
+    Id -> (Result Http.Error (List JsonSource) -> msg) -> Cmd msg
 
 
 type alias AddLinkfunction msg =

@@ -186,9 +186,16 @@ removeLink link msg =
         Http.send msg request
 
 
-sources : Id -> (Result Http.Error (List Source) -> msg) -> Cmd msg
+sources : Id -> (Result Http.Error (List JsonSource) -> msg) -> Cmd msg
 sources profileId msg =
-    Cmd.none
+    let
+        url =
+            baseUrl ++ "sources/" ++ idText profileId
+
+        request =
+            Http.get url (Decode.list sourceDecoder)
+    in
+        Http.send msg request
 
 
 addSource : Source -> (Result Http.Error JsonSource -> msg) -> Cmd msg

@@ -706,9 +706,9 @@ updateThumbnail request msg =
     someImageUrl |> urlText |> httpSuccess msg
 
 
-sources : Id -> (Result Http.Error (List Source) -> msg) -> Cmd msg
+sources : Id -> (Result Http.Error (List JsonSource) -> msg) -> Cmd msg
 sources profileId msg =
-    sourcesBase |> httpSuccess msg
+    sourcesBase |> List.map toJsonSource |> httpSuccess msg
 
 
 addSource : Source -> (Result Http.Error JsonSource -> msg) -> Cmd msg

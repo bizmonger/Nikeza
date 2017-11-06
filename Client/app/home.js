@@ -14335,7 +14335,10 @@ var _user$project$Tests_TestAPI$sourcesBase = {
 };
 var _user$project$Tests_TestAPI$sources = F2(
 	function (profileId, msg) {
-		return A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$sourcesBase);
+		return A2(
+			_user$project$Services_Adapter$httpSuccess,
+			msg,
+			A2(_elm_lang$core$List$map, _user$project$Services_Adapter$toJsonSource, _user$project$Tests_TestAPI$sourcesBase));
 	});
 var _user$project$Tests_TestAPI$removeSourceBase = function (sourceId) {
 	var _p0 = _elm_lang$core$String$toInt(
@@ -15866,10 +15869,6 @@ var _user$project$Services_Gateway$subscriptions = F2(
 			_user$project$Domain_Core$Members(
 				{ctor: '[]'}));
 	});
-var _user$project$Services_Gateway$sources = F2(
-	function (profileId, msg) {
-		return _elm_lang$core$Platform_Cmd$none;
-	});
 var _user$project$Services_Gateway$baseUrl = 'http://localhost:5000/';
 var _user$project$Services_Gateway$tryLogin = F2(
 	function (credentials, msg) {
@@ -15990,6 +15989,21 @@ var _user$project$Services_Gateway$removeLink = F2(
 			_user$project$Services_Encoders$encodeLink(link));
 		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'removelink');
 		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Decoders$linkDecoder);
+		return A2(_elm_lang$http$Http$send, msg, request);
+	});
+var _user$project$Services_Gateway$sources = F2(
+	function (profileId, msg) {
+		var url = A2(
+			_elm_lang$core$Basics_ops['++'],
+			_user$project$Services_Gateway$baseUrl,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				'sources/',
+				_user$project$Domain_Core$idText(profileId)));
+		var request = A2(
+			_elm_lang$http$Http$get,
+			url,
+			_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$sourceDecoder));
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
 var _user$project$Services_Gateway$addSource = F2(
