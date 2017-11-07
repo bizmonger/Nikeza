@@ -133,9 +133,19 @@ let getSubscriptions subscriberId =
     let profiles = getProfiles subscriberId getSubscriptionsSql "@SubscriberId"
     profiles
 
+let getFeaturedTopics (profileId:string) =
+    let commandFunc (command: SqlCommand) =
+        command |> addWithValue "@ProfileId" profileId
+    let featuredTopics = readInFeaturedTopics |> getResults getFeaturedTopicsSql commandFunc
+                                              |> List.map (fun t -> { Id= t.TopicId; Name= t.Name; })
+    featuredTopics
+
 let getProviders () =
     let commandFunc (command: SqlCommand) = command
-    let providers = readInProviders |> getResults getProfilesSql commandFunc
+    let initialiProviders = readInProviders |> getResults getProfilesSql commandFunc
+    let providers = initialiProviders |> List.map (fun p -> p.Profile.ProfileId |> getFeaturedTopics)
+                                      |> List.zip initialiProviders
+                                      |> List.map (fun (p,t) -> { p with Topics= t} )
     providers
 
 let getProfile profileId =
@@ -145,13 +155,6 @@ let getProfile profileId =
 let getTopic (topicName:string) =
     let topics = getTopics topicName getTopicSql "@Name"
     topics |> List.tryHead
-
-let getFeaturedTopics (profileId:string) =
-    let commandFunc (command: SqlCommand) =
-        command |> addWithValue "@ProfileId" profileId
-    let featuredTopics = readInFeaturedTopics |> getResults getFeaturedTopicsSql commandFunc
-                                              |> List.map (fun t -> { Id= t.TopicId; Name= t.Name; })
-    featuredTopics
 
 let getAllProfiles () =
     let commandFunc (command: SqlCommand) = command

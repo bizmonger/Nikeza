@@ -592,6 +592,20 @@ let ``5 or less provider topics become featured topics`` () =
     let featuredTopics = getFeaturedTopics profileId
     featuredTopics |> List.isEmpty |> should equal false
 
+[<Test>]
+let ``Fetching provider includes their featured topics`` () =
+
+    //Setup
+    let profileId = Register someProfile |> execute
+    let link =    { someLink with Topics= [someTopic]; ProfileId=profileId |> string }
+
+    // Test
+    AddLink link |> execute |> ignore
+
+    // Verify
+    let provider = getProviders().[0]
+    provider.Topics |> List.isEmpty |> should equal false
+
 [<EntryPoint>]
 let main argv =
     cleanDataStore()                      
