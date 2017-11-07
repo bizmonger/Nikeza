@@ -18164,7 +18164,11 @@ var _user$project$Controls_ProviderLinks$view = F2(
 													ctor: '::',
 													_0: A2(
 														_elm_lang$html$Html$table,
-														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$class('contentTable'),
+															_1: {ctor: '[]'}
+														},
 														{
 															ctor: '::',
 															_0: A2(
@@ -21808,67 +21812,19 @@ var _user$project$Home$renderPage = F2(
 	});
 var _user$project$Home$homePage = function (model) {
 	var mainContent = A2(
-		_elm_lang$html$Html$table,
+		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$tr,
+				_elm_lang$html$Html$table,
 				{ctor: '[]'},
 				{
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$td,
+						_elm_lang$html$Html$tr,
 						{ctor: '[]'},
 						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$input,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('search'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$type_('text'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$placeholder('name'),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onInput(_user$project$Home$Search),
-												_1: {ctor: '[]'}
-											}
-										}
-									}
-								},
-								{ctor: '[]'}),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$tr,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$td,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$div,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: A3(_user$project$Home$providersUI, _elm_lang$core$Maybe$Nothing, model.providers, false),
-										_1: {ctor: '[]'}
-									}),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
 							ctor: '::',
 							_0: A2(
 								_elm_lang$html$Html$td,
@@ -21876,114 +21832,79 @@ var _user$project$Home$homePage = function (model) {
 								{
 									ctor: '::',
 									_0: A2(
-										_elm_lang$html$Html$table,
-										{ctor: '[]'},
+										_elm_lang$html$Html$input,
 										{
 											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$tr,
-												{ctor: '[]'},
-												{
+											_0: _elm_lang$html$Html_Attributes$class('search'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$type_('text'),
+												_1: {
 													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$td,
-														{ctor: '[]'},
-														{
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$ul,
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$class('featuresList'),
-																	_1: {ctor: '[]'}
-																},
-																{
-																	ctor: '::',
-																	_0: A2(
-																		_elm_lang$html$Html$li,
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$class('joinReasons'),
-																			_1: {ctor: '[]'}
-																		},
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html$text('Import links to your articles, videos, and answers'),
-																			_1: {ctor: '[]'}
-																		}),
-																	_1: {
-																		ctor: '::',
-																		_0: A2(
-																			_elm_lang$html$Html$br,
-																			{ctor: '[]'},
-																			{ctor: '[]'}),
-																		_1: {
-																			ctor: '::',
-																			_0: A2(
-																				_elm_lang$html$Html$li,
-																				{
-																					ctor: '::',
-																					_0: _elm_lang$html$Html_Attributes$class('joinReasons'),
-																					_1: {ctor: '[]'}
-																				},
-																				{
-																					ctor: '::',
-																					_0: _elm_lang$html$Html$text('Set your featured links for others to view'),
-																					_1: {ctor: '[]'}
-																				}),
-																			_1: {
-																				ctor: '::',
-																				_0: A2(
-																					_elm_lang$html$Html$br,
-																					{ctor: '[]'},
-																					{ctor: '[]'}),
-																				_1: {
-																					ctor: '::',
-																					_0: A2(
-																						_elm_lang$html$Html$li,
-																						{
-																							ctor: '::',
-																							_0: _elm_lang$html$Html_Attributes$class('joinReasons'),
-																							_1: {ctor: '[]'}
-																						},
-																						{
-																							ctor: '::',
-																							_0: _elm_lang$html$Html$text('Subscribe to new links from your favorite thought leaders'),
-																							_1: {ctor: '[]'}
-																						}),
-																					_1: {ctor: '[]'}
-																				}
-																			}
-																		}
-																	}
-																}),
-															_1: {ctor: '[]'}
-														}),
+													_0: _elm_lang$html$Html_Attributes$placeholder('name'),
 													_1: {
 														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$td,
-															{ctor: '[]'},
-															{
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$map,
-																	_user$project$Home$OnRegistration,
-																	_user$project$Controls_Register$view(model.registration)),
-																_1: {ctor: '[]'}
-															}),
+														_0: _elm_lang$html$Html_Events$onInput(_user$project$Home$Search),
 														_1: {ctor: '[]'}
 													}
-												}),
-											_1: {ctor: '[]'}
-										}),
+												}
+											}
+										},
+										{ctor: '[]'}),
 									_1: {ctor: '[]'}
 								}),
 							_1: {ctor: '[]'}
-						}
-					}),
-				_1: {ctor: '[]'}
-			}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$tr,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$td,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('providers'),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$div,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: A3(_user$project$Home$providersUI, _elm_lang$core$Maybe$Nothing, model.providers, false),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$td,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('joinForm'),
+											_1: {ctor: '[]'}
+										},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$map,
+												_user$project$Home$OnRegistration,
+												_user$project$Controls_Register$view(model.registration)),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {ctor: '[]'}
 		});
 	return A2(_user$project$Home$renderPage, mainContent, model);
 };

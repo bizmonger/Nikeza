@@ -45,7 +45,7 @@ view linksFrom provider =
                     [ table []
                         [ tr []
                             [ td [] [ div [] <| (topics |> List.map (\t -> t |> toCheckBoxState True)) ]
-                            , table []
+                            , table [ class "contentTable" ]
                                 [ tr []
                                     [ td [] [ b [] [ text "Answers" ] ]
                                     , td [] [ b [] [ text "Articles" ] ]

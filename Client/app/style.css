@@ -106,6 +106,7 @@ div.RegistrationForm {
     height: 200px;
     margin-left: 15px;
     margin-top: 8px;
+    float: right;
 }
 
 button.addLink {
@@ -173,18 +174,6 @@ button.saveProfile {
     margin-top: 3px;
 }
 
-ul.featuresList{
-    background-color: #F7FCFD;
-    margin-top: 10px;
-    width: 480px;
-    margin-left: 15px;
-}
-
-li.joinReasons{
-    color: navy;
-    font-size: 19px;
-}
-
 button.join {
     width:100px;
     height:80px;
@@ -199,7 +188,7 @@ button.addSource {
 }
 
 button.register {
-    margin-left: 1px;
+    /* margin-left: 1px; */
     margin-top: -10px;
     width: 150px;
     height:30px;
@@ -215,8 +204,20 @@ table td, table td * {
     vertical-align: top;
 }
 
+table.contentTable {
+    margin-left: 60px;
+}
+
 td.portfolioContent {
     width: 400px;
+}
+
+td.joinForm {
+    margin-right: 125px;
+}
+
+td.providers{
+    width:2500px
 }
 
 td.login {
