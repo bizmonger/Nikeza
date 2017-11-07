@@ -89,32 +89,29 @@ module private Commands =
                     |> addWithValue "@ContentTypeId" (info.ContentType |> contentTypeToId)
                     |> addWithValue "@IsFeatured"    info.IsFeatured
                     |> addWithValue "@Created"       DateTime.Now
+
+        let topicNotFound (topic:Topic) =
+            let result = getTopic topic.Name
+            if  result = None
+               then Some { Link= info; Topic= { Id= -1; Name= topic.Name} }
+               else None    
         
-        let linkId = commandFunc |> execute connectionString addLinkSql
+        let linkId =   commandFunc |> execute connectionString addLinkSql
 
-        let notFound = info.Topics 
-                       |> List.choose (fun t -> let result = getTopic t.Name
-                                                if result = None
-                                                   then Some { Link= info; Topic= { Id= -1; Name= t.Name} }
-                                                   else None
-                                      )
+        info.Topics |> List.choose topicNotFound
+                    |> List.iter (fun lt -> 
+                        let topicId = addTopic { Name=lt.Topic.Name }
+                        let link=       { lt.Link  with Id= Int32.Parse(linkId) }
+                        let topic=      { lt.Topic with Id= Int32.Parse(topicId) }
+                        let linkTopic = { Link= link; Topic= topic }
 
-        notFound |> List.iter (fun lt -> let topicId = addTopic { Name=lt.Topic.Name }
-                                         let link=       { lt.Link  with Id= Int32.Parse(linkId) }
-                                         let topic=      { lt.Topic with Id= Int32.Parse(topicId)}
-                                         let linkTopic = { Link= link; Topic= topic }
-                                         addLinkTopic linkTopic |> ignore
+                        addLinkTopic linkTopic |> ignore
 
-                                         let topics = getProviderTopics info.ProfileId
-
-                                         if (topics |> List.length) <= 5
-                                            then let request = { ProfileId=info.ProfileId
-                                                                 TopicId= Int32.Parse(topicId)
-                                                                 IsFeatured=true }
-                                                                 
-                                                 featureTopic request |> ignore
-                                            else ()
-                             )
+                        if (info.ProfileId |> getProviderTopics  |> List.length) <= 5
+                           then { ProfileId=info.ProfileId
+                                  TopicId= Int32.Parse(topicId)
+                                  IsFeatured=true } |> featureTopic |> ignore
+                           else () )
         linkId
 
     let addSource (info:DataSourceRequest) =
