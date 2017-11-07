@@ -68,14 +68,14 @@ module private Commands =
     let featureTopic (info:FeatureTopicRequest) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@ProfileId"  info.ProfileId
-                    |> addWithValue "TopicId"     info.TopicId
+                    |> addWithValue "@TopicId"    info.TopicId
 
         commandFunc |> execute connectionString featureTopicSql
 
     let unfeatureTopic (info:FeatureTopicRequest) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@ProfileId"  info.ProfileId
-                    |> addWithValue "TopicId"     info.TopicId
+                    |> addWithValue "@TopicId"    info.TopicId
 
         commandFunc |> execute connectionString unfeatureTopicSql
 
@@ -108,9 +108,10 @@ module private Commands =
                         addLinkTopic linkTopic |> ignore
 
                         if (info.ProfileId |> getProviderTopics  |> List.length) <= 5
-                           then { ProfileId=info.ProfileId
-                                  TopicId= Int32.Parse(topicId)
-                                  IsFeatured=true } |> featureTopic |> ignore
+                           then { ProfileId=  info.ProfileId
+                                  Name=       linkTopic.Topic.Name
+                                  TopicId=    Int32.Parse(topicId)
+                                  IsFeatured= true } |> featureTopic |> ignore
                            else () )
         linkId
 

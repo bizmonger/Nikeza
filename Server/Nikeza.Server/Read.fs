@@ -68,9 +68,12 @@ let rec readInTopics topics (reader:SqlDataReader) = reader.Read() |> function
               readInTopics (topic::topics) reader
     | false -> topics
 
-let readInFeaturedTopic (reader:SqlDataReader) = {
-    Name= reader.GetString(2)
-}
+let readInFeaturedTopic (reader:SqlDataReader) = 
+    { TopicId=    reader.GetInt32 (0)
+      ProfileId=  reader.GetInt32 (1) |> string
+      Name=       reader.GetString(2)
+      IsFeatured= true
+    }
 
 let readInProfile (reader:SqlDataReader) = { 
     ProfileId=    reader.GetInt32 (0) |> string

@@ -254,10 +254,10 @@ let ``Add featured link`` () =
 let ``Adding link results in new topics added to database`` () =
 
     //Setup
-    Register someProfile |> execute |> ignore
+    let profileId = Register someProfile |> execute
 
     // Test
-    AddLink { someLink with Topics= [someTopic] } |> execute |> ignore
+    AddLink { someLink with Topics= [someTopic]; ProfileId= profileId } |> execute |> ignore
 
     // Verify
     match getTopic someTopic.Name with
@@ -546,11 +546,11 @@ let ``Add featured topic`` () =
     //Setup
     let profileId = Register someProfile |> execute
 
-    let link = { someLink with Topics= [someTopic] }
+    let link = { someLink with Topics= [someTopic]; ProfileId= profileId }
     AddLink link |> execute |> ignore
 
     let topic = getTopic link.Topics.Head.Name
-    let request = { ProfileId=profileId; TopicId= topic.Value.Id; IsFeatured=true }
+    let request = { Name=topic.Value.Name; ProfileId=profileId; TopicId= topic.Value.Id; IsFeatured=true }
 
     // Test
     let featuredTopicId = FeatureTopic request |> execute
@@ -564,11 +564,11 @@ let ``Remove featured topic`` () =
     //Setup
     let profileId = Register someProfile |> execute
 
-    let link = { someLink with Topics= [someTopic] }
+    let link = { someLink with Topics= [someTopic]; ProfileId= profileId }
     AddLink link |> execute |> ignore
 
     let topic = getTopic link.Topics.Head.Name
-    let request = { ProfileId=profileId; TopicId= topic.Value.Id; IsFeatured=true }
+    let request = { Name= topic.Value.Name; ProfileId=profileId; TopicId= topic.Value.Id; IsFeatured=true }
     FeatureTopic request |> execute |> ignore
 
     // Test

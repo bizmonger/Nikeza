@@ -118,10 +118,11 @@ let featureTopicSql = @"INSERT INTO [dbo].[FeaturedTopic]
                        VALUES
                         (@ProfileId, @TopicId)"
 
-let unfeatureTopicSql = @"DELETE FROM [dbo].[FeaturedTopic]
-                         WHERE ProfileId = @ProfileId AND TopicId = @TopicId"
+let unfeatureTopicSql = @"DELETE 
+                          FROM  [dbo].[FeaturedTopic]
+                          WHERE  ProfileId = @ProfileId AND TopicId = @TopicId"
 
-let getFeaturedTopicsSql = @"SELECT      FeaturedTopic.TopicId, FeaturedTopic.ProfileId, Topic.Name
+let getFeaturedTopicsSql = @"SELECT      Topic.Id, FeaturedTopic.ProfileId, Topic.Name
                              FROM        FeaturedTopic
                              INNER JOIN  Topic
                                    ON    Topic.Id = FeaturedTopic.TopicId

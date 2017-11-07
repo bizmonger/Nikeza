@@ -68,8 +68,15 @@ type ThumbnailResponse = {
 
 [<CLIMutable>]
 type Topic = { 
-    Id:         int
+    Id:   int
+    Name: string
+}
+
+[<CLIMutable>]
+type ProviderTopic = { 
+    ProviderId: string
     Name:       string
+    IsFeatured: bool
 }
 
 [<CLIMutable>]
@@ -104,6 +111,7 @@ type PlatformUser = {
 type FeatureTopicRequest = {
     ProfileId:  string
     TopicId:    int
+    Name:       string
     IsFeatured: bool
 }
 
