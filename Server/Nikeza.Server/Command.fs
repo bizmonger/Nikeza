@@ -64,6 +64,22 @@ module private Commands =
         
         commandFunc |> execute connectionString addTopicSql
 
+
+    let featureTopic (info:FeatureTopicRequest) =
+        let commandFunc (command: SqlCommand) = 
+            command |> addWithValue "@ProfileId"  info.ProfileId
+                    |> addWithValue "TopicId"     info.TopicId
+
+        commandFunc |> execute connectionString featureTopicSql
+
+    let unfeatureTopic (info:FeatureTopicRequest) =
+        let commandFunc (command: SqlCommand) = 
+            command |> addWithValue "@ProfileId"  info.ProfileId
+                    |> addWithValue "TopicId"     info.TopicId
+
+        commandFunc |> execute connectionString unfeatureTopicSql
+
+
     let addLink (info:Link) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@ProfileId"     (Int32.Parse(info.ProfileId))
@@ -80,14 +96,25 @@ module private Commands =
                        |> List.choose (fun t -> let result = getTopic t.Name
                                                 if result = None
                                                    then Some { Link= info; Topic= { Id= -1; Name= t.Name} }
-                                                   else None)
+                                                   else None
+                                      )
 
-        notFound |> List.map (fun lt -> let topicId = addTopic { Name=lt.Topic.Name }
-                                        let link=       { lt.Link  with Id= Int32.Parse(linkId) }
-                                        let topic=      { lt.Topic with Id= Int32.Parse(topicId)}
-                                        let linkTopic = { Link= link; Topic= topic }
-                                        addLinkTopic linkTopic |> ignore
-                             ) |> ignore
+        notFound |> List.iter (fun lt -> let topicId = addTopic { Name=lt.Topic.Name }
+                                         let link=       { lt.Link  with Id= Int32.Parse(linkId) }
+                                         let topic=      { lt.Topic with Id= Int32.Parse(topicId)}
+                                         let linkTopic = { Link= link; Topic= topic }
+                                         addLinkTopic linkTopic |> ignore
+
+                                         let topics = getProviderTopics info.ProfileId
+
+                                         if (topics |> List.length) <= 5
+                                            then let request = { ProfileId=info.ProfileId
+                                                                 TopicId= Int32.Parse(topicId)
+                                                                 IsFeatured=true }
+                                                                 
+                                                 featureTopic request |> ignore
+                                            else ()
+                             )
         linkId
 
     let addSource (info:DataSourceRequest) =
@@ -144,20 +171,6 @@ module private Commands =
 
         commandFunc |> execute connectionString featureLinkSql
 
-    let featureTopic (info:FeatureTopicRequest) =
-        let commandFunc (command: SqlCommand) = 
-            command |> addWithValue "@ProfileId"  info.ProfileId
-                    |> addWithValue "TopicId"     info.TopicId
-
-        commandFunc |> execute connectionString featureTopicSql
-
-    let unfeatureTopic (info:FeatureTopicRequest) =
-        let commandFunc (command: SqlCommand) = 
-            command |> addWithValue "@ProfileId"  info.ProfileId
-                    |> addWithValue "TopicId"     info.TopicId
-
-        commandFunc |> execute connectionString unfeatureTopicSql
-
     let updateProfile (info:ProfileRequest) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@Id"        (Int32.Parse(info.ProfileId))
@@ -199,8 +212,7 @@ module private Commands =
         let updatedSource = { pendingSource with Id = Int32.Parse(sourceId) }
 
         updatedLinks |> Seq.toList 
-                     |> List.map (fun link -> addSourceLink updatedSource link ) 
-                     |> ignore
+                     |> List.iter (fun link -> addSourceLink updatedSource link |> ignore ) 
         sourceId
 
     let removeDataSource (info:RemoveDataSourceRequest) =

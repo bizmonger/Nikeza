@@ -101,9 +101,9 @@ let observeLinkSql = @"INSERT INTO [dbo].[ObservedLinks]
                       (SubscriberId
                       ,LinkId)
 
-                OUTPUT INSERTED.ID
+                      OUTPUT INSERTED.ID
 
-                VALUES
+                      VALUES
                        ( @SubscriberId 
                        , @LinkId
                        )"
@@ -151,6 +151,14 @@ let getLinksSql = "SELECT Id,
 let getTopicSql = "SELECT Id, Name
                    FROM   [dbo].[Topic]
                    WHERE  Name = @Name"
+
+let getProviderTopicsSql = "SELECT     Topic.Id, Topic.Name
+                            FROM       Topic
+                            INNER JOIN LinkTopic
+                                  ON   Topic.Id = LinkTopic.TopicId 
+                            INNER JOIN Link
+                                  ON Link.Id = LinkTopic.LinkId
+                            WHERE    Link.ProfileId = @ProfileId"
 let getSourceLinksSql = 
                   "SELECT       Link.Id,
                                 Link.ProfileId, 

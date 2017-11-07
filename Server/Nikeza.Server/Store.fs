@@ -75,11 +75,18 @@ let getProfiles profileId sql parameterName =
     let profiles = readInProfiles |> getResults sql commandFunc
     profiles
 
-let getTopics name sql parameterName =
+let getTopics topicName sql parameterName =
     let commandFunc (command: SqlCommand) = 
-        command |> addWithValue parameterName name
+        command |> addWithValue parameterName topicName
         
     let topics = readInTopics |> getResults sql commandFunc
+    topics
+
+let getProviderTopics (profileId:string) =
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue "@ProfileId" profileId
+
+    let topics = readInTopics |> getResults getProviderTopicsSql commandFunc
     topics
     
 let getLinks (profileId:string) =
@@ -110,7 +117,7 @@ let loginProvider email =
     email |> loginProfile |> function
     | Some profile ->
         Some { Profile=        profile |> toProfileRequest
-               Topics=         [] // Todo: Derive distinct topics from links
+               Topics=         []
                Portfolio=      getPortfolio profile.ProfileId
                RecentLinks=    getRecent    profile.ProfileId
                Subscriptions=  []
@@ -135,8 +142,8 @@ let getProfile profileId =
     let profiles = getProfiles profileId getProfileSql "@ProfileId"
     profiles |> List.tryHead
 
-let getTopic (name:string) =
-    let topics = getTopics name getTopicSql "@Name"
+let getTopic (topicName:string) =
+    let topics = getTopics topicName getTopicSql "@Name"
     topics |> List.tryHead
 
 let getFeaturedTopics (profileId:string) =

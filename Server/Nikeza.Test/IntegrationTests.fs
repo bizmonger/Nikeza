@@ -547,7 +547,8 @@ let ``Add featured topic`` () =
     let profileId = Register someProfile |> execute
 
     let link = { someLink with Topics= [someTopic] }
-    AddLink  link |> execute |> ignore
+    AddLink link |> execute |> ignore
+
     let topic = getTopic link.Topics.Head.Name
     let request = { ProfileId=profileId; TopicId= topic.Value.Id; IsFeatured=true }
 
@@ -564,7 +565,7 @@ let ``Remove featured topic`` () =
     let profileId = Register someProfile |> execute
 
     let link = { someLink with Topics= [someTopic] }
-    AddLink  link |> execute |> ignore
+    AddLink link |> execute |> ignore
 
     let topic = getTopic link.Topics.Head.Name
     let request = { ProfileId=profileId; TopicId= topic.Value.Id; IsFeatured=true }
@@ -576,6 +577,20 @@ let ``Remove featured topic`` () =
     // Verify
     let featuredTopics = getFeaturedTopics profileId
     featuredTopics |> List.isEmpty |> should equal true
+
+[<Test>]
+let ``5 or less provider topics become featured topics`` () =
+
+    //Setup
+    let profileId = Register someProfile |> execute
+    let link =    { someLink with Topics= [someTopic]; ProfileId=profileId }
+
+    // Test
+    AddLink link |> execute |> ignore
+
+    // Verify
+    let featuredTopics = getFeaturedTopics profileId
+    featuredTopics |> List.isEmpty |> should equal false
 
 [<EntryPoint>]
 let main argv =
