@@ -137,7 +137,9 @@ let getFeaturedTopics (profileId:string) =
     let commandFunc (command: SqlCommand) =
         command |> addWithValue "@ProfileId" profileId
     let featuredTopics = readInFeaturedTopics |> getResults getFeaturedTopicsSql commandFunc
-                                              |> List.map (fun t -> { Id= t.TopicId; Name= t.Name; })
+                                              |> List.map (fun t -> { Id= t.TopicId
+                                                                      Name= t.Name
+                                                                      IsFeatured= true })
     featuredTopics
 
 let getProviders () =

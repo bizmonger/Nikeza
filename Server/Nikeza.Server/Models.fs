@@ -74,7 +74,7 @@ type Topic = {
 
 [<CLIMutable>]
 type ProviderTopic = { 
-    ProviderId: string
+    Id:         int
     Name:       string
     IsFeatured: bool
 }
@@ -96,7 +96,6 @@ type FeatureLinkRequest = { LinkId: int; IsFeatured: bool }
 
 [<CLIMutable>]
 type RecentRequest = { SubscriberId: string }
-
 
 type User = { AccessId: string; ProfileId: string }
 
@@ -171,11 +170,11 @@ type Portfolio = {
 [<CLIMutable>]
 type ProviderRequest = {
     Profile:       ProfileRequest
-    Topics:        Topic     list
+    Topics:        ProviderTopic list
     Portfolio:     Portfolio
-    RecentLinks:   Link list
-    Subscriptions: string    list
-    Followers:     string    list
+    RecentLinks:   Link          list
+    Subscriptions: string        list
+    Followers:     string        list
 }
 
 [<CLIMutable>]

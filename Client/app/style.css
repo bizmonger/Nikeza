@@ -188,12 +188,11 @@ button.addSource {
 }
 
 button.register {
-    /* margin-left: 1px; */
     margin-top: -10px;
     width: 150px;
     height:30px;
-    background-color:rgb(137, 212, 240);
-    color:black;
+    background-color:rgb(66, 137, 199);
+    color:white;
 }
 
 button.remove {
