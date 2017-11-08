@@ -113,11 +113,3 @@ linksUI links =
         |> List.sortWith compareLinks
         |> List.take 5
         |> List.map (\link -> decorateIfFeatured link)
-
-
-toCheckbox : Topic -> Html Msg
-toCheckbox topic =
-    div []
-        [ input [ type_ "checkbox", checked True, onCheck (\b -> Toggle ( topic, b )) ] []
-        , label [] [ text <| topicText topic ]
-        ]

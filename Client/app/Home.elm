@@ -814,33 +814,24 @@ view model =
                     )
 
         [ "provider", id, topic ] ->
-            case runtime.provider <| Id id of
-                _ ->
-                    model |> renderPage (providerTopicPage FromOther model.selectedProvider)
+            model |> renderPage (providerTopicPage FromOther model.selectedProvider)
 
         [ "provider", id, "all", contentType ] ->
-            case runtime.provider <| Id id of
-                _ ->
-                    let
-                        ( view, provider ) =
-                            ( ProviderContentTypeLinks.view, model.selectedProvider )
-
-                        contentToEmbed =
-                            Html.map ProviderContentTypeLinksAction <| view provider (toContentType contentType) False
-                    in
-                        model |> renderPage (renderProfileBase model.selectedProvider <| contentToEmbed)
+            let
+                contentToEmbed =
+                    Html.map ProviderContentTypeLinksAction <| ProviderContentTypeLinks.view model.selectedProvider (toContentType contentType) False
+            in
+                model |> renderPage (renderProfileBase model.selectedProvider <| contentToEmbed)
 
         [ "provider", id, topicName, "all", contentType ] ->
-            case runtime.provider <| Id id of
-                _ ->
-                    let
-                        topic =
-                            Topic topicName False
+            let
+                topic =
+                    Topic topicName False
 
-                        contentToEmbed =
-                            Html.map ProviderTopicContentTypeLinksAction <| ProviderTopicContentTypeLinks.view model.selectedProvider topic <| toContentType contentType
-                    in
-                        model |> renderPage (renderProfileBase model.selectedProvider <| contentToEmbed)
+                contentToEmbed =
+                    Html.map ProviderTopicContentTypeLinksAction <| ProviderTopicContentTypeLinks.view model.selectedProvider topic <| toContentType contentType
+            in
+                model |> renderPage (renderProfileBase model.selectedProvider <| contentToEmbed)
 
         [ "portal", id, "all", contentType ] ->
             let

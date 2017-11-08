@@ -17800,47 +17800,6 @@ var _user$project$Controls_ProviderContentTypeLinks$Featured = function (a) {
 var _user$project$Controls_ProviderContentTypeLinks$Toggle = function (a) {
 	return {ctor: 'Toggle', _0: a};
 };
-var _user$project$Controls_ProviderContentTypeLinks$toCheckbox = function (topic) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$input,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$checked(true),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onCheck(
-								function (b) {
-									return _user$project$Controls_ProviderContentTypeLinks$Toggle(
-										{ctor: '_Tuple2', _0: topic, _1: b});
-								}),
-							_1: {ctor: '[]'}
-						}
-					}
-				},
-				{ctor: '[]'}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$label,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							_user$project$Domain_Core$topicText(topic)),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			}
-		});
-};
 var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 	function (provider, contentType, isOwner) {
 		var checkbox = function (link) {
@@ -17876,6 +17835,48 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 						_1: {
 							ctor: '::',
 							_0: element,
+							_1: {ctor: '[]'}
+						}
+					});
+			});
+		var toCheckBoxState = F2(
+			function (include, topic) {
+				return A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$input,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$checked(include),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onCheck(
+											function (isChecked) {
+												return _user$project$Controls_ProviderContentTypeLinks$Toggle(
+													{ctor: '_Tuple2', _0: topic, _1: isChecked});
+											}),
+										_1: {ctor: '[]'}
+									}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$label,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(
+										_user$project$Domain_Core$topicText(topic)),
+									_1: {ctor: '[]'}
+								}),
 							_1: {ctor: '[]'}
 						}
 					});
@@ -17990,7 +17991,12 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 									_0: A2(
 										_elm_lang$html$Html$div,
 										{ctor: '[]'},
-										A2(_elm_lang$core$List$map, _user$project$Controls_ProviderContentTypeLinks$toCheckbox, topics)),
+										A2(
+											_elm_lang$core$List$map,
+											function (t) {
+												return A2(toCheckBoxState, true, t);
+											},
+											topics)),
 									_1: {ctor: '[]'}
 								}),
 							_1: {
@@ -18453,47 +18459,6 @@ var _user$project$Controls_ProviderLinks$view = F2(
 				_1: {ctor: '[]'}
 			});
 	});
-var _user$project$Controls_ProviderLinks$toCheckbox = function (topic) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$input,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$checked(true),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onCheck(
-								function (b) {
-									return _user$project$Controls_ProviderLinks$Toggle(
-										{ctor: '_Tuple2', _0: topic, _1: b});
-								}),
-							_1: {ctor: '[]'}
-						}
-					}
-				},
-				{ctor: '[]'}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$label,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							_user$project$Domain_Core$topicText(topic)),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			}
-		});
-};
 
 var _user$project$Controls_ProviderTopicContentTypeLinks$view = F3(
 	function (provider, topic, contentType) {
@@ -24001,8 +23966,6 @@ var _user$project$Home$view = function (model) {
 				} else {
 					if (_p63._1._1._1.ctor === '[]') {
 						if (_p63._0 === 'provider') {
-							var _p64 = _user$project$Settings$runtime.provider(
-								_user$project$Domain_Core$Id(_p63._1._0));
 							return A2(
 								_user$project$Home$renderPage,
 								A2(_user$project$Home$providerTopicPage, _user$project$Domain_Core$FromOther, model.selectedProvider),
@@ -24015,17 +23978,12 @@ var _user$project$Home$view = function (model) {
 							switch (_p63._0) {
 								case 'provider':
 									if (_p63._1._1._0 === 'all') {
-										var _p65 = _user$project$Settings$runtime.provider(
-											_user$project$Domain_Core$Id(_p63._1._0));
-										var _p66 = {ctor: '_Tuple2', _0: _user$project$Controls_ProviderContentTypeLinks$view, _1: model.selectedProvider};
-										var view = _p66._0;
-										var provider = _p66._1;
 										var contentToEmbed = A2(
 											_elm_lang$html$Html$map,
 											_user$project$Home$ProviderContentTypeLinksAction,
 											A3(
-												view,
-												provider,
+												_user$project$Controls_ProviderContentTypeLinks$view,
+												model.selectedProvider,
 												_user$project$Domain_Core$toContentType(_p63._1._1._1._0),
 												false));
 										return A2(
@@ -24074,8 +24032,6 @@ var _user$project$Home$view = function (model) {
 								switch (_p63._0) {
 									case 'provider':
 										if (_p63._1._1._1._0 === 'all') {
-											var _p67 = _user$project$Settings$runtime.provider(
-												_user$project$Domain_Core$Id(_p63._1._0));
 											var topic = A2(_user$project$Domain_Core$Topic, _p63._1._1._0, false);
 											var contentToEmbed = A2(
 												_elm_lang$html$Html$map,
@@ -24133,7 +24089,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p68) {
+		subscriptions: function (_p64) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();

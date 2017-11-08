@@ -77,6 +77,12 @@ view provider contentType isOwner =
         ( topics, links, featuredClass ) =
             ( provider.topics, provider.portfolio, "featured" )
 
+        toCheckBoxState include topic =
+            div []
+                [ input [ type_ "checkbox", checked include, onCheck (\isChecked -> Toggle ( topic, isChecked )) ] []
+                , label [] [ text <| topicText topic ]
+                ]
+
         posts =
             links |> getLinks contentType |> List.sortWith compareLinks
 
@@ -97,24 +103,13 @@ view provider contentType isOwner =
             input [ type_ "checkbox", checked link.isFeatured, onCheck (\b -> Featured ( link, b )) ] []
 
         addCheckbox link element =
-            div []
-                [ (checkbox link)
-                , element
-                ]
+            div [] [ (checkbox link), element ]
     in
         table []
             [ tr []
                 [ td [] [ h3 [] [ text <| "All " ++ (contentType |> contentTypeToText) ] ] ]
             , tr []
-                [ td [] [ div [] (topics |> List.map toCheckbox) ]
+                [ td [] [ div [] <| (topics |> List.map (\t -> t |> toCheckBoxState True)) ]
                 , td [] [ div [] <| List.map createLink posts ]
                 ]
             ]
-
-
-toCheckbox : Topic -> Html Msg
-toCheckbox topic =
-    div []
-        [ input [ type_ "checkbox", checked True, onCheck (\b -> Toggle ( topic, b )) ] []
-        , label [] [ text <| topicText topic ]
-        ]
