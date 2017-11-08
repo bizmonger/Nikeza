@@ -21,7 +21,7 @@ thumbnail : Id -> Provider -> Html Msg
 thumbnail clientId provider =
     let
         ( profile, links ) =
-            ( provider.profile, provider.recentLinks ) 
+            ( provider.profile, provider.recentLinks )
 
         linksUI =
             div [] (links |> List.map formatLink)
@@ -34,7 +34,7 @@ thumbnail clientId provider =
                             [ img [ src <| urlText profile.imageUrl, width 75, height 75 ] [] ]
                         ]
                     , td [ class "bio" ]
-                        [ td [] [ text <| nameText provider.profile.firstName ++ " " ++ nameText provider.profile.lastName ]
+                        [ td [] [ label [ class "profileName" ] [ text <| nameText provider.profile.firstName ++ " " ++ nameText provider.profile.lastName ] ]
                         , linksUI
                         ]
                     ]

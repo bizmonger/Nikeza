@@ -17997,7 +17997,11 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 									ctor: '::',
 									_0: A2(
 										_elm_lang$html$Html$div,
-										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('topicsFilter'),
+											_1: {ctor: '[]'}
+										},
 										A2(
 											_elm_lang$core$List$map,
 											function (t) {
@@ -18015,7 +18019,11 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 										ctor: '::',
 										_0: A2(
 											_elm_lang$html$Html$div,
-											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('topicsFilter'),
+												_1: {ctor: '[]'}
+											},
 											A2(_elm_lang$core$List$map, createLink, posts)),
 										_1: {ctor: '[]'}
 									}),
@@ -18692,14 +18700,25 @@ var _user$project$Controls_RecentProviderLinks$thumbnail = F2(
 												{ctor: '[]'},
 												{
 													ctor: '::',
-													_0: _elm_lang$html$Html$text(
-														A2(
-															_elm_lang$core$Basics_ops['++'],
-															_user$project$Domain_Core$nameText(provider.profile.firstName),
-															A2(
-																_elm_lang$core$Basics_ops['++'],
-																' ',
-																_user$project$Domain_Core$nameText(provider.profile.lastName)))),
+													_0: A2(
+														_elm_lang$html$Html$label,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$class('profileName'),
+															_1: {ctor: '[]'}
+														},
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html$text(
+																A2(
+																	_elm_lang$core$Basics_ops['++'],
+																	_user$project$Domain_Core$nameText(provider.profile.firstName),
+																	A2(
+																		_elm_lang$core$Basics_ops['++'],
+																		' ',
+																		_user$project$Domain_Core$nameText(provider.profile.lastName)))),
+															_1: {ctor: '[]'}
+														}),
 													_1: {ctor: '[]'}
 												}),
 											_1: {

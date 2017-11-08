@@ -44,7 +44,12 @@ i.accessId {
 }
 
 h3.topicHeader {
+    margin-top: 0px;
     color: rgb(19, 108, 175);
+}
+
+div.topicsFilter {
+    margin-top: -20px;
 }
 
 input[type="image"].backbutton {
