@@ -887,7 +887,7 @@ renderProfileBase provider linksContent =
         [ tr []
             [ table []
                 [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| urlText <| provider.profile.imageUrl ] [] ] ]
-                , tr [ class "bio" ] [ td [] [ text <| nameText provider.profile.firstName ++ " " ++ nameText provider.profile.lastName ] ]
+                , tr [ class "bio" ] [ td [] [ label [ class "profileName" ] [ text <| nameText provider.profile.firstName ++ " " ++ nameText provider.profile.lastName ] ] ]
                 , tr [ class "bio" ] [ td [] [ button [ class "subscribeButton" ] [ text "Follow" ] ] ]
                 , tr [ class "bio" ] [ td [] [ p [] [ text provider.profile.bio ] ] ]
                 ]
@@ -975,7 +975,7 @@ recentProvidersUI : Id -> List Provider -> Html Msg
 recentProvidersUI clientId providers =
     Html.map RecentProviderLinks <|
         div [ class "mainContent" ]
-            [ h3 [] [ text "Recent Links" ]
+            [ h3 [ class "portalTopicHeader" ] [ text "Recent Links" ]
             , div [ class "mainContent" ] (providers |> List.map (\p -> RecentProviderLinks.thumbnail clientId p))
             ]
 
@@ -1142,7 +1142,7 @@ content contentToEmbed model =
                         ]
 
             Domain.ViewSubscriptions ->
-                following |> searchProvidersUI (Just loggedIn) False "name of subscription"
+                following |> searchProvidersUI (Just loggedIn) False "name on subscription"
 
             Domain.ViewFollowers ->
                 followingYou |> searchProvidersUI (Just loggedIn) True "name of follower"

@@ -7,7 +7,7 @@ img.logo {
 img.profile {
     height: 115px;
     width: 115px;
-    margin-bottom: 14px;
+    margin-bottom: 0px;
 }
 
 label.ProfileSettings {
@@ -43,8 +43,18 @@ i.accessId {
     color: navy;
 }
 
+table.linkTable {
+    margin-top: -10px;
+    margin-left: -3px;
+}
+
 h3.topicHeader {
     margin-top: 0px;
+    color: rgb(19, 108, 175);
+}
+
+h3.portalTopicHeader {
+    margin-top: 15px;
     color: rgb(19, 108, 175);
 }
 
@@ -134,16 +144,23 @@ button.disconnectSource {
 
 button.navigationButton4 {
     vertical-align: text-top;
-    width:115px;
+    width:119px;
     height:25px;
     background-color: lightgray;
+    border-top: none;
+    border-bottom: none;
+    border-right: none;
+    margin-bottom: 1px;
 }
 
 button.selectedNavigationButton4 {
     vertical-align: text-top;
-    width:115px;
+    width:119px;
     height:25px;
     background-color: lightblue;
+    border-top: none;
+    border-bottom: none;
+    border-right: none;
 }
 
 button.subscribeButton {

@@ -151,8 +151,8 @@ view model =
                 ]
     in
         div [ class "mainContent" ]
-            [ h3 [] [ text "Link" ]
-            , table []
+            [ h3 [ class "portalTopicHeader" ] [ text "Link" ]
+            , table [ class "linkTable" ]
                 [ tr []
                     [ td []
                         [ table []

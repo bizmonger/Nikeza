@@ -16995,7 +16995,11 @@ var _user$project$Controls_NewLinks$view = function (model) {
 			ctor: '::',
 			_0: A2(
 				_elm_lang$html$Html$h3,
-				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('portalTopicHeader'),
+					_1: {ctor: '[]'}
+				},
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html$text('Link'),
@@ -17005,7 +17009,11 @@ var _user$project$Controls_NewLinks$view = function (model) {
 				ctor: '::',
 				_0: A2(
 					_elm_lang$html$Html$table,
-					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('linkTable'),
+						_1: {ctor: '[]'}
+					},
 					{
 						ctor: '::',
 						_0: A2(
@@ -19971,14 +19979,25 @@ var _user$project$Home$renderProfileBase = F2(
 												{ctor: '[]'},
 												{
 													ctor: '::',
-													_0: _elm_lang$html$Html$text(
-														A2(
-															_elm_lang$core$Basics_ops['++'],
-															_user$project$Domain_Core$nameText(provider.profile.firstName),
-															A2(
-																_elm_lang$core$Basics_ops['++'],
-																' ',
-																_user$project$Domain_Core$nameText(provider.profile.lastName)))),
+													_0: A2(
+														_elm_lang$html$Html$label,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$class('profileName'),
+															_1: {ctor: '[]'}
+														},
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html$text(
+																A2(
+																	_elm_lang$core$Basics_ops['++'],
+																	_user$project$Domain_Core$nameText(provider.profile.firstName),
+																	A2(
+																		_elm_lang$core$Basics_ops['++'],
+																		' ',
+																		_user$project$Domain_Core$nameText(provider.profile.lastName)))),
+															_1: {ctor: '[]'}
+														}),
 													_1: {ctor: '[]'}
 												}),
 											_1: {ctor: '[]'}
@@ -20929,7 +20948,11 @@ var _user$project$Home$recentProvidersUI = F2(
 					ctor: '::',
 					_0: A2(
 						_elm_lang$html$Html$h3,
-						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('portalTopicHeader'),
+							_1: {ctor: '[]'}
+						},
 						{
 							ctor: '::',
 							_0: _elm_lang$html$Html$text('Recent Links'),
@@ -21220,7 +21243,7 @@ var _user$project$Home$content = F2(
 					_user$project$Home$searchProvidersUI,
 					_elm_lang$core$Maybe$Just(loggedIn),
 					false,
-					'name of subscription',
+					'name on subscription',
 					following);
 			case 'ViewFollowers':
 				return A4(
