@@ -513,11 +513,19 @@ allContentUrl linksFrom id contentType =
             Url <| "/#/portal/" ++ idText id ++ "/all/" ++ (contentType |> contentTypeToText)
 
 
+title : Topic -> ContentType -> String
+title topic contentType =
+    if contentType == All then
+        topic.name
+    else
+        contentType |> contentTypeToText
+
+
 allTopicContentUrl : Linksfrom -> Id -> ContentType -> Topic -> Url
 allTopicContentUrl linksFrom id contentType topic =
     case linksFrom of
         FromOther ->
-            Url <| "/#/provider/" ++ idText id ++ "/" ++ topicText topic ++ "/all/" ++ (contentType |> contentTypeToText)
+            Url <| "/#/provider/" ++ idText id ++ "/" ++ topicText topic ++ "/all/" ++ title topic contentType
 
         FromPortal ->
-            Url <| "/#/portal/" ++ idText id ++ "/" ++ topicText topic ++ "/all/" ++ (contentType |> contentTypeToText)
+            Url <| "/#/portal/" ++ idText id ++ "/" ++ topicText topic ++ "/all/" ++ title topic contentType

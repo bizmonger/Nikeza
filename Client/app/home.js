@@ -13897,47 +13897,6 @@ var _user$project$Domain_Core$allContentUrl = F3(
 							_user$project$Domain_Core$contentTypeToText(contentType)))));
 		}
 	});
-var _user$project$Domain_Core$allTopicContentUrl = F4(
-	function (linksFrom, id, contentType, topic) {
-		var _p11 = linksFrom;
-		if (_p11.ctor === 'FromOther') {
-			return _user$project$Domain_Core$Url(
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					'/#/provider/',
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						_user$project$Domain_Core$idText(id),
-						A2(
-							_elm_lang$core$Basics_ops['++'],
-							'/',
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								_user$project$Domain_Core$topicText(topic),
-								A2(
-									_elm_lang$core$Basics_ops['++'],
-									'/all/',
-									_user$project$Domain_Core$contentTypeToText(contentType)))))));
-		} else {
-			return _user$project$Domain_Core$Url(
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					'/#/portal/',
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						_user$project$Domain_Core$idText(id),
-						A2(
-							_elm_lang$core$Basics_ops['++'],
-							'/',
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								_user$project$Domain_Core$topicText(topic),
-								A2(
-									_elm_lang$core$Basics_ops['++'],
-									'/all/',
-									_user$project$Domain_Core$contentTypeToText(contentType)))))));
-		}
-	});
 var _user$project$Domain_Core$Platform = function (a) {
 	return {ctor: 'Platform', _0: a};
 };
@@ -13972,6 +13931,51 @@ var _user$project$Domain_Core$initNewLinks = {
 };
 var _user$project$Domain_Core$initPortal = {provider: _user$project$Domain_Core$initProvider, sourcesNavigation: false, addLinkNavigation: false, linksNavigation: false, requested: _user$project$Domain_Core$EditProfile, newSource: _user$project$Domain_Core$initSource, newLinks: _user$project$Domain_Core$initNewLinks};
 var _user$project$Domain_Core$All = {ctor: 'All'};
+var _user$project$Domain_Core$title = F2(
+	function (topic, contentType) {
+		return _elm_lang$core$Native_Utils.eq(contentType, _user$project$Domain_Core$All) ? topic.name : _user$project$Domain_Core$contentTypeToText(contentType);
+	});
+var _user$project$Domain_Core$allTopicContentUrl = F4(
+	function (linksFrom, id, contentType, topic) {
+		var _p11 = linksFrom;
+		if (_p11.ctor === 'FromOther') {
+			return _user$project$Domain_Core$Url(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'/#/provider/',
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_user$project$Domain_Core$idText(id),
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							'/',
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								_user$project$Domain_Core$topicText(topic),
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									'/all/',
+									A2(_user$project$Domain_Core$title, topic, contentType)))))));
+		} else {
+			return _user$project$Domain_Core$Url(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'/#/portal/',
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_user$project$Domain_Core$idText(id),
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							'/',
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								_user$project$Domain_Core$topicText(topic),
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									'/all/',
+									A2(_user$project$Domain_Core$title, topic, contentType)))))));
+		}
+	});
 var _user$project$Domain_Core$Answer = {ctor: 'Answer'};
 var _user$project$Domain_Core$Podcast = {ctor: 'Podcast'};
 var _user$project$Domain_Core$Video = {ctor: 'Video'};
@@ -18528,14 +18532,15 @@ var _user$project$Controls_ProviderTopicContentTypeLinks$view = F3(
 										ctor: '::',
 										_0: A2(
 											_elm_lang$html$Html$h3,
-											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('topicHeader'),
+												_1: {ctor: '[]'}
+											},
 											{
 												ctor: '::',
 												_0: _elm_lang$html$Html$text(
-													A2(
-														_elm_lang$core$Basics_ops['++'],
-														'All ',
-														_user$project$Domain_Core$contentTypeToText(contentType))),
+													A2(_user$project$Domain_Core$title, topic, contentType)),
 												_1: {ctor: '[]'}
 											}),
 										_1: {ctor: '[]'}

@@ -1,6 +1,6 @@
 module Controls.ProviderTopicContentTypeLinks exposing (..)
 
-import Domain.Core exposing (..)
+import Domain.Core as Domain exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
@@ -22,7 +22,7 @@ view provider topic contentType =
             div [ class "mainContent" ]
                 [ table []
                     [ tr []
-                        [ td [] [ h3 [] [ text <| "All " ++ (contentType |> contentTypeToText) ] ] ]
+                        [ td [] [ h3 [ class "topicHeader" ] [ text <| Domain.title topic contentType ] ] ]
                     , tr []
                         [ td [] [ div [] <| List.map (\link -> a [ href <| urlText link.url, target "_blank" ] [ text <| titleText link.title, br [] [] ]) posts ]
                         ]
