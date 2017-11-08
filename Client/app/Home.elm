@@ -962,7 +962,7 @@ headerContent model =
 footerContent : Html Msg
 footerContent =
     footer [ class "copyright" ]
-        [ a [ href "" ] [ text "Bizmonger" ] ]
+        [ a [ href "mailto:scott.nimrod@bizmonger.net" ] [ text "Bizmonger" ] ]
 
 
 providersUI : Maybe Provider -> List Provider -> Bool -> Html Msg

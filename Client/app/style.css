@@ -161,6 +161,7 @@ button.selectedNavigationButton4 {
     border-top: none;
     border-bottom: none;
     border-right: none;
+    margin-bottom: 1px;
 }
 
 button.subscribeButton {
@@ -268,6 +269,14 @@ div.thumnnailDetails {
 
 tr.bio {
     text-align: center;
+}
+
+div.contentType{
+    height: 120px;
+}
+
+div.topicLinks {
+    margin-top: -20px;
 }
 
 label.title {

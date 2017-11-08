@@ -18355,7 +18355,11 @@ var _user$project$Controls_ProviderLinks$view = F2(
 																				ctor: '::',
 																				_0: A2(
 																					_elm_lang$html$Html$div,
-																					{ctor: '[]'},
+																					{
+																						ctor: '::',
+																						_0: _elm_lang$html$Html_Attributes$class('contentType'),
+																						_1: {ctor: '[]'}
+																					},
 																					A5(_user$project$Controls_ProviderLinks$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Answer, filtered.answers, answerCount)),
 																				_1: {ctor: '[]'}
 																			}),
@@ -18372,7 +18376,11 @@ var _user$project$Controls_ProviderLinks$view = F2(
 																					ctor: '::',
 																					_0: A2(
 																						_elm_lang$html$Html$div,
-																						{ctor: '[]'},
+																						{
+																							ctor: '::',
+																							_0: _elm_lang$html$Html_Attributes$class('contentType'),
+																							_1: {ctor: '[]'}
+																						},
 																						A5(_user$project$Controls_ProviderLinks$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Article, filtered.articles, articleCount)),
 																					_1: {ctor: '[]'}
 																				}),
@@ -18439,7 +18447,11 @@ var _user$project$Controls_ProviderLinks$view = F2(
 																						ctor: '::',
 																						_0: A2(
 																							_elm_lang$html$Html$div,
-																							{ctor: '[]'},
+																							{
+																								ctor: '::',
+																								_0: _elm_lang$html$Html_Attributes$class('contentType'),
+																								_1: {ctor: '[]'}
+																							},
 																							A5(_user$project$Controls_ProviderLinks$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Podcast, filtered.podcasts, podcastCount)),
 																						_1: {ctor: '[]'}
 																					}),
@@ -18456,7 +18468,11 @@ var _user$project$Controls_ProviderLinks$view = F2(
 																							ctor: '::',
 																							_0: A2(
 																								_elm_lang$html$Html$div,
-																								{ctor: '[]'},
+																								{
+																									ctor: '::',
+																									_0: _elm_lang$html$Html_Attributes$class('contentType'),
+																									_1: {ctor: '[]'}
+																								},
 																								A5(_user$project$Controls_ProviderLinks$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Video, filtered.videos, videoCount)),
 																							_1: {ctor: '[]'}
 																						}),
@@ -18520,7 +18536,7 @@ var _user$project$Controls_ProviderTopicContentTypeLinks$view = F3(
 											_elm_lang$html$Html$h3,
 											{
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('topicHeader'),
+												_0: _elm_lang$html$Html_Attributes$class('portalTopicHeader'),
 												_1: {ctor: '[]'}
 											},
 											{
@@ -18547,7 +18563,11 @@ var _user$project$Controls_ProviderTopicContentTypeLinks$view = F3(
 											ctor: '::',
 											_0: A2(
 												_elm_lang$html$Html$div,
-												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('topicLinks'),
+													_1: {ctor: '[]'}
+												},
 												A2(
 													_elm_lang$core$List$map,
 													function (link) {
@@ -19905,7 +19925,7 @@ var _user$project$Home$footerContent = A2(
 			_elm_lang$html$Html$a,
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$href(''),
+				_0: _elm_lang$html$Html_Attributes$href('mailto:scott.nimrod@bizmonger.net'),
 				_1: {ctor: '[]'}
 			},
 			{
