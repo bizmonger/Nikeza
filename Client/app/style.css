@@ -225,11 +225,12 @@ button.register {
 button.topicsButton {
     padding: 0;
     border: none;
-    padding: 1px;
+    padding: 2px;
     padding-right: 8px;
     padding-left: 8px;
     margin-right: 5px;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
+    margin-top: 3px;
     background-color:rgb(66, 137, 199);
     color: white
 }
