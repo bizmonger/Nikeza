@@ -17411,19 +17411,30 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 						}
 					});
 			});
+		var profile = provider.profile;
 		var formatTopic = function (topic) {
 			return A2(
-				_elm_lang$html$Html$button,
+				_elm_lang$html$Html$a,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('topicsButton'),
+					_0: _elm_lang$html$Html_Attributes$href(
+						_user$project$Domain_Core$urlText(
+							A3(
+								_user$project$Domain_Core$providerTopicUrl,
+								_elm_lang$core$Maybe$Just(profile.id),
+								profile.id,
+								topic))),
 					_1: {ctor: '[]'}
 				},
 				{
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$label,
-						{ctor: '[]'},
+						_elm_lang$html$Html$button,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('topicsButton'),
+							_1: {ctor: '[]'}
+						},
 						{
 							ctor: '::',
 							_0: _elm_lang$html$Html$text(
@@ -17469,10 +17480,13 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 						{ctor: '[]'},
 						{ctor: '[]'},
 						provider.topics))));
-		var profile = provider.profile;
 		var nameAndTopics = A2(
 			_elm_lang$html$Html$div,
-			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('thumnnailDetails'),
+				_1: {ctor: '[]'}
+			},
 			{
 				ctor: '::',
 				_0: A2(

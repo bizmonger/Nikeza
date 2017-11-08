@@ -51,7 +51,7 @@ input[type="image"].backbutton {
 
 input[type="text"].search {
     margin-bottom: 0px;
-    margin-left: 3px;
+    margin-left: 2px;
     width:255px;
 }
 
@@ -192,7 +192,7 @@ button.register {
     width: 150px;
     height:30px;
     background-color:rgb(66, 137, 199);
-    color:white;
+    color:rgb(214, 250, 214);
 }
 
 button.topicsButton {
@@ -234,6 +234,10 @@ td.providers{
 
 td.login {
     text-align: right;
+}
+
+div.thumnnailDetails {
+    margin-left: 5px;
 }
 
 tr.bio {

@@ -63,5 +63,5 @@ view profile =
         , br [] []
         , textarea [ class "inputBio", placeholder "bio description", onInput BioInput, value profile.bio ] []
         , br [] []
-        , button [ class "saveProfile", onClick <| Update ] [ text "Save" ]
+        , button [ class "saveProfile", onClick Update ] [ text "Save" ]
         ]

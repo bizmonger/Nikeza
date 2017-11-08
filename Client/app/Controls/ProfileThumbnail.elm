@@ -82,8 +82,7 @@ thumbnail loggedIn showSubscriptionState provider =
             provider.profile
 
         formatTopic topic =
-            -- a [ href <| urlText <| providerTopicUrl (Just profile.id) profile.id topic ] [ i [] [ text <| topicText topic ] ]
-            button [ class "topicsButton" ] [ label [] [ text <| topicText topic ] ]
+            a [ href <| urlText <| providerTopicUrl (Just profile.id) profile.id topic ] [ button [ class "topicsButton" ] [ text <| topicText topic ] ]
 
         concatTopics topic1 topic2 =
             span []
@@ -110,7 +109,7 @@ thumbnail loggedIn showSubscriptionState provider =
                 (provider.topics |> organize [] [] |> second |> List.filterMap onFeaturedTopic)
 
         nameAndTopics =
-            div []
+            div [ class "thumnnailDetails" ]
                 [ label [] [ text <| (profile.firstName |> nameText) ++ " " ++ (profile.lastName |> nameText) ]
                 , br [] []
                 , group1
