@@ -252,6 +252,10 @@ label.title {
     text-align: center;
 }
 
+label.profileName {
+    color: rgb(5, 82, 170);
+}
+
 .signin {
     margin-top: -13px;
     margin-right: 2px;

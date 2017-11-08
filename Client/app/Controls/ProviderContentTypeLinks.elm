@@ -74,8 +74,8 @@ update msg provider =
 view : Provider -> ContentType -> Bool -> Html Msg
 view provider contentType isOwner =
     let
-        ( topics, links, featuredClass ) =
-            ( provider.topics, provider.portfolio, "featured" )
+        ( links, featuredClass ) =
+            ( provider.filteredPortfolio, "featured" )
 
         toCheckBoxState include topic =
             div []
@@ -107,9 +107,9 @@ view provider contentType isOwner =
     in
         table []
             [ tr []
-                [ td [] [ h3 [] [ text <| "All " ++ (contentType |> contentTypeToText) ] ] ]
+                [ td [] [ h3 [ class "topicHeader" ] [ text <| "All " ++ (contentType |> contentTypeToText) ] ] ]
             , tr []
-                [ td [] [ div [] <| (topics |> List.map (\t -> t |> toCheckBoxState True)) ]
+                [ td [] [ div [] <| (provider.topics |> List.map (\t -> t |> toCheckBoxState True)) ]
                 , td [] [ div [] <| List.map createLink posts ]
                 ]
             ]

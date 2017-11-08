@@ -110,7 +110,7 @@ thumbnail loggedIn showSubscriptionState provider =
 
         nameAndTopics =
             div [ class "thumnnailDetails" ]
-                [ label [] [ text <| (profile.firstName |> nameText) ++ " " ++ (profile.lastName |> nameText) ]
+                [ label [ class "profileName" ] [ text <| (profile.firstName |> nameText) ++ " " ++ (profile.lastName |> nameText) ]
                 , br [] []
                 , group1
                 , group2

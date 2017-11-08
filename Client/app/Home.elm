@@ -311,22 +311,7 @@ update msg model =
                 onUpdateProviderLinks subMsg model FromOther
 
             ProviderContentTypeLinksAction subMsg ->
-                let
-                    provider =
-                        if model.portal.requested == Domain.ViewLinks then
-                            ProviderContentTypeLinks.update subMsg model.portal.provider
-                        else
-                            ProviderContentTypeLinks.update subMsg model.selectedProvider
-                in
-                    case subMsg of
-                        ProviderContentTypeLinks.Toggle _ ->
-                            if model.portal.requested == Domain.ViewLinks then
-                                ( { model | portal = { portal | provider = provider } }, Cmd.none )
-                            else
-                                ( { model | selectedProvider = provider }, Cmd.none )
-
-                        ProviderContentTypeLinks.Featured _ ->
-                            ( { model | portal = { portal | provider = provider } }, Cmd.none )
+                onUpdateProviderContentTypeLinks subMsg model FromOther
 
             ProviderTopicContentTypeLinksAction subMsg ->
                 ( model, Cmd.none )
@@ -357,6 +342,28 @@ onUpdateProviderLinks subMsg model linksfrom =
                             ProviderLinks.update subMsg model.selectedProvider
             in
                 ( { model | selectedProvider = provider }, Cmd.none )
+
+
+onUpdateProviderContentTypeLinks : ProviderContentTypeLinks.Msg -> Model -> Linksfrom -> ( Model, Cmd Msg )
+onUpdateProviderContentTypeLinks subMsg model linksfrom =
+    let
+        portal =
+            model.portal
+
+        provider =
+            case linksfrom of
+                FromPortal ->
+                    ProviderContentTypeLinks.update subMsg model.portal.provider
+
+                FromOther ->
+                    ProviderContentTypeLinks.update subMsg model.selectedProvider
+    in
+        case subMsg of
+            ProviderContentTypeLinks.Toggle _ ->
+                ( { model | selectedProvider = provider }, Cmd.none )
+
+            ProviderContentTypeLinks.Featured _ ->
+                ( { model | portal = { portal | provider = provider } }, Cmd.none )
 
 
 onPortalLinksAction : ProviderLinks.Msg -> Model -> ( Model, Cmd Msg )

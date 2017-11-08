@@ -20,8 +20,8 @@ update msg provider =
 view : Linksfrom -> Provider -> Html Msg
 view linksFrom provider =
     let
-        ( profileId, topics ) =
-            ( provider.profile.id, provider.topics )
+        profileId =
+            provider.profile.id
 
         toCheckBoxState include topic =
             div []
@@ -44,7 +44,7 @@ view linksFrom provider =
                 [ tr []
                     [ table []
                         [ tr []
-                            [ td [] [ div [] <| (topics |> List.map (\t -> t |> toCheckBoxState True)) ]
+                            [ td [] [ div [] <| (provider.topics |> List.map (\t -> t |> toCheckBoxState True)) ]
                             , table [ class "contentTable" ]
                                 [ tr []
                                     [ td [] [ b [] [ text "Answers" ] ]
