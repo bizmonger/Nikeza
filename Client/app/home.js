@@ -16123,8 +16123,7 @@ var _user$project$Settings$Dependencies = function (a) {
 	};
 };
 var _user$project$Settings$Isolation = {ctor: 'Isolation'};
-var _user$project$Settings$Integration = {ctor: 'Integration'};
-var _user$project$Settings$configuration = _user$project$Settings$Integration;
+var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
@@ -16133,6 +16132,7 @@ var _user$project$Settings$runtime = function () {
 		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$bootstrap)(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$updateProfile)(_user$project$Tests_TestAPI$thumbnail)(_user$project$Tests_TestAPI$updateThumbnail)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$providerTopic)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$portfolio)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$recentLinks);
 	}
 }();
+var _user$project$Settings$Integration = {ctor: 'Integration'};
 
 var _user$project$Controls_EditProfile$Response = function (a) {
 	return {ctor: 'Response', _0: a};
@@ -17259,20 +17259,79 @@ var _user$project$Controls_NewLinks$view = function (model) {
 		});
 };
 
+var _user$project$Controls_ProfileThumbnail$organize = F3(
+	function (group1, group2, remainingTopics) {
+		organize:
+		while (true) {
+			var sorted = A2(
+				_elm_lang$core$List$sortBy,
+				function (t) {
+					return _elm_lang$core$String$length(t.name);
+				},
+				remainingTopics);
+			var next = function (topics) {
+				return _elm_lang$core$List$head(
+					_elm_lang$core$List$reverse(topics));
+			};
+			var _p0 = next(sorted);
+			if (_p0.ctor === 'Nothing') {
+				return {ctor: '_Tuple2', _0: group1, _1: group2};
+			} else {
+				var _p3 = _p0._0;
+				var updatedTopics = A2(
+					_elm_lang$core$List$filter,
+					function (t) {
+						return !_elm_lang$core$Native_Utils.eq(t, _p3);
+					},
+					sorted);
+				var _p1 = next(updatedTopics);
+				if (_p1.ctor === 'Nothing') {
+					return {
+						ctor: '_Tuple2',
+						_0: group1,
+						_1: {ctor: '::', _0: _p3, _1: group2}
+					};
+				} else {
+					var _p2 = _p1._0;
+					var remaining = A2(
+						_elm_lang$core$List$filter,
+						function (t) {
+							return !_elm_lang$core$Native_Utils.eq(t, _p2);
+						},
+						updatedTopics);
+					if (_elm_lang$core$List$isEmpty(remaining)) {
+						return {
+							ctor: '_Tuple2',
+							_0: {ctor: '::', _0: _p3, _1: group1},
+							_1: {ctor: '::', _0: _p2, _1: group2}
+						};
+					} else {
+						var _v2 = {ctor: '::', _0: _p3, _1: group1},
+							_v3 = {ctor: '::', _0: _p2, _1: group2},
+							_v4 = remaining;
+						group1 = _v2;
+						group2 = _v3;
+						remainingTopics = _v4;
+						continue organize;
+					}
+				}
+			}
+		}
+	});
 var _user$project$Controls_ProfileThumbnail$SubscribeResponse = function (a) {
 	return {ctor: 'SubscribeResponse', _0: a};
 };
 var _user$project$Controls_ProfileThumbnail$update = F2(
 	function (msg, provider) {
-		var _p0 = msg;
-		if (_p0.ctor === 'SubscribeResponse') {
-			var _p1 = _p0._0;
-			if (_p1.ctor === 'Ok') {
-				var _p2 = provider.subscriptions;
-				var providers = _p2._0;
+		var _p4 = msg;
+		if (_p4.ctor === 'SubscribeResponse') {
+			var _p5 = _p4._0;
+			if (_p5.ctor === 'Ok') {
+				var _p6 = provider.subscriptions;
+				var providers = _p6._0;
 				var subscriptions = {
 					ctor: '::',
-					_0: _user$project$Services_Adapter$toProvider(_p1._0),
+					_0: _user$project$Services_Adapter$toProvider(_p5._0),
 					_1: providers
 				};
 				return {
@@ -17288,14 +17347,14 @@ var _user$project$Controls_ProfileThumbnail$update = F2(
 				return {ctor: '_Tuple2', _0: provider, _1: _elm_lang$core$Platform_Cmd$none};
 			}
 		} else {
-			var _p3 = _p0._0;
-			if (_p3.ctor === 'Subscribe') {
+			var _p7 = _p4._0;
+			if (_p7.ctor === 'Subscribe') {
 				return {
 					ctor: '_Tuple2',
 					_0: provider,
 					_1: A2(
 						_user$project$Settings$runtime.follow,
-						{subscriberId: _p3._0, providerId: _p3._1},
+						{subscriberId: _p7._0, providerId: _p7._1},
 						_user$project$Controls_ProfileThumbnail$SubscribeResponse)
 				};
 			} else {
@@ -17304,7 +17363,7 @@ var _user$project$Controls_ProfileThumbnail$update = F2(
 					_0: provider,
 					_1: A2(
 						_user$project$Settings$runtime.unsubscribe,
-						{subscriberId: _p3._0, providerId: _p3._1},
+						{subscriberId: _p7._0, providerId: _p7._1},
 						_user$project$Controls_ProfileThumbnail$SubscribeResponse)
 				};
 			}
@@ -17352,25 +17411,18 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 						}
 					});
 			});
-		var profile = provider.profile;
 		var formatTopic = function (topic) {
 			return A2(
-				_elm_lang$html$Html$a,
+				_elm_lang$html$Html$button,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$href(
-						_user$project$Domain_Core$urlText(
-							A3(
-								_user$project$Domain_Core$providerTopicUrl,
-								_elm_lang$core$Maybe$Just(profile.id),
-								profile.id,
-								topic))),
+					_0: _elm_lang$html$Html_Attributes$class('topicsButton'),
 					_1: {ctor: '[]'}
 				},
 				{
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$i,
+						_elm_lang$html$Html$label,
 						{ctor: '[]'},
 						{
 							ctor: '::',
@@ -17385,14 +17437,39 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 			return topic.isFeatured ? _elm_lang$core$Maybe$Just(
 				formatTopic(topic)) : _elm_lang$core$Maybe$Nothing;
 		};
-		var topics = A3(
+		var group1 = A3(
 			_elm_lang$core$List$foldr,
 			concatTopics,
 			A2(
 				_elm_lang$html$Html$div,
 				{ctor: '[]'},
 				{ctor: '[]'}),
-			A2(_elm_lang$core$List$filterMap, onFeaturedTopic, provider.topics));
+			A2(
+				_elm_lang$core$List$filterMap,
+				onFeaturedTopic,
+				_elm_lang$core$Tuple$first(
+					A3(
+						_user$project$Controls_ProfileThumbnail$organize,
+						{ctor: '[]'},
+						{ctor: '[]'},
+						provider.topics))));
+		var group2 = A3(
+			_elm_lang$core$List$foldr,
+			concatTopics,
+			A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{ctor: '[]'}),
+			A2(
+				_elm_lang$core$List$filterMap,
+				onFeaturedTopic,
+				_elm_lang$core$Tuple$second(
+					A3(
+						_user$project$Controls_ProfileThumbnail$organize,
+						{ctor: '[]'},
+						{ctor: '[]'},
+						provider.topics))));
+		var profile = provider.profile;
 		var nameAndTopics = A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
@@ -17421,16 +17498,20 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 						{ctor: '[]'}),
 					_1: {
 						ctor: '::',
-						_0: topics,
-						_1: {ctor: '[]'}
+						_0: group1,
+						_1: {
+							ctor: '::',
+							_0: group2,
+							_1: {ctor: '[]'}
+						}
 					}
 				}
 			});
-		var _p4 = loggedIn;
-		if (_p4.ctor === 'Just') {
-			var _p6 = _p4._0;
-			var _p5 = _p6.subscriptions;
-			var mySubscriptions = _p5._0;
+		var _p8 = loggedIn;
+		if (_p8.ctor === 'Just') {
+			var _p10 = _p8._0;
+			var _p9 = _p10.subscriptions;
+			var mySubscriptions = _p9._0;
 			var alreadySubscribed = A2(
 				_elm_lang$core$List$any,
 				function (subscription) {
@@ -17447,7 +17528,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 						ctor: '::',
 						_0: _elm_lang$html$Html_Events$onClick(
 							_user$project$Controls_ProfileThumbnail$UpdateSubscription(
-								A2(_user$project$Domain_Core$Subscribe, _p6.profile.id, provider.profile.id))),
+								A2(_user$project$Domain_Core$Subscribe, _p10.profile.id, provider.profile.id))),
 						_1: {ctor: '[]'}
 					}
 				},
@@ -17464,7 +17545,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 						ctor: '::',
 						_0: _elm_lang$html$Html_Events$onClick(
 							_user$project$Controls_ProfileThumbnail$UpdateSubscription(
-								A2(_user$project$Domain_Core$Unsubscribe, _p6.profile.id, provider.profile.id))),
+								A2(_user$project$Domain_Core$Unsubscribe, _p10.profile.id, provider.profile.id))),
 						_1: {ctor: '[]'}
 					}
 				},
@@ -17504,7 +17585,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 														_user$project$Domain_Core$urlText(
 															A2(
 																_user$project$Domain_Core$providerUrl,
-																_elm_lang$core$Maybe$Just(_p6.profile.id),
+																_elm_lang$core$Maybe$Just(_p10.profile.id),
 																profile.id))),
 													_1: {ctor: '[]'}
 												},

@@ -66,10 +66,5 @@ view form =
         , input [ class "registrationPassword", type_ "password", placeholder "confirm", onInput ConfirmInput, value form.confirm ] []
         , br [] []
         , br [] []
-        , button
-            [ class "register"
-            , value "Create Account"
-            , onClick Submit
-            ]
-            [ text "Join" ]
+        , button [ class "register", value "Create Account", onClick Submit ] [ text "Join" ]
         ]

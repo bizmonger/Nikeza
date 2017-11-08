@@ -7,6 +7,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
+import Tuple exposing (first, second)
 
 
 type Msg
@@ -41,6 +42,39 @@ update msg provider =
                     ( provider, (runtime.unsubscribe { subscriberId = clientId, providerId = providerId }) SubscribeResponse )
 
 
+organize : List Topic -> List Topic -> List Topic -> ( List Topic, List Topic )
+organize group1 group2 remainingTopics =
+    let
+        next topics =
+            topics |> List.reverse |> List.head
+
+        sorted =
+            remainingTopics |> List.sortBy (\t -> String.length t.name)
+    in
+        case sorted |> next of
+            Nothing ->
+                ( group1, group2 )
+
+            Just longest ->
+                let
+                    updatedTopics =
+                        sorted |> List.filter (\t -> t /= longest)
+                in
+                    case updatedTopics |> next of
+                        Nothing ->
+                            ( group1, longest :: group2 )
+
+                        Just nextLongest ->
+                            let
+                                remaining =
+                                    updatedTopics |> List.filter (\t -> t /= nextLongest)
+                            in
+                                if remaining |> List.isEmpty then
+                                    ( longest :: group1, nextLongest :: group2 )
+                                else
+                                    remaining |> organize (longest :: group1) (nextLongest :: group2)
+
+
 thumbnail : Maybe Provider -> Bool -> Provider -> Html Msg
 thumbnail loggedIn showSubscriptionState provider =
     let
@@ -48,7 +82,8 @@ thumbnail loggedIn showSubscriptionState provider =
             provider.profile
 
         formatTopic topic =
-            a [ href <| urlText <| providerTopicUrl (Just profile.id) profile.id topic ] [ i [] [ text <| topicText topic ] ]
+            -- a [ href <| urlText <| providerTopicUrl (Just profile.id) profile.id topic ] [ i [] [ text <| topicText topic ] ]
+            button [ class "topicsButton" ] [ label [] [ text <| topicText topic ] ]
 
         concatTopics topic1 topic2 =
             span []
@@ -64,16 +99,22 @@ thumbnail loggedIn showSubscriptionState provider =
             else
                 Nothing
 
-        topics =
+        group1 =
             List.foldr concatTopics
                 (div [] [])
-                (provider.topics |> List.filterMap onFeaturedTopic)
+                (provider.topics |> organize [] [] |> first |> List.filterMap onFeaturedTopic)
+
+        group2 =
+            List.foldr concatTopics
+                (div [] [])
+                (provider.topics |> organize [] [] |> second |> List.filterMap onFeaturedTopic)
 
         nameAndTopics =
             div []
                 [ label [] [ text <| (profile.firstName |> nameText) ++ " " ++ (profile.lastName |> nameText) ]
                 , br [] []
-                , topics
+                , group1
+                , group2
                 ]
     in
         case loggedIn of
