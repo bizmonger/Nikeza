@@ -115,6 +115,9 @@ thumbnail loggedIn showSubscriptionState provider =
                 , group1
                 , group2
                 ]
+
+        recentLinks =
+            div [ class "centerDiv" ] (provider.recentLinks |> List.map (\l -> [ a [ href <| urlText l.url ] [ text <| titleText l.title ] ]) |> List.concat)
     in
         case loggedIn of
             Just user ->
@@ -139,7 +142,7 @@ thumbnail loggedIn showSubscriptionState provider =
                         else
                             div [] []
                 in
-                    div []
+                    div [ class "landingThumbnail" ]
                         [ table []
                             [ tr []
                                 [ td []
@@ -147,13 +150,14 @@ thumbnail loggedIn showSubscriptionState provider =
                                         [ img [ src <| urlText profile.imageUrl, width 65, height 65 ] [] ]
                                     ]
                                 , td [] [ nameAndTopics ]
+                                , td [ class "centertd" ] [ recentLinks ]
                                 ]
                             , placeholder
                             ]
                         ]
 
             Nothing ->
-                div []
+                div [ class "landingThumbnail" ]
                     [ table []
                         [ tr []
                             [ td []
@@ -161,6 +165,7 @@ thumbnail loggedIn showSubscriptionState provider =
                                     [ img [ src <| urlText profile.imageUrl, width 65, height 65 ] [] ]
                                 ]
                             , td [] [ nameAndTopics ]
+                            , td [ class "centertd" ] [ recentLinks ]
                             ]
                         ]
                     ]

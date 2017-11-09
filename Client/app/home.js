@@ -17424,6 +17424,37 @@ var _user$project$Controls_ProfileThumbnail$UpdateSubscription = function (a) {
 };
 var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 	function (loggedIn, showSubscriptionState, provider) {
+		var recentLinks = A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('centerDiv'),
+				_1: {ctor: '[]'}
+			},
+			_elm_lang$core$List$concat(
+				A2(
+					_elm_lang$core$List$map,
+					function (l) {
+						return {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$a,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$href(
+										_user$project$Domain_Core$urlText(l.url)),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(
+										_user$project$Domain_Core$titleText(l.title)),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						};
+					},
+					provider.recentLinks)));
 		var concatTopics = F2(
 			function (topic1, topic2) {
 				return A2(
@@ -17627,7 +17658,11 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 				{ctor: '[]'}));
 			return A2(
 				_elm_lang$html$Html$div,
-				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('landingThumbnail'),
+					_1: {ctor: '[]'}
+				},
 				{
 					ctor: '::',
 					_0: A2(
@@ -17690,7 +17725,22 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 												_0: nameAndTopics,
 												_1: {ctor: '[]'}
 											}),
-										_1: {ctor: '[]'}
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$td,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('centertd'),
+													_1: {ctor: '[]'}
+												},
+												{
+													ctor: '::',
+													_0: recentLinks,
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}
 									}
 								}),
 							_1: {
@@ -17704,7 +17754,11 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 		} else {
 			return A2(
 				_elm_lang$html$Html$div,
-				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('landingThumbnail'),
+					_1: {ctor: '[]'}
+				},
 				{
 					ctor: '::',
 					_0: A2(
@@ -17764,7 +17818,22 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 												_0: nameAndTopics,
 												_1: {ctor: '[]'}
 											}),
-										_1: {ctor: '[]'}
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$td,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('centertd'),
+													_1: {ctor: '[]'}
+												},
+												{
+													ctor: '::',
+													_0: recentLinks,
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}
 									}
 								}),
 							_1: {ctor: '[]'}
@@ -18887,12 +18956,6 @@ var _user$project$Controls_Register$PasswordInput = function (a) {
 var _user$project$Controls_Register$EmailInput = function (a) {
 	return {ctor: 'EmailInput', _0: a};
 };
-var _user$project$Controls_Register$LastNameInput = function (a) {
-	return {ctor: 'LastNameInput', _0: a};
-};
-var _user$project$Controls_Register$FirstNameInput = function (a) {
-	return {ctor: 'FirstNameInput', _0: a};
-};
 var _user$project$Controls_Register$view = function (form) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -18907,19 +18970,19 @@ var _user$project$Controls_Register$view = function (form) {
 				_elm_lang$html$Html$input,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('registrationInput'),
+					_0: _elm_lang$html$Html_Attributes$class('registrationEmail'),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$type_('text'),
+						_0: _elm_lang$html$Html_Attributes$type_('email'),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$placeholder('first name'),
+							_0: _elm_lang$html$Html_Attributes$placeholder('email'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$FirstNameInput),
+								_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$EmailInput),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$value(form.firstName),
+									_0: _elm_lang$html$Html_Attributes$value(form.email),
 									_1: {ctor: '[]'}
 								}
 							}
@@ -18939,19 +19002,19 @@ var _user$project$Controls_Register$view = function (form) {
 						_elm_lang$html$Html$input,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('registrationInput'),
+							_0: _elm_lang$html$Html_Attributes$class('registrationPassword'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$type_('text'),
+								_0: _elm_lang$html$Html_Attributes$type_('password'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$placeholder('last name'),
+									_0: _elm_lang$html$Html_Attributes$placeholder('password'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$LastNameInput),
+										_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$PasswordInput),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$value(form.lastName),
+											_0: _elm_lang$html$Html_Attributes$value(form.password),
 											_1: {ctor: '[]'}
 										}
 									}
@@ -18971,19 +19034,19 @@ var _user$project$Controls_Register$view = function (form) {
 								_elm_lang$html$Html$input,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('registrationEmail'),
+									_0: _elm_lang$html$Html_Attributes$class('registrationPassword'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$type_('email'),
+										_0: _elm_lang$html$Html_Attributes$type_('password'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$placeholder('email'),
+											_0: _elm_lang$html$Html_Attributes$placeholder('confirm'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$EmailInput),
+												_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$ConfirmInput),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$value(form.email),
+													_0: _elm_lang$html$Html_Attributes$value(form.confirm),
 													_1: {ctor: '[]'}
 												}
 											}
@@ -19000,100 +19063,32 @@ var _user$project$Controls_Register$view = function (form) {
 								_1: {
 									ctor: '::',
 									_0: A2(
-										_elm_lang$html$Html$input,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('registrationPassword'),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$type_('password'),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$placeholder('password'),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$PasswordInput),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$value(form.password),
-															_1: {ctor: '[]'}
-														}
-													}
-												}
-											}
-										},
+										_elm_lang$html$Html$br,
+										{ctor: '[]'},
 										{ctor: '[]'}),
 									_1: {
 										ctor: '::',
 										_0: A2(
-											_elm_lang$html$Html$br,
-											{ctor: '[]'},
-											{ctor: '[]'}),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$input,
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$class('registrationPassword'),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$type_('password'),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$placeholder('confirm'),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Register$ConfirmInput),
-																_1: {
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$value(form.confirm),
-																	_1: {ctor: '[]'}
-																}
-															}
-														}
-													}
-												},
-												{ctor: '[]'}),
-											_1: {
+											_elm_lang$html$Html$button,
+											{
 												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$br,
-													{ctor: '[]'},
-													{ctor: '[]'}),
+												_0: _elm_lang$html$Html_Attributes$class('register'),
 												_1: {
 													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$br,
-														{ctor: '[]'},
-														{ctor: '[]'}),
+													_0: _elm_lang$html$Html_Attributes$value('Create Account'),
 													_1: {
 														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$button,
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$class('register'),
-																_1: {
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$value('Create Account'),
-																	_1: {
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Events$onClick(_user$project$Controls_Register$Submit),
-																		_1: {ctor: '[]'}
-																	}
-																}
-															},
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html$text('Join'),
-																_1: {ctor: '[]'}
-															}),
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Controls_Register$Submit),
 														_1: {ctor: '[]'}
 													}
 												}
-											}
-										}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('Join'),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
 									}
 								}
 							}
@@ -19102,6 +19097,12 @@ var _user$project$Controls_Register$view = function (form) {
 				}
 			}
 		});
+};
+var _user$project$Controls_Register$LastNameInput = function (a) {
+	return {ctor: 'LastNameInput', _0: a};
+};
+var _user$project$Controls_Register$FirstNameInput = function (a) {
+	return {ctor: 'FirstNameInput', _0: a};
 };
 
 var _user$project$Controls_Sources$Model = F4(
