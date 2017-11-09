@@ -44,7 +44,8 @@ type alias Model =
     , platforms : List Platform
     , portal : Portal
     , providers : List Provider
-    , searchContext : List Provider
+    , scopedProviders : List Provider
+    , searchResult : List Provider
     , selectedProvider : Provider
     }
 
@@ -57,7 +58,8 @@ init location =
       , platforms = []
       , portal = initPortal
       , providers = []
-      , searchContext = []
+      , scopedProviders = []
+      , searchResult = []
       , selectedProvider = initProvider
       }
     , runtime.bootstrap BootstrapResponse
@@ -157,7 +159,13 @@ update msg model =
                             providers =
                                 jsonProviders |> List.map (\p -> p |> toProvider)
                         in
-                            ( { model | providers = providers }, Cmd.none )
+                            ( { model
+                                | providers = providers
+                                , searchResult = providers
+                                , scopedProviders = providers
+                              }
+                            , Cmd.none
+                            )
 
                     Err _ ->
                         ( model, Cmd.none )
@@ -171,7 +179,8 @@ update msg model =
                         in
                             ( { model
                                 | providers = providers
-                                , searchContext = providers
+                                , scopedProviders = providers
+                                , searchResult = providers
                                 , platforms = bootstrap.platforms |> List.map (\p -> Platform p)
                               }
                             , Cmd.none
@@ -267,10 +276,19 @@ update msg model =
                 onLogin subMsg model
 
             Search "" ->
-                ( model, runtime.providers ProvidersResponse )
+                ( { model
+                    | searchResult = model.providers
+                    , scopedProviders = model.providers
+                  }
+                , runtime.providers ProvidersResponse
+                )
 
             Search text ->
-                model.searchContext |> matchProviders model text
+                let
+                    result =
+                        model.scopedProviders |> matchProviders text
+                in
+                    ( { model | searchResult = result }, Cmd.none )
 
             ProfileThumbnail subMsg ->
                 ( model, Cmd.none )
@@ -292,7 +310,7 @@ update msg model =
 
             ViewSubscriptions ->
                 ( { model
-                    | searchContext = portal |> getSubscriptions
+                    | scopedProviders = portal |> getSubscriptions
                     , portal = { portal | requested = Domain.ViewSubscriptions }
                   }
                 , Cmd.none
@@ -300,7 +318,7 @@ update msg model =
 
             ViewFollowers ->
                 ( { model
-                    | searchContext = portal |> getFollowers
+                    | scopedProviders = portal |> getFollowers
                     , portal = { portal | requested = Domain.ViewFollowers }
                   }
                 , Cmd.none
@@ -308,7 +326,7 @@ update msg model =
 
             ViewProviders ->
                 ( { model
-                    | searchContext = model.providers
+                    | scopedProviders = model.providers
                     , portal = { portal | requested = Domain.ViewProviders }
                   }
                 , Cmd.none
@@ -316,7 +334,7 @@ update msg model =
 
             ViewRecent ->
                 ( { model
-                    | searchContext = portal |> getSubscriptions
+                    | scopedProviders = portal |> getSubscriptions
                     , portal = { portal | requested = Domain.ViewRecent }
                   }
                 , Cmd.none
@@ -761,8 +779,8 @@ onSourcesUpdated subMsg model =
                         Debug.crash (toString reason) ( model, sourceCmd )
 
 
-filterProviders : List Provider -> String -> List Provider
-filterProviders providers matchValue =
+filterProviders : String -> List Provider -> List Provider
+filterProviders matchValue providers =
     let
         isMatch name =
             name |> toLower |> contains (matchValue |> toLower)
@@ -779,9 +797,9 @@ filterProviders providers matchValue =
         providers |> List.filter onName
 
 
-matchProviders : Model -> String -> List Provider -> ( Model, Cmd Msg )
-matchProviders model matchValue providers =
-    ( { model | providers = filterProviders providers matchValue }, Cmd.none )
+matchProviders : String -> List Provider -> List Provider
+matchProviders matchValue providers =
+    providers |> filterProviders matchValue
 
 
 onLogin : Login.Msg -> Model -> ( Model, Cmd Msg )
@@ -835,7 +853,7 @@ view : Model -> Html Msg
 view model =
     case model.currentRoute.hash |> tokenizeUrl of
         [] ->
-            homePage { model | searchContext = model.providers }
+            homePage model
 
         [ "register" ] ->
             model |> renderPage (Html.map OnRegistration <| Registration.view model.registration)
@@ -992,8 +1010,8 @@ footerContent =
         [ a [ href "mailto:scott.nimrod@bizmonger.net" ] [ text "Bizmonger" ] ]
 
 
-providersUI : Maybe Provider -> List Provider -> Bool -> Html Msg
-providersUI loggedIn providers showSubscriptionState =
+providersUI : Maybe Provider -> Bool -> List Provider -> Html Msg
+providersUI loggedIn showSubscriptionState providers =
     Html.map ProfileThumbnail <|
         div [] (providers |> List.map (ProfileThumbnail.thumbnail loggedIn showSubscriptionState))
 
@@ -1015,7 +1033,7 @@ homePage model =
                 [ table []
                     [ tr [] [ td [] [ input [ class "search", type_ "text", placeholder "name", onInput Search ] [] ] ]
                     , tr []
-                        [ td [ class "providers" ] [ div [] [ providersUI Nothing model.providers False ] ]
+                        [ td [ class "providers" ] [ div [] [ model.searchResult |> providersUI Nothing False ] ]
                         , td [ class "joinForm" ] [ Html.map OnRegistration <| Registration.view model.registration ]
                         ]
                     ]
@@ -1169,16 +1187,16 @@ content contentToEmbed model =
                         ]
 
             Domain.ViewSubscriptions ->
-                following |> searchProvidersUI (Just loggedIn) False "name on subscription"
+                model.searchResult |> searchProvidersUI (Just loggedIn) False "name on subscription"
 
             Domain.ViewFollowers ->
-                followingYou |> searchProvidersUI (Just loggedIn) True "name of follower"
+                model.searchResult |> searchProvidersUI (Just loggedIn) True "name of follower"
 
             Domain.ViewProviders ->
-                loggedIn |> filteredProvidersUI model.providers "name"
+                model.searchResult |> filteredProvidersUI loggedIn "name"
 
             Domain.ViewRecent ->
-                following |> recentLinksContent loggedIn.profile.id
+                model.searchResult |> recentLinksContent loggedIn.profile.id
 
 
 recentLinks : List Provider -> List Link
@@ -1211,8 +1229,8 @@ removeProvider profileId providers =
     providers |> List.filter (\p -> p.profile.id /= profileId)
 
 
-filteredProvidersUI : List Provider -> String -> Provider -> Html Msg
-filteredProvidersUI providers placeHolder loggedIn =
+filteredProvidersUI : Provider -> String -> List Provider -> Html Msg
+filteredProvidersUI loggedIn placeHolder providers =
     providers
         |> removeProvider loggedIn.profile.id
         |> searchProvidersUI (Just loggedIn) True placeHolder
@@ -1222,7 +1240,7 @@ searchProvidersUI : Maybe Provider -> Bool -> String -> List Provider -> Html Ms
 searchProvidersUI loggedIn showSubscriptionState placeHolder providers =
     table []
         [ tr [] [ td [] [ input [ class "search", type_ "text", placeholder placeHolder, onInput Search ] [] ] ]
-        , tr [] [ td [] [ div [] [ providersUI (loggedIn) providers showSubscriptionState ] ] ]
+        , tr [] [ td [] [ div [] [ providers |> providersUI (loggedIn) showSubscriptionState ] ] ]
         ]
 
 

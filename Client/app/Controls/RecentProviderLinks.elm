@@ -26,16 +26,18 @@ thumbnail clientId provider =
         linksUI =
             div [] (links |> List.map formatLink)
     in
-        div []
+        div [ class "landingThumbnail" ]
             [ table []
                 [ tr []
                     [ td []
                         [ a [ href <| urlText <| providerUrl (Just clientId) profile.id ]
                             [ img [ src <| urlText profile.imageUrl, width 75, height 75 ] [] ]
                         ]
-                    , td [ class "bio" ]
-                        [ td [] [ label [ class "profileName" ] [ text <| nameText provider.profile.firstName ++ " " ++ nameText provider.profile.lastName ] ]
-                        , linksUI
+                    , td []
+                        [ div [ class "recentThumbnail" ]
+                            [ label [ class "profileName" ] [ text <| nameText provider.profile.firstName ++ " " ++ nameText provider.profile.lastName ]
+                            , linksUI
+                            ]
                         ]
                     ]
                 ]

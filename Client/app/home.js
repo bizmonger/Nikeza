@@ -16175,8 +16175,7 @@ var _user$project$Settings$Dependencies = function (a) {
 	};
 };
 var _user$project$Settings$Isolation = {ctor: 'Isolation'};
-var _user$project$Settings$Integration = {ctor: 'Integration'};
-var _user$project$Settings$configuration = _user$project$Settings$Integration;
+var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
@@ -16185,6 +16184,7 @@ var _user$project$Settings$runtime = function () {
 		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$bootstrap)(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$updateProfile)(_user$project$Tests_TestAPI$thumbnail)(_user$project$Tests_TestAPI$updateThumbnail)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$providerTopic)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$portfolio)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$recentLinks)(_user$project$Tests_TestAPI$featureLink);
 	}
 }();
+var _user$project$Settings$Integration = {ctor: 'Integration'};
 
 var _user$project$Controls_EditProfile$Response = function (a) {
 	return {ctor: 'Response', _0: a};
@@ -18837,7 +18837,11 @@ var _user$project$Controls_RecentProviderLinks$thumbnail = F2(
 			A2(_elm_lang$core$List$map, _user$project$Controls_RecentProviderLinks$formatLink, links));
 		return A2(
 			_elm_lang$html$Html$div,
-			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('landingThumbnail'),
+				_1: {ctor: '[]'}
+			},
 			{
 				ctor: '::',
 				_0: A2(
@@ -18894,16 +18898,16 @@ var _user$project$Controls_RecentProviderLinks$thumbnail = F2(
 									ctor: '::',
 									_0: A2(
 										_elm_lang$html$Html$td,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('bio'),
-											_1: {ctor: '[]'}
-										},
+										{ctor: '[]'},
 										{
 											ctor: '::',
 											_0: A2(
-												_elm_lang$html$Html$td,
-												{ctor: '[]'},
+												_elm_lang$html$Html$div,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('recentThumbnail'),
+													_1: {ctor: '[]'}
+												},
 												{
 													ctor: '::',
 													_0: A2(
@@ -18925,13 +18929,13 @@ var _user$project$Controls_RecentProviderLinks$thumbnail = F2(
 																		_user$project$Domain_Core$nameText(provider.profile.lastName)))),
 															_1: {ctor: '[]'}
 														}),
-													_1: {ctor: '[]'}
+													_1: {
+														ctor: '::',
+														_0: linksUI,
+														_1: {ctor: '[]'}
+													}
 												}),
-											_1: {
-												ctor: '::',
-												_0: linksUI,
-												_1: {ctor: '[]'}
-											}
+											_1: {ctor: '[]'}
 										}),
 									_1: {ctor: '[]'}
 								}
@@ -20214,7 +20218,7 @@ var _user$project$Home$renderProfileBase = F2(
 			});
 	});
 var _user$project$Home$filterProviders = F2(
-	function (providers, matchValue) {
+	function (matchValue, providers) {
 		var isMatch = function (name) {
 			return A2(
 				_elm_lang$core$String$contains,
@@ -20234,17 +20238,9 @@ var _user$project$Home$filterProviders = F2(
 		};
 		return A2(_elm_lang$core$List$filter, onName, providers);
 	});
-var _user$project$Home$matchProviders = F3(
-	function (model, matchValue, providers) {
-		return {
-			ctor: '_Tuple2',
-			_0: _elm_lang$core$Native_Utils.update(
-				model,
-				{
-					providers: A2(_user$project$Home$filterProviders, providers, matchValue)
-				}),
-			_1: _elm_lang$core$Platform_Cmd$none
-		};
+var _user$project$Home$matchProviders = F2(
+	function (matchValue, providers) {
+		return A2(_user$project$Home$filterProviders, matchValue, providers);
 	});
 var _user$project$Home$updatePortfolio = F2(
 	function (provider, addedLinks) {
@@ -20383,9 +20379,9 @@ var _user$project$Home$onUpdateProviderLinks = F3(
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
-var _user$project$Home$Model = F8(
-	function (a, b, c, d, e, f, g, h) {
-		return {currentRoute: a, login: b, registration: c, platforms: d, portal: e, providers: f, searchContext: g, selectedProvider: h};
+var _user$project$Home$Model = F9(
+	function (a, b, c, d, e, f, g, h, i) {
+		return {currentRoute: a, login: b, registration: c, platforms: d, portal: e, providers: f, scopedProviders: g, searchResult: h, selectedProvider: i};
 	});
 var _user$project$Home$NavigateBack = {ctor: 'NavigateBack'};
 var _user$project$Home$Subscription = function (a) {
@@ -20681,7 +20677,8 @@ var _user$project$Home$init = function (location) {
 			platforms: {ctor: '[]'},
 			portal: _user$project$Domain_Core$initPortal,
 			providers: {ctor: '[]'},
-			searchContext: {ctor: '[]'},
+			scopedProviders: {ctor: '[]'},
+			searchResult: {ctor: '[]'},
 			selectedProvider: _user$project$Domain_Core$initProvider
 		},
 		_1: _user$project$Settings$runtime.bootstrap(_user$project$Home$BootstrapResponse)
@@ -20928,8 +20925,8 @@ var _user$project$Home$onNewLink = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 672, column: 25},
-								end: {line: 672, column: 36}
+								start: {line: 690, column: 25},
+								end: {line: 690, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p22._0),
 						{ctor: '_Tuple2', _0: model, _1: newLinkCmd});
@@ -21037,8 +21034,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 753, column: 25},
-								end: {line: 753, column: 36}
+								start: {line: 771, column: 25},
+								end: {line: 771, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p28._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -21052,8 +21049,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 761, column: 25},
-								end: {line: 761, column: 36}
+								start: {line: 779, column: 25},
+								end: {line: 779, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p30._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -21126,7 +21123,7 @@ var _user$project$Home$ProfileThumbnail = function (a) {
 	return {ctor: 'ProfileThumbnail', _0: a};
 };
 var _user$project$Home$providersUI = F3(
-	function (loggedIn, providers, showSubscriptionState) {
+	function (loggedIn, showSubscriptionState, providers) {
 		return A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$ProfileThumbnail,
@@ -21196,7 +21193,7 @@ var _user$project$Home$searchProvidersUI = F4(
 										{ctor: '[]'},
 										{
 											ctor: '::',
-											_0: A3(_user$project$Home$providersUI, loggedIn, providers, showSubscriptionState),
+											_0: A3(_user$project$Home$providersUI, loggedIn, showSubscriptionState, providers),
 											_1: {ctor: '[]'}
 										}),
 									_1: {ctor: '[]'}
@@ -21208,7 +21205,7 @@ var _user$project$Home$searchProvidersUI = F4(
 			});
 	});
 var _user$project$Home$filteredProvidersUI = F3(
-	function (providers, placeHolder, loggedIn) {
+	function (loggedIn, placeHolder, providers) {
 		return A4(
 			_user$project$Home$searchProvidersUI,
 			_elm_lang$core$Maybe$Just(loggedIn),
@@ -21373,18 +21370,18 @@ var _user$project$Home$content = F2(
 					_elm_lang$core$Maybe$Just(loggedIn),
 					false,
 					'name on subscription',
-					following);
+					model.searchResult);
 			case 'ViewFollowers':
 				return A4(
 					_user$project$Home$searchProvidersUI,
 					_elm_lang$core$Maybe$Just(loggedIn),
 					true,
 					'name of follower',
-					followingYou);
+					model.searchResult);
 			case 'ViewProviders':
-				return A3(_user$project$Home$filteredProvidersUI, model.providers, 'name', loggedIn);
+				return A3(_user$project$Home$filteredProvidersUI, loggedIn, 'name', model.searchResult);
 			default:
-				return A2(_user$project$Home$recentLinksContent, loggedIn.profile.id, following);
+				return A2(_user$project$Home$recentLinksContent, loggedIn.profile.id, model.searchResult);
 		}
 	});
 var _user$project$Home$OnLogin = function (a) {
@@ -21522,7 +21519,7 @@ var _user$project$Home$update = F2(
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{providers: providers}),
+							{providers: providers, searchResult: providers, scopedProviders: providers}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
@@ -21539,7 +21536,8 @@ var _user$project$Home$update = F2(
 							model,
 							{
 								providers: providers,
-								searchContext: providers,
+								scopedProviders: providers,
+								searchResult: providers,
 								platforms: A2(
 									_elm_lang$core$List$map,
 									function (p) {
@@ -21554,8 +21552,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 181, column: 25},
-								end: {line: 181, column: 36}
+								start: {line: 190, column: 25},
+								end: {line: 190, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p42._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -21688,11 +21686,20 @@ var _user$project$Home$update = F2(
 				if (_p37._0 === '') {
 					return {
 						ctor: '_Tuple2',
-						_0: model,
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{searchResult: model.providers, scopedProviders: model.providers}),
 						_1: _user$project$Settings$runtime.providers(_user$project$Home$ProvidersResponse)
 					};
 				} else {
-					return A3(_user$project$Home$matchProviders, model, _p37._0, model.searchContext);
+					var result = A2(_user$project$Home$matchProviders, _p37._0, model.scopedProviders);
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{searchResult: result}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
 				}
 			case 'ProfileThumbnail':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -21752,7 +21759,7 @@ var _user$project$Home$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							searchContext: _user$project$Domain_Core$getSubscriptions(portal),
+							scopedProviders: _user$project$Domain_Core$getSubscriptions(portal),
 							portal: _elm_lang$core$Native_Utils.update(
 								portal,
 								{requested: _user$project$Domain_Core$ViewSubscriptions})
@@ -21765,7 +21772,7 @@ var _user$project$Home$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							searchContext: _user$project$Domain_Core$getFollowers(portal),
+							scopedProviders: _user$project$Domain_Core$getFollowers(portal),
 							portal: _elm_lang$core$Native_Utils.update(
 								portal,
 								{requested: _user$project$Domain_Core$ViewFollowers})
@@ -21778,7 +21785,7 @@ var _user$project$Home$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							searchContext: model.providers,
+							scopedProviders: model.providers,
 							portal: _elm_lang$core$Native_Utils.update(
 								portal,
 								{requested: _user$project$Domain_Core$ViewProviders})
@@ -21791,7 +21798,7 @@ var _user$project$Home$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							searchContext: _user$project$Domain_Core$getSubscriptions(portal),
+							scopedProviders: _user$project$Domain_Core$getSubscriptions(portal),
 							portal: _elm_lang$core$Native_Utils.update(
 								portal,
 								{requested: _user$project$Domain_Core$ViewRecent})
@@ -22124,7 +22131,7 @@ var _user$project$Home$homePage = function (model) {
 											{ctor: '[]'},
 											{
 												ctor: '::',
-												_0: A3(_user$project$Home$providersUI, _elm_lang$core$Maybe$Nothing, model.providers, false),
+												_0: A3(_user$project$Home$providersUI, _elm_lang$core$Maybe$Nothing, false, model.searchResult),
 												_1: {ctor: '[]'}
 											}),
 										_1: {ctor: '[]'}
@@ -24106,10 +24113,7 @@ var _user$project$Home$view = function (model) {
 	_v37_10:
 	do {
 		if (_p59.ctor === '[]') {
-			return _user$project$Home$homePage(
-				_elm_lang$core$Native_Utils.update(
-					model,
-					{searchContext: model.providers}));
+			return _user$project$Home$homePage(model);
 		} else {
 			if (_p59._1.ctor === '[]') {
 				if (_p59._0 === 'register') {

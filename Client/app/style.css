@@ -300,6 +300,10 @@ td.login {
     text-align: right;
 }
 
+div.recentThumbnail {
+    margin-left: 15px;
+}
+
 div.thumnnailDetails {
     margin-left: 5px;
 }
