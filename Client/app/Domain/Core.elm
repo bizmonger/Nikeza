@@ -332,20 +332,20 @@ type ContentType
 -- FUNCTIONS
 
 
-getSubscriptions : Portal -> List Provider
-getSubscriptions portal =
+getSubscriptions : Provider -> List Provider
+getSubscriptions provider =
     let
         (Members subscriptions) =
-            portal.provider.subscriptions
+            provider.subscriptions
     in
         subscriptions
 
 
-getFollowers : Portal -> List Provider
-getFollowers portal =
+getFollowers : Provider -> List Provider
+getFollowers provider =
     let
         (Members followers) =
-            portal.provider.followers
+            provider.followers
     in
         followers
 

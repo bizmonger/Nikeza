@@ -159,13 +159,18 @@ update msg model =
                             providers =
                                 jsonProviders |> List.map (\p -> p |> toProvider)
                         in
-                            ( { model
-                                | providers = providers
-                                , searchResult = providers
-                                , scopedProviders = providers
-                              }
-                            , Cmd.none
-                            )
+                            if model.login.loggedIn then
+                                ( { model | providers = providers }
+                                , Cmd.none
+                                )
+                            else
+                                ( { model
+                                    | providers = providers
+                                    , searchResult = providers
+                                    , scopedProviders = providers
+                                  }
+                                , Cmd.none
+                                )
 
                     Err _ ->
                         ( model, Cmd.none )
@@ -276,10 +281,7 @@ update msg model =
                 onLogin subMsg model
 
             Search "" ->
-                ( { model
-                    | searchResult = model.providers
-                    , scopedProviders = model.providers
-                  }
+                ( { model | searchResult = model.scopedProviders }
                 , runtime.providers ProvidersResponse
                 )
 
@@ -310,7 +312,8 @@ update msg model =
 
             ViewSubscriptions ->
                 ( { model
-                    | scopedProviders = portal |> getSubscriptions
+                    | scopedProviders = portal.provider |> getSubscriptions
+                    , searchResult = portal.provider |> getSubscriptions
                     , portal = { portal | requested = Domain.ViewSubscriptions }
                   }
                 , Cmd.none
@@ -318,7 +321,8 @@ update msg model =
 
             ViewFollowers ->
                 ( { model
-                    | scopedProviders = portal |> getFollowers
+                    | scopedProviders = portal.provider |> getFollowers
+                    , searchResult = portal.provider |> getFollowers
                     , portal = { portal | requested = Domain.ViewFollowers }
                   }
                 , Cmd.none
@@ -327,6 +331,7 @@ update msg model =
             ViewProviders ->
                 ( { model
                     | scopedProviders = model.providers
+                    , searchResult = model.providers
                     , portal = { portal | requested = Domain.ViewProviders }
                   }
                 , Cmd.none
@@ -334,7 +339,8 @@ update msg model =
 
             ViewRecent ->
                 ( { model
-                    | scopedProviders = portal |> getSubscriptions
+                    | scopedProviders = portal.provider |> getSubscriptions
+                    , searchResult = portal.provider |> getSubscriptions
                     , portal = { portal | requested = Domain.ViewRecent }
                   }
                 , Cmd.none
@@ -821,7 +827,9 @@ onLogin subMsg model =
 
                             newState =
                                 { model
-                                    | portal =
+                                    | searchResult = provider |> getSubscriptions
+                                    , scopedProviders = provider |> getSubscriptions
+                                    , portal =
                                         { pendingPortal
                                             | provider = provider
                                             , requested = Domain.ViewRecent
@@ -1129,10 +1137,10 @@ content contentToEmbed model =
             portal.provider
 
         followingYou =
-            portal |> getFollowers
+            portal.provider |> getFollowers
 
         following =
-            portal |> getSubscriptions
+            portal.provider |> getSubscriptions
     in
         case portal.requested of
             Domain.ViewSources ->
@@ -1251,10 +1259,10 @@ renderNavigation portal providers =
             portal.provider.portfolio
 
         subscriptions =
-            portal |> getSubscriptions
+            portal.provider |> getSubscriptions
 
         followers =
-            portal |> getFollowers
+            portal.provider |> getFollowers
 
         profile =
             portal.provider.profile

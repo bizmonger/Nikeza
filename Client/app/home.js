@@ -13638,13 +13638,13 @@ var _user$project$Domain_Core$compareLinks = F2(
 	function (a, b) {
 		return a.isFeatured ? _elm_lang$core$Basics$LT : (b.isFeatured ? _elm_lang$core$Basics$GT : _elm_lang$core$Basics$EQ);
 	});
-var _user$project$Domain_Core$getFollowers = function (portal) {
-	var _p2 = portal.provider.followers;
+var _user$project$Domain_Core$getFollowers = function (provider) {
+	var _p2 = provider.followers;
 	var followers = _p2._0;
 	return followers;
 };
-var _user$project$Domain_Core$getSubscriptions = function (portal) {
-	var _p3 = portal.provider.subscriptions;
+var _user$project$Domain_Core$getSubscriptions = function (provider) {
+	var _p3 = provider.subscriptions;
 	var subscriptions = _p3._0;
 	return subscriptions;
 };
@@ -20925,8 +20925,8 @@ var _user$project$Home$onNewLink = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 690, column: 25},
-								end: {line: 690, column: 36}
+								start: {line: 696, column: 25},
+								end: {line: 696, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p22._0),
 						{ctor: '_Tuple2', _0: model, _1: newLinkCmd});
@@ -21034,8 +21034,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 771, column: 25},
-								end: {line: 771, column: 36}
+								start: {line: 777, column: 25},
+								end: {line: 777, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p28._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -21049,8 +21049,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 779, column: 25},
-								end: {line: 779, column: 36}
+								start: {line: 785, column: 25},
+								end: {line: 785, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p30._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -21217,8 +21217,8 @@ var _user$project$Home$content = F2(
 	function (contentToEmbed, model) {
 		var portal = model.portal;
 		var loggedIn = portal.provider;
-		var followingYou = _user$project$Domain_Core$getFollowers(portal);
-		var following = _user$project$Domain_Core$getSubscriptions(portal);
+		var followingYou = _user$project$Domain_Core$getFollowers(portal.provider);
+		var following = _user$project$Domain_Core$getSubscriptions(portal.provider);
 		var _p31 = portal.requested;
 		switch (_p31.ctor) {
 			case 'ViewSources':
@@ -21408,6 +21408,8 @@ var _user$project$Home$onLogin = F2(
 					var newState = _elm_lang$core$Native_Utils.update(
 						model,
 						{
+							searchResult: _user$project$Domain_Core$getSubscriptions(provider),
+							scopedProviders: _user$project$Domain_Core$getSubscriptions(provider),
 							portal: _elm_lang$core$Native_Utils.update(
 								pendingPortal,
 								{
@@ -21515,7 +21517,13 @@ var _user$project$Home$update = F2(
 							return _user$project$Services_Adapter$toProvider(p);
 						},
 						_p41._0);
-					return {
+					return model.login.loggedIn ? {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{providers: providers}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					} : {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
@@ -21552,8 +21560,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 190, column: 25},
-								end: {line: 190, column: 36}
+								start: {line: 195, column: 25},
+								end: {line: 195, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p42._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -21688,7 +21696,7 @@ var _user$project$Home$update = F2(
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{searchResult: model.providers, scopedProviders: model.providers}),
+							{searchResult: model.scopedProviders}),
 						_1: _user$project$Settings$runtime.providers(_user$project$Home$ProvidersResponse)
 					};
 				} else {
@@ -21759,7 +21767,8 @@ var _user$project$Home$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							scopedProviders: _user$project$Domain_Core$getSubscriptions(portal),
+							scopedProviders: _user$project$Domain_Core$getSubscriptions(portal.provider),
+							searchResult: _user$project$Domain_Core$getSubscriptions(portal.provider),
 							portal: _elm_lang$core$Native_Utils.update(
 								portal,
 								{requested: _user$project$Domain_Core$ViewSubscriptions})
@@ -21772,7 +21781,8 @@ var _user$project$Home$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							scopedProviders: _user$project$Domain_Core$getFollowers(portal),
+							scopedProviders: _user$project$Domain_Core$getFollowers(portal.provider),
+							searchResult: _user$project$Domain_Core$getFollowers(portal.provider),
 							portal: _elm_lang$core$Native_Utils.update(
 								portal,
 								{requested: _user$project$Domain_Core$ViewFollowers})
@@ -21786,6 +21796,7 @@ var _user$project$Home$update = F2(
 						model,
 						{
 							scopedProviders: model.providers,
+							searchResult: model.providers,
 							portal: _elm_lang$core$Native_Utils.update(
 								portal,
 								{requested: _user$project$Domain_Core$ViewProviders})
@@ -21798,7 +21809,8 @@ var _user$project$Home$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							scopedProviders: _user$project$Domain_Core$getSubscriptions(portal),
+							scopedProviders: _user$project$Domain_Core$getSubscriptions(portal.provider),
+							searchResult: _user$project$Domain_Core$getSubscriptions(portal.provider),
 							portal: _elm_lang$core$Native_Utils.update(
 								portal,
 								{requested: _user$project$Domain_Core$ViewRecent})
@@ -22647,7 +22659,7 @@ var _user$project$Home$renderNavigation = F2(
 					};
 			}
 		}();
-		var followers = _user$project$Domain_Core$getFollowers(portal);
+		var followers = _user$project$Domain_Core$getFollowers(portal.provider);
 		var followersText = A2(
 			_elm_lang$core$Basics_ops['++'],
 			'Followers ',
@@ -22659,7 +22671,7 @@ var _user$project$Home$renderNavigation = F2(
 					_elm_lang$core$Basics$toString(
 						_elm_lang$core$List$length(followers)),
 					')')));
-		var subscriptions = _user$project$Domain_Core$getSubscriptions(portal);
+		var subscriptions = _user$project$Domain_Core$getSubscriptions(portal.provider);
 		var recentCount = _elm_lang$core$List$length(
 			_user$project$Home$recentLinks(subscriptions));
 		var newText = A2(
