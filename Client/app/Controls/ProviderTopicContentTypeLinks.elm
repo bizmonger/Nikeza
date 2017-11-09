@@ -20,9 +20,8 @@ view provider topic contentType =
 
         content =
             div [ class "mainContent" ]
-                [ table []
-                    [ tr []
-                        [ td [] [ h3 [ class "portalTopicHeader" ] [ text <| Domain.title topic contentType ] ] ]
+                [ table [ class "portfolioContent" ]
+                    [ tr [] [ td [] [ h3 [ class "portalTopicHeader" ] [ text <| Domain.title topic contentType ] ] ]
                     , tr []
                         [ td [] [ div [ class "topicLinks" ] <| List.map (\link -> a [ href <| urlText link.url, target "_blank" ] [ text <| titleText link.title, br [] [] ]) posts ]
                         ]

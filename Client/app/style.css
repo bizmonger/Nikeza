@@ -264,8 +264,18 @@ table.contentTable {
     margin-left: 60px;
 }
 
+tr.contentTypeHeader {
+    background: rgb(247, 248, 250);
+}
+
+/* table.portfolioContent {
+    width: 400px;
+    background: rgb(250, 250, 250);
+} */
+
 td.portfolioContent {
     width: 400px;
+    background: rgb(250, 250, 250);
 }
 
 td.joinForm {

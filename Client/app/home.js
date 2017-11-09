@@ -18406,7 +18406,11 @@ var _user$project$Controls_ProviderLinks$view = F2(
 															ctor: '::',
 															_0: A2(
 																_elm_lang$html$Html$tr,
-																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$class('contentTypeHeader'),
+																	_1: {ctor: '[]'}
+																},
 																{
 																	ctor: '::',
 																	_0: A2(
@@ -18498,7 +18502,11 @@ var _user$project$Controls_ProviderLinks$view = F2(
 																	ctor: '::',
 																	_0: A2(
 																		_elm_lang$html$Html$tr,
-																		{ctor: '[]'},
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$class('contentTypeHeader'),
+																			_1: {ctor: '[]'}
+																		},
 																		{
 																			ctor: '::',
 																			_0: A2(
@@ -18626,7 +18634,11 @@ var _user$project$Controls_ProviderTopicContentTypeLinks$view = F3(
 				ctor: '::',
 				_0: A2(
 					_elm_lang$html$Html$table,
-					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('portfolioContent'),
+						_1: {ctor: '[]'}
+					},
 					{
 						ctor: '::',
 						_0: A2(
