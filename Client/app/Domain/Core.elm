@@ -332,6 +332,24 @@ type ContentType
 -- FUNCTIONS
 
 
+getSubscriptions : Portal -> List Provider
+getSubscriptions portal =
+    let
+        (Members subscriptions) =
+            portal.provider.subscriptions
+    in
+        subscriptions
+
+
+getFollowers : Portal -> List Provider
+getFollowers portal =
+    let
+        (Members followers) =
+            portal.provider.followers
+    in
+        followers
+
+
 toggleFilter : Provider -> ( Topic, Bool ) -> Provider
 toggleFilter provider ( topic, include ) =
     let

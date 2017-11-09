@@ -44,6 +44,7 @@ type alias Model =
     , platforms : List Platform
     , portal : Portal
     , providers : List Provider
+    , searchContext : List Provider
     , selectedProvider : Provider
     }
 
@@ -56,6 +57,7 @@ init location =
       , platforms = []
       , portal = initPortal
       , providers = []
+      , searchContext = []
       , selectedProvider = initProvider
       }
     , runtime.bootstrap BootstrapResponse
@@ -163,12 +165,17 @@ update msg model =
             BootstrapResponse response ->
                 case response of
                     Ok bootstrap ->
-                        ( { model
-                            | providers = bootstrap.providers |> List.map toProvider
-                            , platforms = bootstrap.platforms |> List.map (\p -> Platform p)
-                          }
-                        , Cmd.none
-                        )
+                        let
+                            providers =
+                                bootstrap.providers |> List.map toProvider
+                        in
+                            ( { model
+                                | providers = providers
+                                , searchContext = providers
+                                , platforms = bootstrap.platforms |> List.map (\p -> Platform p)
+                              }
+                            , Cmd.none
+                            )
 
                     Err description ->
                         Debug.crash (toString description) ( model, Cmd.none )
@@ -263,7 +270,7 @@ update msg model =
                 ( model, runtime.providers ProvidersResponse )
 
             Search text ->
-                text |> matchProviders model
+                model.searchContext |> matchProviders model text
 
             ProfileThumbnail subMsg ->
                 ( model, Cmd.none )
@@ -284,16 +291,36 @@ update msg model =
                 ( { model | portal = { portal | requested = Domain.EditProfile } }, Cmd.none )
 
             ViewSubscriptions ->
-                ( { model | portal = { portal | requested = Domain.ViewSubscriptions } }, Cmd.none )
+                ( { model
+                    | searchContext = portal |> getSubscriptions
+                    , portal = { portal | requested = Domain.ViewSubscriptions }
+                  }
+                , Cmd.none
+                )
 
             ViewFollowers ->
-                ( { model | portal = { portal | requested = Domain.ViewFollowers } }, Cmd.none )
+                ( { model
+                    | searchContext = portal |> getFollowers
+                    , portal = { portal | requested = Domain.ViewFollowers }
+                  }
+                , Cmd.none
+                )
 
             ViewProviders ->
-                ( { model | portal = { portal | requested = Domain.ViewProviders } }, Cmd.none )
+                ( { model
+                    | searchContext = model.providers
+                    , portal = { portal | requested = Domain.ViewProviders }
+                  }
+                , Cmd.none
+                )
 
             ViewRecent ->
-                ( { model | portal = { portal | requested = Domain.ViewRecent } }, Cmd.none )
+                ( { model
+                    | searchContext = portal |> getSubscriptions
+                    , portal = { portal | requested = Domain.ViewRecent }
+                  }
+                , Cmd.none
+                )
 
             SourcesUpdated subMsg ->
                 onSourcesUpdated subMsg model
@@ -752,9 +779,9 @@ filterProviders providers matchValue =
         providers |> List.filter onName
 
 
-matchProviders : Model -> String -> ( Model, Cmd Msg )
-matchProviders model matchValue =
-    ( { model | providers = filterProviders model.providers matchValue }, Cmd.none )
+matchProviders : Model -> String -> List Provider -> ( Model, Cmd Msg )
+matchProviders model matchValue providers =
+    ( { model | providers = filterProviders providers matchValue }, Cmd.none )
 
 
 onLogin : Login.Msg -> Model -> ( Model, Cmd Msg )
@@ -808,7 +835,7 @@ view : Model -> Html Msg
 view model =
     case model.currentRoute.hash |> tokenizeUrl of
         [] ->
-            homePage model
+            homePage { model | searchContext = model.providers }
 
         [ "register" ] ->
             model |> renderPage (Html.map OnRegistration <| Registration.view model.registration)
@@ -1083,11 +1110,11 @@ content contentToEmbed model =
         loggedIn =
             portal.provider
 
-        (Members followingYou) =
-            loggedIn.followers
+        followingYou =
+            portal |> getFollowers
 
-        (Members following) =
-            loggedIn.subscriptions
+        following =
+            portal |> getSubscriptions
     in
         case portal.requested of
             Domain.ViewSources ->
@@ -1205,11 +1232,11 @@ renderNavigation portal providers =
         links =
             portal.provider.portfolio
 
-        (Members subscriptions) =
-            portal.provider.subscriptions
+        subscriptions =
+            portal |> getSubscriptions
 
-        (Members followers) =
-            portal.provider.followers
+        followers =
+            portal |> getFollowers
 
         profile =
             portal.provider.profile
