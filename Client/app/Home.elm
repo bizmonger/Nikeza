@@ -7,7 +7,7 @@ import Controls.ProfileThumbnail as ProfileThumbnail exposing (..)
 import Controls.RecentProviderLinks as RecentProviderLinks exposing (..)
 import Controls.Sources as Sources exposing (..)
 import Controls.NewLinks as NewLinks exposing (..)
-import Controls.ProviderLinks as ProviderLinks exposing (..)
+import Controls.Portfolio as Portfolio exposing (..)
 import Controls.ProviderContentTypeLinks as ProviderContentTypeLinks exposing (..)
 import Controls.ProviderTopicContentTypeLinks as ProviderTopicContentTypeLinks exposing (..)
 import Controls.Register as Registration exposing (..)
@@ -85,8 +85,8 @@ type Msg
     | RecentProviderLinks RecentProviderLinks.Msg
     | SourcesUpdated Sources.Msg
     | NewLink NewLinks.Msg
-    | ProviderLinksAction ProviderLinks.Msg
-    | PortalLinksAction ProviderLinks.Msg
+    | ProviderLinksAction Portfolio.Msg
+    | PortalLinksAction Portfolio.Msg
     | EditProfileAction EditProfile.Msg
     | ProviderContentTypeLinksAction ProviderContentTypeLinks.Msg
     | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
@@ -379,18 +379,18 @@ update msg model =
                 ( model, Navigation.back 1 )
 
 
-onUpdateProviderLinks : ProviderLinks.Msg -> Model -> Linksfrom -> ( Model, Cmd Msg )
+onUpdateProviderLinks : Portfolio.Msg -> Model -> Linksfrom -> ( Model, Cmd Msg )
 onUpdateProviderLinks subMsg model linksfrom =
     case subMsg of
-        ProviderLinks.Toggle _ ->
+        Portfolio.Toggle _ ->
             let
                 provider =
                     case linksfrom of
                         FromPortal ->
-                            ProviderLinks.update subMsg model.portal.provider
+                            Portfolio.update subMsg model.portal.provider
 
                         FromOther ->
-                            ProviderLinks.update subMsg model.selectedProvider
+                            Portfolio.update subMsg model.selectedProvider
             in
                 ( { model | selectedProvider = provider }, Cmd.none )
 
@@ -417,13 +417,13 @@ onUpdateProviderContentTypeLinks subMsg model linksfrom =
                 ( { model | portal = { portal | provider = provider } }, Cmd.none )
 
 
-onPortalLinksAction : ProviderLinks.Msg -> Model -> ( Model, Cmd Msg )
+onPortalLinksAction : Portfolio.Msg -> Model -> ( Model, Cmd Msg )
 onPortalLinksAction subMsg model =
     case subMsg of
-        ProviderLinks.Toggle _ ->
+        Portfolio.Toggle _ ->
             let
                 provider =
-                    ProviderLinks.update subMsg model.portal.provider
+                    Portfolio.update subMsg model.portal.provider
 
                 pendingPortal =
                     model.portal
@@ -870,7 +870,7 @@ view model =
             model
                 |> renderPage
                     (renderProfileBase model.selectedProvider <|
-                        Html.map ProviderLinksAction (ProviderLinks.view FromOther model.selectedProvider)
+                        Html.map ProviderLinksAction (Portfolio.view FromOther model.selectedProvider)
                     )
 
         [ "provider", id, topic ] ->
@@ -916,7 +916,7 @@ view model =
             let
                 contentLinks =
                     (renderProfileBase model.selectedProvider <|
-                        Html.map ProviderLinksAction (ProviderLinks.view FromOther model.selectedProvider)
+                        Html.map ProviderLinksAction (Portfolio.view FromOther model.selectedProvider)
                     )
             in
                 model |> renderPage contentLinks
@@ -1162,7 +1162,7 @@ content contentToEmbed model =
                                 v
 
                             Nothing ->
-                                div [] [ Html.map PortalLinksAction <| ProviderLinks.view FromPortal loggedIn ]
+                                div [] [ Html.map PortalLinksAction <| Portfolio.view FromPortal loggedIn ]
                 in
                     contentToDisplay
 

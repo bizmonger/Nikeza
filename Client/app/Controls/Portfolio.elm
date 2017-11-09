@@ -1,4 +1,4 @@
-module Controls.ProviderLinks exposing (..)
+module Controls.Portfolio exposing (..)
 
 import Domain.Core exposing (..)
 import Html exposing (..)

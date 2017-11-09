@@ -101,10 +101,10 @@ let private updateThumbnailHandler =
 open StackOverflow
 open Suggestions
 
-let private fetchBootstrap =
+let private fetchBootstrap (context : HttpContext) =
     CachedTags.Instance() |> ignore
     let  dependencies = { Providers= getProviders(); Platforms=getPlatforms() }
-    json dependencies
+    json dependencies context
 
 let private fetchLinks (providerId) (context : HttpContext) =
     let response = getLinks providerId
