@@ -23,6 +23,14 @@ encodeThumbnailUpdate request =
         ]
 
 
+encodeFeatureLink : FeatureLink -> Encode.Value
+encodeFeatureLink request =
+    Encode.object
+        [ ( "LinkId", Encode.int <| request.linkId )
+        , ( "IsFeatured", Encode.bool <| request.isFeatured )
+        ]
+
+
 encodeLink : Link -> Encode.Value
 encodeLink link =
     Encode.object

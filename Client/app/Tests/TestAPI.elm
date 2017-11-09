@@ -696,6 +696,11 @@ updateProfile profile msg =
     profile |> toJsonProfile |> httpSuccess msg
 
 
+featureLink : FeatureLink -> (Result Http.Error Int -> msg) -> Cmd msg
+featureLink request msg =
+    request.linkId |> httpSuccess msg
+
+
 thumbnail : Platform -> String -> (Result Http.Error JsonThumbnail -> msg) -> Cmd msg
 thumbnail platform accessId msg =
     { platform = "youtube", imageUrl = urlText someImageUrl } |> httpSuccess msg

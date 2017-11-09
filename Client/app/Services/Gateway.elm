@@ -186,6 +186,21 @@ removeLink link msg =
         Http.send msg request
 
 
+featureLink : FeatureLink -> (Result Http.Error Int -> msg) -> Cmd msg
+featureLink toggleRequest msg =
+    let
+        url =
+            baseUrl ++ "featurelink"
+
+        body =
+            encodeFeatureLink toggleRequest |> Http.jsonBody
+
+        request =
+            Http.post url body Decode.int
+    in
+        Http.send msg request
+
+
 sources : Id -> (Result Http.Error (List JsonSource) -> msg) -> Cmd msg
 sources profileId msg =
     let

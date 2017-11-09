@@ -146,7 +146,7 @@ button.navigationButton4 {
     vertical-align: text-top;
     width:119px;
     height:25px;
-    background-color: lightgray;
+    background-color: rgb(226, 238, 247);;
     border-top: none;
     border-bottom: none;
     border-right: none;
@@ -157,7 +157,7 @@ button.selectedNavigationButton4 {
     vertical-align: text-top;
     width:119px;
     height:25px;
-    background-color: lightblue;
+    background-color: rgb(186, 234, 248);
     border-top: none;
     border-bottom: none;
     border-right: none;

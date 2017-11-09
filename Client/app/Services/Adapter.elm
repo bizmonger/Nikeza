@@ -102,8 +102,18 @@ type alias RecentLinksfunction msg =
     Id -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
 
 
+type alias FeatureLinkfunction msg =
+    FeatureLink -> (Result Http.Error Int -> msg) -> Cmd msg
+
+
 type alias SuggestedTopicsfunction msg =
     String -> (Result Http.Error (List String) -> msg) -> Cmd msg
+
+
+type alias FeatureLink =
+    { linkId : Int
+    , isFeatured : Bool
+    }
 
 
 type alias JsonProfile =

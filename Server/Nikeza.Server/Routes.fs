@@ -161,17 +161,17 @@ let webApp : HttpContext -> HttpHandlerResult =
             ]
         POST >=> 
             choose [
-                route "/register"      >=> registrationHandler
-                route "/login"         >=> loginHandler
-                route "/logout"        >=> signOff authScheme >=> text "logged out"
-                route "/follow"        >=> followHandler
-                route "/unsubscribe"   >=> unsubscribeHandler
-                route "/featurelink"   >=> featureLinkHandler
-                route "/updateprofile" >=> updateProfileHandler
-                route "/addsource"     >=> addSourceHandler
-                route "/removesource"  >=> removeSourceHandler
-                route "/addlink"       >=> addLinkHandler
-                route "/removelink"    >=> removeLinkHandler
+                route "/register"        >=> registrationHandler
+                route "/login"           >=> loginHandler
+                route "/logout"          >=> signOff authScheme >=> text "logged out"
+                route "/follow"          >=> followHandler
+                route "/unsubscribe"     >=> unsubscribeHandler
+                route "/featurelink"     >=> featureLinkHandler
+                route "/updateprofile"   >=> updateProfileHandler
+                route "/addsource"       >=> addSourceHandler
+                route "/removesource"    >=> removeSourceHandler
+                route "/addlink"         >=> addLinkHandler
+                route "/removelink"      >=> removeLinkHandler
                 route "/updatethumbnail" >=> updateThumbnailHandler
             ]
             

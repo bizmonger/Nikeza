@@ -14199,6 +14199,10 @@ var _user$project$Services_Adapter$httpSuccess = F2(
 				msg(
 					_elm_lang$core$Result$Ok(a))));
 	});
+var _user$project$Services_Adapter$FeatureLink = F2(
+	function (a, b) {
+		return {linkId: a, isFeatured: b};
+	});
 var _user$project$Services_Adapter$JsonProfile = F7(
 	function (a, b, c, d, e, f, g) {
 		return {id: a, firstName: b, lastName: c, email: d, imageUrl: e, bio: f, sources: g};
@@ -14298,6 +14302,10 @@ var _user$project$Tests_TestAPI$addSource = F2(
 			_user$project$Services_Adapter$httpSuccess,
 			msg,
 			_user$project$Services_Adapter$toJsonSource(source));
+	});
+var _user$project$Tests_TestAPI$featureLink = F2(
+	function (request, msg) {
+		return A2(_user$project$Services_Adapter$httpSuccess, msg, request.linkId);
 	});
 var _user$project$Tests_TestAPI$updateProfile = F2(
 	function (profile, msg) {
@@ -15674,6 +15682,26 @@ var _user$project$Services_Encoders$encodeLinks = function (providerLinks) {
 			_1: {ctor: '[]'}
 		});
 };
+var _user$project$Services_Encoders$encodeFeatureLink = function (request) {
+	return _elm_lang$core$Json_Encode$object(
+		{
+			ctor: '::',
+			_0: {
+				ctor: '_Tuple2',
+				_0: 'LinkId',
+				_1: _elm_lang$core$Json_Encode$int(request.linkId)
+			},
+			_1: {
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'IsFeatured',
+					_1: _elm_lang$core$Json_Encode$bool(request.isFeatured)
+				},
+				_1: {ctor: '[]'}
+			}
+		});
+};
 var _user$project$Services_Encoders$encodeThumbnailUpdate = function (request) {
 	return _elm_lang$core$Json_Encode$object(
 		{
@@ -15995,6 +16023,14 @@ var _user$project$Services_Gateway$removeLink = F2(
 		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Decoders$linkDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
+var _user$project$Services_Gateway$featureLink = F2(
+	function (toggleRequest, msg) {
+		var body = _elm_lang$http$Http$jsonBody(
+			_user$project$Services_Encoders$encodeFeatureLink(toggleRequest));
+		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'featurelink');
+		var request = A3(_elm_lang$http$Http$post, url, body, _elm_lang$core$Json_Decode$int);
+		return A2(_elm_lang$http$Http$send, msg, request);
+	});
 var _user$project$Services_Gateway$sources = F2(
 	function (profileId, msg) {
 		var url = A2(
@@ -16103,7 +16139,9 @@ var _user$project$Settings$Dependencies = function (a) {
 																			return function (t) {
 																				return function (u) {
 																					return function (v) {
-																						return {bootstrap: a, tryLogin: b, tryRegister: c, updateProfile: d, thumbnail: e, updateThumbnail: f, provider: g, providerTopic: h, providers: i, portfolio: j, addLink: k, removeLink: l, topicLinks: m, sources: n, addSource: o, removeSource: p, suggestedTopics: q, subscriptions: r, followers: s, follow: t, unsubscribe: u, recentLinks: v};
+																						return function (w) {
+																							return {bootstrap: a, tryLogin: b, tryRegister: c, updateProfile: d, thumbnail: e, updateThumbnail: f, provider: g, providerTopic: h, providers: i, portfolio: j, addLink: k, removeLink: l, topicLinks: m, sources: n, addSource: o, removeSource: p, suggestedTopics: q, subscriptions: r, followers: s, follow: t, unsubscribe: u, recentLinks: v, featureLink: w};
+																						};
 																					};
 																				};
 																			};
@@ -16131,9 +16169,9 @@ var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
-		return _user$project$Settings$Dependencies(_user$project$Services_Gateway$bootstrap)(_user$project$Services_Gateway$tryLogin)(_user$project$Services_Gateway$tryRegister)(_user$project$Services_Gateway$updateProfile)(_user$project$Services_Gateway$thumbnail)(_user$project$Services_Gateway$updateThumbnail)(_user$project$Services_Gateway$provider)(_user$project$Services_Gateway$providerTopic)(_user$project$Services_Gateway$providers)(_user$project$Services_Gateway$portfolio)(_user$project$Services_Gateway$addLink)(_user$project$Services_Gateway$removeLink)(_user$project$Services_Gateway$topicLinks)(_user$project$Services_Gateway$sources)(_user$project$Services_Gateway$addSource)(_user$project$Services_Gateway$removeSource)(_user$project$Services_Gateway$suggestedTopics)(_user$project$Services_Gateway$subscriptions)(_user$project$Services_Gateway$followers)(_user$project$Services_Gateway$follow)(_user$project$Services_Gateway$unsubscribe)(_user$project$Services_Gateway$recentLinks);
+		return _user$project$Settings$Dependencies(_user$project$Services_Gateway$bootstrap)(_user$project$Services_Gateway$tryLogin)(_user$project$Services_Gateway$tryRegister)(_user$project$Services_Gateway$updateProfile)(_user$project$Services_Gateway$thumbnail)(_user$project$Services_Gateway$updateThumbnail)(_user$project$Services_Gateway$provider)(_user$project$Services_Gateway$providerTopic)(_user$project$Services_Gateway$providers)(_user$project$Services_Gateway$portfolio)(_user$project$Services_Gateway$addLink)(_user$project$Services_Gateway$removeLink)(_user$project$Services_Gateway$topicLinks)(_user$project$Services_Gateway$sources)(_user$project$Services_Gateway$addSource)(_user$project$Services_Gateway$removeSource)(_user$project$Services_Gateway$suggestedTopics)(_user$project$Services_Gateway$subscriptions)(_user$project$Services_Gateway$followers)(_user$project$Services_Gateway$follow)(_user$project$Services_Gateway$unsubscribe)(_user$project$Services_Gateway$recentLinks)(_user$project$Services_Gateway$featureLink);
 	} else {
-		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$bootstrap)(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$updateProfile)(_user$project$Tests_TestAPI$thumbnail)(_user$project$Tests_TestAPI$updateThumbnail)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$providerTopic)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$portfolio)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$recentLinks);
+		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$bootstrap)(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$updateProfile)(_user$project$Tests_TestAPI$thumbnail)(_user$project$Tests_TestAPI$updateThumbnail)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$providerTopic)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$portfolio)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$recentLinks)(_user$project$Tests_TestAPI$featureLink);
 	}
 }();
 var _user$project$Settings$Integration = {ctor: 'Integration'};

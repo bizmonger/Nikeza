@@ -38,6 +38,7 @@ type alias Dependencies msg =
     , follow : Followfunction msg
     , unsubscribe : Unsubscribefunction msg
     , recentLinks : RecentLinksfunction msg
+    , featureLink : FeatureLinkfunction msg
     }
 
 
@@ -68,6 +69,7 @@ runtime =
                 Services.follow
                 Services.unsubscribe
                 Services.recentLinks
+                Services.featureLink
 
         Isolation ->
             Dependencies
@@ -93,3 +95,4 @@ runtime =
                 TestAPI.follow
                 TestAPI.unsubscribe
                 TestAPI.recentLinks
+                TestAPI.featureLink
