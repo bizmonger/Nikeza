@@ -16510,7 +16510,7 @@ var _user$project$Controls_Login$view = function (model) {
 				_elm_lang$html$Html$input,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('signin'),
+					_0: _elm_lang$html$Html_Attributes$class('signinButton'),
 					_1: {
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$type_('submit'),
@@ -19213,7 +19213,7 @@ var _user$project$Controls_Sources$sourceUI = function (source) {
 									},
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html$text('Disconnect'),
+										_0: _elm_lang$html$Html$text('X'),
 										_1: {ctor: '[]'}
 									}),
 								_1: {ctor: '[]'}

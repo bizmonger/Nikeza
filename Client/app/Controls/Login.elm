@@ -47,7 +47,7 @@ update msg credentials =
 view : Credentials -> Html Msg
 view model =
     div []
-        [ input [ class "signin", type_ "submit", tabindex 3, value "Signin", onClick <| Attempt ( model.email, model.password ) ] []
+        [ input [ class "signinButton", type_ "submit", tabindex 3, value "Signin", onClick <| Attempt ( model.email, model.password ) ] []
         , input [ class "signin", type_ "password", tabindex 2, placeholder "password", onInput PasswordInput, value model.password ] []
         , input [ class "signin", type_ "text", tabindex 1, placeholder "username", onInput UserInput, value model.email ] []
         ]
