@@ -17424,6 +17424,9 @@ var _user$project$Controls_ProfileThumbnail$UpdateSubscription = function (a) {
 };
 var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 	function (loggedIn, showSubscriptionState, provider) {
+		var _p8 = provider.followers;
+		var followers = _p8._0;
+		var followersCount = _elm_lang$core$List$length(followers);
 		var recentLinks = A2(
 			_elm_lang$html$Html$div,
 			{
@@ -17606,11 +17609,11 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 					}
 				}
 			});
-		var _p8 = loggedIn;
-		if (_p8.ctor === 'Just') {
-			var _p10 = _p8._0;
-			var _p9 = _p10.subscriptions;
-			var mySubscriptions = _p9._0;
+		var _p9 = loggedIn;
+		if (_p9.ctor === 'Just') {
+			var _p11 = _p9._0;
+			var _p10 = _p11.subscriptions;
+			var mySubscriptions = _p10._0;
 			var alreadySubscribed = A2(
 				_elm_lang$core$List$any,
 				function (subscription) {
@@ -17627,7 +17630,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 						ctor: '::',
 						_0: _elm_lang$html$Html_Events$onClick(
 							_user$project$Controls_ProfileThumbnail$UpdateSubscription(
-								A2(_user$project$Domain_Core$Subscribe, _p10.profile.id, provider.profile.id))),
+								A2(_user$project$Domain_Core$Subscribe, _p11.profile.id, provider.profile.id))),
 						_1: {ctor: '[]'}
 					}
 				},
@@ -17644,7 +17647,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 						ctor: '::',
 						_0: _elm_lang$html$Html_Events$onClick(
 							_user$project$Controls_ProfileThumbnail$UpdateSubscription(
-								A2(_user$project$Domain_Core$Unsubscribe, _p10.profile.id, provider.profile.id))),
+								A2(_user$project$Domain_Core$Unsubscribe, _p11.profile.id, provider.profile.id))),
 						_1: {ctor: '[]'}
 					}
 				},
@@ -17688,7 +17691,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 														_user$project$Domain_Core$urlText(
 															A2(
 																_user$project$Domain_Core$providerUrl,
-																_elm_lang$core$Maybe$Just(_p10.profile.id),
+																_elm_lang$core$Maybe$Just(_p11.profile.id),
 																profile.id))),
 													_1: {ctor: '[]'}
 												},
@@ -17730,7 +17733,8 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 														},
 														{
 															ctor: '::',
-															_0: _elm_lang$html$Html$text('100'),
+															_0: _elm_lang$html$Html$text(
+																_elm_lang$core$Basics$toString(followersCount)),
 															_1: {ctor: '[]'}
 														}),
 													_1: {ctor: '[]'}
@@ -17845,7 +17849,8 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 														},
 														{
 															ctor: '::',
-															_0: _elm_lang$html$Html$text('100'),
+															_0: _elm_lang$html$Html$text(
+																_elm_lang$core$Basics$toString(followersCount)),
 															_1: {ctor: '[]'}
 														}),
 													_1: {ctor: '[]'}
