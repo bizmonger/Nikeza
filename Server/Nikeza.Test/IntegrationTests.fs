@@ -382,7 +382,7 @@ let ``Get links of provider`` () =
 
     //Setup
     let profileId = Register someProfile |> execute
-    AddLink  { someLink with ProfileId= unbox profileId } |> execute |> ignore
+    AddLink { someLink with ProfileId= unbox profileId } |> execute |> ignore
     
     // Test
     let links = profileId |> getLinks

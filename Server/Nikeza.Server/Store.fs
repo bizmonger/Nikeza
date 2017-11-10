@@ -30,13 +30,20 @@ let getResults sql commandFunc readInData =
                 connection.Close()
     entities
 
+let attachTopics (link:Link) =
+    let linkTopicsCommandFunc (command: SqlCommand) = 
+        command |> addWithValue "@LinkId" link.Id
+                             
+    let topics = readInLinkTopics |> getResults getLinkTopicsSql linkTopicsCommandFunc
+    { link with Topics= topics }
+
 let linksFrom platform profileId =
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue "@ProfileId" profileId
                 |> addWithValue "@Platform"  platform
 
-    let links = readInLinks |> getResults getSourceLinksSql commandFunc
-    links
+    readInLinks |> getResults getSourceLinksSql commandFunc
+                |> List.map attachTopics
 
 let getSource sourceId =
     let sourceCommandFunc (command: SqlCommand) = 
@@ -93,17 +100,9 @@ let getLinks (profileId:string) =
     let linksCommandFunc (command: SqlCommand) = 
         command |> addWithValue "@ProfileId" profileId
 
-    let links =  readInLinks  |> getResults getLinksSql linksCommandFunc
-
-    let updatedLinks =
-        links |> List.map(fun l ->
-                            let linkTopicsCommandFunc (command: SqlCommand) = 
-                                command |> addWithValue "@LinkId" l.Id
-                            
-                            let topics = readInLinkTopics |> getResults getLinkTopicsSql linkTopicsCommandFunc
-                            { l with Topics= topics |> List.map(fun t -> { Id= t.Id; Name= t.Name; IsFeatured= t.IsFeatured } ) }
-                         )
-    updatedLinks
+    readInLinks |> getResults getLinksSql linksCommandFunc 
+                |> List.map attachTopics
+    
 
 let toPortfolio links = 
 

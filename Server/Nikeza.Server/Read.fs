@@ -53,9 +53,10 @@ and readInTopic (reader:SqlDataReader) = {
   Name= reader.GetString (1) }
 
 and readInLinkTopic (reader:SqlDataReader) = {
-  Id=         reader.GetInt32   (0)
-  Name=       reader.GetString  (1)
-  IsFeatured= reader.GetBoolean (2) }
+  Id=         reader.GetInt32  (0)
+  Name=       reader.GetString (1)
+  IsFeatured= reader.GetInt32 (2) |> function 1 -> true | _ -> false
+  }
 
 and readInLink (reader:SqlDataReader) = {
   Id=          reader.GetInt32  (0)

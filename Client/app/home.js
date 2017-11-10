@@ -18887,13 +18887,255 @@ var _user$project$Controls_Portfolio$view = F2(
 			{
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$label,
+					_elm_lang$html$Html$table,
 					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							_elm_lang$core$Basics$toString(
-								A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, provider.portfolio))),
+						_0: A2(
+							_elm_lang$html$Html$tr,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$table,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$tr,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$td,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$div,
+															{ctor: '[]'},
+															A2(
+																_elm_lang$core$List$map,
+																function (t) {
+																	return A2(toCheckBoxState, true, t);
+																},
+																_user$project$Domain_Core$topicsFromLinks(
+																	A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, provider.portfolio)))),
+														_1: {ctor: '[]'}
+													}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$table,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$class('contentTable'),
+															_1: {ctor: '[]'}
+														},
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$tr,
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$class('contentTypeHeader'),
+																	_1: {ctor: '[]'}
+																},
+																{
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$td,
+																		{ctor: '[]'},
+																		{
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$b,
+																				{ctor: '[]'},
+																				{
+																					ctor: '::',
+																					_0: _elm_lang$html$Html$text('Answers'),
+																					_1: {ctor: '[]'}
+																				}),
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$td,
+																			{ctor: '[]'},
+																			{
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html$b,
+																					{ctor: '[]'},
+																					{
+																						ctor: '::',
+																						_0: _elm_lang$html$Html$text('Articles'),
+																						_1: {ctor: '[]'}
+																					}),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {ctor: '[]'}
+																	}
+																}),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$tr,
+																	{ctor: '[]'},
+																	{
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$td,
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$class('portfolioContent'),
+																				_1: {ctor: '[]'}
+																			},
+																			{
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html$div,
+																					{
+																						ctor: '::',
+																						_0: _elm_lang$html$Html_Attributes$class('contentType'),
+																						_1: {ctor: '[]'}
+																					},
+																					A5(_user$project$Controls_Portfolio$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Answer, filtered.answers, answerCount)),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$td,
+																				{
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Attributes$class('portfolioContent'),
+																					_1: {ctor: '[]'}
+																				},
+																				{
+																					ctor: '::',
+																					_0: A2(
+																						_elm_lang$html$Html$div,
+																						{
+																							ctor: '::',
+																							_0: _elm_lang$html$Html_Attributes$class('contentType'),
+																							_1: {ctor: '[]'}
+																						},
+																						A5(_user$project$Controls_Portfolio$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Article, filtered.articles, articleCount)),
+																					_1: {ctor: '[]'}
+																				}),
+																			_1: {ctor: '[]'}
+																		}
+																	}),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$tr,
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$class('contentTypeHeader'),
+																			_1: {ctor: '[]'}
+																		},
+																		{
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$td,
+																				{ctor: '[]'},
+																				{
+																					ctor: '::',
+																					_0: A2(
+																						_elm_lang$html$Html$b,
+																						{ctor: '[]'},
+																						{
+																							ctor: '::',
+																							_0: _elm_lang$html$Html$text('Podcasts'),
+																							_1: {ctor: '[]'}
+																						}),
+																					_1: {ctor: '[]'}
+																				}),
+																			_1: {
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html$td,
+																					{ctor: '[]'},
+																					{
+																						ctor: '::',
+																						_0: A2(
+																							_elm_lang$html$Html$b,
+																							{ctor: '[]'},
+																							{
+																								ctor: '::',
+																								_0: _elm_lang$html$Html$text('Videos'),
+																								_1: {ctor: '[]'}
+																							}),
+																						_1: {ctor: '[]'}
+																					}),
+																				_1: {ctor: '[]'}
+																			}
+																		}),
+																	_1: {
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$tr,
+																			{ctor: '[]'},
+																			{
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html$td,
+																					{
+																						ctor: '::',
+																						_0: _elm_lang$html$Html_Attributes$class('portfolioContent'),
+																						_1: {ctor: '[]'}
+																					},
+																					{
+																						ctor: '::',
+																						_0: A2(
+																							_elm_lang$html$Html$div,
+																							{
+																								ctor: '::',
+																								_0: _elm_lang$html$Html_Attributes$class('contentType'),
+																								_1: {ctor: '[]'}
+																							},
+																							A5(_user$project$Controls_Portfolio$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Podcast, filtered.podcasts, podcastCount)),
+																						_1: {ctor: '[]'}
+																					}),
+																				_1: {
+																					ctor: '::',
+																					_0: A2(
+																						_elm_lang$html$Html$td,
+																						{
+																							ctor: '::',
+																							_0: _elm_lang$html$Html_Attributes$class('portfolioContent'),
+																							_1: {ctor: '[]'}
+																						},
+																						{
+																							ctor: '::',
+																							_0: A2(
+																								_elm_lang$html$Html$div,
+																								{
+																									ctor: '::',
+																									_0: _elm_lang$html$Html_Attributes$class('contentType'),
+																									_1: {ctor: '[]'}
+																								},
+																								A5(_user$project$Controls_Portfolio$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Video, filtered.videos, videoCount)),
+																							_1: {ctor: '[]'}
+																						}),
+																					_1: {ctor: '[]'}
+																				}
+																			}),
+																		_1: {ctor: '[]'}
+																	}
+																}
+															}
+														}),
+													_1: {ctor: '[]'}
+												}
+											}),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}),
 						_1: {ctor: '[]'}
 					}),
 				_1: {ctor: '[]'}
