@@ -268,8 +268,8 @@ update msg model =
                         in
                             ( { model | portal = pendingPortal }, Cmd.none )
 
-                    Err _ ->
-                        ( model, Cmd.none )
+                    Err reason ->
+                        Debug.crash (toString reason) ( model, Cmd.none )
 
             Register ->
                 ( model, Navigation.load <| "/#/register" )

@@ -21678,7 +21678,15 @@ var _user$project$Home$update = F2(
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+					return A2(
+						_elm_lang$core$Native_Utils.crash(
+							'Home',
+							{
+								start: {line: 272, column: 25},
+								end: {line: 272, column: 36}
+							}),
+						_elm_lang$core$Basics$toString(_p50._0),
+						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
 				}
 			case 'Register':
 				return {

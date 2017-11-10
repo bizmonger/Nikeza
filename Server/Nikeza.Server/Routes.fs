@@ -130,6 +130,13 @@ let private fetchSources (providerId) (context : HttpContext) =
     let  response = getSources providerId
     json response context
 
+let private fetchProvider (providerId:string) (context : HttpContext) =
+
+    providerId |> getProvider
+               |> function
+                  | Some p -> json p context
+                  | None   -> (setStatusCode 400 >=> json "provider not found") context 
+
 let private fetchThumbnail (platform:string , accessId:string) (context : HttpContext) =
 
     let thumbnail = platform.ToLower() |> platformFromString 
@@ -158,6 +165,7 @@ let webApp : HttpContext -> HttpHandlerResult =
                 routef "/sources/%s"             fetchSources
                 routef "/thumbnail/%s/%s"        fetchThumbnail
                 routef "/contenttypetoid/%s"     fetchContentTypeToId
+                routef "/provider/%s"            fetchProvider
             ]
         POST >=> 
             choose [
