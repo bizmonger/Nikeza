@@ -1,5 +1,8 @@
 module Domain.Core exposing (..)
 
+import Set
+import List.Extra exposing (uniqueBy)
+
 
 initForm : Form
 initForm =
@@ -413,6 +416,14 @@ getLinks contentType links =
                 ++ links.articles
                 ++ links.podcasts
                 ++ links.videos
+
+
+topicsFromLinks : List Link -> List Topic
+topicsFromLinks links =
+    links
+        |> List.map (\l -> l.topics)
+        |> List.concat
+        |> uniqueBy toString
 
 
 hasMatch : Topic -> List Topic -> Bool

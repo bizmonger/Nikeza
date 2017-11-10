@@ -280,13 +280,13 @@ jsonPortfolio id =
         (podcasts id |> toJsonLinks)
 
 
-subscriptions : Id -> (Result Http.Error Members -> msg) -> Cmd msg
+subscriptions : Id -> (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
 subscriptions profileId msg =
     if profileId == profileId1 then
         -- Weird error when we have provider3
-        Members [ provider2 ] |> httpSuccess msg
+        [ jsonProvider2 ] |> httpSuccess msg
     else
-        Members [] |> httpSuccess msg
+        [] |> httpSuccess msg
 
 
 followers : Id -> (Result Http.Error Members -> msg) -> Cmd msg

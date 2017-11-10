@@ -490,7 +490,7 @@ let ``Add data source`` () =
     finally dispose connection command
 
 [<Test>]
-let ``Adding data source results in links found`` () =
+let ``Adding data source results in links with topics found`` () =
 
     //Setup
     let profileId = Register someProfile |> execute
@@ -500,7 +500,7 @@ let ``Adding data source results in links found`` () =
 
     // Verify
     getSource sourceId |> function
-    | Some source -> source.Links |> Seq.isEmpty |> should equal false
+    | Some source -> source.Links |> Seq.forall(fun l -> l.Topics |> List.isEmpty |> not) |> should equal false
     | None        -> Assert.Fail()
     
 [<Test>]

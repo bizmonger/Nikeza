@@ -67,7 +67,7 @@ type alias Followersfunction msg =
 
 
 type alias Subscriptionsfunction msg =
-    Id -> (Result Http.Error Members -> msg) -> Cmd msg
+    Id -> (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
 
 
 type alias Sourcesfunction msg =

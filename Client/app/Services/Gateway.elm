@@ -100,13 +100,10 @@ provider : Id -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
 provider id msg =
     let
         url =
-            baseUrl ++ "provider"
-
-        body =
-            encodeId id |> Http.jsonBody
+            baseUrl ++ "provider/" ++ (idText id)
 
         request =
-            Http.post url body providerDecoder
+            Http.get url providerDecoder
     in
         Http.send msg request
 
@@ -287,9 +284,16 @@ suggestedTopics search msg =
         Http.send msg request
 
 
-subscriptions : Id -> (Result Http.Error Members -> msg) -> Cmd msg
+subscriptions : Id -> (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
 subscriptions profileId msg =
-    Members [] |> httpSuccess msg
+    let
+        url =
+            baseUrl ++ "subscriptions/" ++ idText profileId
+
+        request =
+            Http.get url (Decode.list providerDecoder)
+    in
+        Http.send msg request
 
 
 followers : Id -> (Result Http.Error Members -> msg) -> Cmd msg

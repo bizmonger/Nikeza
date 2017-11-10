@@ -90,11 +90,20 @@ let getProviderTopics (profileId:string) =
     topics
     
 let getLinks (profileId:string) =
-    let commandFunc (command: SqlCommand) = 
+    let linksCommandFunc (command: SqlCommand) = 
         command |> addWithValue "@ProfileId" profileId
 
-    let links = readInLinks |> getResults getLinksSql commandFunc
-    links
+    let links =  readInLinks  |> getResults getLinksSql linksCommandFunc
+
+    let updatedLinks =
+        links |> List.map(fun l ->
+                            let linkTopicsCommandFunc (command: SqlCommand) = 
+                                command |> addWithValue "@LinkId" l.Id
+                            
+                            let topics = readInTopics |> getResults getLinkTopicsSql linkTopicsCommandFunc
+                            { l with Topics= topics }
+                         )
+    updatedLinks
 
 let getPortfolio profileId = 
 

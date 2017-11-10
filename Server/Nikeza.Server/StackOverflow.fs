@@ -46,14 +46,14 @@ module StackOverflow =
     type ThumbnailResponse = { items: Thumbnail list }
 
     let private toLink profileId item =
-        { Id= -1
-          ProfileId= profileId
-          Title= item.title
+        { Id=          -1
+          ProfileId=   profileId
+          Title=       item.title
           Description= ""
-          Url= item.link
-          Topics= item.tags |> List.map (fun t -> { Id= -1; Name= t })
-          ContentType="Answers"
-          IsFeatured= false
+          Url=         item.link
+          Topics=      item.tags |> List.map (fun t -> { Id= -1; Name= t })
+          ContentType= "Answers"
+          IsFeatured=  false
         }
 
     let getThumbnail accessId key =
@@ -70,21 +70,21 @@ module StackOverflow =
            else ThumbnailUrl
 
     let stackoverflowLinks platformUser =
-        let url =      String.Format(AnswersUrl, platformUser.User.AccessId, platformUser.APIKey)
-        let response = sendRequest APIBaseAddress url platformUser.User.AccessId platformUser.APIKey
+        let user =     platformUser.User
+        let url =      String.Format(AnswersUrl, user.AccessId, platformUser.APIKey)
+        let response = sendRequest APIBaseAddress url user.AccessId platformUser.APIKey
 
         if response.IsSuccessStatusCode
-           then let json =    response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
-                let result =  JsonConvert.DeserializeObject<AnswersResponse>(json)
-                let links =   result.items |> Seq.map (fun item -> toLink platformUser.User.ProfileId item)
-                links
+           then let json =   response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+                JsonConvert.DeserializeObject<AnswersResponse>(json).items
+                |> Seq.map (fun item -> toLink user.ProfileId item)
            else seq []
 
     type Tag =          { name : string }
     type TagsResponse = { items: Tag list }
 
     let private getTags (pageNumber:int) : string list =
-        
+
         let client = httpClient APIBaseAddress
 
         try let url =        String.Format(TagsUrl, pageNumber |> string)
@@ -92,12 +92,10 @@ module StackOverflow =
             let response =   client.GetAsync(urlWithKey) |> Async.AwaitTask 
                                                          |> Async.RunSynchronously
             if response.IsSuccessStatusCode
-            then let json =   response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
-                 let result = JsonConvert.DeserializeObject<TagsResponse>(json)
-                 let tags =   result.items |> List.ofSeq 
-                                           |> List.map (fun i -> i.name)
-                 tags
-            else []
+               then let json = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+                    JsonConvert.DeserializeObject<TagsResponse>(json).items 
+                    |> List.ofSeq |> List.map (fun i -> i.name)
+               else []
 
         finally  client.Dispose()
 
@@ -151,6 +149,6 @@ module StackOverflow =
                  let matchingTags = filteredTags |> List.filter (fun t -> t = searchItem)
 
                  if matchingTags |> List.isEmpty |> not
-                     then getRelatedTags matchingTags.Head
-                     else filteredTags
+                    then getRelatedTags matchingTags.Head
+                    else filteredTags
             else []
