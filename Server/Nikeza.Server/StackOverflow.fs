@@ -51,7 +51,7 @@ module StackOverflow =
           Title=       item.title
           Description= ""
           Url=         item.link
-          Topics=      item.tags |> List.map (fun t -> { Id= -1; Name= t })
+          Topics=      item.tags |> List.map (fun t -> { Id= -1; Name= t; IsFeatured= false })
           ContentType= "Answers"
           IsFeatured=  false
         }

@@ -52,6 +52,11 @@ and readInTopic (reader:SqlDataReader) = {
   Id=   reader.GetInt32  (0)
   Name= reader.GetString (1) }
 
+and readInLinkTopic (reader:SqlDataReader) = {
+  Id=         reader.GetInt32   (0)
+  Name=       reader.GetString  (1)
+  IsFeatured= reader.GetBoolean (2) }
+
 and readInLink (reader:SqlDataReader) = {
   Id=          reader.GetInt32  (0)
   ProfileId=   reader.GetInt32  (1) |> string
@@ -66,6 +71,11 @@ and readInLink (reader:SqlDataReader) = {
 let rec readInTopics topics (reader:SqlDataReader) = reader.Read() |> function
     | true -> let topic = reader |> readInTopic
               readInTopics (topic::topics) reader
+    | false -> topics
+
+let rec readInLinkTopics topics (reader:SqlDataReader) = reader.Read() |> function
+    | true -> let topic = reader |> readInLinkTopic
+              readInLinkTopics (topic::topics) reader
     | false -> topics
 
 let readInFeaturedTopic (reader:SqlDataReader) = 

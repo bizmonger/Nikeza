@@ -25,20 +25,21 @@ module Nikeza.Server.WordPress
     type Response = { found: int; posts: Post list }
 
     let private toLink profileId (post:Post) =
-        let stringToTag t = { 
+        let stringToTopic t = { 
             Id= -1
             Name= t.ToString()                   
                    .Remove(0,1)
                    .Split(",")
-                   .[0] 
-            }
+                   .[0]
+            IsFeatured= false
+        }
 
         { Id= -1
           ProfileId= profileId
           Title= post.title
           Description= ""
           Url= post.URL
-          Topics= List.ofSeq post.Tags |> List.map stringToTag
+          Topics= List.ofSeq post.Tags |> List.map stringToTopic
           ContentType="Articles"
           IsFeatured= false
         }

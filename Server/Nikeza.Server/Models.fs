@@ -86,7 +86,7 @@ type Link = {
     Title:         String
     Description:   String
     Url:           string
-    Topics:        Topic list
+    Topics:        ProviderTopic list
     ContentType:   string
     IsFeatured:    bool
 }

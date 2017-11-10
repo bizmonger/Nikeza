@@ -257,7 +257,7 @@ let ``Adding link results in new topics added to database`` () =
     let profileId = Register someProfile |> execute
 
     // Test
-    AddLink { someLink with Topics= [someTopic]; ProfileId= profileId } |> execute |> ignore
+    AddLink { someLink with Topics= [someProviderTopic]; ProfileId= profileId } |> execute |> ignore
 
     // Verify
     match getTopic someTopic.Name with
@@ -546,7 +546,7 @@ let ``Add featured topic`` () =
     //Setup
     let profileId = Register someProfile |> execute
 
-    let link = { someLink with Topics= [someTopic]; ProfileId= profileId }
+    let link = { someLink with Topics= [someProviderTopic]; ProfileId= profileId }
     AddLink link |> execute |> ignore
 
     let topic = getTopic link.Topics.Head.Name
@@ -564,7 +564,7 @@ let ``Remove featured topic`` () =
     //Setup
     let profileId = Register someProfile |> execute
 
-    let link = { someLink with Topics= [someTopic]; ProfileId= profileId }
+    let link = { someLink with Topics= [someProviderTopic]; ProfileId= profileId }
     AddLink link |> execute |> ignore
 
     let topic = getTopic link.Topics.Head.Name
@@ -583,7 +583,7 @@ let ``5 or less provider topics become featured topics`` () =
 
     //Setup
     let profileId = Register someProfile |> execute
-    let link =    { someLink with Topics= [someTopic]; ProfileId=profileId }
+    let link =    { someLink with Topics= [someProviderTopic]; ProfileId=profileId }
 
     // Test
     AddLink link |> execute |> ignore
@@ -597,7 +597,7 @@ let ``Fetching provider includes their featured topics`` () =
 
     //Setup
     let profileId = Register someProfile |> execute
-    let link =    { someLink with Topics= [someTopic]; ProfileId=profileId |> string }
+    let link =    { someLink with Topics= [someProviderTopic]; ProfileId=profileId |> string }
 
     // Test
     AddLink link |> execute |> ignore

@@ -153,12 +153,14 @@ let getTopicSql = "SELECT Id, Name
                    FROM   [dbo].[Topic]
                    WHERE  Name = @Name"
 
-let getLinkTopicsSql = "SELECT     Topic.Id, Topic.Name
-                        FROM       Topic
-                        INNER JOIN LinkTopic
-                              ON   LinkTopic.TopicId = Topic.Id
+let getLinkTopicsSql = "SELECT          Topic.Id, Topic.Name, case when FeaturedTopic.TopicId is null then 0 else 1 end as IsFeatured
+                        FROM            Topic
+                        INNER JOIN      LinkTopic
+                                   ON   LinkTopic.TopicId = Topic.Id
                         INNER JOIN Link
-                              ON   LinkTopic.LinkId = Link.Id
+                                   ON   LinkTopic.LinkId = Link.Id
+                        LEFT OUTER JOIN IsFeatured
+                                   ON  Topic.Id = FeaturedTopic.TopicId
                         WHERE  Link.Id = @LinkId"
 
 let getProviderTopicsSql = "SELECT     Topic.Id, Topic.Name

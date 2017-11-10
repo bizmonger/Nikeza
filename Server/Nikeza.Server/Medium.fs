@@ -115,7 +115,7 @@ module Nikeza.Server.Medium
           Title=        parseValue(postParts.[5]) |> function | Some title -> title | None -> ""
           Description=  ""
           Url=          String.Format("{0}{1}/{2}", BaseAddress, "@" + user.AccessId, id)
-          Topics=       topics |>List.toSeq |> Seq.distinct |> Seq.toList
+          Topics=       topics |> List.map(fun t -> {Id= t.Id; Name= t.Name; IsFeatured= false}) |>List.toSeq |> Seq.distinct |> Seq.toList
           ContentType= "Articles"
           IsFeatured=   false
         }

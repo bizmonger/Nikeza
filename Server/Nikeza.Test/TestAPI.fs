@@ -37,6 +37,12 @@ let someTopic = {
     Name= "SomeTopic"
 }
 
+let someProviderTopic = {
+    Id= -1
+    Name= "SomeTopic"
+    IsFeatured= false
+}
+
 let someLink = {
     Id=         0
     ProfileId=    someProfileId |> string

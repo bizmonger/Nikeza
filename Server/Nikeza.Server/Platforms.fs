@@ -51,7 +51,7 @@ let linkOf video profileId =
        Title=       video.Title
        Description= video.Description
        Url=         video.Url
-       Topics=      video.Tags |> List.map (fun t -> { Id=0; Name=t })
+       Topics=      video.Tags |> List.map (fun t -> { Id=0; Name=t; IsFeatured= false })
        ContentType= VideoText
        IsFeatured=  false
      }

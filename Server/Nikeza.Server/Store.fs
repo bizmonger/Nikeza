@@ -100,14 +100,12 @@ let getLinks (profileId:string) =
                             let linkTopicsCommandFunc (command: SqlCommand) = 
                                 command |> addWithValue "@LinkId" l.Id
                             
-                            let topics = readInTopics |> getResults getLinkTopicsSql linkTopicsCommandFunc
-                            { l with Topics= topics }
+                            let topics = readInLinkTopics |> getResults getLinkTopicsSql linkTopicsCommandFunc
+                            { l with Topics= topics |> List.map(fun t -> { Id= t.Id; Name= t.Name; IsFeatured= t.IsFeatured } ) }
                          )
     updatedLinks
 
-let getPortfolio profileId = 
-
-    let links = getLinks profileId
+let toPortfolio links = 
 
     { Answers =  links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = Answer)
       Articles = links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = Article)
@@ -134,18 +132,12 @@ let getFeaturedTopics (profileId:string) =
 let loginProvider email =
     email |> loginProfile |> function
     | Some profile ->
-
-        let toProfileTopic (topic:Topic) : ProviderTopic =
-            { Id= -1; Name= topic.Name; IsFeatured= false } 
-
-        let (topics: ProviderTopic list) = 
-            profile.ProfileId |> getLinks 
-                              |> List.collect(fun l -> l.Topics |> List.map toProfileTopic)
+        let links = profile.ProfileId |> getLinks
 
         Some { Profile=        profile |> toProfileRequest
-               Topics=         topics
-               Portfolio=      getPortfolio profile.ProfileId
-               RecentLinks=    getRecent    profile.ProfileId
+               Topics=         links |> List.map(fun l -> l.Topics) |> List.concat |> List.distinct
+               Portfolio=      links   |> toPortfolio
+               RecentLinks=    profile.ProfileId |> getRecent
                Subscriptions=  []
                Followers=      []
             }

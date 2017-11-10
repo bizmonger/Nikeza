@@ -90,7 +90,7 @@ module private Commands =
                     |> addWithValue "@IsFeatured"    info.IsFeatured
                     |> addWithValue "@Created"       DateTime.Now
 
-        let topicNotFound (topic:Topic) =
+        let topicNotFound (topic:ProviderTopic) =
             let result = getTopic topic.Name
             if  result = None
                then Some { Link= info; Topic= { Id= -1; Name= topic.Name} }
