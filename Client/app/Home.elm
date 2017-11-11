@@ -1578,7 +1578,7 @@ navigate msg model location =
                     , portal = { portal | provider = { provider | profile = updatedProfile } }
                     , currentRoute = location
                   }
-                , runtime.provider (Id id) NavigateToPortalResponse
+                , Cmd.none
                 )
 
         [ "portal", id, topic ] ->
