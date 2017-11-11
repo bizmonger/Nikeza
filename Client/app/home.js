@@ -18901,7 +18901,7 @@ var _user$project$Controls_Portfolio$decorateIfFeatured = function (link) {
 		{
 			ctor: '::',
 			_0: _elm_lang$html$Html$text(
-				_user$project$Domain_Core$titleText(link.title)),
+				_user$project$Controls_Portfolio$formatTitle(link)),
 			_1: {
 				ctor: '::',
 				_0: A2(
@@ -18924,7 +18924,7 @@ var _user$project$Controls_Portfolio$linksUI = function (links) {
 			A2(_elm_lang$core$List$sortWith, _user$project$Domain_Core$compareLinks, links)));
 };
 var _user$project$Controls_Portfolio$requestAllContent = F5(
-	function (linksFrom, profileId, contentType, links, count) {
+	function (linksFrom, profileId, contentType, count, links) {
 		return A2(
 			_elm_lang$core$List$append,
 			_user$project$Controls_Portfolio$linksUI(links),
@@ -18994,6 +18994,86 @@ var _user$project$Controls_Portfolio$view = F2(
 		var podcastCount = _p2._2;
 		var videoCount = _p2._3;
 		var filtered = provider.filteredPortfolio;
+		var featuredArticles = _elm_lang$core$Native_Utils.eq(
+			A2(
+				_elm_lang$core$List$filter,
+				function (_) {
+					return _.isFeatured;
+				},
+				filtered.articles),
+			{ctor: '[]'}) ? A2(
+			_elm_lang$core$List$map,
+			function (l) {
+				return _elm_lang$core$Native_Utils.update(
+					l,
+					{isFeatured: true});
+			},
+			A2(_elm_lang$core$List$take, 5, filtered.articles)) : A2(
+			_elm_lang$core$List$filter,
+			function (_) {
+				return _.isFeatured;
+			},
+			filtered.articles);
+		var featuredVideos = _elm_lang$core$Native_Utils.eq(
+			A2(
+				_elm_lang$core$List$filter,
+				function (_) {
+					return _.isFeatured;
+				},
+				filtered.videos),
+			{ctor: '[]'}) ? A2(
+			_elm_lang$core$List$map,
+			function (l) {
+				return _elm_lang$core$Native_Utils.update(
+					l,
+					{isFeatured: true});
+			},
+			A2(_elm_lang$core$List$take, 5, filtered.videos)) : A2(
+			_elm_lang$core$List$filter,
+			function (_) {
+				return _.isFeatured;
+			},
+			filtered.videos);
+		var featuredAnswers = _elm_lang$core$Native_Utils.eq(
+			A2(
+				_elm_lang$core$List$filter,
+				function (_) {
+					return _.isFeatured;
+				},
+				filtered.answers),
+			{ctor: '[]'}) ? A2(
+			_elm_lang$core$List$map,
+			function (l) {
+				return _elm_lang$core$Native_Utils.update(
+					l,
+					{isFeatured: true});
+			},
+			A2(_elm_lang$core$List$take, 5, filtered.answers)) : A2(
+			_elm_lang$core$List$filter,
+			function (_) {
+				return _.isFeatured;
+			},
+			filtered.answers);
+		var featuredPodcasts = _elm_lang$core$Native_Utils.eq(
+			A2(
+				_elm_lang$core$List$filter,
+				function (_) {
+					return _.isFeatured;
+				},
+				filtered.podcasts),
+			{ctor: '[]'}) ? A2(
+			_elm_lang$core$List$map,
+			function (l) {
+				return _elm_lang$core$Native_Utils.update(
+					l,
+					{isFeatured: true});
+			},
+			A2(_elm_lang$core$List$take, 5, filtered.podcasts)) : A2(
+			_elm_lang$core$List$filter,
+			function (_) {
+				return _.isFeatured;
+			},
+			filtered.podcasts);
 		var toCheckBoxState = F2(
 			function (include, topic) {
 				return A2(
@@ -19076,7 +19156,7 @@ var _user$project$Controls_Portfolio$view = F2(
 																	return A2(toCheckBoxState, true, t);
 																},
 																_user$project$Domain_Core$topicsFromLinks(
-																	A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, provider.portfolio)))),
+																	A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$Featured, provider.portfolio)))),
 														_1: {ctor: '[]'}
 													}),
 												_1: {
@@ -19157,7 +19237,7 @@ var _user$project$Controls_Portfolio$view = F2(
 																						_0: _elm_lang$html$Html_Attributes$class('contentType'),
 																						_1: {ctor: '[]'}
 																					},
-																					A5(_user$project$Controls_Portfolio$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Answer, filtered.answers, answerCount)),
+																					A5(_user$project$Controls_Portfolio$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Answer, answerCount, featuredAnswers)),
 																				_1: {ctor: '[]'}
 																			}),
 																		_1: {
@@ -19178,7 +19258,7 @@ var _user$project$Controls_Portfolio$view = F2(
 																							_0: _elm_lang$html$Html_Attributes$class('contentType'),
 																							_1: {ctor: '[]'}
 																						},
-																						A5(_user$project$Controls_Portfolio$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Article, filtered.articles, articleCount)),
+																						A5(_user$project$Controls_Portfolio$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Article, articleCount, featuredArticles)),
 																					_1: {ctor: '[]'}
 																				}),
 																			_1: {ctor: '[]'}
@@ -19253,7 +19333,7 @@ var _user$project$Controls_Portfolio$view = F2(
 																								_0: _elm_lang$html$Html_Attributes$class('contentType'),
 																								_1: {ctor: '[]'}
 																							},
-																							A5(_user$project$Controls_Portfolio$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Podcast, filtered.podcasts, podcastCount)),
+																							A5(_user$project$Controls_Portfolio$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Podcast, podcastCount, featuredPodcasts)),
 																						_1: {ctor: '[]'}
 																					}),
 																				_1: {
@@ -19274,7 +19354,7 @@ var _user$project$Controls_Portfolio$view = F2(
 																									_0: _elm_lang$html$Html_Attributes$class('contentType'),
 																									_1: {ctor: '[]'}
 																								},
-																								A5(_user$project$Controls_Portfolio$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Video, filtered.videos, videoCount)),
+																								A5(_user$project$Controls_Portfolio$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Video, videoCount, featuredVideos)),
 																							_1: {ctor: '[]'}
 																						}),
 																					_1: {ctor: '[]'}
