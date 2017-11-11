@@ -74,7 +74,7 @@ type Msg
     = UrlChange Navigation.Location
     | ViewSources
     | AddNewLink
-    | ViewLinks
+    | ViewPortfolio
     | EditProfile
     | ViewSubscriptions
     | ViewFollowers
@@ -209,7 +209,7 @@ update msg model =
                                     | provider = jsonProvider |> toProvider
                                     , sourcesNavigation = provider.profile.sources |> List.isEmpty
                                     , addLinkNavigation = True
-                                    , linksNavigation = portfolioExists provider.portfolio
+                                    , portfolioNavigation = portfolioExists provider.portfolio
                                     , requested = Domain.ViewRecent
                                 }
                         in
@@ -262,7 +262,7 @@ update msg model =
                                     | provider = provider
                                     , sourcesNavigation = provider.profile.sources |> List.isEmpty
                                     , addLinkNavigation = True
-                                    , linksNavigation = portfolioExists provider.portfolio
+                                    , portfolioNavigation = portfolioExists provider.portfolio
                                     , requested = Domain.ViewRecent
                                 }
                         in
@@ -304,8 +304,8 @@ update msg model =
             AddNewLink ->
                 ( { model | portal = { portal | requested = Domain.AddLink } }, Cmd.none )
 
-            ViewLinks ->
-                ( { model | portal = { portal | requested = Domain.ViewLinks } }, Cmd.none )
+            ViewPortfolio ->
+                ( { model | portal = { portal | requested = Domain.ViewPortfolio } }, Cmd.none )
 
             EditProfile ->
                 ( { model | portal = { portal | requested = Domain.EditProfile } }, Cmd.none )
@@ -472,7 +472,7 @@ onEditProfile subMsg model =
                                         { portal
                                             | provider = { provider | profile = jsonProfile |> toProfile }
                                             , sourcesNavigation = True
-                                            , linksNavigation = not <| provider.portfolio == initPortfolio
+                                            , portfolioNavigation = portfolioExists provider.portfolio
                                             , requested = Domain.ViewSources
                                         }
                                 }
@@ -525,7 +525,7 @@ onRegistration subMsg model =
                                         { initPortal
                                             | provider = newUser
                                             , requested = Domain.EditProfile
-                                            , linksNavigation = False
+                                            , portfolioNavigation = False
                                             , sourcesNavigation = False
                                         }
                                 }
@@ -666,6 +666,9 @@ onNewLink subMsg model =
                                         Podcast ->
                                             { filteredPortfolio | podcasts = updatedContentTypeLinks }
 
+                                        Domain.Featured ->
+                                            provider.filteredPortfolio
+
                                         All ->
                                             provider.filteredPortfolio
 
@@ -682,7 +685,7 @@ onNewLink subMsg model =
                             updatedPortal =
                                 { portal
                                     | newLinks = initNewLinks
-                                    , linksNavigation = True
+                                    , portfolioNavigation = True
                                     , provider =
                                         { provider
                                             | portfolio = updatePortfolio provider newLinks.added
@@ -742,7 +745,7 @@ onSourcesUpdated subMsg model =
                 ( { model
                     | portal =
                         { portal
-                            | linksNavigation = portfolioExists portal.provider.portfolio
+                            | portfolioNavigation = portfolioExists portal.provider.portfolio
                             , addLinkNavigation = True
                         }
                   }
@@ -766,7 +769,7 @@ onSourcesUpdated subMsg model =
                                 | portal =
                                     { portal
                                         | provider = updatedProvider
-                                        , linksNavigation = portfolioExists portfolio
+                                        , portfolioNavigation = portfolioExists portfolio
                                         , addLinkNavigation = True
                                     }
                               }
@@ -833,7 +836,7 @@ onLogin subMsg model =
                                         { pendingPortal
                                             | provider = provider
                                             , requested = Domain.ViewRecent
-                                            , linksNavigation = portfolioExists provider.portfolio
+                                            , portfolioNavigation = portfolioExists provider.portfolio
                                             , sourcesNavigation = not <| List.isEmpty provider.profile.sources
                                         }
                                 }
@@ -1154,7 +1157,7 @@ content contentToEmbed model =
                             }
                     ]
 
-            Domain.ViewLinks ->
+            Domain.ViewPortfolio ->
                 let
                     contentToDisplay =
                         case contentToEmbed of
@@ -1295,7 +1298,7 @@ renderNavigation portal providers =
                     [ button [ class "selectedNavigationButton4", onClick ViewRecent ] [ text newText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewLinks ] [ text portfolioText ]
+                    , button [ class "navigationButton4", onClick ViewPortfolio ] [ text portfolioText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
@@ -1311,7 +1314,7 @@ renderNavigation portal providers =
                     [ button [ class "navigationButton4", onClick ViewRecent ] [ text newText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewLinks ] [ text portfolioText ]
+                    , button [ class "navigationButton4", onClick ViewPortfolio ] [ text portfolioText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
@@ -1323,11 +1326,11 @@ renderNavigation portal providers =
                     , button [ class "navigationButton4", onClick ViewProviders ] [ text membersText ]
                     ]
 
-                Domain.ViewLinks ->
+                Domain.ViewPortfolio ->
                     [ button [ class "navigationButton4", onClick ViewRecent ] [ text newText ]
                     , br [] []
                     , br [] []
-                    , button [ class "selectedNavigationButton4", onClick ViewLinks ] [ text portfolioText ]
+                    , button [ class "selectedNavigationButton4", onClick ViewPortfolio ] [ text portfolioText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
@@ -1343,7 +1346,7 @@ renderNavigation portal providers =
                     [ button [ class "navigationButton4", onClick ViewRecent ] [ text newText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewLinks ] [ text portfolioText ]
+                    , button [ class "navigationButton4", onClick ViewPortfolio ] [ text portfolioText ]
                     , br [] []
                     , button [ class "selectedNavigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
@@ -1359,7 +1362,7 @@ renderNavigation portal providers =
                     [ button [ class "navigationButton4", onClick ViewRecent ] [ text newText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewLinks ] [ text portfolioText ]
+                    , button [ class "navigationButton4", onClick ViewPortfolio ] [ text portfolioText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
@@ -1375,7 +1378,7 @@ renderNavigation portal providers =
                     [ button [ class "navigationButton4", onClick ViewRecent ] [ text newText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewLinks ] [ text portfolioText ]
+                    , button [ class "navigationButton4", onClick ViewPortfolio ] [ text portfolioText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
@@ -1393,7 +1396,7 @@ renderNavigation portal providers =
                     [ button [ class "navigationButton4", onClick ViewRecent ] [ text newText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewLinks ] [ text portfolioText ]
+                    , button [ class "navigationButton4", onClick ViewPortfolio ] [ text portfolioText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
@@ -1409,7 +1412,7 @@ renderNavigation portal providers =
                     [ button [ class "navigationButton4", onClick ViewRecent ] [ text newText ]
                     , br [] []
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewLinks ] [ text portfolioText ]
+                    , button [ class "navigationButton4", onClick ViewPortfolio ] [ text portfolioText ]
                     , br [] []
                     , button [ class "navigationButton4", onClick AddNewLink ] [ text linkText ]
                     , br [] []
@@ -1448,7 +1451,7 @@ renderNavigation portal providers =
                         , button [ class "navigationButton3", onClick AddNewLink ] [ text linkText ]
                         ]
 
-                    Domain.ViewLinks ->
+                    Domain.ViewPortfolio ->
                         noSelectedButton
 
                     Domain.ViewSubscriptions ->
@@ -1492,9 +1495,9 @@ renderNavigation portal providers =
         displayNavigation buttons =
             [ div [ class "navigationpane" ] buttons ]
     in
-        if not portal.sourcesNavigation && not portal.linksNavigation then
+        if not portal.sourcesNavigation && not portal.portfolioNavigation then
             displayNavigation enableOnlySourcesAndLinks
-        else if portal.sourcesNavigation && not portal.linksNavigation then
+        else if portal.sourcesNavigation && not portal.portfolioNavigation then
             displayNavigation enableOnlySourcesAndLinks
         else
             displayNavigation allNavigation

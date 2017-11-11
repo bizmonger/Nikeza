@@ -70,13 +70,13 @@ and readInLink (reader:SqlDataReader) = {
 }
 
 let rec readInTopics topics (reader:SqlDataReader) = reader.Read() |> function
-    | true -> let topic = reader |> readInTopic
-              readInTopics (topic::topics) reader
+    | true  -> let topic = reader |> readInTopic
+               readInTopics (topic::topics) reader
     | false -> topics
 
 let rec readInLinkTopics topics (reader:SqlDataReader) = reader.Read() |> function
-    | true -> let topic = reader |> readInLinkTopic
-              readInLinkTopics (topic::topics) reader
+    | true  -> let topic = reader |> readInLinkTopic
+               readInLinkTopics (topic::topics) reader
     | false -> topics
 
 let readInFeaturedTopic (reader:SqlDataReader) = 

@@ -128,7 +128,7 @@ let getFeaturedTopics (profileId:string) =
                                                                       IsFeatured= true })
     featuredTopics
 
-let loginProvider email =
+let login email =
     email |> loginProfile |> function
     | Some profile ->
         let links = profile.ProfileId |> getLinks

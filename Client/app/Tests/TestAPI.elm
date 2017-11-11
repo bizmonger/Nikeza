@@ -607,6 +607,17 @@ linksToContent contentType profileId =
             All ->
                 []
 
+            Featured ->
+                [ Link 1 profileHolder.id someArticleTitle2 someUrl [ someTopic2 ] Article True
+                , Link 3 profileHolder.id someArticleTitle4 someUrl [ someTopic4 ] Article True
+                , Link 1 profileHolder.id someVideoTitle2 someUrl [ someTopic2 ] Video True
+                , Link 3 profileHolder.id someVideoTitle4 someUrl [ someTopic4 ] Video True
+                , Link 1 profileHolder.id someAnswerTitle2 someUrl [ someTopic2 ] Answer True
+                , Link 3 profileHolder.id someAnswerTitle4 someUrl [ someTopic4 ] Answer True
+                , Link 1 profileHolder.id somePodcastTitle2 someUrl [ someTopic2 ] Podcast True
+                , Link 3 profileHolder.id somePodcastTitle4 someUrl [ someTopic4 ] Podcast True
+                ]
+
             Unknown ->
                 []
 

@@ -606,6 +606,22 @@ let ``Fetching provider includes their featured topics`` () =
     let provider = getProviders().[0]
     provider.Topics |> List.isEmpty |> should equal false
 
+
+[<Test>]
+let ``Logging into portal retrieves portfolio`` () =
+
+    //Setup
+    let profileId = Register someProfile |> execute
+    let link =    { someLink with Topics= [someProviderTopic]; ProfileId= profileId }
+    AddLink link |> execute |> ignore
+
+    // Test
+    match login someProfile.Email with
+          | Some provider -> if provider.Portfolio |> isEmpty
+                                then Assert.Fail()
+                                else ()
+          | None          -> Assert.Fail()
+
 [<EntryPoint>]
 let main argv =
     cleanDataStore()                      

@@ -205,3 +205,10 @@ type Command =
   
     | AddSource       of DataSourceRequest
     | RemoveSource    of RemoveDataSourceRequest
+
+// FUNCTIONS
+let isEmpty portfolio =
+    portfolio.Articles |> List.isEmpty &&
+    portfolio.Videos   |> List.isEmpty &&
+    portfolio.Podcasts |> List.isEmpty &&
+    portfolio.Answers  |> List.isEmpty

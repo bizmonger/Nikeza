@@ -63,6 +63,9 @@ update msg provider =
                     All ->
                         provider
 
+                    Domain.Core.Featured ->
+                        provider
+
                     Unknown ->
                         provider
 

@@ -91,7 +91,7 @@ type alias Portal =
     { provider : Provider
     , sourcesNavigation : Bool
     , addLinkNavigation : Bool
-    , linksNavigation : Bool
+    , portfolioNavigation : Bool
     , requested : ProviderRequest
     , newSource : Source
     , newLinks : NewLinks
@@ -103,7 +103,7 @@ initPortal =
     { provider = initProvider
     , sourcesNavigation = False
     , addLinkNavigation = False
-    , linksNavigation = False
+    , portfolioNavigation = False
     , requested = EditProfile
     , newSource = initSource
     , newLinks = initNewLinks
@@ -305,7 +305,7 @@ initSource =
 
 type ProviderRequest
     = ViewSources
-    | ViewLinks
+    | ViewPortfolio
     | AddLink
     | EditProfile
     | ViewSubscriptions
@@ -328,6 +328,7 @@ type ContentType
     | Podcast
     | Answer
     | All
+    | Featured
     | Unknown
 
 
@@ -408,14 +409,21 @@ getLinks contentType links =
         Video ->
             links.videos
 
-        Unknown ->
-            []
-
         All ->
             links.answers
                 ++ links.articles
                 ++ links.podcasts
                 ++ links.videos
+
+        Featured ->
+            links.answers
+                ++ links.articles
+                ++ links.podcasts
+                ++ links.videos
+                |> List.filter (\l -> l.isFeatured)
+
+        Unknown ->
+            []
 
 
 topicsFromLinks : List Link -> List Topic
@@ -525,11 +533,14 @@ contentTypeToText contentType =
         Answer ->
             "Answers"
 
-        Unknown ->
-            "Unknown"
-
         All ->
             "Content"
+
+        Featured ->
+            "Featured"
+
+        Unknown ->
+            "Unknown"
 
 
 allContentUrl : Linksfrom -> Id -> ContentType -> Url

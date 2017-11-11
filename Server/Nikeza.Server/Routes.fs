@@ -25,7 +25,7 @@ let private loginHandler =
         async {
             let! data = context.BindJson<LogInRequest>()
             if  authenticate data.Email data.Password
-                then match loginProvider data.Email with
+                then match login data.Email with
                      | Some provider -> return! json provider context 
                      | None          -> return! (setStatusCode 400 >=> json "Invalid login") context
                 else return! (setStatusCode 400 >=> json "Invalid login") context                                                        
