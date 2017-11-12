@@ -309,41 +309,51 @@ update msg model =
                     provider =
                         portal.provider
 
-                    filtered =
+                    featureIfNone links =
+                        if (links |> List.filter (.isFeatured)) == [] then
+                            let
+                                processCount =
+                                    5
+
+                                featured =
+                                    links |> List.take processCount |> List.map (\l -> { l | isFeatured = True })
+
+                                remaining =
+                                    links |> List.drop processCount
+                            in
+                                featured ++ remaining
+                        else
+                            links
+
+                    portfolio =
+                        provider.portfolio
+
+                    pendingfiltered =
                         provider.filteredPortfolio
 
-                    featuredArticles =
-                        if (filtered.articles |> List.filter (.isFeatured)) == [] then
-                            filtered.articles |> List.take 5 |> List.map (\l -> { l | isFeatured = True })
-                        else
-                            filtered.articles |> List.filter .isFeatured
+                    updatedPortfolio =
+                        { portfolio
+                            | answers = portfolio.answers |> featureIfNone
+                            , articles = portfolio.articles |> featureIfNone
+                            , podcasts = portfolio.podcasts |> featureIfNone
+                            , videos = portfolio.videos |> featureIfNone
+                        }
 
-                    featuredVideos =
-                        if (filtered.videos |> List.filter (.isFeatured)) == [] then
-                            filtered.videos |> List.take 5 |> List.map (\l -> { l | isFeatured = True })
+                    initialTopics =
+                        if pendingfiltered.topics == [] then
+                            updatedPortfolio |> getLinks All |> topicsFromLinks
                         else
-                            filtered.videos |> List.filter .isFeatured
-
-                    featuredAnswers =
-                        if (filtered.answers |> List.filter (.isFeatured)) == [] then
-                            filtered.answers |> List.take 5 |> List.map (\l -> { l | isFeatured = True })
-                        else
-                            filtered.answers |> List.filter .isFeatured
-
-                    featuredPodcasts =
-                        if (filtered.podcasts |> List.filter (.isFeatured)) == [] then
-                            filtered.podcasts |> List.take 5 |> List.map (\l -> { l | isFeatured = True })
-                        else
-                            filtered.podcasts |> List.filter .isFeatured
-
-                    updatedFilter =
-                        { filtered | answers = featuredAnswers, articles = featuredArticles, podcasts = featuredPodcasts, videos = featuredVideos }
+                            pendingfiltered.topics
                 in
                     ( { model
                         | portal =
                             { portal
                                 | requested = Domain.ViewPortfolio
-                                , provider = { provider | filteredPortfolio = updatedFilter }
+                                , provider =
+                                    { provider
+                                        | portfolio = updatedPortfolio
+                                        , filteredPortfolio = { pendingfiltered | topics = initialTopics }
+                                    }
                             }
                       }
                     , Cmd.none
@@ -623,7 +633,8 @@ updatePortfolio provider addedLinks =
         answers =
             List.append links.answers (addedLinks |> List.filter (\l -> l.contentType == Answer))
     in
-        { articles = articles
+        { topics = provider.portfolio.topics
+        , articles = articles
         , videos = videos
         , podcasts = podcasts
         , answers = answers

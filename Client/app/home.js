@@ -15063,6 +15063,7 @@ var _user$project$Domain_Core$idText = function (id) {
 	return value;
 };
 var _user$project$Domain_Core$initPortfolio = {
+	topics: {ctor: '[]'},
 	answers: {ctor: '[]'},
 	articles: {ctor: '[]'},
 	videos: {ctor: '[]'},
@@ -15082,9 +15083,9 @@ var _user$project$Domain_Core$Credentials = F3(
 		return {email: a, password: b, loggedIn: c};
 	});
 var _user$project$Domain_Core$initCredentials = A3(_user$project$Domain_Core$Credentials, '', '', false);
-var _user$project$Domain_Core$Portfolio = F4(
-	function (a, b, c, d) {
-		return {answers: a, articles: b, videos: c, podcasts: d};
+var _user$project$Domain_Core$Portfolio = F5(
+	function (a, b, c, d, e) {
+		return {topics: a, answers: b, articles: c, videos: d, podcasts: e};
 	});
 var _user$project$Domain_Core$Provider = F7(
 	function (a, b, c, d, e, f, g) {
@@ -15399,7 +15400,8 @@ var _user$project$Domain_Core$toggleFilter = F2(
 					answers: A3(refresh, _p16, _user$project$Domain_Core$Answer, filtered.answers),
 					articles: A3(refresh, _p16, _user$project$Domain_Core$Article, filtered.articles),
 					videos: A3(refresh, _p16, _user$project$Domain_Core$Video, filtered.videos),
-					podcasts: A3(refresh, _p16, _user$project$Domain_Core$Podcast, filtered.podcasts)
+					podcasts: A3(refresh, _p16, _user$project$Domain_Core$Podcast, filtered.podcasts),
+					topics: provider.filteredPortfolio.topics
 				}
 			});
 	});
@@ -15456,8 +15458,9 @@ var _user$project$Services_Adapter$toLinks = function (jsonLinks) {
 	return A2(_elm_lang$core$List$map, _user$project$Services_Adapter$toLink, jsonLinks);
 };
 var _user$project$Services_Adapter$toPortfolio = function (jsonPortfolio) {
-	return A4(
+	return A5(
 		_user$project$Domain_Core$Portfolio,
+		{ctor: '[]'},
 		_user$project$Services_Adapter$toLinks(jsonPortfolio.articles),
 		_user$project$Services_Adapter$toLinks(jsonPortfolio.videos),
 		_user$project$Services_Adapter$toLinks(jsonPortfolio.podcasts),
@@ -16582,8 +16585,9 @@ var _user$project$Tests_TestAPI$videos = function (id) {
 var _user$project$Tests_TestAPI$podcasts = function (id) {
 	return A2(_user$project$Tests_TestAPI$linksToContent, _user$project$Domain_Core$Podcast, id);
 };
-var _user$project$Tests_TestAPI$provider1Portfolio = A4(
+var _user$project$Tests_TestAPI$provider1Portfolio = A5(
 	_user$project$Domain_Core$Portfolio,
+	{ctor: '[]'},
 	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId1),
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId1),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId1),
@@ -16610,8 +16614,9 @@ var _user$project$Tests_TestAPI$provider1B = A7(
 		{ctor: '[]'}),
 	_user$project$Domain_Core$Members(
 		{ctor: '[]'}));
-var _user$project$Tests_TestAPI$provider2Portfolio = A4(
+var _user$project$Tests_TestAPI$provider2Portfolio = A5(
 	_user$project$Domain_Core$Portfolio,
+	{ctor: '[]'},
 	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId2),
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId2),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId2),
@@ -16641,8 +16646,9 @@ var _user$project$Tests_TestAPI$unsubscribe = F2(
 			msg,
 			_user$project$Services_Adapter$toJsonProvider(_user$project$Tests_TestAPI$provider2));
 	});
-var _user$project$Tests_TestAPI$provider3Portfolio = A4(
+var _user$project$Tests_TestAPI$provider3Portfolio = A5(
 	_user$project$Domain_Core$Portfolio,
+	{ctor: '[]'},
 	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId3),
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId3),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId3),
@@ -16658,8 +16664,9 @@ var _user$project$Tests_TestAPI$provider3 = A7(
 		{ctor: '[]'}),
 	_user$project$Domain_Core$Members(
 		{ctor: '[]'}));
-var _user$project$Tests_TestAPI$provider4Portfolio = A4(
+var _user$project$Tests_TestAPI$provider4Portfolio = A5(
 	_user$project$Domain_Core$Portfolio,
+	{ctor: '[]'},
 	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId4),
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId4),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId4),
@@ -16675,8 +16682,9 @@ var _user$project$Tests_TestAPI$provider4 = A7(
 		{ctor: '[]'}),
 	_user$project$Domain_Core$Members(
 		{ctor: '[]'}));
-var _user$project$Tests_TestAPI$provider5Portfolio = A4(
+var _user$project$Tests_TestAPI$provider5Portfolio = A5(
 	_user$project$Domain_Core$Portfolio,
+	{ctor: '[]'},
 	_user$project$Tests_TestAPI$answers(_user$project$Tests_TestAPI$profileId5),
 	_user$project$Tests_TestAPI$articles(_user$project$Tests_TestAPI$profileId5),
 	_user$project$Tests_TestAPI$videos(_user$project$Tests_TestAPI$profileId5),
@@ -17686,8 +17694,7 @@ var _user$project$Settings$Dependencies = function (a) {
 	};
 };
 var _user$project$Settings$Isolation = {ctor: 'Isolation'};
-var _user$project$Settings$Integration = {ctor: 'Integration'};
-var _user$project$Settings$configuration = _user$project$Settings$Integration;
+var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
@@ -17696,6 +17703,7 @@ var _user$project$Settings$runtime = function () {
 		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$bootstrap)(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$updateProfile)(_user$project$Tests_TestAPI$thumbnail)(_user$project$Tests_TestAPI$updateThumbnail)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$providerTopic)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$portfolio)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$recentLinks)(_user$project$Tests_TestAPI$featureLink);
 	}
 }();
+var _user$project$Settings$Integration = {ctor: 'Integration'};
 
 var _user$project$Controls_EditProfile$Response = function (a) {
 	return {ctor: 'Response', _0: a};
@@ -19070,8 +19078,7 @@ var _user$project$Controls_Portfolio$view = F2(
 																function (t) {
 																	return A2(toCheckBoxState, true, t);
 																},
-																_user$project$Domain_Core$topicsFromLinks(
-																	A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, filtered)))),
+																filtered.topics)),
 														_1: {ctor: '[]'}
 													}),
 												_1: {
@@ -21795,7 +21802,7 @@ var _user$project$Home$updatePortfolio = F2(
 					return _elm_lang$core$Native_Utils.eq(l.contentType, _user$project$Domain_Core$Answer);
 				},
 				addedLinks));
-		return {articles: articles, videos: videos, podcasts: podcasts, answers: answers};
+		return {topics: provider.portfolio.topics, articles: articles, videos: videos, podcasts: podcasts, answers: answers};
 	});
 var _user$project$Home$onRemove = F2(
 	function (model, sources) {
@@ -22437,8 +22444,8 @@ var _user$project$Home$onNewLink = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 741, column: 25},
-								end: {line: 741, column: 36}
+								start: {line: 752, column: 25},
+								end: {line: 752, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p21._0),
 						{ctor: '_Tuple2', _0: model, _1: newLinkCmd});
@@ -22546,8 +22553,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 822, column: 25},
-								end: {line: 822, column: 36}
+								start: {line: 833, column: 25},
+								end: {line: 833, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p27._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -22561,8 +22568,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 830, column: 25},
-								end: {line: 830, column: 36}
+								start: {line: 841, column: 25},
+								end: {line: 841, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p29._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -23258,91 +23265,45 @@ var _user$project$Home$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'ViewPortfolio':
+				var featureIfNone = function (links) {
+					if (_elm_lang$core$Native_Utils.eq(
+						A2(
+							_elm_lang$core$List$filter,
+							function (_) {
+								return _.isFeatured;
+							},
+							links),
+						{ctor: '[]'})) {
+						var processCount = 5;
+						var featured = A2(
+							_elm_lang$core$List$map,
+							function (l) {
+								return _elm_lang$core$Native_Utils.update(
+									l,
+									{isFeatured: true});
+							},
+							A2(_elm_lang$core$List$take, processCount, links));
+						var remaining = A2(_elm_lang$core$List$drop, processCount, links);
+						return A2(_elm_lang$core$Basics_ops['++'], featured, remaining);
+					} else {
+						return links;
+					}
+				};
 				var provider = portal.provider;
-				var filtered = provider.filteredPortfolio;
-				var featuredArticles = _elm_lang$core$Native_Utils.eq(
-					A2(
-						_elm_lang$core$List$filter,
-						function (_) {
-							return _.isFeatured;
-						},
-						filtered.articles),
-					{ctor: '[]'}) ? A2(
-					_elm_lang$core$List$map,
-					function (l) {
-						return _elm_lang$core$Native_Utils.update(
-							l,
-							{isFeatured: true});
-					},
-					A2(_elm_lang$core$List$take, 5, filtered.articles)) : A2(
-					_elm_lang$core$List$filter,
-					function (_) {
-						return _.isFeatured;
-					},
-					filtered.articles);
-				var featuredVideos = _elm_lang$core$Native_Utils.eq(
-					A2(
-						_elm_lang$core$List$filter,
-						function (_) {
-							return _.isFeatured;
-						},
-						filtered.videos),
-					{ctor: '[]'}) ? A2(
-					_elm_lang$core$List$map,
-					function (l) {
-						return _elm_lang$core$Native_Utils.update(
-							l,
-							{isFeatured: true});
-					},
-					A2(_elm_lang$core$List$take, 5, filtered.videos)) : A2(
-					_elm_lang$core$List$filter,
-					function (_) {
-						return _.isFeatured;
-					},
-					filtered.videos);
-				var featuredAnswers = _elm_lang$core$Native_Utils.eq(
-					A2(
-						_elm_lang$core$List$filter,
-						function (_) {
-							return _.isFeatured;
-						},
-						filtered.answers),
-					{ctor: '[]'}) ? A2(
-					_elm_lang$core$List$map,
-					function (l) {
-						return _elm_lang$core$Native_Utils.update(
-							l,
-							{isFeatured: true});
-					},
-					A2(_elm_lang$core$List$take, 5, filtered.answers)) : A2(
-					_elm_lang$core$List$filter,
-					function (_) {
-						return _.isFeatured;
-					},
-					filtered.answers);
-				var featuredPodcasts = _elm_lang$core$Native_Utils.eq(
-					A2(
-						_elm_lang$core$List$filter,
-						function (_) {
-							return _.isFeatured;
-						},
-						filtered.podcasts),
-					{ctor: '[]'}) ? A2(
-					_elm_lang$core$List$map,
-					function (l) {
-						return _elm_lang$core$Native_Utils.update(
-							l,
-							{isFeatured: true});
-					},
-					A2(_elm_lang$core$List$take, 5, filtered.podcasts)) : A2(
-					_elm_lang$core$List$filter,
-					function (_) {
-						return _.isFeatured;
-					},
-					filtered.podcasts);
-				var updatedFilter = _elm_lang$core$Native_Utils.update(
-					filtered,
-					{answers: featuredAnswers, articles: featuredArticles, podcasts: featuredPodcasts, videos: featuredVideos});
+				var portfolio = provider.portfolio;
+				var updatedPortfolio = _elm_lang$core$Native_Utils.update(
+					portfolio,
+					{
+						answers: featureIfNone(portfolio.answers),
+						articles: featureIfNone(portfolio.articles),
+						podcasts: featureIfNone(portfolio.podcasts),
+						videos: featureIfNone(portfolio.videos)
+					});
+				var pendingfiltered = provider.filteredPortfolio;
+				var initialTopics = _elm_lang$core$Native_Utils.eq(
+					pendingfiltered.topics,
+					{ctor: '[]'}) ? _user$project$Domain_Core$topicsFromLinks(
+					A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, updatedPortfolio)) : pendingfiltered.topics;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
@@ -23354,7 +23315,12 @@ var _user$project$Home$update = F2(
 									requested: _user$project$Domain_Core$ViewPortfolio,
 									provider: _elm_lang$core$Native_Utils.update(
 										provider,
-										{filteredPortfolio: updatedFilter})
+										{
+											portfolio: updatedPortfolio,
+											filteredPortfolio: _elm_lang$core$Native_Utils.update(
+												pendingfiltered,
+												{topics: initialTopics})
+										})
 								})
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none

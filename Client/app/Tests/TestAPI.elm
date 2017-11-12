@@ -93,27 +93,27 @@ profile5ImageUrl =
 
 provider1Portfolio : Portfolio
 provider1Portfolio =
-    Portfolio (answers profileId1) (articles profileId1) (videos profileId1) (podcasts profileId1)
+    Portfolio [] (answers profileId1) (articles profileId1) (videos profileId1) (podcasts profileId1)
 
 
 provider2Portfolio : Portfolio
 provider2Portfolio =
-    Portfolio (answers profileId2) (articles profileId2) (videos profileId2) (podcasts profileId2)
+    Portfolio [] (answers profileId2) (articles profileId2) (videos profileId2) (podcasts profileId2)
 
 
 provider3Portfolio : Portfolio
 provider3Portfolio =
-    Portfolio (answers profileId3) (articles profileId3) (videos profileId3) (podcasts profileId3)
+    Portfolio [] (answers profileId3) (articles profileId3) (videos profileId3) (podcasts profileId3)
 
 
 provider4Portfolio : Portfolio
 provider4Portfolio =
-    Portfolio (answers profileId4) (articles profileId4) (videos profileId4) (podcasts profileId4)
+    Portfolio [] (answers profileId4) (articles profileId4) (videos profileId4) (podcasts profileId4)
 
 
 provider5Portfolio : Portfolio
 provider5Portfolio =
-    Portfolio (answers profileId5) (articles profileId5) (videos profileId5) (podcasts profileId5)
+    Portfolio [] (answers profileId5) (articles profileId5) (videos profileId5) (podcasts profileId5)
 
 
 someArticleTitle1 : Title

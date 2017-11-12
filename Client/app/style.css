@@ -279,6 +279,7 @@ td.centertd {
 
 table.contentTable {
     margin-left: 15px;
+    margin-top: -3px;
 }
 
 tr.contentTypeHeader {

@@ -36,7 +36,8 @@ initTopics =
 
 
 type alias Portfolio =
-    { answers : List Link
+    { topics : List Topic
+    , answers : List Link
     , articles : List Link
     , videos : List Link
     , podcasts : List Link
@@ -45,7 +46,8 @@ type alias Portfolio =
 
 initPortfolio : Portfolio
 initPortfolio =
-    { answers = []
+    { topics = []
+    , answers = []
     , articles = []
     , videos = []
     , podcasts = []
@@ -380,6 +382,7 @@ toggleFilter provider ( topic, include ) =
                 , articles = filtered.articles |> refresh include Article
                 , videos = filtered.videos |> refresh include Video
                 , podcasts = filtered.podcasts |> refresh include Podcast
+                , topics = provider.filteredPortfolio.topics
                 }
         }
 

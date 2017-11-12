@@ -325,6 +325,7 @@ toJsonLink link =
 toPortfolio : JsonPortfolio -> Portfolio
 toPortfolio jsonPortfolio =
     Portfolio
+        []
         (jsonPortfolio.articles |> toLinks)
         (jsonPortfolio.videos |> toLinks)
         (jsonPortfolio.podcasts |> toLinks)
