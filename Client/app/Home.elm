@@ -19,6 +19,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
 import Navigation exposing (..)
 import String exposing (..)
+import List.Extra exposing (groupWhile, uniqueBy)
 
 
 -- elm-live Home.elm --open --output=home.js --debug
@@ -312,14 +313,14 @@ update msg model =
                     featureIfNone links =
                         if (links |> List.filter (.isFeatured)) == [] then
                             let
-                                processCount =
+                                portfolioBucketCount =
                                     5
 
                                 featured =
-                                    links |> List.take processCount |> List.map (\l -> { l | isFeatured = True })
+                                    links |> List.take portfolioBucketCount |> List.map (\l -> { l | isFeatured = True })
 
                                 remaining =
-                                    links |> List.drop processCount
+                                    links |> List.drop portfolioBucketCount
                             in
                                 featured ++ remaining
                         else
@@ -331,6 +332,22 @@ update msg model =
                     pendingfiltered =
                         provider.filteredPortfolio
 
+                    topicGroups =
+                        updatedPortfolio
+                            |> getLinks All
+                            |> topicsFromLinks
+                            |> List.map .name
+                            |> groupWhile (\name1 name2 -> name1 == name2)
+
+                    orderedTopics =
+                        topicGroups
+                            |> List.sortBy (\g -> g |> List.length)
+                            |> List.reverse
+                            -- |> List.take 5
+                            |> List.concat
+                            |> uniqueBy toString
+                            |> List.map (\n -> { name = n, isFeatured = provider.topics |> List.any (\t -> t.name == n) })
+
                     updatedPortfolio =
                         { portfolio
                             | answers = portfolio.answers |> featureIfNone
@@ -341,7 +358,7 @@ update msg model =
 
                     initialTopics =
                         if pendingfiltered.topics == [] then
-                            updatedPortfolio |> getLinks All |> topicsFromLinks
+                            orderedTopics
                         else
                             pendingfiltered.topics
                 in
