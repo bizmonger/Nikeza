@@ -32,30 +32,6 @@ view linksFrom provider =
         filtered =
             provider.filteredPortfolio
 
-        featuredArticles =
-            if (filtered.articles |> List.filter (.isFeatured)) == [] then
-                filtered.articles |> List.take 5 |> List.map (\l -> { l | isFeatured = True })
-            else
-                filtered.articles |> List.filter .isFeatured
-
-        featuredVideos =
-            if (filtered.videos |> List.filter (.isFeatured)) == [] then
-                filtered.videos |> List.take 5 |> List.map (\l -> { l | isFeatured = True })
-            else
-                filtered.videos |> List.filter .isFeatured
-
-        featuredAnswers =
-            if (filtered.answers |> List.filter (.isFeatured)) == [] then
-                filtered.answers |> List.take 5 |> List.map (\l -> { l | isFeatured = True })
-            else
-                filtered.answers |> List.filter .isFeatured
-
-        featuredPodcasts =
-            if (filtered.podcasts |> List.filter (.isFeatured)) == [] then
-                filtered.podcasts |> List.take 5 |> List.map (\l -> { l | isFeatured = True })
-            else
-                filtered.podcasts |> List.filter .isFeatured
-
         ( answerCount, articleCount, podcastCount, videoCount ) =
             ( provider.portfolio |> getLinks Answer |> List.length
             , provider.portfolio |> getLinks Article |> List.length
@@ -68,23 +44,23 @@ view linksFrom provider =
                 [ tr []
                     [ table []
                         [ tr []
-                            [ td [] [ div [] <| (provider.portfolio |> getLinks Featured |> topicsFromLinks |> List.map (\t -> t |> toCheckBoxState True)) ]
+                            [ td [] [ div [] <| (filtered |> getLinks All |> topicsFromLinks |> List.map (\t -> t |> toCheckBoxState True)) ]
                             , table [ class "contentTable" ]
                                 [ tr [ class "contentTypeHeader" ]
                                     [ td [] [ b [] [ text "Answers" ] ]
                                     , td [] [ b [] [ text "Articles" ] ]
                                     ]
                                 , tr []
-                                    [ td [ class "portfolioContent" ] [ div [ class "contentType" ] <| requestAllContent linksFrom profileId Answer answerCount featuredAnswers ]
-                                    , td [ class "portfolioContent" ] [ div [ class "contentType" ] <| requestAllContent linksFrom profileId Article articleCount featuredArticles ]
+                                    [ td [ class "portfolioContent" ] [ div [ class "contentType" ] <| requestAllContent linksFrom profileId Answer answerCount filtered.answers ]
+                                    , td [ class "portfolioContent" ] [ div [ class "contentType" ] <| requestAllContent linksFrom profileId Article articleCount filtered.articles ]
                                     ]
                                 , tr [ class "contentTypeHeader" ]
                                     [ td [] [ b [] [ text "Podcasts" ] ]
                                     , td [] [ b [] [ text "Videos" ] ]
                                     ]
                                 , tr []
-                                    [ td [ class "portfolioContent" ] [ div [ class "contentType" ] <| requestAllContent linksFrom profileId Podcast podcastCount featuredPodcasts ]
-                                    , td [ class "portfolioContent" ] [ div [ class "contentType" ] <| requestAllContent linksFrom profileId Video videoCount featuredVideos ]
+                                    [ td [ class "portfolioContent" ] [ div [ class "contentType" ] <| requestAllContent linksFrom profileId Podcast podcastCount filtered.podcasts ]
+                                    , td [ class "portfolioContent" ] [ div [ class "contentType" ] <| requestAllContent linksFrom profileId Video videoCount filtered.videos ]
                                     ]
                                 ]
                             ]

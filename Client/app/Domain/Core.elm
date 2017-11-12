@@ -431,7 +431,6 @@ topicsFromLinks links =
     links
         |> List.map (\l -> l.topics)
         |> List.concat
-        |> List.filter (.isFeatured)
         |> List.sortBy (.name)
         |> uniqueBy toString
 

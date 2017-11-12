@@ -305,7 +305,49 @@ update msg model =
                 ( { model | portal = { portal | requested = Domain.AddLink } }, Cmd.none )
 
             ViewPortfolio ->
-                ( { model | portal = { portal | requested = Domain.ViewPortfolio } }, Cmd.none )
+                let
+                    provider =
+                        portal.provider
+
+                    filtered =
+                        provider.filteredPortfolio
+
+                    featuredArticles =
+                        if (filtered.articles |> List.filter (.isFeatured)) == [] then
+                            filtered.articles |> List.take 5 |> List.map (\l -> { l | isFeatured = True })
+                        else
+                            filtered.articles |> List.filter .isFeatured
+
+                    featuredVideos =
+                        if (filtered.videos |> List.filter (.isFeatured)) == [] then
+                            filtered.videos |> List.take 5 |> List.map (\l -> { l | isFeatured = True })
+                        else
+                            filtered.videos |> List.filter .isFeatured
+
+                    featuredAnswers =
+                        if (filtered.answers |> List.filter (.isFeatured)) == [] then
+                            filtered.answers |> List.take 5 |> List.map (\l -> { l | isFeatured = True })
+                        else
+                            filtered.answers |> List.filter .isFeatured
+
+                    featuredPodcasts =
+                        if (filtered.podcasts |> List.filter (.isFeatured)) == [] then
+                            filtered.podcasts |> List.take 5 |> List.map (\l -> { l | isFeatured = True })
+                        else
+                            filtered.podcasts |> List.filter .isFeatured
+
+                    updatedFilter =
+                        { filtered | answers = featuredAnswers, articles = featuredArticles, podcasts = featuredPodcasts, videos = featuredVideos }
+                in
+                    ( { model
+                        | portal =
+                            { portal
+                                | requested = Domain.ViewPortfolio
+                                , provider = { provider | filteredPortfolio = updatedFilter }
+                            }
+                      }
+                    , Cmd.none
+                    )
 
             EditProfile ->
                 ( { model | portal = { portal | requested = Domain.EditProfile } }, Cmd.none )

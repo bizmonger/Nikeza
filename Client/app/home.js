@@ -14960,18 +14960,13 @@ var _user$project$Domain_Core$topicsFromLinks = function (links) {
 			function (_) {
 				return _.name;
 			},
-			A2(
-				_elm_lang$core$List$filter,
-				function (_) {
-					return _.isFeatured;
-				},
-				_elm_lang$core$List$concat(
-					A2(
-						_elm_lang$core$List$map,
-						function (l) {
-							return l.topics;
-						},
-						links)))));
+			_elm_lang$core$List$concat(
+				A2(
+					_elm_lang$core$List$map,
+					function (l) {
+						return l.topics;
+					},
+					links))));
 };
 var _user$project$Domain_Core$getLinks = F2(
 	function (contentType, links) {
@@ -18994,86 +18989,6 @@ var _user$project$Controls_Portfolio$view = F2(
 		var podcastCount = _p2._2;
 		var videoCount = _p2._3;
 		var filtered = provider.filteredPortfolio;
-		var featuredArticles = _elm_lang$core$Native_Utils.eq(
-			A2(
-				_elm_lang$core$List$filter,
-				function (_) {
-					return _.isFeatured;
-				},
-				filtered.articles),
-			{ctor: '[]'}) ? A2(
-			_elm_lang$core$List$map,
-			function (l) {
-				return _elm_lang$core$Native_Utils.update(
-					l,
-					{isFeatured: true});
-			},
-			A2(_elm_lang$core$List$take, 5, filtered.articles)) : A2(
-			_elm_lang$core$List$filter,
-			function (_) {
-				return _.isFeatured;
-			},
-			filtered.articles);
-		var featuredVideos = _elm_lang$core$Native_Utils.eq(
-			A2(
-				_elm_lang$core$List$filter,
-				function (_) {
-					return _.isFeatured;
-				},
-				filtered.videos),
-			{ctor: '[]'}) ? A2(
-			_elm_lang$core$List$map,
-			function (l) {
-				return _elm_lang$core$Native_Utils.update(
-					l,
-					{isFeatured: true});
-			},
-			A2(_elm_lang$core$List$take, 5, filtered.videos)) : A2(
-			_elm_lang$core$List$filter,
-			function (_) {
-				return _.isFeatured;
-			},
-			filtered.videos);
-		var featuredAnswers = _elm_lang$core$Native_Utils.eq(
-			A2(
-				_elm_lang$core$List$filter,
-				function (_) {
-					return _.isFeatured;
-				},
-				filtered.answers),
-			{ctor: '[]'}) ? A2(
-			_elm_lang$core$List$map,
-			function (l) {
-				return _elm_lang$core$Native_Utils.update(
-					l,
-					{isFeatured: true});
-			},
-			A2(_elm_lang$core$List$take, 5, filtered.answers)) : A2(
-			_elm_lang$core$List$filter,
-			function (_) {
-				return _.isFeatured;
-			},
-			filtered.answers);
-		var featuredPodcasts = _elm_lang$core$Native_Utils.eq(
-			A2(
-				_elm_lang$core$List$filter,
-				function (_) {
-					return _.isFeatured;
-				},
-				filtered.podcasts),
-			{ctor: '[]'}) ? A2(
-			_elm_lang$core$List$map,
-			function (l) {
-				return _elm_lang$core$Native_Utils.update(
-					l,
-					{isFeatured: true});
-			},
-			A2(_elm_lang$core$List$take, 5, filtered.podcasts)) : A2(
-			_elm_lang$core$List$filter,
-			function (_) {
-				return _.isFeatured;
-			},
-			filtered.podcasts);
 		var toCheckBoxState = F2(
 			function (include, topic) {
 				return A2(
@@ -19156,7 +19071,7 @@ var _user$project$Controls_Portfolio$view = F2(
 																	return A2(toCheckBoxState, true, t);
 																},
 																_user$project$Domain_Core$topicsFromLinks(
-																	A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$Featured, provider.portfolio)))),
+																	A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, filtered)))),
 														_1: {ctor: '[]'}
 													}),
 												_1: {
@@ -19237,7 +19152,7 @@ var _user$project$Controls_Portfolio$view = F2(
 																						_0: _elm_lang$html$Html_Attributes$class('contentType'),
 																						_1: {ctor: '[]'}
 																					},
-																					A5(_user$project$Controls_Portfolio$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Answer, answerCount, featuredAnswers)),
+																					A5(_user$project$Controls_Portfolio$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Answer, answerCount, filtered.answers)),
 																				_1: {ctor: '[]'}
 																			}),
 																		_1: {
@@ -19258,7 +19173,7 @@ var _user$project$Controls_Portfolio$view = F2(
 																							_0: _elm_lang$html$Html_Attributes$class('contentType'),
 																							_1: {ctor: '[]'}
 																						},
-																						A5(_user$project$Controls_Portfolio$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Article, articleCount, featuredArticles)),
+																						A5(_user$project$Controls_Portfolio$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Article, articleCount, filtered.articles)),
 																					_1: {ctor: '[]'}
 																				}),
 																			_1: {ctor: '[]'}
@@ -19333,7 +19248,7 @@ var _user$project$Controls_Portfolio$view = F2(
 																								_0: _elm_lang$html$Html_Attributes$class('contentType'),
 																								_1: {ctor: '[]'}
 																							},
-																							A5(_user$project$Controls_Portfolio$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Podcast, podcastCount, featuredPodcasts)),
+																							A5(_user$project$Controls_Portfolio$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Podcast, podcastCount, filtered.podcasts)),
 																						_1: {ctor: '[]'}
 																					}),
 																				_1: {
@@ -19354,7 +19269,7 @@ var _user$project$Controls_Portfolio$view = F2(
 																									_0: _elm_lang$html$Html_Attributes$class('contentType'),
 																									_1: {ctor: '[]'}
 																								},
-																								A5(_user$project$Controls_Portfolio$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Video, videoCount, featuredVideos)),
+																								A5(_user$project$Controls_Portfolio$requestAllContent, linksFrom, profileId, _user$project$Domain_Core$Video, videoCount, filtered.videos)),
 																							_1: {ctor: '[]'}
 																						}),
 																					_1: {ctor: '[]'}
@@ -22522,8 +22437,8 @@ var _user$project$Home$onNewLink = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 699, column: 25},
-								end: {line: 699, column: 36}
+								start: {line: 741, column: 25},
+								end: {line: 741, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p21._0),
 						{ctor: '_Tuple2', _0: model, _1: newLinkCmd});
@@ -22631,8 +22546,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 780, column: 25},
-								end: {line: 780, column: 36}
+								start: {line: 822, column: 25},
+								end: {line: 822, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p27._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -22646,8 +22561,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 788, column: 25},
-								end: {line: 788, column: 36}
+								start: {line: 830, column: 25},
+								end: {line: 830, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p29._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -23343,6 +23258,91 @@ var _user$project$Home$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'ViewPortfolio':
+				var provider = portal.provider;
+				var filtered = provider.filteredPortfolio;
+				var featuredArticles = _elm_lang$core$Native_Utils.eq(
+					A2(
+						_elm_lang$core$List$filter,
+						function (_) {
+							return _.isFeatured;
+						},
+						filtered.articles),
+					{ctor: '[]'}) ? A2(
+					_elm_lang$core$List$map,
+					function (l) {
+						return _elm_lang$core$Native_Utils.update(
+							l,
+							{isFeatured: true});
+					},
+					A2(_elm_lang$core$List$take, 5, filtered.articles)) : A2(
+					_elm_lang$core$List$filter,
+					function (_) {
+						return _.isFeatured;
+					},
+					filtered.articles);
+				var featuredVideos = _elm_lang$core$Native_Utils.eq(
+					A2(
+						_elm_lang$core$List$filter,
+						function (_) {
+							return _.isFeatured;
+						},
+						filtered.videos),
+					{ctor: '[]'}) ? A2(
+					_elm_lang$core$List$map,
+					function (l) {
+						return _elm_lang$core$Native_Utils.update(
+							l,
+							{isFeatured: true});
+					},
+					A2(_elm_lang$core$List$take, 5, filtered.videos)) : A2(
+					_elm_lang$core$List$filter,
+					function (_) {
+						return _.isFeatured;
+					},
+					filtered.videos);
+				var featuredAnswers = _elm_lang$core$Native_Utils.eq(
+					A2(
+						_elm_lang$core$List$filter,
+						function (_) {
+							return _.isFeatured;
+						},
+						filtered.answers),
+					{ctor: '[]'}) ? A2(
+					_elm_lang$core$List$map,
+					function (l) {
+						return _elm_lang$core$Native_Utils.update(
+							l,
+							{isFeatured: true});
+					},
+					A2(_elm_lang$core$List$take, 5, filtered.answers)) : A2(
+					_elm_lang$core$List$filter,
+					function (_) {
+						return _.isFeatured;
+					},
+					filtered.answers);
+				var featuredPodcasts = _elm_lang$core$Native_Utils.eq(
+					A2(
+						_elm_lang$core$List$filter,
+						function (_) {
+							return _.isFeatured;
+						},
+						filtered.podcasts),
+					{ctor: '[]'}) ? A2(
+					_elm_lang$core$List$map,
+					function (l) {
+						return _elm_lang$core$Native_Utils.update(
+							l,
+							{isFeatured: true});
+					},
+					A2(_elm_lang$core$List$take, 5, filtered.podcasts)) : A2(
+					_elm_lang$core$List$filter,
+					function (_) {
+						return _.isFeatured;
+					},
+					filtered.podcasts);
+				var updatedFilter = _elm_lang$core$Native_Utils.update(
+					filtered,
+					{answers: featuredAnswers, articles: featuredArticles, podcasts: featuredPodcasts, videos: featuredVideos});
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
@@ -23350,7 +23350,12 @@ var _user$project$Home$update = F2(
 						{
 							portal: _elm_lang$core$Native_Utils.update(
 								portal,
-								{requested: _user$project$Domain_Core$ViewPortfolio})
+								{
+									requested: _user$project$Domain_Core$ViewPortfolio,
+									provider: _elm_lang$core$Native_Utils.update(
+										provider,
+										{filteredPortfolio: updatedFilter})
+								})
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
