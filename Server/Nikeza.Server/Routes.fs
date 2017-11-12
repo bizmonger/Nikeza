@@ -50,8 +50,8 @@ let private unsubscribeHandler =
 let private featureLinkHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<FeatureLinkRequest>()
-                let link = FeatureLink data |> execute
-                return! json link context
+                let linkId = FeatureLink data |> execute
+                return! json data.LinkId context
         }
 
 let private updateProfileHandler = 

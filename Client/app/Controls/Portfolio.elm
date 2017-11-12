@@ -112,4 +112,4 @@ linksUI links =
     links
         |> List.sortWith compareLinks
         |> List.take 5
-        |> List.map (\link -> decorateIfFeatured link)
+        |> List.map decorateIfFeatured

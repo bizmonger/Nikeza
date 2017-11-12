@@ -101,6 +101,7 @@ type Msg
     | NavigateToPortalProviderMemberTopicResponse (Result Http.Error JsonProvider)
     | NavigateToProviderResponse (Result Http.Error JsonProvider)
     | NavigateToProviderTopicResponse (Result Http.Error JsonProvider)
+    | FeatureLinkResponse (Result Http.Error Int)
     | Search String
     | Register
     | OnRegistration Registration.Msg
@@ -251,6 +252,14 @@ update msg model =
                     Err _ ->
                         ( model, Cmd.none )
 
+            FeatureLinkResponse response ->
+                case response of
+                    Ok _ ->
+                        ( model, Cmd.none )
+
+                    Err reason ->
+                        Debug.crash (toString reason) ( model, Cmd.none )
+
             NavigateToPortalResponse response ->
                 case response of
                     Ok jsonProvider ->
@@ -341,7 +350,7 @@ update msg model =
 
                     orderedTopics =
                         topicGroups
-                            |> List.sortBy (\g -> g |> List.length)
+                            |> List.sortBy List.length
                             |> List.reverse
                             -- |> List.take 5
                             |> List.concat
@@ -482,8 +491,8 @@ onUpdateProviderContentTypeLinks subMsg model linksfrom =
             ProviderContentTypeLinks.Toggle _ ->
                 ( { model | selectedProvider = provider }, Cmd.none )
 
-            ProviderContentTypeLinks.Featured _ ->
-                ( { model | portal = { portal | provider = provider } }, Cmd.none )
+            ProviderContentTypeLinks.Featured ( link, bit ) ->
+                ( { model | portal = { portal | provider = provider } }, runtime.featureLink { linkId = link.id, isFeatured = bit } FeatureLinkResponse )
 
 
 onPortalLinksAction : Portfolio.Msg -> Model -> ( Model, Cmd Msg )

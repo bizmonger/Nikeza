@@ -112,7 +112,7 @@ view provider contentType isOwner =
             [ tr []
                 [ td [] [ h3 [ class "topicHeader" ] [ text <| "All " ++ (contentType |> contentTypeToText) ] ] ]
             , tr []
-                [ td [] [ div [ class "topicsFilter" ] <| (provider.topics |> List.map (\t -> t |> toCheckBoxState True)) ]
+                [ td [] [ div [ class "topicsFilter" ] <| (provider.topics |> List.sortBy .name |> List.map (\t -> t |> toCheckBoxState True)) ]
                 , td [] [ div [ class "topicsFilter" ] <| List.map createLink posts ]
                 ]
             ]
