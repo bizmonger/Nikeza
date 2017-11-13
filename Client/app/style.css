@@ -266,7 +266,7 @@ button.topicsButton {
 }
 
 i.recentLink {
-    font-size: 13px;
+    /* font-size: 13px; */
 }
 
 div.topicFilter {
@@ -348,6 +348,11 @@ label.title {
 }
 
 label.profileName {
+    color: rgb(5, 82, 170);
+}
+
+b.profileName {
+    font-size: 14px;
     color: rgb(5, 82, 170);
 }
 
