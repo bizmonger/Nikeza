@@ -147,7 +147,7 @@ module StackOverflow =
             
             let decodeIfNeeded (stringValue:string) = stringValue.Replace("%23", "#")
             let searchItem = decodeIfNeeded text
-            Debug.WriteLine(searchItem)
+            
             if searchItem <> "" && searchItem.Length > 1 
             then let tags =         CachedTags.Instance() |> List.map (fun t -> t.ToLower())
                  let filteredTags = tags |> List.filter(fun t -> t.Contains(searchItem.ToLower()))

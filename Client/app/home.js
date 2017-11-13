@@ -17912,8 +17912,7 @@ var _user$project$Settings$Dependencies = function (a) {
 	};
 };
 var _user$project$Settings$Isolation = {ctor: 'Isolation'};
-var _user$project$Settings$Integration = {ctor: 'Integration'};
-var _user$project$Settings$configuration = _user$project$Settings$Integration;
+var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
@@ -17922,6 +17921,7 @@ var _user$project$Settings$runtime = function () {
 		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$bootstrap)(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$updateProfile)(_user$project$Tests_TestAPI$thumbnail)(_user$project$Tests_TestAPI$updateThumbnail)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$providerTopic)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$portfolio)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$recentLinks)(_user$project$Tests_TestAPI$featureLink);
 	}
 }();
+var _user$project$Settings$Integration = {ctor: 'Integration'};
 
 var _user$project$Controls_EditProfile$Response = function (a) {
 	return {ctor: 'Response', _0: a};
@@ -20577,7 +20577,11 @@ var _user$project$Controls_RecentProviderLinks$formatLink = function (link) {
 					ctor: '::',
 					_0: A2(
 						_elm_lang$html$Html$i,
-						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('recentLink'),
+							_1: {ctor: '[]'}
+						},
 						{
 							ctor: '::',
 							_0: _elm_lang$html$Html$text(
@@ -20681,7 +20685,7 @@ var _user$project$Controls_RecentProviderLinks$thumbnail = F2(
 												{
 													ctor: '::',
 													_0: A2(
-														_elm_lang$html$Html$label,
+														_elm_lang$html$Html$b,
 														{
 															ctor: '::',
 															_0: _elm_lang$html$Html_Attributes$class('profileName'),

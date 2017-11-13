@@ -12,7 +12,7 @@ type Msg
 formatLink : Link -> Html Msg
 formatLink link =
     div []
-        [ a [ href <| urlText <| link.url ] [ i [] [ text <| titleText link.title ] ]
+        [ a [ href <| urlText <| link.url ] [ i [ class "recentLink" ] [ text <| titleText link.title ] ]
         , br [] []
         ]
 
@@ -35,7 +35,7 @@ thumbnail clientId provider =
                         ]
                     , td []
                         [ div [ class "recentThumbnail" ]
-                            [ label [ class "profileName" ] [ text <| nameText provider.profile.firstName ++ " " ++ nameText provider.profile.lastName ]
+                            [ b [ class "profileName" ] [ text <| nameText provider.profile.firstName ++ " " ++ nameText provider.profile.lastName ]
                             , linksUI
                             ]
                         ]

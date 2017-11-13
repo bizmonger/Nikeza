@@ -265,6 +265,10 @@ button.topicsButton {
     color: white
 }
 
+i.recentLink {
+    font-size: 13px;
+}
+
 div.topicFilter {
     margin-bottom: 9px;
 }
