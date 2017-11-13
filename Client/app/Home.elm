@@ -122,6 +122,12 @@ update msg model =
 
         profile =
             provider.profile
+
+        providerSource =
+            if model.login.loggedIn then
+                FromPortal
+            else
+                FromOther
     in
         case msg of
             UrlChange location ->
@@ -459,10 +465,10 @@ update msg model =
                 onPortalLinksAction subMsg model
 
             ProviderLinksAction subMsg ->
-                onUpdateProviderLinks subMsg model FromOther
+                onUpdateProviderLinks subMsg model providerSource
 
             ProviderContentTypeLinksAction subMsg ->
-                onUpdateProviderContentTypeLinks subMsg model FromOther
+                onUpdateProviderContentTypeLinks subMsg model providerSource
 
             ProviderTopicContentTypeLinksAction subMsg ->
                 ( model, Cmd.none )
@@ -514,7 +520,21 @@ onUpdateProviderContentTypeLinks subMsg model linksfrom =
                 ( { model | selectedProvider = provider }, Cmd.none )
 
             ProviderContentTypeLinks.Featured ( link, bit ) ->
-                ( { model | portal = { portal | provider = provider } }, runtime.featureLink { linkId = link.id, isFeatured = bit } FeatureLinkResponse )
+                let
+                    filteredLinks =
+                        model.portal.provider.filteredPortfolio
+                            |> getLinks All
+                            |> List.Extra.replaceIf (\l -> l.title == link.title) { link | isFeatured = bit }
+
+                    filteredPortfolio =
+                        { answers = filteredLinks |> List.filter (\l -> l.contentType == Answer)
+                        , articles = filteredLinks |> List.filter (\l -> l.contentType == Article)
+                        , podcasts = filteredLinks |> List.filter (\l -> l.contentType == Podcast)
+                        , videos = filteredLinks |> List.filter (\l -> l.contentType == Video)
+                        , topics = model.portal.provider.filteredPortfolio.topics
+                        }
+                in
+                    ( { model | portal = { portal | provider = { provider | filteredPortfolio = filteredPortfolio } } }, runtime.featureLink { linkId = link.id, isFeatured = bit } FeatureLinkResponse )
 
 
 onPortalLinksAction : Portfolio.Msg -> Model -> ( Model, Cmd Msg )
@@ -663,25 +683,22 @@ onRemove model sources =
         ( newState, Cmd.none )
 
 
-updatePortfolio : Provider -> List Link -> Portfolio
-updatePortfolio provider addedLinks =
+updatePortfolio : Portfolio -> List Link -> Portfolio
+updatePortfolio portfolio addedLinks =
     let
-        links =
-            provider.portfolio
-
         articles =
-            List.append links.articles (addedLinks |> List.filter (\l -> l.contentType == Article))
+            List.append portfolio.articles (addedLinks |> List.filter (\l -> l.contentType == Article))
 
         videos =
-            List.append links.videos (addedLinks |> List.filter (\l -> l.contentType == Video))
+            List.append portfolio.videos (addedLinks |> List.filter (\l -> l.contentType == Video))
 
         podcasts =
-            List.append links.podcasts (addedLinks |> List.filter (\l -> l.contentType == Podcast))
+            List.append portfolio.podcasts (addedLinks |> List.filter (\l -> l.contentType == Podcast))
 
         answers =
-            List.append links.answers (addedLinks |> List.filter (\l -> l.contentType == Answer))
+            List.append portfolio.answers (addedLinks |> List.filter (\l -> l.contentType == Answer))
     in
-        { topics = provider.portfolio.topics
+        { topics = portfolio.topics
         , articles = articles
         , videos = videos
         , podcasts = podcasts
@@ -789,7 +806,7 @@ onNewLink subMsg model =
                                     , portfolioNavigation = True
                                     , provider =
                                         { provider
-                                            | portfolio = updatePortfolio provider newLinks.added
+                                            | portfolio = updatePortfolio provider.portfolio newLinks.added
                                             , filteredPortfolio = newFilteredPortfolio
                                         }
                                 }
@@ -861,7 +878,7 @@ onSourcesUpdated subMsg model =
                                 jsonSource |> toSource
 
                             portfolio =
-                                source.links |> updatePortfolio provider
+                                source.links |> updatePortfolio provider.portfolio
 
                             updatedProvider =
                                 { pendingProvider | portfolio = portfolio, filteredPortfolio = portfolio }

@@ -29,7 +29,7 @@ update msg provider =
                     if l.title /= link.title then
                         l
                     else
-                        { link | isFeatured = isFeatured }
+                        { link | isFeatured = not isFeatured }
             in
                 case link.contentType of
                     Article ->
