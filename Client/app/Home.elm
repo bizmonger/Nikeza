@@ -1316,7 +1316,7 @@ content contentToEmbed model =
                         ]
 
             Domain.ViewSubscriptions ->
-                model.searchResult |> searchProvidersUI (Just loggedIn) False "name on subscription"
+                model.searchResult |> searchProvidersUI (Just loggedIn) True "name on subscription"
 
             Domain.ViewFollowers ->
                 model.searchResult |> searchProvidersUI (Just loggedIn) True "name of follower"

@@ -20140,7 +20140,7 @@ var _user$project$Controls_ProviderContentTypeLinks$update = F2(
 			var setFeaturedLink = function (l) {
 				return (!_elm_lang$core$Native_Utils.eq(l.title, _p2.title)) ? l : _elm_lang$core$Native_Utils.update(
 					_p2,
-					{isFeatured: !_p0._0._1});
+					{isFeatured: _p0._0._1});
 			};
 			var removeLink = F2(
 				function (linkToRemove, links) {
@@ -20286,7 +20286,7 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 						}
 					});
 			});
-		var _p3 = {ctor: '_Tuple2', _0: provider.filteredPortfolio, _1: 'featured'};
+		var _p3 = {ctor: '_Tuple2', _0: provider.portfolio, _1: 'featured'};
 		var links = _p3._0;
 		var featuredClass = _p3._1;
 		var posts = A2(
@@ -23187,7 +23187,7 @@ var _user$project$Home$content = F2(
 				return A4(
 					_user$project$Home$searchProvidersUI,
 					_elm_lang$core$Maybe$Just(loggedIn),
-					false,
+					true,
 					'name on subscription',
 					model.searchResult);
 			case 'ViewFollowers':

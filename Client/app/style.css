@@ -198,7 +198,7 @@ button.subscribeButton {
     display:block;
     font-size: 10px;
     color: rgb(19, 108, 175);
-    background-color: rgb(255, 255, 254);
+    background-color: rgb(236, 236, 236);
     border: none;
 }
 
@@ -208,7 +208,7 @@ button.unsubscribeButton {
     display:block;
     font-size: 10px;
     color: rgb(19, 108, 175);
-    background-color: rgb(236, 236, 236);
+    background-color: rgb(255, 255, 254);
     border: none;
 }
 
@@ -263,10 +263,6 @@ button.topicsButton {
     margin-top: 3px;
     background-color:rgb(66, 137, 199);
     color: white
-}
-
-i.recentLink {
-    /* font-size: 13px; */
 }
 
 div.topicFilter {

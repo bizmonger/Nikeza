@@ -29,7 +29,7 @@ update msg provider =
                     if l.title /= link.title then
                         l
                     else
-                        { link | isFeatured = not isFeatured }
+                        { link | isFeatured = isFeatured }
             in
                 case link.contentType of
                     Article ->
@@ -78,7 +78,7 @@ view : Provider -> ContentType -> Bool -> Html Msg
 view provider contentType isOwner =
     let
         ( links, featuredClass ) =
-            ( provider.filteredPortfolio, "featured" )
+            ( provider.portfolio, "featured" )
 
         toCheckBoxState include topic =
             div []
