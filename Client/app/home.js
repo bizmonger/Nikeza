@@ -17607,7 +17607,10 @@ var _user$project$Services_Gateway$suggestedTopics = F2(
 		var url = A2(
 			_elm_lang$core$Basics_ops['++'],
 			_user$project$Services_Gateway$baseUrl,
-			A2(_elm_lang$core$Basics_ops['++'], 'suggestedtopics/', search));
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				'suggestedtopics/',
+				_elm_lang$http$Http$encodeUri(search)));
 		var request = A2(
 			_elm_lang$http$Http$get,
 			url,
@@ -18176,20 +18179,36 @@ var _user$project$Controls_NewLinks$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'InputTopic':
-				var _p1 = _p0._0;
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							current: _elm_lang$core$Native_Utils.update(
-								linkToCreate,
-								{
-									currentTopic: A2(_user$project$Domain_Core$Topic, _p1, false)
-								})
-						}),
-					_1: A2(_user$project$Settings$runtime.suggestedTopics, _p1, _user$project$Controls_NewLinks$TopicSuggestionResponse)
-				};
+				if (_p0._0 === '') {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								current: _elm_lang$core$Native_Utils.update(
+									linkToCreate,
+									{
+										currentTopic: A2(_user$project$Domain_Core$Topic, '', false)
+									})
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					var _p1 = _p0._0;
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								current: _elm_lang$core$Native_Utils.update(
+									linkToCreate,
+									{
+										currentTopic: A2(_user$project$Domain_Core$Topic, _p1, false)
+									})
+							}),
+						_1: A2(_user$project$Settings$runtime.suggestedTopics, _p1, _user$project$Controls_NewLinks$TopicSuggestionResponse)
+					};
+				}
 			case 'RemoveTopic':
 				var link = _elm_lang$core$Native_Utils.update(
 					linkToCreateBase,
@@ -18296,8 +18315,8 @@ var _user$project$Controls_NewLinks$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Controls.NewLinks',
 							{
-								start: {line: 91, column: 17},
-								end: {line: 91, column: 28}
+								start: {line: 94, column: 17},
+								end: {line: 94, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p0._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -18323,8 +18342,8 @@ var _user$project$Controls_NewLinks$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Controls.NewLinks',
 							{
-								start: {line: 102, column: 17},
-								end: {line: 102, column: 28}
+								start: {line: 105, column: 17},
+								end: {line: 105, column: 28}
 							}),
 						A2(
 							_elm_lang$core$Basics_ops['++'],
@@ -18464,43 +18483,43 @@ var _user$project$Controls_NewLinks$view = function (model) {
 							ctor: '::',
 							_0: _elm_lang$html$Html$text(
 								_user$project$Domain_Core$topicText(t)),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('removeTopic'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(
+										_user$project$Controls_NewLinks$RemoveTopic(t)),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Remove'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
 							_1: {
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$button,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('removeTopic'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(
-												_user$project$Controls_NewLinks$RemoveTopic(t)),
-											_1: {ctor: '[]'}
-										}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text('Remove'),
-										_1: {ctor: '[]'}
-									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$br,
-										{ctor: '[]'},
-										{ctor: '[]'}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$br,
-											{ctor: '[]'},
-											{ctor: '[]'}),
-										_1: {ctor: '[]'}
-									}
-								}
+									_elm_lang$html$Html$br,
+									{ctor: '[]'},
+									{ctor: '[]'}),
+								_1: {ctor: '[]'}
 							}
-						}),
-					_1: {ctor: '[]'}
+						}
+					}
 				});
 		},
 		current.base.topics);
@@ -18514,9 +18533,13 @@ var _user$project$Controls_NewLinks$view = function (model) {
 					_elm_lang$html$Html$button,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onClick(
-							_user$project$Controls_NewLinks$AddTopic(topic)),
-						_1: {ctor: '[]'}
+						_0: _elm_lang$html$Html_Attributes$class('topicsButton'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(
+								_user$project$Controls_NewLinks$AddTopic(topic)),
+							_1: {ctor: '[]'}
+						}
 					},
 					{
 						ctor: '::',

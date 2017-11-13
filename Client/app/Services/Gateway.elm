@@ -276,7 +276,7 @@ suggestedTopics : String -> (Result Http.Error (List String) -> msg) -> Cmd msg
 suggestedTopics search msg =
     let
         url =
-            baseUrl ++ "suggestedtopics/" ++ search
+            baseUrl ++ "suggestedtopics/" ++ (Http.encodeUri search)
 
         request =
             Http.get url (Decode.list Decode.string)

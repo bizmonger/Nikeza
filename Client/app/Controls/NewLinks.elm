@@ -38,6 +38,9 @@ update msg model =
             InputUrl v ->
                 ( { model | current = { linkToCreate | base = { linkToCreateBase | url = Url v } } }, Cmd.none )
 
+            InputTopic "" ->
+                ( { model | current = { linkToCreate | currentTopic = Topic "" False } }, Cmd.none )
+
             InputTopic v ->
                 ( { model | current = { linkToCreate | currentTopic = Topic v False } }, runtime.suggestedTopics v TopicSuggestionResponse )
 
@@ -111,7 +114,7 @@ view model =
     let
         toButton topic =
             div []
-                [ button [ onClick <| AddTopic topic ] [ text <| topicText topic ]
+                [ button [ class "topicsButton", onClick <| AddTopic topic ] [ text <| topicText topic ]
                 , br [] []
                 ]
 
@@ -129,12 +132,10 @@ view model =
                 |> List.map
                     (\t ->
                         div []
-                            [ label [ class "topicAdded" ]
-                                [ text <| topicText t
-                                , button [ class "removeTopic", onClick <| RemoveTopic t ] [ text "Remove" ]
-                                , br [] []
-                                , br [] []
-                                ]
+                            [ label [ class "topicAdded" ] [ text <| topicText t ]
+                            , button [ class "removeTopic", onClick <| RemoveTopic t ] [ text "Remove" ]
+                            , br [] []
+                            , br [] []
                             ]
                     )
 
