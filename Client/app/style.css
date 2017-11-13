@@ -156,7 +156,9 @@ button.addLink {
 }
 
 button.removeTopic {
-     float: right;
+    float: right;
+    background-color: rgb(243, 242, 242);
+    color: darkred;
 }
 
 button.disconnectSource {
@@ -264,7 +266,6 @@ button.topicsButton {
 }
 
 label.topicAdded {
-    /* padding: 0; */
     border: none;
     padding: 2px;
     padding-right: 8px;

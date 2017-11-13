@@ -18501,7 +18501,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 							},
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html$text('Remove'),
+								_0: _elm_lang$html$Html$text('X'),
 								_1: {ctor: '[]'}
 							}),
 						_1: {

@@ -133,7 +133,7 @@ view model =
                     (\t ->
                         div []
                             [ label [ class "topicAdded" ] [ text <| topicText t ]
-                            , button [ class "removeTopic", onClick <| RemoveTopic t ] [ text "Remove" ]
+                            , button [ class "removeTopic", onClick <| RemoveTopic t ] [ text "X" ]
                             , br [] []
                             , br [] []
                             ]
