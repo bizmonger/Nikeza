@@ -24,9 +24,9 @@ view linksFrom provider =
             provider.profile.id
 
         toCheckBoxState include topic =
-            div []
+            div [ class "topicFilter" ]
                 [ input [ type_ "checkbox", checked include, onCheck (\isChecked -> Toggle ( topic, isChecked )) ] []
-                , label [] [ text <| topicText topic ]
+                , label [ class "topicAdded" ] [ text <| topicText topic ]
                 ]
 
         filtered =

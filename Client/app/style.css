@@ -265,6 +265,10 @@ button.topicsButton {
     color: white
 }
 
+div.topicFilter {
+    margin-bottom: 9px;
+}
+
 label.topicAdded {
     border: none;
     padding: 2px;

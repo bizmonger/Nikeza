@@ -20,6 +20,8 @@ import Html.Events exposing (onClick, onCheck, onInput)
 import Navigation exposing (..)
 import String exposing (..)
 import List.Extra exposing (groupWhile, uniqueBy)
+import Dict
+import Dict.Extra as Dict
 
 
 -- elm-live Home.elm --open --output=home.js --debug
@@ -341,21 +343,20 @@ update msg model =
                     pendingfiltered =
                         provider.filteredPortfolio
 
-                    topicGroups =
-                        updatedPortfolio
-                            |> getLinks All
-                            |> topicsFromLinks
-                            |> List.map .name
-                            |> groupWhile (\name1 name2 -> name1 == name2)
+                    maxTopicsToShow =
+                        8
 
-                    orderedTopics =
-                        topicGroups
-                            |> List.sortBy List.length
+                    maxLinksToShow =
+                        5
+
+                    topicGroups someTopics =
+                        Dict.groupBy .name someTopics
+                            |> Dict.toList
+                            |> List.map (\( name, topicList ) -> ( name, List.length topicList ))
+                            |> List.sortBy (\( _, topicList ) -> topicList)
                             |> List.reverse
-                            -- |> List.take 5
-                            |> List.concat
-                            |> uniqueBy toString
-                            |> List.map (\n -> { name = n, isFeatured = provider.topics |> List.any (\t -> t.name == n) })
+                            |> List.map (\t -> { name = t |> Tuple.first, isFeatured = False })
+                            |> List.take maxTopicsToShow
 
                     updatedPortfolio =
                         { portfolio
@@ -367,9 +368,23 @@ update msg model =
 
                     initialTopics =
                         if pendingfiltered.topics == [] then
-                            orderedTopics
+                            updatedPortfolio
+                                |> getLinks All
+                                |> topicsFromLinks
+                                |> topicGroups
                         else
                             pendingfiltered.topics
+
+                    inTopicsFilter link =
+                        link.topics
+                            |> List.any
+                                (\topic ->
+                                    (initialTopics
+                                        |> List.map (\it -> it.name)
+                                        |> List.take maxTopicsToShow
+                                    )
+                                        |> List.member topic.name
+                                )
                 in
                     ( { model
                         | portal =
@@ -378,7 +393,14 @@ update msg model =
                                 , provider =
                                     { provider
                                         | portfolio = updatedPortfolio
-                                        , filteredPortfolio = { pendingfiltered | topics = initialTopics }
+                                        , filteredPortfolio =
+                                            { pendingfiltered
+                                                | answers = pendingfiltered.answers |> List.filter inTopicsFilter |> List.take maxLinksToShow
+                                                , videos = pendingfiltered.videos |> List.filter inTopicsFilter |> List.take maxLinksToShow
+                                                , podcasts = pendingfiltered.podcasts |> List.filter inTopicsFilter |> List.take maxLinksToShow
+                                                , articles = pendingfiltered.articles |> List.filter inTopicsFilter |> List.take maxLinksToShow
+                                                , topics = initialTopics
+                                            }
                                     }
                             }
                       }
