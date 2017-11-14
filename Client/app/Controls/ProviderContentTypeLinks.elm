@@ -81,9 +81,9 @@ view provider contentType isOwner =
             ( provider.portfolio, "featured" )
 
         toCheckBoxState include topic =
-            div []
+            div [ class "topicFilter" ]
                 [ input [ type_ "checkbox", checked include, onCheck (\isChecked -> Toggle ( topic, isChecked )) ] []
-                , label [] [ text <| topicText topic ]
+                , label [ class "topicAdded" ] [ text <| topicText topic ]
                 ]
 
         posts =
@@ -112,7 +112,7 @@ view provider contentType isOwner =
             [ tr []
                 [ td [] [ h3 [ class "topicHeader" ] [ text <| "All " ++ (contentType |> contentTypeToText) ] ] ]
             , tr []
-                [ td [] [ div [ class "topicsFilter" ] <| (provider.topics |> List.sortBy .name |> List.map (\t -> t |> toCheckBoxState True)) ]
+                [ td [] [ div [] <| (provider.portfolio.topics |> List.map (\t -> t |> toCheckBoxState True)) ]
                 , td [] [ div [ class "topicsFilter" ] <| List.map createLink posts ]
                 ]
             ]

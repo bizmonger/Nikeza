@@ -247,7 +247,33 @@ update msg model =
             NavigateToProviderResponse response ->
                 case response of
                     Ok jsonProvider ->
-                        ( { model | selectedProvider = jsonProvider |> toProvider }, Cmd.none )
+                        let
+                            provider =
+                                jsonProvider |> toProvider
+
+                            portfolio =
+                                provider.portfolio
+
+                            topics =
+                                portfolio
+                                    |> getLinks All
+                                    |> topicsFromLinks
+
+                            filtered =
+                                provider.filteredPortfolio
+
+                            filteredTopics =
+                                filtered
+                                    |> getLinks All
+                                    |> topicsFromLinks
+
+                            updatedProvider =
+                                { provider
+                                    | filteredPortfolio = { filtered | topics = filteredTopics }
+                                    , portfolio = { portfolio | topics = topics }
+                                }
+                        in
+                            ( { model | selectedProvider = updatedProvider }, Cmd.none )
 
                     Err _ ->
                         ( model, Cmd.none )

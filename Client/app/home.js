@@ -17912,8 +17912,7 @@ var _user$project$Settings$Dependencies = function (a) {
 	};
 };
 var _user$project$Settings$Isolation = {ctor: 'Isolation'};
-var _user$project$Settings$Integration = {ctor: 'Integration'};
-var _user$project$Settings$configuration = _user$project$Settings$Integration;
+var _user$project$Settings$configuration = _user$project$Settings$Isolation;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Integration') {
@@ -17922,6 +17921,7 @@ var _user$project$Settings$runtime = function () {
 		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$bootstrap)(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$updateProfile)(_user$project$Tests_TestAPI$thumbnail)(_user$project$Tests_TestAPI$updateThumbnail)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$providerTopic)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$portfolio)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$recentLinks)(_user$project$Tests_TestAPI$featureLink);
 	}
 }();
+var _user$project$Settings$Integration = {ctor: 'Integration'};
 
 var _user$project$Controls_EditProfile$Response = function (a) {
 	return {ctor: 'Response', _0: a};
@@ -20255,7 +20255,11 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 			function (include, topic) {
 				return A2(
 					_elm_lang$html$Html$div,
-					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('topicFilter'),
+						_1: {ctor: '[]'}
+					},
 					{
 						ctor: '::',
 						_0: A2(
@@ -20282,7 +20286,11 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 							ctor: '::',
 							_0: A2(
 								_elm_lang$html$Html$label,
-								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('topicAdded'),
+									_1: {ctor: '[]'}
+								},
 								{
 									ctor: '::',
 									_0: _elm_lang$html$Html$text(
@@ -20405,22 +20413,13 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 									ctor: '::',
 									_0: A2(
 										_elm_lang$html$Html$div,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('topicsFilter'),
-											_1: {ctor: '[]'}
-										},
+										{ctor: '[]'},
 										A2(
 											_elm_lang$core$List$map,
 											function (t) {
 												return A2(toCheckBoxState, true, t);
 											},
-											A2(
-												_elm_lang$core$List$sortBy,
-												function (_) {
-													return _.name;
-												},
-												provider.topics))),
+											provider.portfolio.topics)),
 									_1: {ctor: '[]'}
 								}),
 							_1: {
@@ -22790,8 +22789,8 @@ var _user$project$Home$onNewLink = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 824, column: 25},
-								end: {line: 824, column: 36}
+								start: {line: 850, column: 25},
+								end: {line: 850, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p23._0),
 						{ctor: '_Tuple2', _0: model, _1: newLinkCmd});
@@ -22899,8 +22898,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 905, column: 25},
-								end: {line: 905, column: 36}
+								start: {line: 931, column: 25},
+								end: {line: 931, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p29._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -22914,8 +22913,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 913, column: 25},
-								end: {line: 913, column: 36}
+								start: {line: 939, column: 25},
+								end: {line: 939, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p31._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -23490,13 +23489,28 @@ var _user$project$Home$update = F2(
 			case 'NavigateToProviderResponse':
 				var _p49 = _p38._0;
 				if (_p49.ctor === 'Ok') {
+					var provider = _user$project$Services_Adapter$toProvider(_p49._0);
+					var portfolio = provider.portfolio;
+					var topics = _user$project$Domain_Core$topicsFromLinks(
+						A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, portfolio));
+					var filtered = provider.filteredPortfolio;
+					var filteredTopics = _user$project$Domain_Core$topicsFromLinks(
+						A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, filtered));
+					var updatedProvider = _elm_lang$core$Native_Utils.update(
+						provider,
+						{
+							filteredPortfolio: _elm_lang$core$Native_Utils.update(
+								filtered,
+								{topics: filteredTopics}),
+							portfolio: _elm_lang$core$Native_Utils.update(
+								portfolio,
+								{topics: topics})
+						});
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{
-								selectedProvider: _user$project$Services_Adapter$toProvider(_p49._0)
-							}),
+							{selectedProvider: updatedProvider}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
@@ -23526,8 +23540,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 269, column: 25},
-								end: {line: 269, column: 36}
+								start: {line: 295, column: 25},
+								end: {line: 295, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p51._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -23563,8 +23577,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 290, column: 25},
-								end: {line: 290, column: 36}
+								start: {line: 316, column: 25},
+								end: {line: 316, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p52._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});

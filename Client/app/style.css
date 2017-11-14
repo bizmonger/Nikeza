@@ -71,6 +71,7 @@ table.linkTable {
 
 h3.topicHeader {
     margin-top: 0px;
+    margin-bottom: 5px;
     color: rgb(19, 108, 175);
 }
 
@@ -80,7 +81,8 @@ h3.portalTopicHeader {
 }
 
 div.topicsFilter {
-    margin-top: -20px;
+    margin-top: -3px;
+    margin-left: 15px;
 }
 
 input[type="image"].backbutton {
