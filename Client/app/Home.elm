@@ -91,7 +91,6 @@ type Msg
     | ProviderLinksAction Portfolio.Msg
     | PortalLinksAction Portfolio.Msg
     | EditProfileAction EditProfile.Msg
-      -- | ThumbnailAction ProfileThumbnail.Msg
     | ProviderContentTypeLinksAction ProviderContentTypeLinks.Msg
     | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
     | ThumbnailResponse (Result Http.Error JsonThumbnail)

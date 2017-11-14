@@ -155,31 +155,34 @@ let getProviders () =
     providers
 
 
-let login email =
-    email |> loginProfile |> function
-    | Some profile ->
-        let links = profile.ProfileId |> getLinks
-        let subscriptions = profile.ProfileId |> getSubscriptions
+let hydrate (profile:Profile) =
 
-        Some { Profile=        profile |> toProfileRequest
-               Topics=         links |> List.map(fun l -> l.Topics) |> List.concat |> List.distinct
-               Portfolio=      links   |> toPortfolio
-               RecentLinks=    profile.ProfileId |> getRecent
-               Subscriptions=  subscriptions
-               Followers=      []
-            }
-    | None -> None
+    let links =         profile.ProfileId |> getLinks
+    let subscriptions = profile.ProfileId |> getSubscriptions
+
+    { Profile=       profile |> toProfileRequest
+      Topics=        links   |> List.map(fun l -> l.Topics) |> List.concat |> List.distinct
+      Portfolio=     links   |> toPortfolio
+      RecentLinks=   profile.ProfileId |> getRecent
+      Subscriptions= subscriptions
+      Followers=     []
+    }
+
+let login email =
+    email |> loginProfile 
+          |> function
+             | Some profile -> Some <| hydrate profile
+             | None         -> None
 
 let getProvider profileId =
     let commandFunc (command: SqlCommand) = command |> addWithValue "@ProfileId" profileId
-    let initialProvider = readInProviders |> getResults getProfileSql commandFunc
-        
-    match initialProvider with
-    | provider::_ -> let topics =    profileId |> getFeaturedTopics
-                     let followers = profileId |> getFollowers
-                     Some { provider with Topics= topics; Followers= followers }
-    | _ -> None
-
+    readInProviders |> getResults getProfileSql commandFunc
+                    |> function | p::_ -> Some { p with Topics=      profileId |> getFeaturedTopics
+                                                        Followers=   profileId |> getFollowers
+                                                        Portfolio=   profileId |> getLinks |> toPortfolio
+                                                        RecentLinks= profileId |> getRecent
+                                               }
+                                | _ -> None
 let getProfile profileId =
     let profiles = getProfiles profileId getProfileSql "@ProfileId"
     profiles |> List.tryHead

@@ -30,7 +30,7 @@ header {
     top:0;
     width:100%;
     height:40px;
-    margin-bottom:2px;
+    margin-bottom:5px;
 }
 
 a.featured {
@@ -53,7 +53,7 @@ label.linksCount {
 }
 
 label.subscribed {
-    color:rgb(184, 178, 178);
+    color:rgb(122, 121, 121);
     text-align: center;
     display: block;
     margin-top: 3px;
