@@ -19659,9 +19659,6 @@ var _user$project$Controls_ProfileThumbnail$UpdateSubscription = function (a) {
 };
 var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 	function (loggedIn, showSubscriptionState, provider) {
-		var _p8 = provider.followers;
-		var followers = _p8._0;
-		var followersCount = _elm_lang$core$List$length(followers);
 		var recentLinks = A2(
 			_elm_lang$html$Html$div,
 			{
@@ -19844,11 +19841,11 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 					}
 				}
 			});
-		var _p9 = loggedIn;
-		if (_p9.ctor === 'Just') {
-			var _p11 = _p9._0;
-			var _p10 = _p11.subscriptions;
-			var mySubscriptions = _p10._0;
+		var _p8 = loggedIn;
+		if (_p8.ctor === 'Just') {
+			var _p10 = _p8._0;
+			var _p9 = _p10.subscriptions;
+			var mySubscriptions = _p9._0;
 			var alreadySubscribed = A2(
 				_elm_lang$core$List$any,
 				function (subscription) {
@@ -19865,7 +19862,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 						ctor: '::',
 						_0: _elm_lang$html$Html_Events$onClick(
 							_user$project$Controls_ProfileThumbnail$UpdateSubscription(
-								A2(_user$project$Domain_Core$Subscribe, _p11.profile.id, provider.profile.id))),
+								A2(_user$project$Domain_Core$Subscribe, _p10.profile.id, provider.profile.id))),
 						_1: {ctor: '[]'}
 					}
 				},
@@ -19882,7 +19879,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 						ctor: '::',
 						_0: _elm_lang$html$Html_Events$onClick(
 							_user$project$Controls_ProfileThumbnail$UpdateSubscription(
-								A2(_user$project$Domain_Core$Unsubscribe, _p11.profile.id, provider.profile.id))),
+								A2(_user$project$Domain_Core$Unsubscribe, _p10.profile.id, provider.profile.id))),
 						_1: {ctor: '[]'}
 					}
 				},
@@ -19926,7 +19923,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 														_user$project$Domain_Core$urlText(
 															A2(
 																_user$project$Domain_Core$providerUrl,
-																_elm_lang$core$Maybe$Just(_p11.profile.id),
+																_elm_lang$core$Maybe$Just(_p10.profile.id),
 																profile.id))),
 													_1: {ctor: '[]'}
 												},
@@ -19969,7 +19966,12 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 														{
 															ctor: '::',
 															_0: _elm_lang$html$Html$text(
-																_elm_lang$core$Basics$toString(followersCount)),
+																A2(
+																	_elm_lang$core$Basics_ops['++'],
+																	_elm_lang$core$Basics$toString(
+																		_elm_lang$core$List$length(
+																			_user$project$Domain_Core$getFollowers(provider))),
+																	' followers')),
 															_1: {ctor: '[]'}
 														}),
 													_1: {ctor: '[]'}
@@ -20085,7 +20087,12 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 														{
 															ctor: '::',
 															_0: _elm_lang$html$Html$text(
-																_elm_lang$core$Basics$toString(followersCount)),
+																A2(
+																	_elm_lang$core$Basics_ops['++'],
+																	_elm_lang$core$Basics$toString(
+																		_elm_lang$core$List$length(
+																			_user$project$Domain_Core$getFollowers(provider))),
+																	' followers')),
 															_1: {ctor: '[]'}
 														}),
 													_1: {ctor: '[]'}
@@ -21927,15 +21934,21 @@ var _user$project$Home$renderProfileBase = F2(
 													{
 														ctor: '::',
 														_0: A2(
-															_elm_lang$html$Html$button,
+															_elm_lang$html$Html$label,
 															{
 																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$class('subscribeButton'),
+																_0: _elm_lang$html$Html_Attributes$class('subscribed'),
 																_1: {ctor: '[]'}
 															},
 															{
 																ctor: '::',
-																_0: _elm_lang$html$Html$text('Follow'),
+																_0: _elm_lang$html$Html$text(
+																	A2(
+																		_elm_lang$core$Basics_ops['++'],
+																		_elm_lang$core$Basics$toString(
+																			_elm_lang$core$List$length(
+																				_user$project$Domain_Core$getFollowers(provider))),
+																		' followers')),
 																_1: {ctor: '[]'}
 															}),
 														_1: {ctor: '[]'}
@@ -21959,18 +21972,51 @@ var _user$project$Home$renderProfileBase = F2(
 														{
 															ctor: '::',
 															_0: A2(
-																_elm_lang$html$Html$p,
-																{ctor: '[]'},
+																_elm_lang$html$Html$button,
 																{
 																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(provider.profile.bio),
+																	_0: _elm_lang$html$Html_Attributes$class('subscribeButton'),
+																	_1: {ctor: '[]'}
+																},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text('Follow'),
 																	_1: {ctor: '[]'}
 																}),
 															_1: {ctor: '[]'}
 														}),
 													_1: {ctor: '[]'}
 												}),
-											_1: {ctor: '[]'}
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$tr,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$class('bio'),
+														_1: {ctor: '[]'}
+													},
+													{
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$td,
+															{ctor: '[]'},
+															{
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$p,
+																	{ctor: '[]'},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text(provider.profile.bio),
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {ctor: '[]'}
+															}),
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}
 										}
 									}
 								}

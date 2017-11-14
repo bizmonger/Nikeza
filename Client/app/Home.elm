@@ -1070,6 +1070,7 @@ renderProfileBase provider linksContent =
             [ table []
                 [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| urlText <| provider.profile.imageUrl ] [] ] ]
                 , tr [ class "bio" ] [ td [] [ label [ class "profileName" ] [ text <| nameText provider.profile.firstName ++ " " ++ nameText provider.profile.lastName ] ] ]
+                , tr [ class "bio" ] [ td [] [ label [ class "subscribed" ] [ text <| toString (List.length (getFollowers provider)) ++ " followers" ] ] ]
                 , tr [ class "bio" ] [ td [] [ button [ class "subscribeButton" ] [ text "Follow" ] ] ]
                 , tr [ class "bio" ] [ td [] [ p [] [ text provider.profile.bio ] ] ]
                 ]

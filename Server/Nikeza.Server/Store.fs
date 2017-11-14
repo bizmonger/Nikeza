@@ -20,6 +20,7 @@ module private Store =
 
 open Model
 open Sql
+open Google.Apis.YouTube.v3.Data
     
 let getResults sql commandFunc readInData =
     let (reader, connection) = Store.query connectionString sql commandFunc
@@ -104,10 +105,9 @@ let getLinks (profileId:string) =
                 |> List.map attachTopics    
 
 let toPortfolio links = 
-
     { Answers =  links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = Answer)
       Articles = links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = Article)
-      Videos =   links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = Video)
+      Videos =   links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = ContentType.Video)
       Podcasts = links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = Podcast)
     }
 
@@ -128,7 +128,7 @@ let getFeaturedTopics (profileId:string) =
     featuredTopics
 
 
-let getProvidersHelper sql parameterName profileId =
+let rec getProvidersHelper sql parameterName profileId =
 
     let commandFunc (command: SqlCommand) = 
         if parameterName <> "" && profileId <> "" 
@@ -139,13 +139,14 @@ let getProvidersHelper sql parameterName profileId =
     let providers =        initialProviders |> List.map (fun p -> p.Profile.ProfileId |> getFeaturedTopics)
                                             |> List.zip initialProviders
                                             |> List.map (fun (p,t) -> { p with Topics= t} )
+                                            |> List.map (fun p ->     { p with Followers= p.Profile.ProfileId |> getFollowers} )
     providers
 
-let getSubscriptions profileId =
+and getSubscriptions profileId : ProviderRequest list =
     let providers = getProvidersHelper getSubscriptionsSql "SubscriberId" profileId
     providers
 
-let getFollowers profileId =
+and getFollowers profileId : ProviderRequest list =
     let providers = getProvidersHelper getFollowersSql "@ProfileId" profileId
     providers
 
@@ -159,7 +160,6 @@ let login email =
     | Some profile ->
         let links = profile.ProfileId |> getLinks
         let subscriptions = profile.ProfileId |> getSubscriptions
-        let followers = profile.ProfileId |> getFollowers
 
         Some { Profile=        profile |> toProfileRequest
                Topics=         links |> List.map(fun l -> l.Topics) |> List.concat |> List.distinct
@@ -175,8 +175,9 @@ let getProvider profileId =
     let initialProvider = readInProviders |> getResults getProfileSql commandFunc
         
     match initialProvider with
-    | provider::_ -> let topics = provider.Profile.ProfileId |> getFeaturedTopics
-                     Some { provider with Topics= topics }
+    | provider::_ -> let topics =    profileId |> getFeaturedTopics
+                     let followers = profileId |> getFollowers
+                     Some { provider with Topics= topics; Followers= followers }
     | _ -> None
 
 let getProfile profileId =

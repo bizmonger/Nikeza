@@ -118,12 +118,6 @@ thumbnail loggedIn showSubscriptionState provider =
 
         recentLinks =
             div [ class "centerDiv" ] (provider.recentLinks |> List.map (\l -> [ a [ href <| urlText l.url ] [ text <| titleText l.title ] ]) |> List.concat)
-
-        (Members followers) =
-            provider.followers
-
-        followersCount =
-            followers |> List.length
     in
         case loggedIn of
             Just user ->
@@ -155,7 +149,7 @@ thumbnail loggedIn showSubscriptionState provider =
                                     [ a [ href <| urlText <| providerUrl (Just user.profile.id) profile.id ]
                                         [ img [ src <| urlText profile.imageUrl, width 65, height 65 ] [] ]
                                     , br [] []
-                                    , label [ class "subscribed" ] [ text <| toString followersCount ]
+                                    , label [ class "subscribed" ] [ text <| toString (List.length (getFollowers provider)) ++ " followers" ]
                                     ]
                                 , td [] [ nameAndTopics ]
                                 , td [ class "centertd" ] [ recentLinks ]
@@ -172,7 +166,7 @@ thumbnail loggedIn showSubscriptionState provider =
                                 [ a [ href <| urlText <| providerUrl Nothing profile.id ]
                                     [ img [ src <| urlText profile.imageUrl, width 65, height 65 ] [] ]
                                 , br [] []
-                                , label [ class "subscribed" ] [ text <| toString followersCount ]
+                                , label [ class "subscribed" ] [ text <| toString (List.length (getFollowers provider)) ++ " followers" ]
                                 ]
                             , td [] [ nameAndTopics ]
                             , td [ class "centertd" ] [ recentLinks ]
