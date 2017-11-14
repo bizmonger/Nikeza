@@ -20134,176 +20134,11 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 		}
 	});
 
-var _user$project$Controls_ProviderContentTypeLinks$update = F2(
-	function (msg, provider) {
-		var _p0 = msg;
-		if (_p0.ctor === 'Toggle') {
-			return A2(
-				_user$project$Domain_Core$toggleFilter,
-				provider,
-				{ctor: '_Tuple2', _0: _p0._0._0, _1: _p0._0._1});
-		} else {
-			var _p2 = _p0._0._0;
-			var setFeaturedLink = function (l) {
-				return (!_elm_lang$core$Native_Utils.eq(l.title, _p2.title)) ? l : _elm_lang$core$Native_Utils.update(
-					_p2,
-					{isFeatured: _p0._0._1});
-			};
-			var removeLink = F2(
-				function (linkToRemove, links) {
-					return A2(
-						_elm_lang$core$List$filter,
-						function (l) {
-							return !_elm_lang$core$Native_Utils.eq(l.title, linkToRemove.title);
-						},
-						links);
-				});
-			var pendingLinks = provider.portfolio;
-			var _p1 = _p2.contentType;
-			switch (_p1.ctor) {
-				case 'Article':
-					var links = A2(_elm_lang$core$List$map, setFeaturedLink, provider.portfolio.articles);
-					return _elm_lang$core$Native_Utils.update(
-						provider,
-						{
-							portfolio: _elm_lang$core$Native_Utils.update(
-								pendingLinks,
-								{articles: links})
-						});
-				case 'Video':
-					var links = A2(_elm_lang$core$List$map, setFeaturedLink, provider.portfolio.videos);
-					return _elm_lang$core$Native_Utils.update(
-						provider,
-						{
-							portfolio: _elm_lang$core$Native_Utils.update(
-								pendingLinks,
-								{videos: links})
-						});
-				case 'Podcast':
-					var links = A2(_elm_lang$core$List$map, setFeaturedLink, provider.portfolio.podcasts);
-					return _elm_lang$core$Native_Utils.update(
-						provider,
-						{
-							portfolio: _elm_lang$core$Native_Utils.update(
-								pendingLinks,
-								{podcasts: links})
-						});
-				case 'Answer':
-					var links = A2(_elm_lang$core$List$map, setFeaturedLink, provider.portfolio.answers);
-					return _elm_lang$core$Native_Utils.update(
-						provider,
-						{
-							portfolio: _elm_lang$core$Native_Utils.update(
-								pendingLinks,
-								{answers: links})
-						});
-				case 'All':
-					return provider;
-				case 'Featured':
-					return provider;
-				default:
-					return provider;
-			}
-		}
-	});
-var _user$project$Controls_ProviderContentTypeLinks$Featured = function (a) {
-	return {ctor: 'Featured', _0: a};
-};
-var _user$project$Controls_ProviderContentTypeLinks$Toggle = function (a) {
-	return {ctor: 'Toggle', _0: a};
-};
 var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 	function (provider, contentType, isOwner) {
-		var checkbox = function (link) {
-			return A2(
-				_elm_lang$html$Html$input,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$checked(link.isFeatured),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onCheck(
-								function (b) {
-									return _user$project$Controls_ProviderContentTypeLinks$Featured(
-										{ctor: '_Tuple2', _0: link, _1: b});
-								}),
-							_1: {ctor: '[]'}
-						}
-					}
-				},
-				{ctor: '[]'});
-		};
-		var addCheckbox = F2(
-			function (link, element) {
-				return A2(
-					_elm_lang$html$Html$div,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: checkbox(link),
-						_1: {
-							ctor: '::',
-							_0: element,
-							_1: {ctor: '[]'}
-						}
-					});
-			});
-		var toCheckBoxState = F2(
-			function (include, topic) {
-				return A2(
-					_elm_lang$html$Html$div,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('topicFilter'),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$input,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$checked(include),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onCheck(
-											function (isChecked) {
-												return _user$project$Controls_ProviderContentTypeLinks$Toggle(
-													{ctor: '_Tuple2', _0: topic, _1: isChecked});
-											}),
-										_1: {ctor: '[]'}
-									}
-								}
-							},
-							{ctor: '[]'}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$label,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('topicAdded'),
-									_1: {ctor: '[]'}
-								},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text(
-										_user$project$Domain_Core$topicText(topic)),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
-					});
-			});
-		var _p3 = {ctor: '_Tuple2', _0: provider.portfolio, _1: 'featured'};
-		var links = _p3._0;
-		var featuredClass = _p3._1;
+		var _p0 = {ctor: '_Tuple2', _0: provider.portfolio, _1: 'featured'};
+		var links = _p0._0;
+		var featuredClass = _p0._1;
 		var posts = A2(
 			_elm_lang$core$List$sortWith,
 			_user$project$Domain_Core$compareLinks,
@@ -20362,11 +20197,15 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 						_1: {ctor: '[]'}
 					}
 				});
-			return isOwner ? A2(addCheckbox, link, linkElement) : linkElement;
+			return linkElement;
 		};
 		return A2(
 			_elm_lang$html$Html$table,
-			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('xx'),
+				_1: {ctor: '[]'}
+			},
 			{
 				ctor: '::',
 				_0: A2(
@@ -20414,38 +20253,93 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 									_0: A2(
 										_elm_lang$html$Html$div,
 										{ctor: '[]'},
-										A2(
-											_elm_lang$core$List$map,
-											function (t) {
-												return A2(toCheckBoxState, true, t);
-											},
-											provider.portfolio.topics)),
+										A2(_elm_lang$core$List$map, createLink, posts)),
 									_1: {ctor: '[]'}
 								}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$td,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$div,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('topicsFilter'),
-												_1: {ctor: '[]'}
-											},
-											A2(_elm_lang$core$List$map, createLink, posts)),
-										_1: {ctor: '[]'}
-									}),
-								_1: {ctor: '[]'}
-							}
+							_1: {ctor: '[]'}
 						}),
 					_1: {ctor: '[]'}
 				}
 			});
 	});
+var _user$project$Controls_ProviderContentTypeLinks$update = F2(
+	function (msg, provider) {
+		var _p1 = msg;
+		if (_p1.ctor === 'Toggle') {
+			return A2(
+				_user$project$Domain_Core$toggleFilter,
+				provider,
+				{ctor: '_Tuple2', _0: _p1._0._0, _1: _p1._0._1});
+		} else {
+			var _p3 = _p1._0._0;
+			var setFeaturedLink = function (l) {
+				return (!_elm_lang$core$Native_Utils.eq(l.title, _p3.title)) ? l : _elm_lang$core$Native_Utils.update(
+					_p3,
+					{isFeatured: _p1._0._1});
+			};
+			var removeLink = F2(
+				function (linkToRemove, links) {
+					return A2(
+						_elm_lang$core$List$filter,
+						function (l) {
+							return !_elm_lang$core$Native_Utils.eq(l.title, linkToRemove.title);
+						},
+						links);
+				});
+			var pendingLinks = provider.portfolio;
+			var _p2 = _p3.contentType;
+			switch (_p2.ctor) {
+				case 'Article':
+					var links = A2(_elm_lang$core$List$map, setFeaturedLink, provider.portfolio.articles);
+					return _elm_lang$core$Native_Utils.update(
+						provider,
+						{
+							portfolio: _elm_lang$core$Native_Utils.update(
+								pendingLinks,
+								{articles: links})
+						});
+				case 'Video':
+					var links = A2(_elm_lang$core$List$map, setFeaturedLink, provider.portfolio.videos);
+					return _elm_lang$core$Native_Utils.update(
+						provider,
+						{
+							portfolio: _elm_lang$core$Native_Utils.update(
+								pendingLinks,
+								{videos: links})
+						});
+				case 'Podcast':
+					var links = A2(_elm_lang$core$List$map, setFeaturedLink, provider.portfolio.podcasts);
+					return _elm_lang$core$Native_Utils.update(
+						provider,
+						{
+							portfolio: _elm_lang$core$Native_Utils.update(
+								pendingLinks,
+								{podcasts: links})
+						});
+				case 'Answer':
+					var links = A2(_elm_lang$core$List$map, setFeaturedLink, provider.portfolio.answers);
+					return _elm_lang$core$Native_Utils.update(
+						provider,
+						{
+							portfolio: _elm_lang$core$Native_Utils.update(
+								pendingLinks,
+								{answers: links})
+						});
+				case 'All':
+					return provider;
+				case 'Featured':
+					return provider;
+				default:
+					return provider;
+			}
+		}
+	});
+var _user$project$Controls_ProviderContentTypeLinks$Featured = function (a) {
+	return {ctor: 'Featured', _0: a};
+};
+var _user$project$Controls_ProviderContentTypeLinks$Toggle = function (a) {
+	return {ctor: 'Toggle', _0: a};
+};
 
 var _user$project$Controls_ProviderTopicContentTypeLinks$view = F3(
 	function (provider, topic, contentType) {

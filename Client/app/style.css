@@ -75,6 +75,10 @@ h3.topicHeader {
     color: rgb(19, 108, 175);
 }
 
+table.xx{
+    margin-left: 5px;
+}
+
 h3.portalTopicHeader {
     margin-top: 15px;
     color: rgb(19, 108, 175);

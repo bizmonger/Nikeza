@@ -80,12 +80,6 @@ view provider contentType isOwner =
         ( links, featuredClass ) =
             ( provider.portfolio, "featured" )
 
-        toCheckBoxState include topic =
-            div [ class "topicFilter" ]
-                [ input [ type_ "checkbox", checked include, onCheck (\isChecked -> Toggle ( topic, isChecked )) ] []
-                , label [ class "topicAdded" ] [ text <| topicText topic ]
-                ]
-
         posts =
             links |> getLinks contentType |> List.sortWith compareLinks
 
@@ -97,22 +91,12 @@ view provider contentType isOwner =
                     else
                         a [ href <| urlText link.url, target "_blank" ] [ text <| titleText link.title, br [] [] ]
             in
-                if isOwner then
-                    addCheckbox link linkElement
-                else
-                    linkElement
-
-        checkbox link =
-            input [ type_ "checkbox", checked link.isFeatured, onCheck (\b -> Featured ( link, b )) ] []
-
-        addCheckbox link element =
-            div [] [ (checkbox link), element ]
+                linkElement
     in
-        table []
+        table [ class "xx" ]
             [ tr []
                 [ td [] [ h3 [ class "topicHeader" ] [ text <| "All " ++ (contentType |> contentTypeToText) ] ] ]
             , tr []
-                [ td [] [ div [] <| (provider.portfolio.topics |> List.map (\t -> t |> toCheckBoxState True)) ]
-                , td [] [ div [ class "topicsFilter" ] <| List.map createLink posts ]
+                [ td [] [ div [] <| List.map createLink posts ]
                 ]
             ]
