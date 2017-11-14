@@ -75,7 +75,7 @@ encodeSubscriptionRequest : SubscriptionRequest -> Encode.Value
 encodeSubscriptionRequest request =
     Encode.object
         [ ( "SubscriberId", Encode.string <| idText request.subscriberId )
-        , ( "ProviderId", Encode.string <| idText request.providerId )
+        , ( "ProfileId", Encode.string <| idText request.providerId )
         ]
 
 

@@ -83,9 +83,7 @@ let addSourceLinkSql = @"INSERT INTO [dbo].[SourceLinks]
 
 let deleteSourceSql = @"DELETE FROM Source WHERE Id = @Id"
 
-let followSql = @"INSERT INTO [dbo].[Subscription]
-                      (SubscriberId
-                      ,ProfileId)
+let followSql = @"INSERT INTO Subscription (SubscriberId,ProfileId)
 
                 OUTPUT INSERTED.ID
 

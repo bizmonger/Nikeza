@@ -91,6 +91,7 @@ type Msg
     | ProviderLinksAction Portfolio.Msg
     | PortalLinksAction Portfolio.Msg
     | EditProfileAction EditProfile.Msg
+      -- | ThumbnailAction ProfileThumbnail.Msg
     | ProviderContentTypeLinksAction ProviderContentTypeLinks.Msg
     | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
     | ThumbnailResponse (Result Http.Error JsonThumbnail)
@@ -311,7 +312,14 @@ update msg model =
                     ( { model | searchResult = result }, Cmd.none )
 
             ProfileThumbnail subMsg ->
-                ( model, Cmd.none )
+                let
+                    ( updatedProvider, subCmd ) =
+                        ProfileThumbnail.update subMsg provider
+
+                    profileThumbnailCmd =
+                        Cmd.map ProfileThumbnail subCmd
+                in
+                    ( { model | portal = { portal | provider = updatedProvider } }, profileThumbnailCmd )
 
             RecentProviderLinks subMsg ->
                 ( model, Cmd.none )
@@ -522,7 +530,7 @@ onUpdateProviderContentTypeLinks subMsg model linksfrom =
             ProviderContentTypeLinks.Featured ( link, bit ) ->
                 let
                     filteredLinks =
-                        model.portal.provider.filteredPortfolio
+                        provider.filteredPortfolio
                             |> getLinks All
                             |> List.Extra.replaceIf (\l -> l.title == link.title) { link | isFeatured = bit }
 

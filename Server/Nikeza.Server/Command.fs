@@ -138,15 +138,15 @@ module private Commands =
 
     let follow (info:FollowRequest) =
         let commandFunc (command: SqlCommand) = 
-            command |> addWithValue "@SubscriberId" info.SubscriberId
-                    |> addWithValue "@ProfileId"   info.ProfileId
+            command |> addWithValue "@SubscriberId" (Int32.Parse(info.SubscriberId))
+                    |> addWithValue "@ProfileId"    (Int32.Parse(info.ProfileId))
         
         commandFunc |> execute connectionString followSql
 
     let unsubscribe (info:UnsubscribeRequest) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@SubscriberId" info.SubscriberId
-                    |> addWithValue "@ProfileId"   info.ProfileId
+                    |> addWithValue "@ProfileId"    info.ProfileId
 
         commandFunc |> execute connectionString unsubscribeSql
 

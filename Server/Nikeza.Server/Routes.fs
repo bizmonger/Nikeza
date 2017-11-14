@@ -33,24 +33,31 @@ let private loginHandler =
 
 open Command
 
+let private fetchProvider (providerId:string) (context : HttpContext) =
+
+    providerId |> getProvider
+               |> function
+                  | Some p -> json p context
+                  | None   -> (setStatusCode 400 >=> json "provider not found") context 
+
 let private followHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<FollowRequest>()
                 Follow data |> execute |> ignore
-                return Some context
+                return! fetchProvider data.ProfileId context
         } 
 
 let private unsubscribeHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<UnsubscribeRequest>()
                 Unsubscribe data |> execute |> ignore
-                return Some context                  
+                return! fetchProvider data.ProfileId context           
         } 
 
 let private featureLinkHandler = 
     fun(context: HttpContext) -> 
         async { let! data = context.BindJson<FeatureLinkRequest>()
-                let linkId = FeatureLink data |> execute
+                FeatureLink data |> execute |> ignore
                 return! json data.LinkId context
         }
 
@@ -129,13 +136,6 @@ let private fetchSubscriptions (providerId) (context : HttpContext) =
 let private fetchSources (providerId) (context : HttpContext) =
     let  response = getSources providerId
     json response context
-
-let private fetchProvider (providerId:string) (context : HttpContext) =
-
-    providerId |> getProvider
-               |> function
-                  | Some p -> json p context
-                  | None   -> (setStatusCode 400 >=> json "provider not found") context 
 
 let private fetchThumbnail (platform:string , accessId:string) (context : HttpContext) =
 
