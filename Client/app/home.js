@@ -19971,7 +19971,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 																	_elm_lang$core$Basics$toString(
 																		_elm_lang$core$List$length(
 																			_user$project$Domain_Core$getFollowers(provider))),
-																	' followers')),
+																	' subscribers')),
 															_1: {ctor: '[]'}
 														}),
 													_1: {ctor: '[]'}
@@ -20092,7 +20092,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 																	_elm_lang$core$Basics$toString(
 																		_elm_lang$core$List$length(
 																			_user$project$Domain_Core$getFollowers(provider))),
-																	' followers')),
+																	' subscribers')),
 															_1: {ctor: '[]'}
 														}),
 													_1: {ctor: '[]'}
@@ -21841,7 +21841,7 @@ var _user$project$Home$renderProfileBase = F2(
 																		_elm_lang$core$Basics$toString(
 																			_elm_lang$core$List$length(
 																				_user$project$Domain_Core$getFollowers(provider))),
-																		' followers')),
+																		' subscribers')),
 																_1: {ctor: '[]'}
 															}),
 														_1: {ctor: '[]'}
