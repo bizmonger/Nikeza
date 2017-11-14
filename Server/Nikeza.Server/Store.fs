@@ -101,8 +101,7 @@ let getLinks (profileId:string) =
         command |> addWithValue "@ProfileId" profileId
 
     readInLinks |> getResults getLinksSql linksCommandFunc 
-                |> List.map attachTopics
-    
+                |> List.map attachTopics    
 
 let toPortfolio links = 
 
@@ -128,27 +127,48 @@ let getFeaturedTopics (profileId:string) =
                                                                       IsFeatured= true })
     featuredTopics
 
+
+let getProvidersHelper sql parameterName profileId =
+
+    let commandFunc (command: SqlCommand) = 
+        if parameterName <> "" && profileId <> "" 
+            then command |> addWithValue parameterName profileId
+            else command
+     
+    let initialProviders = readInProviders  |> getResults sql commandFunc
+    let providers =        initialProviders |> List.map (fun p -> p.Profile.ProfileId |> getFeaturedTopics)
+                                            |> List.zip initialProviders
+                                            |> List.map (fun (p,t) -> { p with Topics= t} )
+    providers
+
+let getSubscriptions profileId =
+    let providers = getProvidersHelper getSubscriptionsSql "SubscriberId" profileId
+    providers
+
+let getFollowers profileId =
+    let providers = getProvidersHelper getFollowersSql "@ProfileId" profileId
+    providers
+
+let getProviders () =
+    let providers = getProvidersHelper getProfilesSql "" ""
+    providers
+
+
 let login email =
     email |> loginProfile |> function
     | Some profile ->
         let links = profile.ProfileId |> getLinks
+        let subscriptions = profile.ProfileId |> getSubscriptions
+        let followers = profile.ProfileId |> getFollowers
 
         Some { Profile=        profile |> toProfileRequest
                Topics=         links |> List.map(fun l -> l.Topics) |> List.concat |> List.distinct
                Portfolio=      links   |> toPortfolio
                RecentLinks=    profile.ProfileId |> getRecent
-               Subscriptions=  []
+               Subscriptions=  subscriptions
                Followers=      []
             }
     | None -> None
-
-let getFollowers profileId =
-    let profiles = getProfiles profileId getFollowersSql "@ProfileId"
-    profiles
-
-let getSubscriptions subscriberId =
-    let profiles = getProfiles subscriberId getSubscriptionsSql "@SubscriberId"
-    profiles
 
 let getProvider profileId =
     let commandFunc (command: SqlCommand) = command |> addWithValue "@ProfileId" profileId
@@ -158,14 +178,6 @@ let getProvider profileId =
     | provider::_ -> let topics = provider.Profile.ProfileId |> getFeaturedTopics
                      Some { provider with Topics= topics }
     | _ -> None
-
-let getProviders () =
-    let commandFunc (command: SqlCommand) = command
-    let initialProviders = readInProviders  |> getResults getProfilesSql commandFunc
-    let providers =        initialProviders |> List.map (fun p -> p.Profile.ProfileId |> getFeaturedTopics)
-                                            |> List.zip initialProviders
-                                            |> List.map (fun (p,t) -> { p with Topics= t} )
-    providers
 
 let getProfile profileId =
     let profiles = getProfiles profileId getProfileSql "@ProfileId"

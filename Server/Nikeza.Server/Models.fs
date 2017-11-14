@@ -170,11 +170,11 @@ type Portfolio = {
 [<CLIMutable>]
 type ProviderRequest = {
     Profile:       ProfileRequest
-    Topics:        ProviderTopic list
+    Topics:        ProviderTopic   list
     Portfolio:     Portfolio
-    RecentLinks:   Link          list
-    Subscriptions: string        list
-    Followers:     string        list
+    RecentLinks:   Link            list
+    Subscriptions: ProviderRequest list
+    Followers:     ProviderRequest list
 }
 
 [<CLIMutable>]
