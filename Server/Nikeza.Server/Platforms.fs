@@ -8,12 +8,14 @@ open Authentication
 open StackOverflow
 open WordPress
 open Medium
+open Nikeza.Server.ITunes
 
 let PlatformToString = function
     | YouTube       -> "youtube"
     | WordPress     -> "wordpress"
     | StackOverflow -> "stackoverflow"
     | Medium        -> "medium"
+    | ITunes        -> "itunes"
     | Other         -> "other"
 
 let platformFromString (platform:string) =
@@ -22,6 +24,7 @@ let platformFromString (platform:string) =
     | "wordpress"     -> WordPress
     | "stackoverflow" -> StackOverflow
     | "medium"        -> Medium
+    | "itunes"        -> ITunes
     | "other"         -> Other
     | _               -> Other
 
@@ -30,6 +33,7 @@ let getKey = function
     | StackOverflow -> File.ReadAllText(KeyFile_StackOverflow)
     | WordPress     -> KeyNotProvided
     | Medium        -> KeyNotProvided
+    | ITunes        -> KeyNotProvided
     | Other         -> KeyNotProvided
 
 let getThumbnail accessId platform = platform |> function
@@ -37,6 +41,7 @@ let getThumbnail accessId platform = platform |> function
     | StackOverflow -> StackOverflow .getThumbnail accessId <| getKey platform
     | WordPress     -> WordPress     .getThumbnail accessId
     | Medium        -> Medium        .getThumbnail accessId
+    | ITunes        -> ITunes        .getThumbnail accessId
     | Other         -> DefaultThumbnail
 
 let youtubeLinks apiKey channelId = 
@@ -45,18 +50,18 @@ let youtubeLinks apiKey channelId =
             return videos
     }
 
-let linkOf video profileId =
-     { Id=          0
-       ProfileId=   profileId
-       Title=       video.Title
-       Description= video.Description
-       Url=         video.Url
-       Topics=      video.Tags |> List.map (fun t -> { Id=0; Name=t; IsFeatured= false })
-       ContentType= VideoText
-       IsFeatured=  false
-     }
+let linkOf video profileId = {
+    Id=          0
+    ProfileId=   profileId
+    Title=       video.Title
+    Description= video.Description
+    Url=         video.Url
+    Topics=      video.Tags |> List.map (fun t -> { Id=0; Name=t; IsFeatured= false })
+    ContentType= VideoText
+    IsFeatured=  false
+}
 
-let linksFrom (platformUser:PlatformUser) =
+let linksFrom platformUser =
 
     let user =  platformUser.User
     
@@ -68,4 +73,5 @@ let linksFrom (platformUser:PlatformUser) =
     | StackOverflow -> platformUser |> stackoverflowLinks
     | WordPress     -> []           |> wordpressLinks user 1
     | Medium        -> user         |> mediumLinks
+    | ITunes        -> user         |> iTunesLinks
     | Other         -> Seq.empty

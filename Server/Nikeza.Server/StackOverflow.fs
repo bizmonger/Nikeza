@@ -107,7 +107,6 @@ module StackOverflow =
 
 
     module Suggestions =
-        open System.Diagnostics
 
         let getRelatedTags (tag:string) =
 
@@ -149,11 +148,11 @@ module StackOverflow =
             let searchItem = decodeIfNeeded text
             
             if searchItem <> "" && searchItem.Length > 1 
-            then let tags =         CachedTags.Instance() |> List.map (fun t -> t.ToLower())
-                 let filteredTags = tags |> List.filter(fun t -> t.Contains(searchItem.ToLower()))
-                 let matchingTags = filteredTags |> List.filter (fun t -> t = searchItem)
+                then let tags =         CachedTags.Instance() |> List.map (fun t -> t.ToLower())
+                     let filteredTags = tags |> List.filter(fun t -> t.Contains(searchItem.ToLower()))
+                     let matchingTags = filteredTags |> List.filter (fun t -> t = searchItem)
 
-                 if matchingTags |> List.isEmpty |> not
-                    then getRelatedTags matchingTags.Head
-                    else filteredTags
-            else []
+                     if matchingTags |> List.isEmpty |> not
+                        then getRelatedTags matchingTags.Head
+                        else filteredTags
+                else []

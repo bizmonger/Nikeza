@@ -281,10 +281,9 @@ label.topicAdded {
     border: none;
     padding: 2px;
     padding-right: 8px;
-    padding-left: 8px;
+    padding-left: 2px;
     margin-bottom: 1px;
-    background-color:rgb(66, 137, 199);
-    color: white
+    color: rgb(19, 108, 175);
 }
 
 button.remove {

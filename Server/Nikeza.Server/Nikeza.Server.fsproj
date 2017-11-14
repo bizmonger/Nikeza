@@ -62,6 +62,7 @@
     <Compile Include="Wordpress.fs" />
     <Compile Include="Stackoverflow.fs" />
     <Compile Include="Medium.fs" />
+    <Compile Include="ITunes.fs" />
     <Compile Include="CommandDetails.fs" />
     <Compile Include="Store.fs" />
     <Compile Include="Platforms.fs" />
