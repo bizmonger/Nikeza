@@ -7,12 +7,12 @@ import Services.Adapter as Adapter exposing (..)
 
 configuration : Configuration
 configuration =
-    Isolation
+    Integration
 
 
 type Configuration
     = Integration
-    | Isolation
+    | Disconnected
 
 
 type alias Dependencies msg =
@@ -71,7 +71,7 @@ runtime =
                 Services.recentLinks
                 Services.featureLink
 
-        Isolation ->
+        Disconnected ->
             Dependencies
                 TestAPI.bootstrap
                 TestAPI.tryLogin

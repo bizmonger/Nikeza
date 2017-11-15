@@ -2,7 +2,7 @@ module Nikeza.Server.Integration
 
 open System
 open System.IO
-open System.Xml
+open System.Xml.Linq
 open FsUnit
 open NUnit.Framework
 open TestAPI
@@ -14,43 +14,19 @@ open Model
 open Literals
 open Platforms
 open Http
-open System.Xml.Linq
 
 
 [<TearDownAttribute>]
 let teardown() = cleanDataStore()
 
-[<Test>]
-let ``Get links from iTunes RSS Feed`` () =
+//[<Test>]
+//let ``Get links from iTunes RSS Feed`` () =
 
-    let toLink (item:XElement) = { 
-        Id =          -1
-        ProfileId =   "to be derived..."
-        Title=        item.Element(XName.Get("title")) |> string
-        Url=          item.Element(XName.Get("link"))  |> string
-        Description = item.Element(XName.Get("description")) |> string
-        ContentType=  Podcast |> contentTypeToString
-        Topics =      []
-        IsFeatured=   false
-     }
+//    let url = "http://www.pwop.com/feed.aspx?show=dotnetrocks&filetype=master&tags=F%23"
+//    linksFrom { Platform= ITunes; User= {} }
 
-    let baseAddress = "http://www.pwop.com/"
-    let url = "feed.aspx?show=dotnetrocks&filetype=master&tags=F%23"
-    use client = httpClient baseAddress
 
-    let response = client.GetAsync(url) |> Async.AwaitTask 
-                                        |> Async.RunSynchronously
-    let links = 
-        if response.IsSuccessStatusCode
-           then let text = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
-                let document =  XElement.Parse(text) 
-                let items =   document.Descendants(XName.Get("item")) |> Seq.toList
-                let links = items 
-                            |> List.map toLink
-                links
-           else []
-
-    links |> List.isEmpty |> should equal false
+//    links |> List.isEmpty |> should equal false
 
 [<Test>]
 let ``Get profile image from StackOverflow`` () =
