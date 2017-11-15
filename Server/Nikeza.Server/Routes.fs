@@ -8,148 +8,158 @@ open Store
 open Model
 open Platforms
 open Authentication
+open Giraffe.Tasks
+open Command
+open StackOverflow.Suggestions
 
-let authScheme = "Cookie"
+[<Literal>]
+let AuthScheme = "Cookie"
 
-let private registrationHandler = 
-    fun(context: HttpContext) -> 
-        async {
-            let! data = context.BindJson<RegistrationRequest>()
+let private registrationHandler: HttpHandler = 
+    fun next ctx -> 
+        task {
+            let! data = ctx.BindJson<RegistrationRequest>()
             match register data with
-            | Success profile -> return! json profile context
-            | Failure         -> return! (setStatusCode 400 >=> json "registration failed") context
+            | Success profile -> return! json profile next ctx
+            | Failure         -> return! (setStatusCode 400 >=> json "registration failed") next ctx
         }
 
-let private loginHandler = 
-    fun(context: HttpContext) -> 
-        async {
-            let! data = context.BindJson<LogInRequest>()
+let private loginHandler: HttpHandler = 
+    fun next ctx -> 
+        task {
+            let! data = ctx.BindJson<LogInRequest>()
             if  authenticate data.Email data.Password
                 then match login data.Email with
-                     | Some provider -> return! json provider context 
-                     | None          -> return! (setStatusCode 400 >=> json "Invalid login") context
-                else return! (setStatusCode 400 >=> json "Invalid login") context                                                        
+                     | Some provider -> return! json provider next ctx
+                     | None          -> return! (setStatusCode 400 >=> json "Invalid login") next ctx
+                else return! (setStatusCode 400 >=> json "Invalid login") next ctx                                                       
         }
 
-open Command
+let private fetchProvider providerId: HttpHandler =
+    fun next ctx ->
+        getProvider providerId
+        |> function
+          | Some p -> ctx.WriteJson p
+          | None   -> (setStatusCode 400 >=> json "provider not found") next ctx
 
-let private fetchProvider (providerId:string) (context : HttpContext) =
-
-    providerId |> getProvider
-               |> function
-                  | Some p -> json p context
-                  | None   -> (setStatusCode 400 >=> json "provider not found") context 
-
-let private followHandler = 
-    fun(context: HttpContext) -> 
-        async { let! data = context.BindJson<FollowRequest>()
-                Follow data |> execute |> ignore
-                return! fetchProvider data.ProfileId context
+let private followHandler: HttpHandler = 
+    fun next ctx -> 
+        task { 
+            let! data = ctx.BindJson<FollowRequest>()
+            Follow data |> execute |> ignore
+            return! fetchProvider data.ProfileId next ctx 
         } 
 
-let private unsubscribeHandler = 
-    fun(context: HttpContext) -> 
-        async { let! data = context.BindJson<UnsubscribeRequest>()
-                Unsubscribe data |> execute |> ignore
-                return! fetchProvider data.ProfileId context           
+let private unsubscribeHandler: HttpHandler = 
+    fun next ctx -> 
+        task { 
+            let! data = ctx.BindJson<UnsubscribeRequest>()
+            Unsubscribe data |> execute |> ignore
+            return! fetchProvider data.ProfileId next ctx          
         } 
 
-let private featureLinkHandler = 
-    fun(context: HttpContext) -> 
-        async { let! data = context.BindJson<FeatureLinkRequest>()
-                FeatureLink data |> execute |> ignore
-                return! json data.LinkId context
+let private featureLinkHandler: HttpHandler = 
+    fun next ctx -> 
+        task { 
+            let! data = ctx.BindJson<FeatureLinkRequest>()
+            FeatureLink data |> execute |> ignore
+            return! json data.LinkId next ctx
         }
 
-let private updateProfileHandler = 
-    fun(context: HttpContext) -> 
-        async { let! data = context.BindJson<ProfileRequest>()
-                UpdateProfile data |> execute |> ignore
-                return! json data context
+let private updateProfileHandler: HttpHandler = 
+    fun next ctx -> 
+        task { 
+            let! data = ctx.BindJson<ProfileRequest>()
+            UpdateProfile data |> execute |> ignore
+            return! json data next ctx
         }
 
-let private addSourceHandler = 
-    fun(context: HttpContext) -> 
-        async { let! data = context.BindJson<DataSourceRequest>()
-                let sourceId = AddSource data |> execute
-                let links =    data.ProfileId |> Store.linksFrom data.Platform |> List.toSeq
-                let source = { data with Id = Int32.Parse(sourceId); Links = links }
-                return! json source context
+let private addSourceHandler: HttpHandler = 
+    fun next ctx -> 
+        task { 
+            let! data = ctx.BindJson<DataSourceRequest>()
+            let sourceId = AddSource data |> execute
+            let links =    data.ProfileId |> Store.linksFrom data.Platform |> List.toSeq
+            let source = { data with Id = Int32.Parse(sourceId); Links = links }
+            return! json source next ctx
         }
 
-let private removeSourceHandler = 
-    fun(context: HttpContext) -> 
-        async { let! data = context.BindJson<RemoveDataSourceRequest>()
-                RemoveSource data |> execute |> ignore
-                return! json data context
+let private removeSourceHandler: HttpHandler = 
+    fun next ctx -> 
+        task { 
+            let! data = ctx.BindJson<RemoveDataSourceRequest>()
+            RemoveSource data |> execute |> ignore
+            return! json data next ctx
         }
 
-let private addLinkHandler = 
-    fun(context: HttpContext) -> 
-        async { let! data = context.BindJson<Link>()
-                let linkId = AddLink { data with Description = "" } |> execute
-                return! json { data with Id = Int32.Parse(linkId) } context
+let private addLinkHandler: HttpHandler = 
+    fun next ctx -> 
+        task { 
+            let! data = ctx.BindJson<Link>()
+            let linkId = AddLink { data with Description = "" } |> execute
+            return! json { data with Id = Int32.Parse(linkId) } next ctx
         }
 
-let private removeLinkHandler = 
-    fun(context: HttpContext) -> 
-        async { let! data = context.BindJson<RemoveLinkRequest>()
-                RemoveLink data |> execute |> ignore
-                return Some context
+let private removeLinkHandler: HttpHandler = 
+    fun _ ctx -> 
+        task { 
+            let! data = ctx.BindJson<RemoveLinkRequest>()
+            RemoveLink data |> execute |> ignore
+            return Some ctx
         }
 
-let private updateThumbnailHandler = 
-    fun(context: HttpContext) -> 
-        async { let! data = context.BindJson<UpdateThumbnailRequest>()
-                UpdateThumbnail data |> execute |> ignore
-                return Some context
+let private updateThumbnailHandler: HttpHandler = 
+    fun _ ctx -> 
+        task { 
+            let! data = ctx.BindJson<UpdateThumbnailRequest>()
+            UpdateThumbnail data |> execute |> ignore
+            return Some ctx
         }
 
-open StackOverflow
-open Suggestions
-
-let private fetchBootstrap (context : HttpContext) =
-    CachedTags.Instance() |> ignore
+let private fetchBootstrap: HttpHandler =
+    StackOverflow.CachedTags.Instance() |> ignore
     let  dependencies = { Providers= getProviders(); Platforms=getPlatforms() }
-    json dependencies context
+    json dependencies
 
-let private fetchLinks (providerId) (context : HttpContext) =
+type Resposne =  HttpFunc -> HttpContext -> HttpFuncResult
+let private fetchLinks providerId: HttpHandler =
     let response = getLinks providerId
-    json response context
+    json response
 
-let private fetchSuggestedTopics (text) (context : HttpContext) =
+let private fetchSuggestedTopics (text) =
     let  suggestions = getSuggestions text
-    json suggestions context
+    json suggestions
 
-let private fetchRecent (subscriberId) (context : HttpContext) =
+let private fetchRecent (subscriberId) =
     let  response = getRecent subscriberId
-    json response context
+    json response
     
-let private fetchFollowers (providerId) (context : HttpContext) =
+let private fetchFollowers (providerId) =
     let  response = getFollowers providerId
-    json response context
+    json response
     
-let private fetchSubscriptions (providerId) (context : HttpContext) =
+let private fetchSubscriptions (providerId) =
     let response = getSubscriptions providerId
-    json response context
+    json response
 
-let private fetchSources (providerId) (context : HttpContext) =
+let private fetchSources (providerId) =
     let  response = getSources providerId
-    json response context
+    json response
 
-let private fetchThumbnail (platform:string , accessId:string) (context : HttpContext) =
+let private fetchThumbnail (platform:string , accessId:string) =
 
-    let thumbnail = platform.ToLower() |> platformFromString 
-                                       |> Platforms.getThumbnail accessId
+    let thumbnail = 
+        platform.ToLower() 
+        |> platformFromString 
+        |> getThumbnail accessId
                                        
-    json { ImageUrl= thumbnail; Platform= platform } context
+    json { ImageUrl= thumbnail; Platform= platform }
     
-let private fetchContentTypeToId (contentType) (context : HttpContext) =
+let private fetchContentTypeToId (contentType) =
     let response = contentTypeToId contentType
-    json response context
+    json response
          
-let webApp : HttpContext -> HttpHandlerResult = 
-
+let webApp: HttpHandler = 
     choose [
         GET >=>
             choose [
@@ -171,7 +181,7 @@ let webApp : HttpContext -> HttpHandlerResult =
             choose [
                 route "/register"        >=> registrationHandler
                 route "/login"           >=> loginHandler
-                route "/logout"          >=> signOff authScheme >=> text "logged out"
+                route "/logout"          >=> signOff AuthScheme >=> text "logged out"
                 route "/follow"          >=> followHandler
                 route "/unsubscribe"     >=> unsubscribeHandler
                 route "/featurelink"     >=> featureLinkHandler
