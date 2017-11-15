@@ -423,7 +423,7 @@ getLinks contentType links =
                 ++ links.articles
                 ++ links.podcasts
                 ++ links.videos
-                |> List.filter (\l -> l.isFeatured)
+                |> List.filter .isFeatured
 
         Unknown ->
             []
@@ -434,7 +434,7 @@ topicsFromLinks links =
     links
         |> List.map (\l -> l.topics)
         |> List.concat
-        |> List.sortBy (.name)
+        |> List.sortBy .name
         |> uniqueBy toString
 
 
@@ -465,7 +465,7 @@ toUrl link =
 
 toTopicNames : List Topic -> List String
 toTopicNames topics =
-    topics |> List.map (\topic -> topic.name)
+    topics |> List.map .name
 
 
 providerTopicUrl : Maybe Id -> Id -> Topic -> Url

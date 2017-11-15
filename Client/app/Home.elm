@@ -419,7 +419,7 @@ update msg model =
                             |> List.any
                                 (\topic ->
                                     (initialTopics
-                                        |> List.map (\it -> it.name)
+                                        |> List.map .name
                                         |> List.take maxTopicsToShow
                                     )
                                         |> List.member topic.name

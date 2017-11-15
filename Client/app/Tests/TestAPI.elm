@@ -626,7 +626,7 @@ suggestedTopics : String -> (Result Http.Error (List String) -> msg) -> Cmd msg
 suggestedTopics search msg =
     if not <| isEmpty search then
         topics
-            |> List.map (\t -> t.name)
+            |> List.map .name
             |> List.filter (\t -> t |> toLower |> contains (search |> toLower))
             |> httpSuccess msg
     else

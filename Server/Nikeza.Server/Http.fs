@@ -4,6 +4,7 @@ open System.Net.Http
 open System.Net.Http.Headers
 open System
 open System.Net
+open Asynctify
 
 let httpClient baseAddress =
 
@@ -19,6 +20,5 @@ let httpClient baseAddress =
 let sendRequest baseAddress (url:string) accessId key =
     use client =   httpClient baseAddress
     let url =      String.Format(url, accessId, key)
-    let response = client.GetAsync(url) |> Async.AwaitTask 
-                                        |> Async.RunSynchronously
+    let response = client.GetAsync(url) |> toResult
     response

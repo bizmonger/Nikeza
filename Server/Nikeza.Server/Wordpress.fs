@@ -1,8 +1,9 @@
 module Nikeza.Server.WordPress
 
     open Newtonsoft.Json
-    open Nikeza.Server.Model
-    open Nikeza.Server.Http
+    open Model
+    open Http
+    open Asynctify
     open System.Collections.Generic
 
     [<Literal>]
@@ -49,8 +50,7 @@ module Nikeza.Server.WordPress
         let response = sendRequest APIBaseAddress DefaultThumbnail accessId <| string 1
 
         if response.IsSuccessStatusCode
-           then let json = response.Content.ReadAsStringAsync() |> Async.AwaitTask 
-                                                                |> Async.RunSynchronously
+           then let json = response.Content.ReadAsStringAsync() |> toResult
                 let line = json.Split("\"avatar_URL\"")
                                 .[1]
                                 .Split(',')
@@ -66,8 +66,7 @@ module Nikeza.Server.WordPress
         let response = sendRequest APIBaseAddress ArticlesUrl user.AccessId <| string pageNumber
 
         if  response.IsSuccessStatusCode
-            then let json =     response.Content.ReadAsStringAsync() |> Async.AwaitTask 
-                                                                     |> Async.RunSynchronously
+            then let json =     response.Content.ReadAsStringAsync() |> toResult
                  let settings = JsonSerializerSettings()
                  settings.MissingMemberHandling <- MissingMemberHandling.Ignore
  

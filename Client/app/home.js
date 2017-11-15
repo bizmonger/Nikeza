@@ -15160,8 +15160,8 @@ var _user$project$Domain_Core$contentTypeToText = function (contentType) {
 var _user$project$Domain_Core$toTopicNames = function (topics) {
 	return A2(
 		_elm_lang$core$List$map,
-		function (topic) {
-			return topic.name;
+		function (_) {
+			return _.name;
 		},
 		topics);
 };
@@ -15206,8 +15206,8 @@ var _user$project$Domain_Core$getLinks = F2(
 			case 'Featured':
 				return A2(
 					_elm_lang$core$List$filter,
-					function (l) {
-						return l.isFeatured;
+					function (_) {
+						return _.isFeatured;
 					},
 					A2(
 						_elm_lang$core$Basics_ops['++'],
@@ -16087,8 +16087,8 @@ var _user$project$Tests_TestAPI$suggestedTopics = F2(
 				},
 				A2(
 					_elm_lang$core$List$map,
-					function (t) {
-						return t.name;
+					function (_) {
+						return _.name;
 					},
 					_user$project$Tests_TestAPI$topics))) : _elm_lang$core$Platform_Cmd$none;
 	});
@@ -23640,8 +23640,8 @@ var _user$project$Home$update = F2(
 									maxTopicsToShow,
 									A2(
 										_elm_lang$core$List$map,
-										function (it) {
-											return it.name;
+										function (_) {
+											return _.name;
 										},
 										initialTopics)));
 						},

@@ -5,6 +5,7 @@ module StackOverflow =
     open System
     open System.IO
     open Newtonsoft.Json
+    open Asynctify
     open Model
     open Http
     open Literals
@@ -61,7 +62,7 @@ module StackOverflow =
         let response = sendRequest APIBaseAddress url accessId key
 
         if response.IsSuccessStatusCode
-           then let json =   response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+           then let json =   response.Content.ReadAsStringAsync() |> toResult
                 let result = JsonConvert.DeserializeObject<ThumbnailResponse>(json)
                 result.items |> function
                 | h::_ -> h.profile_image
@@ -75,7 +76,7 @@ module StackOverflow =
         let response = sendRequest APIBaseAddress url user.AccessId platformUser.APIKey
 
         if response.IsSuccessStatusCode
-           then let json =   response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+           then let json =   response.Content.ReadAsStringAsync() |> toResult
                 JsonConvert.DeserializeObject<AnswersResponse>(json).items
                 |> Seq.map (fun item -> toLink user.ProfileId item)
            else seq []
@@ -89,10 +90,9 @@ module StackOverflow =
 
         try let url =        String.Format(TagsUrl, pageNumber |> string)
             let urlWithKey = sprintf "%s&key=%s" url (File.ReadAllText(KeyFile_StackOverflow))
-            let response =   client.GetAsync(urlWithKey) |> Async.AwaitTask 
-                                                         |> Async.RunSynchronously
+            let response =   client.GetAsync(urlWithKey) |> toResult
             if response.IsSuccessStatusCode
-               then let json = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+               then let json = response.Content.ReadAsStringAsync() |> toResult
                     JsonConvert.DeserializeObject<TagsResponse>(json).items 
                     |> List.ofSeq |> List.map (fun i -> i.name)
                else []
@@ -120,11 +120,9 @@ module StackOverflow =
                  let client = httpClient SiteBaseAddress
          
                  try let relatedTagsUrl = sprintf "filter/tags?q=%s" tag
-                     let response =       client.GetAsync(relatedTagsUrl) |> Async.AwaitTask 
-                                                                          |> Async.RunSynchronously
+                     let response =       client.GetAsync(relatedTagsUrl) |> toResult
                      if response.IsSuccessStatusCode
-                     then let result = response.Content.ReadAsStringAsync() |> Async.AwaitTask 
-                                                                            |> Async.RunSynchronously 
+                     then let result = response.Content.ReadAsStringAsync() |> toResult
                           result.Split('\n') |> List.ofArray 
                                              |> List.filter (fun x -> x <> "")
                                              |> List.tryHead

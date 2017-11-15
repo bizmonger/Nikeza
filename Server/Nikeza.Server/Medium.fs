@@ -4,6 +4,7 @@ module Nikeza.Server.Medium
     open Model
     open Http
     open Literals
+    open Asynctify
     open Newtonsoft.Json
 
     [<Literal>]
@@ -19,8 +20,7 @@ module Nikeza.Server.Medium
 
         let url =      String.Format(RssFeedUrl, accessId)
         use client =   httpClient BaseAddress
-        let response = client.GetAsync(url) |> Async.AwaitTask 
-                                            |> Async.RunSynchronously
+        let response = client.GetAsync(url) |> toResult
         if response.IsSuccessStatusCode
             then let text = response.Content.ReadAsStringAsync() 
                             |> Async.AwaitTask 
@@ -182,11 +182,9 @@ module Nikeza.Server.Medium
 
         let url =      String.Format(PostsUrl, user.AccessId)
         use client =   httpClient BaseAddress
-        let response = client.GetAsync(url) |> Async.AwaitTask 
-                                            |> Async.RunSynchronously
+        let response = client.GetAsync(url) |> toResult
         if response.IsSuccessStatusCode
-            then let rawText = response.Content.ReadAsStringAsync() |> Async.AwaitTask 
-                                                                    |> Async.RunSynchronously
+            then let rawText = response.Content.ReadAsStringAsync() |> toResult
                  let text = rawText.Replace("])}while(1);</x>", "")
                  let json = text |> formatJson
                  let postsIndex = json.IndexOf("\"Post\": {") + 11

@@ -2,6 +2,7 @@ module Nikeza.Server.ITunes
 
     open Model
     open Http
+    open Asynctify
     open System.Xml.Linq
     open System
 
@@ -35,11 +36,10 @@ module Nikeza.Server.ITunes
         let uri =    Uri(url) 
         use client = httpClient uri.Host
 
-        let response = client.GetAsync(url) |> Async.AwaitTask 
-                                            |> Async.RunSynchronously
+        let response = client.GetAsync(url) |> toResult
         let links = 
             if response.IsSuccessStatusCode
-               then let text = response.Content.ReadAsStringAsync()     |> Async.AwaitTask |> Async.RunSynchronously
+               then let text = response.Content.ReadAsStringAsync()     |> toResult
                     XElement.Parse(text).Descendants(XName.Get("item")) |> Seq.map toLink
                else seq []
         links

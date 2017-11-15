@@ -3,6 +3,7 @@ module Nikeza.Server.YouTube
 open System
 open Http
 open Literals
+open Asynctify
 open FSharp.Control
 open Google.Apis.Services
 open Google.Apis.YouTube.v3
@@ -143,7 +144,7 @@ let getThumbnail accessId key =
 
     let response = sendRequest BaseAddress thumbnailUrl accessId key
     if  response.IsSuccessStatusCode
-        then let json =     response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+        then let json =     response.Content.ReadAsStringAsync() |> toResult
              let settings = JsonSerializerSettings()
              settings.MissingMemberHandling <- MissingMemberHandling.Ignore
 
@@ -170,7 +171,7 @@ let getTags apiKey videosWithTags =
        let response = client.GetAsync(url) |> Async.AwaitTask 
                                            |> Async.RunSynchronously
        if response.IsSuccessStatusCode
-           then let json =   response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+           then let json =   response.Content.ReadAsStringAsync() |> toResult
                 let result = JsonConvert.DeserializeObject<Response>(json)
                 let tags =   result.items |> List.ofSeq 
                                           |> List.map getTags
