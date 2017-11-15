@@ -405,7 +405,7 @@ let ``Get followers`` () =
     let follower = profileId |> getFollowers |> List.head
     
     // Verify
-    follower.ProfileId |> should equal subscriberId
+    follower.Profile.ProfileId |> should equal subscriberId
 
 [<Test>]
 let ``Get subscriptions`` () =
@@ -421,7 +421,7 @@ let ``Get subscriptions`` () =
     let subscription = subscriberId |> getSubscriptions |> List.head
     
     // Verify
-    subscription.ProfileId |> should equal profileId
+    subscription.Profile.ProfileId |> should equal profileId
 
 [<Test>]
 let ``Get profiles`` () =
