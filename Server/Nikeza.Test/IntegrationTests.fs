@@ -4,6 +4,8 @@ open System
 open System.IO
 open FsUnit
 open NUnit.Framework
+open Microsoft.SyndicationFeed
+open Microsoft.SyndicationFeed.Rss;
 open TestAPI
 open Command
 open Store
@@ -12,9 +14,51 @@ open Read
 open Model
 open Literals
 open Platforms
+open System.Xml
 
 [<TearDownAttribute>]
 let teardown() = cleanDataStore()
+
+[<Test>]
+let ``Get links from iTunes RSS Feed`` () =
+    let url = "some_url"
+    use reader = XmlReader.Create(url)
+    let feedReader = RssFeedReader(reader)
+
+    let mutable link = { 
+        Id=            -1
+        ProfileId=     someProfileId |> string 
+        Title=         ""
+        Description=   ""
+        Url=           ""
+        Topics=        []
+        ContentType=   Podcast |> contentTypeToString
+        IsFeatured=    false
+    }
+
+    let linkItem : Link =
+        async {
+            while feedReader.Read() |> Async.AwaitTask |> Async.RunSynchronously do
+                match feedReader.ElementType with
+                | SyndicationElementType.Link ->
+                    let item = feedReader.ReadLink() |> Async.AwaitTask |> Async.RunSynchronously
+                    link <- { link with Title= item.Title; Url= item.Uri.AbsolutePath }
+
+                | SyndicationElementType.Image ->
+                    let item = feedReader.ReadCategory() |> Async.AwaitTask |> Async.RunSynchronously
+                    link <- { link with Topics=[ ({Id= -1; Name= item.Label; IsFeatured= false }) ] }
+
+                | _ -> ()
+
+            return link
+            
+        } |> Async.RunSynchronously
+
+    reader.Close(); linkItem
+
+
+    
+
 
 [<Test>]
 let ``Get profile image from StackOverflow`` () =
@@ -411,7 +455,7 @@ let ``Get followers`` () =
 let ``Get subscriptions`` () =
 
     // Setup
-    let profileId =    Register someProfile   |> execute
+    let profileId =    Register someProfile    |> execute
     let subscriberId = Register someSubscriber |> execute
 
     Follow { FollowRequest.ProfileId=   profileId

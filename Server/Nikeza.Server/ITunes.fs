@@ -14,7 +14,7 @@ module Nikeza.Server.ITunes
         Topics=        []
         ContentType=   Podcast |> contentTypeToString
         IsFeatured=    false
-    } 
+    }
 
     let iTunesLinks accessId =
          seq []
