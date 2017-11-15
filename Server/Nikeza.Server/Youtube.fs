@@ -165,19 +165,17 @@ let getTags apiKey videosWithTags =
                                          |> Seq.map (fun v -> v.Id) 
                                          |> String.concat ","
 
-       let client = httpClient BaseAddress
-
-       try  let url =      String.Format(tagsUrl, apiKey, delimitedIds)
-            let response = client.GetAsync(url) |> Async.AwaitTask 
-                                                |> Async.RunSynchronously
-            if response.IsSuccessStatusCode
-                then let json =   response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
-                     let result = JsonConvert.DeserializeObject<Response>(json)
-                     let tags =   result.items |> List.ofSeq 
-                                               |> List.map getTags
-                     tags
-                else []
-        finally client.Dispose()
+       use client =   httpClient BaseAddress
+       let url =      String.Format(tagsUrl, apiKey, delimitedIds)
+       let response = client.GetAsync(url) |> Async.AwaitTask 
+                                           |> Async.RunSynchronously
+       if response.IsSuccessStatusCode
+           then let json =   response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+                let result = JsonConvert.DeserializeObject<Response>(json)
+                let tags =   result.items |> List.ofSeq 
+                                          |> List.map getTags
+                tags
+           else []
 
 let applyVideoTags videoAndTags =
 

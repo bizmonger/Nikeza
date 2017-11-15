@@ -2,10 +2,9 @@ module Nikeza.Server.Integration
 
 open System
 open System.IO
+open System.Xml
 open FsUnit
 open NUnit.Framework
-open Microsoft.SyndicationFeed
-open Microsoft.SyndicationFeed.Rss;
 open TestAPI
 open Command
 open Store
@@ -14,51 +13,44 @@ open Read
 open Model
 open Literals
 open Platforms
-open System.Xml
+open Http
+open System.Xml.Linq
+
 
 [<TearDownAttribute>]
 let teardown() = cleanDataStore()
 
 [<Test>]
 let ``Get links from iTunes RSS Feed`` () =
-    let url = "some_url"
-    use reader = XmlReader.Create(url)
-    let feedReader = RssFeedReader(reader)
 
-    let mutable link = { 
-        Id=            -1
-        ProfileId=     someProfileId |> string 
-        Title=         ""
-        Description=   ""
-        Url=           ""
-        Topics=        []
-        ContentType=   Podcast |> contentTypeToString
-        IsFeatured=    false
-    }
+    let toLink (item:XElement) = { 
+        Id =          -1
+        ProfileId =   "to be derived..."
+        Title=        item.Element(XName.Get("title")) |> string
+        Url=          item.Element(XName.Get("link"))  |> string
+        Description = item.Element(XName.Get("description")) |> string
+        ContentType=  Podcast |> contentTypeToString
+        Topics =      []
+        IsFeatured=   false
+     }
 
-    let linkItem : Link =
-        async {
-            while feedReader.Read() |> Async.AwaitTask |> Async.RunSynchronously do
-                match feedReader.ElementType with
-                | SyndicationElementType.Link ->
-                    let item = feedReader.ReadLink() |> Async.AwaitTask |> Async.RunSynchronously
-                    link <- { link with Title= item.Title; Url= item.Uri.AbsolutePath }
+    let baseAddress = "http://www.pwop.com/"
+    let url = "feed.aspx?show=dotnetrocks&filetype=master&tags=F%23"
+    use client = httpClient baseAddress
 
-                | SyndicationElementType.Image ->
-                    let item = feedReader.ReadCategory() |> Async.AwaitTask |> Async.RunSynchronously
-                    link <- { link with Topics=[ ({Id= -1; Name= item.Label; IsFeatured= false }) ] }
+    let response = client.GetAsync(url) |> Async.AwaitTask 
+                                        |> Async.RunSynchronously
+    let links = 
+        if response.IsSuccessStatusCode
+           then let text = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+                let document =  XElement.Parse(text) 
+                let items =   document.Descendants(XName.Get("item")) |> Seq.toList
+                let links = items 
+                            |> List.map toLink
+                links
+           else []
 
-                | _ -> ()
-
-            return link
-            
-        } |> Async.RunSynchronously
-
-    reader.Close(); linkItem
-
-
-    
-
+    links |> List.isEmpty |> should equal false
 
 [<Test>]
 let ``Get profile image from StackOverflow`` () =
