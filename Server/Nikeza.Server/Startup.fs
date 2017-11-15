@@ -19,9 +19,11 @@ open Nikeza.Server.Routes
 // Error handler
 // ---------------------------------
 
-let errorHandler (ex : Exception) (logger : ILogger) (context : HttpContext) =
+let errorHandler (ex : Exception) (logger : ILogger) =
     logger.LogError(EventId(0), ex, "An unhandled exception has occurred while executing the request.")
-    context |> (clearResponse >=> setStatusCode 500 >=> text ex.Message)
+    clearResponse
+    >=> setStatusCode 500
+    >=> text ex.Message
 
 // ---------------------------------
 // Config and Main
@@ -35,7 +37,7 @@ let configureCors (builder : CorsPolicyBuilder) =
 
 let configureApp (app : IApplicationBuilder) =
     app.UseCors configureCors |> ignore
-    app.UseGiraffeErrorHandler  errorHandler
+    app.UseGiraffeErrorHandler errorHandler |> ignore
     app.UseStaticFiles() |> ignore
     app.UseGiraffe webApp
  
