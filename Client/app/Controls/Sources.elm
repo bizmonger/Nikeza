@@ -94,6 +94,9 @@ view model =
                 "WordPress" ->
                     "xyz.wordpress.com"
 
+                "RSS Feed" ->
+                    "i.e. xyz.com/feed/123"
+
                 _ ->
                     "username"
 

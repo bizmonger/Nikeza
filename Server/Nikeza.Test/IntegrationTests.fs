@@ -19,14 +19,14 @@ open Http
 [<TearDownAttribute>]
 let teardown() = cleanDataStore()
 
-//[<Test>]
-//let ``Get links from iTunes RSS Feed`` () =
+// [<Test>]
+// let ``Get links from iTunes RSS Feed`` () =
 
 //    let url = "http://www.pwop.com/feed.aspx?show=dotnetrocks&filetype=master&tags=F%23"
 //    linksFrom { Platform= ITunes; User= {} }
 
 
-//    links |> List.isEmpty |> should equal falseo
+//    links |> List.isEmpty |> should equal false
 
 [<Test>]
 let ``Get profile image from StackOverflow`` () =

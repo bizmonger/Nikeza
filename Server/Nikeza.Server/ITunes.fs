@@ -23,7 +23,7 @@ module Nikeza.Server.ITunes
     let iTunesLinks (user:User) =
         let toLink (item:XElement) = { 
             Id =          -1
-            ProfileId =   "to be derived..."
+            ProfileId =   user.ProfileId
             Title=        item.Element(XName.Get("title")) |> string
             Url=          item.Element(XName.Get("link"))  |> string
             Description = item.Element(XName.Get("description")) |> string
@@ -34,7 +34,7 @@ module Nikeza.Server.ITunes
 
         let url =    user.AccessId
         let uri =    Uri(url) 
-        use client = httpClient uri.Host
+        use client = httpClient <| sprintf "http://%s/" uri.Host
 
         let response = client.GetAsync(url) |> toResult
         let links = 

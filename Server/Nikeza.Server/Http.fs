@@ -8,6 +8,7 @@ open Asynctify
 
 let httpClient baseAddress =
 
+    System.Diagnostics.Debug.WriteLine(baseAddress)
     let handler = new HttpClientHandler()
     handler.AutomaticDecompression <- DecompressionMethods.GZip ||| DecompressionMethods.Deflate
 

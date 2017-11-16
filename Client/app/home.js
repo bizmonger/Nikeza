@@ -21110,6 +21110,8 @@ var _user$project$Controls_Sources$view = function (model) {
 				return 'user-id (Example: 492701)';
 			case 'WordPress':
 				return 'xyz.wordpress.com';
+			case 'RSS Feed':
+				return 'i.e. xyz.com/feed/123';
 			default:
 				return 'username';
 		}
