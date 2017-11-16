@@ -316,15 +316,20 @@ update msg model =
                             pendingfiltered =
                                 provider.filteredPortfolio
 
+                            filterTop links =
+                                links
+                                    |> List.filter (\l -> provider |> popularTopicsFilter l)
+                                    |> List.take maxLinksToShow
+
                             updatedProvider =
                                 { provider
                                     | portfolio = portfolio
                                     , filteredPortfolio =
                                         { pendingfiltered
-                                            | answers = pendingfiltered.answers |> List.filter (\l -> provider |> popularTopicsFilter l) |> List.take maxLinksToShow
-                                            , videos = pendingfiltered.videos |> List.filter (\l -> provider |> popularTopicsFilter l) |> List.take maxLinksToShow
-                                            , podcasts = pendingfiltered.podcasts |> List.filter (\l -> provider |> popularTopicsFilter l) |> List.take maxLinksToShow
-                                            , articles = pendingfiltered.articles |> List.filter (\l -> provider |> popularTopicsFilter l) |> List.take maxLinksToShow
+                                            | answers = filterTop pendingfiltered.answers
+                                            , videos = filterTop pendingfiltered.videos
+                                            , podcasts = filterTop pendingfiltered.podcasts
+                                            , articles = filterTop pendingfiltered.articles
                                             , topics = initialTopics pendingfiltered
                                         }
                                 }
@@ -1189,6 +1194,7 @@ headerContent model =
                     div [ class "signin" ]
                         [ welcome
                         , signout
+                        , br [] []
                         , br [] []
                         , profile
                         ]

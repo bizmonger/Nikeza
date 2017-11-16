@@ -22691,8 +22691,8 @@ var _user$project$Home$onNewLink = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 885, column: 25},
-								end: {line: 885, column: 36}
+								start: {line: 890, column: 25},
+								end: {line: 890, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p23._0),
 						{ctor: '_Tuple2', _0: model, _1: newLinkCmd});
@@ -22800,8 +22800,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 966, column: 25},
-								end: {line: 966, column: 36}
+								start: {line: 971, column: 25},
+								end: {line: 971, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p29._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -22815,8 +22815,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 974, column: 25},
-								end: {line: 974, column: 36}
+								start: {line: 979, column: 25},
+								end: {line: 979, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p31._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -23497,6 +23497,17 @@ var _user$project$Home$update = F2(
 					var provider = _user$project$Services_Adapter$toProvider(_p53._0);
 					var portfolio = provider.portfolio;
 					var pendingfiltered = provider.filteredPortfolio;
+					var filterTop = function (links) {
+						return A2(
+							_elm_lang$core$List$take,
+							maxLinksToShow,
+							A2(
+								_elm_lang$core$List$filter,
+								function (l) {
+									return A2(popularTopicsFilter, l, provider);
+								},
+								links));
+					};
 					var updatedProvider = _elm_lang$core$Native_Utils.update(
 						provider,
 						{
@@ -23504,42 +23515,10 @@ var _user$project$Home$update = F2(
 							filteredPortfolio: _elm_lang$core$Native_Utils.update(
 								pendingfiltered,
 								{
-									answers: A2(
-										_elm_lang$core$List$take,
-										maxLinksToShow,
-										A2(
-											_elm_lang$core$List$filter,
-											function (l) {
-												return A2(popularTopicsFilter, l, provider);
-											},
-											pendingfiltered.answers)),
-									videos: A2(
-										_elm_lang$core$List$take,
-										maxLinksToShow,
-										A2(
-											_elm_lang$core$List$filter,
-											function (l) {
-												return A2(popularTopicsFilter, l, provider);
-											},
-											pendingfiltered.videos)),
-									podcasts: A2(
-										_elm_lang$core$List$take,
-										maxLinksToShow,
-										A2(
-											_elm_lang$core$List$filter,
-											function (l) {
-												return A2(popularTopicsFilter, l, provider);
-											},
-											pendingfiltered.podcasts)),
-									articles: A2(
-										_elm_lang$core$List$take,
-										maxLinksToShow,
-										A2(
-											_elm_lang$core$List$filter,
-											function (l) {
-												return A2(popularTopicsFilter, l, provider);
-											},
-											pendingfiltered.articles)),
+									answers: filterTop(pendingfiltered.answers),
+									videos: filterTop(pendingfiltered.videos),
+									podcasts: filterTop(pendingfiltered.podcasts),
+									articles: filterTop(pendingfiltered.articles),
 									topics: initialTopics(pendingfiltered)
 								})
 						});
@@ -23577,8 +23556,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 351, column: 25},
-								end: {line: 351, column: 36}
+								start: {line: 356, column: 25},
+								end: {line: 356, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p55._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -23614,8 +23593,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 372, column: 25},
-								end: {line: 372, column: 36}
+								start: {line: 377, column: 25},
+								end: {line: 377, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p56._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -23968,8 +23947,15 @@ var _user$project$Home$headerContent = function (model) {
 							{ctor: '[]'}),
 						_1: {
 							ctor: '::',
-							_0: profile,
-							_1: {ctor: '[]'}
+							_0: A2(
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: profile,
+								_1: {ctor: '[]'}
+							}
 						}
 					}
 				}

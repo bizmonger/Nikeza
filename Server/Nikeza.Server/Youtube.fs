@@ -157,26 +157,34 @@ let getThumbnail accessId key =
 
 let getTags apiKey videosWithTags =
 
-       let getTags item =
-           if item.snippet.tags |> isNull
-               then []
-               else List.ofSeq item.snippet.tags
-            
-       let delimitedIds = videosWithTags |> Seq.ofArray 
-                                         |> Seq.map (fun v -> v.Id) 
-                                         |> String.concat ","
-
-       use client =   httpClient BaseAddress
-       let url =      String.Format(tagsUrl, apiKey, delimitedIds)
-       let response = client.GetAsync(url) |> Async.AwaitTask 
-                                           |> Async.RunSynchronously
-       if response.IsSuccessStatusCode
-           then let json =   response.Content.ReadAsStringAsync() |> toResult
-                let result = JsonConvert.DeserializeObject<Response>(json)
-                let tags =   result.items |> List.ofSeq 
-                                          |> List.map getTags
-                tags
-           else []
+      let isBlackListed tag =
+          ["Hangouts On Air";"#hangoutsonair";"#hoa";"YouTube Editor"]
+          |> List.contains tag 
+          |> not
+      let screen tags = 
+          tags |> List.choose (fun tag -> if isBlackListed tag then Some tag else None )
+      let getTags item =
+          if item.snippet.tags |> isNull
+              then []
+              else item.snippet.tags 
+                   |> List.ofSeq
+                   |> screen
+                   
+      let delimitedIds = videosWithTags 
+                         |> Seq.ofArray 
+                         |> Seq.map (fun v -> v.Id) 
+                         |> String.concat ","
+      use client =   httpClient BaseAddress
+      let url =      String.Format(tagsUrl, apiKey, delimitedIds)
+      let response = client.GetAsync(url) |> Async.AwaitTask 
+                                          |> Async.RunSynchronously
+      if response.IsSuccessStatusCode
+          then let json =   response.Content.ReadAsStringAsync() |> toResult
+               let result = JsonConvert.DeserializeObject<Response>(json)
+               let tags =   result.items |> List.ofSeq 
+                                         |> List.map getTags
+               tags
+          else []
 
 let applyVideoTags videoAndTags =
 

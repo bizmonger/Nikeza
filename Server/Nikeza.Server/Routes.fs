@@ -120,7 +120,6 @@ let private fetchBootstrap: HttpHandler =
     StackOverflow.CachedTags.Instance() |> ignore
     json { Providers= getProviders(); Platforms=getPlatforms() }
 
-type Resposne =  HttpFunc -> HttpContext -> HttpFuncResult
 let private fetchLinks providerId: HttpHandler =
     json (getLinks providerId)
 
