@@ -18590,7 +18590,22 @@ var _user$project$Controls_NewLinks$InputTitle = function (a) {
 	return {ctor: 'InputTitle', _0: a};
 };
 var _user$project$Controls_NewLinks$view = function (model) {
-	var listbox = A2(
+	var _p4 = {ctor: '_Tuple2', _0: model.current, _1: model.current.base};
+	var current = _p4._0;
+	var base = _p4._1;
+	var hasText = function (domainName) {
+		return A2(
+			_elm_lang$core$String$contains,
+			domainName,
+			_elm_lang$core$String$toLower(
+				_user$project$Domain_Core$urlText(current.base.url))) ? true : false;
+	};
+	var _p5 = hasText('youtube.com') ? {ctor: '_Tuple4', _0: false, _1: true, _2: false, _3: false} : (hasText('vimeo.com') ? {ctor: '_Tuple4', _0: false, _1: true, _2: false, _3: false} : (hasText('wordpress.com') ? {ctor: '_Tuple4', _0: true, _1: false, _2: false, _3: false} : (hasText('medium.com') ? {ctor: '_Tuple4', _0: true, _1: false, _2: false, _3: false} : (hasText('stackoverflow.com') ? {ctor: '_Tuple4', _0: false, _1: false, _2: true, _3: false} : {ctor: '_Tuple4', _0: false, _1: false, _2: false, _3: false}))));
+	var isArticle = _p5._0;
+	var isVideo = _p5._1;
+	var isAnswer = _p5._2;
+	var isPodcast = _p5._3;
+	var listview = A2(
 		_elm_lang$html$Html$select,
 		{
 			ctor: '::',
@@ -18621,7 +18636,11 @@ var _user$project$Controls_NewLinks$view = function (model) {
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$value('Article'),
-						_1: {ctor: '[]'}
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$selected(isArticle),
+							_1: {ctor: '[]'}
+						}
 					},
 					{
 						ctor: '::',
@@ -18635,7 +18654,11 @@ var _user$project$Controls_NewLinks$view = function (model) {
 						{
 							ctor: '::',
 							_0: _elm_lang$html$Html_Attributes$value('Video'),
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$selected(isVideo),
+								_1: {ctor: '[]'}
+							}
 						},
 						{
 							ctor: '::',
@@ -18649,7 +18672,11 @@ var _user$project$Controls_NewLinks$view = function (model) {
 							{
 								ctor: '::',
 								_0: _elm_lang$html$Html_Attributes$value('Answer'),
-								_1: {ctor: '[]'}
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$selected(isAnswer),
+									_1: {ctor: '[]'}
+								}
 							},
 							{
 								ctor: '::',
@@ -18663,7 +18690,11 @@ var _user$project$Controls_NewLinks$view = function (model) {
 								{
 									ctor: '::',
 									_0: _elm_lang$html$Html_Attributes$value('Podcast'),
-									_1: {ctor: '[]'}
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$selected(isPodcast),
+										_1: {ctor: '[]'}
+									}
 								},
 								{
 									ctor: '::',
@@ -18676,9 +18707,6 @@ var _user$project$Controls_NewLinks$view = function (model) {
 				}
 			}
 		});
-	var _p4 = {ctor: '_Tuple2', _0: model.current, _1: model.current.base};
-	var current = _p4._0;
-	var base = _p4._1;
 	var selectedTopicsUI = A2(
 		_elm_lang$core$List$map,
 		function (t) {
@@ -18977,7 +19005,7 @@ var _user$project$Controls_NewLinks$view = function (model) {
 																								{ctor: '[]'},
 																								{
 																									ctor: '::',
-																									_0: listbox,
+																									_0: listview,
 																									_1: {ctor: '[]'}
 																								}),
 																							_1: {ctor: '[]'}

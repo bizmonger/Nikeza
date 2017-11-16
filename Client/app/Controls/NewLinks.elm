@@ -142,13 +142,33 @@ view model =
         ( current, base ) =
             ( model.current, model.current.base )
 
-        listbox =
+        hasText domainName =
+            if current.base.url |> urlText |> String.toLower |> String.contains domainName then
+                True
+            else
+                False
+
+        ( isArticle, isVideo, isAnswer, isPodcast ) =
+            if hasText "youtube.com" then
+                ( False, True, False, False )
+            else if hasText "vimeo.com" then
+                ( False, True, False, False )
+            else if hasText "wordpress.com" then
+                ( True, False, False, False )
+            else if hasText "medium.com" then
+                ( True, False, False, False )
+            else if hasText "stackoverflow.com" then
+                ( False, False, True, False )
+            else
+                ( False, False, False, False )
+
+        listview =
             select [ Html.Events.on "change" (Json.Decode.map InputContentType Html.Events.targetValue) ]
                 [ option [ value "instructions" ] [ text "Content Type" ]
-                , option [ value "Article" ] [ text "Article" ]
-                , option [ value "Video" ] [ text "Video" ]
-                , option [ value "Answer" ] [ text "Answer" ]
-                , option [ value "Podcast" ] [ text "Podcast" ]
+                , option [ value "Article", selected isArticle ] [ text "Article" ]
+                , option [ value "Video", selected isVideo ] [ text "Video" ]
+                , option [ value "Answer", selected isAnswer ] [ text "Answer" ]
+                , option [ value "Podcast", selected isPodcast ] [ text "Podcast" ]
                 ]
     in
         div [ class "mainContent" ]
@@ -166,7 +186,7 @@ view model =
                                     [ table []
                                         [ tr []
                                             [ td [] [ input [ class "addTopic", type_ "text", placeholder "topic", onInput InputTopic, value (topicText current.currentTopic) ] [] ]
-                                            , td [] [ listbox ]
+                                            , td [] [ listview ]
                                             ]
                                         ]
                                     ]
