@@ -118,33 +118,26 @@ let private updateThumbnailHandler: HttpHandler =
 
 let private fetchBootstrap: HttpHandler =
     StackOverflow.CachedTags.Instance() |> ignore
-    let  dependencies = { Providers= getProviders(); Platforms=getPlatforms() }
-    json dependencies
+    json { Providers= getProviders(); Platforms=getPlatforms() }
 
 type Resposne =  HttpFunc -> HttpContext -> HttpFuncResult
 let private fetchLinks providerId: HttpHandler =
-    let response = getLinks providerId
-    json response
+    json (getLinks providerId)
 
 let private fetchSuggestedTopics (text) =
-    let  suggestions = getSuggestions text
-    json suggestions
+    json (getSuggestions text)
 
 let private fetchRecent (subscriberId) =
-    let  response = getRecent subscriberId
-    json response
+    json (getRecent subscriberId)
     
 let private fetchFollowers (providerId) =
-    let  response = getFollowers providerId
-    json response
+    json (getFollowers providerId)
     
 let private fetchSubscriptions (providerId) =
-    let response = getSubscriptions providerId
-    json response
+    json (getSubscriptions providerId)
 
 let private fetchSources (providerId) =
-    let  response = getSources providerId
-    json response
+    json (getSources providerId)
 
 let private fetchThumbnail (platform:string , accessId:string) =
 
@@ -156,8 +149,7 @@ let private fetchThumbnail (platform:string , accessId:string) =
     json { ImageUrl= thumbnail; Platform= platform }
     
 let private fetchContentTypeToId (contentType) =
-    let response = contentTypeToId contentType
-    json response
+    json (contentTypeToId contentType)
          
 let webApp: HttpHandler = 
     choose [

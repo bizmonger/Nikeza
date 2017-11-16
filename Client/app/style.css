@@ -338,6 +338,10 @@ tr.bio {
     text-align: center;
 }
 
+p.bio {
+    width: 165px;
+}
+
 div.contentType{
     height: 120px;
 }

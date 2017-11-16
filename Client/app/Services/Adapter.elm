@@ -292,17 +292,15 @@ toMembers jsonProviders =
 
 
 toLink : JsonLink -> Link
-toLink =
-    (\link ->
-        { id = link.id
-        , profileId = Id (link.profileId |> toString)
-        , title = Title link.title
-        , url = Url link.url
-        , contentType = link.contentType |> toContentType
-        , topics = link.topics
-        , isFeatured = link.isFeatured
-        }
-    )
+toLink link =
+    { id = link.id
+    , profileId = Id (link.profileId |> toString)
+    , title = Title link.title
+    , url = Url link.url
+    , contentType = link.contentType |> toContentType
+    , topics = link.topics
+    , isFeatured = link.isFeatured
+    }
 
 
 toLinks : List JsonLink -> List Link

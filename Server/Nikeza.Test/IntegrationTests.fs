@@ -26,7 +26,7 @@ let teardown() = cleanDataStore()
 //    linksFrom { Platform= ITunes; User= {} }
 
 
-//    links |> List.isEmpty |> should equal false
+//    links |> List.isEmpty |> should equal falseo
 
 [<Test>]
 let ``Get profile image from StackOverflow`` () =

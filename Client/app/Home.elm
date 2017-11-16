@@ -114,20 +114,70 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     let
-        portal =
-            model.portal
-
-        provider =
-            portal.provider
-
-        profile =
-            provider.profile
-
         providerSource =
             if model.login.loggedIn then
                 FromPortal
             else
                 FromOther
+
+        featureIfNone links =
+            if (links |> List.filter (.isFeatured)) == [] then
+                let
+                    portfolioBucketCount =
+                        5
+
+                    featured =
+                        links |> List.take portfolioBucketCount |> List.map (\l -> { l | isFeatured = True })
+
+                    remaining =
+                        links |> List.drop portfolioBucketCount
+                in
+                    featured ++ remaining
+            else
+                links
+
+        maxTopicsToShow =
+            8
+
+        maxLinksToShow =
+            5
+
+        topicGroups someTopics =
+            Dict.groupBy .name someTopics
+                |> Dict.toList
+                |> List.map (\( name, topicList ) -> ( name, List.length topicList ))
+                |> List.sortBy (\( _, topicList ) -> topicList)
+                |> List.reverse
+                |> List.map (\t -> { name = t |> Tuple.first, isFeatured = False })
+                |> List.take maxTopicsToShow
+
+        updatedPortfolio portfolio =
+            { portfolio
+                | answers = portfolio.answers |> featureIfNone
+                , articles = portfolio.articles |> featureIfNone
+                , podcasts = portfolio.podcasts |> featureIfNone
+                , videos = portfolio.videos |> featureIfNone
+            }
+
+        initialTopics pendingfiltered =
+            if pendingfiltered.topics == [] then
+                updatedPortfolio pendingfiltered
+                    |> getLinks All
+                    |> topicsFromLinks
+                    |> topicGroups
+            else
+                pendingfiltered.topics
+
+        popularTopicsFilter link provider =
+            link.topics
+                |> List.any
+                    (\topic ->
+                        (initialTopics provider.portfolio
+                            |> List.map .name
+                            |> List.take maxTopicsToShow
+                        )
+                            |> List.member topic.name
+                    )
     in
         case msg of
             UrlChange location ->
@@ -145,6 +195,15 @@ update msg model =
                 case response of
                     Ok thumbnail ->
                         let
+                            portal =
+                                model.portal
+
+                            provider =
+                                portal.provider
+
+                            profile =
+                                provider.profile
+
                             updatedProfile =
                                 { profile | imageUrl = Url thumbnail.imageUrl }
 
@@ -254,23 +313,20 @@ update msg model =
                             portfolio =
                                 provider.portfolio
 
-                            topics =
-                                portfolio
-                                    |> getLinks All
-                                    |> topicsFromLinks
-
-                            filtered =
+                            pendingfiltered =
                                 provider.filteredPortfolio
-
-                            filteredTopics =
-                                filtered
-                                    |> getLinks All
-                                    |> topicsFromLinks
 
                             updatedProvider =
                                 { provider
-                                    | filteredPortfolio = { filtered | topics = filteredTopics }
-                                    , portfolio = { portfolio | topics = topics }
+                                    | portfolio = portfolio
+                                    , filteredPortfolio =
+                                        { pendingfiltered
+                                            | answers = pendingfiltered.answers |> List.filter (\l -> provider |> popularTopicsFilter l) |> List.take maxLinksToShow
+                                            , videos = pendingfiltered.videos |> List.filter (\l -> provider |> popularTopicsFilter l) |> List.take maxLinksToShow
+                                            , podcasts = pendingfiltered.podcasts |> List.filter (\l -> provider |> popularTopicsFilter l) |> List.take maxLinksToShow
+                                            , articles = pendingfiltered.articles |> List.filter (\l -> provider |> popularTopicsFilter l) |> List.take maxLinksToShow
+                                            , topics = initialTopics pendingfiltered
+                                        }
                                 }
                         in
                             ( { model | selectedProvider = updatedProvider }, Cmd.none )
@@ -338,6 +394,12 @@ update msg model =
 
             ProfileThumbnail subMsg ->
                 let
+                    portal =
+                        model.portal
+
+                    provider =
+                        portal.provider
+
                     ( updatedProvider, subCmd ) =
                         ProfileThumbnail.update subMsg provider
 
@@ -350,80 +412,33 @@ update msg model =
                 ( model, Cmd.none )
 
             ViewSources ->
-                ( { model | portal = { portal | requested = Domain.ViewSources } }, Cmd.none )
+                let
+                    portal =
+                        model.portal
+
+                    provider =
+                        portal.provider
+                in
+                    ( { model | portal = { portal | requested = Domain.ViewSources } }, Cmd.none )
 
             AddNewLink ->
-                ( { model | portal = { portal | requested = Domain.AddLink } }, Cmd.none )
+                let
+                    portal =
+                        model.portal
+                in
+                    ( { model | portal = { portal | requested = Domain.AddLink } }, Cmd.none )
 
             ViewPortfolio ->
+                -- ( model, Cmd.none )
                 let
+                    portal =
+                        model.portal
+
                     provider =
                         portal.provider
 
-                    featureIfNone links =
-                        if (links |> List.filter (.isFeatured)) == [] then
-                            let
-                                portfolioBucketCount =
-                                    5
-
-                                featured =
-                                    links |> List.take portfolioBucketCount |> List.map (\l -> { l | isFeatured = True })
-
-                                remaining =
-                                    links |> List.drop portfolioBucketCount
-                            in
-                                featured ++ remaining
-                        else
-                            links
-
-                    portfolio =
-                        provider.portfolio
-
                     pendingfiltered =
                         provider.filteredPortfolio
-
-                    maxTopicsToShow =
-                        8
-
-                    maxLinksToShow =
-                        5
-
-                    topicGroups someTopics =
-                        Dict.groupBy .name someTopics
-                            |> Dict.toList
-                            |> List.map (\( name, topicList ) -> ( name, List.length topicList ))
-                            |> List.sortBy (\( _, topicList ) -> topicList)
-                            |> List.reverse
-                            |> List.map (\t -> { name = t |> Tuple.first, isFeatured = False })
-                            |> List.take maxTopicsToShow
-
-                    updatedPortfolio =
-                        { portfolio
-                            | answers = portfolio.answers |> featureIfNone
-                            , articles = portfolio.articles |> featureIfNone
-                            , podcasts = portfolio.podcasts |> featureIfNone
-                            , videos = portfolio.videos |> featureIfNone
-                        }
-
-                    initialTopics =
-                        if pendingfiltered.topics == [] then
-                            updatedPortfolio
-                                |> getLinks All
-                                |> topicsFromLinks
-                                |> topicGroups
-                        else
-                            pendingfiltered.topics
-
-                    inTopicsFilter link =
-                        link.topics
-                            |> List.any
-                                (\topic ->
-                                    (initialTopics
-                                        |> List.map .name
-                                        |> List.take maxTopicsToShow
-                                    )
-                                        |> List.member topic.name
-                                )
                 in
                     ( { model
                         | portal =
@@ -431,14 +446,14 @@ update msg model =
                                 | requested = Domain.ViewPortfolio
                                 , provider =
                                     { provider
-                                        | portfolio = updatedPortfolio
+                                        | portfolio = provider.portfolio
                                         , filteredPortfolio =
                                             { pendingfiltered
-                                                | answers = pendingfiltered.answers |> List.filter inTopicsFilter |> List.take maxLinksToShow
-                                                , videos = pendingfiltered.videos |> List.filter inTopicsFilter |> List.take maxLinksToShow
-                                                , podcasts = pendingfiltered.podcasts |> List.filter inTopicsFilter |> List.take maxLinksToShow
-                                                , articles = pendingfiltered.articles |> List.filter inTopicsFilter |> List.take maxLinksToShow
-                                                , topics = initialTopics
+                                                | answers = pendingfiltered.answers |> List.filter (\l -> provider |> popularTopicsFilter l) |> List.take maxLinksToShow
+                                                , videos = pendingfiltered.videos |> List.filter (\l -> provider |> popularTopicsFilter l) |> List.take maxLinksToShow
+                                                , podcasts = pendingfiltered.podcasts |> List.filter (\l -> provider |> popularTopicsFilter l) |> List.take maxLinksToShow
+                                                , articles = pendingfiltered.articles |> List.filter (\l -> provider |> popularTopicsFilter l) |> List.take maxLinksToShow
+                                                , topics = initialTopics pendingfiltered
                                             }
                                     }
                             }
@@ -447,43 +462,63 @@ update msg model =
                     )
 
             EditProfile ->
-                ( { model | portal = { portal | requested = Domain.EditProfile } }, Cmd.none )
+                let
+                    portal =
+                        model.portal
+                in
+                    ( { model | portal = { portal | requested = Domain.EditProfile } }, Cmd.none )
 
             ViewSubscriptions ->
-                ( { model
-                    | scopedProviders = portal.provider |> getSubscriptions
-                    , searchResult = portal.provider |> getSubscriptions
-                    , portal = { portal | requested = Domain.ViewSubscriptions }
-                  }
-                , Cmd.none
-                )
+                let
+                    portal =
+                        model.portal
+                in
+                    ( { model
+                        | scopedProviders = portal.provider |> getSubscriptions
+                        , searchResult = portal.provider |> getSubscriptions
+                        , portal = { portal | requested = Domain.ViewSubscriptions }
+                      }
+                    , Cmd.none
+                    )
 
             ViewFollowers ->
-                ( { model
-                    | scopedProviders = portal.provider |> getFollowers
-                    , searchResult = portal.provider |> getFollowers
-                    , portal = { portal | requested = Domain.ViewFollowers }
-                  }
-                , Cmd.none
-                )
+                let
+                    portal =
+                        model.portal
+                in
+                    ( { model
+                        | scopedProviders = portal.provider |> getFollowers
+                        , searchResult = portal.provider |> getFollowers
+                        , portal = { portal | requested = Domain.ViewFollowers }
+                      }
+                    , Cmd.none
+                    )
 
             ViewProviders ->
-                ( { model
-                    | scopedProviders = model.providers
-                    , searchResult = model.providers
-                    , portal = { portal | requested = Domain.ViewProviders }
-                  }
-                , Cmd.none
-                )
+                let
+                    portal =
+                        model.portal
+                in
+                    ( { model
+                        | scopedProviders = model.providers
+                        , searchResult = model.providers
+                        , portal = { portal | requested = Domain.ViewProviders }
+                      }
+                    , Cmd.none
+                    )
 
             ViewRecent ->
-                ( { model
-                    | scopedProviders = portal.provider |> getSubscriptions
-                    , searchResult = portal.provider |> getSubscriptions
-                    , portal = { portal | requested = Domain.ViewRecent }
-                  }
-                , Cmd.none
-                )
+                let
+                    portal =
+                        model.portal
+                in
+                    ( { model
+                        | scopedProviders = portal.provider |> getSubscriptions
+                        , searchResult = portal.provider |> getSubscriptions
+                        , portal = { portal | requested = Domain.ViewRecent }
+                      }
+                    , Cmd.none
+                    )
 
             SourcesUpdated subMsg ->
                 onSourcesUpdated subMsg model
@@ -1097,7 +1132,7 @@ renderProfileBase provider linksContent =
                 , tr [ class "bio" ] [ td [] [ label [ class "profileName" ] [ text <| nameText provider.profile.firstName ++ " " ++ nameText provider.profile.lastName ] ] ]
                 , tr [ class "bio" ] [ td [] [ label [ class "subscribed" ] [ text <| toString (List.length (getFollowers provider)) ++ " subscribers" ] ] ]
                 , tr [ class "bio" ] [ td [] [ button [ class "subscribeButton" ] [ text "Follow" ] ] ]
-                , tr [ class "bio" ] [ td [] [ p [] [ text provider.profile.bio ] ] ]
+                , tr [ class "bio" ] [ td [] [ p [ class "bio" ] [ text provider.profile.bio ] ] ]
                 ]
             , td [] [ linksContent ]
             ]
@@ -1271,7 +1306,7 @@ providerTopicPage linksfrom model =
                             [ table []
                                 [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| urlText <| model.profile.imageUrl ] [] ] ]
                                 , tr [ class "bio" ] [ td [] [ text <| nameText model.profile.firstName ++ " " ++ nameText model.profile.lastName ] ]
-                                , tr [ class "bio" ] [ td [] [ p [] [ text model.profile.bio ] ] ]
+                                , tr [ class "bio" ] [ td [] [ p [ class "bio" ] [ text model.profile.bio ] ] ]
                                 ]
                             ]
                         , td [] [ contentTable topic ]

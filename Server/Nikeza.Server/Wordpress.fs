@@ -55,7 +55,8 @@ module Nikeza.Server.WordPress
                                 .[1]
                                 .Split(',')
                                 .[0]
-                                .Replace("\\", "")      
+                                .Replace("\\", "")
+                                 
                 let startIndex = line.IndexOf("https:")
                 let url = line.Substring(startIndex, line.Length - 3)
                 url
