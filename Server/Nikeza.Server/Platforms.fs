@@ -15,7 +15,7 @@ let PlatformToString = function
     | WordPress     -> "wordpress"
     | StackOverflow -> "stackoverflow"
     | Medium        -> "medium"
-    | RSSFeed       -> "rssfeed"
+    | RSSFeed       -> "rss feed"
     | Other         -> "other"
 
 let platformFromString (platform:string) =
@@ -24,7 +24,7 @@ let platformFromString (platform:string) =
     | "wordpress"     -> WordPress
     | "stackoverflow" -> StackOverflow
     | "medium"        -> Medium
-    | "rssfeed"       -> RSSFeed
+    | "rss feed"      -> RSSFeed
     | "other"         -> Other
     | _               -> Other
 
@@ -73,5 +73,5 @@ let linksFrom platformUser =
     | StackOverflow -> platformUser |> stackoverflowLinks
     | WordPress     -> []           |> wordpressLinks user 1
     | Medium        -> user         |> mediumLinks
-    | RSSFeed       -> user         |> iTunesLinks
+    | RSSFeed       -> user         |> rssLinks
     | Other         -> Seq.empty

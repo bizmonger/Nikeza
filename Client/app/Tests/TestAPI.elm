@@ -765,6 +765,7 @@ platformsBase =
     , "Vimeo"
     , "Medium"
     , "StackOverflow"
+    , "Rss Feed"
     ]
 
 

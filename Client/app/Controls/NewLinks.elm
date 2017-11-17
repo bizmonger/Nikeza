@@ -161,6 +161,7 @@ view model =
                 ( False, False, True, False )
             else if
                 hasText "itunes"
+                    || hasText "soundcloud"
                     || hasText "dotnetrocks"
                     || hasText "developeronfire"
                     || hasText "testtalks"
@@ -169,6 +170,12 @@ view model =
                     || hasText "se-radio"
                     || hasText "elixirfountain"
                     || hasText "rubyonrails"
+                    || hasText "3devsandamaybe"
+                    || hasText "lambdacast"
+                    || hasText "functionalgeekery"
+                    || hasText "herdingcode"
+                    || hasText ".fm"
+                    || hasText "runasradio"
             then
                 ( False, False, False, True )
             else
@@ -208,6 +215,7 @@ view model =
                             ]
                         ]
                     , td [] [ button [ class "addLink", onClick <| AddLink model ] [ text "Add Link" ] ]
+                    , td [] [ label [] [ text <| toString base.contentType ] ]
                     ]
                 ]
             ]

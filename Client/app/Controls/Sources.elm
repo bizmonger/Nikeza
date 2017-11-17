@@ -119,9 +119,16 @@ view model =
 
 sourceUI : Source -> Html Msg
 sourceUI source =
-    tr [ class "sources" ]
-        [ td [] [ text source.platform ]
-        , td [] [ i [ class "accessId" ] [ text source.accessId ] ]
-        , td [] [ label [ class "linksCount" ] [ text <| (source.links |> List.length |> toString) ++ " links" ] ]
-        , td [] [ button [ class "disconnectSource", onClick <| Remove source ] [ text "X" ] ]
-        ]
+    let
+        accessId =
+            if String.length source.accessId > 28 then
+                String.left 28 source.accessId ++ "..."
+            else
+                source.accessId
+    in
+        tr [ class "sources" ]
+            [ td [] [ text source.platform ]
+            , td [] [ i [ class "accessId" ] [ text accessId ] ]
+            , td [] [ label [ class "linksCount" ] [ text <| (source.links |> List.length |> toString) ++ " links" ] ]
+            , td [] [ button [ class "disconnectSource", onClick <| Remove source ] [ text "X" ] ]
+            ]

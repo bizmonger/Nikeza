@@ -20,13 +20,13 @@ module Nikeza.Server.RSSFeed
         IsFeatured=    false
     }
 
-    let iTunesLinks (user:User) =
+    let rssLinks (user:User) =
         let toLink (item:XElement) = { 
             Id =          -1
             ProfileId =   user.ProfileId
-            Title=        item.Element(XName.Get("title")) |> string
-            Url=          item.Element(XName.Get("link"))  |> string
-            Description = item.Element(XName.Get("description")) |> string
+            Title=        item.Element(XName.Get("title")).Value
+            Url=          item.Element(XName.Get("link")).Value
+            Description = item.Element(XName.Get("description")).Value
             ContentType=  Podcast |> contentTypeToString
             Topics =      []
             IsFeatured=   false
