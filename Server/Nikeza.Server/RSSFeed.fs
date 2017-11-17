@@ -1,4 +1,4 @@
-module Nikeza.Server.ITunes
+module Nikeza.Server.RSSFeed
 
     open Model
     open Http

@@ -93,9 +93,7 @@ encodeSource source =
           )
         , ( "ProfileId", Encode.string <| idText source.profileId )
         , ( "Platform", Encode.string source.platform )
-        , ( "AccessId", Encode.string source.username )
-
-        -- , ( "Links", encodeLinks source.links )
+        , ( "AccessId", Encode.string source.accessId )
         ]
 
 

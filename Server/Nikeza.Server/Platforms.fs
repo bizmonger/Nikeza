@@ -8,14 +8,14 @@ open Authentication
 open StackOverflow
 open WordPress
 open Medium
-open Nikeza.Server.ITunes
+open RSSFeed
 
 let PlatformToString = function
     | YouTube       -> "youtube"
     | WordPress     -> "wordpress"
     | StackOverflow -> "stackoverflow"
     | Medium        -> "medium"
-    | ITunes        -> "itunes"
+    | RSSFeed       -> "rssfeed"
     | Other         -> "other"
 
 let platformFromString (platform:string) =
@@ -24,7 +24,7 @@ let platformFromString (platform:string) =
     | "wordpress"     -> WordPress
     | "stackoverflow" -> StackOverflow
     | "medium"        -> Medium
-    | "itunes"        -> ITunes
+    | "rssfeed"       -> RSSFeed
     | "other"         -> Other
     | _               -> Other
 
@@ -33,7 +33,7 @@ let getKey = function
     | StackOverflow -> File.ReadAllText(KeyFile_StackOverflow)
     | WordPress     -> KeyNotProvided
     | Medium        -> KeyNotProvided
-    | ITunes        -> KeyNotProvided
+    | RSSFeed       -> KeyNotProvided
     | Other         -> KeyNotProvided
 
 let getThumbnail accessId platform = platform |> function
@@ -41,7 +41,7 @@ let getThumbnail accessId platform = platform |> function
     | StackOverflow -> StackOverflow .getThumbnail accessId <| getKey platform
     | WordPress     -> WordPress     .getThumbnail accessId
     | Medium        -> Medium        .getThumbnail accessId
-    | ITunes        -> ITunes        .getThumbnail accessId
+    | RSSFeed       -> RSSFeed       .getThumbnail accessId
     | Other         -> DefaultThumbnail
 
 let youtubeLinks apiKey channelId = 
@@ -73,5 +73,5 @@ let linksFrom platformUser =
     | StackOverflow -> platformUser |> stackoverflowLinks
     | WordPress     -> []           |> wordpressLinks user 1
     | Medium        -> user         |> mediumLinks
-    | ITunes        -> user         |> iTunesLinks
+    | RSSFeed       -> user         |> iTunesLinks
     | Other         -> Seq.empty

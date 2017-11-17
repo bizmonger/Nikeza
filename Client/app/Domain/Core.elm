@@ -295,7 +295,7 @@ type alias Source =
     { id : Id
     , profileId : Id
     , platform : String
-    , username : String
+    , accessId : String
     , links : List Link
     }
 

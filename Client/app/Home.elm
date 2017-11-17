@@ -964,7 +964,7 @@ onSourcesUpdated subMsg model =
                                         , addLinkNavigation = True
                                     }
                               }
-                            , runtime.thumbnail (Platform jsonSource.platform) jsonSource.username <| ThumbnailResponse
+                            , runtime.thumbnail (Platform jsonSource.platform) jsonSource.accessId <| ThumbnailResponse
                             )
 
                     Err reason ->

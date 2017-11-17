@@ -696,9 +696,9 @@ topicLinks profileId topic contentType msg =
 
 sourcesBase : List Source
 sourcesBase =
-    [ { id = Id "0", profileId = Id "0", platform = "WordPress", username = "bizmonger", links = [] }
-    , { id = Id "1", profileId = Id "1", platform = "YouTube", username = "bizmonger", links = [] }
-    , { id = Id "2", profileId = Id "2", platform = "StackOverflow", username = "scott-nimrod", links = [] }
+    [ { id = Id "0", profileId = Id "0", platform = "WordPress", accessId = "bizmonger", links = [] }
+    , { id = Id "1", profileId = Id "1", platform = "YouTube", accessId = "bizmonger", links = [] }
+    , { id = Id "2", profileId = Id "2", platform = "StackOverflow", accessId = "scott-nimrod", links = [] }
     ]
 
 

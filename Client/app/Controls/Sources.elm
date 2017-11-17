@@ -42,7 +42,7 @@ update msg model =
     in
         case msg of
             InputUsername v ->
-                ( { model | source = { source | username = v } }, Cmd.none )
+                ( { model | source = { source | accessId = v } }, Cmd.none )
 
             InputPlatform v ->
                 ( { model | source = { source | platform = v } }, Cmd.none )
@@ -103,7 +103,7 @@ view model =
         records =
             [ tr []
                 [ td [] [ select [ class "selectPlatform", changeHandler, value model.source.platform ] <| instruction :: (model.platforms |> List.map platformOption) ]
-                , td [] [ input [ class "inputUsername", type_ "text", placeholder placeholderText, onInput InputUsername, value model.source.username ] [] ]
+                , td [] [ input [ class "inputUsername", type_ "text", placeholder placeholderText, onInput InputUsername, value model.source.accessId ] [] ]
                 , td [] [ button [ class "addSource", onClick <| Add model.source ] [ text "Add" ] ]
                 ]
             ]
@@ -121,7 +121,7 @@ sourceUI : Source -> Html Msg
 sourceUI source =
     tr [ class "sources" ]
         [ td [] [ text source.platform ]
-        , td [] [ i [ class "accessId" ] [ text source.username ] ]
+        , td [] [ i [ class "accessId" ] [ text source.accessId ] ]
         , td [] [ label [ class "linksCount" ] [ text <| (source.links |> List.length |> toString) ++ " links" ] ]
         , td [] [ button [ class "disconnectSource", onClick <| Remove source ] [ text "X" ] ]
         ]

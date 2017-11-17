@@ -8,7 +8,7 @@ type Platform =
     | WordPress
     | StackOverflow
     | Medium
-    | ITunes
+    | RSSFeed
     | Other
 
 type ContentType = 

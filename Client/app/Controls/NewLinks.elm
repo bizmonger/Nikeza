@@ -159,6 +159,18 @@ view model =
                 ( True, False, False, False )
             else if hasText "stackoverflow.com" then
                 ( False, False, True, False )
+            else if
+                hasText "itunes"
+                    || hasText "dotnetrocks"
+                    || hasText "developeronfire"
+                    || hasText "testtalks"
+                    || hasText "legacycoderocks"
+                    || hasText "hanselminutes"
+                    || hasText "se-radio"
+                    || hasText "elixirfountain"
+                    || hasText "rubyonrails"
+            then
+                ( False, False, False, True )
             else
                 ( False, False, False, False )
 
