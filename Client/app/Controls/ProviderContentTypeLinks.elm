@@ -83,6 +83,12 @@ view provider contentType isOwner =
         posts =
             links |> getLinks contentType |> List.sortWith compareLinks
 
+        checkbox link =
+            input [ type_ "checkbox", checked link.isFeatured, onCheck (\b -> Featured ( link, b )) ] []
+
+        addCheckbox link element =
+            div [] [ (checkbox link), element ]
+
         createLink link =
             let
                 linkElement =
@@ -91,7 +97,10 @@ view provider contentType isOwner =
                     else
                         a [ href <| urlText link.url, target "_blank" ] [ text <| titleText link.title, br [] [] ]
             in
-                linkElement
+                if isOwner then
+                    addCheckbox link linkElement
+                else
+                    linkElement
     in
         table [ class "xx" ]
             [ tr []
