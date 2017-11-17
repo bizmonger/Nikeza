@@ -828,68 +828,67 @@ onNewLink subMsg model =
             NewLinks.Response result ->
                 case result of
                     Result.Ok jsonLink ->
-                        -- let
-                        --     ( articles, answers, videos, podcasts ) =
-                        --         ( provider.filteredPortfolio.articles
-                        --         , provider.filteredPortfolio.answers
-                        --         , provider.filteredPortfolio.videos
-                        --         , provider.filteredPortfolio.podcasts
-                        --         )
-                        --     updateFilter contentType contentTypeLinks =
-                        --         let
-                        --             updatedContentTypeLinks =
-                        --                 (jsonLink |> toLink) :: contentTypeLinks
-                        --             filteredPortfolio =
-                        --                 provider.filteredPortfolio
-                        --         in
-                        --             case contentType of
-                        --                 Article ->
-                        --                     { filteredPortfolio | articles = updatedContentTypeLinks }
-                        --                 Answer ->
-                        --                     { filteredPortfolio | answers = updatedContentTypeLinks }
-                        --                 Video ->
-                        --                     { filteredPortfolio | videos = updatedContentTypeLinks }
-                        --                 Podcast ->
-                        --                     { filteredPortfolio | podcasts = updatedContentTypeLinks }
-                        --                 Domain.Featured ->
-                        --                     provider.filteredPortfolio
-                        --                 All ->
-                        --                     provider.filteredPortfolio
-                        --                 Unknown ->
-                        --                     provider.filteredPortfolio
-                        --     newFilteredPortfolio =
-                        --         let
-                        --             contentType =
-                        --                 jsonLink.contentType |> toContentType
-                        --         in
-                        --             case contentType of
-                        --                 Article ->
-                        --                     articles |> updateFilter contentType
-                        --                 Video ->
-                        --                     videos |> updateFilter contentType
-                        --                 Answer ->
-                        --                     answers |> updateFilter contentType
-                        --                 Podcast ->
-                        --                     podcasts |> updateFilter contentType
-                        --                 All ->
-                        --                     provider.filteredPortfolio
-                        --                 Domain.Featured ->
-                        --                     provider.filteredPortfolio
-                        --                 Unknown ->
-                        --                     provider.filteredPortfolio
-                        --     updatedPortal =
-                        --         { portal
-                        --             | newLinks = initNewLinks
-                        --             , portfolioNavigation = True
-                        --             , provider =
-                        --                 { provider
-                        --                     | portfolio = updatePortfolio provider.portfolio newLinks.added
-                        --                     , filteredPortfolio = newFilteredPortfolio
-                        --                 }
-                        --         }
-                        -- in
-                        -- ( { model | portal = updatedPortal }, newLinkCmd )
-                        Debug.crash (toString jsonLink) ( model, newLinkCmd )
+                        let
+                            ( articles, answers, videos, podcasts ) =
+                                ( provider.filteredPortfolio.articles
+                                , provider.filteredPortfolio.answers
+                                , provider.filteredPortfolio.videos
+                                , provider.filteredPortfolio.podcasts
+                                )
+                            updateFilter contentType contentTypeLinks =
+                                let
+                                    updatedContentTypeLinks =
+                                        (jsonLink |> toLink) :: contentTypeLinks
+                                    filteredPortfolio =
+                                        provider.filteredPortfolio
+                                in
+                                    case contentType of
+                                        Article ->
+                                            { filteredPortfolio | articles = updatedContentTypeLinks }
+                                        Answer ->
+                                            { filteredPortfolio | answers = updatedContentTypeLinks }
+                                        Video ->
+                                            { filteredPortfolio | videos = updatedContentTypeLinks }
+                                        Podcast ->
+                                            { filteredPortfolio | podcasts = updatedContentTypeLinks }
+                                        Domain.Featured ->
+                                            provider.filteredPortfolio
+                                        All ->
+                                            provider.filteredPortfolio
+                                        Unknown ->
+                                            provider.filteredPortfolio
+                            newFilteredPortfolio =
+                                let
+                                    contentType =
+                                        jsonLink.contentType |> toContentType
+                                in
+                                    case contentType of
+                                        Article ->
+                                            articles |> updateFilter contentType
+                                        Video ->
+                                            videos |> updateFilter contentType
+                                        Answer ->
+                                            answers |> updateFilter contentType
+                                        Podcast ->
+                                            podcasts |> updateFilter contentType
+                                        All ->
+                                            provider.filteredPortfolio
+                                        Domain.Featured ->
+                                            provider.filteredPortfolio
+                                        Unknown ->
+                                            provider.filteredPortfolio
+                            updatedPortal =
+                                { portal
+                                    | newLinks = initNewLinks
+                                    , portfolioNavigation = True
+                                    , provider =
+                                        { provider
+                                            | portfolio = updatePortfolio provider.portfolio newLinks.added
+                                            , filteredPortfolio = newFilteredPortfolio
+                                        }
+                                }
+                        in
+                        ( { model | portal = updatedPortal }, newLinkCmd )
 
                     Result.Err reason ->
                         Debug.crash (toString reason) ( model, newLinkCmd )

@@ -36,7 +36,53 @@ update msg model =
                 ( { model | current = { linkToCreate | base = { linkToCreateBase | title = Title v } } }, Cmd.none )
 
             InputUrl v ->
-                ( { model | current = { linkToCreate | base = { linkToCreateBase | url = Url v } } }, Cmd.none )
+                let
+                    hasText domainName =
+                        if model.current.base.url |> urlText |> String.toLower |> String.contains domainName then
+                            True
+                        else
+                            False
+
+                    link =
+                        model.current.base
+
+                    contentType =
+                        if link.contentType == Unknown && v == "" then
+                            Unknown
+                        else if hasText "youtube.com" then
+                            Video
+                        else if hasText "vimeo.com" then
+                            Video
+                        else if hasText "wordpress.com" then
+                            Article
+                        else if hasText "medium.com" then
+                            Article
+                        else if hasText "stackoverflow.com" then
+                            Answer
+                        else if
+                            hasText "itunes"
+                                || hasText "soundcloud"
+                                || hasText "dotnetrocks"
+                                || hasText "developeronfire"
+                                || hasText "testtalks"
+                                || hasText "legacycoderocks"
+                                || hasText "hanselminutes"
+                                || hasText "se-radio"
+                                || hasText "elixirfountain"
+                                || hasText "rubyonrails"
+                                || hasText "3devsandamaybe"
+                                || hasText "lambdacast"
+                                || hasText "functionalgeekery"
+                                || hasText "herdingcode"
+                                || hasText ".fm"
+                                || hasText "/podcasts"
+                                || hasText "runasradio"
+                        then
+                            Podcast
+                        else
+                            Unknown
+                in
+                    ( { model | current = { linkToCreate | base = { linkToCreateBase | url = Url v, contentType = contentType } } }, Cmd.none )
 
             InputTopic "" ->
                 ( { model | current = { linkToCreate | currentTopic = Topic "" False } }, Cmd.none )
@@ -142,44 +188,28 @@ view model =
         ( current, base ) =
             ( model.current, model.current.base )
 
-        hasText domainName =
-            if current.base.url |> urlText |> String.toLower |> String.contains domainName then
-                True
-            else
-                False
-
         ( isArticle, isVideo, isAnswer, isPodcast ) =
-            if hasText "youtube.com" then
-                ( False, True, False, False )
-            else if hasText "vimeo.com" then
-                ( False, True, False, False )
-            else if hasText "wordpress.com" then
-                ( True, False, False, False )
-            else if hasText "medium.com" then
-                ( True, False, False, False )
-            else if hasText "stackoverflow.com" then
-                ( False, False, True, False )
-            else if
-                hasText "itunes"
-                    || hasText "soundcloud"
-                    || hasText "dotnetrocks"
-                    || hasText "developeronfire"
-                    || hasText "testtalks"
-                    || hasText "legacycoderocks"
-                    || hasText "hanselminutes"
-                    || hasText "se-radio"
-                    || hasText "elixirfountain"
-                    || hasText "rubyonrails"
-                    || hasText "3devsandamaybe"
-                    || hasText "lambdacast"
-                    || hasText "functionalgeekery"
-                    || hasText "herdingcode"
-                    || hasText ".fm"
-                    || hasText "runasradio"
-            then
-                ( False, False, False, True )
-            else
-                ( False, False, False, False )
+            case base.contentType of
+                Video ->
+                    ( False, True, False, False )
+
+                Article ->
+                    ( True, False, False, False )
+
+                Answer ->
+                    ( False, False, True, False )
+
+                Podcast ->
+                    ( False, False, True, True )
+
+                Unknown ->
+                    ( False, False, False, False )
+
+                All ->
+                    ( False, False, False, False )
+
+                Featured ->
+                    ( False, False, False, False )
 
         listview =
             select [ Html.Events.on "change" (Json.Decode.map InputContentType Html.Events.targetValue) ]
