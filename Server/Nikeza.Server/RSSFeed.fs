@@ -1,24 +1,23 @@
 module Nikeza.Server.RSSFeed
 
+    open System.Xml.Linq
+    open System
     open Model
     open Http
     open Asynctify
-    open System.Xml.Linq
-    open System
+    open StackOverflow
 
     let getThumbnail accessId =
         "to be implemented..."
 
-    let toLink item profileId = { 
-        Id=            -1
-        ProfileId=     profileId 
-        Title=         item.Title
-        Description=   item.Description
-        Url=           item.Url 
-        Topics=        []
-        ContentType=   Podcast |> contentTypeToString
-        IsFeatured=    false
-    }
+    let suggestionsFromText (title:string) =
+        let allTags = CachedTags.Instance() |> Set.ofList
+
+        title.Split(' ')
+        |> Array.map(fun w -> w.Trim().ToLower())
+        |> Set.ofArray
+        |> Set.intersect allTags 
+        |> Set.toList
 
     let rssLinks (user:User) =
         let toLink (item:XElement) = { 
@@ -28,7 +27,10 @@ module Nikeza.Server.RSSFeed
             Url=          item.Element(XName.Get("link")).Value
             Description = item.Element(XName.Get("description")).Value
             ContentType=  Podcast |> contentTypeToString
-            Topics =      []
+            Topics =      suggestionsFromText (item.Element(XName.Get("title")).Value) |> List.map (fun n -> {Id= -1; Name=n; IsFeatured=false})
+                          |> Set.ofList
+                          |> Set.intersect (suggestionsFromText (item.Element(XName.Get("description")).Value) |> List.map (fun n -> {Id= -1; Name=n; IsFeatured=false}) |> Set.ofList)
+                          |> Set.toList
             IsFeatured=   false
          }
 

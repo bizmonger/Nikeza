@@ -2,7 +2,6 @@ module Nikeza.Server.Integration
 
 open System
 open System.IO
-open System.Xml.Linq
 open FsUnit
 open NUnit.Framework
 open TestAPI
@@ -13,11 +12,20 @@ open Read
 open Model
 open Literals
 open Platforms
-open Http
-
 
 [<TearDownAttribute>]
 let teardown() = cleanDataStore()
+
+
+[<Test>]
+let ``get topics from text`` () =
+
+    // Test
+    let tagsFound = Nikeza.Server.RSSFeed.suggestionsFromText "This is some text that has F# in it."
+
+    // Verify
+    tagsFound |> List.contains "f#" |> should equal true
+
 
 [<Test>]
 let ``Load links from RSS feed`` () =

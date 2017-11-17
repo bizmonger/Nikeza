@@ -34,6 +34,25 @@ header {
     margin-bottom:5px;
 }
 
+p.featured {
+    margin-bottom: -8px;
+    margin-left: 5px;
+    vertical-align: top;
+}
+
+p.portfolioLink {
+    margin-top: 2px;
+    margin-bottom: 8px;
+    margin-left: 5px;
+    vertical-align: top;
+}
+
+p.AllPortfolioLinks{
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-bottom: 10px;
+}
+
 a.featured {
     background: #FFF7D9;
 }
@@ -311,6 +330,7 @@ tr.contentTypeHeader {
 
 td.portfolioContent {
     width: 400px;
+    height: 165px;
     background: rgb(250, 250, 250);
 }
 
@@ -343,7 +363,7 @@ p.bio {
 }
 
 div.contentType{
-    height: 120px;
+    height: 110px;
 }
 
 div.topicLinks {

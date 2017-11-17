@@ -139,18 +139,37 @@ module StackOverflow =
      
                  finally client.Dispose()
             else []
-                
-        let getSuggestions (text:string) =
-            
+
+        let getSearchItem text =
             let decodeIfNeeded (stringValue:string) = stringValue.Replace("%23", "#")
             let searchItem = decodeIfNeeded text
-            
-            if searchItem <> "" && searchItem.Length > 1 
-                then let tags =         CachedTags.Instance() |> List.map (fun t -> t.ToLower())
-                     let filteredTags = tags |> List.filter(fun t -> t.Contains(searchItem.ToLower()))
-                     let matchingTags = filteredTags |> List.filter (fun t -> t = searchItem)
+            searchItem
 
-                     if matchingTags |> List.isEmpty |> not
-                        then getRelatedTags matchingTags.Head
-                        else filteredTags
+
+        let getAllTags (searchItem:string) =
+            if searchItem <> "" && searchItem.Length > 1 
+                then CachedTags.Instance() |> List.map (fun t -> t.ToLower())
+                else []
+
+        let findMatch (text:string) =
+
+            let searchItem = getSearchItem text
+            let tags = searchItem |> getAllTags
+
+            if not (tags |> List.isEmpty)
+               then tags |> List.filter(fun t -> t.Contains(searchItem.ToLower()))
+                         |> List.filter (fun t -> t = searchItem)
+                         |> List.tryHead
+               else None
+ 
+        let getSuggestions (text:string) =
+
+            let searchItem = getSearchItem text
+            let tags = searchItem |> getAllTags
+
+            if not (tags |> List.isEmpty)
+               then searchItem |> findMatch 
+                               |> function
+                                  | Some tag -> getRelatedTags tag
+                                  | None     -> tags |> List.filter(fun t -> t.Contains(searchItem.ToLower()))
                 else []

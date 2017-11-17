@@ -18389,7 +18389,7 @@ var _user$project$Controls_NewLinks$update = F2(
 						_elm_lang$core$String$toLower(
 							_user$project$Domain_Core$urlText(model.current.base.url))) ? true : false;
 				};
-				var contentType = (_elm_lang$core$Native_Utils.eq(link.contentType, _user$project$Domain_Core$Unknown) && _elm_lang$core$Native_Utils.eq(_p1, '')) ? _user$project$Domain_Core$Unknown : (hasText('youtube.com') ? _user$project$Domain_Core$Video : (hasText('vimeo.com') ? _user$project$Domain_Core$Video : (hasText('wordpress.com') ? _user$project$Domain_Core$Article : (hasText('medium.com') ? _user$project$Domain_Core$Article : (hasText('stackoverflow.com') ? _user$project$Domain_Core$Answer : ((hasText('itunes') || (hasText('soundcloud') || (hasText('dotnetrocks') || (hasText('developeronfire') || (hasText('testtalks') || (hasText('legacycoderocks') || (hasText('hanselminutes') || (hasText('se-radio') || (hasText('elixirfountain') || (hasText('rubyonrails') || (hasText('3devsandamaybe') || (hasText('lambdacast') || (hasText('functionalgeekery') || (hasText('herdingcode') || (hasText('.fm') || (hasText('/podcasts') || hasText('runasradio'))))))))))))))))) ? _user$project$Domain_Core$Podcast : _user$project$Domain_Core$Unknown))))));
+				var contentType = (_elm_lang$core$Native_Utils.eq(link.contentType, _user$project$Domain_Core$Unknown) && _elm_lang$core$Native_Utils.eq(_p1, '')) ? _user$project$Domain_Core$Unknown : (hasText('youtube.com') ? _user$project$Domain_Core$Video : (hasText('vimeo.com') ? _user$project$Domain_Core$Video : (hasText('wordpress.com') ? _user$project$Domain_Core$Article : (hasText('medium.com') ? _user$project$Domain_Core$Article : (hasText('stackoverflow.com') ? _user$project$Domain_Core$Answer : ((hasText('itunes') || (hasText('soundcloud') || (hasText('dotnetrocks') || (hasText('developeronfire') || (hasText('testtalks') || (hasText('legacycoderocks') || (hasText('hanselminutes') || (hasText('se-radio') || (hasText('elixirfountain') || (hasText('rubyonrails') || (hasText('3devsandamaybe') || (hasText('lambdacast') || (hasText('functionalgeekery') || (hasText('herdingcode') || (hasText('.fm') || (hasText('/podcasts') || (hasText('runasradio') || hasText('greaterthancode')))))))))))))))))) ? _user$project$Domain_Core$Podcast : _user$project$Domain_Core$Unknown))))));
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
@@ -18545,8 +18545,8 @@ var _user$project$Controls_NewLinks$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Controls.NewLinks',
 							{
-								start: {line: 140, column: 17},
-								end: {line: 140, column: 28}
+								start: {line: 141, column: 17},
+								end: {line: 141, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p0._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -18572,8 +18572,8 @@ var _user$project$Controls_NewLinks$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Controls.NewLinks',
 							{
-								start: {line: 151, column: 17},
-								end: {line: 151, column: 28}
+								start: {line: 152, column: 17},
+								end: {line: 152, column: 28}
 							}),
 						A2(
 							_elm_lang$core$Basics_ops['++'],
@@ -19173,57 +19173,79 @@ var _user$project$Controls_Portfolio$formatTitle = function (link) {
 };
 var _user$project$Controls_Portfolio$decorateIfFeatured = function (link) {
 	return (!link.isFeatured) ? A2(
-		_elm_lang$html$Html$a,
+		_elm_lang$html$Html$p,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$href(
-				_user$project$Domain_Core$urlText(link.url)),
-			_1: {
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$target('_blank'),
-				_1: {ctor: '[]'}
-			}
+			_0: _elm_lang$html$Html_Attributes$class('portfolioLink'),
+			_1: {ctor: '[]'}
 		},
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html$text(
-				_user$project$Controls_Portfolio$formatTitle(link)),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$br,
-					{ctor: '[]'},
-					{ctor: '[]'}),
-				_1: {ctor: '[]'}
-			}
+			_0: A2(
+				_elm_lang$html$Html$a,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$href(
+						_user$project$Domain_Core$urlText(link.url)),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$target('_blank'),
+						_1: {ctor: '[]'}
+					}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_user$project$Controls_Portfolio$formatTitle(link)),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {ctor: '[]'}
 		}) : A2(
-		_elm_lang$html$Html$a,
+		_elm_lang$html$Html$p,
 		{
 			ctor: '::',
 			_0: _elm_lang$html$Html_Attributes$class('featured'),
-			_1: {
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$href(
-					_user$project$Domain_Core$urlText(link.url)),
-				_1: {
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$target('_blank'),
-					_1: {ctor: '[]'}
-				}
-			}
+			_1: {ctor: '[]'}
 		},
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html$text(
-				_user$project$Controls_Portfolio$formatTitle(link)),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$br,
-					{ctor: '[]'},
-					{ctor: '[]'}),
-				_1: {ctor: '[]'}
-			}
+			_0: A2(
+				_elm_lang$html$Html$a,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('featured'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$href(
+							_user$project$Domain_Core$urlText(link.url)),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$target('_blank'),
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_user$project$Controls_Portfolio$formatTitle(link)),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {ctor: '[]'}
 		});
 };
 var _user$project$Controls_Portfolio$linksUI = function (links) {
@@ -19243,36 +19265,47 @@ var _user$project$Controls_Portfolio$requestAllContent = F5(
 			{
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$a,
+					_elm_lang$html$Html$p,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('allLinks'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$href(
-								_user$project$Domain_Core$urlText(
-									A3(_user$project$Domain_Core$allContentUrl, linksFrom, profileId, contentType))),
-							_1: {ctor: '[]'}
-						}
+						_0: _elm_lang$html$Html_Attributes$class('AllPortfolioLinks'),
+						_1: {ctor: '[]'}
 					},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								'  view all ',
-								A2(
-									_elm_lang$core$Basics_ops['++'],
-									_elm_lang$core$Basics$toString(count),
-									' links  '))),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$br,
-								{ctor: '[]'},
-								{ctor: '[]'}),
-							_1: {ctor: '[]'}
-						}
+						_0: A2(
+							_elm_lang$html$Html$a,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('allLinks'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$href(
+										_user$project$Domain_Core$urlText(
+											A3(_user$project$Domain_Core$allContentUrl, linksFrom, profileId, contentType))),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										'  view all ',
+										A2(
+											_elm_lang$core$Basics_ops['++'],
+											_elm_lang$core$Basics$toString(count),
+											' links  '))),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$br,
+										{ctor: '[]'},
+										{ctor: '[]'}),
+									_1: {ctor: '[]'}
+								}
+							}),
+						_1: {ctor: '[]'}
 					}),
 				_1: {ctor: '[]'}
 			});
@@ -22788,8 +22821,8 @@ var _user$project$Home$onNewLink = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 894, column: 25},
-								end: {line: 894, column: 36}
+								start: {line: 910, column: 25},
+								end: {line: 910, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p23._0),
 						{ctor: '_Tuple2', _0: model, _1: newLinkCmd});
@@ -22897,8 +22930,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 975, column: 25},
-								end: {line: 975, column: 36}
+								start: {line: 991, column: 25},
+								end: {line: 991, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p30._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -22912,8 +22945,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 983, column: 25},
-								end: {line: 983, column: 36}
+								start: {line: 999, column: 25},
+								end: {line: 999, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p32._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});

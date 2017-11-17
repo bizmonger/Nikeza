@@ -77,6 +77,7 @@ update msg model =
                                 || hasText ".fm"
                                 || hasText "/podcasts"
                                 || hasText "runasradio"
+                                || hasText "greaterthancode"  
                         then
                             Podcast
                         else

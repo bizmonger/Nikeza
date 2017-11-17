@@ -835,28 +835,37 @@ onNewLink subMsg model =
                                 , provider.filteredPortfolio.videos
                                 , provider.filteredPortfolio.podcasts
                                 )
+
                             updateFilter contentType contentTypeLinks =
                                 let
                                     updatedContentTypeLinks =
                                         (jsonLink |> toLink) :: contentTypeLinks
+
                                     filteredPortfolio =
                                         provider.filteredPortfolio
                                 in
                                     case contentType of
                                         Article ->
                                             { filteredPortfolio | articles = updatedContentTypeLinks }
+
                                         Answer ->
                                             { filteredPortfolio | answers = updatedContentTypeLinks }
+
                                         Video ->
                                             { filteredPortfolio | videos = updatedContentTypeLinks }
+
                                         Podcast ->
                                             { filteredPortfolio | podcasts = updatedContentTypeLinks }
+
                                         Domain.Featured ->
                                             provider.filteredPortfolio
+
                                         All ->
                                             provider.filteredPortfolio
+
                                         Unknown ->
                                             provider.filteredPortfolio
+
                             newFilteredPortfolio =
                                 let
                                     contentType =
@@ -865,18 +874,25 @@ onNewLink subMsg model =
                                     case contentType of
                                         Article ->
                                             articles |> updateFilter contentType
+
                                         Video ->
                                             videos |> updateFilter contentType
+
                                         Answer ->
                                             answers |> updateFilter contentType
+
                                         Podcast ->
                                             podcasts |> updateFilter contentType
+
                                         All ->
                                             provider.filteredPortfolio
+
                                         Domain.Featured ->
                                             provider.filteredPortfolio
+
                                         Unknown ->
                                             provider.filteredPortfolio
+
                             updatedPortal =
                                 { portal
                                     | newLinks = initNewLinks
@@ -888,7 +904,7 @@ onNewLink subMsg model =
                                         }
                                 }
                         in
-                        ( { model | portal = updatedPortal }, newLinkCmd )
+                            ( { model | portal = updatedPortal }, newLinkCmd )
 
                     Result.Err reason ->
                         Debug.crash (toString reason) ( model, newLinkCmd )

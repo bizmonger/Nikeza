@@ -73,8 +73,10 @@ view linksFrom provider =
 requestAllContent : Linksfrom -> Id -> ContentType -> Int -> List Link -> List (Html Msg)
 requestAllContent linksFrom profileId contentType count links =
     List.append (linksUI links)
-        [ a [ class "allLinks", href <| urlText <| allContentUrl linksFrom profileId contentType ]
-            [ text <| ("  view all " ++ toString count ++ " links  "), br [] [] ]
+        [ p [ class "AllPortfolioLinks" ]
+            [ a [ class "allLinks", href <| urlText <| allContentUrl linksFrom profileId contentType ]
+                [ text <| ("  view all " ++ toString count ++ " links  "), br [] [] ]
+            ]
         ]
 
 
@@ -102,9 +104,9 @@ formatTitle link =
 decorateIfFeatured : Link -> Html Msg
 decorateIfFeatured link =
     if not link.isFeatured then
-        a [ href <| urlText link.url, target "_blank" ] [ text <| formatTitle link, br [] [] ]
+        p [ class "portfolioLink" ] [ a [ href <| urlText link.url, target "_blank" ] [ text <| formatTitle link, br [] [] ] ]
     else
-        a [ class "featured", href <| urlText link.url, target "_blank" ] [ text <| formatTitle link, br [] [] ]
+        p [ class "featured" ] [ a [ class "featured", href <| urlText link.url, target "_blank" ] [ text <| formatTitle link, br [] [] ] ]
 
 
 linksUI : List Link -> List (Html Msg)
