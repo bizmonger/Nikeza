@@ -21,6 +21,7 @@ let someMediumImage =        "https://cdn-images-1.medium.com/fit/c/150/150/1*5O
 let stackoverflowUserId = "492701"
 let mediumUserId =        "mike"
 let wordpressUserId =     "bizmonger.wordpress.com"
+let rssFeedId =           "http://www.pwop.com/feed.aspx?show=dotnetrocks&filetype=master&tags=F%23"
 let youtubeUserId =       File.ReadAllText(ChannelIdFile)
 
 let prepareReader (command:SqlCommand) =

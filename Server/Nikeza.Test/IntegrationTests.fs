@@ -19,14 +19,20 @@ open Http
 [<TearDownAttribute>]
 let teardown() = cleanDataStore()
 
-// [<Test>]
-// let ``Get links from iTunes RSS Feed`` () =
+[<Test>]
+let ``Load links from RSS feed`` () =
 
-//    let url = "http://www.pwop.com/feed.aspx?show=dotnetrocks&filetype=master&tags=F%23"
-//    linksFrom { Platform= ITunes; User= {} }
+    // Setup
+    let profileId = Register someProfile |> execute
+    let source =  { someSource with AccessId=  rssFeedId
+                                    ProfileId= profileId
+                                    Platform=  RSSFeed |> PlatformToString }
+    // Test
+    AddSource { source with ProfileId= unbox profileId } |> execute |> ignore
+    let links = source.ProfileId |> Store.linksFrom source.Platform |> List.toSeq
 
-
-//    links |> List.isEmpty |> should equal false
+    // Verify
+    links |> Seq.length |> should (be greaterThan) 0
 
 [<Test>]
 let ``Get profile image from StackOverflow`` () =
