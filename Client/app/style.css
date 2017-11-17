@@ -34,22 +34,20 @@ header {
     margin-bottom:5px;
 }
 
-p.featured {
-    margin-bottom: -8px;
-    margin-left: 5px;
+span.featured {
+    padding: 5px;
     vertical-align: top;
+    margin-left: 5px;
 }
 
-p.portfolioLink {
-    margin-top: 2px;
-    margin-bottom: 8px;
-    margin-left: 5px;
+span.portfolioLink {
+    padding: 5px;
     vertical-align: top;
+    margin-left: 5px;
 }
 
 p.AllPortfolioLinks{
     margin-top: 10px;
-    margin-left: 5px;
     margin-bottom: 10px;
 }
 
@@ -330,7 +328,8 @@ tr.contentTypeHeader {
 
 td.portfolioContent {
     width: 400px;
-    height: 165px;
+    height: 220px;
+    padding-left: 20px;
     background: rgb(250, 250, 250);
 }
 

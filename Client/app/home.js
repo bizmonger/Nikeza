@@ -20363,57 +20363,79 @@ var _user$project$Controls_ProviderContentTypeLinks$view = F3(
 			A2(_user$project$Domain_Core$getLinks, contentType, links));
 		var createLink = function (link) {
 			var linkElement = (isOwner && link.isFeatured) ? A2(
-				_elm_lang$html$Html$a,
+				_elm_lang$html$Html$span,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class(featuredClass),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$href(
-							_user$project$Domain_Core$urlText(link.url)),
-						_1: {
+					_0: _elm_lang$html$Html_Attributes$class('portfolioLink'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$a,
+						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$target('_blank'),
-							_1: {ctor: '[]'}
-						}
-					}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(
-						_user$project$Domain_Core$titleText(link.title)),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
-						_1: {ctor: '[]'}
-					}
+							_0: _elm_lang$html$Html_Attributes$class(featuredClass),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$href(
+									_user$project$Domain_Core$urlText(link.url)),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$target('_blank'),
+									_1: {ctor: '[]'}
+								}
+							}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								_user$project$Domain_Core$titleText(link.title)),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$br,
+									{ctor: '[]'},
+									{ctor: '[]'}),
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {ctor: '[]'}
 				}) : A2(
-				_elm_lang$html$Html$a,
+				_elm_lang$html$Html$span,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$href(
-						_user$project$Domain_Core$urlText(link.url)),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$target('_blank'),
-						_1: {ctor: '[]'}
-					}
+					_0: _elm_lang$html$Html_Attributes$class('portfolioLink'),
+					_1: {ctor: '[]'}
 				},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text(
-						_user$project$Domain_Core$titleText(link.title)),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
-						_1: {ctor: '[]'}
-					}
+					_0: A2(
+						_elm_lang$html$Html$a,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$href(
+								_user$project$Domain_Core$urlText(link.url)),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$target('_blank'),
+								_1: {ctor: '[]'}
+							}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								_user$project$Domain_Core$titleText(link.title)),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$br,
+									{ctor: '[]'},
+									{ctor: '[]'}),
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {ctor: '[]'}
 				});
 			return isOwner ? A2(addCheckbox, link, linkElement) : linkElement;
 		};

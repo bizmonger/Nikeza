@@ -93,9 +93,9 @@ view provider contentType isOwner =
             let
                 linkElement =
                     if isOwner && link.isFeatured then
-                        a [ class featuredClass, href <| urlText link.url, target "_blank" ] [ text <| titleText link.title, br [] [] ]
+                        span [ class "portfolioLink" ] [ a [ class featuredClass, href <| urlText link.url, target "_blank" ] [ text <| titleText link.title, br [] [] ] ]
                     else
-                        a [ href <| urlText link.url, target "_blank" ] [ text <| titleText link.title, br [] [] ]
+                        span [ class "portfolioLink" ] [ a [ href <| urlText link.url, target "_blank" ] [ text <| titleText link.title, br [] [] ] ]
             in
                 if isOwner then
                     addCheckbox link linkElement
