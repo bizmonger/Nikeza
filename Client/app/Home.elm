@@ -120,20 +120,8 @@ update msg model =
             else
                 FromOther
 
-        maxTopicsToShow =
-            8
-
         maxLinksToShow =
             5
-
-        topicGroups someTopics =
-            Dict.groupBy .name someTopics
-                |> Dict.toList
-                |> List.map (\( name, topicList ) -> ( name, List.length topicList ))
-                |> List.sortBy (\( _, topicList ) -> topicList)
-                |> List.reverse
-                |> List.map (\t -> { name = t |> Tuple.first, isFeatured = False })
-                |> List.take maxTopicsToShow
 
         initialTopics pendingfiltered =
             if pendingfiltered.topics == [] then
@@ -144,11 +132,11 @@ update msg model =
             else
                 pendingfiltered.topics
 
-        popularTopicsFilter link provider =
+        popularTopicsFilter link portfolio =
             link.topics
                 |> List.any
                     (\topic ->
-                        (initialTopics provider.portfolio
+                        (initialTopics portfolio
                             |> List.map .name
                             |> List.take maxTopicsToShow
                         )
@@ -294,7 +282,7 @@ update msg model =
 
                             filterTop links =
                                 links
-                                    |> List.filter (\l -> provider |> popularTopicsFilter l)
+                                    |> List.filter (\l -> provider.filteredPortfolio |> popularTopicsFilter l)
                                     |> List.take maxLinksToShow
 
                             updatedProvider =
@@ -417,12 +405,12 @@ update msg model =
                     provider =
                         portal.provider
 
-                    pendingfiltered =
+                    filtered =
                         { answers = provider.filteredPortfolio |> getLinks Answer |> List.filter (\l -> l.isFeatured)
                         , articles = provider.filteredPortfolio |> getLinks Article |> List.filter (\l -> l.isFeatured)
                         , videos = provider.filteredPortfolio |> getLinks Video |> List.filter (\l -> l.isFeatured)
                         , podcasts = provider.filteredPortfolio |> getLinks Podcast |> List.filter (\l -> l.isFeatured)
-                        , topics = provider.topics
+                        , topics = provider.filteredPortfolio |> getLinks All |> topicsFromLinks --|> topicGroups
                         }
                 in
                     ( { model
@@ -432,7 +420,7 @@ update msg model =
                                 , provider =
                                     { provider
                                         | portfolio = provider.portfolio
-                                        , filteredPortfolio = pendingfiltered
+                                        , filteredPortfolio = filtered
                                     }
                             }
                       }
@@ -567,18 +555,29 @@ onUpdateProviderContentTypeLinks subMsg model linksfrom =
 
             ProviderContentTypeLinks.Featured ( link, bit ) ->
                 let
+                    updatedLink =
+                        { link | isFeatured = bit }
+
                     filteredLinks =
                         provider.filteredPortfolio
                             |> getLinks All
-                            |> List.Extra.replaceIf (\l -> l.title == link.title) { link | isFeatured = bit }
+                            |> List.Extra.replaceIf (\l -> l.title == link.title) updatedLink
 
                     filteredPortfolio =
-                        { answers = filteredLinks |> List.filter (\l -> l.contentType == Answer)
-                        , articles = filteredLinks |> List.filter (\l -> l.contentType == Article)
-                        , podcasts = filteredLinks |> List.filter (\l -> l.contentType == Podcast)
-                        , videos = filteredLinks |> List.filter (\l -> l.contentType == Video)
-                        , topics = model.portal.provider.filteredPortfolio.topics
-                        }
+                        if bit then
+                            { answers = (updatedLink :: filteredLinks) |> List.filter (\l -> l.contentType == Answer)
+                            , articles = (updatedLink :: filteredLinks) |> List.filter (\l -> l.contentType == Article)
+                            , podcasts = (updatedLink :: filteredLinks) |> List.filter (\l -> l.contentType == Podcast)
+                            , videos = (updatedLink :: filteredLinks) |> List.filter (\l -> l.contentType == Video)
+                            , topics = model.portal.provider.filteredPortfolio.topics
+                            }
+                        else
+                            { answers = filteredLinks |> List.filter (\l -> l.contentType == Answer)
+                            , articles = filteredLinks |> List.filter (\l -> l.contentType == Article)
+                            , podcasts = filteredLinks |> List.filter (\l -> l.contentType == Podcast)
+                            , videos = filteredLinks |> List.filter (\l -> l.contentType == Video)
+                            , topics = model.portal.provider.filteredPortfolio.topics
+                            }
                 in
                     ( { model | portal = { portal | provider = { provider | filteredPortfolio = filteredPortfolio } } }
                     , runtime.featureLink { linkId = link.id, isFeatured = bit } FeatureLinkResponse
@@ -1759,7 +1758,12 @@ navigate msg model location =
                     provider.profile
 
                 filtered =
-                    provider.filteredPortfolio
+                    { answers = provider.filteredPortfolio |> getLinks Answer |> List.filter (\l -> l.isFeatured)
+                    , articles = provider.filteredPortfolio |> getLinks Article |> List.filter (\l -> l.isFeatured)
+                    , videos = provider.filteredPortfolio |> getLinks Video |> List.filter (\l -> l.isFeatured)
+                    , podcasts = provider.filteredPortfolio |> getLinks Podcast |> List.filter (\l -> l.isFeatured)
+                    , topics = provider.filteredPortfolio |> getLinks All |> topicsFromLinks --|> topicGroups
+                    }
 
                 updatedProfile =
                     { profile | id = Id id }
@@ -1771,13 +1775,7 @@ navigate msg model location =
                             | provider =
                                 { provider
                                     | profile = updatedProfile
-                                    , filteredPortfolio =
-                                        { filtered
-                                            | answers = provider.portfolio.answers |> List.filter .isFeatured
-                                            , articles = provider.portfolio.articles |> List.filter .isFeatured
-                                            , videos = provider.portfolio.videos |> List.filter .isFeatured
-                                            , podcasts = provider.portfolio.podcasts |> List.filter .isFeatured
-                                        }
+                                    , filteredPortfolio = filtered
                                 }
                         }
                     , currentRoute = location

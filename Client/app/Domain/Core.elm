@@ -2,6 +2,8 @@ module Domain.Core exposing (..)
 
 import Set
 import List.Extra exposing (uniqueBy)
+import Dict
+import Dict.Extra as Dict
 
 
 initForm : Form
@@ -386,6 +388,22 @@ getFollowers provider =
 --         }
 
 
+maxTopicsToShow : Int
+maxTopicsToShow =
+    8
+
+
+topicGroups : List Topic -> List Topic
+topicGroups someTopics =
+    Dict.groupBy .name someTopics
+        |> Dict.toList
+        |> List.map (\( name, topicList ) -> ( name, List.length topicList ))
+        |> List.sortBy (\( _, topicList ) -> topicList)
+        |> List.reverse
+        |> List.map (\t -> { name = t |> Tuple.first, isFeatured = True })
+        |> List.take maxTopicsToShow
+
+
 toggleFilter : Portfolio -> ( Topic, Bool ) -> Portfolio
 toggleFilter portfolio ( topic, include ) =
     let
@@ -423,31 +441,31 @@ compareLinks a b =
 
 
 getLinks : ContentType -> Portfolio -> List Link
-getLinks contentType links =
+getLinks contentType portfolio =
     case contentType of
         Answer ->
-            links.answers
+            portfolio.answers
 
         Article ->
-            links.articles
+            portfolio.articles
 
         Podcast ->
-            links.podcasts
+            portfolio.podcasts
 
         Video ->
-            links.videos
+            portfolio.videos
 
         All ->
-            links.answers
-                ++ links.articles
-                ++ links.podcasts
-                ++ links.videos
+            portfolio.answers
+                ++ portfolio.articles
+                ++ portfolio.podcasts
+                ++ portfolio.videos
 
         Featured ->
-            links.answers
-                ++ links.articles
-                ++ links.podcasts
-                ++ links.videos
+            portfolio.answers
+                ++ portfolio.articles
+                ++ portfolio.podcasts
+                ++ portfolio.videos
                 |> List.filter .isFeatured
 
         Unknown ->

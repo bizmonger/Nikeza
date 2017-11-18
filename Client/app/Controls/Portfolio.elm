@@ -106,7 +106,7 @@ decorateIfFeatured link =
     if not link.isFeatured then
         p [ class "portfolioLink" ] [ a [ href <| urlText link.url, target "_blank" ] [ text <| formatTitle link, br [] [] ] ]
     else
-        p [ class "featured" ] [ a [ class "featured", href <| urlText link.url, target "_blank" ] [ text <| formatTitle link, br [] [] ] ]
+        p [] [ a [ href <| urlText link.url, target "_blank" ] [ text <| formatTitle link, br [] [] ] ]
 
 
 linksUI : List Link -> List (Html Msg)
