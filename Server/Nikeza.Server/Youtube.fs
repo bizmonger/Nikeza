@@ -158,9 +158,10 @@ let getThumbnail accessId key =
 
 let getTags apiKey videosWithTags =
 
-      let isBlackListed tag =
-          ["Hangouts On Air";"#hangoutsonair";"#hoa";"YouTube Editor"]
-          |> List.contains tag 
+      let isBlackListed (tag:string) =
+          ["Hangouts On Air";"#hangoutsonair";"#hoa";"YouTube Editor";"YouTube";"get";"web";"search"]
+          |> List.map(fun x -> x.ToLower())
+          |> List.contains (tag.ToLower())
           |> not
 
       let screen tags = 

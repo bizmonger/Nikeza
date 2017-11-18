@@ -19435,14 +19435,17 @@ var _user$project$Controls_Portfolio$view = F2(
 													{
 														ctor: '::',
 														_0: A2(
-															_elm_lang$html$Html$div,
-															{ctor: '[]'},
-															A2(
-																_elm_lang$core$List$map,
-																function (t) {
-																	return A2(toCheckBoxState, true, t);
-																},
-																filtered.topics)),
+															_elm_lang$html$Html$input,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$type_('text'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$placeholder('search'),
+																	_1: {ctor: '[]'}
+																}
+															},
+															{ctor: '[]'}),
 														_1: {ctor: '[]'}
 													}),
 												_1: {

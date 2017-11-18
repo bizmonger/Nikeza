@@ -48,9 +48,7 @@ view linksFrom provider =
                 [ tr []
                     [ table []
                         [ tr []
-                            [ td [] [ div [] <| (filtered.topics |> List.map (\t -> t |> toCheckBoxState True)) ]
-
-                            -- [ td [] [ div [] <| ([] |> List.map (\t -> t |> toCheckBoxState True)) ]
+                            [ td [] [ input [ type_ "text", placeholder "search" ] [] ]
                             , table [ class "contentTable" ]
                                 [ tr [ class "contentTypeHeader" ]
                                     [ td [] [ b [] [ text "Answers" ] ]
