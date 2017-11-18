@@ -22446,6 +22446,7 @@ var _user$project$Home$navigate = F3(
 								{
 									id: _user$project$Domain_Core$Id(_p12._1._0)
 								});
+							var filtered = provider.filteredPortfolio;
 							var login = model.login;
 							return {
 								ctor: '_Tuple2',
@@ -22460,7 +22461,37 @@ var _user$project$Home$navigate = F3(
 											{
 												provider: _elm_lang$core$Native_Utils.update(
 													provider,
-													{profile: updatedProfile})
+													{
+														profile: updatedProfile,
+														filteredPortfolio: _elm_lang$core$Native_Utils.update(
+															filtered,
+															{
+																answers: A2(
+																	_elm_lang$core$List$filter,
+																	function (_) {
+																		return _.isFeatured;
+																	},
+																	provider.portfolio.answers),
+																articles: A2(
+																	_elm_lang$core$List$filter,
+																	function (_) {
+																		return _.isFeatured;
+																	},
+																	provider.portfolio.articles),
+																videos: A2(
+																	_elm_lang$core$List$filter,
+																	function (_) {
+																		return _.isFeatured;
+																	},
+																	provider.portfolio.videos),
+																podcasts: A2(
+																	_elm_lang$core$List$filter,
+																	function (_) {
+																		return _.isFeatured;
+																	},
+																	provider.portfolio.podcasts)
+															})
+													})
 											}),
 										currentRoute: location
 									}),

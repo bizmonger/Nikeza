@@ -1758,12 +1758,28 @@ navigate msg model location =
                 profile =
                     provider.profile
 
+                filtered =
+                    provider.filteredPortfolio
+
                 updatedProfile =
                     { profile | id = Id id }
             in
                 ( { model
                     | login = { login | loggedIn = True }
-                    , portal = { portal | provider = { provider | profile = updatedProfile } }
+                    , portal =
+                        { portal
+                            | provider =
+                                { provider
+                                    | profile = updatedProfile
+                                    , filteredPortfolio =
+                                        { filtered
+                                            | answers = provider.portfolio.answers |> List.filter .isFeatured
+                                            , articles = provider.portfolio.articles |> List.filter .isFeatured
+                                            , videos = provider.portfolio.videos |> List.filter .isFeatured
+                                            , podcasts = provider.portfolio.podcasts |> List.filter .isFeatured
+                                        }
+                                }
+                        }
                     , currentRoute = location
                   }
                 , Cmd.none
