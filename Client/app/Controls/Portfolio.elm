@@ -14,7 +14,11 @@ update : Msg -> Provider -> Provider
 update msg provider =
     case msg of
         Toggle ( topic, include ) ->
-            { provider | filteredPortfolio = toggleFilter provider.filteredPortfolio ( topic, include ) }
+            let
+                updatedProvider =
+                    toggleFilter provider ( topic, include )
+            in
+                { provider | filteredPortfolio = updatedProvider.filteredPortfolio }
 
 
 view : Linksfrom -> Provider -> Html Msg
@@ -45,6 +49,8 @@ view linksFrom provider =
                     [ table []
                         [ tr []
                             [ td [] [ div [] <| (filtered.topics |> List.map (\t -> t |> toCheckBoxState True)) ]
+
+                            -- [ td [] [ div [] <| ([] |> List.map (\t -> t |> toCheckBoxState True)) ]
                             , table [ class "contentTable" ]
                                 [ tr [ class "contentTypeHeader" ]
                                     [ td [] [ b [] [ text "Answers" ] ]

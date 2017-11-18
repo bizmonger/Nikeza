@@ -15,7 +15,11 @@ update : Msg -> Provider -> Provider
 update msg provider =
     case msg of
         Toggle ( topic, include ) ->
-            { provider | filteredPortfolio = toggleFilter provider.filteredPortfolio ( topic, include ) }
+            let
+                updatedProvider =
+                    toggleFilter provider ( topic, include )
+            in
+                { provider | filteredPortfolio = updatedProvider.filteredPortfolio }
 
         Featured ( link, isFeatured ) ->
             let

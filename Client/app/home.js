@@ -15617,10 +15617,11 @@ var _user$project$Domain_Core$Podcast = {ctor: 'Podcast'};
 var _user$project$Domain_Core$Video = {ctor: 'Video'};
 var _user$project$Domain_Core$Article = {ctor: 'Article'};
 var _user$project$Domain_Core$toggleFilter = F2(
-	function (portfolio, _p18) {
+	function (provider, _p18) {
 		var _p19 = _p18;
 		var _p21 = _p19._0;
 		var _p20 = _p19._1;
+		var filtered = provider.filteredPortfolio;
 		var toggleTopic = F2(
 			function (contentType, existing) {
 				return _p20 ? A2(
@@ -15630,7 +15631,7 @@ var _user$project$Domain_Core$toggleFilter = F2(
 					},
 					A2(
 						_elm_lang$core$List$append,
-						A2(_user$project$Domain_Core$getLinks, contentType, portfolio),
+						A2(_user$project$Domain_Core$getLinks, contentType, provider.portfolio),
 						existing)) : A2(
 					_elm_lang$core$List$filter,
 					function (link) {
@@ -15646,13 +15647,15 @@ var _user$project$Domain_Core$toggleFilter = F2(
 					filteredTypeLinks) : A2(toggleTopic, contentType, filteredTypeLinks);
 			});
 		return _elm_lang$core$Native_Utils.update(
-			portfolio,
+			provider,
 			{
-				answers: A3(refresh, _p20, _user$project$Domain_Core$Answer, portfolio.answers),
-				articles: A3(refresh, _p20, _user$project$Domain_Core$Article, portfolio.articles),
-				videos: A3(refresh, _p20, _user$project$Domain_Core$Video, portfolio.videos),
-				podcasts: A3(refresh, _p20, _user$project$Domain_Core$Podcast, portfolio.podcasts),
-				topics: portfolio.topics
+				filteredPortfolio: {
+					answers: A3(refresh, _p20, _user$project$Domain_Core$Answer, filtered.answers),
+					articles: A3(refresh, _p20, _user$project$Domain_Core$Article, filtered.articles),
+					videos: A3(refresh, _p20, _user$project$Domain_Core$Video, filtered.videos),
+					podcasts: A3(refresh, _p20, _user$project$Domain_Core$Podcast, filtered.podcasts),
+					topics: provider.filteredPortfolio.topics
+				}
 			});
 	});
 var _user$project$Domain_Core$toContentType = function (contentType) {
@@ -19321,14 +19324,13 @@ var _user$project$Controls_Portfolio$requestAllContent = F5(
 var _user$project$Controls_Portfolio$update = F2(
 	function (msg, provider) {
 		var _p1 = msg;
+		var updatedProvider = A2(
+			_user$project$Domain_Core$toggleFilter,
+			provider,
+			{ctor: '_Tuple2', _0: _p1._0._0, _1: _p1._0._1});
 		return _elm_lang$core$Native_Utils.update(
 			provider,
-			{
-				filteredPortfolio: A2(
-					_user$project$Domain_Core$toggleFilter,
-					provider.filteredPortfolio,
-					{ctor: '_Tuple2', _0: _p1._0._0, _1: _p1._0._1})
-			});
+			{filteredPortfolio: updatedProvider.filteredPortfolio});
 	});
 var _user$project$Controls_Portfolio$Toggle = function (a) {
 	return {ctor: 'Toggle', _0: a};
@@ -20256,14 +20258,13 @@ var _user$project$Controls_ProviderContentTypeLinks$update = F2(
 	function (msg, provider) {
 		var _p0 = msg;
 		if (_p0.ctor === 'Toggle') {
+			var updatedProvider = A2(
+				_user$project$Domain_Core$toggleFilter,
+				provider,
+				{ctor: '_Tuple2', _0: _p0._0._0, _1: _p0._0._1});
 			return _elm_lang$core$Native_Utils.update(
 				provider,
-				{
-					filteredPortfolio: A2(
-						_user$project$Domain_Core$toggleFilter,
-						provider.filteredPortfolio,
-						{ctor: '_Tuple2', _0: _p0._0._0, _1: _p0._0._1})
-				});
+				{filteredPortfolio: updatedProvider.filteredPortfolio});
 		} else {
 			var _p2 = _p0._0._0;
 			var setFeaturedLink = function (l) {
