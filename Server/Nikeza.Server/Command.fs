@@ -51,11 +51,11 @@ module private Commands =
 
     let addLinkTopic (linkTopic:LinkTopic) =
         let linkTopicId =
-                let linkTopicsCommandFunc (command: SqlCommand) =
-                    command |> addWithValue "@LinkId"  linkTopic.Link.Id
-                            |> addWithValue "@TopicId" linkTopic.Topic.Id
+            let linkTopicsCommandFunc (command: SqlCommand) =
+                command |> addWithValue "@LinkId"  linkTopic.Link.Id
+                        |> addWithValue "@TopicId" linkTopic.Topic.Id
 
-                linkTopicsCommandFunc |> execute connectionString addLinkTopicSql
+            linkTopicsCommandFunc |> execute connectionString addLinkTopicSql
         linkTopicId
 
     let addTopic (info:TopicRequest) =

@@ -204,9 +204,9 @@ let applyVideoTags videoAndTags =
 type UploadList = YouTubeService -> AccountId -> Async<seq<Video>>
 
 let uploadList: UploadList = fun youTubeService id ->
-    async { let!   channelList =   Channel.list youTubeService id
-            let!   videos=         channelList |> getFirstChannel
-                                               |> uploadsOrEmpty <| youTubeService
+    async { let!   channelList= Channel.list youTubeService id
+            let!   videos=      channelList |> getFirstChannel
+                                            |> uploadsOrEmpty <| youTubeService
             let    maxRequestIdsAllowed = 50
             let    videosWithTags= videos |> Seq.chunkBySize maxRequestIdsAllowed
                                           |> Seq.collect (fun chunks -> chunks |> getTags youTubeService.ApiKey) 

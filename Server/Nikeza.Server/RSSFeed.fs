@@ -5,33 +5,24 @@ module Nikeza.Server.RSSFeed
     open Model
     open Http
     open Asynctify
-    open StackOverflow
+    open StackOverflow.Suggestions
 
     let getThumbnail accessId =
         "to be implemented..."
 
-    let suggestionsFromText (title:string) =
-        let allTags = CachedTags.Instance() |> Set.ofList
-
-        title.Split(' ')
-        |> Array.map(fun w -> w.Trim().ToLower())
-        |> Set.ofArray
-        |> Set.intersect allTags 
-        |> Set.toList
-
     let rssLinks (user:User) =
         let toLink (item:XElement) = { 
-            Id =          -1
-            ProfileId =   user.ProfileId
-            Title=        item.Element(XName.Get("title")).Value
-            Url=          item.Element(XName.Get("link")).Value
-            Description = item.Element(XName.Get("description")).Value
-            ContentType=  Podcast |> contentTypeToString
-            Topics =      suggestionsFromText (item.Element(XName.Get("title")).Value) |> List.map (fun n -> {Id= -1; Name=n; IsFeatured=false})
-                          |> Set.ofList
-                          |> Set.intersect (suggestionsFromText (item.Element(XName.Get("description")).Value) |> List.map (fun n -> {Id= -1; Name=n; IsFeatured=false}) |> Set.ofList)
-                          |> Set.toList
-            IsFeatured=   false
+            Id=          -1
+            ProfileId=   user.ProfileId
+            Title=       item.Element(XName.Get("title")).Value
+            Url=         item.Element(XName.Get("link")).Value
+            Description= item.Element(XName.Get("description")).Value
+            ContentType= Podcast |> contentTypeToString
+            Topics =     suggestionsFromText (item.Element(XName.Get("title")).Value) |> List.map (fun n -> {Id= -1; Name=n; IsFeatured=false})
+                         |> Set.ofList
+                         |> Set.intersect (suggestionsFromText (item.Element(XName.Get("description")).Value) |> List.map (fun n -> {Id= -1; Name=n; IsFeatured=false}) |> Set.ofList)
+                         |> Set.toList
+            IsFeatured=  false
          }
 
         let url =    user.AccessId

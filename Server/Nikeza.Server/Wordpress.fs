@@ -1,10 +1,11 @@
 module Nikeza.Server.WordPress
 
+    open System.Collections.Generic
     open Newtonsoft.Json
     open Model
     open Http
     open Asynctify
-    open System.Collections.Generic
+    open StackOverflow.Suggestions
 
     [<Literal>]
     let private APIBaseAddress = "https://public-api.wordpress.com/"
@@ -26,8 +27,9 @@ module Nikeza.Server.WordPress
     type Response = { found: int; posts: Post list }
 
     let private toLink profileId (post:Post) =
+
         let stringToTopic t = { 
-            Id= -1
+            Id=   -1
             Name= t.ToString()                   
                    .Remove(0,1)
                    .Split(",")
@@ -35,15 +37,28 @@ module Nikeza.Server.WordPress
             IsFeatured= false
         }
 
-        { Id= -1
+        let derivedTopics = post.title  
+                            |> suggestionsFromText 
+                            |> List.map (fun n -> {Id= -1; Name=n; IsFeatured=false})
+
+        let topics = List.ofSeq post.Tags 
+                     |> List.map stringToTopic 
+                     |> List.append derivedTopics 
+                     |> Set.ofList 
+                     |> Set.toList
+        
+        let link = { 
+          Id= -1
           ProfileId= profileId
           Title= post.title
           Description= ""
           Url= post.URL
-          Topics= List.ofSeq post.Tags |> List.map stringToTopic
+          Topics= topics
           ContentType="Articles"
           IsFeatured= false
         }
+
+        link
 
     let getThumbnail accessId =
  
@@ -75,8 +90,8 @@ module Nikeza.Server.WordPress
                  let lastPage =    (result.found / 100) + 1
                  let canContinue = lastPage >= pageNumber
                  if canContinue
-                     then result.posts |> Seq.map (fun post -> toLink user.ProfileId post)
-                                       |> Seq.append <| existingLinks
-                                       |> wordpressLinks user (pageNumber + 1)
-                     else existingLinks
+                    then result.posts |> Seq.map (fun post -> toLink user.ProfileId post)
+                                      |> Seq.append <| existingLinks
+                                      |> wordpressLinks user (pageNumber + 1)
+                    else existingLinks
             else seq []

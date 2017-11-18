@@ -21194,27 +21194,36 @@ var _user$project$Controls_Sources$update = F2(
 				};
 			case 'AddResponse':
 				if (_p0._0.ctor === 'Ok') {
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
+					var _p1 = _p0._0._0;
+					return A2(
+						_elm_lang$core$Native_Utils.crash(
+							'Controls.Sources',
 							{
-								sources: {
-									ctor: '::',
-									_0: _user$project$Services_Adapter$toSource(_p0._0._0),
-									_1: model.sources
-								},
-								source: _user$project$Domain_Core$initSource
+								start: {line: 57, column: 17},
+								end: {line: 57, column: 28}
 							}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
+						_elm_lang$core$Basics$toString(_p1),
+						{
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{
+									sources: {
+										ctor: '::',
+										_0: _user$project$Services_Adapter$toSource(_p1),
+										_1: model.sources
+									},
+									source: _user$project$Domain_Core$initSource
+								}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						});
 				} else {
 					return A2(
 						_elm_lang$core$Native_Utils.crash(
 							'Controls.Sources',
 							{
-								start: {line: 65, column: 17},
-								end: {line: 65, column: 28}
+								start: {line: 66, column: 17},
+								end: {line: 66, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p0._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -21242,8 +21251,8 @@ var _user$project$Controls_Sources$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Controls.Sources',
 							{
-								start: {line: 71, column: 17},
-								end: {line: 71, column: 28}
+								start: {line: 72, column: 17},
+								end: {line: 72, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p0._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -21261,8 +21270,8 @@ var _user$project$Controls_Sources$InputUsername = function (a) {
 };
 var _user$project$Controls_Sources$view = function (model) {
 	var placeholderText = function () {
-		var _p1 = model.source.platform;
-		switch (_p1) {
+		var _p2 = model.source.platform;
+		switch (_p2) {
 			case 'YouTube':
 				return 'channel-id: (Settings menu)';
 			case 'StackOverflow':

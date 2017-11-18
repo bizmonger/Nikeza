@@ -12,16 +12,51 @@ open Read
 open Model
 open Literals
 open Platforms
+open StackOverflow.Suggestions
 
 [<TearDownAttribute>]
 let teardown() = cleanDataStore()
 
 
 [<Test>]
+let ``get links from datasource`` () =
+
+    // Setup
+    let profileId = Register someProfile |> execute
+    let source =  { someSource with AccessId=  wordpressUserId
+                                    ProfileId= profileId
+                                    Platform=  WordPress |> PlatformToString }
+    // Test
+    AddSource { source with ProfileId= unbox profileId } |> execute |> ignore
+    let links = source.ProfileId |> Store.linksFrom source.Platform
+
+    // Verify
+    links |> List.isEmpty |> should equal false
+
+[<Test>]
+let ``Adding data source maintains topics`` () =
+
+    // Setup
+    let profileId = Register someProfile |> execute
+    let source =  { someSource with AccessId=  wordpressUserId
+                                    ProfileId= profileId
+                                    Platform=  WordPress |> PlatformToString }
+    // Test
+    AddSource { source with ProfileId= unbox profileId } |> execute |> ignore
+    let links = source.ProfileId |> Store.linksFrom source.Platform |> List.filter(fun l -> l.Title = "F#: Revisiting the Vending Machine Kata")
+    
+    System.Diagnostics.Debug.WriteLine(links)
+
+    // Verify
+    let link = links.[0]
+    link.Topics |> List.isEmpty |> should equal false
+
+
+[<Test>]
 let ``get topics from text`` () =
 
     // Test
-    let tagsFound = Nikeza.Server.RSSFeed.suggestionsFromText "This is some text that has F# in it."
+    let tagsFound = suggestionsFromText "F#: Revisiting the Vending Machine Kata."
 
     // Verify
     tagsFound |> List.contains "f#" |> should equal true

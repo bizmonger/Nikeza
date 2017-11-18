@@ -108,6 +108,17 @@ module StackOverflow =
 
     module Suggestions =
 
+        let suggestionsFromText (title:string) =
+            let allTags = CachedTags.Instance() |> Set.ofList
+
+            title.Split(' ')
+            |> Array.map(fun w -> w.Replace(":", "")
+                                   .Replace(",", "")
+                                   .Trim().ToLower())
+            |> Set.ofArray
+            |> Set.intersect allTags 
+            |> Set.toList
+            
         let getRelatedTags (tag:string) =
 
             if tag <> ""
