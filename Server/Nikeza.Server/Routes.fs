@@ -81,7 +81,6 @@ let private addSourceHandler: HttpHandler =
             let sourceId = AddSource data |> execute
             let links =    data.ProfileId |> Store.linksFrom data.Platform |> List.toSeq
             let source = { data with Id = Int32.Parse(sourceId); Links = links }
-            System.Diagnostics.Debug.WriteLine(source)
             return! json source next ctx
         }
 

@@ -8,6 +8,7 @@ open Literals
 open Model
 open Sql
 open Platforms
+open System.Threading
 
 let dispose (connection:SqlConnection) (command:SqlCommand) =
     connection.Dispose()
@@ -89,14 +90,11 @@ module private Commands =
                     |> addWithValue "@ContentTypeId" (info.ContentType |> contentTypeToId)
                     |> addWithValue "@IsFeatured"    info.IsFeatured
                     |> addWithValue "@Created"       DateTime.Now
-
-        let topicNotFound (topic:ProviderTopic) =
-            let result = getTopic topic.Name
-            if  result = None
-               then Some { Link= info; Topic= { Id= -1; Name= topic.Name} }
-               else None    
-        
-        let linkId =   commandFunc |> execute connectionString addLinkSql
+                    
+        let toLinkTopic (topic:ProviderTopic) =
+            { Link= info; Topic= { Id= -1; Name= topic.Name.ToLower()} }   
+            
+        let linkId = commandFunc |> execute connectionString addLinkSql
 
         let addTopic lt =
             let topicId = addTopic { Name=lt.Topic.Name }
@@ -106,7 +104,7 @@ module private Commands =
 
             addLinkTopic linkTopic |> ignore
 
-        info.Topics |> List.choose topicNotFound
+        info.Topics |> List.map toLinkTopic
                     |> List.iter addTopic
         linkId
 
