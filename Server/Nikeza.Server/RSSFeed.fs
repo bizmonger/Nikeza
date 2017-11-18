@@ -32,7 +32,10 @@ module Nikeza.Server.RSSFeed
         let response = client.GetAsync(url) |> toResult
         let links = 
             if response.IsSuccessStatusCode
-               then let text = response.Content.ReadAsStringAsync()     |> toResult
-                    XElement.Parse(text).Descendants(XName.Get("item")) |> Seq.map toLink
-               else seq []
+               then let text = response.Content.ReadAsStringAsync() |> toResult
+                    XElement.Parse(text).Descendants(XName.Get("item")) 
+                    |> Seq.toList
+                    |> List.map toLink
+
+               else []
         links

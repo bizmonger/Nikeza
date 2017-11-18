@@ -190,5 +190,4 @@ module Nikeza.Server.Medium
                  let postsIndex = json.IndexOf("\"Post\": {") + 11
                  let postsBlock = json.Substring(postsIndex, json.Length - postsIndex)
                  [] |> linksFrom postsBlock user json
-                    |> List.toSeq
-            else Seq.empty
+            else []

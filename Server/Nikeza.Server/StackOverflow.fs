@@ -78,8 +78,9 @@ module StackOverflow =
         if response.IsSuccessStatusCode
            then let json =   response.Content.ReadAsStringAsync() |> toResult
                 JsonConvert.DeserializeObject<AnswersResponse>(json).items
-                |> Seq.map (fun item -> toLink user.ProfileId item)
-           else seq []
+                |> Seq.toList
+                |> List.map (fun item -> toLink user.ProfileId item)
+           else []
 
     type Tag =          { name : string }
     type TagsResponse = { items: Tag list }

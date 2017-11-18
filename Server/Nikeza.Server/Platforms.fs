@@ -47,7 +47,7 @@ let getThumbnail accessId platform = platform |> function
 let youtubeLinks apiKey channelId = 
     async { let    youtube = youTubeService apiKey
             let!   videos =  uploadList youtube <| ChannelId channelId
-            return videos
+            return List.ofSeq videos
     }
 
 let linkOf video profileId = {
@@ -61,17 +61,17 @@ let linkOf video profileId = {
     IsFeatured=  false
 }
 
-let linksFrom platformUser =
+let linksFrom platformUser : Link list =
 
     let user =  platformUser.User
     
     platformUser.Platform |> function
     | YouTube       -> user.AccessId |> youtubeLinks platformUser.APIKey  
                                      |> Async.RunSynchronously
-                                     |> Seq.map (fun video -> linkOf video user.ProfileId )
+                                     |> List.map (fun video -> linkOf video user.ProfileId )
                        
     | StackOverflow -> platformUser |> stackoverflowLinks
     | WordPress     -> []           |> wordpressLinks user 1
     | Medium        -> user         |> mediumLinks
     | RSSFeed       -> user         |> rssLinks
-    | Other         -> Seq.empty
+    | Other         -> []
