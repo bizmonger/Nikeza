@@ -356,19 +356,46 @@ getFollowers provider =
         followers
 
 
-toggleFilter : Provider -> ( Topic, Bool ) -> Provider
-toggleFilter provider ( topic, include ) =
+
+-- toggleFilter : Provider -> ( Topic, Bool ) -> Provider
+-- toggleFilter provider ( topic, include ) =
+--     let
+--         toggleTopic contentType existing =
+--             if include then
+--                 existing
+--                     |> List.append (provider.portfolio |> getLinks contentType)
+--                     |> List.filter (\link -> (link.topics |> hasMatch topic))
+--             else
+--                 existing |> List.filter (\link -> not (link.topics |> hasMatch topic))
+--         filtered =
+--             provider.filteredPortfolio
+--         refresh include contentType filteredTypeLinks =
+--             if include then
+--                 (filteredTypeLinks |> toggleTopic contentType) ++ (filteredTypeLinks)
+--             else
+--                 (filteredTypeLinks |> toggleTopic contentType)
+--     in
+--         { provider
+--             | filteredPortfolio =
+--                 { answers = filtered.answers |> refresh include Answer
+--                 , articles = filtered.articles |> refresh include Article
+--                 , videos = filtered.videos |> refresh include Video
+--                 , podcasts = filtered.podcasts |> refresh include Podcast
+--                 , topics = provider.filteredPortfolio.topics
+--                 }
+--         }
+
+
+toggleFilter : Portfolio -> ( Topic, Bool ) -> Portfolio
+toggleFilter portfolio ( topic, include ) =
     let
         toggleTopic contentType existing =
             if include then
                 existing
-                    |> List.append (provider.portfolio |> getLinks contentType)
+                    |> List.append (portfolio |> getLinks contentType)
                     |> List.filter (\link -> (link.topics |> hasMatch topic))
             else
                 existing |> List.filter (\link -> not (link.topics |> hasMatch topic))
-
-        filtered =
-            provider.filteredPortfolio
 
         refresh include contentType filteredTypeLinks =
             if include then
@@ -376,14 +403,12 @@ toggleFilter provider ( topic, include ) =
             else
                 (filteredTypeLinks |> toggleTopic contentType)
     in
-        { provider
-            | filteredPortfolio =
-                { answers = filtered.answers |> refresh include Answer
-                , articles = filtered.articles |> refresh include Article
-                , videos = filtered.videos |> refresh include Video
-                , podcasts = filtered.podcasts |> refresh include Podcast
-                , topics = provider.filteredPortfolio.topics
-                }
+        { portfolio
+            | answers = portfolio.answers |> refresh include Answer
+            , articles = portfolio.articles |> refresh include Article
+            , videos = portfolio.videos |> refresh include Video
+            , podcasts = portfolio.podcasts |> refresh include Podcast
+            , topics = portfolio.topics
         }
 
 

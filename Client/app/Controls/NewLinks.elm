@@ -77,7 +77,7 @@ update msg model =
                                 || hasText ".fm"
                                 || hasText "/podcasts"
                                 || hasText "runasradio"
-                                || hasText "greaterthancode"  
+                                || hasText "greaterthancode"
                         then
                             Podcast
                         else
@@ -246,7 +246,6 @@ view model =
                             ]
                         ]
                     , td [] [ button [ class "addLink", onClick <| AddLink model ] [ text "Add Link" ] ]
-                    , td [] [ label [] [ text <| toString base.contentType ] ]
                     ]
                 ]
             ]

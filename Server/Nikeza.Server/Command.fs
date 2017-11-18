@@ -98,21 +98,16 @@ module private Commands =
         
         let linkId =   commandFunc |> execute connectionString addLinkSql
 
+        let addTopic lt =
+            let topicId = addTopic { Name=lt.Topic.Name }
+            let link=       { lt.Link  with Id= Int32.Parse(linkId) }
+            let topic=      { lt.Topic with Id= Int32.Parse(topicId) }
+            let linkTopic = { Link= link; Topic= topic }
+
+            addLinkTopic linkTopic |> ignore
+
         info.Topics |> List.choose topicNotFound
-                    |> List.iter (fun lt -> 
-                        let topicId = addTopic { Name=lt.Topic.Name }
-                        let link=       { lt.Link  with Id= Int32.Parse(linkId) }
-                        let topic=      { lt.Topic with Id= Int32.Parse(topicId) }
-                        let linkTopic = { Link= link; Topic= topic }
-
-                        addLinkTopic linkTopic |> ignore
-
-                        if (info.ProfileId |> getProviderTopics  |> List.length) <= 5
-                           then { ProfileId=  info.ProfileId
-                                  Name=       linkTopic.Topic.Name
-                                  TopicId=    Int32.Parse(topicId)
-                                  IsFeatured= true } |> featureTopic |> ignore
-                           else () )
+                    |> List.iter addTopic
         linkId
 
     let addSource (info:DataSourceRequest) =

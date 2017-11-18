@@ -14,7 +14,7 @@ update : Msg -> Provider -> Provider
 update msg provider =
     case msg of
         Toggle ( topic, include ) ->
-            toggleFilter provider ( topic, include )
+            { provider | filteredPortfolio = toggleFilter provider.filteredPortfolio ( topic, include ) }
 
 
 view : Linksfrom -> Provider -> Html Msg

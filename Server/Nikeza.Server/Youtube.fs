@@ -4,6 +4,7 @@ open System
 open Http
 open Literals
 open Asynctify
+open StackOverflow
 open FSharp.Control
 open Google.Apis.Services
 open Google.Apis.YouTube.v3
@@ -161,8 +162,10 @@ let getTags apiKey videosWithTags =
           ["Hangouts On Air";"#hangoutsonair";"#hoa";"YouTube Editor"]
           |> List.contains tag 
           |> not
+
       let screen tags = 
           tags |> List.choose (fun tag -> if isBlackListed tag then Some tag else None )
+
       let getTags item =
           if item.snippet.tags |> isNull
               then []
@@ -174,6 +177,7 @@ let getTags apiKey videosWithTags =
                          |> Seq.ofArray 
                          |> Seq.map (fun v -> v.Id) 
                          |> String.concat ","
+                         
       use client =   httpClient BaseAddress
       let url =      String.Format(tagsUrl, apiKey, delimitedIds)
       let response = client.GetAsync(url) |> Async.AwaitTask 
@@ -190,6 +194,10 @@ let applyVideoTags videoAndTags =
 
     let video = fst videoAndTags
     let tags  = snd videoAndTags
+                    |> List.ofSeq 
+                    |> Set.ofList
+                    |> Set.intersect (CachedTags.Instance() |> Set.ofList)
+                    |> Set.toList
 
     { video with Tags = tags }
 

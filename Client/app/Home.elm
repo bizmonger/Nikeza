@@ -120,22 +120,6 @@ update msg model =
             else
                 FromOther
 
-        featureIfNone links =
-            if (links |> List.filter (.isFeatured)) == [] then
-                let
-                    portfolioBucketCount =
-                        5
-
-                    featured =
-                        links |> List.take portfolioBucketCount |> List.map (\l -> { l | isFeatured = True })
-
-                    remaining =
-                        links |> List.drop portfolioBucketCount
-                in
-                    featured ++ remaining
-            else
-                links
-
         maxTopicsToShow =
             8
 
@@ -151,17 +135,9 @@ update msg model =
                 |> List.map (\t -> { name = t |> Tuple.first, isFeatured = False })
                 |> List.take maxTopicsToShow
 
-        updatedPortfolio portfolio =
-            { portfolio
-                | answers = portfolio.answers |> featureIfNone
-                , articles = portfolio.articles |> featureIfNone
-                , podcasts = portfolio.podcasts |> featureIfNone
-                , videos = portfolio.videos |> featureIfNone
-            }
-
         initialTopics pendingfiltered =
             if pendingfiltered.topics == [] then
-                updatedPortfolio pendingfiltered
+                pendingfiltered
                     |> getLinks All
                     |> topicsFromLinks
                     |> topicGroups
@@ -434,7 +410,6 @@ update msg model =
                     ( { model | portal = { portal | requested = Domain.AddLink } }, Cmd.none )
 
             ViewPortfolio ->
-                -- ( model, Cmd.none )
                 let
                     portal =
                         model.portal
@@ -443,7 +418,12 @@ update msg model =
                         portal.provider
 
                     pendingfiltered =
-                        provider.filteredPortfolio
+                        { answers = provider.filteredPortfolio |> getLinks Answer |> List.filter (\l -> l.isFeatured)
+                        , articles = provider.filteredPortfolio |> getLinks Article |> List.filter (\l -> l.isFeatured)
+                        , videos = provider.filteredPortfolio |> getLinks Video |> List.filter (\l -> l.isFeatured)
+                        , podcasts = provider.filteredPortfolio |> getLinks Podcast |> List.filter (\l -> l.isFeatured)
+                        , topics = provider.topics
+                        }
                 in
                     ( { model
                         | portal =
@@ -452,14 +432,7 @@ update msg model =
                                 , provider =
                                     { provider
                                         | portfolio = provider.portfolio
-                                        , filteredPortfolio =
-                                            { pendingfiltered
-                                                | answers = pendingfiltered.answers |> List.filter (\l -> provider |> popularTopicsFilter l) |> List.take maxLinksToShow
-                                                , videos = pendingfiltered.videos |> List.filter (\l -> provider |> popularTopicsFilter l) |> List.take maxLinksToShow
-                                                , podcasts = pendingfiltered.podcasts |> List.filter (\l -> provider |> popularTopicsFilter l) |> List.take maxLinksToShow
-                                                , articles = pendingfiltered.articles |> List.filter (\l -> provider |> popularTopicsFilter l) |> List.take maxLinksToShow
-                                                , topics = initialTopics pendingfiltered
-                                            }
+                                        , filteredPortfolio = pendingfiltered
                                     }
                             }
                       }
@@ -607,7 +580,9 @@ onUpdateProviderContentTypeLinks subMsg model linksfrom =
                         , topics = model.portal.provider.filteredPortfolio.topics
                         }
                 in
-                    ( { model | portal = { portal | provider = { provider | filteredPortfolio = filteredPortfolio } } }, runtime.featureLink { linkId = link.id, isFeatured = bit } FeatureLinkResponse )
+                    ( { model | portal = { portal | provider = { provider | filteredPortfolio = filteredPortfolio } } }
+                    , runtime.featureLink { linkId = link.id, isFeatured = bit } FeatureLinkResponse
+                    )
 
 
 onPortalLinksAction : Portfolio.Msg -> Model -> ( Model, Cmd Msg )
