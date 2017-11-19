@@ -518,6 +518,9 @@ update msg model =
 onPortfolioAction : Portfolio.Msg -> Model -> Linksfrom -> ( Model, Cmd Msg )
 onPortfolioAction subMsg model linksfrom =
     let
+        portal =
+            model.portal
+
         provider =
             case linksfrom of
                 FromPortal ->
@@ -535,18 +538,21 @@ onPortfolioAction subMsg model linksfrom =
         ( updatedPortfolioSearch, subCmd ) =
             Portfolio.update subMsg portfolioSearch
 
+        updatedPortal =
+            { portal | provider = updatedPortfolioSearch.provider }
+
         portfolioCmd =
             Cmd.map PortfolioAction subCmd
     in
         case subMsg of
-            Portfolio.AddTopic _ ->
-                ( { model | portfolioSearch = updatedPortfolioSearch }, portfolioCmd )
+            Portfolio.TopicSelected _ ->
+                ( { model | portal = updatedPortal, portfolioSearch = updatedPortfolioSearch }, portfolioCmd )
 
             Portfolio.InputTopic _ ->
-                ( { model | portfolioSearch = updatedPortfolioSearch }, portfolioCmd )
+                ( { model | portal = updatedPortal, portfolioSearch = updatedPortfolioSearch }, portfolioCmd )
 
             Portfolio.TopicSuggestionResponse _ ->
-                ( { model | portfolioSearch = updatedPortfolioSearch }, portfolioCmd )
+                ( { model | portal = updatedPortal, portfolioSearch = updatedPortfolioSearch }, portfolioCmd )
 
 
 onUpdateProviderContentTypeLinks : ProviderContentTypeLinks.Msg -> Model -> Linksfrom -> ( Model, Cmd Msg )

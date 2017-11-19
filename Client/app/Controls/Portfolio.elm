@@ -14,7 +14,7 @@ import Http
 type Msg
     = InputTopic String
     | TopicSuggestionResponse (Result Http.Error (List String))
-    | AddTopic Topic
+    | TopicSelected Topic
 
 
 update : Msg -> PortfolioSearch -> ( PortfolioSearch, Cmd Msg )
@@ -36,7 +36,7 @@ update msg model =
         TopicSuggestionResponse (Err reason) ->
             ( model, Cmd.none )
 
-        AddTopic topic ->
+        TopicSelected topic ->
             let
                 provider =
                     model.provider
@@ -76,7 +76,7 @@ view linksFrom model =
 
         toButton topic =
             div []
-                [ button [ class "topicsButton", onClick <| AddTopic topic ] [ text <| topicText topic ]
+                [ button [ class "topicsButton", onClick <| TopicSelected topic ] [ text <| topicText topic ]
                 , br [] []
                 ]
 
