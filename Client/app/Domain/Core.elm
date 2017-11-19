@@ -37,6 +37,13 @@ initTopics =
     []
 
 
+type alias PortfolioSearch =
+    { provider : Provider
+    , topicSuggestions : List Topic
+    , selectedTopic : Topic
+    }
+
+
 type alias Portfolio =
     { topics : List Topic
     , answers : List Link
@@ -79,6 +86,16 @@ type alias Provider =
 
 type Members
     = Members (List Provider)
+
+
+initTopic : Topic
+initTopic =
+    { name = "", isFeatured = False }
+
+
+initPortfolioSearch : PortfolioSearch
+initPortfolioSearch =
+    { provider = initProvider, topicSuggestions = [], selectedTopic = initTopic }
 
 
 initSubscription : Members

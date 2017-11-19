@@ -1,18 +1,11 @@
 module Controls.Portfolio exposing (..)
 
+import Settings exposing (..)
 import Domain.Core exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
 import Http
-
-
--- MODEL
-
-
-type alias Model =
-    { provider : Provider, topicSuggestions : List Topic, selectedTopic : Topic }
-
 
 
 -- UPDATE
@@ -24,29 +17,50 @@ type Msg
     | AddTopic Topic
 
 
-update : Msg -> Model -> Model
+update : Msg -> PortfolioSearch -> ( PortfolioSearch, Cmd Msg )
 update msg model =
     case msg of
-        InputTopic input ->
-            model
+        InputTopic "" ->
+            ( model, Cmd.none )
 
-        TopicSuggestionResponse (Ok topics) ->
+        InputTopic v ->
+            ( model, runtime.suggestedTopics v TopicSuggestionResponse )
+
+        TopicSuggestionResponse (Ok tags) ->
             let
                 suggestions =
-                    topics |> List.map (\t -> Topic t False)
+                    tags |> List.map (\t -> Topic t False)
             in
-                { model | topicSuggestions = suggestions }
+                ( { model | topicSuggestions = suggestions }, Cmd.none )
 
         TopicSuggestionResponse (Err reason) ->
-            model
+            ( model, Cmd.none )
 
         AddTopic topic ->
-            model
+            let
+                provider =
+                    model.provider
+
+                filtered =
+                    provider.filteredPortfolio
+
+                updatedFilter =
+                    { filtered
+                        | articles = filtered.articles |> List.filter (\l -> l.topics |> hasMatch topic)
+                        , videos = filtered.videos |> List.filter (\l -> l.topics |> hasMatch topic)
+                        , answers = filtered.answers |> List.filter (\l -> l.topics |> hasMatch topic)
+                        , podcasts = filtered.podcasts |> List.filter (\l -> l.topics |> hasMatch topic)
+                    }
+            in
+                ( { model | provider = { provider | filteredPortfolio = updatedFilter } }, Cmd.none )
 
 
-view : Linksfrom -> Provider -> Html Msg
-view linksFrom provider =
+view : Linksfrom -> PortfolioSearch -> Html Msg
+view linksFrom model =
     let
+        provider =
+            model.provider
+
         profileId =
             provider.profile.id
 
@@ -74,9 +88,6 @@ view linksFrom provider =
                         |> List.map (\t -> t |> toButton)
             in
                 div [] buttonsContainer
-
-        topicSuggestions =
-            [ { name = "some topic", isFeatured = False } ]
     in
         div []
             [ table []
@@ -86,7 +97,7 @@ view linksFrom provider =
                             [ td []
                                 [ table []
                                     [ tr [] [ td [] [ input [ type_ "text", placeholder "search topic", onInput InputTopic ] [] ] ]
-                                    , tr [] [ td [] [ suggestionsUI (topicSuggestions |> List.map (\t -> topicText t)) ] ]
+                                    , tr [] [ td [] [ suggestionsUI (model.topicSuggestions |> List.map (\t -> topicText t)) ] ]
                                     ]
                                 ]
                             , table [ class "contentTable" ]

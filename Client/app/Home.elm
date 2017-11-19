@@ -20,8 +20,6 @@ import Html.Events exposing (onClick, onCheck, onInput)
 import Navigation exposing (..)
 import String exposing (..)
 import List.Extra exposing (groupWhile, uniqueBy)
-import Dict
-import Dict.Extra as Dict
 
 
 -- elm-live Home.elm --open --output=home.js --debug
@@ -50,6 +48,7 @@ type alias Model =
     , scopedProviders : List Provider
     , searchResult : List Provider
     , selectedProvider : Provider
+    , portfolioSearch : PortfolioSearch
     }
 
 
@@ -64,6 +63,7 @@ init location =
       , scopedProviders = []
       , searchResult = []
       , selectedProvider = initProvider
+      , portfolioSearch = initPortfolioSearch
       }
     , runtime.bootstrap BootstrapResponse
     )
@@ -88,8 +88,7 @@ type Msg
     | RecentProviderLinks RecentProviderLinks.Msg
     | SourcesUpdated Sources.Msg
     | NewLink NewLinks.Msg
-    | ProviderLinksAction Portfolio.Msg
-    | PortalLinksAction Portfolio.Msg
+    | PortfolioAction Portfolio.Msg
     | EditProfileAction EditProfile.Msg
     | ProviderContentTypeLinksAction ProviderContentTypeLinks.Msg
     | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
@@ -495,11 +494,8 @@ update msg model =
             EditProfileAction subMsg ->
                 onEditProfile subMsg model
 
-            PortalLinksAction subMsg ->
-                onPortalLinksAction subMsg model
-
-            ProviderLinksAction subMsg ->
-                onUpdateProviderLinks subMsg model providerSource
+            PortfolioAction subMsg ->
+                onPortfolioAction subMsg model providerSource
 
             ProviderContentTypeLinksAction subMsg ->
                 onUpdateProviderContentTypeLinks subMsg model providerSource
@@ -519,17 +515,38 @@ update msg model =
                 ( model, Navigation.back 1 )
 
 
-onUpdateProviderLinks : Portfolio.Msg -> Model -> Linksfrom -> ( Model, Cmd Msg )
-onUpdateProviderLinks subMsg model linksfrom =
-    case subMsg of
-        Portfolio.AddTopic _ ->
-            ( model, Cmd.none )
+onPortfolioAction : Portfolio.Msg -> Model -> Linksfrom -> ( Model, Cmd Msg )
+onPortfolioAction subMsg model linksfrom =
+    let
+        provider =
+            case linksfrom of
+                FromPortal ->
+                    model.portal.provider
 
-        Portfolio.InputTopic _ ->
-            ( model, Cmd.none )
+                FromOther ->
+                    model.selectedProvider
 
-        Portfolio.TopicSuggestionResponse _ ->
-            ( model, Cmd.none )
+        portfolioSearch =
+            model.portfolioSearch
+
+        search =
+            { portfolioSearch | provider = provider }
+
+        ( updatedPortfolioSearch, subCmd ) =
+            Portfolio.update subMsg portfolioSearch
+
+        portfolioCmd =
+            Cmd.map PortfolioAction subCmd
+    in
+        case subMsg of
+            Portfolio.AddTopic _ ->
+                ( { model | portfolioSearch = updatedPortfolioSearch }, portfolioCmd )
+
+            Portfolio.InputTopic _ ->
+                ( { model | portfolioSearch = updatedPortfolioSearch }, portfolioCmd )
+
+            Portfolio.TopicSuggestionResponse _ ->
+                ( { model | portfolioSearch = updatedPortfolioSearch }, portfolioCmd )
 
 
 onUpdateProviderContentTypeLinks : ProviderContentTypeLinks.Msg -> Model -> Linksfrom -> ( Model, Cmd Msg )
@@ -579,19 +596,6 @@ onUpdateProviderContentTypeLinks subMsg model linksfrom =
                     ( { model | portal = { portal | provider = { provider | filteredPortfolio = filteredPortfolio } } }
                     , runtime.featureLink { linkId = link.id, isFeatured = bit } FeatureLinkResponse
                     )
-
-
-onPortalLinksAction : Portfolio.Msg -> Model -> ( Model, Cmd Msg )
-onPortalLinksAction subMsg model =
-    case subMsg of
-        Portfolio.AddTopic _ ->
-            ( model, Cmd.none )
-
-        Portfolio.InputTopic _ ->
-            ( model, Cmd.none )
-
-        Portfolio.TopicSuggestionResponse _ ->
-            ( model, Cmd.none )
 
 
 onEditProfile : EditProfile.Msg -> Model -> ( Model, Cmd Msg )
@@ -1009,6 +1013,9 @@ onLogin subMsg model =
                             provider =
                                 jsonProvider |> toProvider
 
+                            portfolioSearch =
+                                model.portfolioSearch
+
                             newState =
                                 { model
                                     | searchResult = provider |> getSubscriptions
@@ -1020,6 +1027,7 @@ onLogin subMsg model =
                                             , portfolioNavigation = portfolioExists provider.portfolio
                                             , sourcesNavigation = not <| List.isEmpty provider.profile.sources
                                         }
+                                    , portfolioSearch = { portfolioSearch | provider = provider }
                                 }
                         in
                             ( newState, Navigation.load <| "/#/portal/" ++ idText provider.profile.id )
@@ -1054,7 +1062,13 @@ view model =
             model
                 |> renderPage
                     (renderProfileBase model.selectedProvider <|
-                        Html.map ProviderLinksAction (Portfolio.view FromOther model.selectedProvider)
+                        Html.map PortfolioAction
+                            (Portfolio.view FromOther
+                                { provider = model.selectedProvider
+                                , topicSuggestions = model.portfolioSearch.topicSuggestions
+                                , selectedTopic = model.portfolioSearch.selectedTopic
+                                }
+                            )
                     )
 
         [ "provider", id, topic ] ->
@@ -1100,7 +1114,13 @@ view model =
             let
                 contentLinks =
                     (renderProfileBase model.selectedProvider <|
-                        Html.map ProviderLinksAction (Portfolio.view FromOther model.selectedProvider)
+                        Html.map PortfolioAction
+                            (Portfolio.view FromOther
+                                { provider = model.selectedProvider
+                                , topicSuggestions = model.portfolioSearch.topicSuggestions
+                                , selectedTopic = model.portfolioSearch.selectedTopic
+                                }
+                            )
                     )
             in
                 model |> renderPage contentLinks
@@ -1348,7 +1368,14 @@ content contentToEmbed model =
                                 v
 
                             Nothing ->
-                                div [] [ Html.map PortalLinksAction <| Portfolio.view FromPortal loggedIn ]
+                                div []
+                                    [ Html.map PortfolioAction <|
+                                        Portfolio.view FromPortal
+                                            { provider = loggedIn
+                                            , topicSuggestions = model.portfolioSearch.topicSuggestions
+                                            , selectedTopic = model.portfolioSearch.selectedTopic
+                                            }
+                                    ]
                 in
                     contentToDisplay
 
