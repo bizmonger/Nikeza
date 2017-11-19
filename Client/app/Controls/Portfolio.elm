@@ -6,13 +6,17 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
 import Http
+import Html.Events exposing (on, keyCode, onInput)
+import Json.Decode as Json
+import String
 
 
 -- UPDATE
 
 
 type Msg
-    = InputTopic String
+    = Input String
+    | KeyDown Int
     | TopicSuggestionResponse (Result Http.Error (List String))
     | TopicSelected Topic
 
@@ -20,11 +24,31 @@ type Msg
 update : Msg -> PortfolioSearch -> ( PortfolioSearch, Cmd Msg )
 update msg model =
     case msg of
-        InputTopic "" ->
-            ( model, Cmd.none )
+        Input v ->
+            if String.isEmpty v then
+                ( model, Cmd.none )
+            else
+                ( model, runtime.suggestedTopics v TopicSuggestionResponse )
 
-        InputTopic v ->
-            ( model, runtime.suggestedTopics v TopicSuggestionResponse )
+        KeyDown key ->
+            if key == 13 then
+                case model.topicSuggestions of
+                    topic :: _ ->
+                        let
+                            topics =
+                                model.provider.filteredPortfolio
+                                    |> getLinks All
+                                    |> topicsFromLinks
+                        in
+                            if topics |> hasMatch topic then
+                                (onTopicSelected model topic)
+                            else
+                                ( model, Cmd.none )
+
+                    _ ->
+                        ( model, Cmd.none )
+            else
+                ( model, Cmd.none )
 
         TopicSuggestionResponse (Ok tags) ->
             let
@@ -37,22 +61,37 @@ update msg model =
             ( model, Cmd.none )
 
         TopicSelected topic ->
-            let
-                provider =
-                    model.provider
+            onTopicSelected model topic
 
-                filtered =
-                    provider.filteredPortfolio
 
-                updatedFilter =
-                    { filtered
-                        | articles = filtered.articles |> List.filter (\l -> l.topics |> hasMatch topic)
-                        , videos = filtered.videos |> List.filter (\l -> l.topics |> hasMatch topic)
-                        , answers = filtered.answers |> List.filter (\l -> l.topics |> hasMatch topic)
-                        , podcasts = filtered.podcasts |> List.filter (\l -> l.topics |> hasMatch topic)
-                    }
-            in
-                ( { model | provider = { provider | filteredPortfolio = updatedFilter } }, Cmd.none )
+onTopicSelected : PortfolioSearch -> Topic -> ( PortfolioSearch, Cmd Msg )
+onTopicSelected model topic =
+    let
+        provider =
+            model.provider
+
+        filtered =
+            provider.filteredPortfolio
+
+        updatedFilter =
+            { filtered
+                | articles = filtered.articles |> List.filter (\l -> l.topics |> hasMatch topic)
+                , videos = filtered.videos |> List.filter (\l -> l.topics |> hasMatch topic)
+                , answers = filtered.answers |> List.filter (\l -> l.topics |> hasMatch topic)
+                , podcasts = filtered.podcasts |> List.filter (\l -> l.topics |> hasMatch topic)
+            }
+    in
+        ( { model
+            | provider = { provider | filteredPortfolio = updatedFilter }
+            , topicSuggestions = []
+          }
+        , Cmd.none
+        )
+
+
+onKeyDown : (Int -> msg) -> Attribute msg
+onKeyDown tagger =
+    on "keydown" (Json.map tagger keyCode)
 
 
 view : Linksfrom -> PortfolioSearch -> Html Msg
@@ -96,7 +135,7 @@ view linksFrom model =
                         [ tr []
                             [ td []
                                 [ table []
-                                    [ tr [] [ td [] [ input [ type_ "text", placeholder "search topic", onInput InputTopic ] [] ] ]
+                                    [ tr [] [ td [] [ input [ type_ "text", placeholder "search topic", onKeyDown KeyDown, onInput Input ] [] ] ]
                                     , tr [] [ td [] [ suggestionsUI (model.topicSuggestions |> List.map (\t -> topicText t)) ] ]
                                     ]
                                 ]
