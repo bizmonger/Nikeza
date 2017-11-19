@@ -136,7 +136,7 @@ view linksFrom model =
                         [ tr []
                             [ td []
                                 [ table []
-                                    [ tr [] [ td [] [ input [ type_ "text", placeholder "search topic", onKeyDown KeyDown, onInput Input, value (model.inputValue) ] [] ] ]
+                                    [ tr [] [ td [] [ input [ type_ "text", placeholder "topic", onKeyDown KeyDown, onInput Input, value (model.inputValue) ] [] ] ]
                                     , tr [] [ td [] [ suggestionsUI (model.topicSuggestions |> List.map (\t -> topicText t)) ] ]
                                     ]
                                 ]

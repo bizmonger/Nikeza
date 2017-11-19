@@ -753,9 +753,9 @@ removeSourceBase sourceId =
             initSource |> toJsonSource
 
 
-removeSource : Id -> (Result Http.Error JsonSource -> msg) -> Cmd msg
+removeSource : Id -> (Result Http.Error String -> msg) -> Cmd msg
 removeSource sourceId msg =
-    removeSourceBase sourceId |> httpSuccess msg
+    sourceId |> toString |> httpSuccess msg
 
 
 platformsBase : List String

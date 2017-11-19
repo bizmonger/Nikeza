@@ -950,7 +950,7 @@ onSourcesUpdated subMsg model =
             { pendingPortal | newSource = sources.source, provider = pendingProvider }
     in
         case subMsg of
-            Sources.InputUsername _ ->
+            Sources.InputAccessId _ ->
                 ( { model | portal = portal }, sourceCmd )
 
             Sources.InputPlatform _ ->
@@ -999,8 +999,8 @@ onSourcesUpdated subMsg model =
 
             Sources.RemoveResponse result ->
                 case result of
-                    Ok _ ->
-                        ( model, sourceCmd )
+                    Ok sourceId ->
+                        ( { model | portal = { portal | provider = pendingProvider } }, sourceCmd )
 
                     Err reason ->
                         Debug.crash (toString reason) ( model, sourceCmd )

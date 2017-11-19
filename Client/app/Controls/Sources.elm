@@ -22,12 +22,12 @@ type alias Model =
 
 
 type Msg
-    = InputUsername String
+    = InputAccessId String
     | InputPlatform String
     | Add Source
     | AddResponse (Result Http.Error JsonSource)
     | Remove Source
-    | RemoveResponse (Result Http.Error JsonSource)
+    | RemoveResponse (Result Http.Error String)
 
 
 
@@ -41,7 +41,7 @@ update msg model =
             model.source
     in
         case msg of
-            InputUsername v ->
+            InputAccessId v ->
                 ( { model | source = { source | accessId = v } }, Cmd.none )
 
             InputPlatform v ->
@@ -64,8 +64,8 @@ update msg model =
             AddResponse (Err error) ->
                 Debug.crash (toString error) ( model, Cmd.none )
 
-            RemoveResponse (Ok jsonSource) ->
-                ( { model | sources = model.sources |> List.filter (\s -> s /= (jsonSource |> toSource)) }, Cmd.none )
+            RemoveResponse (Ok sourceId) ->
+                ( { model | sources = model.sources |> List.filter (\s -> (idText s.id) /= sourceId) }, Cmd.none )
 
             RemoveResponse (Err error) ->
                 Debug.crash (toString error) ( model, Cmd.none )
@@ -103,7 +103,7 @@ view model =
         records =
             [ tr []
                 [ td [] [ select [ class "selectPlatform", changeHandler, value model.source.platform ] <| instruction :: (model.platforms |> List.map platformOption) ]
-                , td [] [ input [ class "inputUsername", type_ "text", placeholder placeholderText, onInput InputUsername, value model.source.accessId ] [] ]
+                , td [] [ input [ class "inputUsername", type_ "text", placeholder placeholderText, onInput InputAccessId, value model.source.accessId ] [] ]
                 , td [] [ button [ class "addSource", onClick <| Add model.source ] [ text "Add" ] ]
                 ]
             ]

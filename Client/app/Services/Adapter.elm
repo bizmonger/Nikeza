@@ -51,7 +51,7 @@ type alias AddSourcefunction msg =
 
 
 type alias RemoveSourcefunction msg =
-    Id -> (Result Http.Error JsonSource -> msg) -> Cmd msg
+    Id -> (Result Http.Error String -> msg) -> Cmd msg
 
 
 type alias Platformsfunction msg =

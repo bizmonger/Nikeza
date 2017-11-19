@@ -225,7 +225,7 @@ addSource source msg =
         Http.send msg request
 
 
-removeSource : Id -> (Result Http.Error JsonSource -> msg) -> Cmd msg
+removeSource : Id -> (Result Http.Error String -> msg) -> Cmd msg
 removeSource sourceId msg =
     case (idText sourceId) |> String.toInt of
         Ok id ->
@@ -233,11 +233,8 @@ removeSource sourceId msg =
                 url =
                     baseUrl ++ "removesource/" ++ (id |> toString)
 
-                body =
-                    Encode.int id |> Http.jsonBody
-
                 request =
-                    Http.post url body sourceDecoder
+                    Http.get url Decode.string
             in
                 Http.send msg request
 

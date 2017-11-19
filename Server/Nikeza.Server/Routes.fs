@@ -84,12 +84,13 @@ let private addSourceHandler: HttpHandler =
             return! json source next ctx
         }
 
-let private removeSourceHandler: HttpHandler = 
+let private removeSourceHandler (sourceId:string): HttpHandler = 
     fun next ctx -> 
-        task { 
-            let! data = ctx.BindJson<RemoveDataSourceRequest>()
+        task {
+            let id = Int32.Parse(sourceId)
+            let (data:RemoveDataSourceRequest) = { Id= id }
             RemoveSource data |> execute |> ignore
-            return! json data next ctx
+            return! json sourceId next ctx
         }
 
 let private addLinkHandler: HttpHandler = 
@@ -167,6 +168,7 @@ let webApp: HttpHandler =
                 routef "/thumbnail/%s/%s"        fetchThumbnail
                 routef "/contenttypetoid/%s"     fetchContentTypeToId
                 routef "/provider/%s"            fetchProvider
+                routef "/removesource/%s"        removeSourceHandler
             ]
         POST >=> 
             choose [
@@ -178,7 +180,6 @@ let webApp: HttpHandler =
                 route "/featurelink"     >=> featureLinkHandler
                 route "/updateprofile"   >=> updateProfileHandler
                 route "/addsource"       >=> addSourceHandler
-                route "/removesource"    >=> removeSourceHandler
                 route "/addlink"         >=> addLinkHandler
                 route "/removelink"      >=> removeLinkHandler
                 route "/updatethumbnail" >=> updateThumbnailHandler
