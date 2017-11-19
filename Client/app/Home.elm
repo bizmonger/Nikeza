@@ -522,22 +522,13 @@ update msg model =
 onUpdateProviderLinks : Portfolio.Msg -> Model -> Linksfrom -> ( Model, Cmd Msg )
 onUpdateProviderLinks subMsg model linksfrom =
     case subMsg of
-        Portfolio.Toggle _ ->
-            let
-                provider =
-                    case linksfrom of
-                        FromPortal ->
-                            Portfolio.update subMsg model.portal.provider
-
-                        FromOther ->
-                            Portfolio.update subMsg model.selectedProvider
-            in
-                ( { model | selectedProvider = provider }, Cmd.none )
-
         Portfolio.AddTopic _ ->
             ( model, Cmd.none )
 
         Portfolio.InputTopic _ ->
+            ( model, Cmd.none )
+
+        Portfolio.TopicSuggestionResponse _ ->
             ( model, Cmd.none )
 
 
@@ -593,20 +584,13 @@ onUpdateProviderContentTypeLinks subMsg model linksfrom =
 onPortalLinksAction : Portfolio.Msg -> Model -> ( Model, Cmd Msg )
 onPortalLinksAction subMsg model =
     case subMsg of
-        Portfolio.Toggle _ ->
-            let
-                provider =
-                    Portfolio.update subMsg model.portal.provider
-
-                pendingPortal =
-                    model.portal
-            in
-                ( { model | portal = { pendingPortal | provider = provider } }, Cmd.none )
-
         Portfolio.AddTopic _ ->
             ( model, Cmd.none )
 
         Portfolio.InputTopic _ ->
+            ( model, Cmd.none )
+
+        Portfolio.TopicSuggestionResponse _ ->
             ( model, Cmd.none )
 
 

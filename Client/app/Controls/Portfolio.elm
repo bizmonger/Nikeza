@@ -4,29 +4,44 @@ import Domain.Core exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
+import Http
+
+
+-- MODEL
+
+
+type alias Model =
+    { provider : Provider, topicSuggestions : List Topic, selectedTopic : Topic }
+
+
+
+-- UPDATE
 
 
 type Msg
-    = Toggle ( Topic, Bool )
+    = InputTopic String
+    | TopicSuggestionResponse (Result Http.Error (List String))
     | AddTopic Topic
-    | InputTopic String
 
 
-update : Msg -> Provider -> Provider
-update msg provider =
+update : Msg -> Model -> Model
+update msg model =
     case msg of
-        Toggle ( topic, include ) ->
+        InputTopic input ->
+            model
+
+        TopicSuggestionResponse (Ok topics) ->
             let
-                updatedProvider =
-                    toggleFilter provider ( topic, include )
+                suggestions =
+                    topics |> List.map (\t -> Topic t False)
             in
-                { provider | filteredPortfolio = updatedProvider.filteredPortfolio }
+                { model | topicSuggestions = suggestions }
+
+        TopicSuggestionResponse (Err reason) ->
+            model
 
         AddTopic topic ->
-            provider
-
-        InputTopic input ->
-            provider
+            model
 
 
 view : Linksfrom -> Provider -> Html Msg
@@ -34,12 +49,6 @@ view linksFrom provider =
     let
         profileId =
             provider.profile.id
-
-        toCheckBoxState include topic =
-            div [ class "topicFilter" ]
-                [ input [ type_ "checkbox", checked include, onCheck (\isChecked -> Toggle ( topic, isChecked )) ] []
-                , label [ class "topicAdded" ] [ text <| topicText topic ]
-                ]
 
         filtered =
             provider.filteredPortfolio
