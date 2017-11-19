@@ -41,6 +41,7 @@ type alias PortfolioSearch =
     { provider : Provider
     , topicSuggestions : List Topic
     , selectedTopic : Topic
+    , inputValue : String
     }
 
 
@@ -95,7 +96,7 @@ initTopic =
 
 initPortfolioSearch : PortfolioSearch
 initPortfolioSearch =
-    { provider = initProvider, topicSuggestions = [], selectedTopic = initTopic }
+    { provider = initProvider, topicSuggestions = [], selectedTopic = initTopic, inputValue = "" }
 
 
 initSubscription : Members

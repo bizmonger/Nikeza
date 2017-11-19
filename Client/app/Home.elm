@@ -1100,6 +1100,7 @@ view model =
                                 { provider = model.selectedProvider
                                 , topicSuggestions = model.portfolioSearch.topicSuggestions
                                 , selectedTopic = model.portfolioSearch.selectedTopic
+                                , inputValue = model.portfolioSearch.inputValue
                                 }
                             )
                     )
@@ -1152,6 +1153,7 @@ view model =
                                 { provider = model.selectedProvider
                                 , topicSuggestions = model.portfolioSearch.topicSuggestions
                                 , selectedTopic = model.portfolioSearch.selectedTopic
+                                , inputValue = model.portfolioSearch.inputValue
                                 }
                             )
                     )
@@ -1407,6 +1409,7 @@ content contentToEmbed model =
                                             { provider = loggedIn
                                             , topicSuggestions = model.portfolioSearch.topicSuggestions
                                             , selectedTopic = model.portfolioSearch.selectedTopic
+                                            , inputValue = model.portfolioSearch.inputValue
                                             }
                                     ]
                 in

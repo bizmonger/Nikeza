@@ -15337,9 +15337,9 @@ var _user$project$Domain_Core$Credentials = F3(
 		return {email: a, password: b, loggedIn: c};
 	});
 var _user$project$Domain_Core$initCredentials = A3(_user$project$Domain_Core$Credentials, '', '', false);
-var _user$project$Domain_Core$PortfolioSearch = F3(
-	function (a, b, c) {
-		return {provider: a, topicSuggestions: b, selectedTopic: c};
+var _user$project$Domain_Core$PortfolioSearch = F4(
+	function (a, b, c, d) {
+		return {provider: a, topicSuggestions: b, selectedTopic: c, inputValue: d};
 	});
 var _user$project$Domain_Core$Portfolio = F5(
 	function (a, b, c, d, e) {
@@ -15449,7 +15449,8 @@ var _user$project$Domain_Core$initProvider = A7(
 var _user$project$Domain_Core$initPortfolioSearch = {
 	provider: _user$project$Domain_Core$initProvider,
 	topicSuggestions: {ctor: '[]'},
-	selectedTopic: _user$project$Domain_Core$initTopic
+	selectedTopic: _user$project$Domain_Core$initTopic,
+	inputValue: ''
 };
 var _user$project$Domain_Core$topicUrl = F2(
 	function (id, topic) {
@@ -19377,7 +19378,8 @@ var _user$project$Controls_Portfolio$onTopicSelected = F2(
 					provider: _elm_lang$core$Native_Utils.update(
 						provider,
 						{filteredPortfolio: updatedFilter}),
-					topicSuggestions: {ctor: '[]'}
+					topicSuggestions: {ctor: '[]'},
+					inputValue: topic.name
 				}),
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
@@ -19394,9 +19396,17 @@ var _user$project$Controls_Portfolio$update = F2(
 		switch (_p1.ctor) {
 			case 'Input':
 				var _p2 = _p1._0;
-				return _elm_lang$core$String$isEmpty(_p2) ? {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none} : {
+				return _elm_lang$core$String$isEmpty(_p2) ? {
 					ctor: '_Tuple2',
-					_0: model,
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{inputValue: _p2}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				} : {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{inputValue: _p2}),
 					_1: A2(_user$project$Settings$runtime.suggestedTopics, _p2, _user$project$Controls_Portfolio$TopicSuggestionResponse)
 				};
 			case 'KeyDown':
@@ -19571,7 +19581,11 @@ var _user$project$Controls_Portfolio$view = F2(
 																								_1: {
 																									ctor: '::',
 																									_0: _elm_lang$html$Html_Events$onInput(_user$project$Controls_Portfolio$Input),
-																									_1: {ctor: '[]'}
+																									_1: {
+																										ctor: '::',
+																										_0: _elm_lang$html$Html_Attributes$value(model.inputValue),
+																										_1: {ctor: '[]'}
+																									}
 																								}
 																							}
 																						}
@@ -23541,7 +23555,7 @@ var _user$project$Home$content = F2(
 									A2(
 										_user$project$Controls_Portfolio$view,
 										_user$project$Domain_Core$FromPortal,
-										{provider: loggedIn, topicSuggestions: model.portfolioSearch.topicSuggestions, selectedTopic: model.portfolioSearch.selectedTopic})),
+										{provider: loggedIn, topicSuggestions: model.portfolioSearch.topicSuggestions, selectedTopic: model.portfolioSearch.selectedTopic, inputValue: model.portfolioSearch.inputValue})),
 								_1: {ctor: '[]'}
 							});
 					}
@@ -26593,7 +26607,7 @@ var _user$project$Home$view = function (model) {
 										A2(
 											_user$project$Controls_Portfolio$view,
 											_user$project$Domain_Core$FromOther,
-											{provider: model.selectedProvider, topicSuggestions: model.portfolioSearch.topicSuggestions, selectedTopic: model.portfolioSearch.selectedTopic}))),
+											{provider: model.selectedProvider, topicSuggestions: model.portfolioSearch.topicSuggestions, selectedTopic: model.portfolioSearch.selectedTopic, inputValue: model.portfolioSearch.inputValue}))),
 								model);
 						case 'portal':
 							var mainContent = A3(
@@ -26664,7 +26678,7 @@ var _user$project$Home$view = function (model) {
 													A2(
 														_user$project$Controls_Portfolio$view,
 														_user$project$Domain_Core$FromOther,
-														{provider: model.selectedProvider, topicSuggestions: model.portfolioSearch.topicSuggestions, selectedTopic: model.portfolioSearch.selectedTopic})));
+														{provider: model.selectedProvider, topicSuggestions: model.portfolioSearch.topicSuggestions, selectedTopic: model.portfolioSearch.selectedTopic, inputValue: model.portfolioSearch.inputValue})));
 											return A2(_user$project$Home$renderPage, contentLinks, model);
 										default:
 											break _v38_10;

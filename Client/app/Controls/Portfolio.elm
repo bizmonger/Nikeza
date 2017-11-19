@@ -26,9 +26,9 @@ update msg model =
     case msg of
         Input v ->
             if String.isEmpty v then
-                ( model, Cmd.none )
+                ( { model | inputValue = v }, Cmd.none )
             else
-                ( model, runtime.suggestedTopics v TopicSuggestionResponse )
+                ( { model | inputValue = v }, runtime.suggestedTopics v TopicSuggestionResponse )
 
         KeyDown key ->
             if key == 13 then
@@ -84,6 +84,7 @@ onTopicSelected model topic =
         ( { model
             | provider = { provider | filteredPortfolio = updatedFilter }
             , topicSuggestions = []
+            , inputValue = topic.name
           }
         , Cmd.none
         )
@@ -135,7 +136,7 @@ view linksFrom model =
                         [ tr []
                             [ td []
                                 [ table []
-                                    [ tr [] [ td [] [ input [ type_ "text", placeholder "search topic", onKeyDown KeyDown, onInput Input ] [] ] ]
+                                    [ tr [] [ td [] [ input [ type_ "text", placeholder "search topic", onKeyDown KeyDown, onInput Input, value (model.inputValue) ] [] ] ]
                                     , tr [] [ td [] [ suggestionsUI (model.topicSuggestions |> List.map (\t -> topicText t)) ] ]
                                     ]
                                 ]
