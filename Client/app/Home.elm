@@ -534,6 +534,12 @@ onUpdateProviderLinks subMsg model linksfrom =
             in
                 ( { model | selectedProvider = provider }, Cmd.none )
 
+        Portfolio.AddTopic _ ->
+            ( model, Cmd.none )
+
+        Portfolio.InputTopic _ ->
+            ( model, Cmd.none )
+
 
 onUpdateProviderContentTypeLinks : ProviderContentTypeLinks.Msg -> Model -> Linksfrom -> ( Model, Cmd Msg )
 onUpdateProviderContentTypeLinks subMsg model linksfrom =
@@ -596,6 +602,12 @@ onPortalLinksAction subMsg model =
                     model.portal
             in
                 ( { model | portal = { pendingPortal | provider = provider } }, Cmd.none )
+
+        Portfolio.AddTopic _ ->
+            ( model, Cmd.none )
+
+        Portfolio.InputTopic _ ->
+            ( model, Cmd.none )
 
 
 onEditProfile : EditProfile.Msg -> Model -> ( Model, Cmd Msg )

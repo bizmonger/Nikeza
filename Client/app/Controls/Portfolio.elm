@@ -8,6 +8,8 @@ import Html.Events exposing (onClick, onCheck, onInput)
 
 type Msg
     = Toggle ( Topic, Bool )
+    | AddTopic Topic
+    | InputTopic String
 
 
 update : Msg -> Provider -> Provider
@@ -19,6 +21,12 @@ update msg provider =
                     toggleFilter provider ( topic, include )
             in
                 { provider | filteredPortfolio = updatedProvider.filteredPortfolio }
+
+        AddTopic topic ->
+            provider
+
+        InputTopic input ->
+            provider
 
 
 view : Linksfrom -> Provider -> Html Msg
@@ -42,13 +50,36 @@ view linksFrom provider =
             , provider.portfolio |> getLinks Podcast |> List.length
             , provider.portfolio |> getLinks Video |> List.length
             )
+
+        toButton topic =
+            div []
+                [ button [ class "topicsButton", onClick <| AddTopic topic ] [ text <| topicText topic ]
+                , br [] []
+                ]
+
+        suggestionsUI textItems =
+            let
+                buttonsContainer =
+                    textItems
+                        |> List.map (\textItem -> Topic textItem False)
+                        |> List.map (\t -> t |> toButton)
+            in
+                div [] buttonsContainer
+
+        topicSuggestions =
+            [ { name = "some topic", isFeatured = False } ]
     in
         div []
             [ table []
                 [ tr []
                     [ table []
                         [ tr []
-                            [ td [] [ input [ type_ "text", placeholder "search" ] [] ]
+                            [ td []
+                                [ table []
+                                    [ tr [] [ td [] [ input [ type_ "text", placeholder "search topic", onInput InputTopic ] [] ] ]
+                                    , tr [] [ td [] [ suggestionsUI (topicSuggestions |> List.map (\t -> topicText t)) ] ]
+                                    ]
+                                ]
                             , table [ class "contentTable" ]
                                 [ tr [ class "contentTypeHeader" ]
                                     [ td [] [ b [] [ text "Answers" ] ]
