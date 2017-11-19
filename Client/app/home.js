@@ -17964,16 +17964,16 @@ var _user$project$Settings$Dependencies = function (a) {
 	};
 };
 var _user$project$Settings$Disconnected = {ctor: 'Disconnected'};
-var _user$project$Settings$Integration = {ctor: 'Integration'};
-var _user$project$Settings$configuration = _user$project$Settings$Integration;
+var _user$project$Settings$configuration = _user$project$Settings$Disconnected;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
-	if (_p0.ctor === 'Integration') {
+	if (_p0.ctor === 'Connected') {
 		return _user$project$Settings$Dependencies(_user$project$Services_Gateway$bootstrap)(_user$project$Services_Gateway$tryLogin)(_user$project$Services_Gateway$tryRegister)(_user$project$Services_Gateway$updateProfile)(_user$project$Services_Gateway$thumbnail)(_user$project$Services_Gateway$updateThumbnail)(_user$project$Services_Gateway$provider)(_user$project$Services_Gateway$providerTopic)(_user$project$Services_Gateway$providers)(_user$project$Services_Gateway$portfolio)(_user$project$Services_Gateway$addLink)(_user$project$Services_Gateway$removeLink)(_user$project$Services_Gateway$topicLinks)(_user$project$Services_Gateway$sources)(_user$project$Services_Gateway$addSource)(_user$project$Services_Gateway$removeSource)(_user$project$Services_Gateway$suggestedTopics)(_user$project$Services_Gateway$subscriptions)(_user$project$Services_Gateway$followers)(_user$project$Services_Gateway$follow)(_user$project$Services_Gateway$unsubscribe)(_user$project$Services_Gateway$recentLinks)(_user$project$Services_Gateway$featureLink);
 	} else {
 		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$bootstrap)(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$updateProfile)(_user$project$Tests_TestAPI$thumbnail)(_user$project$Tests_TestAPI$updateThumbnail)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$providerTopic)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$portfolio)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$recentLinks)(_user$project$Tests_TestAPI$featureLink);
 	}
 }();
+var _user$project$Settings$Connected = {ctor: 'Connected'};
 
 var _user$project$Controls_EditProfile$Response = function (a) {
 	return {ctor: 'Response', _0: a};
@@ -22922,13 +22922,60 @@ var _user$project$Home$onPortfolioAction = F3(
 					_1: portfolioCmd
 				};
 			case 'InputTopic':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{portal: updatedPortal, portfolioSearch: updatedPortfolioSearch}),
-					_1: portfolioCmd
-				};
+				if (_p19._0 === '') {
+					var filtered = {
+						answers: A2(
+							_elm_lang$core$List$filter,
+							function (l) {
+								return l.isFeatured;
+							},
+							A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$Answer, provider.portfolio)),
+						articles: A2(
+							_elm_lang$core$List$filter,
+							function (l) {
+								return l.isFeatured;
+							},
+							A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$Article, provider.portfolio)),
+						videos: A2(
+							_elm_lang$core$List$filter,
+							function (l) {
+								return l.isFeatured;
+							},
+							A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$Video, provider.portfolio)),
+						podcasts: A2(
+							_elm_lang$core$List$filter,
+							function (l) {
+								return l.isFeatured;
+							},
+							A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$Podcast, provider.portfolio)),
+						topics: _user$project$Domain_Core$topicsFromLinks(
+							A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, provider.portfolio))
+					};
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								portal: _elm_lang$core$Native_Utils.update(
+									updatedPortal,
+									{
+										provider: _elm_lang$core$Native_Utils.update(
+											provider,
+											{filteredPortfolio: filtered})
+									}),
+								portfolioSearch: updatedPortfolioSearch
+							}),
+						_1: portfolioCmd
+					};
+				} else {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{portal: updatedPortal, portfolioSearch: updatedPortfolioSearch}),
+						_1: portfolioCmd
+					};
+				}
 			default:
 				return {
 					ctor: '_Tuple2',
@@ -23117,8 +23164,8 @@ var _user$project$Home$onNewLink = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 890, column: 25},
-								end: {line: 890, column: 36}
+								start: {line: 902, column: 25},
+								end: {line: 902, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p23._0),
 						{ctor: '_Tuple2', _0: model, _1: newLinkCmd});
@@ -23226,8 +23273,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 971, column: 25},
-								end: {line: 971, column: 36}
+								start: {line: 983, column: 25},
+								end: {line: 983, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p30._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -23241,8 +23288,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 979, column: 25},
-								end: {line: 979, column: 36}
+								start: {line: 991, column: 25},
+								end: {line: 991, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p32._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});

@@ -7,11 +7,11 @@ import Services.Adapter as Adapter exposing (..)
 
 configuration : Configuration
 configuration =
-    Integration
+    Disconnected
 
 
 type Configuration
-    = Integration
+    = Connected
     | Disconnected
 
 
@@ -45,7 +45,7 @@ type alias Dependencies msg =
 runtime : Dependencies msg
 runtime =
     case configuration of
-        Integration ->
+        Connected ->
             Dependencies
                 Services.bootstrap
                 Services.tryLogin

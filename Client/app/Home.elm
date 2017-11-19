@@ -548,6 +548,18 @@ onPortfolioAction subMsg model linksfrom =
             Portfolio.TopicSelected _ ->
                 ( { model | portal = updatedPortal, portfolioSearch = updatedPortfolioSearch }, portfolioCmd )
 
+            Portfolio.InputTopic "" ->
+                let
+                    filtered =
+                        { answers = provider.portfolio |> getLinks Answer |> List.filter (\l -> l.isFeatured)
+                        , articles = provider.portfolio |> getLinks Article |> List.filter (\l -> l.isFeatured)
+                        , videos = provider.portfolio |> getLinks Video |> List.filter (\l -> l.isFeatured)
+                        , podcasts = provider.portfolio |> getLinks Podcast |> List.filter (\l -> l.isFeatured)
+                        , topics = provider.portfolio |> getLinks All |> topicsFromLinks --|> topicGroups
+                        }
+                in
+                    ( { model | portal = { updatedPortal | provider = { provider | filteredPortfolio = filtered } }, portfolioSearch = updatedPortfolioSearch }, portfolioCmd )
+
             Portfolio.InputTopic _ ->
                 ( { model | portal = updatedPortal, portfolioSearch = updatedPortfolioSearch }, portfolioCmd )
 
