@@ -50,7 +50,7 @@ module Nikeza.Server.WordPress
         let link = { 
           Id= -1
           ProfileId= profileId
-          Title= post.title
+          Title= post.title |> replaceHtmlCodes
           Description= ""
           Url= post.URL
           Topics= topics
@@ -94,5 +94,5 @@ module Nikeza.Server.WordPress
                                        |> List.map (fun post -> toLink user.ProfileId post)
                                        |> List.append <| existingLinks
                                        |> wordpressLinks user (pageNumber + 1)
-                    else existingLinks |> List.rev
+                    else existingLinks
             else []

@@ -14,7 +14,7 @@ module Nikeza.Server.RSSFeed
         let toLink (item:XElement) = { 
             Id=          -1
             ProfileId=   user.ProfileId
-            Title=       item.Element(XName.Get("title")).Value
+            Title=       item.Element(XName.Get("title")).Value |> replaceHtmlCodes
             Url=         item.Element(XName.Get("link")).Value
             Description= item.Element(XName.Get("description")).Value
             ContentType= Podcast |> contentTypeToString

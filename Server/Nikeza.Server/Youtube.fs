@@ -124,7 +124,7 @@ module Playlist =
                             let snippet = video.Snippet
                             
                             { Id=          snippet.ResourceId.VideoId
-                              Title=       snippet.Title
+                              Title=       snippet.Title |> replaceHtmlCodes
                               Url=         UrlPrefix + snippet.ResourceId.VideoId
                               Description= snippet.Description
                               PostDate=    (snippet.PublishedAt.Value.ToString("d"))
