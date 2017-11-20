@@ -276,6 +276,12 @@ update msg model =
                             portfolio =
                                 provider.portfolio
 
+                            portfolioSearch =
+                                model.portfolioSearch
+
+                            updatedPortfolioSearch =
+                                { portfolioSearch | provider = provider }
+
                             pendingfiltered =
                                 provider.filteredPortfolio
 
@@ -297,7 +303,12 @@ update msg model =
                                         }
                                 }
                         in
-                            ( { model | selectedProvider = updatedProvider }, Cmd.none )
+                            ( { model
+                                | selectedProvider = updatedProvider
+                                , portfolioSearch = updatedPortfolioSearch
+                              }
+                            , Cmd.none
+                            )
 
                     Err _ ->
                         ( model, Cmd.none )
@@ -565,26 +576,62 @@ onPortfolioAction subMsg model linksfrom =
                 ( { model | portal = updatedPortal, portfolioSearch = updatedPortfolioSearch }, portfolioCmd )
 
             Portfolio.Input v ->
-                if String.isEmpty v then
-                    ( { model
-                        | portal = { updatedPortal | provider = { provider | filteredPortfolio = filtered } }
-                        , portfolioSearch = { updatedPortfolioSearch | topicSuggestions = [] }
-                      }
-                    , portfolioCmd
-                    )
-                else
-                    ( { model | portal = updatedPortal, portfolioSearch = updatedPortfolioSearch }, portfolioCmd )
+                case linksfrom of
+                    FromPortal ->
+                        if String.isEmpty v then
+                            ( { model
+                                | portal = { updatedPortal | provider = { provider | filteredPortfolio = filtered } }
+                                , portfolioSearch = { updatedPortfolioSearch | topicSuggestions = [] }
+                              }
+                            , portfolioCmd
+                            )
+                        else
+                            ( { model | portal = updatedPortal, portfolioSearch = updatedPortfolioSearch }, portfolioCmd )
+
+                    FromOther ->
+                        if String.isEmpty v then
+                            ( { model
+                                | selectedProvider = { provider | filteredPortfolio = filtered }
+                                , portfolioSearch = { updatedPortfolioSearch | topicSuggestions = [] }
+                              }
+                            , portfolioCmd
+                            )
+                        else
+                            ( { model
+                                | selectedProvider = { provider | filteredPortfolio = filtered }
+                                , portfolioSearch = updatedPortfolioSearch
+                              }
+                            , portfolioCmd
+                            )
 
             Portfolio.KeyDown _ ->
-                if (model.portfolioSearch.topicSuggestions |> List.isEmpty) && model.portfolioSearch.selectedTopic == initTopic then
-                    ( { model
-                        | portal = updatedPortal
-                        , portfolioSearch = { updatedPortfolioSearch | provider = { provider | filteredPortfolio = filtered } }
-                      }
-                    , portfolioCmd
-                    )
-                else
-                    ( { model | portal = updatedPortal, portfolioSearch = updatedPortfolioSearch }, portfolioCmd )
+                case linksfrom of
+                    FromPortal ->
+                        if (model.portfolioSearch.topicSuggestions |> List.isEmpty) && model.portfolioSearch.selectedTopic == initTopic then
+                            ( { model
+                                | portal = updatedPortal
+                                , portfolioSearch = { updatedPortfolioSearch | provider = { provider | filteredPortfolio = filtered } }
+                              }
+                            , portfolioCmd
+                            )
+                        else
+                            ( { model | portal = updatedPortal, portfolioSearch = updatedPortfolioSearch }, portfolioCmd )
+
+                    FromOther ->
+                        if (model.portfolioSearch.topicSuggestions |> List.isEmpty) && model.portfolioSearch.selectedTopic == initTopic then
+                            ( { model
+                                | selectedProvider = provider
+                                , portfolioSearch = { updatedPortfolioSearch | provider = { provider | filteredPortfolio = filtered } }
+                              }
+                            , portfolioCmd
+                            )
+                        else
+                            ( { model
+                                | selectedProvider = updatedPortfolioSearch.provider
+                                , portfolioSearch = updatedPortfolioSearch
+                              }
+                            , portfolioCmd
+                            )
 
             Portfolio.TopicSuggestionResponse _ ->
                 ( { model | portal = updatedPortal, portfolioSearch = updatedPortfolioSearch }, portfolioCmd )
