@@ -1,9 +1,11 @@
 module Domain.Core exposing (..)
 
-import Set
+import Html.Events exposing (on, keyCode, onInput)
 import List.Extra exposing (uniqueBy)
 import Dict
 import Dict.Extra as Dict
+import Json.Decode as Json
+import Html exposing (..)
 
 
 initForm : Form
@@ -609,3 +611,8 @@ allTopicContentUrl linksFrom id contentType topic =
 
         FromPortal ->
             Url <| "/#/portal/" ++ idText id ++ "/" ++ topicText topic ++ "/all/" ++ title topic contentType
+
+
+onKeyDown : (Int -> msg) -> Attribute msg
+onKeyDown tagger =
+    on "keydown" (Json.map tagger keyCode)

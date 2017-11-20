@@ -820,6 +820,9 @@ onNewLink subMsg model =
             NewLinks.AddTopic _ ->
                 ( { model | portal = portal }, newLinkCmd )
 
+            NewLinks.KeyDown _ ->
+                ( { model | portal = portal }, newLinkCmd )
+                
             NewLinks.TopicSuggestionResponse (Ok _) ->
                 ( { model | portal = portal }, newLinkCmd )
 
@@ -1729,7 +1732,7 @@ renderNavigation portal providers =
                     , br [] []
                     , button [ class "navigationButton3", onClick AddNewLink, disabled True ] [ text linkText ]
                     ]
-
+ 
                 _ ->
                     [ button [ class "navigationButton3", onClick EditProfile ] [ text profileText ]
                     , br [] []

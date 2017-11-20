@@ -14,6 +14,7 @@ type Msg
     = InputTitle String
     | InputUrl String
     | InputTopic String
+    | KeyDown Int
     | RemoveTopic Topic
     | InputContentType String
     | AddLink NewLinks
@@ -30,6 +31,19 @@ update msg model =
 
         linkToCreateBase =
             model.current.base
+
+        onAddTopic topic =
+            ( { model
+                | current =
+                    { linkToCreate
+                        | currentTopic = Topic "" False
+                        , topicSuggestions = []
+                        , base =
+                            { linkToCreateBase | topics = topic :: linkToCreateBase.topics }
+                    }
+              }
+            , Cmd.none
+            )
     in
         case msg of
             InputTitle v ->
@@ -91,6 +105,17 @@ update msg model =
             InputTopic v ->
                 ( { model | current = { linkToCreate | currentTopic = Topic v False } }, runtime.suggestedTopics v TopicSuggestionResponse )
 
+            KeyDown key ->
+                if key == 13 then
+                    case model.current.topicSuggestions of
+                        topic :: _ ->
+                            onAddTopic topic
+
+                        _ ->
+                            ( model, Cmd.none )
+                else
+                    ( model, Cmd.none )
+
             RemoveTopic v ->
                 let
                     link =
@@ -99,17 +124,7 @@ update msg model =
                     ( { model | current = { linkToCreate | base = link } }, Cmd.none )
 
             AddTopic v ->
-                ( { model
-                    | current =
-                        { linkToCreate
-                            | currentTopic = Topic "" False
-                            , topicSuggestions = []
-                            , base =
-                                { linkToCreateBase | topics = v :: linkToCreateBase.topics }
-                        }
-                  }
-                , Cmd.none
-                )
+                onAddTopic v
 
             InputContentType v ->
                 ( { model | current = { linkToCreate | base = { linkToCreateBase | contentType = toContentType v } } }, Cmd.none )
@@ -235,7 +250,7 @@ view model =
                                 [ td []
                                     [ table []
                                         [ tr []
-                                            [ td [] [ input [ class "addTopic", type_ "text", placeholder "topic", onInput InputTopic, value (topicText current.currentTopic) ] [] ]
+                                            [ td [] [ input [ class "addTopic", type_ "text", placeholder "topic", onKeyDown KeyDown, onInput InputTopic, value (topicText current.currentTopic) ] [] ]
                                             , td [] [ listview ]
                                             ]
                                         ]
