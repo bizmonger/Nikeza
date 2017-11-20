@@ -23251,8 +23251,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 				platforms: model.platforms,
 				source: _elm_lang$core$Native_Utils.update(
 					source,
-					{profileId: model.portal.provider.profile.id}),
-				sources: model.portal.provider.profile.sources
+					{profileId: profile.id}),
+				sources: profile.sources
 			});
 		var sources = _p28._0;
 		var subCmd = _p28._1;
@@ -24637,6 +24637,8 @@ var _user$project$Home$homePage = function (model) {
 };
 var _user$project$Home$renderNavigation = F2(
 	function (portal, providers) {
+		var noLinks = _elm_lang$core$List$isEmpty(
+			A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, portal.provider.portfolio));
 		var displayNavigation = function (buttons) {
 			return {
 				ctor: '::',
@@ -25119,6 +25121,9 @@ var _user$project$Home$renderNavigation = F2(
 					};
 			}
 		}();
+		var needName = _elm_lang$core$String$isEmpty(
+			_user$project$Domain_Core$nameText(profile.firstName)) || _elm_lang$core$String$isEmpty(
+			_user$project$Domain_Core$nameText(profile.lastName));
 		var followers = _user$project$Domain_Core$getFollowers(portal.provider);
 		var followersText = A2(
 			_elm_lang$core$Basics_ops['++'],
@@ -26486,7 +26491,7 @@ var _user$project$Home$renderNavigation = F2(
 			}
 		}();
 		var links = portal.provider.portfolio;
-		return ((!portal.sourcesNavigation) && (!portal.portfolioNavigation)) ? displayNavigation(enableOnlySourcesAndLinks) : ((portal.sourcesNavigation && (!portal.portfolioNavigation)) ? displayNavigation(enableOnlySourcesAndLinks) : displayNavigation(allNavigation));
+		return (needName && noLinks) ? displayNavigation(noSourcesNoLinks) : (((!portal.sourcesNavigation) && (!portal.portfolioNavigation)) ? displayNavigation(enableOnlySourcesAndLinks) : ((portal.sourcesNavigation && (!portal.portfolioNavigation)) ? displayNavigation(enableOnlySourcesAndLinks) : displayNavigation(allNavigation)));
 	});
 var _user$project$Home$render = F4(
 	function (provider, content, portal, providers) {

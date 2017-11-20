@@ -90,9 +90,9 @@ module Nikeza.Server.WordPress
                  let lastPage =    (result.found / 100) + 1
                  let canContinue = lastPage >= pageNumber
                  if canContinue
-                    then result.posts |> Seq.toList 
-                                      |> List.map (fun post -> toLink user.ProfileId post)
-                                      |> List.append <| existingLinks
-                                      |> wordpressLinks user (pageNumber + 1)
-                    else existingLinks
+                    then result.posts  |> Seq.toList 
+                                       |> List.map (fun post -> toLink user.ProfileId post)
+                                       |> List.append <| existingLinks
+                                       |> wordpressLinks user (pageNumber + 1)
+                    else existingLinks |> List.rev
             else []

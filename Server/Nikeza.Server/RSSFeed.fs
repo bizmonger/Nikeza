@@ -19,6 +19,7 @@ module Nikeza.Server.RSSFeed
             Description= item.Element(XName.Get("description")).Value
             ContentType= Podcast |> contentTypeToString
             Topics =     suggestionsFromText (item.Element(XName.Get("title")).Value) |> List.map (fun n -> {Id= -1; Name=n; IsFeatured=false})
+                         |> List.rev
                          |> Set.ofList
                          |> Set.intersect (suggestionsFromText (item.Element(XName.Get("description")).Value) |> List.map (fun n -> {Id= -1; Name=n; IsFeatured=false}) |> Set.ofList)
                          |> Set.toList

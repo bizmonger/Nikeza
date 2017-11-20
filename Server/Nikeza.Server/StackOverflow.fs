@@ -80,6 +80,7 @@ module StackOverflow =
                 JsonConvert.DeserializeObject<AnswersResponse>(json).items
                 |> Seq.toList
                 |> List.map (fun item -> toLink user.ProfileId item)
+                |> List.rev
            else []
 
     type Tag =          { name : string }

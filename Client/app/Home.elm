@@ -549,7 +549,7 @@ onPortfolioAction subMsg model linksfrom =
             , articles = provider.portfolio |> getLinks Article |> List.filter (\l -> l.isFeatured)
             , videos = provider.portfolio |> getLinks Video |> List.filter (\l -> l.isFeatured)
             , podcasts = provider.portfolio |> getLinks Podcast |> List.filter (\l -> l.isFeatured)
-            , topics = provider.portfolio |> getLinks All |> topicsFromLinks --|> topicGroups
+            , topics = provider.portfolio |> getLinks All |> topicsFromLinks
             }
     in
         case subMsg of
@@ -936,8 +936,8 @@ onSourcesUpdated subMsg model =
             Sources.update subMsg
                 { profileId = profile.id
                 , platforms = model.platforms
-                , source = { source | profileId = model.portal.provider.profile.id }
-                , sources = model.portal.provider.profile.sources
+                , source = { source | profileId = profile.id }
+                , sources = profile.sources
                 }
 
         sourceCmd =
@@ -1740,8 +1740,13 @@ renderNavigation portal providers =
 
         displayNavigation buttons =
             [ div [ class "navigationpane" ] buttons ]
-    in
-        if not portal.sourcesNavigation && not portal.portfolioNavigation then
+
+        needName = (String.isEmpty (nameText profile.firstName)) || (String.isEmpty (nameText profile.lastName) )
+        noLinks = (portal.provider.portfolio |> getLinks All |> List.isEmpty)
+
+    in  if needName && noLinks then
+            displayNavigation noSourcesNoLinks
+        else if not portal.sourcesNavigation && not portal.portfolioNavigation then
             displayNavigation enableOnlySourcesAndLinks
         else if portal.sourcesNavigation && not portal.portfolioNavigation then
             displayNavigation enableOnlySourcesAndLinks
