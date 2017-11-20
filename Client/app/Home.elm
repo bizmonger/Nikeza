@@ -400,31 +400,39 @@ update msg model =
                 let
                     portal =
                         model.portal
-
-                    provider =
-                        portal.provider
-
-                    filtered =
-                        { answers = provider.filteredPortfolio |> getLinks Answer |> List.filter (\l -> l.isFeatured)
-                        , articles = provider.filteredPortfolio |> getLinks Article |> List.filter (\l -> l.isFeatured)
-                        , videos = provider.filteredPortfolio |> getLinks Video |> List.filter (\l -> l.isFeatured)
-                        , podcasts = provider.filteredPortfolio |> getLinks Podcast |> List.filter (\l -> l.isFeatured)
-                        , topics = provider.filteredPortfolio.topics
-                        }
                 in
-                    ( { model
-                        | portal =
-                            { portal
-                                | requested = Domain.ViewPortfolio
-                                , provider =
-                                    { provider
-                                        | portfolio = provider.portfolio
-                                        , filteredPortfolio = filtered
+                    case tokenizeUrl model.currentRoute.hash of
+                        [ "portal", _ ] ->
+                            let
+                                provider =
+                                    portal.provider
+
+                                filtered =
+                                    { answers = provider.filteredPortfolio |> getLinks Answer |> List.filter (\l -> l.isFeatured)
+                                    , articles = provider.filteredPortfolio |> getLinks Article |> List.filter (\l -> l.isFeatured)
+                                    , videos = provider.filteredPortfolio |> getLinks Video |> List.filter (\l -> l.isFeatured)
+                                    , podcasts = provider.filteredPortfolio |> getLinks Podcast |> List.filter (\l -> l.isFeatured)
+                                    , topics = provider.filteredPortfolio.topics
                                     }
-                            }
-                      }
-                    , Cmd.none
-                    )
+                            in
+                                ( { model
+                                    | portal =
+                                        { portal
+                                            | requested = Domain.ViewPortfolio
+                                            , provider =
+                                                { provider
+                                                    | portfolio = provider.portfolio
+                                                    , filteredPortfolio = filtered
+                                                }
+                                        }
+                                  }
+                                , Cmd.none
+                                )
+
+                        _ ->
+                            ( { model | portal = { portal | requested = Domain.ViewPortfolio } }
+                            , Navigation.load <| "/#/portal/" ++ idText model.portal.provider.profile.id
+                            )
 
             EditProfile ->
                 let
@@ -549,7 +557,7 @@ onPortfolioAction subMsg model linksfrom =
             , articles = provider.portfolio |> getLinks Article |> List.filter (\l -> l.isFeatured)
             , videos = provider.portfolio |> getLinks Video |> List.filter (\l -> l.isFeatured)
             , podcasts = provider.portfolio |> getLinks Podcast |> List.filter (\l -> l.isFeatured)
-            , topics = provider.portfolio.topics
+            , topics = provider.portfolio |> getLinks All |> topicsFromLinks
             }
     in
         case subMsg of
@@ -1045,6 +1053,9 @@ onLogin subMsg model =
                         let
                             provider =
                                 jsonProvider |> toProvider
+
+                            filtered =
+                                provider.filteredPortfolio
 
                             portfolioSearch =
                                 model.portfolioSearch

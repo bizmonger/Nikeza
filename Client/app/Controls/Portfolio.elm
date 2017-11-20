@@ -34,12 +34,6 @@ update msg model =
             if key == 13 then
                 case model.topicSuggestions of
                     topic :: _ ->
-                        -- let
-                        --     -- topics =
-                        --     --     model.provider.filteredPortfolio
-                        --     --         |> getLinks All
-                        --     --         |> topicsFromLinks
-                        -- in
                         if model.provider.filteredPortfolio.topics |> hasMatch topic then
                             (onTopicSelected model topic)
                         else
