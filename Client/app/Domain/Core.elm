@@ -6,6 +6,7 @@ import Dict
 import Dict.Extra as Dict
 import Json.Decode as Json
 import Html exposing (..)
+import Set exposing (..)
 
 
 initForm : Form
@@ -376,37 +377,6 @@ getFollowers provider =
             provider.followers
     in
         followers
-
-
-toggleFilter : Provider -> ( Topic, Bool ) -> Provider
-toggleFilter provider ( topic, include ) =
-    let
-        toggleTopic contentType existing =
-            if include then
-                existing
-                    |> List.append (provider.portfolio |> getLinks contentType)
-                    |> List.filter (\link -> (link.topics |> hasMatch topic))
-            else
-                existing |> List.filter (\link -> not (link.topics |> hasMatch topic))
-
-        filtered =
-            provider.filteredPortfolio
-
-        refresh include contentType filteredTypeLinks =
-            if include then
-                (filteredTypeLinks |> toggleTopic contentType) ++ (filteredTypeLinks)
-            else
-                (filteredTypeLinks |> toggleTopic contentType)
-    in
-        { provider
-            | filteredPortfolio =
-                { answers = filtered.answers |> refresh include Answer
-                , articles = filtered.articles |> refresh include Article
-                , videos = filtered.videos |> refresh include Video
-                , podcasts = filtered.podcasts |> refresh include Podcast
-                , topics = provider.filteredPortfolio.topics
-                }
-        }
 
 
 maxTopicsToShow : Int

@@ -7,20 +7,12 @@ import Html.Events exposing (onClick, onCheck, onInput)
 
 
 type Msg
-    = Toggle ( Topic, Bool )
-    | Featured ( Link, Bool )
+    = Featured ( Link, Bool )
 
 
 update : Msg -> Provider -> Provider
 update msg provider =
     case msg of
-        Toggle ( topic, include ) ->
-            let
-                updatedProvider =
-                    toggleFilter provider ( topic, include )
-            in
-                { provider | filteredPortfolio = updatedProvider.filteredPortfolio }
-
         Featured ( link, isFeatured ) ->
             let
                 pendingLinks =

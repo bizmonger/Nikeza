@@ -34,16 +34,16 @@ update msg model =
             if key == 13 then
                 case model.topicSuggestions of
                     topic :: _ ->
-                        let
-                            topics =
-                                model.provider.filteredPortfolio
-                                    |> getLinks All
-                                    |> topicsFromLinks
-                        in
-                            if topics |> hasMatch topic then
-                                (onTopicSelected model topic)
-                            else
-                                ( model, Cmd.none )
+                        -- let
+                        --     -- topics =
+                        --     --     model.provider.filteredPortfolio
+                        --     --         |> getLinks All
+                        --     --         |> topicsFromLinks
+                        -- in
+                        if model.provider.filteredPortfolio.topics |> hasMatch topic then
+                            (onTopicSelected model topic)
+                        else
+                            ( model, Cmd.none )
 
                     _ ->
                         ( model, Cmd.none )
@@ -88,11 +88,6 @@ onTopicSelected model topic =
           }
         , Cmd.none
         )
-
-
-onKeyDown : (Int -> msg) -> Attribute msg
-onKeyDown tagger =
-    on "keydown" (Json.map tagger keyCode)
 
 
 view : Linksfrom -> PortfolioSearch -> Html Msg

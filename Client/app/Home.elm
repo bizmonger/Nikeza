@@ -409,7 +409,7 @@ update msg model =
                         , articles = provider.filteredPortfolio |> getLinks Article |> List.filter (\l -> l.isFeatured)
                         , videos = provider.filteredPortfolio |> getLinks Video |> List.filter (\l -> l.isFeatured)
                         , podcasts = provider.filteredPortfolio |> getLinks Podcast |> List.filter (\l -> l.isFeatured)
-                        , topics = provider.filteredPortfolio |> getLinks All |> topicsFromLinks --|> topicGroups
+                        , topics = provider.filteredPortfolio.topics
                         }
                 in
                     ( { model
@@ -549,7 +549,7 @@ onPortfolioAction subMsg model linksfrom =
             , articles = provider.portfolio |> getLinks Article |> List.filter (\l -> l.isFeatured)
             , videos = provider.portfolio |> getLinks Video |> List.filter (\l -> l.isFeatured)
             , podcasts = provider.portfolio |> getLinks Podcast |> List.filter (\l -> l.isFeatured)
-            , topics = provider.portfolio |> getLinks All |> topicsFromLinks
+            , topics = provider.portfolio.topics
             }
     in
         case subMsg of
@@ -597,9 +597,6 @@ onUpdateProviderContentTypeLinks subMsg model linksfrom =
                     ProviderContentTypeLinks.update subMsg model.selectedProvider
     in
         case subMsg of
-            ProviderContentTypeLinks.Toggle _ ->
-                ( { model | selectedProvider = provider }, Cmd.none )
-
             ProviderContentTypeLinks.Featured ( link, bit ) ->
                 let
                     updatedLink =
@@ -822,7 +819,7 @@ onNewLink subMsg model =
 
             NewLinks.KeyDown _ ->
                 ( { model | portal = portal }, newLinkCmd )
-                
+
             NewLinks.TopicSuggestionResponse (Ok _) ->
                 ( { model | portal = portal }, newLinkCmd )
 
@@ -1732,7 +1729,7 @@ renderNavigation portal providers =
                     , br [] []
                     , button [ class "navigationButton3", onClick AddNewLink, disabled True ] [ text linkText ]
                     ]
- 
+
                 _ ->
                     [ button [ class "navigationButton3", onClick EditProfile ] [ text profileText ]
                     , br [] []
@@ -1744,10 +1741,13 @@ renderNavigation portal providers =
         displayNavigation buttons =
             [ div [ class "navigationpane" ] buttons ]
 
-        needName = (String.isEmpty (nameText profile.firstName)) || (String.isEmpty (nameText profile.lastName) )
-        noLinks = (portal.provider.portfolio |> getLinks All |> List.isEmpty)
+        needName =
+            (String.isEmpty (nameText profile.firstName)) || (String.isEmpty (nameText profile.lastName))
 
-    in  if needName && noLinks then
+        noLinks =
+            (portal.provider.portfolio |> getLinks All |> List.isEmpty)
+    in
+        if needName && noLinks then
             displayNavigation noSourcesNoLinks
         else if not portal.sourcesNavigation && not portal.portfolioNavigation then
             displayNavigation enableOnlySourcesAndLinks
@@ -1829,7 +1829,7 @@ navigate msg model location =
                     , articles = provider.filteredPortfolio |> getLinks Article |> List.filter (\l -> l.isFeatured)
                     , videos = provider.filteredPortfolio |> getLinks Video |> List.filter (\l -> l.isFeatured)
                     , podcasts = provider.filteredPortfolio |> getLinks Podcast |> List.filter (\l -> l.isFeatured)
-                    , topics = provider.filteredPortfolio |> getLinks All |> topicsFromLinks --|> topicGroups
+                    , topics = provider.filteredPortfolio.topics
                     }
 
                 updatedProfile =
