@@ -54,12 +54,16 @@ update msg model =
                 ( model, runtime.removeSource source.id RemoveResponse )
 
             AddResponse (Ok jsonSource) ->
-                ( { model
-                    | sources = toSource jsonSource :: model.sources
-                    , source = initSource
-                  }
-                , Cmd.none
-                )
+                let
+                    source =
+                        toSource jsonSource
+                in
+                    ( { model
+                        | sources = source :: model.sources
+                        , source = initSource
+                      }
+                    , Cmd.none
+                    )
 
             AddResponse (Err error) ->
                 Debug.crash (toString error) ( model, Cmd.none )

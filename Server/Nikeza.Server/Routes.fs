@@ -146,12 +146,15 @@ let private fetchSources (providerId) =
 
 let private fetchThumbnail (platform:string , accessId:string) =
 
-    let thumbnail = 
+    System.Diagnostics.Debug.WriteLine(platform)
+    System.Diagnostics.Debug.WriteLine(accessId)
+
+    let thumbnail() =
         platform.ToLower() 
         |> platformFromString 
-        |> getThumbnail accessId
-                                       
-    json { ImageUrl= thumbnail; Platform= platform }
+        |> Platforms.getThumbnail accessId
+                                 
+    json { ImageUrl= thumbnail(); Platform= platform }
     
 let private fetchContentTypeToId (contentType) =
     json (contentTypeToId contentType)
@@ -161,19 +164,19 @@ let webApp: HttpHandler =
         GET >=>
             choose [
                 //route "/" >=> htmlFile "/hostingstart.html"
-                route  "/"                  >=>  htmlFile "/home.html"
-                route  "/options"           >=>  setHttpHeader "Allow" "GET, OPTIONS, POST" // CORS support
-                route  "/bootstrap"         >=>  fetchBootstrap
-                routef "/links/%s"               fetchLinks
-                routef "/suggestedtopics/%s"     fetchSuggestedTopics
-                routef "/recent/%s"              fetchRecent
-                routef "/followers/%s"           fetchFollowers
-                routef "/subscriptions/%s"       fetchSubscriptions
-                routef "/sources/%s"             fetchSources
-                routef "/thumbnail/%s/%s"        fetchThumbnail
-                routef "/contenttypetoid/%s"     fetchContentTypeToId
-                routef "/provider/%s"            fetchProvider
-                routef "/removesource/%s"        removeSourceHandler
+                route  "/"                  >=> htmlFile "/home.html"
+                route  "/options"           >=> setHttpHeader "Allow" "GET, OPTIONS, POST" // CORS support
+                route  "/bootstrap"         >=> fetchBootstrap
+                routef "/links/%s"              fetchLinks
+                routef "/suggestedtopics/%s"    fetchSuggestedTopics
+                routef "/recent/%s"             fetchRecent
+                routef "/followers/%s"          fetchFollowers
+                routef "/subscriptions/%s"      fetchSubscriptions
+                routef "/sources/%s"            fetchSources
+                routef "/thumbnail/%s/%s"       fetchThumbnail
+                routef "/contenttypetoid/%s"    fetchContentTypeToId
+                routef "/provider/%s"           fetchProvider
+                routef "/removesource/%s"       removeSourceHandler
             ]
         POST >=> 
             choose [

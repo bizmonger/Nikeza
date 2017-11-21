@@ -21318,16 +21318,13 @@ var _user$project$Controls_Sources$update = F2(
 				};
 			case 'AddResponse':
 				if (_p0._0.ctor === 'Ok') {
+					var source = _user$project$Services_Adapter$toSource(_p0._0._0);
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{
-								sources: {
-									ctor: '::',
-									_0: _user$project$Services_Adapter$toSource(_p0._0._0),
-									_1: model.sources
-								},
+								sources: {ctor: '::', _0: source, _1: model.sources},
 								source: _user$project$Domain_Core$initSource
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
@@ -21337,8 +21334,8 @@ var _user$project$Controls_Sources$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Controls.Sources',
 							{
-								start: {line: 65, column: 17},
-								end: {line: 65, column: 28}
+								start: {line: 69, column: 17},
+								end: {line: 69, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p0._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -21366,8 +21363,8 @@ var _user$project$Controls_Sources$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Controls.Sources',
 							{
-								start: {line: 71, column: 17},
-								end: {line: 71, column: 28}
+								start: {line: 75, column: 17},
+								end: {line: 75, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p0._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -23229,8 +23226,8 @@ var _user$project$Home$onNewLink = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 971, column: 25},
-								end: {line: 971, column: 36}
+								start: {line: 972, column: 25},
+								end: {line: 972, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p26._0),
 						{ctor: '_Tuple2', _0: model, _1: newLinkCmd});
@@ -23338,8 +23335,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1052, column: 25},
-								end: {line: 1052, column: 36}
+								start: {line: 1053, column: 25},
+								end: {line: 1053, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p33._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -23363,8 +23360,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1060, column: 25},
-								end: {line: 1060, column: 36}
+								start: {line: 1061, column: 25},
+								end: {line: 1061, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p35._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -23911,8 +23908,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 226, column: 25},
-								end: {line: 226, column: 36}
+								start: {line: 227, column: 25},
+								end: {line: 227, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p47._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -24041,8 +24038,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 329, column: 25},
-								end: {line: 329, column: 36}
+								start: {line: 330, column: 25},
+								end: {line: 330, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p55._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -24078,8 +24075,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 350, column: 25},
-								end: {line: 350, column: 36}
+								start: {line: 351, column: 25},
+								end: {line: 351, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p56._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
