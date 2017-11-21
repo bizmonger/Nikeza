@@ -142,12 +142,12 @@ let rec getProvidersHelper sql parameterName profileId =
             else command
      
     let initialProviders = readInProviders  |> getResults sql commandFunc
-    let providers =        initialProviders |> List.map (fun p -> p.Profile.ProfileId |> getFeaturedTopics)
+    let providers =        initialProviders |> List.map (fun p -> p.Profile.Id |> getFeaturedTopics)
                                             |> List.zip initialProviders
                                             |> List.map (fun (p,t) -> { p with Topics= t} )
-                                            |> List.map (fun p ->     { p with Followers= p.Profile.ProfileId 
+                                            |> List.map (fun p ->     { p with Followers= p.Profile.Id 
                                                                                           |> getFollowers 
-                                                                                          |> List.map (fun f -> f.Profile.ProfileId) 
+                                                                                          |> List.map (fun f -> f.Profile.Id) 
                                                                       } 
                                                         )
     providers
@@ -175,8 +175,8 @@ let hydrate (profile:Profile) =
       Topics=        links   |> List.map(fun l -> l.Topics) |> List.concat |> List.distinct
       Portfolio=     links   |> toPortfolio
       RecentLinks=   profile.ProfileId |> getRecent
-      Subscriptions= subscriptions |> List.map(fun s -> s.Profile.ProfileId)
-      Followers=     followers     |> List.map(fun s -> s.Profile.ProfileId)
+      Subscriptions= subscriptions |> List.map(fun s -> s.Profile.Id)
+      Followers=     followers     |> List.map(fun s -> s.Profile.Id)
     }
 
 let login email =
@@ -189,7 +189,7 @@ let getProvider profileId =
     let commandFunc (command: SqlCommand) = command |> addWithValue "@ProfileId" profileId
     readInProviders |> getResults getProfileSql commandFunc
                     |> function | p::_ -> Some { p with Topics=      profileId |> getFeaturedTopics
-                                                        Followers=   profileId |> getFollowers |> List.map (fun f -> f.Profile.ProfileId)
+                                                        Followers=   profileId |> getFollowers |> List.map (fun f -> f.Profile.Id)
                                                         Portfolio=   profileId |> getLinks |> toPortfolio
                                                         RecentLinks= profileId |> getRecent
                                                }

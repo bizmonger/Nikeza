@@ -5,7 +5,7 @@ open System.IO
 open FsUnit
 open NUnit.Framework
 open TestAPI
-open Command
+open DatabaseCommand
 open Store
 open Sql
 open Read
@@ -13,16 +13,31 @@ open Model
 open Literals
 open Platforms
 open StackOverflow.Suggestions
+open Order
 
-[<TearDownAttribute>]
+[<SetUp>]
+let setup() = registerProfile creatorRegistrationForm |> ignore
+
+[<TearDown>]
 let teardown() = cleanDataStore()
 
+[<Test>]
+let ``New members have default subscription`` () =
+
+    // Test
+    Registration.register someRegistrationForm |> function
+    | Success profile ->
+        let subscription =  profile.ProfileId |> getSubscriptions |> List.head
+        let creator =       getProfileByEmail creatorEmail
+
+        subscription.Profile.Id |> should equal creator.Value.ProfileId
+    | _ -> Assert.Fail()
 
 [<Test>]
 let ``get links from datasource`` () =
 
     // Setup
-    let profileId = Register someProfile |> execute
+    let profileId = registerProfile someRegistrationForm
     let source =  { someSource with AccessId=  wordpressUserId
                                     ProfileId= profileId
                                     Platform=  WordPress |> PlatformToString }
@@ -37,15 +52,13 @@ let ``get links from datasource`` () =
 let ``Adding data source maintains topics`` () =
 
     // Setup
-    let profileId = Register someProfile |> execute
+    let profileId = registerProfile someRegistrationForm
     let source =  { someSource with AccessId=  wordpressUserId
                                     ProfileId= profileId
                                     Platform=  WordPress |> PlatformToString }
     // Test
     AddSource { source with ProfileId= unbox profileId } |> execute |> ignore
     let links = source.ProfileId |> Store.linksFrom source.Platform |> List.filter(fun l -> l.Title = "F#: Revisiting the Vending Machine Kata")
-    
-    System.Diagnostics.Debug.WriteLine(links)
 
     // Verify
     let link = links.[0]
@@ -66,7 +79,7 @@ let ``get topics from text`` () =
 let ``Load links from RSS feed`` () =
 
     // Setup
-    let profileId = Register someProfile |> execute
+    let profileId = registerProfile someRegistrationForm
     let source =  { someSource with AccessId=  rssFeedId
                                     ProfileId= profileId
                                     Platform=  RSSFeed |> PlatformToString }
@@ -105,7 +118,7 @@ let ``Get profile image from Medium`` () =
 let ``Load links from Medium`` () =
 
     // Setup
-    let profileId = Register someProfile |> execute
+    let profileId = registerProfile someRegistrationForm
     let source =  { someSource with AccessId=  mediumUserId
                                     ProfileId= profileId
                                     Platform=  Medium |> PlatformToString }
@@ -120,7 +133,7 @@ let ``Load links from Medium`` () =
 let ``Load links from WordPress`` () =
 
     // Setup
-    let profileId = Register someProfile |> execute
+    let profileId = registerProfile someRegistrationForm
     let source =  { someSource with AccessId=  wordpressUserId
                                     ProfileId= profileId
                                     Platform=  WordPress |> PlatformToString }
@@ -135,7 +148,7 @@ let ``Load links from WordPress`` () =
 let ``Load links from StackOverflow`` () =
 
     // Setup
-    let profileId = Register someProfile |> execute
+    let profileId = registerProfile someRegistrationForm
     let source =  { someSource with AccessId= stackoverflowUserId
                                     ProfileId= profileId
                                     Platform=  StackOverflow |> PlatformToString }
@@ -150,7 +163,7 @@ let ``Load links from StackOverflow`` () =
 let ``Load links from YouTube`` () =
 
     // Setup
-    let profileId = Register someProfile |> execute
+    let profileId = registerProfile someRegistrationForm
     let source =  { someSource with AccessId=  File.ReadAllText(ChannelIdFile)
                                     ProfileId= profileId
                                     Platform=  YouTube |> PlatformToString }
@@ -175,8 +188,8 @@ let ``Read YouTube AccessId file`` () =
 let ``Subscriber observes provider link`` () =
 
     // Setup
-    let profileId =    Register someProfile    |> execute
-    let subscriberId = Register someSubscriber |> execute
+    let profileId =    registerProfile someRegistrationForm
+    let subscriberId = registerProfile someSubscriberRegistrationForm
 
     Follow { FollowRequest.ProfileId= profileId
              FollowRequest.SubscriberId= subscriberId 
@@ -195,8 +208,8 @@ let ``Subscriber observes provider link`` () =
 let ``No recent links after subscriber observes new link`` () =
 
     // Setup
-    let profileId =    Register someProfile    |> execute
-    let subscriberId = Register someSubscriber |> execute
+    let profileId =    registerProfile someRegistrationForm
+    let subscriberId = registerProfile someSubscriberRegistrationForm
 
     Follow { FollowRequest.ProfileId= profileId
              FollowRequest.SubscriberId= subscriberId 
@@ -217,8 +230,8 @@ let ``No recent links after subscriber observes new link`` () =
 let ``Follow Provider`` () =
 
     // Setup
-    let profileId =    Register someProfile    |> execute
-    let subscriberId = Register someSubscriber |> execute
+    let profileId =    registerProfile someRegistrationForm
+    let subscriberId = registerProfile someSubscriberRegistrationForm
 
     // Test
     Follow { FollowRequest.ProfileId= profileId
@@ -252,8 +265,8 @@ let ``Follow Provider`` () =
 let ``Unsubscribe from Provider`` () =
 
     // Setup
-    let profileId =    Register someProfile    |> execute 
-    let subscriberId = Register someSubscriber |> execute
+    let profileId =    registerProfile someRegistrationForm
+    let subscriberId = registerProfile someSubscriberRegistrationForm
 
     execute ( Follow { FollowRequest.ProfileId= profileId; FollowRequest.SubscriberId= subscriberId }) |> ignore
 
@@ -271,7 +284,7 @@ let ``Unsubscribe from Provider`` () =
     try
         connection.Open()
         command.Parameters.AddWithValue("@SubscriberId", subscriberId) |> ignore
-        command.Parameters.AddWithValue("@ProfileId",   profileId)   |> ignore
+        command.Parameters.AddWithValue("@ProfileId",    profileId)   |> ignore
 
         use reader = command.ExecuteReader()
         reader.Read() |> should equal false
@@ -283,7 +296,7 @@ let ``Unsubscribe from Provider`` () =
 let ``Add featured link`` () =
 
     //Setup
-    Register someProfile |> execute |> ignore
+    registerProfile someRegistrationForm |> ignore
 
     let lastId = AddLink  someLink |> execute
     let data = { LinkId=Int32.Parse(lastId); IsFeatured=true }
@@ -315,7 +328,7 @@ let ``Add featured link`` () =
 let ``Adding link results in new topics added to database`` () =
 
     //Setup
-    let profileId = Register someProfile |> execute
+    let profileId = registerProfile someRegistrationForm
 
     // Test
     AddLink { someLink with Topics= [someProviderTopic]; ProfileId= profileId } |> execute |> ignore
@@ -329,7 +342,7 @@ let ``Adding link results in new topics added to database`` () =
 let ``Remove link`` () =
 
     //Setup
-    Register someProfile |> execute |> ignore
+    registerProfile someRegistrationForm |> ignore
     let linkId = AddLink someLink |> execute
     
     // Test
@@ -356,7 +369,7 @@ let ``Remove link`` () =
 let ``Unfeature Link`` () =
     
     //Setup
-    Register someProfile |> execute |> ignore
+    registerProfile someRegistrationForm |> ignore
 
     let linkId = AddLink  someLink |> execute
     let data = { LinkId=Int32.Parse(linkId); IsFeatured=false }
@@ -387,10 +400,10 @@ let ``Unfeature Link`` () =
 let ``Register Profile`` () =
 
     // Setup
-    let data = { someProfile with FirstName="Scott"; LastName="Nimrod" }
+    let data = { someRegistrationForm with FirstName="Scott"; LastName="Nimrod" }
 
     // Test
-    Register data |> execute |> ignore
+    registerProfile data |> ignore
 
     // Verify
     let sql = @"SELECT FirstName, LastName
@@ -416,21 +429,24 @@ let ``Update profile`` () =
     
     // Setup
     let modifiedName = "MODIFIED_NAME"
-    let data = { someProfile with FirstName="Scott"; LastName="Nimrod" }
-    let lastId = Register data |> execute
+    let data = { someRegistrationForm with FirstName="Scott"; LastName="Nimrod" }
+    let profileId = registerProfile data
+
+    let profile = (getProfile profileId).Value
+    
     // Test
-    UpdateProfile { ProfileId =  unbox lastId
-                    FirstName =  data.FirstName
+    UpdateProfile { Id =  unbox profileId
+                    FirstName =  profile.FirstName
                     LastName =   modifiedName
-                    Bio =        data.Bio
-                    Email =      data.Email
-                    ImageUrl=    data.ImageUrl
-                    Sources =    data.Sources } |> execute |> ignore
+                    Bio =        profile.Bio
+                    Email =      profile.Email
+                    ImageUrl=    profile.ImageUrl
+                    Sources =    profile.Sources } |> execute |> ignore
     // Verify
     let sql = @"SELECT LastName FROM [dbo].[Profile] WHERE  Id = @Id"
     let (readConnection,readCommand) = createCommand sql connectionString
     try readConnection.Open()
-        readCommand.Parameters.AddWithValue("@Id", lastId) |> ignore
+        readCommand.Parameters.AddWithValue("@Id", profileId) |> ignore
         
         use reader = readCommand |> prepareReader
         reader.GetString(0) = modifiedName |> should equal true
@@ -442,7 +458,7 @@ let ``Update profile`` () =
 let ``Get links of provider`` () =
 
     //Setup
-    let profileId = Register someProfile |> execute
+    let profileId = registerProfile someRegistrationForm
     AddLink { someLink with ProfileId= unbox profileId } |> execute |> ignore
     
     // Test
@@ -456,8 +472,8 @@ let ``Get links of provider`` () =
 let ``Get followers`` () =
 
     // Setup
-    let profileId =    Register someProfile    |> execute
-    let subscriberId = Register someSubscriber |> execute
+    let profileId =    registerProfile someRegistrationForm
+    let subscriberId = registerProfile someSubscriberRegistrationForm
     
     Follow { FollowRequest.ProfileId=   profileId
              FollowRequest.SubscriberId= subscriberId } |> execute |> ignore
@@ -466,14 +482,14 @@ let ``Get followers`` () =
     let follower = profileId |> getFollowers |> List.head
     
     // Verify
-    follower.Profile.ProfileId |> should equal subscriberId
+    follower.Profile.Id |> should equal subscriberId
 
 [<Test>]
 let ``Get subscriptions`` () =
 
     // Setup
-    let profileId =    Register someProfile    |> execute
-    let subscriberId = Register someSubscriber |> execute
+    let profileId =    registerProfile someRegistrationForm
+    let subscriberId = registerProfile someSubscriberRegistrationForm
 
     Follow { FollowRequest.ProfileId=   profileId
              FollowRequest.SubscriberId= subscriberId } |> execute |> ignore
@@ -482,14 +498,14 @@ let ``Get subscriptions`` () =
     let subscription = subscriberId |> getSubscriptions |> List.head
     
     // Verify
-    subscription.Profile.ProfileId |> should equal profileId
+    subscription.Profile.Id |> should equal profileId
 
 [<Test>]
 let ``Get profiles`` () =
 
     // Setup
-    Register { someProfile with FirstName= "profile1" } |> execute |> ignore
-    Register { someProfile with FirstName= "profile2" } |> execute |> ignore
+    registerProfile { someRegistrationForm with FirstName= "profile1" } |> ignore
+    registerProfile { someRegistrationForm with FirstName= "profile2" } |> ignore
 
     // Test
     let profiles = getAllProfiles()
@@ -500,8 +516,7 @@ let ``Get profiles`` () =
 [<Test>]
 let ``Get profile`` () =
 
-    Register someProfile 
-    |> execute
+    registerProfile someRegistrationForm
     |> getProfile
     |> function | Some _ -> ()
                 | None   -> Assert.Fail()
@@ -517,7 +532,7 @@ let ``Get platforms`` () =
 let ``Adding data source results in links saved`` () =
 
     // Setup
-    let profileId = Register someProfile |> execute
+    let profileId = registerProfile someRegistrationForm
     let source =  { someSource with AccessId= File.ReadAllText(ChannelIdFile) }
     AddSource { source with ProfileId= unbox profileId } |> execute |> ignore
 
@@ -531,7 +546,7 @@ let ``Adding data source results in links saved`` () =
 let ``Add data source`` () =
 
     // Setup
-    let profileId = Register someProfile |> execute
+    let profileId = registerProfile someRegistrationForm
     let source =  { someSource with AccessId= File.ReadAllText(ChannelIdFile) }
 
     // Test
@@ -554,7 +569,7 @@ let ``Add data source`` () =
 let ``Adding data source results in links with topics found`` () =
 
     //Setup
-    let profileId = Register someProfile |> execute
+    let profileId = registerProfile someRegistrationForm
 
     // Test
     let sourceId = AddSource { someSource with ProfileId= unbox profileId } |> execute
@@ -568,7 +583,7 @@ let ``Adding data source results in links with topics found`` () =
 let ``Get sources`` () =
 
     //Setup
-    let profileId = execute <| Register someProfile
+    let profileId = registerProfile someRegistrationForm
     AddSource { someSource with ProfileId = unbox profileId } |> execute |> ignore
 
     // Test
@@ -581,7 +596,7 @@ let ``Get sources`` () =
 let ``Remove source`` () =
 
     //Setup
-    let profileId = execute <| Register someProfile
+    let profileId = registerProfile someRegistrationForm
     let sourceId =  AddSource { someSource with ProfileId= unbox profileId } |> execute
     
     // Test
@@ -605,7 +620,7 @@ let ``Remove source`` () =
 let ``Add featured topic`` () =
 
     //Setup
-    let profileId = Register someProfile |> execute
+    let profileId = registerProfile someRegistrationForm
 
     let link = { someLink with Topics= [someProviderTopic]; ProfileId= profileId }
     AddLink link |> execute |> ignore
@@ -623,7 +638,7 @@ let ``Add featured topic`` () =
 let ``Remove featured topic`` () =
 
     //Setup
-    let profileId = Register someProfile |> execute
+    let profileId = registerProfile someRegistrationForm
 
     let link = { someLink with Topics= [someProviderTopic]; ProfileId= profileId }
     AddLink link |> execute |> ignore
@@ -644,7 +659,7 @@ let ``Remove featured topic`` () =
 let ``Fetching provider includes their featured topics`` () =
 
     //Setup
-    let profileId = Register someProfile |> execute
+    let profileId = registerProfile someRegistrationForm
     let link =    { someLink with Topics= [{someProviderTopic with IsFeatured= true}]; ProfileId=profileId |> string }
 
     // Test
@@ -659,12 +674,12 @@ let ``Fetching provider includes their featured topics`` () =
 let ``Logging into portal retrieves portfolio`` () =
 
     //Setup
-    let profileId = Register someProfile |> execute
+    let profileId = registerProfile someRegistrationForm
     let link =    { someLink with Topics= [someProviderTopic]; ProfileId= profileId }
     AddLink link |> execute |> ignore
 
     // Test
-    match login someProfile.Email with
+    match login someRegistrationForm.Email with
           | Some provider -> if provider.Portfolio |> isEmpty
                                 then Assert.Fail()
                                 else ()

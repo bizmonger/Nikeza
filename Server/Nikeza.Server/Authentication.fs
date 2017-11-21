@@ -1,33 +1,16 @@
-module Nikeza.Server.Authentication
+module internal Nikeza.Server.Authentication
 
     open System
     open System.Security.Claims
     open System.Security.Cryptography
     open Microsoft.AspNetCore.Cryptography.KeyDerivation
-    open Literals
-    open Command
     open Store
-    open Model
-
-    [<CLIMutable>]
-    type RegistrationRequest = {
-            FirstName: string 
-            LastName:  string
-            Email:     string
-            Password:  string
-        }
-            
-    [<CLIMutable>]
-    type LogInRequest = {
-            Email:    string
-            Password: string 
-        }
 
     type LoginResponse = 
         | Authenticated of ClaimsPrincipal
         | UnAuthenticated 
-                  
-    let private generateSalt =            
+                      
+    let generateSalt =            
         let mutable salt = Array.init (128/8)  (fun i -> byte(i*i))
         let getSalt s =                
             use rng = RandomNumberGenerator.Create()                
@@ -35,7 +18,7 @@ module Nikeza.Server.Authentication
             
         getSalt salt |> Convert.ToBase64String
 
-    let private getPasswordHash password salt = 
+    let getPasswordHash password salt = 
         let salt = Convert.FromBase64String(salt)
         let hashedPassword = 
             Convert.ToBase64String(
@@ -46,37 +29,14 @@ module Nikeza.Server.Authentication
                     10000,
                     (256/8)
             ))
-        hashedPassword                           
+        hashedPassword     
 
     let authenticate email password = 
         loginProfile email |> function
         | Some user -> let hashedPassword = getPasswordHash password user.Salt
                        hashedPassword = user.PasswordHash
         | None      -> false
-            
-    let register (info:RegistrationRequest) =
-        loginProfile info.Email |> function
-        | Some _ -> Failure
-        | None -> let salt = generateSalt
-                  let hashedPassword = getPasswordHash info.Password salt
-                  let profile = {
-                      ProfileId =    "to be determined..."
-                      FirstName =    info.FirstName
-                      LastName =     info.LastName
-                      Email =        info.Email
-                      ImageUrl =     DefaultThumbnail
-                      Bio =          ""
-                      Sources =      []
-                      PasswordHash = hashedPassword
-                      Salt =         salt
-                      Created =      DateTime.Now
-                  }
 
-                  try let profileId = execute <| Register profile
-                      Success { profile with ProfileId = profileId |> string }
-                  with
-                  | _ -> Failure
-    
     let getUserClaims userName authScheme =
         let claims = [ Claim(ClaimTypes.Name, userName,  ClaimValueTypes.String)]
         let identity = ClaimsIdentity(claims, authScheme)

@@ -1,4 +1,8 @@
 module Nikeza.Server.Literals
+
+[<Literal>]
+let creatorEmail = "scott.nimrod@bizmonger.net"
+
 [<Literal>]
 let DefaultThumbnail = "http://www.ngu.edu/myimages/silhouette2230.jpg"
 

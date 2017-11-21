@@ -9,27 +9,21 @@ open Model
 open Platforms
 open Authentication
 open Giraffe.Tasks
-open Command
+open Registration
+open YouTube
 open StackOverflow.Suggestions
+open Order
 
 [<Literal>]
 let AuthScheme = "Cookie"
-let creatorEmail = "scott.nimrod@bizmonger.net"
 
 let private registrationHandler: HttpHandler = 
     fun next ctx -> 
         task {
             let! data = ctx.BindJson<RegistrationRequest>()
             match register data with
-            | Success profile ->
-                match getProfileByEmail creatorEmail with
-                | Some creator -> 
-                    Follow { SubscriberId= profile.ProfileId; ProfileId= creator.ProfileId } |> execute |> ignore
-                    return! json profile next ctx
-
-                | None -> return! json profile next ctx
-                
-            | Failure -> return! (setStatusCode 400 >=> json "registration failed") next ctx
+            | Success profile -> return! json profile next ctx
+            | Failure         -> return! (setStatusCode 400 >=> json "registration failed") next ctx
         }
 
 let private loginHandler: HttpHandler = 

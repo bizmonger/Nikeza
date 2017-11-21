@@ -7,7 +7,7 @@ open System.Data.SqlClient
 open Sql
 open Read
 open Literals
-open Command
+open DatabaseCommand
 open Model
 
 [<Literal>]
@@ -33,6 +33,8 @@ let someProfileId =    0
 let someSubscriberId = 1
 let someLinkId =       0
 let someSourceId =     0
+
+
 let someTopic = {
     Id= -1
     Name= "SomeTopic"
@@ -65,7 +67,46 @@ let someProfile = {
     Sources =        []
     PasswordHash =  "XXX"
     Salt =          "XXX"
-    Created =        DateTime.Now
+    Created =       DateTime.Now
+}
+
+let emptyProfile = { 
+    ProfileId =     ""
+    FirstName =     ""
+    LastName =      ""
+    Email =         ""
+    ImageUrl =      ""
+    Bio =           ""
+    Sources =        []
+    PasswordHash =  ""
+    Salt =          ""
+    Created =       DateTime.Now
+}
+
+let registerProfile registrationForm =
+    Registration.register registrationForm |> function
+    | Success profile -> profile.ProfileId
+    | Failure         -> emptyProfile.ProfileId
+
+let (creatorRegistrationForm:RegistrationRequest) = { 
+    FirstName = "Scott"
+    LastName =  "Nimrod"
+    Email =     creatorEmail
+    Password =  "123"
+}
+
+let (someRegistrationForm:RegistrationRequest) = { 
+    FirstName = "Ace"
+    LastName =  "Thomas"
+    Email =     "ace@abc.com"
+    Password =  "123"
+}
+
+let (someSubscriberRegistrationForm:RegistrationRequest) = { 
+    FirstName = "Subscriber"
+    LastName =  "Doe"
+    Email =     "subscriber@abc.com"
+    Password =  "123"
 }
 
 let someSource = {
@@ -77,7 +118,7 @@ let someSource = {
 }
 
 let someUpdatedProfile: ProfileRequest = { 
-    ProfileId = someProfileId |> string
+    Id = someProfileId |> string
     FirstName = "Scott"
     LastName =  "Nimrod"
     Email =     "abc@abc.com"
@@ -88,9 +129,9 @@ let someUpdatedProfile: ProfileRequest = {
 
 let someSubscriber: Profile = { 
     ProfileId =     someSubscriberId |> string
-    FirstName =     "Scott"
-    LastName =      "Nimrod"
-    Email =         "abc@abc.com"
+    FirstName =     "Subscriber"
+    LastName =      "Doe"
+    Email =         "subscriber@abc.com"
     ImageUrl =      "some_url_.com"
     Bio =           "Some Bio"
     Sources =        []

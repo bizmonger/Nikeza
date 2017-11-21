@@ -46,6 +46,21 @@ let contentTypeIdToString = function
     | 3 -> PodcastText
     | _ -> UnknownText
 
+
+[<CLIMutable>]
+type RegistrationRequest = {
+        FirstName: string 
+        LastName:  string
+        Email:     string
+        Password:  string
+    }
+        
+[<CLIMutable>]
+type LogInRequest = {
+        Email:    string
+        Password: string 
+    }
+
 [<CLIMutable>]
 type FollowRequest =      { SubscriberId: string; ProfileId: string }
 
@@ -151,7 +166,7 @@ type Profile = {
 
 [<CLIMutable>]
 type ProfileRequest = {
-    ProfileId:  string
+    Id:  string
     FirstName:  string
     LastName:   string
     Bio:        string
@@ -189,7 +204,6 @@ type Result<'a> =
     | Failure
 
 type Command =
-    | Register        of Profile
     | UpdateProfile   of ProfileRequest
     | UpdateThumbnail of UpdateThumbnailRequest
 

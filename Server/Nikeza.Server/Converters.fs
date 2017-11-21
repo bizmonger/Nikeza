@@ -12,7 +12,7 @@ let toPortfolio links = {
 
 let toProfileRequest (profile:Profile) : ProfileRequest =
     {
-        ProfileId=    profile.ProfileId
+        Id=    profile.ProfileId
         FirstName=    profile.FirstName
         LastName=     profile.LastName
         Email=        profile.Email

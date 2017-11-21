@@ -1,14 +1,10 @@
-module Nikeza.Server.Command
+module Nikeza.Server.DatabaseCommand
 
 open System
-open System.IO
 open System.Data.SqlClient
-open Store
-open Literals
 open Model
 open Sql
 open Platforms
-open System.Threading
 
 let dispose (connection:SqlConnection) (command:SqlCommand) =
     connection.Dispose()
@@ -20,7 +16,7 @@ let addWithValue paramName obj (command: SqlCommand) =
 
 let createConnection connectionString = new SqlConnection(connectionString)
 
-module private Commands =
+module internal Commands =
 
     let executeScalar (command: SqlCommand) = 
         let result =  (command.ExecuteScalar())
@@ -47,7 +43,7 @@ module private Commands =
                     |> addWithValue "@PasswordHash"  info.PasswordHash
                     |> addWithValue "@Created"       info.Created
                     |> addWithValue "@Salt"          info.Salt
-        
+
         commandFunc |> execute connectionString registerSql
 
     let addLinkTopic (linkTopic:LinkTopic) =
@@ -169,7 +165,7 @@ module private Commands =
 
     let updateProfile (info:ProfileRequest) =
         let commandFunc (command: SqlCommand) = 
-            command |> addWithValue "@Id"        (Int32.Parse(info.ProfileId))
+            command |> addWithValue "@Id"        (Int32.Parse(info.Id))
                     |> addWithValue "@FirstName" info.FirstName
                     |> addWithValue "@LastName"  info.LastName
                     |> addWithValue "@bio"       info.Bio
@@ -216,23 +212,3 @@ module private Commands =
             command |> addWithValue "@Id" info.Id
             
         commandFunc |> execute connectionString deleteSourceSql
-
-open Commands
-let execute = function
-    | Register        info -> register         info
-    | UpdateProfile   info -> updateProfile    info
-    | UpdateThumbnail info -> updateThumbnail  info
-   
-    | Follow          info -> follow           info
-    | Unsubscribe     info -> unsubscribe      info
-  
-    | AddLink         info -> addLink          info
-    | RemoveLink      info -> removeLink       info
-    | FeatureLink     info -> featureLink      info
-    | ObserveLinks    info -> observeLinks     info
-
-    | FeatureTopic    info -> featureTopic     info
-    | UnfeatureTopic  info -> unfeatureTopic   info
-  
-    | AddSource       info -> addDataSource    info
-    | RemoveSource    info -> removeDataSource info
