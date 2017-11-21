@@ -91,21 +91,26 @@ module private Commands =
                     |> addWithValue "@IsFeatured"    info.IsFeatured
                     |> addWithValue "@Created"       DateTime.Now
                     
-        let toLinkTopic (topic:ProviderTopic) =
-            { Link= info; Topic= { Id= -1; Name= topic.Name.ToLower()} }   
-            
         let linkId = commandFunc |> execute connectionString addLinkSql
 
-        let addTopic lt =
-            let topicId = addTopic { Name=lt.Topic.Name }
-            let link=       { lt.Link  with Id= Int32.Parse(linkId) }
-            let topic=      { lt.Topic with Id= Int32.Parse(topicId) }
+        let addTopic (providerTopic:ProviderTopic) =
+            let temp =      { Link= info; Topic= { Id= -1; Name= providerTopic.Name.ToLower()} }   
+            let topicId =   addTopic { Name= providerTopic.Name }
+            let link=       { temp.Link  with Id= Int32.Parse(linkId) }
+            let topic=      { temp.Topic with Id= Int32.Parse(topicId) }
             let linkTopic = { Link= link; Topic= topic }
 
             addLinkTopic linkTopic |> ignore
 
-        info.Topics |> List.map toLinkTopic
-                    |> List.iter addTopic
+            if providerTopic.IsFeatured 
+               then featureTopic { TopicId=Int32.Parse(topicId)
+                                   ProfileId=link.ProfileId 
+                                   Name= topic.Name
+                                   IsFeatured= true
+                                 } |> ignore
+               else ()
+
+        info.Topics |> List.iter addTopic
         linkId
 
     let addSource (info:DataSourceRequest) =

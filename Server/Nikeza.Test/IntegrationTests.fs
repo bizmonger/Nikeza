@@ -322,7 +322,7 @@ let ``Adding link results in new topics added to database`` () =
 
     // Verify
     match getTopic someTopic.Name with
-    | Some topic -> topic.Name |> should equal someTopic.Name
+    | Some topic -> topic.Name.ToLower() |> should equal (someTopic.Name.ToLower())
     | None       -> Assert.Fail()
 
 [<Test>]
@@ -638,27 +638,14 @@ let ``Remove featured topic`` () =
     // Verify
     let featuredTopics = getFeaturedTopics profileId
     featuredTopics |> List.isEmpty |> should equal true
-
-[<Test>]
-let ``5 or less provider topics become featured topics`` () =
-
-    //Setup
-    let profileId = Register someProfile |> execute
-    let link =    { someLink with Topics= [someProviderTopic]; ProfileId=profileId }
-
-    // Test
-    AddLink link |> execute |> ignore
-
-    // Verify
-    let featuredTopics = getFeaturedTopics profileId
-    featuredTopics |> List.isEmpty |> should equal false
+    
 
 [<Test>]
 let ``Fetching provider includes their featured topics`` () =
 
     //Setup
     let profileId = Register someProfile |> execute
-    let link =    { someLink with Topics= [someProviderTopic]; ProfileId=profileId |> string }
+    let link =    { someLink with Topics= [{someProviderTopic with IsFeatured= true}]; ProfileId=profileId |> string }
 
     // Test
     AddLink link |> execute |> ignore

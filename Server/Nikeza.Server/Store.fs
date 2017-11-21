@@ -65,16 +65,22 @@ let getSources profileId =
                                 |> List.map (fun s -> s.Id |> getSource)
     sources
 
-let loginProfile email =
+let getProfileByEmail email =
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue "@Email" email
         
     readInProfiles |> getResults findUserByEmailSql commandFunc
                    |> List.tryHead
                    |> function
-                      | Some p -> let sources = getSources p.ProfileId |> List.choose id
-                                  Some { p with Sources = sources }
+                      | Some p -> Some p
                       | None   -> None
+
+let loginProfile email =
+    email |> getProfileByEmail
+          |> function
+             | Some p -> let sources = getSources p.ProfileId |> List.choose id
+                         Some { p with Sources = sources }
+             | None   -> None
 
 let getProfiles profileId sql parameterName =
     let commandFunc (command: SqlCommand) = 
@@ -139,7 +145,11 @@ let rec getProvidersHelper sql parameterName profileId =
     let providers =        initialProviders |> List.map (fun p -> p.Profile.ProfileId |> getFeaturedTopics)
                                             |> List.zip initialProviders
                                             |> List.map (fun (p,t) -> { p with Topics= t} )
-                                            |> List.map (fun p ->     { p with Followers= p.Profile.ProfileId |> getFollowers} )
+                                            |> List.map (fun p ->     { p with Followers= p.Profile.ProfileId 
+                                                                                          |> getFollowers 
+                                                                                          |> List.map (fun f -> f.Profile.ProfileId) 
+                                                                      } 
+                                                        )
     providers
 
 and getSubscriptions profileId : ProviderRequest list =
@@ -159,13 +169,14 @@ let hydrate (profile:Profile) =
 
     let links =         profile.ProfileId |> getLinks
     let subscriptions = profile.ProfileId |> getSubscriptions
+    let followers =     profile.ProfileId |> getFollowers
 
     { Profile=       profile |> toProfileRequest
       Topics=        links   |> List.map(fun l -> l.Topics) |> List.concat |> List.distinct
       Portfolio=     links   |> toPortfolio
       RecentLinks=   profile.ProfileId |> getRecent
-      Subscriptions= subscriptions
-      Followers=     []
+      Subscriptions= subscriptions |> List.map(fun s -> s.Profile.ProfileId)
+      Followers=     followers     |> List.map(fun s -> s.Profile.ProfileId)
     }
 
 let login email =
@@ -178,7 +189,7 @@ let getProvider profileId =
     let commandFunc (command: SqlCommand) = command |> addWithValue "@ProfileId" profileId
     readInProviders |> getResults getProfileSql commandFunc
                     |> function | p::_ -> Some { p with Topics=      profileId |> getFeaturedTopics
-                                                        Followers=   profileId |> getFollowers
+                                                        Followers=   profileId |> getFollowers |> List.map (fun f -> f.Profile.ProfileId)
                                                         Portfolio=   profileId |> getLinks |> toPortfolio
                                                         RecentLinks= profileId |> getRecent
                                                }

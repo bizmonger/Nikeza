@@ -174,8 +174,8 @@ type ProviderRequest = {
     Topics:        ProviderTopic   list
     Portfolio:     Portfolio
     RecentLinks:   Link            list
-    Subscriptions: ProviderRequest list
-    Followers:     ProviderRequest list
+    Subscriptions: string list
+    Followers:     string list
 }
 
 [<CLIMutable>]
