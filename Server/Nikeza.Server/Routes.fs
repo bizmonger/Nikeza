@@ -4,6 +4,7 @@ open System
 open Microsoft.AspNetCore.Http
 open Giraffe.HttpContextExtensions
 open Giraffe.HttpHandlers
+open Literals
 open Store
 open Model
 open Platforms
@@ -120,6 +121,11 @@ let private updateThumbnailHandler: HttpHandler =
         }
 
 let private fetchBootstrap: HttpHandler =
+
+    match getProfileByEmail creatorEmail with
+    | Some _ -> ()
+    | None -> register creatorRegistrationForm |> ignore
+
     StackOverflow.CachedTags.Instance() |> ignore
     json { Providers= getProviders(); Platforms=getPlatforms() }
 

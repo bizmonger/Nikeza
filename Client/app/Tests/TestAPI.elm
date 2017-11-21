@@ -401,8 +401,8 @@ jsonProvider1 =
         , topics = topics
         , portfolio = profileId1 |> jsonPortfolio
         , recentLinks = (recentLinks1 |> toJsonLinks)
-        , subscriptions = [ jsonProvider2, jsonProvider3 ]
-        , followers = [ jsonProvider4, jsonProvider5 ]
+        , subscriptions = [ idText profile2.id, idText profile3.id ]
+        , followers = [ idText profile4.id, idText profile5.id ]
         }
 
 

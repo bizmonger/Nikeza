@@ -191,8 +191,8 @@ type alias JsonProviderFields =
     , topics : List JsonTopic
     , portfolio : JsonPortfolio
     , recentLinks : List JsonLink
-    , subscriptions : List JsonProvider
-    , followers : List JsonProvider
+    , subscriptions : List String
+    , followers : List String
     }
 
 
@@ -243,8 +243,8 @@ toJsonProvider provider =
             , topics = provider.topics
             , portfolio = provider.portfolio |> toJsonPortfolio
             , recentLinks = provider.recentLinks |> List.map (\l -> l |> toJsonLink)
-            , subscriptions = subscriptions |> List.map (\s -> s |> toJsonProvider)
-            , followers = followers |> List.map (\f -> f |> toJsonProvider)
+            , subscriptions = [] -- subscriptions |> List.map (\s -> s.profile.id) -- |> List.map (\s -> s |> toJsonProvider)
+            , followers = [] --followers |> List.map (\f -> f.profile.id) -- List.map (\f -> f |> toJsonProvider)
             }
 
 
@@ -341,6 +341,6 @@ toProvider jsonProvider =
         , portfolio = field.portfolio |> toPortfolio
         , filteredPortfolio = field.portfolio |> toPortfolio
         , recentLinks = field.recentLinks |> toLinks
-        , followers = field.followers |> toMembers
-        , subscriptions = field.subscriptions |> toMembers
+        , followers = Members [] --field.followers --|> toMembers
+        , subscriptions = Members [] -- field.subscriptions --|> toMembers
         }

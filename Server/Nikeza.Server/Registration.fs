@@ -7,6 +7,13 @@ open Literals
 open Store
 open Model
 open Commands
+
+let (creatorRegistrationForm:RegistrationRequest) = { 
+    FirstName = "Scott"
+    LastName =  "Nimrod"
+    Email =     creatorEmail
+    Password =  "123"
+}
             
 let register (info:RegistrationRequest) =
     loginProfile info.Email |> function

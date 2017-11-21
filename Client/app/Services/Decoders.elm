@@ -7,7 +7,7 @@ import Json.Decode as Decode exposing (Decoder, field)
 profileDecoder : Decoder JsonProfile
 profileDecoder =
     Decode.map7 JsonProfile
-        (field "ProfileId" Decode.string)
+        (field "Id" Decode.string)
         (field "FirstName" Decode.string)
         (field "LastName" Decode.string)
         (field "Email" Decode.string)
@@ -82,6 +82,6 @@ providerDecoder =
         (field "Topics" <| Decode.list topicDecoder)
         (field "Portfolio" <| portfolioDecoder)
         (field "RecentLinks" <| Decode.list linkDecoder)
-        (field "Subscriptions" <| Decode.list (Decode.lazy (\_ -> providerDecoder)))
-        (field "Followers" <| Decode.list (Decode.lazy (\_ -> providerDecoder)))
+        (field "Subscriptions" <| Decode.list Decode.string)
+        (field "Followers" <| Decode.list Decode.string)
         |> Decode.map JsonProvider

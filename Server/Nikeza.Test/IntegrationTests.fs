@@ -14,6 +14,7 @@ open Literals
 open Platforms
 open StackOverflow.Suggestions
 open Order
+open Registration
 
 [<SetUp>]
 let setup() = registerProfile creatorRegistrationForm |> ignore

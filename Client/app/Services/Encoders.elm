@@ -61,7 +61,7 @@ encodeProfile profile =
             profile |> toJsonProfile
     in
         Encode.object
-            [ ( "ProfileId", Encode.string jsonProfile.id )
+            [ ( "Id", Encode.string jsonProfile.id )
             , ( "FirstName", Encode.string jsonProfile.firstName )
             , ( "LastName", Encode.string jsonProfile.lastName )
             , ( "Email", Encode.string jsonProfile.email )

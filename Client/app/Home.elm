@@ -14,13 +14,12 @@ import Controls.Register as Registration exposing (..)
 import Controls.EditProfile as EditProfile exposing (..)
 import Services.Adapter exposing (..)
 import Html exposing (..)
-import Http
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onCheck, onInput)
+import Http
 import Navigation exposing (..)
 import String exposing (..)
 import List.Extra exposing (groupWhile, uniqueBy)
-
 
 -- elm-live Home.elm --open --output=home.js --debug
 

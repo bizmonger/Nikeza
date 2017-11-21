@@ -88,13 +88,6 @@ let registerProfile registrationForm =
     | Success profile -> profile.ProfileId
     | Failure         -> emptyProfile.ProfileId
 
-let (creatorRegistrationForm:RegistrationRequest) = { 
-    FirstName = "Scott"
-    LastName =  "Nimrod"
-    Email =     creatorEmail
-    Password =  "123"
-}
-
 let (someRegistrationForm:RegistrationRequest) = { 
     FirstName = "Ace"
     LastName =  "Thomas"
