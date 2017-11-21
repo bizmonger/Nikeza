@@ -20,7 +20,6 @@ module private Store =
 
 open Model
 open Sql
-open Google.Apis.YouTube.v3.Data
     
 let getResults sql commandFunc readInData =
     let (reader, connection) = Store.query connectionString sql commandFunc
@@ -78,7 +77,7 @@ let getProfileByEmail email =
 let loginProfile email =
     email |> getProfileByEmail
           |> function
-             | Some p -> let sources = getSources p.ProfileId |> List.choose id
+             | Some p -> let sources = getSources p.Id |> List.choose id
                          Some { p with Sources = sources }
              | None   -> None
 
@@ -167,14 +166,14 @@ let getProviders () =
 
 let hydrate (profile:Profile) =
 
-    let links =         profile.ProfileId |> getLinks
-    let subscriptions = profile.ProfileId |> getSubscriptions
-    let followers =     profile.ProfileId |> getFollowers
+    let links =         profile.Id |> getLinks
+    let subscriptions = profile.Id |> getSubscriptions
+    let followers =     profile.Id |> getFollowers
 
     { Profile=       profile |> toProfileRequest
       Topics=        links   |> List.map(fun l -> l.Topics) |> List.concat |> List.distinct
       Portfolio=     links   |> toPortfolio
-      RecentLinks=   profile.ProfileId |> getRecent
+      RecentLinks=   profile.Id |> getRecent
       Subscriptions= subscriptions |> List.map(fun s -> s.Profile.Id)
       Followers=     followers     |> List.map(fun s -> s.Profile.Id)
     }

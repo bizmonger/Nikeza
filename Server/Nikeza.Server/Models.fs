@@ -152,7 +152,7 @@ type ObservedLinks = { SubscriberId: string; LinkIds: int list }
 
 [<CLIMutable>]
 type Profile = {
-    ProfileId:    string
+    Id:    string
     FirstName:    string
     LastName:     string
     Email:        string

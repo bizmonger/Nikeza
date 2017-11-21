@@ -58,7 +58,7 @@ let someLink = {
 }
 
 let someProfile = { 
-    ProfileId =     someProfileId |> string
+    Id =     someProfileId |> string
     FirstName =     "Scott"
     LastName =      "Nimrod"
     Email =         "abc@abc.com"
@@ -71,7 +71,7 @@ let someProfile = {
 }
 
 let emptyProfile = { 
-    ProfileId =     ""
+    Id =            ""
     FirstName =     ""
     LastName =      ""
     Email =         ""
@@ -85,8 +85,8 @@ let emptyProfile = {
 
 let registerProfile registrationForm =
     Registration.register registrationForm |> function
-    | Success profile -> profile.ProfileId
-    | Failure         -> emptyProfile.ProfileId
+    | Success profile -> profile.Id
+    | Failure         -> emptyProfile.Id
 
 let (someRegistrationForm:RegistrationRequest) = { 
     FirstName = "Ace"
@@ -121,7 +121,7 @@ let someUpdatedProfile: ProfileRequest = {
 }
 
 let someSubscriber: Profile = { 
-    ProfileId =     someSubscriberId |> string
+    Id =     someSubscriberId |> string
     FirstName =     "Subscriber"
     LastName =      "Doe"
     Email =         "subscriber@abc.com"

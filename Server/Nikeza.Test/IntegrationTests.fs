@@ -28,10 +28,10 @@ let ``New members have default subscription`` () =
     // Test
     Registration.register someRegistrationForm |> function
     | Success profile ->
-        let subscription =  profile.ProfileId |> getSubscriptions |> List.head
-        let creator =       getProfileByEmail creatorEmail
+        let subscription = profile.Id |> getSubscriptions |> List.head
+        let creator =      getProfileByEmail creatorEmail
 
-        subscription.Profile.Id |> should equal creator.Value.ProfileId
+        subscription.Profile.Id |> should equal creator.Value.Id
     | _ -> Assert.Fail()
 
 [<Test>]

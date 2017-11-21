@@ -21,7 +21,7 @@ let register (info:RegistrationRequest) =
     | None -> let salt = generateSalt
               let hashedPassword = getPasswordHash info.Password salt
               let profile = {
-                  ProfileId =    "to be determined..."
+                  Id =          "to be determined..."
                   FirstName =    info.FirstName
                   LastName =     info.LastName
                   Email =        info.Email
@@ -37,9 +37,10 @@ let register (info:RegistrationRequest) =
                   match getProfileByEmail creatorEmail with
                   | Some creator -> 
                       if profile.Email <> creator.Email
-                        then follow { SubscriberId= profileId; ProfileId= creator.ProfileId } |> ignore
+                        then follow { SubscriberId= profileId; ProfileId= creator.Id } |> ignore
                         else ()
-                      Success { profile with ProfileId = profileId |> string }
-                  | None -> Failure
+                  | None -> ()
+
+                  Success { profile with Id = profileId |> string }
               with
               | _ -> Failure

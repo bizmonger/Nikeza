@@ -22,7 +22,7 @@ let private registrationHandler: HttpHandler =
     fun next ctx -> 
         task {
             let! data = ctx.BindJson<RegistrationRequest>()
-            match register data with
+            match register { data with Email= data.Email.ToLower() } with
             | Success profile -> return! json profile next ctx
             | Failure         -> return! (setStatusCode 400 >=> json "registration failed") next ctx
         }
@@ -31,8 +31,9 @@ let private loginHandler: HttpHandler =
     fun next ctx -> 
         task {
             let! data = ctx.BindJson<LogInRequest>()
-            if  authenticate data.Email data.Password
-                then match login data.Email with
+            let email = data.Email.ToLower()
+            if  authenticate email data.Password
+                then match login email with
                      | Some provider -> return! json provider next ctx
                      | None          -> return! (setStatusCode 400 >=> json "Invalid login") next ctx
                 else return! (setStatusCode 400 >=> json "Invalid login") next ctx                                                       
@@ -121,10 +122,6 @@ let private updateThumbnailHandler: HttpHandler =
         }
 
 let private fetchBootstrap: HttpHandler =
-
-    match getProfileByEmail creatorEmail with
-    | Some _ -> ()
-    | None -> register creatorRegistrationForm |> ignore
 
     StackOverflow.CachedTags.Instance() |> ignore
     json { Providers= getProviders(); Platforms=getPlatforms() }
