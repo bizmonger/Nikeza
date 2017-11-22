@@ -20,18 +20,21 @@ update msg provider =
     case msg of
         SubscribeResponse result ->
             case result of
-                Ok jsonProvider ->
+                Ok jsonOtherProvider ->
                     let
-                        (Members providers) =
-                            provider.subscriptions
-
+                        otherProvider = jsonOtherProvider |> toProvider
+ 
                         subscriptions =
-                            (jsonProvider |> toProvider) :: providers
+                            if otherProvider.followers |> List.any (\f -> f == otherProvider.profile.id) then
+                                provider.profile.id :: otherProvider.followers
+
+                            else otherProvider.followers |> List.filter (\f -> f /= provider.profile.id)
+                        
                     in
-                        ( { provider | subscriptions = Members subscriptions }, Cmd.none )
+                        Debug.crash("followers: " ++  toString otherProvider.followers)( { provider | subscriptions = subscriptions }, Cmd.none )
 
                 Err _ ->
-                    ( provider, Cmd.none )
+                    ( provider, Cmd.none ) 
 
         UpdateSubscription action ->
             case action of
@@ -122,11 +125,9 @@ thumbnail loggedIn showSubscriptionState provider =
         case loggedIn of
             Just user ->
                 let
-                    (Members mySubscriptions) =
-                        user.subscriptions
 
                     alreadySubscribed =
-                        mySubscriptions |> List.any (\subscription -> subscription.profile.id == profile.id)
+                        user.subscriptions |> List.any (\subscription -> subscription == profile.id)
 
                     subscriptionText =
                         if alreadySubscribed then
@@ -148,8 +149,8 @@ thumbnail loggedIn showSubscriptionState provider =
                                 [ td []
                                     [ a [ href <| urlText <| providerUrl (Just user.profile.id) profile.id ]
                                         [ img [ src <| urlText profile.imageUrl, width 40, height 40 ] [] ]
-                                    , br [] []
-                                    , label [ class "subscribed" ] [ text <| toString (List.length (getFollowers provider)) ++ " subscribers" ]
+                                    , br [] [] 
+                                    , label [ class "subscribed" ] [ text <| toString (List.length (provider.followers)) ++ " subscribers" ]
                                     ]
                                 , td [] [ nameAndTopics ]
                                 , td [ class "centertd" ] [ recentLinks ]
@@ -166,7 +167,7 @@ thumbnail loggedIn showSubscriptionState provider =
                                 [ a [ href <| urlText <| providerUrl Nothing profile.id ]
                                     [ img [ src <| urlText profile.imageUrl, width 40, height 40 ] [] ]
                                 , br [] []
-                                , label [ class "subscribed" ] [ text <| toString (List.length (getFollowers provider)) ++ " subscribers" ]
+                                , label [ class "subscribed" ] [ text <| toString (List.length (provider.followers)) ++ " subscribers" ]
                                 ]
                             , td [] [ nameAndTopics ]
                             , td [ class "centertd" ] [ recentLinks ]

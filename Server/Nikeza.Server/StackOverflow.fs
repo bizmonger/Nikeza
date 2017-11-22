@@ -160,7 +160,7 @@ module StackOverflow =
 
 
         let getAllTags (searchItem:string) =
-            if searchItem <> "" && searchItem.Length > 1 
+            if searchItem <> "" && searchItem.Length > 1
                 then CachedTags.Instance() |> List.map (fun t -> t.ToLower())
                 else []
 

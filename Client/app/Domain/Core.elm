@@ -83,8 +83,8 @@ type alias Provider =
     , portfolio : Portfolio
     , filteredPortfolio : Portfolio
     , recentLinks : List Link
-    , followers : Members
-    , subscriptions : Members
+    , followers : List Id
+    , subscriptions : List Id
     }
 
 
@@ -102,9 +102,9 @@ initPortfolioSearch =
     { provider = initProvider, topicSuggestions = [], selectedTopic = initTopic, inputValue = "" }
 
 
-initSubscription : Members
+initSubscription : List Id
 initSubscription =
-    Members []
+    []
 
 
 initProvider : Provider
@@ -359,25 +359,6 @@ type ContentType
 
 
 -- FUNCTIONS
-
-
-getSubscriptions : Provider -> List Provider
-getSubscriptions provider =
-    let
-        (Members subscriptions) =
-            provider.subscriptions
-    in
-        subscriptions
-
-
-getFollowers : Provider -> List Provider
-getFollowers provider =
-    let
-        (Members followers) =
-            provider.followers
-    in
-        followers
-
 
 maxTopicsToShow : Int
 maxTopicsToShow =

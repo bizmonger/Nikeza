@@ -271,6 +271,7 @@ updateProfile profile msg =
 
 suggestedTopics : String -> (Result Http.Error (List String) -> msg) -> Cmd msg
 suggestedTopics search msg =
+    if not <| isEmpty search && String.length search > 1 then
     let
         url =
             baseUrl ++ "suggestedtopics/" ++ (Http.encodeUri search)
@@ -279,6 +280,7 @@ suggestedTopics search msg =
             Http.get url (Decode.list Decode.string)
     in
         Http.send msg request
+    else Cmd.none
 
 
 subscriptions : Id -> (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg

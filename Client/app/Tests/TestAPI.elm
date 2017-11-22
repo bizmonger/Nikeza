@@ -456,32 +456,32 @@ jsonProvider5 =
 
 provider1 : Provider
 provider1 =
-    Provider profile1 topics provider1Portfolio provider1Portfolio recentLinks1 (Members []) (Members [])
+    Provider profile1 topics provider1Portfolio provider1Portfolio recentLinks1  [] []
 
 
 provider1B : Provider
 provider1B =
-    Provider profile1 topics provider1Portfolio provider1Portfolio recentLinks1 (Members []) (Members [])
+    Provider profile1 topics provider1Portfolio provider1Portfolio recentLinks1 [] []
 
 
 provider2 : Provider
 provider2 =
-    Provider profile2 topics provider2Portfolio provider2Portfolio recentLinks2 (Members []) (Members [])
+    Provider profile2 topics provider2Portfolio provider2Portfolio recentLinks2 [] []
 
 
 provider3 : Provider
 provider3 =
-    Provider profile3 topics provider3Portfolio provider3Portfolio recentLinks3 (Members []) (Members [])
+    Provider profile3 topics provider3Portfolio provider3Portfolio recentLinks3 [] []
 
 
 provider4 : Provider
 provider4 =
-    Provider profile4 topics provider4Portfolio provider4Portfolio [] (Members []) (Members [])
+    Provider profile4 topics provider4Portfolio provider4Portfolio [] [] []
 
 
 provider5 : Provider
 provider5 =
-    Provider profile5 topics provider5Portfolio provider5Portfolio [] (Members []) (Members [])
+    Provider profile5 topics provider5Portfolio provider5Portfolio [] [] []
 
 
 
@@ -498,7 +498,7 @@ tryLogin credentials msg =
             jsonProvider1 |> httpSuccess msg
         else
             Cmd.none
-
+ 
 
 tryRegister : Form -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
 tryRegister form msg =
@@ -624,7 +624,7 @@ linksToContent contentType profileId =
 
 suggestedTopics : String -> (Result Http.Error (List String) -> msg) -> Cmd msg
 suggestedTopics search msg =
-    if not <| isEmpty search then
+    if (not <| isEmpty search) && String.length search > 1 then
         topics
             |> List.map .name
             |> List.filter (\t -> t |> toLower |> contains (search |> toLower))

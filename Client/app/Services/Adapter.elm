@@ -231,20 +231,14 @@ toJsonPortfolio portfolio =
 
 toJsonProvider : Provider -> JsonProvider
 toJsonProvider provider =
-    let
-        (Members subscriptions) =
-            provider.subscriptions
 
-        (Members followers) =
-            provider.followers
-    in
         JsonProvider
             { profile = provider.profile |> toJsonProfile
             , topics = provider.topics
             , portfolio = provider.portfolio |> toJsonPortfolio
-            , recentLinks = provider.recentLinks |> List.map (\l -> l |> toJsonLink)
-            , subscriptions = [] -- subscriptions |> List.map (\s -> s.profile.id) -- |> List.map (\s -> s |> toJsonProvider)
-            , followers = [] --followers |> List.map (\f -> f.profile.id) -- List.map (\f -> f |> toJsonProvider)
+            , recentLinks = provider.recentLinks |> List.map (\l -> l |> toJsonLink) 
+            , subscriptions = provider.subscriptions |> List.map (\s -> s |> idText)
+            , followers = provider.followers  |> List.map (\s -> s |> idText)
             }
 
 
@@ -285,7 +279,7 @@ jsonProfileToProvider jsonProfile =
 
 
 toMembers : List JsonProvider -> Members
-toMembers jsonProviders =
+toMembers jsonProviders = 
     jsonProviders
         |> List.map toProvider
         |> Members
@@ -341,6 +335,6 @@ toProvider jsonProvider =
         , portfolio = field.portfolio |> toPortfolio
         , filteredPortfolio = field.portfolio |> toPortfolio
         , recentLinks = field.recentLinks |> toLinks
-        , followers = Members [] --field.followers --|> toMembers
-        , subscriptions = Members [] -- field.subscriptions --|> toMembers
+        , followers = field.followers |> List.map (\x -> Id x)
+        , subscriptions = field.subscriptions |> List.map (\x -> Id x)
         }

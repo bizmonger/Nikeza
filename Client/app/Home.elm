@@ -195,8 +195,8 @@ update msg model =
                             else
                                 ( { model
                                     | providers = providers
-                                    , searchResult = providers
-                                    , scopedProviders = providers
+                                    , searchResult = [] --providers
+                                    , scopedProviders = [] -- providers
                                   }
                                 , Cmd.none
                                 )
@@ -213,8 +213,8 @@ update msg model =
                         in
                             ( { model
                                 | providers = providers
-                                , scopedProviders = providers
-                                , searchResult = providers
+                                , scopedProviders = [] -- providers
+                                , searchResult = [] -- providers
                                 , platforms = bootstrap.platforms |> List.map (\p -> Platform p)
                               }
                             , Cmd.none
@@ -357,14 +357,17 @@ update msg model =
                 onLogin subMsg model
 
             Search "" ->
-                ( { model | searchResult = model.scopedProviders }
+                let scopedProviders = [] --model.scopedProviders
+                in
+                ( { model | searchResult = scopedProviders }
                 , runtime.providers ProvidersResponse
                 )
 
             Search text ->
                 let
+                    scopedProviders = [] --model.scopedProviders
                     result =
-                        model.scopedProviders |> matchProviders text
+                        scopedProviders |> matchProviders text
                 in
                     ( { model | searchResult = result }, Cmd.none )
 
@@ -451,12 +454,13 @@ update msg model =
 
             ViewSubscriptions ->
                 let
-                    portal =
-                        model.portal
+                    portal = model.portal
+
+                    scopedProviders = [] --portal.provider.subscriptions
                 in
                     ( { model
-                        | scopedProviders = portal.provider |> getSubscriptions
-                        , searchResult = portal.provider |> getSubscriptions
+                        | scopedProviders = scopedProviders
+                        , searchResult = scopedProviders
                         , portal = { portal | requested = Domain.ViewSubscriptions }
                       }
                     , Cmd.none
@@ -466,10 +470,12 @@ update msg model =
                 let
                     portal =
                         model.portal
+
+                    scopedProviders = [] -- portal.provider.followers
                 in
                     ( { model
-                        | scopedProviders = portal.provider |> getFollowers
-                        , searchResult = portal.provider |> getFollowers
+                        | scopedProviders = scopedProviders
+                        , searchResult = scopedProviders
                         , portal = { portal | requested = Domain.ViewFollowers }
                       }
                     , Cmd.none
@@ -479,10 +485,12 @@ update msg model =
                 let
                     portal =
                         model.portal
+
+                    scopedProviders = [] --model.providers
                 in
                     ( { model
-                        | scopedProviders = model.providers
-                        , searchResult = model.providers
+                        | scopedProviders = scopedProviders
+                        , searchResult = scopedProviders
                         , portal = { portal | requested = Domain.ViewProviders }
                       }
                     , Cmd.none
@@ -490,12 +498,13 @@ update msg model =
 
             ViewRecent ->
                 let
-                    portal =
-                        model.portal
+                    portal = model.portal
+
+                    scopedProviders = [] --portal.provider.subscriptions
                 in
                     ( { model
-                        | scopedProviders = portal.provider |> getSubscriptions
-                        , searchResult = portal.provider |> getSubscriptions
+                        | scopedProviders = scopedProviders
+                        , searchResult = scopedProviders
                         , portal = { portal | requested = Domain.ViewRecent }
                       }
                     , Cmd.none
@@ -1106,8 +1115,8 @@ onLogin subMsg model =
 
                             newState =
                                 { model
-                                    | searchResult = provider |> getSubscriptions
-                                    , scopedProviders = provider |> getSubscriptions
+                                    | searchResult = [] -- provider.subscriptions
+                                    , scopedProviders = [] -- provider.subscriptions
                                     , portal =
                                         { pendingPortal
                                             | provider = provider
@@ -1235,7 +1244,7 @@ renderProfileBase provider linksContent =
             [ table []
                 [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| urlText <| provider.profile.imageUrl, width 40, height 40 ] [] ] ]
                 , tr [ class "bio" ] [ td [] [ label [ class "profileName" ] [ text <| nameText provider.profile.firstName ++ " " ++ nameText provider.profile.lastName ] ] ]
-                , tr [ class "bio" ] [ td [] [ label [ class "subscribed" ] [ text <| toString (List.length (getFollowers provider)) ++ " subscribers" ] ] ]
+                , tr [ class "bio" ] [ td [] [ label [ class "subscribed" ] [ text <| toString (List.length (provider).followers) ++ " subscribers" ] ] ]
                 , tr [ class "bio" ] [ td [] [ button [ class "subscribeButton" ] [ text "Follow" ] ] ]
                 , tr [ class "bio" ] [ td [] [ p [ class "bio" ] [ text provider.profile.bio ] ] ]
                 ]
@@ -1433,10 +1442,10 @@ content contentToEmbed model =
             portal.provider
 
         followingYou =
-            portal.provider |> getFollowers
+            portal.provider.followers
 
         following =
-            portal.provider |> getSubscriptions
+            portal.provider.subscriptions
     in
         case portal.requested of
             Domain.ViewSources ->
@@ -1557,16 +1566,13 @@ searchProvidersUI loggedIn showSubscriptionState placeHolder providers =
 
 
 renderNavigation : Portal -> List Provider -> List (Html Msg)
-renderNavigation portal providers =
+renderNavigation portal subscriptions =
     let
         links =
             portal.provider.portfolio
 
-        subscriptions =
-            portal.provider |> getSubscriptions
-
         followers =
-            portal.provider |> getFollowers
+            portal.provider.followers
 
         profile =
             portal.provider.profile
@@ -1580,11 +1586,7 @@ renderNavigation portal providers =
         newText =
             "Recent "
                 ++ "("
-                ++ (subscriptions
-                        |> recentLinks
-                        |> List.length
-                        |> toString
-                   )
+                ++ (subscriptions |> toString)
                 ++ ")"
 
         ( portfolioText, subscriptionsText, membersText, linkText, profileText ) =
@@ -1720,7 +1722,7 @@ renderNavigation portal providers =
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text subscriptionsText ]
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
+                    , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ] 
                     , br [] []
                     , button [ class "selectedNavigationButton4", onClick ViewProviders ] [ text membersText ]
                     ]
