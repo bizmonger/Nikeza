@@ -146,9 +146,6 @@ let private fetchSources (providerId) =
 
 let private fetchThumbnail (platform:string , accessId:string) =
 
-    System.Diagnostics.Debug.WriteLine(platform)
-    System.Diagnostics.Debug.WriteLine(accessId)
-
     let thumbnail() =
         platform.ToLower() 
         |> platformFromString 

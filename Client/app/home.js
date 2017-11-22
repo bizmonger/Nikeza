@@ -20193,10 +20193,10 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 																_user$project$Domain_Core$urlText(profile.imageUrl)),
 															_1: {
 																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$width(65),
+																_0: _elm_lang$html$Html_Attributes$width(40),
 																_1: {
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$height(65),
+																	_0: _elm_lang$html$Html_Attributes$height(40),
 																	_1: {ctor: '[]'}
 																}
 															}
@@ -20314,10 +20314,10 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 																_user$project$Domain_Core$urlText(profile.imageUrl)),
 															_1: {
 																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$width(65),
+																_0: _elm_lang$html$Html_Attributes$width(40),
 																_1: {
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$height(65),
+																	_0: _elm_lang$html$Html_Attributes$height(40),
 																	_1: {ctor: '[]'}
 																}
 															}
@@ -20860,10 +20860,10 @@ var _user$project$Controls_RecentProviderLinks$thumbnail = F2(
 															_user$project$Domain_Core$urlText(profile.imageUrl)),
 														_1: {
 															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$width(75),
+															_0: _elm_lang$html$Html_Attributes$width(40),
 															_1: {
 																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$height(75),
+																_0: _elm_lang$html$Html_Attributes$height(40),
 																_1: {ctor: '[]'}
 															}
 														}
@@ -21921,7 +21921,15 @@ var _user$project$Home$providerTopicPage = F2(
 																		ctor: '::',
 																		_0: _elm_lang$html$Html_Attributes$src(
 																			_user$project$Domain_Core$urlText(model.profile.imageUrl)),
-																		_1: {ctor: '[]'}
+																		_1: {
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$width(40),
+																			_1: {
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$height(40),
+																				_1: {ctor: '[]'}
+																			}
+																		}
 																	}
 																},
 																{ctor: '[]'}),
@@ -22077,7 +22085,15 @@ var _user$project$Home$renderProfileBase = F2(
 															ctor: '::',
 															_0: _elm_lang$html$Html_Attributes$src(
 																_user$project$Domain_Core$urlText(provider.profile.imageUrl)),
-															_1: {ctor: '[]'}
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$width(40),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$height(40),
+																	_1: {ctor: '[]'}
+																}
+															}
 														}
 													},
 													{ctor: '[]'}),
@@ -26561,7 +26577,15 @@ var _user$project$Home$render = F4(
 																	ctor: '::',
 																	_0: _elm_lang$html$Html_Attributes$src(
 																		_user$project$Domain_Core$urlText(provider.profile.imageUrl)),
-																	_1: {ctor: '[]'}
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$width(40),
+																		_1: {
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$height(40),
+																			_1: {ctor: '[]'}
+																		}
+																	}
 																}
 															},
 															{ctor: '[]'}),
