@@ -73,8 +73,8 @@ type Linksfrom
 
 
 type SubscriptionUpdate
-    = Subscribe Id Id
-    | Unsubscribe Id Id
+    = Subscribe Id Provider
+    | Unsubscribe Id Provider
 
 
 type alias Provider =
@@ -359,6 +359,7 @@ type ContentType
 
 
 -- FUNCTIONS
+
 
 maxTopicsToShow : Int
 maxTopicsToShow =

@@ -568,12 +568,29 @@ update msg model =
                 ( model, Cmd.none )
 
             Subscription update ->
-                case update of
-                    Subscribe _ _ ->
-                        ( model, Cmd.none )
+                let
+                    updateModel user provider =
+                        let
+                            updatedProviders =
+                                model.searchResult
+                                    |> List.Extra.replaceIf (\p -> p.profile.id == provider.profile.id) provider
+                        in
+                            ( { model | searchResult = updatedProviders }, Cmd.none )
+                in
+                    case update of
+                        Subscribe subscriber provider ->
+                            let
+                                updatedProvider =
+                                    { provider | followers = subscriber :: provider.followers }
+                            in
+                                updateModel subscriber updatedProvider
 
-                    Unsubscribe _ _ ->
-                        ( model, Cmd.none )
+                        Unsubscribe user provider ->
+                            let
+                                updatedProvider =
+                                    { provider | followers = provider.followers |> List.Extra.remove user }
+                            in
+                                updateModel user updatedProvider
 
             NavigateBack ->
                 ( model, Navigation.back 1 )

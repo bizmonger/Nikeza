@@ -38,11 +38,11 @@ update msg provider =
 
         UpdateSubscription action ->
             case action of
-                Subscribe clientId providerId ->
-                    ( provider, (runtime.follow { subscriberId = clientId, providerId = providerId }) SubscribeResponse )
+                Subscribe clientId provider ->
+                    ( provider, (runtime.follow { subscriberId = clientId, providerId = provider.profile.id }) SubscribeResponse )
 
                 Unsubscribe clientId providerId ->
-                    ( provider, (runtime.unsubscribe { subscriberId = clientId, providerId = providerId }) SubscribeResponse )
+                    ( provider, (runtime.unsubscribe { subscriberId = clientId, providerId = provider.profile.id }) SubscribeResponse )
 
 
 organize : List Topic -> List Topic -> List Topic -> ( List Topic, List Topic )
@@ -128,17 +128,11 @@ thumbnail loggedIn showSubscriptionState provider =
                     alreadySubscribed =
                         user.subscriptions |> List.any (\subscription -> subscription == profile.id)
 
-                    subscriptionText =
-                        if alreadySubscribed then
-                            "Unsubscribe"
-                        else
-                            "Follow"
-
                     placeholder =
                         if not alreadySubscribed && showSubscriptionState then
-                            button [ class "subscribeButton", onClick (UpdateSubscription <| Subscribe user.profile.id provider.profile.id) ] [ text "Follow" ]
+                            button [ class "subscribeButton", onClick (UpdateSubscription <| Subscribe user.profile.id provider) ] [ text "Follow" ]
                         else if alreadySubscribed && showSubscriptionState then
-                            button [ class "unsubscribeButton", onClick (UpdateSubscription <| Unsubscribe user.profile.id provider.profile.id) ] [ text "Unsubscribe" ]
+                            button [ class "unsubscribeButton", onClick (UpdateSubscription <| Unsubscribe user.profile.id provider) ] [ text "Unsubscribe" ]
                         else
                             div [] []
                 in
