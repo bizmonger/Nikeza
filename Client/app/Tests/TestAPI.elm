@@ -289,16 +289,16 @@ subscriptions profileId msg =
         [] |> httpSuccess msg
 
 
-followers : Id -> (Result Http.Error Members -> msg) -> Cmd msg
+followers : Id -> (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
 followers profileId msg =
     if profileId == profileId1 then
-        Members [ provider4, provider5 ] |> httpSuccess msg
+        [ jsonProvider4, jsonProvider5 ] |> httpSuccess msg
     else if profileId == profileId2 then
-        Members [ provider1B, provider5 ] |> httpSuccess msg
+        [ jsonProvider1, jsonProvider5 ] |> httpSuccess msg
     else if profileId == profileId3 then
-        Members [ provider4, provider5 ] |> httpSuccess msg
+        [ jsonProvider4, jsonProvider5 ] |> httpSuccess msg
     else
-        Members [] |> httpSuccess msg
+        [] |> httpSuccess msg
 
 
 recentLinks : Id -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
@@ -456,7 +456,7 @@ jsonProvider5 =
 
 provider1 : Provider
 provider1 =
-    Provider profile1 topics provider1Portfolio provider1Portfolio recentLinks1  [] []
+    Provider profile1 topics provider1Portfolio provider1Portfolio recentLinks1 [] []
 
 
 provider1B : Provider
@@ -498,7 +498,7 @@ tryLogin credentials msg =
             jsonProvider1 |> httpSuccess msg
         else
             Cmd.none
- 
+
 
 tryRegister : Form -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
 tryRegister form msg =

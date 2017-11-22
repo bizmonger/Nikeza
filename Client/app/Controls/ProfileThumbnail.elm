@@ -22,19 +22,19 @@ update msg provider =
             case result of
                 Ok jsonOtherProvider ->
                     let
-                        otherProvider = jsonOtherProvider |> toProvider
- 
+                        otherProvider =
+                            jsonOtherProvider |> toProvider
+
                         subscriptions =
                             if otherProvider.followers |> List.any (\f -> f == otherProvider.profile.id) then
                                 provider.profile.id :: otherProvider.followers
-
-                            else otherProvider.followers |> List.filter (\f -> f /= provider.profile.id)
-                        
+                            else
+                                otherProvider.followers |> List.filter (\f -> f /= provider.profile.id)
                     in
-                        Debug.crash("followers: " ++  toString otherProvider.followers)( { provider | subscriptions = subscriptions }, Cmd.none )
+                        ( { provider | subscriptions = subscriptions }, Cmd.none )
 
                 Err _ ->
-                    ( provider, Cmd.none ) 
+                    ( provider, Cmd.none )
 
         UpdateSubscription action ->
             case action of
@@ -125,7 +125,6 @@ thumbnail loggedIn showSubscriptionState provider =
         case loggedIn of
             Just user ->
                 let
-
                     alreadySubscribed =
                         user.subscriptions |> List.any (\subscription -> subscription == profile.id)
 
@@ -149,7 +148,7 @@ thumbnail loggedIn showSubscriptionState provider =
                                 [ td []
                                     [ a [ href <| urlText <| providerUrl (Just user.profile.id) profile.id ]
                                         [ img [ src <| urlText profile.imageUrl, width 40, height 40 ] [] ]
-                                    , br [] [] 
+                                    , br [] []
                                     , label [ class "subscribed" ] [ text <| toString (List.length (provider.followers)) ++ " subscribers" ]
                                     ]
                                 , td [] [ nameAndTopics ]

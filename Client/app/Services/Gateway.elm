@@ -272,15 +272,16 @@ updateProfile profile msg =
 suggestedTopics : String -> (Result Http.Error (List String) -> msg) -> Cmd msg
 suggestedTopics search msg =
     if not <| isEmpty search && String.length search > 1 then
-    let
-        url =
-            baseUrl ++ "suggestedtopics/" ++ (Http.encodeUri search)
+        let
+            url =
+                baseUrl ++ "suggestedtopics/" ++ (Http.encodeUri search)
 
-        request =
-            Http.get url (Decode.list Decode.string)
-    in
-        Http.send msg request
-    else Cmd.none
+            request =
+                Http.get url (Decode.list Decode.string)
+        in
+            Http.send msg request
+    else
+        Cmd.none
 
 
 subscriptions : Id -> (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
@@ -295,9 +296,16 @@ subscriptions profileId msg =
         Http.send msg request
 
 
-followers : Id -> (Result Http.Error Members -> msg) -> Cmd msg
+followers : Id -> (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
 followers profileId msg =
-    Members [] |> httpSuccess msg
+    let
+        url =
+            baseUrl ++ "followers/" ++ idText profileId
+
+        request =
+            Http.get url (Decode.list providerDecoder)
+    in
+        Http.send msg request
 
 
 follow : SubscriptionRequest -> (Result Http.Error JsonProvider -> msg) -> Cmd msg

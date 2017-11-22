@@ -465,17 +465,8 @@ update msg model =
 
                     profile =
                         portal.provider.profile
-
-                    scopedProviders =
-                        []
-
-                    --portal.provider.subscriptions
                 in
-                    ( { model
-                        | scopedProviders = scopedProviders
-                        , searchResult = scopedProviders
-                        , portal = { portal | requested = Domain.ViewSubscriptions }
-                      }
+                    ( { model | portal = { portal | requested = Domain.ViewSubscriptions } }
                     , runtime.subscriptions profile.id SubscriptionsResponse
                     )
 
@@ -501,18 +492,9 @@ update msg model =
 
                     profile =
                         portal.provider.profile
-
-                    scopedProviders =
-                        []
-
-                    -- portal.provider.followers
                 in
-                    ( { model
-                        | scopedProviders = scopedProviders
-                        , searchResult = scopedProviders
-                        , portal = { portal | requested = Domain.ViewFollowers }
-                      }
-                    , runtime.subscriptions profile.id FollowersResponse
+                    ( { model | portal = { portal | requested = Domain.ViewFollowers } }
+                    , runtime.followers profile.id FollowersResponse
                     )
 
             FollowersResponse (Ok jsonFollowers) ->
@@ -1643,7 +1625,7 @@ renderNavigation portal subscriptions =
         newText =
             "Recent "
                 ++ "("
-                ++ (subscriptions |> toString)
+                ++ (recentCount |> toString)
                 ++ ")"
 
         ( portfolioText, subscriptionsText, membersText, linkText, profileText ) =

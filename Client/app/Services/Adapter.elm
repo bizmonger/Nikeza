@@ -63,7 +63,7 @@ type alias Bootstrapfunction msg =
 
 
 type alias Followersfunction msg =
-    Id -> (Result Http.Error Members -> msg) -> Cmd msg
+    Id -> (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
 
 
 type alias Subscriptionsfunction msg =
@@ -231,15 +231,14 @@ toJsonPortfolio portfolio =
 
 toJsonProvider : Provider -> JsonProvider
 toJsonProvider provider =
-
-        JsonProvider
-            { profile = provider.profile |> toJsonProfile
-            , topics = provider.topics
-            , portfolio = provider.portfolio |> toJsonPortfolio
-            , recentLinks = provider.recentLinks |> List.map (\l -> l |> toJsonLink) 
-            , subscriptions = provider.subscriptions |> List.map (\s -> s |> idText)
-            , followers = provider.followers  |> List.map (\s -> s |> idText)
-            }
+    JsonProvider
+        { profile = provider.profile |> toJsonProfile
+        , topics = provider.topics
+        , portfolio = provider.portfolio |> toJsonPortfolio
+        , recentLinks = provider.recentLinks |> List.map (\l -> l |> toJsonLink)
+        , subscriptions = provider.subscriptions |> List.map (\s -> s |> idText)
+        , followers = provider.followers |> List.map (\s -> s |> idText)
+        }
 
 
 toJsonSource : Source -> JsonSource
@@ -279,7 +278,7 @@ jsonProfileToProvider jsonProfile =
 
 
 toMembers : List JsonProvider -> Members
-toMembers jsonProviders = 
+toMembers jsonProviders =
     jsonProviders
         |> List.map toProvider
         |> Members
