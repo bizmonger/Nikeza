@@ -95,6 +95,8 @@ type Msg
     | ThumbnailResponse (Result Http.Error JsonThumbnail)
     | SaveThumbnailResponse (Result Http.Error String)
     | ProvidersResponse (Result Http.Error (List JsonProvider))
+    | SubscriptionsResponse (Result Http.Error (List JsonProvider))
+    | FollowersResponse (Result Http.Error (List JsonProvider))
     | BootstrapResponse (Result Http.Error JsonBootstrap)
     | NavigateToPortalResponse (Result Http.Error JsonProvider)
     | NavigateToPortalProviderTopicResponse (Result Http.Error JsonProvider)
@@ -195,8 +197,8 @@ update msg model =
                             else
                                 ( { model
                                     | providers = providers
-                                    , searchResult = [] --providers
-                                    , scopedProviders = [] -- providers
+                                    , searchResult = providers
+                                    , scopedProviders = providers
                                   }
                                 , Cmd.none
                                 )
@@ -213,8 +215,8 @@ update msg model =
                         in
                             ( { model
                                 | providers = providers
-                                , scopedProviders = [] -- providers
-                                , searchResult = [] -- providers
+                                , scopedProviders = providers
+                                , searchResult = providers
                                 , platforms = bootstrap.platforms |> List.map (\p -> Platform p)
                               }
                             , Cmd.none
@@ -357,15 +359,19 @@ update msg model =
                 onLogin subMsg model
 
             Search "" ->
-                let scopedProviders = [] --model.scopedProviders
+                let
+                    scopedProviders =
+                        model.scopedProviders
                 in
-                ( { model | searchResult = scopedProviders }
-                , runtime.providers ProvidersResponse
-                )
+                    ( { model | searchResult = scopedProviders }
+                    , runtime.providers ProvidersResponse
+                    )
 
             Search text ->
                 let
-                    scopedProviders = [] --model.scopedProviders
+                    scopedProviders =
+                        model.scopedProviders
+
                     result =
                         scopedProviders |> matchProviders text
                 in
@@ -454,39 +460,83 @@ update msg model =
 
             ViewSubscriptions ->
                 let
-                    portal = model.portal
+                    portal =
+                        model.portal
 
-                    scopedProviders = [] --portal.provider.subscriptions
+                    profile =
+                        portal.provider.profile
+
+                    scopedProviders =
+                        []
+
+                    --portal.provider.subscriptions
                 in
                     ( { model
                         | scopedProviders = scopedProviders
                         , searchResult = scopedProviders
                         , portal = { portal | requested = Domain.ViewSubscriptions }
                       }
+                    , runtime.subscriptions profile.id SubscriptionsResponse
+                    )
+
+            SubscriptionsResponse (Ok jsonSubscriptions) ->
+                let
+                    subscriptions =
+                        jsonSubscriptions |> List.map toProvider
+                in
+                    ( { model
+                        | scopedProviders = subscriptions
+                        , searchResult = subscriptions
+                      }
                     , Cmd.none
                     )
+
+            SubscriptionsResponse (Err reason) ->
+                Debug.crash (reason |> toString) ( model, Cmd.none )
 
             ViewFollowers ->
                 let
                     portal =
                         model.portal
 
-                    scopedProviders = [] -- portal.provider.followers
+                    profile =
+                        portal.provider.profile
+
+                    scopedProviders =
+                        []
+
+                    -- portal.provider.followers
                 in
                     ( { model
                         | scopedProviders = scopedProviders
                         , searchResult = scopedProviders
                         , portal = { portal | requested = Domain.ViewFollowers }
                       }
+                    , runtime.subscriptions profile.id FollowersResponse
+                    )
+
+            FollowersResponse (Ok jsonFollowers) ->
+                let
+                    followers =
+                        jsonFollowers |> List.map toProvider
+                in
+                    ( { model
+                        | scopedProviders = followers
+                        , searchResult = followers
+                      }
                     , Cmd.none
                     )
+
+            FollowersResponse (Err reason) ->
+                Debug.crash (reason |> toString) ( model, Cmd.none )
 
             ViewProviders ->
                 let
                     portal =
                         model.portal
 
-                    scopedProviders = [] --model.providers
+                    scopedProviders =
+                        model.providers
                 in
                     ( { model
                         | scopedProviders = scopedProviders
@@ -498,16 +548,23 @@ update msg model =
 
             ViewRecent ->
                 let
-                    portal = model.portal
+                    portal =
+                        model.portal
 
-                    scopedProviders = [] --portal.provider.subscriptions
+                    profile =
+                        portal.provider.profile
+
+                    scopedProviders =
+                        []
+
+                    --portal.provider.subscriptions
                 in
                     ( { model
                         | scopedProviders = scopedProviders
                         , searchResult = scopedProviders
                         , portal = { portal | requested = Domain.ViewRecent }
                       }
-                    , Cmd.none
+                    , runtime.subscriptions profile.id SubscriptionsResponse
                     )
 
             SourcesUpdated subMsg ->
@@ -1722,7 +1779,7 @@ renderNavigation portal subscriptions =
                     , br [] []
                     , button [ class "navigationButton4", onClick ViewSubscriptions ] [ text subscriptionsText ]
                     , br [] []
-                    , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ] 
+                    , button [ class "navigationButton4", onClick ViewFollowers ] [ text followersText ]
                     , br [] []
                     , button [ class "selectedNavigationButton4", onClick ViewProviders ] [ text membersText ]
                     ]
