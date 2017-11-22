@@ -122,25 +122,22 @@ update msg model =
         maxLinksToShow =
             5
 
-        initialTopics pendingfiltered =
-            if pendingfiltered.topics == [] then
-                pendingfiltered
-                    |> getLinks All
+        initialTopics topics links =
+            if topics == [] then
+                links
                     |> topicsFromLinks
                     |> topicGroups
             else
-                pendingfiltered.topics
+                topics
 
-        popularTopicsFilter link portfolio =
-            link.topics
-                |> List.any
-                    (\topic ->
-                        (initialTopics portfolio
-                            |> List.map .name
-                            |> List.take maxTopicsToShow
-                        )
-                            |> List.member topic.name
-                    )
+        -- popularTopicsFilter: Link -> List Link -> Bool
+        -- popularTopicsFilter link links =
+        --     -- link.topics
+        --     --     |> initialTopics links
+        --     --     |> List.map .name
+        --     --     |> List.take maxTopicsToShow)
+        --     --     |> List.member topic.name
+        --     True
     in
         case msg of
             UrlChange location ->
@@ -287,7 +284,7 @@ update msg model =
 
                             filterTop links =
                                 links
-                                    |> List.filter (\l -> provider.filteredPortfolio |> popularTopicsFilter l)
+                                    -- |> popularTopicsFilter l)
                                     |> List.take maxLinksToShow
 
                             updatedProvider =
@@ -299,7 +296,7 @@ update msg model =
                                             , videos = filterTop pendingfiltered.videos
                                             , podcasts = filterTop pendingfiltered.podcasts
                                             , articles = filterTop pendingfiltered.articles
-                                            , topics = initialTopics pendingfiltered
+                                            , topics = initialTopics portfolio.topics (pendingfiltered |> getLinks All)
                                         }
                                 }
                         in

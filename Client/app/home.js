@@ -23242,8 +23242,8 @@ var _user$project$Home$onNewLink = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 972, column: 25},
-								end: {line: 972, column: 36}
+								start: {line: 969, column: 25},
+								end: {line: 969, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p26._0),
 						{ctor: '_Tuple2', _0: model, _1: newLinkCmd});
@@ -23351,8 +23351,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1053, column: 25},
-								end: {line: 1053, column: 36}
+								start: {line: 1050, column: 25},
+								end: {line: 1050, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p33._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -23376,8 +23376,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1061, column: 25},
-								end: {line: 1061, column: 36}
+								start: {line: 1058, column: 25},
+								end: {line: 1058, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p35._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -23800,32 +23800,12 @@ var _user$project$Home$onLogin = F2(
 	});
 var _user$project$Home$update = F2(
 	function (msg, model) {
-		var initialTopics = function (pendingfiltered) {
-			return _elm_lang$core$Native_Utils.eq(
-				pendingfiltered.topics,
-				{ctor: '[]'}) ? _user$project$Domain_Core$topicGroups(
-				_user$project$Domain_Core$topicsFromLinks(
-					A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, pendingfiltered))) : pendingfiltered.topics;
-		};
-		var popularTopicsFilter = F2(
-			function (link, portfolio) {
-				return A2(
-					_elm_lang$core$List$any,
-					function (topic) {
-						return A2(
-							_elm_lang$core$List$member,
-							topic.name,
-							A2(
-								_elm_lang$core$List$take,
-								_user$project$Domain_Core$maxTopicsToShow,
-								A2(
-									_elm_lang$core$List$map,
-									function (_) {
-										return _.name;
-									},
-									initialTopics(portfolio))));
-					},
-					link.topics);
+		var initialTopics = F2(
+			function (topics, links) {
+				return _elm_lang$core$Native_Utils.eq(
+					topics,
+					{ctor: '[]'}) ? _user$project$Domain_Core$topicGroups(
+					_user$project$Domain_Core$topicsFromLinks(links)) : topics;
 			});
 		var maxLinksToShow = 5;
 		var providerSource = model.login.loggedIn ? _user$project$Domain_Core$FromPortal : _user$project$Domain_Core$FromOther;
@@ -23924,8 +23904,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 227, column: 25},
-								end: {line: 227, column: 36}
+								start: {line: 224, column: 25},
+								end: {line: 224, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p47._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -23988,6 +23968,9 @@ var _user$project$Home$update = F2(
 			case 'NavigateToProviderResponse':
 				var _p53 = _p42._0;
 				if (_p53.ctor === 'Ok') {
+					var filterTop = function (links) {
+						return A2(_elm_lang$core$List$take, maxLinksToShow, links);
+					};
 					var portfolioSearch = model.portfolioSearch;
 					var provider = _user$project$Services_Adapter$toProvider(_p53._0);
 					var portfolio = provider.portfolio;
@@ -23995,17 +23978,6 @@ var _user$project$Home$update = F2(
 						portfolioSearch,
 						{provider: provider});
 					var pendingfiltered = provider.filteredPortfolio;
-					var filterTop = function (links) {
-						return A2(
-							_elm_lang$core$List$take,
-							maxLinksToShow,
-							A2(
-								_elm_lang$core$List$filter,
-								function (l) {
-									return A2(popularTopicsFilter, l, provider.filteredPortfolio);
-								},
-								links));
-					};
 					var updatedProvider = _elm_lang$core$Native_Utils.update(
 						provider,
 						{
@@ -24017,7 +23989,10 @@ var _user$project$Home$update = F2(
 									videos: filterTop(pendingfiltered.videos),
 									podcasts: filterTop(pendingfiltered.podcasts),
 									articles: filterTop(pendingfiltered.articles),
-									topics: initialTopics(pendingfiltered)
+									topics: A2(
+										initialTopics,
+										portfolio.topics,
+										A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, pendingfiltered))
 								})
 						});
 					return {
@@ -24054,8 +24029,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 330, column: 25},
-								end: {line: 330, column: 36}
+								start: {line: 327, column: 25},
+								end: {line: 327, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p55._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -24091,8 +24066,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 351, column: 25},
-								end: {line: 351, column: 36}
+								start: {line: 348, column: 25},
+								end: {line: 348, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p56._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
