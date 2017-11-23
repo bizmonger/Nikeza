@@ -16,33 +16,27 @@ type Msg
 
 
 update : Msg -> Provider -> ( Provider, Cmd Msg )
-update msg provider =
+update msg endUser =
     case msg of
         SubscribeResponse result ->
             case result of
-                Ok jsonOtherProvider ->
-                    let
-                        otherProvider =
-                            jsonOtherProvider |> toProvider
-
-                        subscriptions =
-                            if otherProvider.followers |> List.any (\f -> f == otherProvider.profile.id) then
-                                provider.profile.id :: otherProvider.followers
-                            else
-                                otherProvider.followers |> List.filter (\f -> f /= provider.profile.id)
-                    in
-                        ( { provider | subscriptions = subscriptions }, Cmd.none )
+                Ok providerResponse ->
+                    ( endUser, Cmd.none )
 
                 Err _ ->
-                    ( provider, Cmd.none )
+                    ( endUser, Cmd.none )
 
         UpdateSubscription action ->
             case action of
-                Subscribe clientId provider ->
-                    ( provider, (runtime.follow { subscriberId = clientId, providerId = provider.profile.id }) SubscribeResponse )
+                Subscribe user targetProvider ->
+                    ( user, (runtime.follow { subscriberId = user.profile.id, providerId = targetProvider.profile.id }) SubscribeResponse )
 
-                Unsubscribe clientId providerId ->
-                    ( provider, (runtime.unsubscribe { subscriberId = clientId, providerId = provider.profile.id }) SubscribeResponse )
+                Unsubscribe user targetProvider ->
+                    let
+                        subscriptions =
+                            user.subscriptions |> List.filter (\s -> s /= targetProvider.profile.id)
+                    in
+                        ( { user | subscriptions = subscriptions }, (runtime.unsubscribe { subscriberId = user.profile.id, providerId = targetProvider.profile.id }) SubscribeResponse )
 
 
 organize : List Topic -> List Topic -> List Topic -> ( List Topic, List Topic )
@@ -130,9 +124,9 @@ thumbnail loggedIn showSubscriptionState provider =
 
                     placeholder =
                         if not alreadySubscribed && showSubscriptionState then
-                            button [ class "subscribeButton", onClick (UpdateSubscription <| Subscribe user.profile.id provider) ] [ text "Follow" ]
+                            button [ class "subscribeButton", onClick (UpdateSubscription <| Subscribe user provider) ] [ text "Follow" ]
                         else if alreadySubscribed && showSubscriptionState then
-                            button [ class "unsubscribeButton", onClick (UpdateSubscription <| Unsubscribe user.profile.id provider) ] [ text "Unsubscribe" ]
+                            button [ class "unsubscribeButton", onClick (UpdateSubscription <| Unsubscribe user provider) ] [ text "Unsubscribe" ]
                         else
                             div [] []
                 in
@@ -141,12 +135,13 @@ thumbnail loggedIn showSubscriptionState provider =
                             [ tr []
                                 [ td []
                                     [ a [ href <| urlText <| providerUrl (Just user.profile.id) profile.id ]
-                                        [ img [ src <| urlText profile.imageUrl, width 40, height 40 ] [] ]
+                                        [ img [ src <| urlText profile.imageUrl, width 80, height 80 ] [] ]
                                     , br [] []
                                     , label [ class "subscribed" ] [ text <| toString (List.length (provider.followers)) ++ " subscribers" ]
                                     ]
                                 , td [] [ nameAndTopics ]
                                 , td [ class "centertd" ] [ recentLinks ]
+                                , td [] [ label [] [ text <| ("alreadySubscribed: " ++ (toString alreadySubscribed)) ] ]
                                 ]
                             , placeholder
                             ]
@@ -158,7 +153,7 @@ thumbnail loggedIn showSubscriptionState provider =
                         [ tr []
                             [ td []
                                 [ a [ href <| urlText <| providerUrl Nothing profile.id ]
-                                    [ img [ src <| urlText profile.imageUrl, width 40, height 40 ] [] ]
+                                    [ img [ src <| urlText profile.imageUrl, width 80, height 80 ] [] ]
                                 , br [] []
                                 , label [ class "subscribed" ] [ text <| toString (List.length (provider.followers)) ++ " subscribers" ]
                                 ]

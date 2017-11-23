@@ -17659,7 +17659,7 @@ var _user$project$Services_Gateway$recentLinks = F2(
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
 var _user$project$Services_Gateway$providers = function (msg) {
-	var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'providers');
+	var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'providers/wtf');
 	var request = A2(
 		_elm_lang$http$Http$get,
 		url,
@@ -17784,7 +17784,7 @@ var _user$project$Services_Gateway$removeSource = F2(
 		}
 	});
 var _user$project$Services_Gateway$bootstrap = function (msg) {
-	var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'bootstrap');
+	var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'bootstrap/wtf');
 	var request = A2(_elm_lang$http$Http$get, url, _user$project$Services_Decoders$bootstrapDecoder);
 	return A2(_elm_lang$http$Http$send, msg, request);
 };
@@ -19865,52 +19865,44 @@ var _user$project$Controls_ProfileThumbnail$SubscribeResponse = function (a) {
 	return {ctor: 'SubscribeResponse', _0: a};
 };
 var _user$project$Controls_ProfileThumbnail$update = F2(
-	function (msg, provider) {
+	function (msg, endUser) {
 		var _p4 = msg;
 		if (_p4.ctor === 'SubscribeResponse') {
 			var _p5 = _p4._0;
 			if (_p5.ctor === 'Ok') {
-				var otherProvider = _user$project$Services_Adapter$toProvider(_p5._0);
-				var subscriptions = A2(
-					_elm_lang$core$List$any,
-					function (f) {
-						return _elm_lang$core$Native_Utils.eq(f, otherProvider.profile.id);
-					},
-					otherProvider.followers) ? {ctor: '::', _0: provider.profile.id, _1: otherProvider.followers} : A2(
-					_elm_lang$core$List$filter,
-					function (f) {
-						return !_elm_lang$core$Native_Utils.eq(f, provider.profile.id);
-					},
-					otherProvider.followers);
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						provider,
-						{subscriptions: subscriptions}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
+				return {ctor: '_Tuple2', _0: endUser, _1: _elm_lang$core$Platform_Cmd$none};
 			} else {
-				return {ctor: '_Tuple2', _0: provider, _1: _elm_lang$core$Platform_Cmd$none};
+				return {ctor: '_Tuple2', _0: endUser, _1: _elm_lang$core$Platform_Cmd$none};
 			}
 		} else {
 			var _p6 = _p4._0;
 			if (_p6.ctor === 'Subscribe') {
-				var _p7 = _p6._1;
+				var _p7 = _p6._0;
 				return {
 					ctor: '_Tuple2',
 					_0: _p7,
 					_1: A2(
 						_user$project$Settings$runtime.follow,
-						{subscriberId: _p6._0, providerId: _p7.profile.id},
+						{subscriberId: _p7.profile.id, providerId: _p6._1.profile.id},
 						_user$project$Controls_ProfileThumbnail$SubscribeResponse)
 				};
 			} else {
+				var _p9 = _p6._0;
+				var _p8 = _p6._1;
+				var subscriptions = A2(
+					_elm_lang$core$List$filter,
+					function (s) {
+						return !_elm_lang$core$Native_Utils.eq(s, _p8.profile.id);
+					},
+					_p9.subscriptions);
 				return {
 					ctor: '_Tuple2',
-					_0: provider,
+					_0: _elm_lang$core$Native_Utils.update(
+						_p9,
+						{subscriptions: subscriptions}),
 					_1: A2(
 						_user$project$Settings$runtime.unsubscribe,
-						{subscriberId: _p6._0, providerId: provider.profile.id},
+						{subscriberId: _p9.profile.id, providerId: _p8.profile.id},
 						_user$project$Controls_ProfileThumbnail$SubscribeResponse)
 				};
 			}
@@ -20103,15 +20095,15 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 					}
 				}
 			});
-		var _p8 = loggedIn;
-		if (_p8.ctor === 'Just') {
-			var _p9 = _p8._0;
+		var _p10 = loggedIn;
+		if (_p10.ctor === 'Just') {
+			var _p11 = _p10._0;
 			var alreadySubscribed = A2(
 				_elm_lang$core$List$any,
 				function (subscription) {
 					return _elm_lang$core$Native_Utils.eq(subscription, profile.id);
 				},
-				_p9.subscriptions);
+				_p11.subscriptions);
 			var placeholder = ((!alreadySubscribed) && showSubscriptionState) ? A2(
 				_elm_lang$html$Html$button,
 				{
@@ -20121,7 +20113,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 						ctor: '::',
 						_0: _elm_lang$html$Html_Events$onClick(
 							_user$project$Controls_ProfileThumbnail$UpdateSubscription(
-								A2(_user$project$Domain_Core$Subscribe, _p9.profile.id, provider))),
+								A2(_user$project$Domain_Core$Subscribe, _p11, provider))),
 						_1: {ctor: '[]'}
 					}
 				},
@@ -20138,7 +20130,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 						ctor: '::',
 						_0: _elm_lang$html$Html_Events$onClick(
 							_user$project$Controls_ProfileThumbnail$UpdateSubscription(
-								A2(_user$project$Domain_Core$Unsubscribe, _p9.profile.id, provider))),
+								A2(_user$project$Domain_Core$Unsubscribe, _p11, provider))),
 						_1: {ctor: '[]'}
 					}
 				},
@@ -20182,7 +20174,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 														_user$project$Domain_Core$urlText(
 															A2(
 																_user$project$Domain_Core$providerUrl,
-																_elm_lang$core$Maybe$Just(_p9.profile.id),
+																_elm_lang$core$Maybe$Just(_p11.profile.id),
 																profile.id))),
 													_1: {ctor: '[]'}
 												},
@@ -20196,10 +20188,10 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 																_user$project$Domain_Core$urlText(profile.imageUrl)),
 															_1: {
 																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$width(40),
+																_0: _elm_lang$html$Html_Attributes$width(80),
 																_1: {
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$height(40),
+																	_0: _elm_lang$html$Html_Attributes$height(80),
 																	_1: {ctor: '[]'}
 																}
 															}
@@ -20260,7 +20252,29 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 													_0: recentLinks,
 													_1: {ctor: '[]'}
 												}),
-											_1: {ctor: '[]'}
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$td,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$label,
+															{ctor: '[]'},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text(
+																	A2(
+																		_elm_lang$core$Basics_ops['++'],
+																		'alreadySubscribed: ',
+																		_elm_lang$core$Basics$toString(alreadySubscribed))),
+																_1: {ctor: '[]'}
+															}),
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}
 										}
 									}
 								}),
@@ -20316,10 +20330,10 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 																_user$project$Domain_Core$urlText(profile.imageUrl)),
 															_1: {
 																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$width(40),
+																_0: _elm_lang$html$Html_Attributes$width(80),
 																_1: {
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$height(40),
+																	_0: _elm_lang$html$Html_Attributes$height(80),
 																	_1: {ctor: '[]'}
 																}
 															}
@@ -20861,10 +20875,10 @@ var _user$project$Controls_RecentProviderLinks$thumbnail = F2(
 															_user$project$Domain_Core$urlText(profile.imageUrl)),
 														_1: {
 															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$width(40),
+															_0: _elm_lang$html$Html_Attributes$width(80),
 															_1: {
 																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$height(40),
+																_0: _elm_lang$html$Html_Attributes$height(80),
 																_1: {ctor: '[]'}
 															}
 														}
@@ -21924,10 +21938,10 @@ var _user$project$Home$providerTopicPage = F2(
 																			_user$project$Domain_Core$urlText(model.profile.imageUrl)),
 																		_1: {
 																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$width(40),
+																			_0: _elm_lang$html$Html_Attributes$width(55),
 																			_1: {
 																				ctor: '::',
-																				_0: _elm_lang$html$Html_Attributes$height(40),
+																				_0: _elm_lang$html$Html_Attributes$height(55),
 																				_1: {ctor: '[]'}
 																			}
 																		}
@@ -22088,10 +22102,10 @@ var _user$project$Home$renderProfileBase = F2(
 																_user$project$Domain_Core$urlText(provider.profile.imageUrl)),
 															_1: {
 																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$width(40),
+																_0: _elm_lang$html$Html_Attributes$width(70),
 																_1: {
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$height(40),
+																	_0: _elm_lang$html$Html_Attributes$height(70),
 																	_1: {ctor: '[]'}
 																}
 															}
@@ -23248,8 +23262,8 @@ var _user$project$Home$onNewLink = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1034, column: 25},
-								end: {line: 1034, column: 36}
+								start: {line: 1048, column: 25},
+								end: {line: 1048, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p26._0),
 						{ctor: '_Tuple2', _0: model, _1: newLinkCmd});
@@ -23357,8 +23371,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1115, column: 25},
-								end: {line: 1115, column: 36}
+								start: {line: 1129, column: 25},
+								end: {line: 1129, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p33._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -23382,8 +23396,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1123, column: 25},
-								end: {line: 1123, column: 36}
+								start: {line: 1137, column: 25},
+								end: {line: 1137, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p35._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -23861,17 +23875,25 @@ var _user$project$Home$update = F2(
 			case 'ProvidersResponse':
 				var _p46 = _p42._0;
 				if (_p46.ctor === 'Ok') {
+					var portfolioSearch = model.portfolioSearch;
 					var providers = A2(
-						_elm_lang$core$List$map,
+						_elm_lang$core$List$filter,
 						function (p) {
-							return _user$project$Services_Adapter$toProvider(p);
+							return !_elm_lang$core$Native_Utils.eq(p.profile.id, model.portal.provider.profile.id);
 						},
-						_p46._0);
+						A2(_elm_lang$core$List$map, _user$project$Services_Adapter$toProvider, _p46._0));
 					return model.login.loggedIn ? {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{providers: providers}),
+							{
+								providers: providers,
+								portfolioSearch: _elm_lang$core$Native_Utils.update(
+									portfolioSearch,
+									{provider: model.portal.provider}),
+								scopedProviders: providers,
+								searchResult: providers
+							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					} : {
 						ctor: '_Tuple2',
@@ -23910,8 +23932,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 226, column: 25},
-								end: {line: 226, column: 36}
+								start: {line: 237, column: 25},
+								end: {line: 237, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p47._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -24035,8 +24057,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 329, column: 25},
-								end: {line: 329, column: 36}
+								start: {line: 340, column: 25},
+								end: {line: 340, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p55._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -24072,8 +24094,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 350, column: 25},
-								end: {line: 350, column: 36}
+								start: {line: 361, column: 25},
+								end: {line: 361, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p56._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -24110,23 +24132,39 @@ var _user$project$Home$update = F2(
 					};
 				}
 			case 'ProfileThumbnail':
+				var _p60 = _p42._0;
 				var portal = model.portal;
 				var provider = portal.provider;
-				var _p58 = A2(_user$project$Controls_ProfileThumbnail$update, _p42._0, provider);
+				var _p58 = A2(_user$project$Controls_ProfileThumbnail$update, _p60, provider);
 				var updatedProvider = _p58._0;
 				var subCmd = _p58._1;
 				var profileThumbnailCmd = A2(_elm_lang$core$Platform_Cmd$map, _user$project$Home$ProfileThumbnail, subCmd);
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							portal: _elm_lang$core$Native_Utils.update(
-								portal,
-								{provider: updatedProvider})
-						}),
-					_1: profileThumbnailCmd
-				};
+				var _p59 = _p60;
+				if (_p59.ctor === 'UpdateSubscription') {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								portal: _elm_lang$core$Native_Utils.update(
+									portal,
+									{provider: updatedProvider})
+							}),
+						_1: profileThumbnailCmd
+					};
+				} else {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								portal: _elm_lang$core$Native_Utils.update(
+									portal,
+									{provider: updatedProvider})
+							}),
+						_1: A2(_user$project$Settings$runtime.subscriptions, provider.profile.id, _user$project$Home$SubscriptionsResponse)
+					};
+				}
 			case 'RecentProviderLinks':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'ViewSources':
@@ -24158,8 +24196,8 @@ var _user$project$Home$update = F2(
 				};
 			case 'ViewPortfolio':
 				var portal = model.portal;
-				var _p59 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
-				if ((((_p59.ctor === '::') && (_p59._0 === 'portal')) && (_p59._1.ctor === '::')) && (_p59._1._1.ctor === '[]')) {
+				var _p61 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+				if ((((_p61.ctor === '::') && (_p61._0 === 'portal')) && (_p61._1.ctor === '::')) && (_p61._1._1.ctor === '[]')) {
 					var provider = portal.provider;
 					var filtered = {
 						answers: A2(
@@ -24251,20 +24289,52 @@ var _user$project$Home$update = F2(
 			case 'SubscriptionsResponse':
 				if (_p42._0.ctor === 'Ok') {
 					var subscriptions = A2(_elm_lang$core$List$map, _user$project$Services_Adapter$toProvider, _p42._0._0);
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{scopedProviders: subscriptions, searchResult: subscriptions}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
+					if (model.login.loggedIn) {
+						var subscriptionIds = A2(
+							_elm_lang$core$List$map,
+							function (s) {
+								return s.profile.id;
+							},
+							subscriptions);
+						var portal = model.portal;
+						var provider = portal.provider;
+						return (!_elm_lang$core$Native_Utils.eq(portal.requested, _user$project$Domain_Core$ViewProviders)) ? {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{
+									scopedProviders: subscriptions,
+									searchResult: subscriptions,
+									portal: _elm_lang$core$Native_Utils.update(
+										portal,
+										{
+											provider: _elm_lang$core$Native_Utils.update(
+												provider,
+												{subscriptions: subscriptionIds})
+										})
+								}),
+							_1: _user$project$Settings$runtime.providers(_user$project$Home$ProvidersResponse)
+						} : {
+							ctor: '_Tuple2',
+							_0: model,
+							_1: _user$project$Settings$runtime.providers(_user$project$Home$ProvidersResponse)
+						};
+					} else {
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{scopedProviders: subscriptions, searchResult: subscriptions}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					}
 				} else {
 					return A2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 486, column: 17},
-								end: {line: 486, column: 28}
+								start: {line: 524, column: 17},
+								end: {line: 524, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p42._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -24298,8 +24368,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 513, column: 17},
-								end: {line: 513, column: 28}
+								start: {line: 551, column: 17},
+								end: {line: 551, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p42._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -24318,10 +24388,9 @@ var _user$project$Home$update = F2(
 								portal,
 								{requested: _user$project$Domain_Core$ViewProviders})
 						}),
-					_1: _elm_lang$core$Platform_Cmd$none
+					_1: _user$project$Settings$runtime.providers(_user$project$Home$ProvidersResponse)
 				};
 			case 'ViewRecent':
-				var scopedProviders = {ctor: '[]'};
 				var portal = model.portal;
 				var profile = portal.provider.profile;
 				return {
@@ -24329,8 +24398,6 @@ var _user$project$Home$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							scopedProviders: scopedProviders,
-							searchResult: scopedProviders,
 							portal: _elm_lang$core$Native_Utils.update(
 								portal,
 								{requested: _user$project$Domain_Core$ViewRecent})
@@ -24350,42 +24417,19 @@ var _user$project$Home$update = F2(
 			case 'ProviderTopicContentTypeLinksAction':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Subscription':
-				var updateModel = F2(
-					function (user, provider) {
-						var updatedProviders = A3(
-							_elm_community$list_extra$List_Extra$replaceIf,
-							function (p) {
-								return _elm_lang$core$Native_Utils.eq(p.profile.id, provider.profile.id);
-							},
-							provider,
-							model.searchResult);
-						return {
-							ctor: '_Tuple2',
-							_0: _elm_lang$core$Native_Utils.update(
-								model,
-								{searchResult: updatedProviders}),
-							_1: _elm_lang$core$Platform_Cmd$none
-						};
-					});
-				var _p60 = _p42._0;
-				if (_p60.ctor === 'Subscribe') {
-					var _p62 = _p60._0;
-					var _p61 = _p60._1;
-					var updatedProvider = _elm_lang$core$Native_Utils.update(
-						_p61,
-						{
-							followers: {ctor: '::', _0: _p62, _1: _p61.followers}
-						});
-					return A2(updateModel, _p62, updatedProvider);
+				var _p62 = _p42._0;
+				if (_p62.ctor === 'Subscribe') {
+					return {
+						ctor: '_Tuple2',
+						_0: model,
+						_1: A2(_user$project$Settings$runtime.subscriptions, _p62._0.profile.id, _user$project$Home$SubscriptionsResponse)
+					};
 				} else {
-					var _p64 = _p60._0;
-					var _p63 = _p60._1;
-					var updatedProvider = _elm_lang$core$Native_Utils.update(
-						_p63,
-						{
-							followers: A2(_elm_community$list_extra$List_Extra$remove, _p64, _p63.followers)
-						});
-					return A2(updateModel, _p64, updatedProvider);
+					return {
+						ctor: '_Tuple2',
+						_0: model,
+						_1: A2(_user$project$Settings$runtime.subscriptions, _p62._0.profile.id, _user$project$Home$SubscriptionsResponse)
+					};
 				}
 			default:
 				return {
@@ -24405,7 +24449,7 @@ var _user$project$Home$AddNewLink = {ctor: 'AddNewLink'};
 var _user$project$Home$ViewSources = {ctor: 'ViewSources'};
 var _user$project$Home$headerContent = function (model) {
 	var loginUI = function (model) {
-		var _p65 = {
+		var _p63 = {
 			ctor: '_Tuple5',
 			_0: model.login.loggedIn,
 			_1: A2(
@@ -24472,11 +24516,11 @@ var _user$project$Home$headerContent = function (model) {
 					_1: {ctor: '[]'}
 				})
 		};
-		var loggedIn = _p65._0;
-		var welcome = _p65._1;
-		var signout = _p65._2;
-		var profile = _p65._3;
-		var sources = _p65._4;
+		var loggedIn = _p63._0;
+		var welcome = _p63._1;
+		var signout = _p63._2;
+		var profile = _p63._3;
+		var sources = _p63._4;
 		var profileId = _user$project$Domain_Core$idText(model.portal.provider.profile.id);
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
@@ -24561,32 +24605,32 @@ var _user$project$Home$headerContent = function (model) {
 var _user$project$Home$renderPage = F2(
 	function (content, model) {
 		var placeHolder = function () {
-			var _p66 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
-			_v37_3:
+			var _p64 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+			_v38_3:
 			do {
-				if (_p66.ctor === '[]') {
+				if (_p64.ctor === '[]') {
 					return A2(
 						_elm_lang$html$Html$div,
 						{ctor: '[]'},
 						{ctor: '[]'});
 				} else {
-					if (_p66._1.ctor === '[]') {
-						if (_p66._0 === 'home') {
+					if (_p64._1.ctor === '[]') {
+						if (_p64._0 === 'home') {
 							return A2(
 								_elm_lang$html$Html$div,
 								{ctor: '[]'},
 								{ctor: '[]'});
 						} else {
-							break _v37_3;
+							break _v38_3;
 						}
 					} else {
-						if ((_p66._0 === 'portal') && (_p66._1._1.ctor === '[]')) {
+						if ((_p64._0 === 'portal') && (_p64._1._1.ctor === '[]')) {
 							return A2(
 								_elm_lang$html$Html$div,
 								{ctor: '[]'},
 								{ctor: '[]'});
 						} else {
-							break _v37_3;
+							break _v38_3;
 						}
 					}
 				}
@@ -24749,12 +24793,12 @@ var _user$project$Home$renderNavigation = F2(
 				_1: {ctor: '[]'}
 			};
 		};
-		var _p67 = {ctor: '_Tuple5', _0: 'Portfolio', _1: 'Subscriptions', _2: 'Members', _3: 'Link', _4: 'Profile'};
-		var portfolioText = _p67._0;
-		var subscriptionsText = _p67._1;
-		var membersText = _p67._2;
-		var linkText = _p67._3;
-		var profileText = _p67._4;
+		var _p65 = {ctor: '_Tuple5', _0: 'Portfolio', _1: 'Subscriptions', _2: 'Members', _3: 'Link', _4: 'Profile'};
+		var portfolioText = _p65._0;
+		var subscriptionsText = _p65._1;
+		var membersText = _p65._2;
+		var linkText = _p65._3;
+		var profileText = _p65._4;
 		var recentCount = _elm_lang$core$List$length(
 			_user$project$Home$recentLinks(subscriptions));
 		var newText = A2(
@@ -24826,8 +24870,8 @@ var _user$project$Home$renderNavigation = F2(
 					}
 				}
 			};
-			var _p68 = portal.requested;
-			switch (_p68.ctor) {
+			var _p66 = portal.requested;
+			switch (_p66.ctor) {
 				case 'ViewSources':
 					return {
 						ctor: '::',
@@ -24982,8 +25026,8 @@ var _user$project$Home$renderNavigation = F2(
 			}
 		}();
 		var noSourcesNoLinks = function () {
-			var _p69 = portal.requested;
-			switch (_p69.ctor) {
+			var _p67 = portal.requested;
+			switch (_p67.ctor) {
 				case 'AddLink':
 					return {
 						ctor: '::',
@@ -25245,8 +25289,8 @@ var _user$project$Home$renderNavigation = F2(
 						_elm_lang$core$List$length(followers)),
 					')')));
 		var allNavigation = function () {
-			var _p70 = portal.requested;
-			switch (_p70.ctor) {
+			var _p68 = portal.requested;
+			switch (_p68.ctor) {
 				case 'ViewRecent':
 					return {
 						ctor: '::',
@@ -26633,10 +26677,10 @@ var _user$project$Home$render = F4(
 																		_user$project$Domain_Core$urlText(provider.profile.imageUrl)),
 																	_1: {
 																		ctor: '::',
-																		_0: _elm_lang$html$Html_Attributes$width(40),
+																		_0: _elm_lang$html$Html_Attributes$width(55),
 																		_1: {
 																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$height(40),
+																			_0: _elm_lang$html$Html_Attributes$height(55),
 																			_1: {ctor: '[]'}
 																		}
 																	}
@@ -26687,14 +26731,14 @@ var _user$project$Home$applyToPortal = F3(
 		return _elm_lang$core$Native_Utils.eq(portal.provider, _user$project$Domain_Core$initProvider) ? A4(_user$project$Home$render, provider, content, model.providers, portal) : A4(_user$project$Home$render, portal.provider, content, model.providers, portal);
 	});
 var _user$project$Home$view = function (model) {
-	var _p71 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
-	_v41_10:
+	var _p69 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+	_v42_10:
 	do {
-		if (_p71.ctor === '[]') {
+		if (_p69.ctor === '[]') {
 			return _user$project$Home$homePage(model);
 		} else {
-			if (_p71._1.ctor === '[]') {
-				if (_p71._0 === 'register') {
+			if (_p69._1.ctor === '[]') {
+				if (_p69._0 === 'register') {
 					return A2(
 						_user$project$Home$renderPage,
 						A2(
@@ -26703,11 +26747,11 @@ var _user$project$Home$view = function (model) {
 							_user$project$Controls_Register$view(model.registration)),
 						model);
 				} else {
-					break _v41_10;
+					break _v42_10;
 				}
 			} else {
-				if (_p71._1._1.ctor === '[]') {
-					switch (_p71._0) {
+				if (_p69._1._1.ctor === '[]') {
+					switch (_p69._0) {
 						case 'provider':
 							return A2(
 								_user$project$Home$renderPage,
@@ -26730,40 +26774,40 @@ var _user$project$Home$view = function (model) {
 								A2(_user$project$Home$content, _elm_lang$core$Maybe$Nothing, model));
 							return A2(_user$project$Home$renderPage, mainContent, model);
 						default:
-							break _v41_10;
+							break _v42_10;
 					}
 				} else {
-					if (_p71._1._1._1.ctor === '[]') {
-						if (_p71._0 === 'provider') {
+					if (_p69._1._1._1.ctor === '[]') {
+						if (_p69._0 === 'provider') {
 							return A2(
 								_user$project$Home$renderPage,
 								A2(_user$project$Home$providerTopicPage, _user$project$Domain_Core$FromOther, model.selectedProvider),
 								model);
 						} else {
-							break _v41_10;
+							break _v42_10;
 						}
 					} else {
-						if (_p71._1._1._1._1.ctor === '[]') {
-							switch (_p71._0) {
+						if (_p69._1._1._1._1.ctor === '[]') {
+							switch (_p69._0) {
 								case 'provider':
-									if (_p71._1._1._0 === 'all') {
+									if (_p69._1._1._0 === 'all') {
 										var contentToEmbed = A2(
 											_elm_lang$html$Html$map,
 											_user$project$Home$ProviderContentTypeLinksAction,
 											A3(
 												_user$project$Controls_ProviderContentTypeLinks$view,
 												model.selectedProvider,
-												_user$project$Domain_Core$toContentType(_p71._1._1._1._0),
+												_user$project$Domain_Core$toContentType(_p69._1._1._1._0),
 												false));
 										return A2(
 											_user$project$Home$renderPage,
 											A2(_user$project$Home$renderProfileBase, model.selectedProvider, contentToEmbed),
 											model);
 									} else {
-										break _v41_10;
+										break _v42_10;
 									}
 								case 'portal':
-									switch (_p71._1._1._0) {
+									switch (_p69._1._1._0) {
 										case 'all':
 											var linksContent = A2(
 												_elm_lang$html$Html$map,
@@ -26771,7 +26815,7 @@ var _user$project$Home$view = function (model) {
 												A3(
 													_user$project$Controls_ProviderContentTypeLinks$view,
 													model.portal.provider,
-													_user$project$Domain_Core$toContentType(_p71._1._1._1._0),
+													_user$project$Domain_Core$toContentType(_p69._1._1._1._0),
 													true));
 											var contentToEmbed = A3(_user$project$Home$applyToPortal, model.portal.provider, model, linksContent);
 											return A2(
@@ -26794,17 +26838,17 @@ var _user$project$Home$view = function (model) {
 														{provider: model.selectedProvider, topicSuggestions: model.portfolioSearch.topicSuggestions, selectedTopic: model.portfolioSearch.selectedTopic, inputValue: model.portfolioSearch.inputValue})));
 											return A2(_user$project$Home$renderPage, contentLinks, model);
 										default:
-											break _v41_10;
+											break _v42_10;
 									}
 								default:
-									break _v41_10;
+									break _v42_10;
 							}
 						} else {
-							if (_p71._1._1._1._1._1.ctor === '[]') {
-								switch (_p71._0) {
+							if (_p69._1._1._1._1._1.ctor === '[]') {
+								switch (_p69._0) {
 									case 'provider':
-										if (_p71._1._1._1._0 === 'all') {
-											var topic = A2(_user$project$Domain_Core$Topic, _p71._1._1._0, false);
+										if (_p69._1._1._1._0 === 'all') {
+											var topic = A2(_user$project$Domain_Core$Topic, _p69._1._1._0, false);
 											var contentToEmbed = A2(
 												_elm_lang$html$Html$map,
 												_user$project$Home$ProviderTopicContentTypeLinksAction,
@@ -26812,16 +26856,16 @@ var _user$project$Home$view = function (model) {
 													_user$project$Controls_ProviderTopicContentTypeLinks$view,
 													model.selectedProvider,
 													topic,
-													_user$project$Domain_Core$toContentType(_p71._1._1._1._1._0)));
+													_user$project$Domain_Core$toContentType(_p69._1._1._1._1._0)));
 											return A2(
 												_user$project$Home$renderPage,
 												A2(_user$project$Home$renderProfileBase, model.selectedProvider, contentToEmbed),
 												model);
 										} else {
-											break _v41_10;
+											break _v42_10;
 										}
 									case 'portal':
-										if (_p71._1._1._0 === 'provider') {
+										if (_p69._1._1._0 === 'provider') {
 											var contentLinks = A2(
 												_user$project$Home$renderProfileBase,
 												model.selectedProvider,
@@ -26831,17 +26875,17 @@ var _user$project$Home$view = function (model) {
 													A3(
 														_user$project$Controls_ProviderTopicContentTypeLinks$view,
 														model.selectedProvider,
-														A2(_user$project$Domain_Core$Topic, _p71._1._1._1._1._0, false),
+														A2(_user$project$Domain_Core$Topic, _p69._1._1._1._1._0, false),
 														_user$project$Domain_Core$All)));
 											return A2(_user$project$Home$renderPage, contentLinks, model);
 										} else {
-											break _v41_10;
+											break _v42_10;
 										}
 									default:
-										break _v41_10;
+										break _v42_10;
 								}
 							} else {
-								break _v41_10;
+								break _v42_10;
 							}
 						}
 					}
@@ -26861,7 +26905,7 @@ var _user$project$Home$main = A2(
 		init: _user$project$Home$init,
 		view: _user$project$Home$view,
 		update: _user$project$Home$update,
-		subscriptions: function (_p72) {
+		subscriptions: function (_p70) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();
@@ -26869,7 +26913,7 @@ var _user$project$Home$main = A2(
 var Elm = {};
 Elm['Home'] = Elm['Home'] || {};
 if (typeof _user$project$Home$main !== 'undefined') {
-    _user$project$Home$main(Elm['Home'], 'Home', {"types":{"message":"Home.Msg","aliases":{"Domain.Core.LinkToCreate":{"type":"{ base : Domain.Core.Link , currentTopic : Domain.Core.Topic , topicSuggestions : List Domain.Core.Topic }","args":[]},"Services.Adapter.JsonSource":{"type":"{ id : Int , profileId : String , platform : String , accessId : String , links : List Services.Adapter.JsonLink }","args":[]},"Domain.Core.Provider":{"type":"{ profile : Domain.Core.Profile , topics : List Domain.Core.Topic , portfolio : Domain.Core.Portfolio , filteredPortfolio : Domain.Core.Portfolio , recentLinks : List Domain.Core.Link , followers : List Domain.Core.Id , subscriptions : List Domain.Core.Id }","args":[]},"Services.Adapter.JsonProfile":{"type":"{ id : String , firstName : String , lastName : String , email : String , imageUrl : String , bio : String , sources : List Services.Adapter.JsonSource }","args":[]},"Domain.Core.Topic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Services.Adapter.JsonThumbnail":{"type":"{ imageUrl : String, platform : String }","args":[]},"Services.Adapter.JsonTopic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Domain.Core.Profile":{"type":"{ id : Domain.Core.Id , firstName : Domain.Core.Name , lastName : Domain.Core.Name , email : Domain.Core.Email , imageUrl : Domain.Core.Url , bio : String , sources : List Domain.Core.Source }","args":[]},"Navigation.Location":{"type":"{ href : String , host : String , hostname : String , protocol : String , origin : String , port_ : String , pathname : String , search : String , hash : String , username : String , password : String }","args":[]},"Domain.Core.NewLinks":{"type":"{ profileId : Domain.Core.Id , current : Domain.Core.LinkToCreate , canAdd : Bool , added : List Domain.Core.Link }","args":[]},"Http.Response":{"type":"{ url : String , status : { code : Int, message : String } , headers : Dict.Dict String String , body : body }","args":["body"]},"Services.Adapter.JsonPortfolio":{"type":"{ articles : List Services.Adapter.JsonLink , videos : List Services.Adapter.JsonLink , podcasts : List Services.Adapter.JsonLink , answers : List Services.Adapter.JsonLink }","args":[]},"Domain.Core.Link":{"type":"{ id : Int , profileId : Domain.Core.Id , title : Domain.Core.Title , url : Domain.Core.Url , topics : List Domain.Core.Topic , contentType : Domain.Core.ContentType , isFeatured : Bool }","args":[]},"Services.Adapter.JsonBootstrap":{"type":"{ providers : List Services.Adapter.JsonProvider , platforms : List String }","args":[]},"Domain.Core.Source":{"type":"{ id : Domain.Core.Id , profileId : Domain.Core.Id , platform : String , accessId : String , links : List Domain.Core.Link }","args":[]},"Domain.Core.Portfolio":{"type":"{ topics : List Domain.Core.Topic , answers : List Domain.Core.Link , articles : List Domain.Core.Link , videos : List Domain.Core.Link , podcasts : List Domain.Core.Link }","args":[]},"Services.Adapter.JsonLink":{"type":"{ id : Int , profileId : String , title : String , url : String , contentType : String , topics : List Domain.Core.Topic , isFeatured : Bool }","args":[]},"Services.Adapter.JsonProviderFields":{"type":"{ profile : Services.Adapter.JsonProfile , topics : List Services.Adapter.JsonTopic , portfolio : Services.Adapter.JsonPortfolio , recentLinks : List Services.Adapter.JsonLink , subscriptions : List String , followers : List String }","args":[]}},"unions":{"Controls.RecentProviderLinks.Msg":{"tags":{"None":[]},"args":[]},"Domain.Core.Name":{"tags":{"Name":["String"]},"args":[]},"Controls.ProviderTopicContentTypeLinks.Msg":{"tags":{"None":[]},"args":[]},"Controls.Portfolio.Msg":{"tags":{"KeyDown":["Int"],"TopicSuggestionResponse":["Result.Result Http.Error (List String)"],"TopicSelected":["Domain.Core.Topic"],"Input":["String"]},"args":[]},"Domain.Core.Email":{"tags":{"Email":["String"]},"args":[]},"Dict.NColor":{"tags":{"Black":[],"BBlack":[],"Red":[],"NBlack":[]},"args":[]},"Controls.ProfileThumbnail.Msg":{"tags":{"SubscribeResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"UpdateSubscription":["Domain.Core.SubscriptionUpdate"]},"args":[]},"Services.Adapter.JsonProvider":{"tags":{"JsonProvider":["Services.Adapter.JsonProviderFields"]},"args":[]},"Domain.Core.Url":{"tags":{"Url":["String"]},"args":[]},"Home.Msg":{"tags":{"NewLink":["Controls.NewLinks.Msg"],"NavigateToProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ProfileThumbnail":["Controls.ProfileThumbnail.Msg"],"ViewPortfolio":[],"ViewProviders":[],"NavigateToPortalProviderMemberResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"OnLogin":["Controls.Login.Msg"],"UrlChange":["Navigation.Location"],"ProviderContentTypeLinksAction":["Controls.ProviderContentTypeLinks.Msg"],"ViewSubscriptions":[],"ViewFollowers":[],"Subscription":["Domain.Core.SubscriptionUpdate"],"NavigateToPortalProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ViewSources":[],"SubscriptionsResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"NavigateToPortalResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"NavigateToProviderResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"Search":["String"],"SaveThumbnailResponse":["Result.Result Http.Error String"],"ViewRecent":[],"ProvidersResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"RecentProviderLinks":["Controls.RecentProviderLinks.Msg"],"BootstrapResponse":["Result.Result Http.Error Services.Adapter.JsonBootstrap"],"EditProfileAction":["Controls.EditProfile.Msg"],"NavigateBack":[],"ProviderTopicContentTypeLinksAction":["Controls.ProviderTopicContentTypeLinks.Msg"],"PortfolioAction":["Controls.Portfolio.Msg"],"ThumbnailResponse":["Result.Result Http.Error Services.Adapter.JsonThumbnail"],"EditProfile":[],"FeatureLinkResponse":["Result.Result Http.Error Int"],"AddNewLink":[],"OnRegistration":["Controls.Register.Msg"],"SourcesUpdated":["Controls.Sources.Msg"],"NavigateToPortalProviderMemberTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"FollowersResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"Register":[]},"args":[]},"Controls.Sources.Msg":{"tags":{"RemoveResponse":["Result.Result Http.Error String"],"InputPlatform":["String"],"InputAccessId":["String"],"AddResponse":["Result.Result Http.Error Services.Adapter.JsonSource"],"Remove":["Domain.Core.Source"],"Add":["Domain.Core.Source"]},"args":[]},"Result.Result":{"tags":{"Err":["error"],"Ok":["value"]},"args":["error","value"]},"Http.Error":{"tags":{"Timeout":[],"BadStatus":["Http.Response String"],"BadPayload":["String","Http.Response String"],"BadUrl":["String"],"NetworkError":[]},"args":[]},"Controls.ProviderContentTypeLinks.Msg":{"tags":{"Featured":["( Domain.Core.Link, Bool )"]},"args":[]},"Controls.Register.Msg":{"tags":{"Submit":[],"ConfirmInput":["String"],"EmailInput":["String"],"FirstNameInput":["String"],"PasswordInput":["String"],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProfile"]},"args":[]},"Dict.LeafColor":{"tags":{"LBlack":[],"LBBlack":[]},"args":[]},"Controls.EditProfile.Msg":{"tags":{"EmailInput":["String"],"BioInput":["String"],"FirstNameInput":["String"],"Update":[],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProfile"]},"args":[]},"Controls.NewLinks.Msg":{"tags":{"RemoveTopic":["Domain.Core.Topic"],"InputTopic":["String"],"KeyDown":["Int"],"InputUrl":["String"],"AddTopic":["Domain.Core.Topic"],"InputTitle":["String"],"TopicSuggestionResponse":["Result.Result Http.Error (List String)"],"InputContentType":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonLink"],"AddLink":["Domain.Core.NewLinks"]},"args":[]},"Domain.Core.ContentType":{"tags":{"Answer":[],"Featured":[],"Podcast":[],"Article":[],"Unknown":[],"All":[],"Video":[]},"args":[]},"Domain.Core.Title":{"tags":{"Title":["String"]},"args":[]},"Controls.Login.Msg":{"tags":{"Attempt":["( String, String )"],"PasswordInput":["String"],"UserInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProvider"]},"args":[]},"Dict.Dict":{"tags":{"RBNode_elm_builtin":["Dict.NColor","k","v","Dict.Dict k v","Dict.Dict k v"],"RBEmpty_elm_builtin":["Dict.LeafColor"]},"args":["k","v"]},"Domain.Core.Id":{"tags":{"Id":["String"]},"args":[]},"Domain.Core.SubscriptionUpdate":{"tags":{"Subscribe":["Domain.Core.Id","Domain.Core.Provider"],"Unsubscribe":["Domain.Core.Id","Domain.Core.Provider"]},"args":[]}}},"versions":{"elm":"0.18.0"}});
+    _user$project$Home$main(Elm['Home'], 'Home', {"types":{"message":"Home.Msg","aliases":{"Domain.Core.LinkToCreate":{"type":"{ base : Domain.Core.Link , currentTopic : Domain.Core.Topic , topicSuggestions : List Domain.Core.Topic }","args":[]},"Services.Adapter.JsonSource":{"type":"{ id : Int , profileId : String , platform : String , accessId : String , links : List Services.Adapter.JsonLink }","args":[]},"Domain.Core.Provider":{"type":"{ profile : Domain.Core.Profile , topics : List Domain.Core.Topic , portfolio : Domain.Core.Portfolio , filteredPortfolio : Domain.Core.Portfolio , recentLinks : List Domain.Core.Link , followers : List Domain.Core.Id , subscriptions : List Domain.Core.Id }","args":[]},"Services.Adapter.JsonProfile":{"type":"{ id : String , firstName : String , lastName : String , email : String , imageUrl : String , bio : String , sources : List Services.Adapter.JsonSource }","args":[]},"Domain.Core.Topic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Services.Adapter.JsonThumbnail":{"type":"{ imageUrl : String, platform : String }","args":[]},"Services.Adapter.JsonTopic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Domain.Core.Profile":{"type":"{ id : Domain.Core.Id , firstName : Domain.Core.Name , lastName : Domain.Core.Name , email : Domain.Core.Email , imageUrl : Domain.Core.Url , bio : String , sources : List Domain.Core.Source }","args":[]},"Navigation.Location":{"type":"{ href : String , host : String , hostname : String , protocol : String , origin : String , port_ : String , pathname : String , search : String , hash : String , username : String , password : String }","args":[]},"Domain.Core.NewLinks":{"type":"{ profileId : Domain.Core.Id , current : Domain.Core.LinkToCreate , canAdd : Bool , added : List Domain.Core.Link }","args":[]},"Http.Response":{"type":"{ url : String , status : { code : Int, message : String } , headers : Dict.Dict String String , body : body }","args":["body"]},"Services.Adapter.JsonPortfolio":{"type":"{ articles : List Services.Adapter.JsonLink , videos : List Services.Adapter.JsonLink , podcasts : List Services.Adapter.JsonLink , answers : List Services.Adapter.JsonLink }","args":[]},"Domain.Core.Link":{"type":"{ id : Int , profileId : Domain.Core.Id , title : Domain.Core.Title , url : Domain.Core.Url , topics : List Domain.Core.Topic , contentType : Domain.Core.ContentType , isFeatured : Bool }","args":[]},"Services.Adapter.JsonBootstrap":{"type":"{ providers : List Services.Adapter.JsonProvider , platforms : List String }","args":[]},"Domain.Core.Source":{"type":"{ id : Domain.Core.Id , profileId : Domain.Core.Id , platform : String , accessId : String , links : List Domain.Core.Link }","args":[]},"Domain.Core.Portfolio":{"type":"{ topics : List Domain.Core.Topic , answers : List Domain.Core.Link , articles : List Domain.Core.Link , videos : List Domain.Core.Link , podcasts : List Domain.Core.Link }","args":[]},"Services.Adapter.JsonLink":{"type":"{ id : Int , profileId : String , title : String , url : String , contentType : String , topics : List Domain.Core.Topic , isFeatured : Bool }","args":[]},"Services.Adapter.JsonProviderFields":{"type":"{ profile : Services.Adapter.JsonProfile , topics : List Services.Adapter.JsonTopic , portfolio : Services.Adapter.JsonPortfolio , recentLinks : List Services.Adapter.JsonLink , subscriptions : List String , followers : List String }","args":[]}},"unions":{"Controls.RecentProviderLinks.Msg":{"tags":{"None":[]},"args":[]},"Domain.Core.Name":{"tags":{"Name":["String"]},"args":[]},"Controls.ProviderTopicContentTypeLinks.Msg":{"tags":{"None":[]},"args":[]},"Controls.Portfolio.Msg":{"tags":{"KeyDown":["Int"],"TopicSuggestionResponse":["Result.Result Http.Error (List String)"],"TopicSelected":["Domain.Core.Topic"],"Input":["String"]},"args":[]},"Domain.Core.Email":{"tags":{"Email":["String"]},"args":[]},"Dict.NColor":{"tags":{"Black":[],"BBlack":[],"Red":[],"NBlack":[]},"args":[]},"Controls.ProfileThumbnail.Msg":{"tags":{"SubscribeResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"UpdateSubscription":["Domain.Core.SubscriptionUpdate"]},"args":[]},"Services.Adapter.JsonProvider":{"tags":{"JsonProvider":["Services.Adapter.JsonProviderFields"]},"args":[]},"Domain.Core.Url":{"tags":{"Url":["String"]},"args":[]},"Home.Msg":{"tags":{"NewLink":["Controls.NewLinks.Msg"],"NavigateToProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ProfileThumbnail":["Controls.ProfileThumbnail.Msg"],"ViewPortfolio":[],"ViewProviders":[],"NavigateToPortalProviderMemberResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"OnLogin":["Controls.Login.Msg"],"UrlChange":["Navigation.Location"],"ProviderContentTypeLinksAction":["Controls.ProviderContentTypeLinks.Msg"],"ViewSubscriptions":[],"ViewFollowers":[],"Subscription":["Domain.Core.SubscriptionUpdate"],"NavigateToPortalProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ViewSources":[],"SubscriptionsResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"NavigateToPortalResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"NavigateToProviderResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"Search":["String"],"SaveThumbnailResponse":["Result.Result Http.Error String"],"ViewRecent":[],"ProvidersResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"RecentProviderLinks":["Controls.RecentProviderLinks.Msg"],"BootstrapResponse":["Result.Result Http.Error Services.Adapter.JsonBootstrap"],"EditProfileAction":["Controls.EditProfile.Msg"],"NavigateBack":[],"ProviderTopicContentTypeLinksAction":["Controls.ProviderTopicContentTypeLinks.Msg"],"PortfolioAction":["Controls.Portfolio.Msg"],"ThumbnailResponse":["Result.Result Http.Error Services.Adapter.JsonThumbnail"],"EditProfile":[],"FeatureLinkResponse":["Result.Result Http.Error Int"],"AddNewLink":[],"OnRegistration":["Controls.Register.Msg"],"SourcesUpdated":["Controls.Sources.Msg"],"NavigateToPortalProviderMemberTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"FollowersResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"Register":[]},"args":[]},"Controls.Sources.Msg":{"tags":{"RemoveResponse":["Result.Result Http.Error String"],"InputPlatform":["String"],"InputAccessId":["String"],"AddResponse":["Result.Result Http.Error Services.Adapter.JsonSource"],"Remove":["Domain.Core.Source"],"Add":["Domain.Core.Source"]},"args":[]},"Result.Result":{"tags":{"Err":["error"],"Ok":["value"]},"args":["error","value"]},"Http.Error":{"tags":{"Timeout":[],"BadStatus":["Http.Response String"],"BadPayload":["String","Http.Response String"],"BadUrl":["String"],"NetworkError":[]},"args":[]},"Controls.ProviderContentTypeLinks.Msg":{"tags":{"Featured":["( Domain.Core.Link, Bool )"]},"args":[]},"Controls.Register.Msg":{"tags":{"Submit":[],"ConfirmInput":["String"],"EmailInput":["String"],"FirstNameInput":["String"],"PasswordInput":["String"],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProfile"]},"args":[]},"Dict.LeafColor":{"tags":{"LBlack":[],"LBBlack":[]},"args":[]},"Controls.EditProfile.Msg":{"tags":{"EmailInput":["String"],"BioInput":["String"],"FirstNameInput":["String"],"Update":[],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProfile"]},"args":[]},"Controls.NewLinks.Msg":{"tags":{"RemoveTopic":["Domain.Core.Topic"],"InputTopic":["String"],"KeyDown":["Int"],"InputUrl":["String"],"AddTopic":["Domain.Core.Topic"],"InputTitle":["String"],"TopicSuggestionResponse":["Result.Result Http.Error (List String)"],"InputContentType":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonLink"],"AddLink":["Domain.Core.NewLinks"]},"args":[]},"Domain.Core.ContentType":{"tags":{"Answer":[],"Featured":[],"Podcast":[],"Article":[],"Unknown":[],"All":[],"Video":[]},"args":[]},"Domain.Core.Title":{"tags":{"Title":["String"]},"args":[]},"Controls.Login.Msg":{"tags":{"Attempt":["( String, String )"],"PasswordInput":["String"],"UserInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProvider"]},"args":[]},"Dict.Dict":{"tags":{"RBNode_elm_builtin":["Dict.NColor","k","v","Dict.Dict k v","Dict.Dict k v"],"RBEmpty_elm_builtin":["Dict.LeafColor"]},"args":["k","v"]},"Domain.Core.Id":{"tags":{"Id":["String"]},"args":[]},"Domain.Core.SubscriptionUpdate":{"tags":{"Subscribe":["Domain.Core.Provider","Domain.Core.Provider"],"Unsubscribe":["Domain.Core.Provider","Domain.Core.Provider"]},"args":[]}}},"versions":{"elm":"0.18.0"}});
 }
 
 if (typeof define === "function" && define['amd'])

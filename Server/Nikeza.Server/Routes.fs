@@ -121,10 +121,13 @@ let private updateThumbnailHandler: HttpHandler =
             return Some ctx
         }
 
-let private fetchBootstrap: HttpHandler =
+let private fetchBootstrap ignoreValue: HttpHandler =
 
     StackOverflow.CachedTags.Instance() |> ignore
     json { Providers= getProviders(); Platforms=getPlatforms() }
+
+let private fetchProviders ignoreValue: HttpHandler =
+    json (getProviders())
 
 let private fetchLinks providerId: HttpHandler =
     json (getLinks providerId)
@@ -163,7 +166,8 @@ let webApp: HttpHandler =
                 //route "/" >=> htmlFile "/hostingstart.html"
                 route  "/"                  >=> htmlFile "/home.html"
                 route  "/options"           >=> setHttpHeader "Allow" "GET, OPTIONS, POST" // CORS support
-                route  "/bootstrap"         >=> fetchBootstrap
+                routef  "/bootstrap/%s"          fetchBootstrap
+                routef "/providers/%s"          fetchProviders
                 routef "/links/%s"              fetchLinks
                 routef "/suggestedtopics/%s"    fetchSuggestedTopics
                 routef "/recent/%s"             fetchRecent

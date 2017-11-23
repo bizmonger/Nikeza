@@ -31,7 +31,7 @@ thumbnail clientId provider =
                 [ tr []
                     [ td []
                         [ a [ href <| urlText <| providerUrl (Just clientId) profile.id ]
-                            [ img [ src <| urlText profile.imageUrl, width 40, height 40 ] [] ]
+                            [ img [ src <| urlText profile.imageUrl, width 80, height 80 ] [] ]
                         ]
                     , td []
                         [ div [ class "recentThumbnail" ]

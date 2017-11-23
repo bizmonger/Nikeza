@@ -88,7 +88,7 @@ providers : (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
 providers msg =
     let
         url =
-            baseUrl ++ "providers"
+            baseUrl ++ "providers/wtf"
 
         request =
             Http.get url (Decode.list providerDecoder)
@@ -246,7 +246,7 @@ bootstrap : (Result Http.Error JsonBootstrap -> msg) -> Cmd msg
 bootstrap msg =
     let
         url =
-            baseUrl ++ "bootstrap"
+            baseUrl ++ "bootstrap/wtf"
 
         request =
             Http.get url bootstrapDecoder

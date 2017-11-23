@@ -188,10 +188,20 @@ update msg model =
                     Ok jsonProviders ->
                         let
                             providers =
-                                jsonProviders |> List.map (\p -> p |> toProvider)
+                                jsonProviders
+                                    |> List.map toProvider
+                                    |> List.filter (\p -> p.profile.id /= model.portal.provider.profile.id)
+
+                            portfolioSearch =
+                                model.portfolioSearch
                         in
                             if model.login.loggedIn then
-                                ( { model | providers = providers }
+                                ( { model
+                                    | providers = providers
+                                    , portfolioSearch = { portfolioSearch | provider = model.portal.provider }
+                                    , scopedProviders = providers
+                                    , searchResult = providers
+                                  }
                                 , Cmd.none
                                 )
                             else
@@ -203,6 +213,7 @@ update msg model =
                                 , Cmd.none
                                 )
 
+                    --Debug.crash ("providers: " ++ (toString (providers |> List.map .followers))) ( model, Cmd.none )
                     Err _ ->
                         ( model, Cmd.none )
 
@@ -391,7 +402,12 @@ update msg model =
                     profileThumbnailCmd =
                         Cmd.map ProfileThumbnail subCmd
                 in
-                    ( { model | portal = { portal | provider = updatedProvider } }, profileThumbnailCmd )
+                    case subMsg of
+                        ProfileThumbnail.UpdateSubscription _ ->
+                            ( { model | portal = { portal | provider = updatedProvider } }, profileThumbnailCmd )
+
+                        ProfileThumbnail.SubscribeResponse _ ->
+                            ( { model | portal = { portal | provider = updatedProvider } }, runtime.subscriptions provider.profile.id SubscriptionsResponse )
 
             RecentProviderLinks subMsg ->
                 ( model, Cmd.none )
@@ -475,12 +491,34 @@ update msg model =
                     subscriptions =
                         jsonSubscriptions |> List.map toProvider
                 in
-                    ( { model
-                        | scopedProviders = subscriptions
-                        , searchResult = subscriptions
-                      }
-                    , Cmd.none
-                    )
+                    if model.login.loggedIn then
+                        let
+                            portal =
+                                model.portal
+
+                            provider =
+                                portal.provider
+
+                            subscriptionIds =
+                                subscriptions |> List.map (\s -> s.profile.id)
+                        in
+                            if portal.requested /= Domain.ViewProviders then
+                                ( { model
+                                    | scopedProviders = subscriptions
+                                    , searchResult = subscriptions
+                                    , portal = { portal | provider = { provider | subscriptions = subscriptionIds } }
+                                  }
+                                , runtime.providers ProvidersResponse
+                                )
+                            else
+                                ( model, runtime.providers ProvidersResponse )
+                    else
+                        ( { model
+                            | scopedProviders = subscriptions
+                            , searchResult = subscriptions
+                          }
+                        , Cmd.none
+                        )
 
             SubscriptionsResponse (Err reason) ->
                 Debug.crash (reason |> toString) ( model, Cmd.none )
@@ -525,7 +563,7 @@ update msg model =
                         , searchResult = scopedProviders
                         , portal = { portal | requested = Domain.ViewProviders }
                       }
-                    , Cmd.none
+                    , runtime.providers ProvidersResponse
                     )
 
             ViewRecent ->
@@ -535,16 +573,9 @@ update msg model =
 
                     profile =
                         portal.provider.profile
-
-                    scopedProviders =
-                        []
-
-                    --portal.provider.subscriptions
                 in
                     ( { model
-                        | scopedProviders = scopedProviders
-                        , searchResult = scopedProviders
-                        , portal = { portal | requested = Domain.ViewRecent }
+                        | portal = { portal | requested = Domain.ViewRecent }
                       }
                     , runtime.subscriptions profile.id SubscriptionsResponse
                     )
@@ -568,29 +599,12 @@ update msg model =
                 ( model, Cmd.none )
 
             Subscription update ->
-                let
-                    updateModel user provider =
-                        let
-                            updatedProviders =
-                                model.searchResult
-                                    |> List.Extra.replaceIf (\p -> p.profile.id == provider.profile.id) provider
-                        in
-                            ( { model | searchResult = updatedProviders }, Cmd.none )
-                in
-                    case update of
-                        Subscribe subscriber provider ->
-                            let
-                                updatedProvider =
-                                    { provider | followers = subscriber :: provider.followers }
-                            in
-                                updateModel subscriber updatedProvider
+                case update of
+                    Subscribe user provider ->
+                        ( model, runtime.subscriptions user.profile.id SubscriptionsResponse )
 
-                        Unsubscribe user provider ->
-                            let
-                                updatedProvider =
-                                    { provider | followers = provider.followers |> List.Extra.remove user }
-                            in
-                                updateModel user updatedProvider
+                    Unsubscribe user provider ->
+                        ( model, runtime.subscriptions user.profile.id SubscriptionsResponse )
 
             NavigateBack ->
                 ( model, Navigation.back 1 )
@@ -1298,7 +1312,7 @@ renderProfileBase provider linksContent =
     table []
         [ tr []
             [ table []
-                [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| urlText <| provider.profile.imageUrl, width 40, height 40 ] [] ] ]
+                [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| urlText <| provider.profile.imageUrl, width 70, height 70 ] [] ] ]
                 , tr [ class "bio" ] [ td [] [ label [ class "profileName" ] [ text <| nameText provider.profile.firstName ++ " " ++ nameText provider.profile.lastName ] ] ]
                 , tr [ class "bio" ] [ td [] [ label [ class "subscribed" ] [ text <| toString (List.length (provider).followers) ++ " subscribers" ] ] ]
                 , tr [ class "bio" ] [ td [] [ button [ class "subscribeButton" ] [ text "Follow" ] ] ]
@@ -1327,7 +1341,7 @@ render provider content portal providers =
         [ tr []
             [ td []
                 [ table []
-                    [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| urlText <| provider.profile.imageUrl, width 40, height 40 ] [] ] ]
+                    [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| urlText <| provider.profile.imageUrl, width 55, height 55 ] [] ] ]
                     , tr [] [ td [] <| renderNavigation providers portal ]
                     ]
                 ]
@@ -1475,7 +1489,7 @@ providerTopicPage linksfrom model =
                     [ tr []
                         [ td []
                             [ table []
-                                [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| urlText <| model.profile.imageUrl, width 40, height 40 ] [] ] ]
+                                [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| urlText <| model.profile.imageUrl, width 55, height 55 ] [] ] ]
                                 , tr [ class "bio" ] [ td [] [ text <| nameText model.profile.firstName ++ " " ++ nameText model.profile.lastName ] ]
                                 , tr [ class "bio" ] [ td [] [ p [ class "bio" ] [ text model.profile.bio ] ] ]
                                 ]

@@ -73,8 +73,8 @@ type Linksfrom
 
 
 type SubscriptionUpdate
-    = Subscribe Id Provider
-    | Unsubscribe Id Provider
+    = Subscribe Provider Provider
+    | Unsubscribe Provider Provider
 
 
 type alias Provider =
