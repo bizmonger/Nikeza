@@ -24456,6 +24456,8 @@ var _user$project$Home$AddNewLink = {ctor: 'AddNewLink'};
 var _user$project$Home$ViewSources = {ctor: 'ViewSources'};
 var _user$project$Home$headerContent = function (model) {
 	var loginUI = function (model) {
+		var profile = model.portal.provider.profile;
+		var profileId = profile.id;
 		var _p64 = {
 			ctor: '_Tuple5',
 			_0: model.login.loggedIn,
@@ -24468,7 +24470,10 @@ var _user$project$Home$headerContent = function (model) {
 						A2(
 							_elm_lang$core$Basics_ops['++'],
 							'Welcome ',
-							A2(_elm_lang$core$Basics_ops['++'], model.login.email, '!'))),
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								_user$project$Domain_Core$nameText(profile.firstName),
+								'!'))),
 					_1: {ctor: '[]'}
 				}),
 			_2: A2(
@@ -24526,9 +24531,8 @@ var _user$project$Home$headerContent = function (model) {
 		var loggedIn = _p64._0;
 		var welcome = _p64._1;
 		var signout = _p64._2;
-		var profile = _p64._3;
+		var settings = _p64._3;
 		var sources = _p64._4;
-		var profileId = _user$project$Domain_Core$idText(model.portal.provider.profile.id);
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
 			_user$project$Home$OnLogin,
@@ -24559,7 +24563,7 @@ var _user$project$Home$headerContent = function (model) {
 								{ctor: '[]'}),
 							_1: {
 								ctor: '::',
-								_0: profile,
+								_0: settings,
 								_1: {ctor: '[]'}
 							}
 						}

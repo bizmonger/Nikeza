@@ -1372,12 +1372,15 @@ headerContent model =
         loginUI : Model -> Html Msg
         loginUI model =
             let
-                profileId =
-                    idText model.portal.provider.profile.id
+                profile =
+                    model.portal.provider.profile
 
-                ( loggedIn, welcome, signout, profile, sources ) =
+                profileId =
+                    profile.id
+
+                ( loggedIn, welcome, signout, settings, sources ) =
                     ( model.login.loggedIn
-                    , p [] [ text <| "Welcome " ++ model.login.email ++ "!" ]
+                    , p [] [ text <| "Welcome " ++ (nameText profile.firstName) ++ "!" ]
                     , label [ class "ProfileSettings", onClick EditProfile ] [ text "Profile" ]
                     , label [ class "ProfileSettings", onClick ViewSources ] [ text "Sources" ]
                     , a [ href "" ] [ label [] [ text "Signout" ] ]
@@ -1391,7 +1394,7 @@ headerContent model =
                         , signout
                         , br [] []
                         , br [] []
-                        , profile
+                        , settings
                         ]
     in
         div []
