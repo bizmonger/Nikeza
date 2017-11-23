@@ -141,7 +141,6 @@ thumbnail loggedIn showSubscriptionState provider =
                                     ]
                                 , td [] [ nameAndTopics ]
                                 , td [ class "centertd" ] [ recentLinks ]
-                                , td [] [ label [] [ text <| ("alreadySubscribed: " ++ (toString alreadySubscribed)) ] ]
                                 ]
                             , placeholder
                             ]

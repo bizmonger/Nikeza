@@ -11,7 +11,6 @@ open Platforms
 open Authentication
 open Giraffe.Tasks
 open Registration
-open YouTube
 open StackOverflow.Suggestions
 open Order
 
@@ -130,7 +129,15 @@ let private updateThumbnailHandler: HttpHandler =
 let private fetchBootstrap ignoreValue: HttpHandler =
 
     StackOverflow.CachedTags.Instance() |> ignore
-    json { Providers= getProviders(); Platforms=getPlatforms() }
+    let tempProviders = getProviders()
+
+    let getFollowers p =
+        p.Profile.Id 
+         |> getFollowers 
+         |> List.map (fun f -> f.Profile.Id)
+
+    let providers = tempProviders |> List.map (fun p -> { p with Followers= p |> getFollowers })
+    json { Providers= providers; Platforms=getPlatforms() }
 
 let private fetchProviders ignoreValue: HttpHandler =
     json (getProviders())
