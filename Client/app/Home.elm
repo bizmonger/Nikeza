@@ -195,7 +195,7 @@ update msg model =
                             portfolioSearch =
                                 model.portfolioSearch
                         in
-                            if model.login.loggedIn then
+                            if model.login.loggedIn && model.portal.requested == Domain.ViewProviders then
                                 ( { model
                                     | providers = providers
                                     , portfolioSearch = { portfolioSearch | provider = model.portal.provider }
@@ -205,15 +205,8 @@ update msg model =
                                 , Cmd.none
                                 )
                             else
-                                ( { model
-                                    | providers = providers
-                                    , searchResult = providers
-                                    , scopedProviders = providers
-                                  }
-                                , Cmd.none
-                                )
+                                ( { model | providers = providers }, Cmd.none )
 
-                    --Debug.crash ("providers: " ++ (toString (providers |> List.map .followers))) ( model, Cmd.none )
                     Err _ ->
                         ( model, Cmd.none )
 
@@ -406,8 +399,31 @@ update msg model =
                         ProfileThumbnail.UpdateSubscription _ ->
                             ( { model | portal = { portal | provider = updatedProvider } }, profileThumbnailCmd )
 
-                        ProfileThumbnail.SubscribeResponse _ ->
-                            ( { model | portal = { portal | provider = updatedProvider } }, runtime.subscriptions provider.profile.id SubscriptionsResponse )
+                        ProfileThumbnail.SubscribeResponse (Ok jsonProvider) ->
+                            let
+                                (JsonProvider fields) =
+                                    jsonProvider
+
+                                subscriptions =
+                                    if fields.subscriptions |> List.any (\s -> (Id s) == updatedProvider.profile.id) then
+                                        (Id fields.profile.id) :: updatedProvider.subscriptions
+                                    else
+                                        updatedProvider.subscriptions |> List.filter (\s -> (idText s) /= fields.profile.id)
+                            in
+                                ( { model
+                                    | portal =
+                                        { portal
+                                            | provider =
+                                                { updatedProvider
+                                                    | subscriptions = subscriptions
+                                                }
+                                        }
+                                  }
+                                , runtime.subscriptions provider.profile.id SubscriptionsResponse
+                                )
+
+                        ProfileThumbnail.SubscribeResponse (Err reason) ->
+                            ( model, Cmd.none )
 
             RecentProviderLinks subMsg ->
                 ( model, Cmd.none )

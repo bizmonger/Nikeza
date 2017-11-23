@@ -22,11 +22,12 @@ let setup() = registerProfile creatorRegistrationForm |> ignore
 [<TearDown>]
 let teardown() = cleanDataStore()
 
+
 [<Test>]
 let ``New members have default subscription`` () =
 
     // Test
-    Registration.register someRegistrationForm |> function
+    register someRegistrationForm |> function
     | Success profile ->
         let subscription = profile.Id |> getSubscriptions |> List.head
         let creator =      getProfileByEmail creatorEmail

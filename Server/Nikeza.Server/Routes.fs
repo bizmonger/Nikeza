@@ -48,11 +48,17 @@ let private fetchProvider providerId: HttpHandler =
 
 let private followHandler: HttpHandler = 
     fun next ctx -> 
-        task { 
-            let! data = ctx.BindJson<FollowRequest>()
-            Follow data |> execute |> ignore
-            return! fetchProvider data.ProfileId next ctx 
-        } 
+        task { let! data = ctx.BindJson<FollowRequest>()
+               let alreadyFollowing = 
+                   data.ProfileId 
+                    |> getFollowers 
+                    |> List.exists(fun f -> f.Profile.Id = data.SubscriberId)
+
+               if not alreadyFollowing
+                   then Follow data |> execute |> ignore
+                   else ()
+               return! fetchProvider data.ProfileId next ctx 
+             } 
 
 let private unsubscribeHandler: HttpHandler = 
     fun next ctx -> 
@@ -166,7 +172,7 @@ let webApp: HttpHandler =
                 //route "/" >=> htmlFile "/hostingstart.html"
                 route  "/"                  >=> htmlFile "/home.html"
                 route  "/options"           >=> setHttpHeader "Allow" "GET, OPTIONS, POST" // CORS support
-                routef  "/bootstrap/%s"          fetchBootstrap
+                routef "/bootstrap/%s"          fetchBootstrap
                 routef "/providers/%s"          fetchProviders
                 routef "/links/%s"              fetchLinks
                 routef "/suggestedtopics/%s"    fetchSuggestedTopics
