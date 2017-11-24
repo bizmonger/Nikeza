@@ -88,6 +88,23 @@ type alias Provider =
     }
 
 
+type alias ProfileEditor =
+    { provider : Provider
+    , currentTopic : Topic
+    , chosenTopics : List Topic
+    , topicSuggestions : List Topic
+    }
+
+
+initProfileEditor : ProfileEditor
+initProfileEditor =
+    { provider = initProvider
+    , currentTopic = initTopic
+    , chosenTopics = initTopics
+    , topicSuggestions = initTopics
+    }
+
+
 type Members
     = Members (List Provider)
 
@@ -120,6 +137,7 @@ type alias Portal =
     , requested : ProviderRequest
     , newSource : Source
     , newLinks : NewLinks
+    , profileEditor : ProfileEditor
     }
 
 
@@ -132,6 +150,7 @@ initPortal =
     , requested = EditProfile
     , newSource = initSource
     , newLinks = initNewLinks
+    , profileEditor = initProfileEditor
     }
 
 

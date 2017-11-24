@@ -781,14 +781,20 @@ onEditProfile subMsg model =
         ( portal, provider ) =
             ( model.portal, model.portal.provider )
 
-        ( updatedProfile, subCmd ) =
-            EditProfile.update subMsg provider.profile
+        initialEditor =
+            portal.profileEditor
+
+        editor =
+            { initialEditor | provider = provider }
+
+        ( updatedEditor, subCmd ) =
+            EditProfile.update subMsg editor
 
         editCmd =
             Cmd.map EditProfileAction subCmd
 
         newState =
-            { model | portal = { portal | provider = { provider | profile = updatedProfile } } }
+            { model | portal = { portal | provider = { provider | profile = updatedEditor.provider.profile } } }
     in
         case subMsg of
             EditProfile.FirstNameInput _ ->
@@ -800,7 +806,19 @@ onEditProfile subMsg model =
             EditProfile.EmailInput _ ->
                 ( newState, editCmd )
 
-            EditProfile.BioInput _ ->
+            EditProfile.InputTopic _ ->
+                ( newState, editCmd )
+
+            EditProfile.KeyDown _ ->
+                ( newState, editCmd )
+
+            EditProfile.TopicSuggestionResponse _ ->
+                ( newState, editCmd )
+
+            EditProfile.AddTopic _ ->
+                ( newState, editCmd )
+
+            EditProfile.RemoveTopic _ ->
                 ( newState, editCmd )
 
             EditProfile.Update ->
@@ -1569,7 +1587,23 @@ content contentToEmbed model =
                     contentToDisplay
 
             Domain.EditProfile ->
-                div [] [ Html.map EditProfileAction <| EditProfile.view loggedIn.profile ]
+                let
+                    portal =
+                        model.portal
+
+                    editor =
+                        portal.profileEditor
+
+                    provider =
+                        portal.provider
+
+                    updatedProvider =
+                        { provider | profile = loggedIn.profile }
+
+                    updatedEditor =
+                        { editor | provider = updatedProvider }
+                in
+                    div [] [ Html.map EditProfileAction <| EditProfile.view updatedEditor ]
 
             Domain.AddLink ->
                 let

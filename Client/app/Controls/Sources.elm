@@ -116,7 +116,7 @@ view model =
             List.append records (model.sources |> List.map sourceUI)
     in
         div [ class "mainContent" ]
-            [ h3 [] [ text "Sources" ]
+            [ h3 [ class "portalTopicHeader" ] [ text "Sources" ]
             , table [] tableRecords
             ]
 

@@ -13,7 +13,12 @@ type Msg
     = FirstNameInput String
     | LastNameInput String
     | EmailInput String
-    | BioInput String
+    | InputTopic String
+    | KeyDown Int
+    | RemoveTopic Topic
+    | AddTopic Topic
+    | TopicSuggestionResponse (Result Http.Error (List String))
+      -- | BioInput String
     | Update
     | Response (Result Http.Error JsonProfile)
 
@@ -22,46 +27,167 @@ type Msg
 -- UPDATE
 
 
-update : Msg -> Profile -> ( Profile, Cmd Msg )
-update msg profile =
-    case msg of
-        FirstNameInput v ->
-            ( { profile | firstName = Name v }, Cmd.none )
+update : Msg -> ProfileEditor -> ( ProfileEditor, Cmd Msg )
+update msg model =
+    let
+        provider =
+            model.provider
 
-        LastNameInput v ->
-            ( { profile | lastName = Name v }, Cmd.none )
+        profile =
+            provider.profile
 
-        EmailInput v ->
-            ( { profile | email = Email v }, Cmd.none )
+        onAddTopic topic =
+            ( { model | currentTopic = Topic "" False, topicSuggestions = [] }
+            , Cmd.none
+            )
+    in
+        case msg of
+            FirstNameInput v ->
+                let
+                    updatedProfile =
+                        { profile | firstName = Name v }
 
-        BioInput v ->
-            ( { profile | bio = v }, Cmd.none )
+                    updatedProvider =
+                        { provider | profile = updatedProfile }
+                in
+                    ( { model | provider = updatedProvider }, Cmd.none )
 
-        Update ->
-            ( profile, (runtime.updateProfile profile) Response )
+            LastNameInput v ->
+                let
+                    updatedProfile =
+                        { profile | lastName = Name v }
 
-        Response (Ok jsonProfile) ->
-            ( jsonProfile |> toProfile, Cmd.none )
+                    updatedProvider =
+                        { provider | profile = updatedProfile }
+                in
+                    ( { model | provider = updatedProvider }, Cmd.none )
 
-        Response (Err error) ->
-            Debug.crash (toString error) ( profile, Cmd.none )
+            EmailInput v ->
+                let
+                    updatedProfile =
+                        { profile | email = Email v }
+
+                    updatedProvider =
+                        { provider | profile = updatedProfile }
+                in
+                    ( { model | provider = updatedProvider }, Cmd.none )
+
+            -- BioInput v ->
+            --     ( { profile | bio = v }, Cmd.none )
+            InputTopic "" ->
+                let
+                    currentTopic =
+                        Topic "" False
+                in
+                    ( { model | currentTopic = currentTopic }, Cmd.none )
+
+            InputTopic v ->
+                ( { model | currentTopic = Topic v True }, runtime.suggestedTopics v TopicSuggestionResponse )
+
+            KeyDown key ->
+                if key == 13 then
+                    case model.topicSuggestions of
+                        topic :: _ ->
+                            onAddTopic topic
+
+                        _ ->
+                            ( model, Cmd.none )
+                else
+                    ( model, Cmd.none )
+
+            TopicSuggestionResponse (Ok topics) ->
+                let
+                    suggestions =
+                        topics |> List.map (\t -> Topic t False)
+                in
+                    ( { model | topicSuggestions = suggestions }, Cmd.none )
+
+            TopicSuggestionResponse (Err reason) ->
+                Debug.crash (toString reason) ( model, Cmd.none )
+
+            RemoveTopic v ->
+                let
+                    topics =
+                        model.chosenTopics |> List.filter (\t -> t /= v)
+                in
+                    ( { model | chosenTopics = topics }, Cmd.none )
+
+            AddTopic v ->
+                onAddTopic v
+
+            Update ->
+                ( model, (runtime.updateProfile profile) Response )
+
+            Response (Ok jsonProfile) ->
+                let
+                    updatedProvider =
+                        { provider | profile = jsonProfile |> toProfile }
+                in
+                    ( { model | provider = updatedProvider }, Cmd.none )
+
+            Response (Err error) ->
+                Debug.crash (toString error) ( profile, Cmd.none )
 
 
 
 -- VIEW
 
 
-view : Profile -> Html Msg
-view profile =
-    div [ class "mainContent" ]
-        [ h3 [] [ text "Profile" ]
-        , input [ class "profileInput", type_ "text", placeholder "first name", onInput FirstNameInput, value <| nameText profile.firstName ] []
-        , br [] []
-        , input [ class "profileInput", type_ "text", placeholder "last name", onInput LastNameInput, value <| nameText profile.lastName ] []
-        , br [] []
-        , input [ class "profileInput", type_ "text", placeholder "email", onInput EmailInput, value <| emailText profile.email ] []
-        , br [] []
-        , textarea [ class "inputBio", placeholder "bio description", onInput BioInput, value profile.bio ] []
-        , br [] []
-        , button [ class "saveProfile", onClick Update ] [ text "Save" ]
-        ]
+view : ProfileEditor -> Html Msg
+view model =
+    let
+        provider =
+            model.provider
+
+        profile =
+            provider.profile
+
+        toButton topic =
+            div []
+                [ button [ class "topicsButton", onClick <| AddTopic topic ] [ text <| topicText topic ]
+                , br [] []
+                ]
+
+        suggestionsUI textItems =
+            let
+                buttonsContainer =
+                    textItems
+                        |> List.map (\textItem -> Topic textItem False)
+                        |> List.map (\t -> t |> toButton)
+            in
+                div [] buttonsContainer
+
+        selectedTopicsUI =
+            model.chosenTopics
+                |> List.map
+                    (\t ->
+                        div []
+                            [ label [ class "topicAdded" ] [ text <| topicText t ]
+                            , button [ class "removeTopic", onClick <| RemoveTopic t ] [ text "X" ]
+                            , br [] []
+                            , br [] []
+                            ]
+                    )
+    in
+        div [ class "mainContent" ]
+            [ h3 [ class "portalTopicHeader" ] [ text "Profile" ]
+            , table []
+                [ tr []
+                    [ td [] [ input [ class "profileFirstNameInput", type_ "text", placeholder "first name", onInput FirstNameInput, value <| nameText profile.firstName ] [] ]
+                    , td [] [ input [ class "profileNameInput", type_ "text", placeholder "last name", onInput LastNameInput, value <| nameText profile.lastName ] [] ]
+                    ]
+                ]
+            , input [ class "profileInput", type_ "text", placeholder "email", onInput EmailInput, value <| emailText profile.email ] []
+            , br [] []
+
+            -- , textarea [ class "inputBio", placeholder "bio description", onInput BioInput, value profile.bio ] []
+            , table []
+                [ tr []
+                    [ td [] [ input [ class "addTopic", type_ "text", placeholder "topic", onKeyDown KeyDown, onInput InputTopic, value (topicText model.currentTopic) ] [] ]
+                    ]
+                , tr [] [ td [] [ suggestionsUI (model.topicSuggestions |> List.map (\t -> topicText t)) ] ]
+                , tr [] [ td [] [ div [] selectedTopicsUI ] ]
+                ]
+            , br [] []
+            , button [ class "saveProfile", onClick Update ] [ text "Save" ]
+            ]

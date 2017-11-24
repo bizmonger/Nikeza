@@ -84,7 +84,6 @@ i.accessId {
 
 table.linkTable {
     margin-top: -10px;
-    margin-left: 3px;
 }
 
 h3.topicHeader {
@@ -99,7 +98,7 @@ table.xx{
 
 h3.portalTopicHeader {
     margin-top: 15px;
-    margin-left: 8px;
+    /* margin-left: 8px; */
     color: rgb(19, 108, 175);
 }
 
@@ -125,8 +124,20 @@ input[type="text"].addLinkText {
 }
 
 input[type="text"].profileInput {
-    width:160px;
+    width:210px;
     margin-top: 3px;
+}
+
+
+input[type="text"].profileNameInput {
+    width:102px;
+    margin-top: 3px;
+}
+
+input[type="text"].profileFirstNameInput {
+    width:102px;
+    margin-top: 3px;
+    margin-left: -4px;
 }
 
 input[type="text"].inputUsername {
@@ -157,13 +168,15 @@ select.selectPlatform {
 }
 
 textarea.inputBio {
-    width:160px;
-    height:90px;
-    margin-top: 20px;
+    width:210px;
+    height:95px;
+    margin-top: 25px;
 }
 
 div.navigationpane {
     vertical-align: text-top;
+    /* margin-right: 15px; */
+    /* margin-left: 15px; */
 }
 
 div.RegistrationForm {
