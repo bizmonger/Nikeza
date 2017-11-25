@@ -34,6 +34,10 @@ header {
     margin-bottom:5px;
 }
 
+p.recentLink {
+    text-align: left;
+}
+
 span.featured {
     padding: 5px;
     vertical-align: top;
@@ -128,6 +132,11 @@ input[type="text"].profileInput {
     margin-top: 3px;
 }
 
+input[type="text"].profileTopicInput {
+    width:210px;
+    margin-top: 3px;
+    margin-left: -2px;
+}
 
 input[type="text"].profileNameInput {
     width:102px;
@@ -175,8 +184,6 @@ textarea.inputBio {
 
 div.navigationpane {
     vertical-align: text-top;
-    /* margin-right: 15px; */
-    /* margin-left: 15px; */
 }
 
 div.RegistrationForm {
@@ -196,14 +203,15 @@ button.addLink {
 button.removeTopic {
     float: right;
     background-color: rgb(243, 242, 242);
-    color: darkred;
+    color: rgb(180, 127, 127);
 }
 
 button.disconnectSource {
     background-color: rgb(243, 242, 242);
-    color: darkred;
+    color: rgb(180, 127, 127);
     font-weight: bold;
     padding: 0px;
+    margin-left: 10px;
     padding-left: 4px;
     padding-right: 4px;
 }

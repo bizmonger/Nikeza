@@ -37,7 +37,11 @@ update msg model =
             provider.profile
 
         onAddTopic topic =
-            ( { model | currentTopic = Topic "" False, topicSuggestions = [] }
+            ( { model
+                | currentTopic = Topic "" False
+                , topicSuggestions = []
+                , chosenTopics = topic :: model.chosenTopics
+              }
             , Cmd.none
             )
     in
@@ -72,8 +76,6 @@ update msg model =
                 in
                     ( { model | provider = updatedProvider }, Cmd.none )
 
-            -- BioInput v ->
-            --     ( { profile | bio = v }, Cmd.none )
             InputTopic "" ->
                 let
                     currentTopic =
@@ -179,11 +181,9 @@ view model =
                 ]
             , input [ class "profileInput", type_ "text", placeholder "email", onInput EmailInput, value <| emailText profile.email ] []
             , br [] []
-
-            -- , textarea [ class "inputBio", placeholder "bio description", onInput BioInput, value profile.bio ] []
             , table []
                 [ tr []
-                    [ td [] [ input [ class "addTopic", type_ "text", placeholder "topic", onKeyDown KeyDown, onInput InputTopic, value (topicText model.currentTopic) ] [] ]
+                    [ td [] [ input [ class "profileTopicInput", type_ "text", placeholder "topic", onKeyDown KeyDown, onInput InputTopic, value (topicText model.currentTopic) ] [] ]
                     ]
                 , tr [] [ td [] [ suggestionsUI (model.topicSuggestions |> List.map (\t -> topicText t)) ] ]
                 , tr [] [ td [] [ div [] selectedTopicsUI ] ]

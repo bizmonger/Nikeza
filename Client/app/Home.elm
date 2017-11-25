@@ -794,7 +794,13 @@ onEditProfile subMsg model =
             Cmd.map EditProfileAction subCmd
 
         newState =
-            { model | portal = { portal | provider = { provider | profile = updatedEditor.provider.profile } } }
+            { model
+                | portal =
+                    { portal
+                        | provider = { provider | profile = updatedEditor.provider.profile }
+                        , profileEditor = updatedEditor
+                    }
+            }
     in
         case subMsg of
             EditProfile.FirstNameInput _ ->
@@ -816,7 +822,17 @@ onEditProfile subMsg model =
                 ( newState, editCmd )
 
             EditProfile.AddTopic _ ->
-                ( newState, editCmd )
+                let
+                    updatedProvider =
+                        { provider | topics = updatedEditor.chosenTopics }
+
+                    updatedPortal =
+                        { portal | provider = updatedProvider }
+
+                    updatedState =
+                        { newState | portal = updatedPortal }
+                in
+                    ( updatedState, editCmd )
 
             EditProfile.RemoveTopic _ ->
                 ( newState, editCmd )

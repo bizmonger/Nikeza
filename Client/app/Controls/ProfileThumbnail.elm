@@ -114,7 +114,7 @@ thumbnail loggedIn showSubscriptionState provider =
                 ]
 
         recentLinks =
-            div [ class "centerDiv" ] (provider.recentLinks |> List.map (\l -> [ a [ href <| urlText l.url ] [ text <| titleText l.title ] ]) |> List.concat)
+            div [ class "centerDiv" ] (provider.recentLinks |> List.map (\l -> [ p [ class "recentLink" ] [ a [ href <| urlText l.url ] [ text <| titleText l.title, br [] [] ] ] ]) |> List.concat)
     in
         case loggedIn of
             Just user ->
