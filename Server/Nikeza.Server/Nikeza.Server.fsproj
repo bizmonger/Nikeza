@@ -8,6 +8,10 @@
     <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
 
 
   <!-- ASP.NET Core -->

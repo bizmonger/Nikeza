@@ -13,7 +13,7 @@ let KeyFile_YouTube = @"C:\Nikeza\YouTube_APIKey.txt"
 let KeyFile_StackOverflow = @"C:\Nikeza\StackOverflow_APIKey.txt"
 
 [<Literal>]
-let KeyNotProvided = "no key provided"
+let KeyNotRequired = "no key provided"
 
 [<Literal>]
 let VideoText = "Videos"

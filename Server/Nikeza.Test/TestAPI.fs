@@ -34,7 +34,6 @@ let someSubscriberId = 1
 let someLinkId =       0
 let someSourceId =     0
 
-
 let someTopic = {
     Id= -1
     Name= "SomeTopic"
@@ -57,19 +56,6 @@ let someLink = {
     IsFeatured=   false
 }
 
-let someProfile = { 
-    Id =     someProfileId |> string
-    FirstName =     "Scott"
-    LastName =      "Nimrod"
-    Email =         "abc@abc.com"
-    ImageUrl =      "some_url_.com"
-    Bio =           "Some Bio"
-    Sources =        []
-    PasswordHash =  "XXX"
-    Salt =          "XXX"
-    Created =       DateTime.Now
-}
-
 let emptyProfile = { 
     Id =            ""
     FirstName =     ""
@@ -88,7 +74,7 @@ let registerProfile registrationForm =
     | Success profile -> profile.Id
     | Failure         -> emptyProfile.Id
 
-let (someRegistrationForm:RegistrationRequest) = { 
+let (someForm:RegistrationRequest) = { 
     FirstName = "Ace"
     LastName =  "Thomas"
     Email =     "ace@abc.com"
@@ -108,29 +94,6 @@ let someSource = {
     Platform = "YouTube"
     AccessId =  File.ReadAllText(ChannelIdFile)
     Links =     []
-}
-
-let someUpdatedProfile: ProfileRequest = { 
-    Id = someProfileId |> string
-    FirstName = "Scott"
-    LastName =  "Nimrod"
-    Email =     "abc@abc.com"
-    ImageUrl =  "someUrl.com"
-    Bio =       "Some Bio"
-    Sources =    []
-}
-
-let someSubscriber: Profile = { 
-    Id =     someSubscriberId |> string
-    FirstName =     "Subscriber"
-    LastName =      "Doe"
-    Email =         "subscriber@abc.com"
-    ImageUrl =      "some_url_.com"
-    Bio =           "Some Bio"
-    Sources =        []
-    PasswordHash =  "XXX"
-    Salt=           "XXX"
-    Created =       DateTime.Now
 }
 
 let executeCommand sql =
@@ -165,7 +128,6 @@ let getLastId tableName =
         if    dataAvailable
         then  let ids' = reader.GetInt32(0)::ids
               getIds reader ids' (reader.Read())
-
         else  ids
 
     let sql = @"SELECT Id From " + tableName

@@ -58,6 +58,7 @@ module StackOverflow =
         }
 
     let getThumbnail accessId key =
+
         let url =      String.Format(ThumbnailUrl, accessId, key)
         let response = sendRequest APIBaseAddress url accessId key
 
@@ -78,9 +79,9 @@ module StackOverflow =
         if response.IsSuccessStatusCode
            then let json =   response.Content.ReadAsStringAsync() |> toResult
                 JsonConvert.DeserializeObject<AnswersResponse>(json).items
-                |> Seq.toList
-                |> List.map (fun item -> toLink user.ProfileId item)
-                |> List.rev
+                 |> Seq.toList
+                 |> List.map (fun item -> toLink user.ProfileId item)
+                 |> List.rev
            else []
 
     type Tag =          { name : string }
@@ -95,8 +96,10 @@ module StackOverflow =
             let response =   client.GetAsync(urlWithKey) |> toResult
             if response.IsSuccessStatusCode
                then let json = response.Content.ReadAsStringAsync() |> toResult
-                    JsonConvert.DeserializeObject<TagsResponse>(json).items 
-                    |> List.ofSeq |> List.map (fun i -> i.name)
+                    JsonConvert.DeserializeObject<TagsResponse>(json)
+                               .items 
+                                |> List.ofSeq 
+                                |> List.map (fun i -> i.name)
                else []
 
         finally  client.Dispose()
@@ -136,18 +139,19 @@ module StackOverflow =
                      let response =       client.GetAsync(relatedTagsUrl) |> toResult
                      if response.IsSuccessStatusCode
                      then let result = response.Content.ReadAsStringAsync() |> toResult
-                          result.Split('\n') |> List.ofArray 
-                                             |> List.filter (fun x -> x <> "")
-                                             |> List.tryHead
-                                             |> function 
-                                                | None -> []
-                                                | Some formatted ->
-                                                    let tags = formatted.Split("\\n") 
-                                                               |> List.ofArray
-                                                               |> List.choose parseTag
-                                                               |> List.map   (fun tag -> tag.Replace(@"""", ""))
-                                                               |> List.filter(fun current -> current <> tag)
-                                                    tag::tags
+                          result.Split('\n') 
+                           |> List.ofArray 
+                           |> List.filter (fun x -> x <> "")
+                           |> List.tryHead
+                           |> function 
+                              | None -> []
+                              | Some formatted ->
+                                  let tags = formatted.Split("\\n") 
+                                              |> List.ofArray
+                                              |> List.choose parseTag
+                                              |> List.map   (fun tag -> tag.Replace(@"""", ""))
+                                              |> List.filter(fun current -> current <> tag)
+                                  tag::tags
                      else []
      
                  finally client.Dispose()
@@ -170,9 +174,10 @@ module StackOverflow =
             let tags = searchItem |> getAllTags
 
             if not (tags |> List.isEmpty)
-               then tags |> List.filter(fun t -> t.Contains(searchItem.ToLower()))
-                         |> List.filter (fun t -> t = searchItem)
-                         |> List.tryHead
+               then tags 
+                     |> List.filter(fun t -> t.Contains(searchItem.ToLower()))
+                     |> List.filter (fun t -> t = searchItem)
+                     |> List.tryHead
                else None
  
         let getSuggestions (text:string) =
