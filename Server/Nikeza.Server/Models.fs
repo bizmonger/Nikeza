@@ -123,11 +123,16 @@ type PlatformUser = {
 }
 
 [<CLIMutable>]
-type FeatureTopicRequest = {
+type ProviderTopicRequest = {
     ProfileId:  string
     TopicId:    int
     Name:       string
     IsFeatured: bool
+}
+
+type FeaturedTopicsRequest = {
+    ProfileId:  string
+    Name:       string list
 }
 
 [<CLIMutable>]
@@ -215,8 +220,7 @@ type Command =
     | FeatureLink     of FeatureLinkRequest
     | ObserveLinks    of ObservedLinks
   
-    | FeatureTopic    of FeatureTopicRequest
-    | UnfeatureTopic  of FeatureTopicRequest
+    | UpdateTopics    of FeaturedTopicsRequest
   
     | AddSource       of DataSourceRequest
     | RemoveSource    of RemoveDataSourceRequest

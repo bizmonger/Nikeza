@@ -2004,7 +2004,8 @@ navigate msg model location =
                 ( providerId, providerTopic ) =
                     ( (Id id), (Topic topic False) )
             in
-                ( { model | currentRoute = location }, runtime.providerTopic providerId providerTopic NavigateToProviderTopicResponse )
+                -- ( { model | currentRoute = location }, runtime.providerTopic providerId providerTopic NavigateToProviderTopicResponse )
+                ( { model | currentRoute = location }, runtime.provider providerId NavigateToProviderTopicResponse )
 
         [ "portal", id ] ->
             let
@@ -2051,7 +2052,7 @@ navigate msg model location =
                 ( providerId, providerTopic ) =
                     ( (Id id), (Topic topic False) )
             in
-                ( { model | currentRoute = location }, runtime.providerTopic providerId providerTopic NavigateToPortalProviderTopicResponse )
+                ( { model | currentRoute = location }, runtime.provider providerId NavigateToPortalProviderTopicResponse )
 
         [ "portal", id, "all", contentType ] ->
             ( { model | currentRoute = location }, Cmd.none )
@@ -2061,7 +2062,7 @@ navigate msg model location =
                 ( providerId, providerTopic ) =
                     ( (Id id), (Topic topic False) )
             in
-                ( { model | currentRoute = location }, runtime.providerTopic providerId providerTopic NavigateToPortalProviderMemberTopicResponse )
+                ( { model | currentRoute = location }, runtime.provider providerId NavigateToPortalProviderMemberTopicResponse )
 
         [ "portal", clientId, "provider", id ] ->
             ( { model | currentRoute = location }, runtime.provider (Id id) NavigateToPortalProviderMemberResponse )

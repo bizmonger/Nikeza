@@ -111,11 +111,11 @@ encodeTopic topic =
         ]
 
 
-encodeProviderWithTopic : Id -> Topic -> Encode.Value
-encodeProviderWithTopic id topic =
+encodeFeaturedTopics : Id -> List String -> Encode.Value
+encodeFeaturedTopics id topics =
     Encode.object
         [ ( "Id", Encode.string <| idText id )
-        , ( "Topic", Encode.string <| topicText topic )
+        , ( "Topics", Encode.list (topics |> List.map Encode.string) )
         ]
 
 

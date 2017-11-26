@@ -62,14 +62,14 @@ module internal Commands =
         commandFunc |> execute connectionString addTopicSql
 
 
-    let featureTopic (info:FeatureTopicRequest) =
+    let featureTopic (info:ProviderTopicRequest) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@ProfileId"  info.ProfileId
                     |> addWithValue "@TopicId"    info.TopicId
 
         commandFunc |> execute connectionString featureTopicSql
 
-    let unfeatureTopic (info:FeatureTopicRequest) =
+    let unfeatureTopic (info:ProviderTopicRequest) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@ProfileId"  info.ProfileId
                     |> addWithValue "@TopicId"    info.TopicId
@@ -89,7 +89,7 @@ module internal Commands =
                     
         let linkId = commandFunc |> execute connectionString addLinkSql
 
-        let addTopic (providerTopic:ProviderTopic) =
+        let addTopic (providerTopic:ProviderTopic)  =
             let temp =      { Link= info; Topic= { Id= -1; Name= providerTopic.Name.ToLower()} }   
             let topicId =   addTopic { Name= providerTopic.Name }
             let link=       { temp.Link  with Id= Int32.Parse(linkId) }
@@ -156,6 +156,9 @@ module internal Commands =
                         )
         ids |> Seq.ofList |> String.concat ","
 
+    let featureTopics (info:FeaturedTopicsRequest) = 
+        "" //featureTopic
+
     let featureLink (info:FeatureLinkRequest) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@Id"         info.LinkId
@@ -203,8 +206,9 @@ module internal Commands =
         let sourceId =        addSource pendingSource
         let updatedSource = { pendingSource with Id = Int32.Parse(sourceId) }
 
-        updatedLinks |> Seq.toList 
-                     |> List.iter (fun link -> addSourceLink updatedSource link |> ignore ) 
+        updatedLinks 
+         |> Seq.toList 
+         |> List.iter (fun link -> addSourceLink updatedSource link |> ignore ) 
         sourceId
 
     let removeDataSource (info:RemoveDataSourceRequest) =

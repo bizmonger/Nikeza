@@ -649,8 +649,8 @@ provider id msg =
         Cmd.none
 
 
-providerTopic : Id -> Topic -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
-providerTopic id topic msg =
+featuredTopics : Id -> List String -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+featuredTopics id topics msg =
     if id == profileId1 then
         jsonProvider1 |> httpSuccess msg
     else if id == profileId2 then

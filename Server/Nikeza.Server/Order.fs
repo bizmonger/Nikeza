@@ -16,8 +16,7 @@ open Commands
         | FeatureLink     info -> featureLink      info
         | ObserveLinks    info -> observeLinks     info
 
-        | FeatureTopic    info -> featureTopic     info
-        | UnfeatureTopic  info -> unfeatureTopic   info
-      
+        | UpdateTopics    info -> featureTopics    info
+
         | AddSource       info -> addDataSource    info
         | RemoveSource    info -> removeDataSource info

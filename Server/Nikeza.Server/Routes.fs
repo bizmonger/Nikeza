@@ -64,7 +64,7 @@ let private unsubscribeHandler: HttpHandler =
         task { 
             let! data = ctx.BindJson<UnsubscribeRequest>()
             Unsubscribe data |> execute |> ignore
-            return! fetchProvider data.ProfileId next ctx          
+            return! fetchProvider data.ProfileId next ctx  
         } 
 
 let private featureLinkHandler: HttpHandler = 
@@ -73,6 +73,14 @@ let private featureLinkHandler: HttpHandler =
             let! data = ctx.BindJson<FeatureLinkRequest>()
             FeatureLink data |> execute |> ignore
             return! json data.LinkId next ctx
+        }
+
+let private featuredTopicsHandler: HttpHandler = 
+    fun next ctx -> 
+        task { 
+            let! data = ctx.BindJson<FeaturedTopicsRequest>()
+            UpdateTopics data |> execute |> ignore
+            return! fetchProvider data.ProfileId next ctx
         }
 
 let private updateProfileHandler: HttpHandler = 
@@ -205,6 +213,7 @@ let webApp: HttpHandler =
                 route "/addlink"         >=> addLinkHandler
                 route "/removelink"      >=> removeLinkHandler
                 route "/updatethumbnail" >=> updateThumbnailHandler
+                route "/featuredtopics"  >=> featuredTopicsHandler
             ]
             
         setStatusCode 404 >=> text "Not Found" ]

@@ -17127,8 +17127,8 @@ var _user$project$Tests_TestAPI$provider = F2(
 	function (id, msg) {
 		return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider3) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId4) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider4) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId5) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider5) : _elm_lang$core$Platform_Cmd$none))));
 	});
-var _user$project$Tests_TestAPI$providerTopic = F3(
-	function (id, topic, msg) {
+var _user$project$Tests_TestAPI$featuredTopics = F3(
+	function (id, topics, msg) {
 		return _elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId1) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider1) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId2) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider2) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId3) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider3) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId4) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider4) : (_elm_lang$core$Native_Utils.eq(id, _user$project$Tests_TestAPI$profileId5) ? A2(_user$project$Services_Adapter$httpSuccess, msg, _user$project$Tests_TestAPI$jsonProvider5) : _elm_lang$core$Platform_Cmd$none))));
 	});
 
@@ -17152,8 +17152,8 @@ var _user$project$Services_Encoders$encodeCredentials = function (credentials) {
 			}
 		});
 };
-var _user$project$Services_Encoders$encodeProviderWithTopic = F2(
-	function (id, topic) {
+var _user$project$Services_Encoders$encodeFeaturedTopics = F2(
+	function (id, topics) {
 		return _elm_lang$core$Json_Encode$object(
 			{
 				ctor: '::',
@@ -17167,9 +17167,9 @@ var _user$project$Services_Encoders$encodeProviderWithTopic = F2(
 					ctor: '::',
 					_0: {
 						ctor: '_Tuple2',
-						_0: 'Topic',
-						_1: _elm_lang$core$Json_Encode$string(
-							_user$project$Domain_Core$topicText(topic))
+						_0: 'Topics',
+						_1: _elm_lang$core$Json_Encode$list(
+							A2(_elm_lang$core$List$map, _elm_lang$core$Json_Encode$string, topics))
 					},
 					_1: {ctor: '[]'}
 				}
@@ -17683,11 +17683,11 @@ var _user$project$Services_Gateway$provider = F2(
 		var request = A2(_elm_lang$http$Http$get, url, _user$project$Services_Decoders$providerDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
-var _user$project$Services_Gateway$providerTopic = F3(
-	function (id, topic, msg) {
+var _user$project$Services_Gateway$featuredTopics = F3(
+	function (id, topics, msg) {
 		var body = _elm_lang$http$Http$jsonBody(
-			A2(_user$project$Services_Encoders$encodeProviderWithTopic, id, topic));
-		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'providertopic');
+			A2(_user$project$Services_Encoders$encodeFeaturedTopics, id, topics));
+		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'featuredtopics');
 		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Decoders$providerDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
@@ -17892,7 +17892,7 @@ var _user$project$Settings$Dependencies = function (a) {
 																				return function (u) {
 																					return function (v) {
 																						return function (w) {
-																							return {bootstrap: a, tryLogin: b, tryRegister: c, updateProfile: d, thumbnail: e, updateThumbnail: f, provider: g, providerTopic: h, providers: i, portfolio: j, addLink: k, removeLink: l, topicLinks: m, sources: n, addSource: o, removeSource: p, suggestedTopics: q, subscriptions: r, followers: s, follow: t, unsubscribe: u, recentLinks: v, featureLink: w};
+																							return {bootstrap: a, tryLogin: b, tryRegister: c, updateProfile: d, thumbnail: e, updateThumbnail: f, provider: g, featuredTopics: h, providers: i, portfolio: j, addLink: k, removeLink: l, topicLinks: m, sources: n, addSource: o, removeSource: p, suggestedTopics: q, subscriptions: r, followers: s, follow: t, unsubscribe: u, recentLinks: v, featureLink: w};
 																						};
 																					};
 																				};
@@ -17922,9 +17922,9 @@ var _user$project$Settings$configuration = _user$project$Settings$Connected;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Connected') {
-		return _user$project$Settings$Dependencies(_user$project$Services_Gateway$bootstrap)(_user$project$Services_Gateway$tryLogin)(_user$project$Services_Gateway$tryRegister)(_user$project$Services_Gateway$updateProfile)(_user$project$Services_Gateway$thumbnail)(_user$project$Services_Gateway$updateThumbnail)(_user$project$Services_Gateway$provider)(_user$project$Services_Gateway$providerTopic)(_user$project$Services_Gateway$providers)(_user$project$Services_Gateway$portfolio)(_user$project$Services_Gateway$addLink)(_user$project$Services_Gateway$removeLink)(_user$project$Services_Gateway$topicLinks)(_user$project$Services_Gateway$sources)(_user$project$Services_Gateway$addSource)(_user$project$Services_Gateway$removeSource)(_user$project$Services_Gateway$suggestedTopics)(_user$project$Services_Gateway$subscriptions)(_user$project$Services_Gateway$followers)(_user$project$Services_Gateway$follow)(_user$project$Services_Gateway$unsubscribe)(_user$project$Services_Gateway$recentLinks)(_user$project$Services_Gateway$featureLink);
+		return _user$project$Settings$Dependencies(_user$project$Services_Gateway$bootstrap)(_user$project$Services_Gateway$tryLogin)(_user$project$Services_Gateway$tryRegister)(_user$project$Services_Gateway$updateProfile)(_user$project$Services_Gateway$thumbnail)(_user$project$Services_Gateway$updateThumbnail)(_user$project$Services_Gateway$provider)(_user$project$Services_Gateway$featuredTopics)(_user$project$Services_Gateway$providers)(_user$project$Services_Gateway$portfolio)(_user$project$Services_Gateway$addLink)(_user$project$Services_Gateway$removeLink)(_user$project$Services_Gateway$topicLinks)(_user$project$Services_Gateway$sources)(_user$project$Services_Gateway$addSource)(_user$project$Services_Gateway$removeSource)(_user$project$Services_Gateway$suggestedTopics)(_user$project$Services_Gateway$subscriptions)(_user$project$Services_Gateway$followers)(_user$project$Services_Gateway$follow)(_user$project$Services_Gateway$unsubscribe)(_user$project$Services_Gateway$recentLinks)(_user$project$Services_Gateway$featureLink);
 	} else {
-		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$bootstrap)(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$updateProfile)(_user$project$Tests_TestAPI$thumbnail)(_user$project$Tests_TestAPI$updateThumbnail)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$providerTopic)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$portfolio)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$recentLinks)(_user$project$Tests_TestAPI$featureLink);
+		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$bootstrap)(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$updateProfile)(_user$project$Tests_TestAPI$thumbnail)(_user$project$Tests_TestAPI$updateThumbnail)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$featuredTopics)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$portfolio)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$recentLinks)(_user$project$Tests_TestAPI$featureLink);
 	}
 }();
 
@@ -23020,7 +23020,7 @@ var _user$project$Home$navigate = F3(
 									_0: _elm_lang$core$Native_Utils.update(
 										model,
 										{currentRoute: location}),
-									_1: A3(_user$project$Settings$runtime.providerTopic, providerId, providerTopic, _user$project$Home$NavigateToProviderTopicResponse)
+									_1: A2(_user$project$Settings$runtime.provider, providerId, _user$project$Home$NavigateToProviderTopicResponse)
 								};
 							case 'portal':
 								var _p11 = {
@@ -23035,7 +23035,7 @@ var _user$project$Home$navigate = F3(
 									_0: _elm_lang$core$Native_Utils.update(
 										model,
 										{currentRoute: location}),
-									_1: A3(_user$project$Settings$runtime.providerTopic, providerId, providerTopic, _user$project$Home$NavigateToPortalProviderTopicResponse)
+									_1: A2(_user$project$Settings$runtime.provider, providerId, _user$project$Home$NavigateToPortalProviderTopicResponse)
 								};
 							default:
 								break _v5_8;
@@ -23055,7 +23055,7 @@ var _user$project$Home$navigate = F3(
 									_0: _elm_lang$core$Native_Utils.update(
 										model,
 										{currentRoute: location}),
-									_1: A3(_user$project$Settings$runtime.providerTopic, providerId, providerTopic, _user$project$Home$NavigateToPortalProviderMemberTopicResponse)
+									_1: A2(_user$project$Settings$runtime.provider, providerId, _user$project$Home$NavigateToPortalProviderMemberTopicResponse)
 								};
 							} else {
 								break _v5_8;

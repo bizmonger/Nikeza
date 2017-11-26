@@ -108,14 +108,14 @@ provider id msg =
         Http.send msg request
 
 
-providerTopic : Id -> Topic -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
-providerTopic id topic msg =
+featuredTopics : Id -> List String -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+featuredTopics id topics msg =
     let
         url =
-            baseUrl ++ "providertopic"
+            baseUrl ++ "featuredtopics"
 
         body =
-            (encodeProviderWithTopic id topic) |> Http.jsonBody
+            (encodeFeaturedTopics id topics) |> Http.jsonBody
 
         request =
             Http.post url body providerDecoder

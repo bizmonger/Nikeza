@@ -23,7 +23,7 @@ type alias Dependencies msg =
     , thumbnail : ThumbnailFunction msg
     , updateThumbnail : SaveThumbnailfunction msg
     , provider : Providerfunction msg
-    , providerTopic : ProviderTopicfunction msg
+    , featuredTopics : FeaturedTopicsfunction msg
     , providers : Providersfunction msg
     , portfolio : Portfoliofunction msg
     , addLink : AddLinkfunction msg
@@ -54,7 +54,7 @@ runtime =
                 Services.thumbnail
                 Services.updateThumbnail
                 Services.provider
-                Services.providerTopic
+                Services.featuredTopics
                 Services.providers
                 Services.portfolio
                 Services.addLink
@@ -80,7 +80,7 @@ runtime =
                 TestAPI.thumbnail
                 TestAPI.updateThumbnail
                 TestAPI.provider
-                TestAPI.providerTopic
+                TestAPI.featuredTopics
                 TestAPI.providers
                 TestAPI.portfolio
                 TestAPI.addLink
