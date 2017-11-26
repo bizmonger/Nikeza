@@ -77,7 +77,7 @@ module Nikeza.Server.WordPress
                 url
            else ""
 
-    let rec wordpressLinks (user:User) (pageNumber:int) existingLinks =
+    let rec private getLinks (user:User) (pageNumber:int) existingLinks =
 
         let response = sendRequest APIBaseAddress ArticlesUrl user.AccessId <| string pageNumber
 
@@ -93,6 +93,10 @@ module Nikeza.Server.WordPress
                     then result.posts  |> Seq.toList 
                                        |> List.map (fun post -> toLink user.ProfileId post)
                                        |> List.append <| existingLinks
-                                       |> wordpressLinks user (pageNumber + 1)
+                                       |> getLinks user (pageNumber + 1)
                     else existingLinks
             else []
+
+    let wordpressLinks (user:User) =
+        let links = [] |> getLinks user 1
+        links

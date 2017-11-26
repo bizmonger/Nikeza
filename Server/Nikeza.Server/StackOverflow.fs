@@ -17,7 +17,7 @@ module StackOverflow =
     let private ThumbnailUrl = "2.2/users/{0}?order=desc&sort=reputation&site=stackoverflow&filter=!40DELPbCy)uCaG7xi&key={1}"
 
     [<Literal>]
-    let private AnswersUrl = "2.2/users/{0}/answers?order=desc&sort=activity&site=stackoverflow&filter=!Fcazzsr2b3M)LbUjGAu-Fs0Wf8&key={1}"
+    let private AnswersUrl = "2.2/users/{0}/answers?page={1}&pagesize=100&order=desc&sort=activity&site=stackoverflow&filter=!Fcazzsr2b3M)LbUjGAu-Fs0Wf8&key={2}"
 
     [<Literal>]
     let private APIBaseAddress = "https://api.stackexchange.com/"
@@ -71,18 +71,29 @@ module StackOverflow =
 
            else ThumbnailUrl
 
-    let stackoverflowLinks platformUser =
+    let rec private getLinks platformUser (pageNumber:int) existingLinks =
         let user =     platformUser.User
-        let url =      String.Format(AnswersUrl, user.AccessId, platformUser.APIKey)
+        let url =      String.Format(AnswersUrl, user.AccessId, pageNumber, platformUser.APIKey)
         let response = sendRequest APIBaseAddress url user.AccessId platformUser.APIKey
 
         if response.IsSuccessStatusCode
            then let json =   response.Content.ReadAsStringAsync() |> toResult
-                JsonConvert.DeserializeObject<AnswersResponse>(json).items
-                 |> Seq.toList
-                 |> List.map (fun item -> toLink user.ProfileId item)
-                 |> List.rev
+           
+                let links = 
+                    JsonConvert.DeserializeObject<AnswersResponse>(json).items
+                     |> Seq.toList
+                     |> List.map (fun item -> toLink user.ProfileId item)
+                     |> List.rev
+
+                if links |> List.isEmpty
+                   then links
+                   else let nextPage = pageNumber + 1
+                        getLinks platformUser nextPage (List.append existingLinks links)
            else []
+
+    let stackoverflowLinks platformUser =
+        let links = [] |> getLinks platformUser 1
+        links
 
     type Tag =          { name : string }
     type TagsResponse = { items: Tag list }

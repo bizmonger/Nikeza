@@ -12,17 +12,13 @@
 USE [master]
 GO
 
-/****** Object:  Database [Nikeza]    Script Date: 11/9/2017 3:55:40 AM ******/
-DROP DATABASE [Nikeza]
-GO
-
-/****** Object:  Database [Nikeza]    Script Date: 11/9/2017 3:55:40 AM ******/
+/****** Object:  Database [Nikeza]    Script Date: 11/25/2017 5:36:00 PM ******/
 CREATE DATABASE [Nikeza]
  CONTAINMENT = NONE
  ON  PRIMARY 
 ( NAME = N'Nikeza', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL13.SQLEXPRESS\MSSQL\DATA\Nikeza.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
  LOG ON 
-( NAME = N'Nikeza_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL13.SQLEXPRESS\MSSQL\DATA\Nikeza_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+( NAME = N'Nikeza_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL13.SQLEXPRESS\MSSQL\DATA\Nikeza_log.ldf' , SIZE = 73728KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
 GO
 
 ALTER DATABASE [Nikeza] SET COMPATIBILITY_LEVEL = 130

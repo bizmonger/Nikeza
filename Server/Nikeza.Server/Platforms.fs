@@ -50,7 +50,7 @@ let linksFrom platformUser : Link list =
     platformUser.Platform |> function
     | YouTube       -> platformUser |> youtubeLinks
     | StackOverflow -> platformUser |> stackoverflowLinks
-    | WordPress     -> []           |> wordpressLinks user 1
+    | WordPress     -> user         |> wordpressLinks
     | Medium        -> user         |> mediumLinks
     | RSSFeed       -> user         |> rssLinks
     | Other         -> []

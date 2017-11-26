@@ -233,7 +233,7 @@ let linkOf video profileId = {
     IsFeatured=  false
 }
 
-let youtubeLinks (platformUser:PlatformUser) = 
+let rec youtubeLinks (platformUser:PlatformUser) = 
     
     let user = platformUser.User
 
