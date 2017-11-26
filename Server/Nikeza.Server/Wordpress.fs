@@ -98,5 +98,4 @@ module Nikeza.Server.WordPress
             else []
 
     let wordpressLinks (user:User) =
-        let links = [] |> getLinks user 1
-        links
+        [] |> getLinks user 1

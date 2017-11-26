@@ -78,25 +78,23 @@ module StackOverflow =
         let response = sendRequest APIBaseAddress url user.AccessId platformUser.APIKey
 
         if response.IsSuccessStatusCode
-           then let json =   response.Content.ReadAsStringAsync() |> toResult
-
-                let links = 
+           then let json =  response.Content.ReadAsStringAsync() |> toResult
+                let links =
                     JsonConvert.DeserializeObject<AnswersResponse>(json).items
                      |> Seq.toList
                      |> List.map (fun item -> toLink user.ProfileId item)
                      |> List.rev
 
                 if links |> List.isEmpty
-                   then links
+                   then existingLinks
                    else links 
                          |> List.append existingLinks 
                          |> getLinks platformUser (pageNumber + 1)
            else []
 
     let stackoverflowLinks platformUser =
-        let links = [] |> getLinks platformUser 1
-        links
-
+        [] |> getLinks platformUser 1
+ 
     type Tag =          { name : string }
     type TagsResponse = { items: Tag list }
 
