@@ -72,13 +72,14 @@ module StackOverflow =
            else ThumbnailUrl
 
     let rec private getLinks platformUser (pageNumber:int) existingLinks =
+
         let user =     platformUser.User
         let url =      String.Format(AnswersUrl, user.AccessId, pageNumber, platformUser.APIKey)
         let response = sendRequest APIBaseAddress url user.AccessId platformUser.APIKey
 
         if response.IsSuccessStatusCode
            then let json =   response.Content.ReadAsStringAsync() |> toResult
-           
+
                 let links = 
                     JsonConvert.DeserializeObject<AnswersResponse>(json).items
                      |> Seq.toList
@@ -87,8 +88,9 @@ module StackOverflow =
 
                 if links |> List.isEmpty
                    then links
-                   else let nextPage = pageNumber + 1
-                        getLinks platformUser nextPage (List.append existingLinks links)
+                   else links 
+                         |> List.append existingLinks 
+                         |> getLinks platformUser (pageNumber + 1)
            else []
 
     let stackoverflowLinks platformUser =
