@@ -13,6 +13,7 @@ open Giraffe.Tasks
 open Registration
 open StackOverflow.Suggestions
 open Order
+open Nikeza.Server.Converters
 
 [<Literal>]
 let AuthScheme = "Cookie"
@@ -30,12 +31,15 @@ let private loginHandler: HttpHandler =
     fun next ctx -> 
         task {
             let! data = ctx.BindJson<LogInRequest>()
-            let email = data.Email.ToLower()
-            if  authenticate email data.Password
-                then match login email with
-                     | Some provider -> return! json provider next ctx
-                     | None          -> return! (setStatusCode 400 >=> json "Invalid login") next ctx
-                else return! (setStatusCode 400 >=> json "Invalid login") next ctx                                                       
+            let  email = data.Email.ToLower()
+            if   authenticate email data.Password
+                 then match login email with
+                      | Some profile ->  
+                         match getProvider profile.Id with
+                         | Some provider -> return! json { provider with Profile = profile |> toProfileRequest } next ctx
+                         | None -> return! (setStatusCode 400 >=> json "Invalid login") next ctx
+                      | None    -> return! (setStatusCode 400 >=> json "Invalid login") next ctx
+                 else return! (setStatusCode 400 >=> json "Invalid login") next ctx                                                       
         }
 
 let private fetchProvider providerId: HttpHandler =
@@ -96,14 +100,14 @@ let private updateProviderHandler: HttpHandler =
         task { 
             let! data = ctx.BindJson<ProfileAndTopicsRequest>()
             let topicsRequest = { ProfileId= data.Profile.Id
-                                  Names=data.Topics |> List.map (fun t -> t.Name) }
+                                  Names=     data.Topics |> List.map (fun t -> t.Name) }
                                   
             UpdateProfile data.Profile  |> execute |> ignore
             UpdateTopics  topicsRequest |> execute |> ignore
 
             match getProvider data.Profile.Id with
-               | Some provider -> return! json provider next ctx
-               | None ->          return! (setStatusCode 400 >=> json "provider not found") next ctx   
+            | Some provider -> return! json provider next ctx
+            | None ->          return! (setStatusCode 400 >=> json "provider not found") next ctx   
         }
 
 let private addSourceHandler: HttpHandler = 

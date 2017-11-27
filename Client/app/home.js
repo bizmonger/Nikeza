@@ -23030,26 +23030,32 @@ var _user$project$Home$navigate = F3(
 									A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$Podcast, provider.filteredPortfolio)),
 								topics: provider.filteredPortfolio.topics
 							};
-							var login = model.login;
-							return {
-								ctor: '_Tuple2',
-								_0: _elm_lang$core$Native_Utils.update(
-									model,
-									{
-										login: _elm_lang$core$Native_Utils.update(
-											login,
-											{loggedIn: true}),
-										portal: _elm_lang$core$Native_Utils.update(
-											portal,
-											{
-												provider: _elm_lang$core$Native_Utils.update(
-													provider,
-													{profile: updatedProfile, filteredPortfolio: filtered})
-											}),
-										currentRoute: location
-									}),
-								_1: _elm_lang$core$Platform_Cmd$none
+							var profileEditor = {
+								provider: _elm_lang$core$Native_Utils.update(
+									provider,
+									{profile: updatedProfile, filteredPortfolio: filtered}),
+								chosenTopics: provider.topics,
+								currentTopic: _user$project$Domain_Core$initTopic,
+								topicSuggestions: {ctor: '[]'}
 							};
+							var login = model.login;
+							var updatedModel = _elm_lang$core$Native_Utils.update(
+								model,
+								{
+									login: _elm_lang$core$Native_Utils.update(
+										login,
+										{loggedIn: true}),
+									portal: _elm_lang$core$Native_Utils.update(
+										portal,
+										{
+											provider: _elm_lang$core$Native_Utils.update(
+												provider,
+												{profile: updatedProfile, filteredPortfolio: filtered}),
+											profileEditor: profileEditor
+										}),
+									currentRoute: location
+								});
+							return {ctor: '_Tuple2', _0: updatedModel, _1: _elm_lang$core$Platform_Cmd$none};
 						default:
 							break _v5_8;
 					}
@@ -23221,11 +23227,7 @@ var _user$project$Home$onEditProfile = F2(
 		var _p13 = {ctor: '_Tuple2', _0: model.portal, _1: model.portal.provider};
 		var portal = _p13._0;
 		var provider = _p13._1;
-		var initialEditor = portal.profileEditor;
-		var editor = _elm_lang$core$Native_Utils.update(
-			initialEditor,
-			{provider: provider});
-		var _p14 = A2(_user$project$Controls_EditProfile$update, subMsg, editor);
+		var _p14 = A2(_user$project$Controls_EditProfile$update, subMsg, portal.profileEditor);
 		var updatedEditor = _p14._0;
 		var subCmd = _p14._1;
 		var editCmd = A2(_elm_lang$core$Platform_Cmd$map, _user$project$Home$EditProfileAction, subCmd);
@@ -23658,8 +23660,8 @@ var _user$project$Home$onNewLink = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1098, column: 25},
-								end: {line: 1098, column: 36}
+								start: {line: 1082, column: 25},
+								end: {line: 1082, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p26._0),
 						{ctor: '_Tuple2', _0: model, _1: newLinkCmd});
@@ -23767,8 +23769,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1179, column: 25},
-								end: {line: 1179, column: 36}
+								start: {line: 1163, column: 25},
+								end: {line: 1163, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p33._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -23792,8 +23794,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1187, column: 25},
-								end: {line: 1187, column: 36}
+								start: {line: 1171, column: 25},
+								end: {line: 1171, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p35._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -24337,8 +24339,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 230, column: 25},
-								end: {line: 230, column: 36}
+								start: {line: 221, column: 25},
+								end: {line: 221, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p47._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -24462,8 +24464,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 333, column: 25},
-								end: {line: 333, column: 36}
+								start: {line: 323, column: 25},
+								end: {line: 323, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p55._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -24499,8 +24501,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 354, column: 25},
-								end: {line: 354, column: 36}
+								start: {line: 344, column: 25},
+								end: {line: 344, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p56._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -24767,8 +24769,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 540, column: 17},
-								end: {line: 540, column: 28}
+								start: {line: 530, column: 17},
+								end: {line: 530, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p42._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -24802,8 +24804,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 567, column: 17},
-								end: {line: 567, column: 28}
+								start: {line: 557, column: 17},
+								end: {line: 557, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p42._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});

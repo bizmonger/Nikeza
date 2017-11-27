@@ -46,7 +46,6 @@ let contentTypeIdToString = function
     | 3 -> PodcastText
     | _ -> UnknownText
 
-
 [<CLIMutable>]
 type RegistrationRequest = {
         FirstName: string 
@@ -171,7 +170,7 @@ type Profile = {
 
 [<CLIMutable>]
 type ProfileRequest = {
-    Id:  string
+    Id:         string
     FirstName:  string
     LastName:   string
     Bio:        string

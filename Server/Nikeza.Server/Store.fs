@@ -175,14 +175,10 @@ let hydrate (profile:Profile) =
       Followers=     followers     |> List.map(fun s -> s.Profile.Id)
     }
 
-let login email =
-    email |> loginProfile 
-          |> function
-             | Some profile -> Some <| hydrate profile
-             | None         -> None
-
 let getProvider profileId =
-    let commandFunc (command: SqlCommand) = command |> addWithValue "@ProfileId" profileId
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue "@ProfileId" profileId
+        
     readInProviders |> getResults getProfileSql commandFunc
                     |> function | p::_ -> Some { p with Topics=      profileId |> getFeaturedTopics
                                                         Followers=   profileId |> getFollowers |> List.map (fun f -> f.Profile.Id)
@@ -190,6 +186,12 @@ let getProvider profileId =
                                                         RecentLinks= profileId |> getRecent
                                                }
                                 | _ -> None
+
+let login email =
+    email |> loginProfile 
+          |> function
+             | Some profile -> Some profile
+             | None         -> None
 let getProfile profileId =
     let profiles = getProfiles profileId getProfileSql "@ProfileId"
     profiles |> List.tryHead

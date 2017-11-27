@@ -131,15 +131,6 @@ update msg model =
                     |> topicGroups
             else
                 topics
-
-        -- popularTopicsFilter: Link -> List Link -> Bool
-        -- popularTopicsFilter link links =
-        --     -- link.topics
-        --     --     |> initialTopics links
-        --     --     |> List.map .name
-        --     --     |> List.take maxTopicsToShow)
-        --     --     |> List.member topic.name
-        --     True
     in
         case msg of
             UrlChange location ->
@@ -290,7 +281,6 @@ update msg model =
 
                             filterTop links =
                                 links
-                                    -- |> popularTopicsFilter l)
                                     |> List.take maxLinksToShow
 
                             updatedProvider =
@@ -781,14 +771,8 @@ onEditProfile subMsg model =
         ( portal, provider ) =
             ( model.portal, model.portal.provider )
 
-        initialEditor =
-            portal.profileEditor
-
-        editor =
-            { initialEditor | provider = provider }
-
         ( updatedEditor, subCmd ) =
-            EditProfile.update subMsg editor
+            EditProfile.update subMsg portal.profileEditor
 
         editCmd =
             Cmd.map EditProfileAction subCmd
@@ -2004,7 +1988,6 @@ navigate msg model location =
                 ( providerId, providerTopic ) =
                     ( (Id id), (Topic topic False) )
             in
-                -- ( { model | currentRoute = location }, runtime.providerTopic providerId providerTopic NavigateToProviderTopicResponse )
                 ( { model | currentRoute = location }, runtime.provider providerId NavigateToProviderTopicResponse )
 
         [ "portal", id ] ->
@@ -2031,21 +2014,27 @@ navigate msg model location =
 
                 updatedProfile =
                     { profile | id = Id id }
+
+                profileEditor =
+                    { provider = { provider | profile = updatedProfile, filteredPortfolio = filtered }
+                    , chosenTopics = provider.topics
+                    , currentTopic = initTopic
+                    , topicSuggestions = []
+                    }
+
+                updatedModel =
+                    { model
+                        | login = { login | loggedIn = True }
+                        , portal =
+                            { portal
+                                | provider = { provider | profile = updatedProfile, filteredPortfolio = filtered }
+                                , profileEditor = profileEditor
+                            }
+                        , currentRoute = location
+                    }
             in
-                ( { model
-                    | login = { login | loggedIn = True }
-                    , portal =
-                        { portal
-                            | provider =
-                                { provider
-                                    | profile = updatedProfile
-                                    , filteredPortfolio = filtered
-                                }
-                        }
-                    , currentRoute = location
-                  }
-                , Cmd.none
-                )
+                -- Debug.crash ("profileEditor.Provider: " ++ toString updatedModel.portal.profileEditor.provider)
+                ( updatedModel, Cmd.none )
 
         [ "portal", id, topic ] ->
             let
