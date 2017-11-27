@@ -18190,10 +18190,10 @@ var _user$project$Controls_EditProfile$view = function (model) {
 				{
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$label,
+						_elm_lang$html$Html$button,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('topicAdded'),
+							_0: _elm_lang$html$Html_Attributes$class('topicsButton'),
 							_1: {ctor: '[]'}
 						},
 						{
@@ -18227,14 +18227,7 @@ var _user$project$Controls_EditProfile$view = function (model) {
 								_elm_lang$html$Html$br,
 								{ctor: '[]'},
 								{ctor: '[]'}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$br,
-									{ctor: '[]'},
-									{ctor: '[]'}),
-								_1: {ctor: '[]'}
-							}
+							_1: {ctor: '[]'}
 						}
 					}
 				});
@@ -18318,7 +18311,11 @@ var _user$project$Controls_EditProfile$view = function (model) {
 				ctor: '::',
 				_0: A2(
 					_elm_lang$html$Html$table,
-					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('editProfile'),
+						_1: {ctor: '[]'}
+					},
 					{
 						ctor: '::',
 						_0: A2(
@@ -27089,7 +27086,11 @@ var _user$project$Home$render = F4(
 								ctor: '::',
 								_0: A2(
 									_elm_lang$html$Html$table,
-									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('portalLeftRegion'),
+										_1: {ctor: '[]'}
+									},
 									{
 										ctor: '::',
 										_0: A2(

@@ -102,7 +102,6 @@ table.xx{
 
 h3.portalTopicHeader {
     margin-top: 15px;
-    /* margin-left: 8px; */
     color: rgb(19, 108, 175);
 }
 
@@ -184,6 +183,10 @@ textarea.inputBio {
 
 div.navigationpane {
     vertical-align: text-top;
+}
+
+table.portalLeftRegion {
+    margin-right: 20px;
 }
 
 div.RegistrationForm {
@@ -341,6 +344,10 @@ td.centertd {
 table.contentTable {
     margin-left: 5px;
     margin-top: -3px;
+}
+
+table.editProfile {
+    margin-top: -10px;
 }
 
 tr.contentTypeHeader {

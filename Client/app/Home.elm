@@ -1374,7 +1374,7 @@ render provider content portal providers =
     table []
         [ tr []
             [ td []
-                [ table []
+                [ table [ class "portalLeftRegion" ]
                     [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| urlText <| provider.profile.imageUrl, width 55, height 55 ] [] ] ]
                     , tr [] [ td [] <| renderNavigation providers portal ]
                     ]
@@ -2033,7 +2033,6 @@ navigate msg model location =
                         , currentRoute = location
                     }
             in
-                -- Debug.crash ("profileEditor.Provider: " ++ toString updatedModel.portal.profileEditor.provider)
                 ( updatedModel, Cmd.none )
 
         [ "portal", id, topic ] ->

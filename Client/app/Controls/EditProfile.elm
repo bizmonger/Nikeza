@@ -163,16 +163,15 @@ view model =
                 |> List.map
                     (\t ->
                         div []
-                            [ label [ class "topicAdded" ] [ text <| topicText t ]
+                            [ button [ class "topicsButton" ] [ text <| topicText t ]
                             , button [ class "removeTopic", onClick <| RemoveTopic t ] [ text "X" ]
-                            , br [] []
                             , br [] []
                             ]
                     )
     in
         div [ class "mainContent" ]
             [ h3 [ class "portalTopicHeader" ] [ text "Profile" ]
-            , table []
+            , table [ class "editProfile" ]
                 [ tr []
                     [ td [] [ input [ class "profileFirstNameInput", type_ "text", placeholder "first name", onInput FirstNameInput, value <| nameText profile.firstName ] [] ]
                     , td [] [ input [ class "profileNameInput", type_ "text", placeholder "last name", onInput LastNameInput, value <| nameText profile.lastName ] [] ]
