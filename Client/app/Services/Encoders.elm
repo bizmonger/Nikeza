@@ -71,6 +71,18 @@ encodeProfile profile =
             ]
 
 
+encodeProvider : Provider -> Encode.Value
+encodeProvider provider =
+    let
+        jsonProvider =
+            provider |> toJsonProvider
+    in
+        Encode.object
+            [ ( "Profile", encodeProfile provider.profile )
+            , ( "Topics", Encode.list (provider.topics |> List.map (\t -> encodeTopic t)) )
+            ]
+
+
 encodeSubscriptionRequest : SubscriptionRequest -> Encode.Value
 encodeSubscriptionRequest request =
     Encode.object

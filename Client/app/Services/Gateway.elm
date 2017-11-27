@@ -269,6 +269,21 @@ updateProfile profile msg =
         Http.send msg request
 
 
+updateProvider : Provider -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+updateProvider provider msg =
+    let
+        url =
+            baseUrl ++ "updateprovider"
+
+        body =
+            encodeProvider provider |> Http.jsonBody
+
+        request =
+            Http.post url body providerDecoder
+    in
+        Http.send msg request
+
+
 suggestedTopics : String -> (Result Http.Error (List String) -> msg) -> Cmd msg
 suggestedTopics search msg =
     if not <| isEmpty search && String.length search > 1 then

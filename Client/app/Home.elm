@@ -842,13 +842,13 @@ onEditProfile subMsg model =
 
             EditProfile.Response result ->
                 case result of
-                    Result.Ok jsonProfile ->
+                    Result.Ok jsonProvider ->
                         let
                             updatedModel =
                                 { newState
                                     | portal =
                                         { portal
-                                            | provider = { provider | profile = jsonProfile |> toProfile }
+                                            | provider = jsonProvider |> toProvider
                                             , sourcesNavigation = True
                                             , portfolioNavigation = portfolioExists provider.portfolio
                                             , requested = Domain.ViewSources

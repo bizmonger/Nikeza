@@ -15931,6 +15931,13 @@ var _user$project$Tests_TestAPI$featureLink = F2(
 	function (request, msg) {
 		return A2(_user$project$Services_Adapter$httpSuccess, msg, request.linkId);
 	});
+var _user$project$Tests_TestAPI$updateProvider = F2(
+	function (provider, msg) {
+		return A2(
+			_user$project$Services_Adapter$httpSuccess,
+			msg,
+			_user$project$Services_Adapter$toJsonProvider(provider));
+	});
 var _user$project$Tests_TestAPI$updateProfile = F2(
 	function (profile, msg) {
 		return A2(
@@ -17338,6 +17345,33 @@ var _user$project$Services_Encoders$encodeProfile = function (profile) {
 			}
 		});
 };
+var _user$project$Services_Encoders$encodeProvider = function (provider) {
+	var jsonProvider = _user$project$Services_Adapter$toJsonProvider(provider);
+	return _elm_lang$core$Json_Encode$object(
+		{
+			ctor: '::',
+			_0: {
+				ctor: '_Tuple2',
+				_0: 'Profile',
+				_1: _user$project$Services_Encoders$encodeProfile(provider.profile)
+			},
+			_1: {
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'Topics',
+					_1: _elm_lang$core$Json_Encode$list(
+						A2(
+							_elm_lang$core$List$map,
+							function (t) {
+								return _user$project$Services_Encoders$encodeTopic(t);
+							},
+							provider.topics))
+				},
+				_1: {ctor: '[]'}
+			}
+		});
+};
 var _user$project$Services_Encoders$encodeLink = function (link) {
 	return _elm_lang$core$Json_Encode$object(
 		{
@@ -17801,6 +17835,14 @@ var _user$project$Services_Gateway$updateProfile = F2(
 		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Decoders$profileDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
+var _user$project$Services_Gateway$updateProvider = F2(
+	function (provider, msg) {
+		var body = _elm_lang$http$Http$jsonBody(
+			_user$project$Services_Encoders$encodeProvider(provider));
+		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'updateprovider');
+		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Decoders$providerDecoder);
+		return A2(_elm_lang$http$Http$send, msg, request);
+	});
 var _user$project$Services_Gateway$suggestedTopics = F2(
 	function (search, msg) {
 		if (!(_elm_lang$core$String$isEmpty(search) && (_elm_lang$core$Native_Utils.cmp(
@@ -17892,7 +17934,9 @@ var _user$project$Settings$Dependencies = function (a) {
 																				return function (u) {
 																					return function (v) {
 																						return function (w) {
-																							return {bootstrap: a, tryLogin: b, tryRegister: c, updateProfile: d, thumbnail: e, updateThumbnail: f, provider: g, featuredTopics: h, providers: i, portfolio: j, addLink: k, removeLink: l, topicLinks: m, sources: n, addSource: o, removeSource: p, suggestedTopics: q, subscriptions: r, followers: s, follow: t, unsubscribe: u, recentLinks: v, featureLink: w};
+																							return function (x) {
+																								return {bootstrap: a, tryLogin: b, tryRegister: c, updateProfile: d, updateProvider: e, thumbnail: f, updateThumbnail: g, provider: h, featuredTopics: i, providers: j, portfolio: k, addLink: l, removeLink: m, topicLinks: n, sources: o, addSource: p, removeSource: q, suggestedTopics: r, subscriptions: s, followers: t, follow: u, unsubscribe: v, recentLinks: w, featureLink: x};
+																							};
 																						};
 																					};
 																				};
@@ -17922,9 +17966,9 @@ var _user$project$Settings$configuration = _user$project$Settings$Connected;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Connected') {
-		return _user$project$Settings$Dependencies(_user$project$Services_Gateway$bootstrap)(_user$project$Services_Gateway$tryLogin)(_user$project$Services_Gateway$tryRegister)(_user$project$Services_Gateway$updateProfile)(_user$project$Services_Gateway$thumbnail)(_user$project$Services_Gateway$updateThumbnail)(_user$project$Services_Gateway$provider)(_user$project$Services_Gateway$featuredTopics)(_user$project$Services_Gateway$providers)(_user$project$Services_Gateway$portfolio)(_user$project$Services_Gateway$addLink)(_user$project$Services_Gateway$removeLink)(_user$project$Services_Gateway$topicLinks)(_user$project$Services_Gateway$sources)(_user$project$Services_Gateway$addSource)(_user$project$Services_Gateway$removeSource)(_user$project$Services_Gateway$suggestedTopics)(_user$project$Services_Gateway$subscriptions)(_user$project$Services_Gateway$followers)(_user$project$Services_Gateway$follow)(_user$project$Services_Gateway$unsubscribe)(_user$project$Services_Gateway$recentLinks)(_user$project$Services_Gateway$featureLink);
+		return _user$project$Settings$Dependencies(_user$project$Services_Gateway$bootstrap)(_user$project$Services_Gateway$tryLogin)(_user$project$Services_Gateway$tryRegister)(_user$project$Services_Gateway$updateProfile)(_user$project$Services_Gateway$updateProvider)(_user$project$Services_Gateway$thumbnail)(_user$project$Services_Gateway$updateThumbnail)(_user$project$Services_Gateway$provider)(_user$project$Services_Gateway$featuredTopics)(_user$project$Services_Gateway$providers)(_user$project$Services_Gateway$portfolio)(_user$project$Services_Gateway$addLink)(_user$project$Services_Gateway$removeLink)(_user$project$Services_Gateway$topicLinks)(_user$project$Services_Gateway$sources)(_user$project$Services_Gateway$addSource)(_user$project$Services_Gateway$removeSource)(_user$project$Services_Gateway$suggestedTopics)(_user$project$Services_Gateway$subscriptions)(_user$project$Services_Gateway$followers)(_user$project$Services_Gateway$follow)(_user$project$Services_Gateway$unsubscribe)(_user$project$Services_Gateway$recentLinks)(_user$project$Services_Gateway$featureLink);
 	} else {
-		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$bootstrap)(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$updateProfile)(_user$project$Tests_TestAPI$thumbnail)(_user$project$Tests_TestAPI$updateThumbnail)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$featuredTopics)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$portfolio)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$recentLinks)(_user$project$Tests_TestAPI$featureLink);
+		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$bootstrap)(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$updateProfile)(_user$project$Tests_TestAPI$updateProvider)(_user$project$Tests_TestAPI$thumbnail)(_user$project$Tests_TestAPI$updateThumbnail)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$featuredTopics)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$portfolio)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$recentLinks)(_user$project$Tests_TestAPI$featureLink);
 	}
 }();
 
@@ -18078,23 +18122,23 @@ var _user$project$Controls_EditProfile$update = F2(
 			case 'AddTopic':
 				return onAddTopic(_p0._0);
 			case 'Update':
+				var updatedProvider = _elm_lang$core$Native_Utils.update(
+					provider,
+					{topics: model.chosenTopics});
 				return {
 					ctor: '_Tuple2',
 					_0: model,
-					_1: A2(_user$project$Settings$runtime.updateProfile, profile, _user$project$Controls_EditProfile$Response)
+					_1: A2(_user$project$Settings$runtime.updateProvider, updatedProvider, _user$project$Controls_EditProfile$Response)
 				};
 			default:
 				if (_p0._0.ctor === 'Ok') {
-					var updatedProvider = _elm_lang$core$Native_Utils.update(
-						provider,
-						{
-							profile: _user$project$Services_Adapter$toProfile(_p0._0._0)
-						});
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{provider: updatedProvider}),
+							{
+								provider: _user$project$Services_Adapter$toProvider(_p0._0._0)
+							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
@@ -23230,11 +23274,7 @@ var _user$project$Home$onEditProfile = F2(
 							portal: _elm_lang$core$Native_Utils.update(
 								portal,
 								{
-									provider: _elm_lang$core$Native_Utils.update(
-										provider,
-										{
-											profile: _user$project$Services_Adapter$toProfile(_p16._0)
-										}),
+									provider: _user$project$Services_Adapter$toProvider(_p16._0),
 									sourcesNavigation: true,
 									portfolioNavigation: _user$project$Domain_Core$portfolioExists(provider.portfolio),
 									requested: _user$project$Domain_Core$ViewSources
@@ -27306,7 +27346,7 @@ var _user$project$Home$main = A2(
 var Elm = {};
 Elm['Home'] = Elm['Home'] || {};
 if (typeof _user$project$Home$main !== 'undefined') {
-    _user$project$Home$main(Elm['Home'], 'Home', {"types":{"message":"Home.Msg","aliases":{"Domain.Core.LinkToCreate":{"type":"{ base : Domain.Core.Link , currentTopic : Domain.Core.Topic , topicSuggestions : List Domain.Core.Topic }","args":[]},"Services.Adapter.JsonSource":{"type":"{ id : Int , profileId : String , platform : String , accessId : String , links : List Services.Adapter.JsonLink }","args":[]},"Domain.Core.Provider":{"type":"{ profile : Domain.Core.Profile , topics : List Domain.Core.Topic , portfolio : Domain.Core.Portfolio , filteredPortfolio : Domain.Core.Portfolio , recentLinks : List Domain.Core.Link , followers : List Domain.Core.Id , subscriptions : List Domain.Core.Id }","args":[]},"Services.Adapter.JsonProfile":{"type":"{ id : String , firstName : String , lastName : String , email : String , imageUrl : String , bio : String , sources : List Services.Adapter.JsonSource }","args":[]},"Domain.Core.Topic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Services.Adapter.JsonThumbnail":{"type":"{ imageUrl : String, platform : String }","args":[]},"Services.Adapter.JsonTopic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Domain.Core.Profile":{"type":"{ id : Domain.Core.Id , firstName : Domain.Core.Name , lastName : Domain.Core.Name , email : Domain.Core.Email , imageUrl : Domain.Core.Url , bio : String , sources : List Domain.Core.Source }","args":[]},"Navigation.Location":{"type":"{ href : String , host : String , hostname : String , protocol : String , origin : String , port_ : String , pathname : String , search : String , hash : String , username : String , password : String }","args":[]},"Domain.Core.NewLinks":{"type":"{ profileId : Domain.Core.Id , current : Domain.Core.LinkToCreate , canAdd : Bool , added : List Domain.Core.Link }","args":[]},"Http.Response":{"type":"{ url : String , status : { code : Int, message : String } , headers : Dict.Dict String String , body : body }","args":["body"]},"Services.Adapter.JsonPortfolio":{"type":"{ articles : List Services.Adapter.JsonLink , videos : List Services.Adapter.JsonLink , podcasts : List Services.Adapter.JsonLink , answers : List Services.Adapter.JsonLink }","args":[]},"Domain.Core.Link":{"type":"{ id : Int , profileId : Domain.Core.Id , title : Domain.Core.Title , url : Domain.Core.Url , topics : List Domain.Core.Topic , contentType : Domain.Core.ContentType , isFeatured : Bool }","args":[]},"Services.Adapter.JsonBootstrap":{"type":"{ providers : List Services.Adapter.JsonProvider , platforms : List String }","args":[]},"Domain.Core.Source":{"type":"{ id : Domain.Core.Id , profileId : Domain.Core.Id , platform : String , accessId : String , links : List Domain.Core.Link }","args":[]},"Domain.Core.Portfolio":{"type":"{ topics : List Domain.Core.Topic , answers : List Domain.Core.Link , articles : List Domain.Core.Link , videos : List Domain.Core.Link , podcasts : List Domain.Core.Link }","args":[]},"Services.Adapter.JsonLink":{"type":"{ id : Int , profileId : String , title : String , url : String , contentType : String , topics : List Domain.Core.Topic , isFeatured : Bool }","args":[]},"Services.Adapter.JsonProviderFields":{"type":"{ profile : Services.Adapter.JsonProfile , topics : List Services.Adapter.JsonTopic , portfolio : Services.Adapter.JsonPortfolio , recentLinks : List Services.Adapter.JsonLink , subscriptions : List String , followers : List String }","args":[]}},"unions":{"Controls.RecentProviderLinks.Msg":{"tags":{"None":[]},"args":[]},"Domain.Core.Name":{"tags":{"Name":["String"]},"args":[]},"Controls.ProviderTopicContentTypeLinks.Msg":{"tags":{"None":[]},"args":[]},"Controls.Portfolio.Msg":{"tags":{"KeyDown":["Int"],"TopicSuggestionResponse":["Result.Result Http.Error (List String)"],"TopicSelected":["Domain.Core.Topic"],"Input":["String"]},"args":[]},"Domain.Core.Email":{"tags":{"Email":["String"]},"args":[]},"Dict.NColor":{"tags":{"Black":[],"BBlack":[],"Red":[],"NBlack":[]},"args":[]},"Controls.ProfileThumbnail.Msg":{"tags":{"SubscribeResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"UpdateSubscription":["Domain.Core.SubscriptionUpdate"]},"args":[]},"Services.Adapter.JsonProvider":{"tags":{"JsonProvider":["Services.Adapter.JsonProviderFields"]},"args":[]},"Domain.Core.Url":{"tags":{"Url":["String"]},"args":[]},"Home.Msg":{"tags":{"NewLink":["Controls.NewLinks.Msg"],"NavigateToProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ProfileThumbnail":["Controls.ProfileThumbnail.Msg"],"ViewPortfolio":[],"ViewProviders":[],"NavigateToPortalProviderMemberResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"OnLogin":["Controls.Login.Msg"],"UrlChange":["Navigation.Location"],"ProviderContentTypeLinksAction":["Controls.ProviderContentTypeLinks.Msg"],"ViewSubscriptions":[],"ViewFollowers":[],"Subscription":["Domain.Core.SubscriptionUpdate"],"NavigateToPortalProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ViewSources":[],"SubscriptionsResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"NavigateToPortalResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"NavigateToProviderResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"Search":["String"],"SaveThumbnailResponse":["Result.Result Http.Error String"],"ViewRecent":[],"ProvidersResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"RecentProviderLinks":["Controls.RecentProviderLinks.Msg"],"BootstrapResponse":["Result.Result Http.Error Services.Adapter.JsonBootstrap"],"EditProfileAction":["Controls.EditProfile.Msg"],"NavigateBack":[],"ProviderTopicContentTypeLinksAction":["Controls.ProviderTopicContentTypeLinks.Msg"],"PortfolioAction":["Controls.Portfolio.Msg"],"ThumbnailResponse":["Result.Result Http.Error Services.Adapter.JsonThumbnail"],"EditProfile":[],"FeatureLinkResponse":["Result.Result Http.Error Int"],"AddNewLink":[],"OnRegistration":["Controls.Register.Msg"],"SourcesUpdated":["Controls.Sources.Msg"],"NavigateToPortalProviderMemberTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"FollowersResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"Register":[]},"args":[]},"Controls.Sources.Msg":{"tags":{"RemoveResponse":["Result.Result Http.Error String"],"InputPlatform":["String"],"InputAccessId":["String"],"AddResponse":["Result.Result Http.Error Services.Adapter.JsonSource"],"Remove":["Domain.Core.Source"],"Add":["Domain.Core.Source"]},"args":[]},"Result.Result":{"tags":{"Err":["error"],"Ok":["value"]},"args":["error","value"]},"Http.Error":{"tags":{"Timeout":[],"BadStatus":["Http.Response String"],"BadPayload":["String","Http.Response String"],"BadUrl":["String"],"NetworkError":[]},"args":[]},"Controls.ProviderContentTypeLinks.Msg":{"tags":{"Featured":["( Domain.Core.Link, Bool )"]},"args":[]},"Controls.Register.Msg":{"tags":{"Submit":[],"ConfirmInput":["String"],"EmailInput":["String"],"FirstNameInput":["String"],"PasswordInput":["String"],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProfile"]},"args":[]},"Dict.LeafColor":{"tags":{"LBlack":[],"LBBlack":[]},"args":[]},"Controls.EditProfile.Msg":{"tags":{"RemoveTopic":["Domain.Core.Topic"],"InputTopic":["String"],"EmailInput":["String"],"KeyDown":["Int"],"AddTopic":["Domain.Core.Topic"],"FirstNameInput":["String"],"TopicSuggestionResponse":["Result.Result Http.Error (List String)"],"Update":[],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProfile"]},"args":[]},"Controls.NewLinks.Msg":{"tags":{"RemoveTopic":["Domain.Core.Topic"],"InputTopic":["String"],"KeyDown":["Int"],"InputUrl":["String"],"AddTopic":["Domain.Core.Topic"],"InputTitle":["String"],"TopicSuggestionResponse":["Result.Result Http.Error (List String)"],"InputContentType":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonLink"],"AddLink":["Domain.Core.NewLinks"]},"args":[]},"Domain.Core.ContentType":{"tags":{"Answer":[],"Featured":[],"Podcast":[],"Article":[],"Unknown":[],"All":[],"Video":[]},"args":[]},"Domain.Core.Title":{"tags":{"Title":["String"]},"args":[]},"Controls.Login.Msg":{"tags":{"Attempt":["( String, String )"],"PasswordInput":["String"],"UserInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProvider"]},"args":[]},"Dict.Dict":{"tags":{"RBNode_elm_builtin":["Dict.NColor","k","v","Dict.Dict k v","Dict.Dict k v"],"RBEmpty_elm_builtin":["Dict.LeafColor"]},"args":["k","v"]},"Domain.Core.Id":{"tags":{"Id":["String"]},"args":[]},"Domain.Core.SubscriptionUpdate":{"tags":{"Subscribe":["Domain.Core.Provider","Domain.Core.Provider"],"Unsubscribe":["Domain.Core.Provider","Domain.Core.Provider"]},"args":[]}}},"versions":{"elm":"0.18.0"}});
+    _user$project$Home$main(Elm['Home'], 'Home', {"types":{"message":"Home.Msg","aliases":{"Domain.Core.LinkToCreate":{"type":"{ base : Domain.Core.Link , currentTopic : Domain.Core.Topic , topicSuggestions : List Domain.Core.Topic }","args":[]},"Services.Adapter.JsonSource":{"type":"{ id : Int , profileId : String , platform : String , accessId : String , links : List Services.Adapter.JsonLink }","args":[]},"Domain.Core.Provider":{"type":"{ profile : Domain.Core.Profile , topics : List Domain.Core.Topic , portfolio : Domain.Core.Portfolio , filteredPortfolio : Domain.Core.Portfolio , recentLinks : List Domain.Core.Link , followers : List Domain.Core.Id , subscriptions : List Domain.Core.Id }","args":[]},"Services.Adapter.JsonProfile":{"type":"{ id : String , firstName : String , lastName : String , email : String , imageUrl : String , bio : String , sources : List Services.Adapter.JsonSource }","args":[]},"Domain.Core.Topic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Services.Adapter.JsonThumbnail":{"type":"{ imageUrl : String, platform : String }","args":[]},"Services.Adapter.JsonTopic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Domain.Core.Profile":{"type":"{ id : Domain.Core.Id , firstName : Domain.Core.Name , lastName : Domain.Core.Name , email : Domain.Core.Email , imageUrl : Domain.Core.Url , bio : String , sources : List Domain.Core.Source }","args":[]},"Navigation.Location":{"type":"{ href : String , host : String , hostname : String , protocol : String , origin : String , port_ : String , pathname : String , search : String , hash : String , username : String , password : String }","args":[]},"Domain.Core.NewLinks":{"type":"{ profileId : Domain.Core.Id , current : Domain.Core.LinkToCreate , canAdd : Bool , added : List Domain.Core.Link }","args":[]},"Http.Response":{"type":"{ url : String , status : { code : Int, message : String } , headers : Dict.Dict String String , body : body }","args":["body"]},"Services.Adapter.JsonPortfolio":{"type":"{ articles : List Services.Adapter.JsonLink , videos : List Services.Adapter.JsonLink , podcasts : List Services.Adapter.JsonLink , answers : List Services.Adapter.JsonLink }","args":[]},"Domain.Core.Link":{"type":"{ id : Int , profileId : Domain.Core.Id , title : Domain.Core.Title , url : Domain.Core.Url , topics : List Domain.Core.Topic , contentType : Domain.Core.ContentType , isFeatured : Bool }","args":[]},"Services.Adapter.JsonBootstrap":{"type":"{ providers : List Services.Adapter.JsonProvider , platforms : List String }","args":[]},"Domain.Core.Source":{"type":"{ id : Domain.Core.Id , profileId : Domain.Core.Id , platform : String , accessId : String , links : List Domain.Core.Link }","args":[]},"Domain.Core.Portfolio":{"type":"{ topics : List Domain.Core.Topic , answers : List Domain.Core.Link , articles : List Domain.Core.Link , videos : List Domain.Core.Link , podcasts : List Domain.Core.Link }","args":[]},"Services.Adapter.JsonLink":{"type":"{ id : Int , profileId : String , title : String , url : String , contentType : String , topics : List Domain.Core.Topic , isFeatured : Bool }","args":[]},"Services.Adapter.JsonProviderFields":{"type":"{ profile : Services.Adapter.JsonProfile , topics : List Services.Adapter.JsonTopic , portfolio : Services.Adapter.JsonPortfolio , recentLinks : List Services.Adapter.JsonLink , subscriptions : List String , followers : List String }","args":[]}},"unions":{"Controls.RecentProviderLinks.Msg":{"tags":{"None":[]},"args":[]},"Domain.Core.Name":{"tags":{"Name":["String"]},"args":[]},"Controls.ProviderTopicContentTypeLinks.Msg":{"tags":{"None":[]},"args":[]},"Controls.Portfolio.Msg":{"tags":{"KeyDown":["Int"],"TopicSuggestionResponse":["Result.Result Http.Error (List String)"],"TopicSelected":["Domain.Core.Topic"],"Input":["String"]},"args":[]},"Domain.Core.Email":{"tags":{"Email":["String"]},"args":[]},"Dict.NColor":{"tags":{"Black":[],"BBlack":[],"Red":[],"NBlack":[]},"args":[]},"Controls.ProfileThumbnail.Msg":{"tags":{"SubscribeResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"UpdateSubscription":["Domain.Core.SubscriptionUpdate"]},"args":[]},"Services.Adapter.JsonProvider":{"tags":{"JsonProvider":["Services.Adapter.JsonProviderFields"]},"args":[]},"Domain.Core.Url":{"tags":{"Url":["String"]},"args":[]},"Home.Msg":{"tags":{"NewLink":["Controls.NewLinks.Msg"],"NavigateToProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ProfileThumbnail":["Controls.ProfileThumbnail.Msg"],"ViewPortfolio":[],"ViewProviders":[],"NavigateToPortalProviderMemberResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"OnLogin":["Controls.Login.Msg"],"UrlChange":["Navigation.Location"],"ProviderContentTypeLinksAction":["Controls.ProviderContentTypeLinks.Msg"],"ViewSubscriptions":[],"ViewFollowers":[],"Subscription":["Domain.Core.SubscriptionUpdate"],"NavigateToPortalProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ViewSources":[],"SubscriptionsResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"NavigateToPortalResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"NavigateToProviderResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"Search":["String"],"SaveThumbnailResponse":["Result.Result Http.Error String"],"ViewRecent":[],"ProvidersResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"RecentProviderLinks":["Controls.RecentProviderLinks.Msg"],"BootstrapResponse":["Result.Result Http.Error Services.Adapter.JsonBootstrap"],"EditProfileAction":["Controls.EditProfile.Msg"],"NavigateBack":[],"ProviderTopicContentTypeLinksAction":["Controls.ProviderTopicContentTypeLinks.Msg"],"PortfolioAction":["Controls.Portfolio.Msg"],"ThumbnailResponse":["Result.Result Http.Error Services.Adapter.JsonThumbnail"],"EditProfile":[],"FeatureLinkResponse":["Result.Result Http.Error Int"],"AddNewLink":[],"OnRegistration":["Controls.Register.Msg"],"SourcesUpdated":["Controls.Sources.Msg"],"NavigateToPortalProviderMemberTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"FollowersResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"Register":[]},"args":[]},"Controls.Sources.Msg":{"tags":{"RemoveResponse":["Result.Result Http.Error String"],"InputPlatform":["String"],"InputAccessId":["String"],"AddResponse":["Result.Result Http.Error Services.Adapter.JsonSource"],"Remove":["Domain.Core.Source"],"Add":["Domain.Core.Source"]},"args":[]},"Result.Result":{"tags":{"Err":["error"],"Ok":["value"]},"args":["error","value"]},"Http.Error":{"tags":{"Timeout":[],"BadStatus":["Http.Response String"],"BadPayload":["String","Http.Response String"],"BadUrl":["String"],"NetworkError":[]},"args":[]},"Controls.ProviderContentTypeLinks.Msg":{"tags":{"Featured":["( Domain.Core.Link, Bool )"]},"args":[]},"Controls.Register.Msg":{"tags":{"Submit":[],"ConfirmInput":["String"],"EmailInput":["String"],"FirstNameInput":["String"],"PasswordInput":["String"],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProfile"]},"args":[]},"Dict.LeafColor":{"tags":{"LBlack":[],"LBBlack":[]},"args":[]},"Controls.EditProfile.Msg":{"tags":{"RemoveTopic":["Domain.Core.Topic"],"InputTopic":["String"],"EmailInput":["String"],"KeyDown":["Int"],"AddTopic":["Domain.Core.Topic"],"FirstNameInput":["String"],"TopicSuggestionResponse":["Result.Result Http.Error (List String)"],"Update":[],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProvider"]},"args":[]},"Controls.NewLinks.Msg":{"tags":{"RemoveTopic":["Domain.Core.Topic"],"InputTopic":["String"],"KeyDown":["Int"],"InputUrl":["String"],"AddTopic":["Domain.Core.Topic"],"InputTitle":["String"],"TopicSuggestionResponse":["Result.Result Http.Error (List String)"],"InputContentType":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonLink"],"AddLink":["Domain.Core.NewLinks"]},"args":[]},"Domain.Core.ContentType":{"tags":{"Answer":[],"Featured":[],"Podcast":[],"Article":[],"Unknown":[],"All":[],"Video":[]},"args":[]},"Domain.Core.Title":{"tags":{"Title":["String"]},"args":[]},"Controls.Login.Msg":{"tags":{"Attempt":["( String, String )"],"PasswordInput":["String"],"UserInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProvider"]},"args":[]},"Dict.Dict":{"tags":{"RBNode_elm_builtin":["Dict.NColor","k","v","Dict.Dict k v","Dict.Dict k v"],"RBEmpty_elm_builtin":["Dict.LeafColor"]},"args":["k","v"]},"Domain.Core.Id":{"tags":{"Id":["String"]},"args":[]},"Domain.Core.SubscriptionUpdate":{"tags":{"Subscribe":["Domain.Core.Provider","Domain.Core.Provider"],"Unsubscribe":["Domain.Core.Provider","Domain.Core.Provider"]},"args":[]}}},"versions":{"elm":"0.18.0"}});
 }
 
 if (typeof define === "function" && define['amd'])

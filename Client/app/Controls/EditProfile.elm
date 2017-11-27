@@ -20,7 +20,7 @@ type Msg
     | TopicSuggestionResponse (Result Http.Error (List String))
       -- | BioInput String
     | Update
-    | Response (Result Http.Error JsonProfile)
+    | Response (Result Http.Error JsonProvider)
 
 
 
@@ -118,14 +118,14 @@ update msg model =
                 onAddTopic v
 
             Update ->
-                ( model, (runtime.updateProfile profile) Response )
-
-            Response (Ok jsonProfile) ->
                 let
                     updatedProvider =
-                        { provider | profile = jsonProfile |> toProfile }
+                        { provider | topics = model.chosenTopics }
                 in
-                    ( { model | provider = updatedProvider }, Cmd.none )
+                    ( model, (runtime.updateProvider updatedProvider) Response )
+
+            Response (Ok jsonProvider) ->
+                ( { model | provider = jsonProvider |> toProvider }, Cmd.none )
 
             Response (Err error) ->
                 Debug.crash (toString error) ( profile, Cmd.none )

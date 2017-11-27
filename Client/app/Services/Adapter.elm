@@ -38,6 +38,10 @@ type alias UpdateProfilefunction msg =
     Profile -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
 
 
+type alias UpdateProviderfunction msg =
+    Provider -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+
+
 type alias ThumbnailFunction msg =
     Platform -> String -> (Result Http.Error JsonThumbnail -> msg) -> Cmd msg
 
