@@ -91,6 +91,18 @@ let private updateProfileHandler: HttpHandler =
             return! json data next ctx
         }
 
+let private updateProviderHandler: HttpHandler = 
+    fun next ctx -> 
+        task { 
+            let! data = ctx.BindJson<ProviderRequest>()
+            let topicsRequest = { ProfileId= data.Profile.Id
+                                  Names=data.Topics |> List.map (fun t -> t.Name) }
+                                  
+            UpdateProfile data.Profile  |> execute |> ignore
+            UpdateTopics  topicsRequest |> execute |> ignore
+            return! json data next ctx
+        }
+
 let private addSourceHandler: HttpHandler = 
     fun next ctx -> 
         task { 
@@ -209,6 +221,7 @@ let webApp: HttpHandler =
                 route "/unsubscribe"     >=> unsubscribeHandler
                 route "/featurelink"     >=> featureLinkHandler
                 route "/updateprofile"   >=> updateProfileHandler
+                route "/updateprovider"  >=> updateProviderHandler
                 route "/addsource"       >=> addSourceHandler
                 route "/addlink"         >=> addLinkHandler
                 route "/removelink"      >=> removeLinkHandler

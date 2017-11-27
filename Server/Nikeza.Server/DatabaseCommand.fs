@@ -163,14 +163,19 @@ module internal Commands =
         ids |> Seq.ofList |> String.concat ","
 
     let featureTopics (info:FeaturedTopicsRequest) : string =
-        let addFeaturedTopic name = 
+        let addFeaturedTopic name =
+
+            let setFeatured topicId =
+                featureTopic { ProfileId=  info.ProfileId
+                               Name=       name
+                               TopicId=    topicId
+                               IsFeatured= true 
+                             }
+
             match getTopic name with
-            | Some topic -> featureTopic { ProfileId=  info.ProfileId
-                                           Name=       name
-                                           TopicId=    topic.Id
-                                           IsFeatured= true 
-                                         }
-            | None       -> ""
+            | Some topic -> setFeatured topic.Id
+            | None       -> let topicId =  addTopic {Name= name}
+                            setFeatured <| Int32.Parse(topicId)
 
         info.ProfileId |> clearFeaturedTopics |> ignore
 
