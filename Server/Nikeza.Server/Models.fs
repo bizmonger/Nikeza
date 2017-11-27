@@ -132,7 +132,7 @@ type ProviderTopicRequest = {
 
 type FeaturedTopicsRequest = {
     ProfileId:  string
-    Name:       string list
+    Names:      string list
 }
 
 [<CLIMutable>]

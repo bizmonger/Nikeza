@@ -3,6 +3,7 @@ module Nikeza.Server.DatabaseCommand
 open System
 open System.Data.SqlClient
 open Model
+open Store
 open Sql
 open Platforms
 
@@ -76,6 +77,11 @@ module internal Commands =
 
         commandFunc |> execute connectionString unfeatureTopicSql
 
+    let clearFeaturedTopics profileId =
+        let commandFunc (command: SqlCommand) = 
+            command |> addWithValue "@ProfileId"  profileId
+
+        commandFunc |> execute connectionString clearFeaturedTopicsSql
 
     let addLink (info:Link) =
         let commandFunc (command: SqlCommand) = 
@@ -156,8 +162,22 @@ module internal Commands =
                         )
         ids |> Seq.ofList |> String.concat ","
 
-    let featureTopics (info:FeaturedTopicsRequest) = 
-        "" //featureTopic
+    let featureTopics (info:FeaturedTopicsRequest) : string =
+        let addFeaturedTopic name = 
+            match getTopic name with
+            | Some topic -> featureTopic { ProfileId=  info.ProfileId
+                                           Name=       name
+                                           TopicId=    topic.Id
+                                           IsFeatured= true 
+                                         }
+            | None       -> ""
+
+        info.ProfileId |> clearFeaturedTopics |> ignore
+
+        info.Names 
+         |> List.map addFeaturedTopic
+         |> String.concat ","
+        
 
     let featureLink (info:FeatureLinkRequest) =
         let commandFunc (command: SqlCommand) = 

@@ -277,7 +277,7 @@ let ``Unsubscribe from Provider`` () =
     let sql = @"SELECT SubscriberId, ProfileId
                 FROM   Subscription
                 WHERE  SubscriberId = @SubscriberId
-                AND    ProfileId =   @ProfileId"
+                AND    ProfileId =    @ProfileId"
 
     let (connection,command) = createCommand sql connectionString
 
@@ -625,11 +625,11 @@ let ``Add featured topic`` () =
     let link = { someLink with Topics= [someProviderTopic]; ProfileId= profileId }
     AddLink link |> execute |> ignore
 
-    let topic = getTopic link.Topics.Head.Name
-    let request = { Name=topic.Value.Name; ProfileId=profileId; TopicId= topic.Value.Id; IsFeatured=true }
+    let topic =     link.Topics.Head.Name
+    let request = { ProfileId=profileId; Names=[topic] }
 
     // Test
-    let featuredTopicId = FeatureTopic request |> execute
+    let featuredTopicId = UpdateTopics request |> execute
 
     // Verify
     Int32.Parse(featuredTopicId) |> should (be greaterThan) 0
@@ -643,12 +643,12 @@ let ``Remove featured topic`` () =
     let link = { someLink with Topics= [someProviderTopic]; ProfileId= profileId }
     AddLink link |> execute |> ignore
 
-    let topic = getTopic link.Topics.Head.Name
-    let request = { Name= topic.Value.Name; ProfileId=profileId; TopicId= topic.Value.Id; IsFeatured=true }
-    FeatureTopic request |> execute |> ignore
+    let topic =     link.Topics.Head.Name
+    let request = { ProfileId=profileId; Names= [] }
+    UpdateTopics request |> execute |> ignore
 
     // Test
-    UnfeatureTopic request |> execute |> ignore
+    UpdateTopics { ProfileId=profileId; Names= [] } |> execute |> ignore
 
     // Verify
     let featuredTopics = getFeaturedTopics profileId

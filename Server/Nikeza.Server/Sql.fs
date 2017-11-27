@@ -120,6 +120,10 @@ let unfeatureTopicSql = @"DELETE
                           FROM  [dbo].[FeaturedTopic]
                           WHERE  ProfileId = @ProfileId AND TopicId = @TopicId"
 
+let clearFeaturedTopicsSql = @"DELETE 
+                               FROM  [dbo].[FeaturedTopic]
+                               WHERE  ProfileId = @ProfileId"
+                               
 let getFeaturedTopicsSql = @"SELECT      Topic.Id, FeaturedTopic.ProfileId, Topic.Name
                              FROM        FeaturedTopic
                              INNER JOIN  Topic
