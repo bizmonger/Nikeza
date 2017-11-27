@@ -39,7 +39,7 @@ type alias UpdateProfilefunction msg =
 
 
 type alias UpdateProviderfunction msg =
-    Provider -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+    ProfileAndTopics -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
 
 
 type alias ThumbnailFunction msg =
@@ -188,6 +188,18 @@ type alias JsonLink =
 
 type JsonProvider
     = JsonProvider JsonProviderFields
+
+
+type alias ProfileAndTopics =
+    { profile : Profile
+    , topics : List Topic
+    }
+
+
+type alias JsonProfileAndTopics =
+    { profile : JsonProfile
+    , topics : List JsonTopic
+    }
 
 
 type alias JsonProviderFields =

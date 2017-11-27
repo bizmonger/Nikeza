@@ -181,6 +181,12 @@ type ProfileRequest = {
 }
 
 [<CLIMutable>]
+type ProfileAndTopicsRequest ={
+    Profile: ProfileRequest
+    Topics:  ProviderTopic list
+}
+
+[<CLIMutable>]
 type Portfolio = { 
     Answers : Link list
     Articles: Link list
@@ -191,9 +197,9 @@ type Portfolio = {
 [<CLIMutable>]
 type ProviderRequest = {
     Profile:       ProfileRequest
-    Topics:        ProviderTopic   list
+    Topics:        ProviderTopic  list
     Portfolio:     Portfolio
-    RecentLinks:   Link            list
+    RecentLinks:   Link           list
     Subscriptions: string list
     Followers:     string list
 }

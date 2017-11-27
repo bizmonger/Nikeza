@@ -94,13 +94,16 @@ let private updateProfileHandler: HttpHandler =
 let private updateProviderHandler: HttpHandler = 
     fun next ctx -> 
         task { 
-            let! data = ctx.BindJson<ProviderRequest>()
+            let! data = ctx.BindJson<ProfileAndTopicsRequest>()
             let topicsRequest = { ProfileId= data.Profile.Id
                                   Names=data.Topics |> List.map (fun t -> t.Name) }
                                   
             UpdateProfile data.Profile  |> execute |> ignore
             UpdateTopics  topicsRequest |> execute |> ignore
-            return! json data next ctx
+
+            match getProvider data.Profile.Id with
+               | Some provider -> return! json provider next ctx
+               | None ->          return! (setStatusCode 400 >=> json "provider not found") next ctx   
         }
 
 let private addSourceHandler: HttpHandler = 

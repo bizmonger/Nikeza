@@ -707,9 +707,9 @@ updateProfile profile msg =
     profile |> toJsonProfile |> httpSuccess msg
 
 
-updateProvider : Provider -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
-updateProvider provider msg =
-    provider |> toJsonProvider |> httpSuccess msg
+updateProvider : ProfileAndTopics -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+updateProvider profileAndTopics msg =
+    initProvider |> toJsonProvider |> httpSuccess msg
 
 
 featureLink : FeatureLink -> (Result Http.Error Int -> msg) -> Cmd msg

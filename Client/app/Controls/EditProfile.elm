@@ -18,7 +18,6 @@ type Msg
     | RemoveTopic Topic
     | AddTopic Topic
     | TopicSuggestionResponse (Result Http.Error (List String))
-      -- | BioInput String
     | Update
     | Response (Result Http.Error JsonProvider)
 
@@ -119,10 +118,10 @@ update msg model =
 
             Update ->
                 let
-                    updatedProvider =
-                        { provider | topics = model.chosenTopics }
+                    profileAndTopics =
+                        { profile = provider.profile, topics = model.chosenTopics }
                 in
-                    ( model, (runtime.updateProvider updatedProvider) Response )
+                    ( model, (runtime.updateProvider profileAndTopics) Response )
 
             Response (Ok jsonProvider) ->
                 ( { model | provider = jsonProvider |> toProvider }, Cmd.none )

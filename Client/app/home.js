@@ -15851,6 +15851,14 @@ var _user$project$Services_Adapter$JsonLink = F7(
 	function (a, b, c, d, e, f, g) {
 		return {id: a, profileId: b, title: c, url: d, contentType: e, topics: f, isFeatured: g};
 	});
+var _user$project$Services_Adapter$ProfileAndTopics = F2(
+	function (a, b) {
+		return {profile: a, topics: b};
+	});
+var _user$project$Services_Adapter$JsonProfileAndTopics = F2(
+	function (a, b) {
+		return {profile: a, topics: b};
+	});
 var _user$project$Services_Adapter$JsonProviderFields = F6(
 	function (a, b, c, d, e, f) {
 		return {profile: a, topics: b, portfolio: c, recentLinks: d, subscriptions: e, followers: f};
@@ -15932,11 +15940,11 @@ var _user$project$Tests_TestAPI$featureLink = F2(
 		return A2(_user$project$Services_Adapter$httpSuccess, msg, request.linkId);
 	});
 var _user$project$Tests_TestAPI$updateProvider = F2(
-	function (provider, msg) {
+	function (profileAndTopics, msg) {
 		return A2(
 			_user$project$Services_Adapter$httpSuccess,
 			msg,
-			_user$project$Services_Adapter$toJsonProvider(provider));
+			_user$project$Services_Adapter$toJsonProvider(_user$project$Domain_Core$initProvider));
 	});
 var _user$project$Tests_TestAPI$updateProfile = F2(
 	function (profile, msg) {
@@ -17345,15 +17353,14 @@ var _user$project$Services_Encoders$encodeProfile = function (profile) {
 			}
 		});
 };
-var _user$project$Services_Encoders$encodeProvider = function (provider) {
-	var jsonProvider = _user$project$Services_Adapter$toJsonProvider(provider);
+var _user$project$Services_Encoders$encodeProfileAndTopics = function (profileAndTopics) {
 	return _elm_lang$core$Json_Encode$object(
 		{
 			ctor: '::',
 			_0: {
 				ctor: '_Tuple2',
 				_0: 'Profile',
-				_1: _user$project$Services_Encoders$encodeProfile(provider.profile)
+				_1: _user$project$Services_Encoders$encodeProfile(profileAndTopics.profile)
 			},
 			_1: {
 				ctor: '::',
@@ -17366,7 +17373,7 @@ var _user$project$Services_Encoders$encodeProvider = function (provider) {
 							function (t) {
 								return _user$project$Services_Encoders$encodeTopic(t);
 							},
-							provider.topics))
+							profileAndTopics.topics))
 				},
 				_1: {ctor: '[]'}
 			}
@@ -17836,9 +17843,9 @@ var _user$project$Services_Gateway$updateProfile = F2(
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
 var _user$project$Services_Gateway$updateProvider = F2(
-	function (provider, msg) {
+	function (profileAndTopics, msg) {
 		var body = _elm_lang$http$Http$jsonBody(
-			_user$project$Services_Encoders$encodeProvider(provider));
+			_user$project$Services_Encoders$encodeProfileAndTopics(profileAndTopics));
 		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'updateprovider');
 		var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Services_Decoders$providerDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
@@ -18099,8 +18106,8 @@ var _user$project$Controls_EditProfile$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Controls.EditProfile',
 							{
-								start: {line: 108, column: 17},
-								end: {line: 108, column: 28}
+								start: {line: 107, column: 17},
+								end: {line: 107, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p0._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -18122,13 +18129,11 @@ var _user$project$Controls_EditProfile$update = F2(
 			case 'AddTopic':
 				return onAddTopic(_p0._0);
 			case 'Update':
-				var updatedProvider = _elm_lang$core$Native_Utils.update(
-					provider,
-					{topics: model.chosenTopics});
+				var profileAndTopics = {profile: provider.profile, topics: model.chosenTopics};
 				return {
 					ctor: '_Tuple2',
 					_0: model,
-					_1: A2(_user$project$Settings$runtime.updateProvider, updatedProvider, _user$project$Controls_EditProfile$Response)
+					_1: A2(_user$project$Settings$runtime.updateProvider, profileAndTopics, _user$project$Controls_EditProfile$Response)
 				};
 			default:
 				if (_p0._0.ctor === 'Ok') {
@@ -18146,8 +18151,8 @@ var _user$project$Controls_EditProfile$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Controls.EditProfile',
 							{
-								start: {line: 131, column: 17},
-								end: {line: 131, column: 28}
+								start: {line: 130, column: 17},
+								end: {line: 130, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p0._0._0),
 						{ctor: '_Tuple2', _0: profile, _1: _elm_lang$core$Platform_Cmd$none});
