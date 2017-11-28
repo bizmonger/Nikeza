@@ -38,7 +38,7 @@ type alias UpdateProfilefunction msg =
     Profile -> (Result Http.Error JsonProfile -> msg) -> Cmd msg
 
 
-type alias UpdateProviderfunction msg =
+type alias UpdateProfileAndTopicsfunction msg =
     ProfileAndTopics -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
 
 

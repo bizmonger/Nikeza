@@ -93,7 +93,7 @@ view model =
                     "channel-id: (Settings menu)"
 
                 "StackOverflow" ->
-                    "user-id (Example: 492701)"
+                    "/users/ (i.e. 492701)"
 
                 "WordPress" ->
                     "xyz.wordpress.com"

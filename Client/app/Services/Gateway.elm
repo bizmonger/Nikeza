@@ -269,8 +269,8 @@ updateProfile profile msg =
         Http.send msg request
 
 
-updateProvider : ProfileAndTopics -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
-updateProvider profileAndTopics msg =
+updateProfileAndTopics : ProfileAndTopics -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+updateProfileAndTopics profileAndTopics msg =
     let
         url =
             baseUrl ++ "updateprovider"

@@ -1165,7 +1165,9 @@ onSourcesUpdated subMsg model =
             Sources.RemoveResponse result ->
                 case result of
                     Ok sourceId ->
-                        ( { model | portal = { portal | provider = pendingProvider } }, sourceCmd )
+                        ( { model | portal = { portal | provider = pendingProvider } }
+                        , runtime.provider profile.id NavigateToPortalResponse
+                        )
 
                     Err reason ->
                         Debug.crash (toString reason) ( model, sourceCmd )
@@ -1219,8 +1221,8 @@ onLogin subMsg model =
 
                             newState =
                                 { model
-                                    | searchResult = [] -- provider.subscriptions
-                                    , scopedProviders = [] -- provider.subscriptions
+                                    | searchResult = []
+                                    , scopedProviders = []
                                     , portal =
                                         { pendingPortal
                                             | provider = provider

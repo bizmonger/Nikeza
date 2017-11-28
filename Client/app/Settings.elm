@@ -20,7 +20,7 @@ type alias Dependencies msg =
     , tryLogin : Loginfunction msg
     , tryRegister : Registerfunction msg
     , updateProfile : UpdateProfilefunction msg
-    , updateProvider : UpdateProviderfunction msg
+    , updateProfileAndTopics : UpdateProfileAndTopicsfunction msg
     , thumbnail : ThumbnailFunction msg
     , updateThumbnail : SaveThumbnailfunction msg
     , provider : Providerfunction msg
@@ -52,7 +52,7 @@ runtime =
                 Services.tryLogin
                 Services.tryRegister
                 Services.updateProfile
-                Services.updateProvider
+                Services.updateProfileAndTopics
                 Services.thumbnail
                 Services.updateThumbnail
                 Services.provider
@@ -79,7 +79,7 @@ runtime =
                 TestAPI.tryLogin
                 TestAPI.tryRegister
                 TestAPI.updateProfile
-                TestAPI.updateProvider
+                TestAPI.updateProfileAndTopics
                 TestAPI.thumbnail
                 TestAPI.updateThumbnail
                 TestAPI.provider

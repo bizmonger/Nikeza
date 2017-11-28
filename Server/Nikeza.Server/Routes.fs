@@ -192,9 +192,6 @@ let private fetchThumbnail (platform:string , accessId:string) =
         |> Platforms.getThumbnail accessId
                                  
     json { ImageUrl= thumbnail(); Platform= platform }
-    
-let private fetchContentTypeToId (contentType) =
-    json (contentTypeToId contentType)
          
 let webApp: HttpHandler = 
     choose [
@@ -212,7 +209,6 @@ let webApp: HttpHandler =
                 routef "/subscriptions/%s"      fetchSubscriptions
                 routef "/sources/%s"            fetchSources
                 routef "/thumbnail/%s/%s"       fetchThumbnail
-                routef "/contenttypetoid/%s"    fetchContentTypeToId
                 routef "/provider/%s"           fetchProvider
                 routef "/removesource/%s"       removeSourceHandler
             ]

@@ -207,6 +207,8 @@ button.removeTopic {
     float: right;
     background-color: rgb(243, 242, 242);
     color: rgb(180, 127, 127);
+    margin-top: 2px;
+    margin-bottom: 0px;
 }
 
 button.disconnectSource {

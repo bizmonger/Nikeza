@@ -121,7 +121,7 @@ update msg model =
                     profileAndTopics =
                         { profile = provider.profile, topics = model.chosenTopics }
                 in
-                    ( model, (runtime.updateProvider profileAndTopics) Response )
+                    ( model, (runtime.updateProfileAndTopics profileAndTopics) Response )
 
             Response (Ok jsonProvider) ->
                 ( { model | provider = jsonProvider |> toProvider }, Cmd.none )

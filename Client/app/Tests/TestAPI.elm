@@ -707,8 +707,8 @@ updateProfile profile msg =
     profile |> toJsonProfile |> httpSuccess msg
 
 
-updateProvider : ProfileAndTopics -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
-updateProvider profileAndTopics msg =
+updateProfileAndTopics : ProfileAndTopics -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+updateProfileAndTopics profileAndTopics msg =
     initProvider |> toJsonProvider |> httpSuccess msg
 
 
