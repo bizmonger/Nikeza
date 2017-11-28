@@ -33,9 +33,7 @@ let ``Removing data source updates portfolio`` () =
     RemoveSource { Id = Int32.Parse(sourceId) } |> execute |> ignore
 
     // Verify
-    profileId |> getLinks
-              |> List.isEmpty 
-              |> should equal true
+    profileId |> getLinks |> List.isEmpty |> should equal true
 
 [<Test>]
 let ``New members have default subscription`` () =

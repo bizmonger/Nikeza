@@ -22,8 +22,8 @@ module internal Commands =
     let executeScalar (command: SqlCommand) = 
         let result =  (command.ExecuteScalar())
         if result |> isNull
-            then None
-            else Some <| string (unbox<Int32> result)
+           then None
+           else Some <| string (unbox<Int32> result)
 
     let execute connectionString sql commandFunc = 
         use connection = createConnection connectionString
@@ -136,6 +136,12 @@ module internal Commands =
         
         commandFunc |> execute connectionString deleteLinkSql
 
+    let removeLinkTopic linkId =
+        let commandFunc (command: SqlCommand) = 
+            command |> addWithValue "@LinkId" linkId
+        
+        commandFunc |> execute connectionString deleteLinkTopicSql
+
     let follow (info:FollowRequest) =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@SubscriberId" (Int32.Parse(info.SubscriberId))
@@ -237,7 +243,22 @@ module internal Commands =
         sourceId
 
     let removeDataSource (info:RemoveDataSourceRequest) =
-        let commandFunc (command: SqlCommand) = 
+        
+        let deleteSourceCommandFunc (command: SqlCommand) = 
             command |> addWithValue "@Id" info.Id
-            
-        commandFunc |> execute connectionString deleteSourceSql
+
+        let deleteSourceLinksCommandFunc (command: SqlCommand) = 
+            command |> addWithValue "@SourceId" info.Id
+
+        let deleteLinkTopics (links: Link list) = 
+            links |> List.iter (fun l -> removeLinkTopic l.Id |> ignore)
+
+        let deleteLinks (links: Link list) = 
+            links |> List.iter (fun l -> removeLink { LinkId= l.Id } |> ignore)
+        
+        let links = linksFromSource info.Id getSourceLinksBySourceIdSql
+        
+        deleteSourceLinksCommandFunc |> execute connectionString deleteSourceLinksSql |> ignore
+        links |> deleteLinkTopics
+        links |> deleteLinks
+        deleteSourceCommandFunc |> execute connectionString deleteSourceSql

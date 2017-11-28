@@ -83,6 +83,8 @@ let addSourceLinkSql = @"INSERT INTO [dbo].[SourceLinks]
 
 let deleteSourceSql = @"DELETE FROM Source WHERE Id = @Id"
 
+let deleteSourceLinkSql = @"DELETE FROM SourceLink WHERE SourceId = @SourceId"
+
 let followSql = @"INSERT INTO Subscription (SubscriberId,ProfileId)
 
                 OUTPUT INSERTED.ID
@@ -155,6 +157,8 @@ let getTopicSql = "SELECT Id, Name
                    FROM   [dbo].[Topic]
                    WHERE  Name = @Name"
 
+                   
+
 let getLinkTopicsSql = "SELECT     Topic.Id, 
                                    Topic.Name, 
                                    isnull( (select 1 from FeaturedTopic where TopicId = Topic.Id),0) as IsFeatured 
@@ -164,6 +168,16 @@ let getLinkTopicsSql = "SELECT     Topic.Id,
                         INNER JOIN Link
                                       ON   LinkTopic.LinkId = Link.Id
                         WHERE  Link.Id = @LinkId"
+
+
+
+let deleteLinkTopicSql = "Delete     LinkTopic
+                          FROM       LinkTopic
+                          INNER JOIN Topic
+                                        ON   LinkTopic.TopicId = Topic.Id
+                          INNER JOIN Link
+                                        ON   LinkTopic.LinkId = Link.Id
+                          WHERE  Link.Id = @LinkId"
 
 let getProviderTopicsSql = "SELECT     Topic.Id, Topic.Name
                             FROM       Topic
@@ -190,6 +204,38 @@ let getSourceLinksSql =
                                 SourceLinks.SourceId = Source.Id
                    
                    WHERE        Link.ProfileId = @ProfileId AND Source.Platform = @Platform"
+
+let getSourceLinksBySourceIdSql = 
+                  "SELECT       Link.Id,
+                                Link.ProfileId, 
+                                Link.Title, 
+                                Link.Description, 
+                                Link.Url, 
+                                Link.ContentTypeId, 
+                                Link.IsFeatured, 
+                                Link.Created
+
+                   FROM         Link
+                   INNER JOIN   Source
+                   ON           Link.ProfileId = Source.ProfileId
+                   INNER JOIN   SourceLinks
+                   ON           SourceLinks.LinkId   = Link.Id   AND 
+                                SourceLinks.SourceId = Source.Id
+                   
+                   WHERE        Source.Id = @SourceId"
+
+
+
+let deleteLinksFromSourceSql = 
+                  "DELETE       Link
+                   FROM         Link
+                   INNER JOIN   SourceLinks
+                   ON           SourceLinks.LinkId   = Link.Id 
+                   WHERE        SourceLinks.SourceId = @SourceId"
+
+let deleteSourceLinksSql = 
+                  "DELETE SourceLinks
+                   WHERE  SourceLinks.SourceId = @SourceId"
 
 let getRecentSql = @"SELECT     Link.Id, 
                                 Link.ProfileId, 

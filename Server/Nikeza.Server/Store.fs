@@ -45,6 +45,13 @@ let linksFrom platform profileId =
     readInLinks |> getResults getSourceLinksSql commandFunc
                 |> List.map attachTopics
 
+let linksFromSource sourceId sql =
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue "@SourceId" sourceId
+
+    readInLinks |> getResults sql commandFunc
+                |> List.map attachTopics
+
 let getSource sourceId =
     let sourceCommandFunc (command: SqlCommand) = 
         command |> addWithValue "@SourceId" sourceId
