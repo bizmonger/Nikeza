@@ -34,11 +34,8 @@ let private loginHandler: HttpHandler =
             let  email = data.Email.ToLower()
             if   authenticate email data.Password
                  then match login email with
-                      | Some p ->  
-                         match getProvider p.Id with
-                         | Some provider -> return! json { provider with Profile = p |> toProfileRequest } next ctx
-                         | None -> return! (setStatusCode 400 >=> json "Invalid login") next ctx
-                      | None    -> return! (setStatusCode 400 >=> json "Invalid login") next ctx
+                      | Some provider -> return! json provider next ctx
+                      | None          -> return! (setStatusCode 400 >=> json "Invalid login") next ctx
                  else return! (setStatusCode 400 >=> json "Invalid login") next ctx                                                       
         }
 

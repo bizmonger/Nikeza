@@ -190,8 +190,10 @@ let getProvider profileId =
 let login email =
     email |> loginProfile 
           |> function
-             | Some profile -> Some profile
-             | None         -> None
+             | Some p -> match getProvider p.Id with
+                         | Some provider -> Some { provider with Profile = p |> toProfileRequest }
+                         | None          -> None
+             | None -> None
 let getProfile profileId =
     let profiles = getProfiles profileId getProfileSql "@ProfileId"
     profiles |> List.tryHead

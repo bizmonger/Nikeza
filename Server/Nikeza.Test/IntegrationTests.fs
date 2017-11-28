@@ -22,6 +22,20 @@ let setup() = registerProfile creatorRegistrationForm |> ignore
 [<TearDown>]
 let teardown() = cleanDataStore()
 
+[<Test>]
+let ``Removing data source updates portfolio`` () =
+    
+    // Setup
+    let profileId = registerProfile someForm
+    let sourceId =  AddSource { someSource with ProfileId= unbox profileId } |> execute
+    
+    // Test
+    RemoveSource { Id = Int32.Parse(sourceId) } |> execute |> ignore
+
+    // Verify
+    profileId |> getLinks
+              |> List.isEmpty 
+              |> should equal true
 
 [<Test>]
 let ``New members have default subscription`` () =
@@ -680,10 +694,11 @@ let ``Logging into portal retrieves portfolio`` () =
 
     // Test
     match login someForm.Email with
-          | Some provider -> if provider.Portfolio |> isEmpty
-                                then Assert.Fail()
-                                else ()
-          | None          -> Assert.Fail()
+          | Some provider ->
+             if  provider.Portfolio |> isEmpty
+                then Assert.Fail()
+                else ()
+          | None -> Assert.Fail()
 
 [<EntryPoint>]
 let main argv =
