@@ -17968,8 +17968,7 @@ var _user$project$Settings$Dependencies = function (a) {
 	};
 };
 var _user$project$Settings$Disconnected = {ctor: 'Disconnected'};
-var _user$project$Settings$Connected = {ctor: 'Connected'};
-var _user$project$Settings$configuration = _user$project$Settings$Connected;
+var _user$project$Settings$configuration = _user$project$Settings$Disconnected;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Connected') {
@@ -17978,6 +17977,7 @@ var _user$project$Settings$runtime = function () {
 		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$bootstrap)(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$updateProfile)(_user$project$Tests_TestAPI$updateProfileAndTopics)(_user$project$Tests_TestAPI$thumbnail)(_user$project$Tests_TestAPI$updateThumbnail)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$featuredTopics)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$portfolio)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$recentLinks)(_user$project$Tests_TestAPI$featureLink);
 	}
 }();
+var _user$project$Settings$Connected = {ctor: 'Connected'};
 
 var _user$project$Controls_EditProfile$Response = function (a) {
 	return {ctor: 'Response', _0: a};
@@ -20322,14 +20322,7 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 											ctor: '::',
 											_0: _elm_lang$html$Html$text(
 												_user$project$Domain_Core$titleText(l.title)),
-											_1: {
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$br,
-													{ctor: '[]'},
-													{ctor: '[]'}),
-												_1: {ctor: '[]'}
-											}
+											_1: {ctor: '[]'}
 										}),
 									_1: {ctor: '[]'}
 								}),
@@ -27116,15 +27109,7 @@ var _user$project$Home$render = F4(
 																	ctor: '::',
 																	_0: _elm_lang$html$Html_Attributes$src(
 																		_user$project$Domain_Core$urlText(provider.profile.imageUrl)),
-																	_1: {
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Attributes$width(55),
-																		_1: {
-																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$height(55),
-																			_1: {ctor: '[]'}
-																		}
-																	}
+																	_1: {ctor: '[]'}
 																}
 															},
 															{ctor: '[]'}),

@@ -197,7 +197,7 @@ let ``Read YouTube AccessId file`` () =
     text.Length |> should (be greaterThan) 0
 
 [<Test>]
-let ``Subscriber observes provider link`` () =
+let ``Subscriber observes recent provider link`` () =
 
     // Setup
     let profileId =    registerProfile someForm
@@ -210,7 +210,7 @@ let ``Subscriber observes provider link`` () =
     let linkId = AddLink  { someLink with ProfileId = profileId } |> execute
 
     // Test
-    let link = { SubscriberId= subscriberId; LinkIds=[Int32.Parse(linkId)] }
+    let link = { SubscriberId= subscriberId; LinkIds= [Int32.Parse(linkId)] }
     let linkObservedIds = ObserveLinks link |> execute
 
     // Verify

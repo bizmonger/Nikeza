@@ -1377,7 +1377,7 @@ render provider content portal providers =
         [ tr []
             [ td []
                 [ table [ class "portalLeftRegion" ]
-                    [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| urlText <| provider.profile.imageUrl, width 55, height 55 ] [] ] ]
+                    [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| urlText <| provider.profile.imageUrl ] [] ] ]
                     , tr [] [ td [] <| renderNavigation providers portal ]
                     ]
                 ]

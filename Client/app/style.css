@@ -6,7 +6,7 @@ img.logo {
 
 img.profile {
     height: 115px;
-    width: 115px;
+    width:  115px;
     margin-bottom: 0px;
 }
 
@@ -36,6 +36,10 @@ header {
 
 p.recentLink {
     text-align: left;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    margin-bottom: 5px;
 }
 
 span.featured {
@@ -192,7 +196,7 @@ table.portalLeftRegion {
 div.RegistrationForm {
     width: 200px;
     height: 200px;
-    margin-right: 8px;
+    margin-right: 5px;
     margin-left: 160px;
     margin-top: 0px;
     float: right;
