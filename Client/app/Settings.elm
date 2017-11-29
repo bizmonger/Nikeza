@@ -7,7 +7,7 @@ import Services.Adapter as Adapter exposing (..)
 
 configuration : Configuration
 configuration =
-    Disconnected
+    Connected
 
 
 type Configuration

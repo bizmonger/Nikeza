@@ -150,39 +150,33 @@ let private updateThumbnailHandler: HttpHandler =
             return Some ctx
         }
 
-let private fetchBootstrap ignoreValue: HttpHandler =
+let private fetchBootstrap x: HttpHandler =
 
     StackOverflow.CachedTags.Instance() |> ignore
-    let tempProviders = getProviders()
 
-    let getFollowers p =
-        p.Profile.Id 
-         |> getFollowers 
-         |> List.map (fun f -> f.Profile.Id)
-
-    let providers = tempProviders |> List.map (fun p -> { p with Followers= p |> getFollowers })
+    let providers = getProviders() |> List.map (fun p -> hydrate p.Profile)
     json { Providers= providers; Platforms=getPlatforms() }
 
-let private fetchProviders ignoreValue: HttpHandler =
-    json (getProviders())
+let private fetchProviders x: HttpHandler =
+    json <| getProviders()
 
 let private fetchLinks providerId: HttpHandler =
-    json (getLinks providerId)
+    json <| getLinks providerId
 
 let private fetchSuggestedTopics (text) =
-    json (getSuggestions text)
+    json <| getSuggestions text
 
 let private fetchRecent (subscriberId) =
-    json (getRecent subscriberId)
+    json <| getRecent subscriberId
     
 let private fetchFollowers (providerId) =
-    json (getFollowers providerId)
+    json <| getFollowers providerId
     
 let private fetchSubscriptions (providerId) =
-    json (getSubscriptions providerId)
+    json <| getSubscriptions providerId
 
 let private fetchSources (providerId) =
-    json (getSources providerId)
+    json <| getSources providerId
 
 let private fetchThumbnail (platform:string , accessId:string) =
 

@@ -384,6 +384,7 @@ div.recentThumbnail {
 
 div.thumnnailDetails {
     margin-left: 5px;
+    width: 180px;
 }
 
 tr.bio {

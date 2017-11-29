@@ -168,31 +168,35 @@ let getProviders () =
     providers
 
 
-let hydrate (profile:Profile) =
+let hydrate (profile:ProfileRequest) =
 
     let links =         profile.Id |> getLinks
-    let subscriptions = profile.Id |> getSubscriptions
-    let followers =     profile.Id |> getFollowers
+    let subscriptions = profile.Id |> getSubscriptions |> List.map(fun s -> s.Profile.Id)
+    let followers =     profile.Id |> getFollowers     |> List.map(fun s -> s.Profile.Id)
 
-    { Profile=       profile |> toProfileRequest
-      Topics=        links   |> List.map(fun l -> l.Topics) |> List.concat |> List.distinct
-      Portfolio=     links   |> toPortfolio
-      RecentLinks=   profile.Id |> getRecent
-      Subscriptions= subscriptions |> List.map(fun s -> s.Profile.Id)
-      Followers=     followers     |> List.map(fun s -> s.Profile.Id)
+    { Profile=       profile
+      Topics=        profile.Id |> getFeaturedTopics
+      Portfolio=     links      |> toPortfolio
+      RecentLinks=   links      |> List.take 3
+      Subscriptions= subscriptions 
+      Followers=     followers     
     }
 
 let getProvider profileId =
+
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue "@ProfileId" profileId
         
-    readInProviders |> getResults getProfileSql commandFunc
-                    |> function | p::_ -> Some { p with Topics=      profileId |> getFeaturedTopics
-                                                        Followers=   profileId |> getFollowers |> List.map (fun f -> f.Profile.Id)
-                                                        Portfolio=   profileId |> getLinks |> toPortfolio
-                                                        RecentLinks= profileId |> getRecent
-                                               }
-                                | _ -> None
+    readInProviders 
+     |> getResults getProfileSql commandFunc
+     |> function 
+        | p::_ -> 
+            Some { p with Topics=      profileId |> getFeaturedTopics
+                          Followers=   profileId |> getFollowers |> List.map (fun f -> f.Profile.Id)
+                          Portfolio=   profileId |> getLinks |> toPortfolio
+                          RecentLinks= profileId |> getRecent
+                 }
+        | _ -> None
 
 let login email =
     email |> loginProfile 
