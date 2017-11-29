@@ -4,7 +4,7 @@ module Nikeza.Server.RSSFeed
     open System
     open Model
     open Http
-    open Asynctify
+    open Utils
     open StackOverflow.Suggestions
     
     let rssLinks (user:User) =

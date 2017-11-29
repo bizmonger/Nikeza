@@ -4,7 +4,7 @@ module Nikeza.Server.WordPress
     open Newtonsoft.Json
     open Model
     open Http
-    open Asynctify
+    open Utils
     open StackOverflow.Suggestions
     open System
 

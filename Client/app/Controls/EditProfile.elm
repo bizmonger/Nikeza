@@ -114,7 +114,12 @@ update msg model =
                     ( { model | chosenTopics = topics }, Cmd.none )
 
             AddTopic v ->
-                onAddTopic v
+                case model.topicSuggestions of
+                    topic :: _ ->
+                        onAddTopic topic
+
+                    _ ->
+                        ( model, Cmd.none )
 
             Update ->
                 let

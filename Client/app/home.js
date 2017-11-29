@@ -18127,7 +18127,12 @@ var _user$project$Controls_EditProfile$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'AddTopic':
-				return onAddTopic(_p0._0);
+				var _p3 = model.topicSuggestions;
+				if (_p3.ctor === '::') {
+					return onAddTopic(_p3._0);
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
 			case 'Update':
 				var profileAndTopics = {profile: provider.profile, topics: model.chosenTopics};
 				return {
@@ -18151,8 +18156,8 @@ var _user$project$Controls_EditProfile$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Controls.EditProfile',
 							{
-								start: {line: 130, column: 17},
-								end: {line: 130, column: 28}
+								start: {line: 135, column: 17},
+								end: {line: 135, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p0._0._0),
 						{ctor: '_Tuple2', _0: profile, _1: _elm_lang$core$Platform_Cmd$none});
@@ -23248,16 +23253,7 @@ var _user$project$Home$onEditProfile = F2(
 			case 'TopicSuggestionResponse':
 				return {ctor: '_Tuple2', _0: newState, _1: editCmd};
 			case 'AddTopic':
-				var updatedProvider = _elm_lang$core$Native_Utils.update(
-					provider,
-					{topics: updatedEditor.chosenTopics});
-				var updatedPortal = _elm_lang$core$Native_Utils.update(
-					portal,
-					{provider: updatedProvider});
-				var updatedState = _elm_lang$core$Native_Utils.update(
-					newState,
-					{portal: updatedPortal});
-				return {ctor: '_Tuple2', _0: updatedState, _1: editCmd};
+				return {ctor: '_Tuple2', _0: newState, _1: editCmd};
 			case 'RemoveTopic':
 				return {ctor: '_Tuple2', _0: newState, _1: editCmd};
 			case 'Update':
@@ -23650,8 +23646,8 @@ var _user$project$Home$onNewLink = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1082, column: 25},
-								end: {line: 1082, column: 36}
+								start: {line: 1072, column: 25},
+								end: {line: 1072, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p26._0),
 						{ctor: '_Tuple2', _0: model, _1: newLinkCmd});
@@ -23759,8 +23755,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1163, column: 25},
-								end: {line: 1163, column: 36}
+								start: {line: 1153, column: 25},
+								end: {line: 1153, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p33._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -23784,8 +23780,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1173, column: 25},
-								end: {line: 1173, column: 36}
+								start: {line: 1163, column: 25},
+								end: {line: 1163, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p35._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});

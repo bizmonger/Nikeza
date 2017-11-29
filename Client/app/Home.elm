@@ -806,17 +806,7 @@ onEditProfile subMsg model =
                 ( newState, editCmd )
 
             EditProfile.AddTopic _ ->
-                let
-                    updatedProvider =
-                        { provider | topics = updatedEditor.chosenTopics }
-
-                    updatedPortal =
-                        { portal | provider = updatedProvider }
-
-                    updatedState =
-                        { newState | portal = updatedPortal }
-                in
-                    ( updatedState, editCmd )
+                ( newState, editCmd )
 
             EditProfile.RemoveTopic _ ->
                 ( newState, editCmd )

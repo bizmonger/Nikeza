@@ -4,7 +4,7 @@ module Nikeza.Server.Medium
     open Model
     open Http
     open Literals
-    open Asynctify
+    open Utils
     open Newtonsoft.Json
 
     [<Literal>]
