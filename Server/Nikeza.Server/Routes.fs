@@ -154,7 +154,7 @@ let private fetchBootstrap x: HttpHandler =
 
     StackOverflow.CachedTags.Instance() |> ignore
 
-    let providers = getProviders() |> List.map (fun p -> hydrate p.Profile)
+    let providers = getProviders()
     json { Providers= providers; Platforms=getPlatforms() }
 
 let private fetchProviders x: HttpHandler =

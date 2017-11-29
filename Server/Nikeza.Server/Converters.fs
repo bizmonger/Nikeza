@@ -9,6 +9,12 @@ let toPortfolio links : Portfolio = {
     Podcasts= links |> List.filter (fun l -> l.ContentType = (contentTypeToString Podcast))
 }
 
+let linksFromPortfolio portfolio : Link list  =  
+    portfolio.Articles @
+    portfolio.Videos   @ 
+    portfolio.Answers  @
+    portfolio.Podcasts    
+
 let toProfileRequest (profile:Profile) : ProfileRequest = {
     Id=        profile.Id
     FirstName= profile.FirstName

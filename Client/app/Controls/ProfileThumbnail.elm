@@ -79,7 +79,8 @@ thumbnail loggedIn showSubscriptionState provider =
             provider.profile
 
         formatTopic topic =
-            a [ href <| urlText <| providerTopicUrl (Just profile.id) profile.id topic ] [ button [ class "topicsButton" ] [ text <| topicText topic ] ]
+            a [ href <| urlText <| providerTopicUrl (Just profile.id) profile.id topic ]
+                [ button [ class "topicsButton" ] [ text <| topicText topic ] ]
 
         concatTopics topic1 topic2 =
             span []
