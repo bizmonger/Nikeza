@@ -9,21 +9,21 @@ module Nikeza.Server.WordPress
     open System
 
     [<Literal>]
-    let private APIBaseAddress = "https://public-api.wordpress.com/"
+    let private APIBaseAddress =   "https://public-api.wordpress.com/"
 
     [<Literal>]
-    let private ArticlesUrl =    "rest/v1/sites/{0}/posts?number=100&page={1}"
+    let private ArticlesUrl =      "rest/v1/sites/{0}/posts?number=100&page={1}"
 
     [<Literal>]
-    let private DefaultThumbnail =   "rest/v1/sites/bizmonger.wordpress.com/posts?number=1&page=1"
+    let private DefaultThumbnail = "rest/v1/sites/bizmonger.wordpress.com/posts?number=1&page=1"
 
     type Tag = { ID: string; name: string }
 
     type Post = { 
-        Title:     string 
-        URL:       string 
-        Tags:      IDictionary<string, Tag>
-        Timestamp: DateTime
+        title: string 
+        URL:   string 
+        date:  DateTime
+        Tags:  IDictionary<string, Tag>
     }
 
     type Response = { found: int; posts: Post list }
@@ -39,7 +39,7 @@ module Nikeza.Server.WordPress
             IsFeatured= false
         }
 
-        let derivedTopics = post.Title  
+        let derivedTopics = post.title  
                             |> suggestionsFromText 
                             |> List.map (fun n -> {Id= -1; Name=n; IsFeatured=false})
 
@@ -51,13 +51,13 @@ module Nikeza.Server.WordPress
         
         { Id= -1
           ProfileId= profileId
-          Title= post.Title |> replaceHtmlCodes
+          Title= post.title |> replaceHtmlCodes
           Description= ""
           Url= post.URL
           Topics= topics
           ContentType="Articles"
           IsFeatured= false
-          Timestamp= post.Timestamp
+          Timestamp= post.date
         }
 
     let getThumbnail accessId =

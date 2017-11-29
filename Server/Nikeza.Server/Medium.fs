@@ -110,6 +110,12 @@ module Nikeza.Server.Medium
                                       )
         let id = parseValue(postParts.[1]) |> function | Some title -> "{0}" + title | None -> ""
 
+        let publishedDate = 
+            parseValue(postParts.[14]) 
+             |> function 
+                | Some date -> DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds((float (Int64.Parse(date) / 1000L)))
+                | None      -> DateTime.MinValue
+
         { Id= -1
           ProfileId=    user.ProfileId
           Title=        parseValue(postParts.[5]) |> function | Some title -> title | None -> ""
@@ -118,7 +124,7 @@ module Nikeza.Server.Medium
           Topics=       topics |> List.map(fun t -> {Id= t.Id; Name= t.Name; IsFeatured= false}) |>List.toSeq |> Seq.distinct |> Seq.toList
           ContentType=  "Articles"
           IsFeatured=   false
-          Timestamp=    DateTime.Parse("todo")
+          Timestamp=   publishedDate
         }
 
     let private remainingText nextTagIndex (text:string) =

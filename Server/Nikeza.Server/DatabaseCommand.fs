@@ -91,7 +91,7 @@ module internal Commands =
                     |> addWithValue "@Url"           info.Url
                     |> addWithValue "@ContentTypeId" (info.ContentType |> contentTypeToId)
                     |> addWithValue "@IsFeatured"    info.IsFeatured
-                    |> addWithValue "@Created"       DateTime.Now
+                    |> addWithValue "@Created"       info.Timestamp
                     
         let linkId = commandFunc |> execute connectionString addLinkSql
 

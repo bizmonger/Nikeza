@@ -177,7 +177,7 @@ let hydrate (profile:ProfileRequest) =
     { Profile=       profile
       Topics=        profile.Id |> getFeaturedTopics
       Portfolio=     links      |> toPortfolio
-      RecentLinks=   links      |> List.take 3
+      RecentLinks=   if not (links |> List.isEmpty) then links |> List.take 3 else links
       Subscriptions= subscriptions 
       Followers=     followers     
     }
