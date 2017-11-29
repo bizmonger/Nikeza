@@ -174,10 +174,18 @@ let hydrate (profile:ProfileRequest) =
     let subscriptions = profile.Id |> getSubscriptions |> List.map(fun s -> s.Profile.Id)
     let followers =     profile.Id |> getFollowers     |> List.map(fun s -> s.Profile.Id)
 
+    let recentLinks =   links |> List.length
+                              |> function
+                                 | 0 -> []
+                                 | 1 -> links |> List.take 1
+                                 | 2 -> links |> List.take 2
+                                 | _ -> links |> List.take 3
+                            
+
     { Profile=       profile
       Topics=        profile.Id |> getFeaturedTopics
       Portfolio=     links      |> toPortfolio
-      RecentLinks=   if not (links |> List.isEmpty) then links |> List.take 3 else links
+      RecentLinks=   recentLinks
       Subscriptions= subscriptions 
       Followers=     followers     
     }
