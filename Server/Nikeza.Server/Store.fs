@@ -163,8 +163,14 @@ let rec getProvidersHelper sql parameterName profileId =
     let providers =        initialProviders 
                             |> List.map (fun p -> p.Profile.Id |> getFeaturedTopics)
                             |> List.zip initialProviders
-                            |> List.map (fun (p,t) -> { p with Topics= t} )
-                            |> List.map (fun p -> { p with RecentLinks= p.Profile.Id |> getLinks |> recentLinks })  
+                            |> List.map (fun (p,t) -> 
+
+                                { p with Topics= t
+                                         RecentLinks= p.Profile.Id 
+                                                        |> getLinks 
+                                                        |> recentLinks 
+                                } 
+                                         
     providers
 
 and getSubscriptions profileId : ProviderRequest list =
