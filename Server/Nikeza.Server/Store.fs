@@ -159,18 +159,16 @@ let rec getProvidersHelper sql parameterName profileId =
            then command |> addWithValue parameterName profileId
            else command
      
-    let initialProviders = readInProviders  |> getResults sql commandFunc
+    let initialProviders = readInProviders |> getResults sql commandFunc
     let providers =        initialProviders 
                             |> List.map (fun p -> p.Profile.Id |> getFeaturedTopics)
                             |> List.zip initialProviders
-                            |> List.map (fun (p,t) -> 
-
-                                { p with Topics= t
-                                         RecentLinks= p.Profile.Id 
-                                                        |> getLinks 
-                                                        |> recentLinks 
-                                } 
-                                         
+                            |> List.map (fun (p,t) -> { p with Topics= t
+                                                               RecentLinks= p.Profile.Id 
+                                                                              |> getLinks 
+                                                                              |> recentLinks 
+                                                      }
+                                        )
     providers
 
 and getSubscriptions profileId : ProviderRequest list =
