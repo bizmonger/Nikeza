@@ -130,7 +130,7 @@ let private addLinkHandler: HttpHandler =
     fun next ctx -> 
         task { 
             let! data = ctx.BindJson<Link>()
-            let linkId = AddLink { data with Description = "" } |> execute
+            let linkId = AddLink { data with Description = ""; Timestamp= DateTime.Now } |> execute
             return! json { data with Id = Int32.Parse(linkId) } next ctx
         }
 
