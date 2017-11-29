@@ -46,7 +46,7 @@ let someProviderTopic = {
 }
 
 let someLink = {
-    Id=         0
+    Id=           0
     ProfileId=    someProfileId |> string
     Title=       "some_title"
     Description= "some_description"
@@ -54,6 +54,7 @@ let someLink = {
     Topics=       []
     ContentType=  ArticleText
     IsFeatured=   false
+    Timestamp=    DateTime.Now
 }
 
 let emptyProfile = { 

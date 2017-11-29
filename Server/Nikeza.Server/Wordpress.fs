@@ -6,6 +6,7 @@ module Nikeza.Server.WordPress
     open Http
     open Asynctify
     open StackOverflow.Suggestions
+    open System
 
     [<Literal>]
     let private APIBaseAddress = "https://public-api.wordpress.com/"
@@ -19,9 +20,10 @@ module Nikeza.Server.WordPress
     type Tag = { ID: string; name: string }
 
     type Post = { 
-        title: string 
-        URL:   string 
-        Tags:  IDictionary<string, Tag>
+        Title:     string 
+        URL:       string 
+        Tags:      IDictionary<string, Tag>
+        Timestamp: DateTime
     }
 
     type Response = { found: int; posts: Post list }
@@ -37,7 +39,7 @@ module Nikeza.Server.WordPress
             IsFeatured= false
         }
 
-        let derivedTopics = post.title  
+        let derivedTopics = post.Title  
                             |> suggestionsFromText 
                             |> List.map (fun n -> {Id= -1; Name=n; IsFeatured=false})
 
@@ -47,18 +49,16 @@ module Nikeza.Server.WordPress
                      |> Set.ofList 
                      |> Set.toList
         
-        let link = { 
-          Id= -1
+        { Id= -1
           ProfileId= profileId
-          Title= post.title |> replaceHtmlCodes
+          Title= post.Title |> replaceHtmlCodes
           Description= ""
           Url= post.URL
           Topics= topics
           ContentType="Articles"
           IsFeatured= false
+          Timestamp= post.Timestamp
         }
-
-        link
 
     let getThumbnail accessId =
  

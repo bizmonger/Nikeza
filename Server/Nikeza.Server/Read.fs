@@ -42,6 +42,7 @@ let rec readInLinks links (reader:SqlDataReader) = reader.Read() |> function
               Topics=      []
               ContentType= reader.GetInt32  (5) |> contentTypeIdToString
               IsFeatured=  reader.GetBoolean(6)
+              Timestamp=   reader.GetDateTime(7)
         }
         
         readInLinks (link::links) reader
@@ -59,14 +60,15 @@ and readInLinkTopic (reader:SqlDataReader) = {
   }
 
 and readInLink (reader:SqlDataReader) = {
-  Id=          reader.GetInt32  (0)
-  ProfileId=   reader.GetInt32  (1) |> string
-  Title=       reader.GetString (2)
-  Description= reader.GetString (3)
+  Id=          reader.GetInt32    (0)
+  ProfileId=   reader.GetInt32    (1) |> string
+  Title=       reader.GetString   (2)
+  Description= reader.GetString   (3)
   Topics=      []
-  Url=         reader.GetString (4)
-  IsFeatured=  reader.GetBoolean(5)
-  ContentType= reader.GetString (6) 
+  Url=         reader.GetString   (4)
+  IsFeatured=  reader.GetBoolean  (5)
+  ContentType= reader.GetString   (6) 
+  Timestamp=   reader.GetDateTime (7) 
 }
 
 let rec readInTopics topics (reader:SqlDataReader) = reader.Read() |> function

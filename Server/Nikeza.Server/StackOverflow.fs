@@ -55,6 +55,7 @@ module StackOverflow =
           Topics=      item.tags |> List.map (fun t -> { Id= -1; Name= t; IsFeatured= false })
           ContentType= "Answers"
           IsFeatured=  false
+          Timestamp=   DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds((float item.creation_date))
         }
 
     let getThumbnail accessId key =

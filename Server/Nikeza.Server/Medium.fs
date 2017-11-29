@@ -116,8 +116,9 @@ module Nikeza.Server.Medium
           Description=  ""
           Url=          String.Format("{0}{1}/{2}", BaseAddress, "@" + user.AccessId, id)
           Topics=       topics |> List.map(fun t -> {Id= t.Id; Name= t.Name; IsFeatured= false}) |>List.toSeq |> Seq.distinct |> Seq.toList
-          ContentType= "Articles"
+          ContentType=  "Articles"
           IsFeatured=   false
+          Timestamp=    DateTime.Parse("todo")
         }
 
     let private remainingText nextTagIndex (text:string) =

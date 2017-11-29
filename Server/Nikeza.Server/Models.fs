@@ -104,6 +104,7 @@ type Link = {
     Topics:        ProviderTopic list
     ContentType:   string
     IsFeatured:    bool
+    Timestamp:     DateTime
 }
 
 [<CLIMutable>]

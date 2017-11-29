@@ -231,6 +231,7 @@ let linkOf video profileId = {
     Topics=      video.Tags |> List.map (fun t -> { Id=0; Name=t; IsFeatured= false })
     ContentType= VideoText
     IsFeatured=  false
+    Timestamp=   DateTime.Parse(video.PostDate)
 }
 
 let rec youtubeLinks (platformUser:PlatformUser) = 

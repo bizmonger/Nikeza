@@ -21,6 +21,7 @@ module Nikeza.Server.RSSFeed
                           |> Set.intersect (suggestionsFromText (item.Element(XName.Get("description")).Value) |> List.map (fun n -> {Id= -1; Name=n; IsFeatured=false}) |> Set.ofList)
                           |> Set.toList
             IsFeatured=  false
+            Timestamp=   DateTime.Parse(item.Element(XName.Get("pubDate")).Value)
          }
 
         let url =    user.AccessId
