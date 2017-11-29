@@ -8,21 +8,33 @@ module Nikeza.Server.RSSFeed
     open StackOverflow.Suggestions
     
     let rssLinks (user:User) =
-        let toLink (item:XElement) = { 
-            Id=          -1
-            ProfileId=   user.ProfileId
-            Title=       item.Element(XName.Get("title")).Value |> replaceHtmlCodes
-            Url=         item.Element(XName.Get("link")).Value
-            Description= item.Element(XName.Get("description")).Value
-            ContentType= Podcast |> contentTypeToString
-            Topics =     suggestionsFromText (item.Element(XName.Get("title")).Value) |> List.map (fun n -> {Id= -1; Name=n; IsFeatured=false})
-                          |> List.rev
-                          |> Set.ofList
-                          |> Set.intersect (suggestionsFromText (item.Element(XName.Get("description")).Value) |> List.map (fun n -> {Id= -1; Name=n; IsFeatured=false}) |> Set.ofList)
-                          |> Set.toList
-            IsFeatured=  false
-            Timestamp=   DateTime.Parse(item.Element(XName.Get("pubDate")).Value)
-         }
+
+        let toLink (item:XElement) =
+        
+            let (text:string) = item.Element(XName.Get("pubDate")).Value
+            let array =    text.Split(' ')
+            let day =      array.[1]
+            let month =    array.[2] |> monthTextToInteger
+            let year =     array.[3]
+            let dateText = sprintf "%i/%s/%s" month day year
+            let date =     DateTime.Parse(dateText)
+
+            {   Id=          -1
+                ProfileId=   user.ProfileId
+                Title=       item.Element(XName.Get("title")).Value |> replaceHtmlCodes
+                Url=         item.Element(XName.Get("link")).Value
+                Description= item.Element(XName.Get("description")).Value
+                ContentType= Podcast |> contentTypeToString
+                Topics =     suggestionsFromText (item.Element(XName.Get("title")).Value) 
+                              |> List.map (fun n -> {Id= -1; Name=n; IsFeatured=false})
+                              |> List.rev
+                              |> Set.ofList
+                              |> Set.intersect (suggestionsFromText (item.Element(XName.Get("description")).Value) |> List.map (fun n -> {Id= -1; Name=n; IsFeatured=false}) |> Set.ofList)
+                              |> Set.toList
+
+                IsFeatured=  false
+                Timestamp=   date
+            }
 
         let url =    user.AccessId
         let uri =    Uri(url) 

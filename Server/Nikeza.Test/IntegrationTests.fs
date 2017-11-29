@@ -25,36 +25,6 @@ let teardown() = cleanDataStore()
 
 
 [<Test>]
-let ``Parse RSS Date`` () =
-
-    let monthTextToInteger = function
-        | "Jan" -> 1
-        | "Feb" -> 2
-        | "Mar" -> 3
-        | "Apr" -> 4
-        | "May" -> 5
-        | "Jun" -> 6
-        | "Jul" -> 7
-        | "Aug" -> 8
-        | "Sep" -> 9
-        | "Oct" -> 10
-        | "Nov" -> 11
-        | "Dec" -> 12
-        | _ -> 0
-
-    let text ="Mon, 15 Feb 2016 00:00:00 EST"
-    let array = text.Split(' ')
-    let day =   array.[1]
-    let month = array.[2] |> monthTextToInteger
-    let year =  array.[3]
-    let textDate = sprintf "%s/%i/%s" day month year
-    let date = DateTime.Parse(textDate)
-    let preparedate = date.ToShortTimeString()
-
-    preparedate |> should equal textDate
-
-
-[<Test>]
 let ``Removing data source updates portfolio`` () =
     
     // Setup
