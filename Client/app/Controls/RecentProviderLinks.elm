@@ -12,7 +12,7 @@ type Msg
 formatLink : Link -> Html Msg
 formatLink link =
     div []
-        [ a [ href <| urlText <| link.url ] [ label [ class "recentLink" ] [ text <| titleText link.title ] ]
+        [ a [ href <| urlText <| link.url, target "_blank" ] [ label [ class "recentLink" ] [ text <| titleText link.title ] ]
         , br [] []
         ]
 

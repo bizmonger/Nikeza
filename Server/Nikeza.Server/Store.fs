@@ -123,12 +123,15 @@ let toPortfolio links =
       Podcasts = links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = Podcast)
     }
 
+let getProfile profileId =
+    let profiles = getProfiles profileId getProfileSql "@ProfileId"
+    profiles |> List.tryHead
+
 let getRecent subscriberId =
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue "@SubscriberId" subscriberId
 
-    let links = readInLinks |> getResults getRecentSql commandFunc
-    links
+    readInLinks |> getResults getRecentSql commandFunc
 
 let getFeaturedTopics (profileId:string) =
 
@@ -163,12 +166,12 @@ let rec getProvidersHelper sql parameterName profileId =
     let providers =        initialProviders 
                             |> List.map (fun p -> p.Profile.Id |> getFeaturedTopics)
                             |> List.zip initialProviders
-                            |> List.map (fun (p,t) -> { p with Topics= t
-                                                               RecentLinks= p.Profile.Id 
-                                                                              |> getLinks 
-                                                                              |> recentLinks 
-                                                      }
-                                        )
+                            |> List.map (fun (p,t) -> 
+                                { p with Topics= t
+                                         RecentLinks= p.Profile.Id |> getLinks |> recentLinks
+                                         Followers=   p.Profile.Id |> getFollowerIds
+                                }
+                  )
     providers
 
 and getSubscriptions profileId : ProviderRequest list =
@@ -182,6 +185,15 @@ and getFollowers profileId : ProviderRequest list =
 and getProviders () =
     let providers = getProvidersHelper getProfilesSql "" ""
     providers
+
+and getFollowerIds profileId : string list =
+
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue "@ProfileId" profileId
+        
+    readInProviders
+     |> getResults getFollowersSql commandFunc
+     |> List.map (fun f -> f.Profile.Id)
 
 and hydrate (profile:ProfileRequest) =
 
@@ -197,7 +209,40 @@ and hydrate (profile:ProfileRequest) =
       Followers=     followers     
     }
 
-let getProvider profileId =
+and getLinkProviders (links:Link list) : ProviderRequest list =
+    let providerLinks = links |> List.groupBy (fun l -> l.ProfileId)
+    let providers =     providerLinks 
+                         |> List.map (fun (profileId , links) -> 
+                                        let result = profileId |> getProfile
+                                        match result with
+                                        | Some profile -> 
+                                           let subscriptions = profile.Id |> getSubscriptions |> List.map(fun s -> s.Profile.Id)
+                                           let followers =     profile.Id |> getFollowers     |> List.map(fun s -> s.Profile.Id)
+                                           
+                                           Some { Profile=       profile    |> toProfileRequest
+                                                  Topics=        profile.Id |> getFeaturedTopics
+                                                  Portfolio=     links      |> toPortfolio
+                                                  RecentLinks=   links      |> recentLinks
+                                                  Subscriptions= subscriptions 
+                                                  Followers=     followers     
+                                                }
+                                        | None         -> None
+                                     )
+    providers |> List.choose id
+
+and getProvidersWithRecent subscriberId =
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue "@SubscriberId" subscriberId
+
+    let providers = 
+        readInLinks 
+         |> getResults getRecentSql commandFunc
+         |> getLinkProviders
+         |> List.filter (fun p -> p.Profile.Id <> subscriberId)
+
+    providers
+
+and getProvider profileId =
 
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue "@ProfileId" profileId
@@ -220,9 +265,6 @@ let login email =
                          | Some provider -> Some { provider with Profile = p |> toProfileRequest }
                          | None          -> None
              | None -> None
-let getProfile profileId =
-    let profiles = getProfiles profileId getProfileSql "@ProfileId"
-    profiles |> List.tryHead
 
 let getTopic (topicName:string) =
     let topics = getTopics topicName getTopicSql "@Name"

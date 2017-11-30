@@ -1419,7 +1419,7 @@ headerContent model =
 footerContent : Html Msg
 footerContent =
     footer [ class "copyright" ]
-        [ a [ href "mailto:scott.nimrod@bizmonger.net" ] [ text "Bizmonger" ] ]
+        [ a [ href "mailto:scott.nimrod@bizmonger.net", target "_blank" ] [ text "Bizmonger" ] ]
 
 
 providersUI : Maybe Provider -> Bool -> List Provider -> Html Msg
@@ -2021,11 +2021,12 @@ navigate msg model location =
                             { portal
                                 | provider = { provider | profile = updatedProfile, filteredPortfolio = filtered }
                                 , profileEditor = profileEditor
+                                , requested = Domain.ViewRecent
                             }
                         , currentRoute = location
                     }
             in
-                ( updatedModel, Cmd.none )
+                ( updatedModel, runtime.recentLinkProviders updatedProfile.id SubscriptionsResponse )
 
         [ "portal", id, topic ] ->
             let

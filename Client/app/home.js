@@ -16299,22 +16299,6 @@ var _user$project$Tests_TestAPI$recentLinks1 = {
 		true),
 	_1: {ctor: '[]'}
 };
-var _user$project$Tests_TestAPI$recentLinks = F2(
-	function (profileId, msg) {
-		return A2(
-			_user$project$Services_Adapter$httpSuccess,
-			msg,
-			_elm_lang$core$List$concat(
-				{
-					ctor: '::',
-					_0: _user$project$Services_Adapter$toJsonLinks(_user$project$Tests_TestAPI$recentLinks1),
-					_1: {
-						ctor: '::',
-						_0: _user$project$Services_Adapter$toJsonLinks(_user$project$Tests_TestAPI$recentLinks2),
-						_1: {ctor: '[]'}
-					}
-				}));
-	});
 var _user$project$Tests_TestAPI$jsonProfile1 = A7(
 	_user$project$Services_Adapter$JsonProfile,
 	_user$project$Domain_Core$idText(_user$project$Tests_TestAPI$profileId1),
@@ -17015,6 +16999,21 @@ var _user$project$Tests_TestAPI$jsonProvider3 = _user$project$Services_Adapter$J
 		subscriptions: {ctor: '[]'},
 		followers: {ctor: '[]'}
 	});
+var _user$project$Tests_TestAPI$recentLinkProviders = F2(
+	function (profileId, msg) {
+		return A2(
+			_user$project$Services_Adapter$httpSuccess,
+			msg,
+			{
+				ctor: '::',
+				_0: _user$project$Tests_TestAPI$jsonProvider2,
+				_1: {
+					ctor: '::',
+					_0: _user$project$Tests_TestAPI$jsonProvider3,
+					_1: {ctor: '[]'}
+				}
+			});
+	});
 var _user$project$Tests_TestAPI$jsonProvider4 = _user$project$Services_Adapter$JsonProvider(
 	{
 		profile: _user$project$Tests_TestAPI$jsonProfile4,
@@ -17695,13 +17694,19 @@ var _user$project$Services_Gateway$thumbnail = F3(
 		var request = A2(_elm_lang$http$Http$get, url, _user$project$Services_Decoders$thumbnailDecoder);
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
-var _user$project$Services_Gateway$recentLinks = F2(
-	function (profileId, msg) {
-		var url = A2(_elm_lang$core$Basics_ops['++'], _user$project$Services_Gateway$baseUrl, 'recent');
+var _user$project$Services_Gateway$recentLinkProviders = F2(
+	function (subscriberId, msg) {
+		var url = A2(
+			_elm_lang$core$Basics_ops['++'],
+			_user$project$Services_Gateway$baseUrl,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				'recent/',
+				_user$project$Domain_Core$idText(subscriberId)));
 		var request = A2(
 			_elm_lang$http$Http$get,
 			url,
-			_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$linkDecoder));
+			_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$providerDecoder));
 		return A2(_elm_lang$http$Http$send, msg, request);
 	});
 var _user$project$Services_Gateway$providers = function (msg) {
@@ -17942,7 +17947,7 @@ var _user$project$Settings$Dependencies = function (a) {
 																					return function (v) {
 																						return function (w) {
 																							return function (x) {
-																								return {bootstrap: a, tryLogin: b, tryRegister: c, updateProfile: d, updateProfileAndTopics: e, thumbnail: f, updateThumbnail: g, provider: h, featuredTopics: i, providers: j, portfolio: k, addLink: l, removeLink: m, topicLinks: n, sources: o, addSource: p, removeSource: q, suggestedTopics: r, subscriptions: s, followers: t, follow: u, unsubscribe: v, recentLinks: w, featureLink: x};
+																								return {bootstrap: a, tryLogin: b, tryRegister: c, updateProfile: d, updateProfileAndTopics: e, thumbnail: f, updateThumbnail: g, provider: h, featuredTopics: i, providers: j, portfolio: k, addLink: l, removeLink: m, topicLinks: n, sources: o, addSource: p, removeSource: q, suggestedTopics: r, subscriptions: s, followers: t, follow: u, unsubscribe: v, recentLinkProviders: w, featureLink: x};
 																							};
 																						};
 																					};
@@ -17973,9 +17978,9 @@ var _user$project$Settings$configuration = _user$project$Settings$Connected;
 var _user$project$Settings$runtime = function () {
 	var _p0 = _user$project$Settings$configuration;
 	if (_p0.ctor === 'Connected') {
-		return _user$project$Settings$Dependencies(_user$project$Services_Gateway$bootstrap)(_user$project$Services_Gateway$tryLogin)(_user$project$Services_Gateway$tryRegister)(_user$project$Services_Gateway$updateProfile)(_user$project$Services_Gateway$updateProfileAndTopics)(_user$project$Services_Gateway$thumbnail)(_user$project$Services_Gateway$updateThumbnail)(_user$project$Services_Gateway$provider)(_user$project$Services_Gateway$featuredTopics)(_user$project$Services_Gateway$providers)(_user$project$Services_Gateway$portfolio)(_user$project$Services_Gateway$addLink)(_user$project$Services_Gateway$removeLink)(_user$project$Services_Gateway$topicLinks)(_user$project$Services_Gateway$sources)(_user$project$Services_Gateway$addSource)(_user$project$Services_Gateway$removeSource)(_user$project$Services_Gateway$suggestedTopics)(_user$project$Services_Gateway$subscriptions)(_user$project$Services_Gateway$followers)(_user$project$Services_Gateway$follow)(_user$project$Services_Gateway$unsubscribe)(_user$project$Services_Gateway$recentLinks)(_user$project$Services_Gateway$featureLink);
+		return _user$project$Settings$Dependencies(_user$project$Services_Gateway$bootstrap)(_user$project$Services_Gateway$tryLogin)(_user$project$Services_Gateway$tryRegister)(_user$project$Services_Gateway$updateProfile)(_user$project$Services_Gateway$updateProfileAndTopics)(_user$project$Services_Gateway$thumbnail)(_user$project$Services_Gateway$updateThumbnail)(_user$project$Services_Gateway$provider)(_user$project$Services_Gateway$featuredTopics)(_user$project$Services_Gateway$providers)(_user$project$Services_Gateway$portfolio)(_user$project$Services_Gateway$addLink)(_user$project$Services_Gateway$removeLink)(_user$project$Services_Gateway$topicLinks)(_user$project$Services_Gateway$sources)(_user$project$Services_Gateway$addSource)(_user$project$Services_Gateway$removeSource)(_user$project$Services_Gateway$suggestedTopics)(_user$project$Services_Gateway$subscriptions)(_user$project$Services_Gateway$followers)(_user$project$Services_Gateway$follow)(_user$project$Services_Gateway$unsubscribe)(_user$project$Services_Gateway$recentLinkProviders)(_user$project$Services_Gateway$featureLink);
 	} else {
-		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$bootstrap)(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$updateProfile)(_user$project$Tests_TestAPI$updateProfileAndTopics)(_user$project$Tests_TestAPI$thumbnail)(_user$project$Tests_TestAPI$updateThumbnail)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$featuredTopics)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$portfolio)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$recentLinks)(_user$project$Tests_TestAPI$featureLink);
+		return _user$project$Settings$Dependencies(_user$project$Tests_TestAPI$bootstrap)(_user$project$Tests_TestAPI$tryLogin)(_user$project$Tests_TestAPI$tryRegister)(_user$project$Tests_TestAPI$updateProfile)(_user$project$Tests_TestAPI$updateProfileAndTopics)(_user$project$Tests_TestAPI$thumbnail)(_user$project$Tests_TestAPI$updateThumbnail)(_user$project$Tests_TestAPI$provider)(_user$project$Tests_TestAPI$featuredTopics)(_user$project$Tests_TestAPI$providers)(_user$project$Tests_TestAPI$portfolio)(_user$project$Tests_TestAPI$addLink)(_user$project$Tests_TestAPI$removeLink)(_user$project$Tests_TestAPI$topicLinks)(_user$project$Tests_TestAPI$sources)(_user$project$Tests_TestAPI$addSource)(_user$project$Tests_TestAPI$removeSource)(_user$project$Tests_TestAPI$suggestedTopics)(_user$project$Tests_TestAPI$subscriptions)(_user$project$Tests_TestAPI$followers)(_user$project$Tests_TestAPI$follow)(_user$project$Tests_TestAPI$unsubscribe)(_user$project$Tests_TestAPI$recentLinkProviders)(_user$project$Tests_TestAPI$featureLink);
 	}
 }();
 
@@ -20321,7 +20326,11 @@ var _user$project$Controls_ProfileThumbnail$thumbnail = F3(
 											ctor: '::',
 											_0: _elm_lang$html$Html_Attributes$href(
 												_user$project$Domain_Core$urlText(l.url)),
-											_1: {ctor: '[]'}
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$target('_blank'),
+												_1: {ctor: '[]'}
+											}
 										},
 										{
 											ctor: '::',
@@ -21160,7 +21169,11 @@ var _user$project$Controls_RecentProviderLinks$formatLink = function (link) {
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$href(
 						_user$project$Domain_Core$urlText(link.url)),
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$target('_blank'),
+						_1: {ctor: '[]'}
+					}
 				},
 				{
 					ctor: '::',
@@ -22424,7 +22437,11 @@ var _user$project$Home$footerContent = A2(
 			{
 				ctor: '::',
 				_0: _elm_lang$html$Html_Attributes$href('mailto:scott.nimrod@bizmonger.net'),
-				_1: {ctor: '[]'}
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$target('_blank'),
+					_1: {ctor: '[]'}
+				}
 			},
 			{
 				ctor: '::',
@@ -22970,6 +22987,36 @@ var _user$project$Home$NavigateToPortalProviderMemberResponse = function (a) {
 var _user$project$Home$NavigateToPortalProviderTopicResponse = function (a) {
 	return {ctor: 'NavigateToPortalProviderTopicResponse', _0: a};
 };
+var _user$project$Home$NavigateToPortalResponse = function (a) {
+	return {ctor: 'NavigateToPortalResponse', _0: a};
+};
+var _user$project$Home$BootstrapResponse = function (a) {
+	return {ctor: 'BootstrapResponse', _0: a};
+};
+var _user$project$Home$init = function (location) {
+	return {
+		ctor: '_Tuple2',
+		_0: {
+			currentRoute: location,
+			login: _user$project$Domain_Core$initCredentials,
+			registration: _user$project$Domain_Core$initForm,
+			platforms: {ctor: '[]'},
+			portal: _user$project$Domain_Core$initPortal,
+			providers: {ctor: '[]'},
+			scopedProviders: {ctor: '[]'},
+			searchResult: {ctor: '[]'},
+			selectedProvider: _user$project$Domain_Core$initProvider,
+			portfolioSearch: _user$project$Domain_Core$initPortfolioSearch
+		},
+		_1: _user$project$Settings$runtime.bootstrap(_user$project$Home$BootstrapResponse)
+	};
+};
+var _user$project$Home$FollowersResponse = function (a) {
+	return {ctor: 'FollowersResponse', _0: a};
+};
+var _user$project$Home$SubscriptionsResponse = function (a) {
+	return {ctor: 'SubscriptionsResponse', _0: a};
+};
 var _user$project$Home$navigate = F3(
 	function (msg, model, location) {
 		var _p9 = _user$project$Home$tokenizeUrl(location.hash);
@@ -23046,11 +23093,16 @@ var _user$project$Home$navigate = F3(
 											provider: _elm_lang$core$Native_Utils.update(
 												provider,
 												{profile: updatedProfile, filteredPortfolio: filtered}),
-											profileEditor: profileEditor
+											profileEditor: profileEditor,
+											requested: _user$project$Domain_Core$ViewRecent
 										}),
 									currentRoute: location
 								});
-							return {ctor: '_Tuple2', _0: updatedModel, _1: _elm_lang$core$Platform_Cmd$none};
+							return {
+								ctor: '_Tuple2',
+								_0: updatedModel,
+								_1: A2(_user$project$Settings$runtime.recentLinkProviders, updatedProfile.id, _user$project$Home$SubscriptionsResponse)
+							};
 						default:
 							break _v5_8;
 					}
@@ -23169,36 +23221,6 @@ var _user$project$Home$navigate = F3(
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
-var _user$project$Home$NavigateToPortalResponse = function (a) {
-	return {ctor: 'NavigateToPortalResponse', _0: a};
-};
-var _user$project$Home$BootstrapResponse = function (a) {
-	return {ctor: 'BootstrapResponse', _0: a};
-};
-var _user$project$Home$init = function (location) {
-	return {
-		ctor: '_Tuple2',
-		_0: {
-			currentRoute: location,
-			login: _user$project$Domain_Core$initCredentials,
-			registration: _user$project$Domain_Core$initForm,
-			platforms: {ctor: '[]'},
-			portal: _user$project$Domain_Core$initPortal,
-			providers: {ctor: '[]'},
-			scopedProviders: {ctor: '[]'},
-			searchResult: {ctor: '[]'},
-			selectedProvider: _user$project$Domain_Core$initProvider,
-			portfolioSearch: _user$project$Domain_Core$initPortfolioSearch
-		},
-		_1: _user$project$Settings$runtime.bootstrap(_user$project$Home$BootstrapResponse)
-	};
-};
-var _user$project$Home$FollowersResponse = function (a) {
-	return {ctor: 'FollowersResponse', _0: a};
-};
-var _user$project$Home$SubscriptionsResponse = function (a) {
-	return {ctor: 'SubscriptionsResponse', _0: a};
-};
 var _user$project$Home$ProvidersResponse = function (a) {
 	return {ctor: 'ProvidersResponse', _0: a};
 };

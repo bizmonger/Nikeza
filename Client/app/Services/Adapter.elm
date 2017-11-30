@@ -102,8 +102,13 @@ type alias Unsubscribefunction msg =
     SubscriptionRequest -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
 
 
-type alias RecentLinksfunction msg =
-    Id -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
+
+-- type alias RecentLinksfunction msg =
+--     Id -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
+
+
+type alias RecentLinkProvidersfunction msg =
+    Id -> (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
 
 
 type alias FeatureLinkfunction msg =

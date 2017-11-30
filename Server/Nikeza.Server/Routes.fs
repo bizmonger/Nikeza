@@ -167,7 +167,7 @@ let private fetchSuggestedTopics (text) =
     json <| getSuggestions text
 
 let private fetchRecent (subscriberId) =
-    json <| getRecent subscriberId
+    json <| getProvidersWithRecent subscriberId
     
 let private fetchFollowers (providerId) =
     json <| getFollowers providerId
@@ -182,8 +182,8 @@ let private fetchThumbnail (platform:string , accessId:string) =
 
     let thumbnail() =
         platform.ToLower() 
-        |> platformFromString 
-        |> Platforms.getThumbnail accessId
+         |> platformFromString 
+         |> Platforms.getThumbnail accessId
                                  
     json { ImageUrl= thumbnail(); Platform= platform }
          

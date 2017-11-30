@@ -38,7 +38,9 @@ type alias Dependencies msg =
     , followers : Followersfunction msg
     , follow : Followfunction msg
     , unsubscribe : Unsubscribefunction msg
-    , recentLinks : RecentLinksfunction msg
+
+    -- , recentLinks : RecentLinksfunction msg
+    , recentLinkProviders : RecentLinkProvidersfunction msg
     , featureLink : FeatureLinkfunction msg
     }
 
@@ -70,7 +72,8 @@ runtime =
                 Services.followers
                 Services.follow
                 Services.unsubscribe
-                Services.recentLinks
+                -- Services.recentLinks
+                Services.recentLinkProviders
                 Services.featureLink
 
         Disconnected ->
@@ -97,5 +100,6 @@ runtime =
                 TestAPI.followers
                 TestAPI.follow
                 TestAPI.unsubscribe
-                TestAPI.recentLinks
+                -- TestAPI.recentLinks
+                TestAPI.recentLinkProviders
                 TestAPI.featureLink

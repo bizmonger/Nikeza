@@ -301,13 +301,19 @@ followers profileId msg =
         [] |> httpSuccess msg
 
 
-recentLinks : Id -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
-recentLinks profileId msg =
-    [ recentLinks1 |> toJsonLinks
-    , recentLinks2 |> toJsonLinks
-    ]
-        |> List.concat
-        |> httpSuccess msg
+
+-- recentLinks : Id -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
+-- recentLinks profileId msg =
+--     [ recentLinks1 |> toJsonLinks
+--     , recentLinks2 |> toJsonLinks
+--     ]
+--         |> List.concat
+--         |> httpSuccess msg
+
+
+recentLinkProviders : Id -> (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
+recentLinkProviders profileId msg =
+    [ jsonProvider2, jsonProvider3 ] |> httpSuccess msg
 
 
 recentLinks1 : List Link

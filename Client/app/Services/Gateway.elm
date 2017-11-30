@@ -72,14 +72,26 @@ thumbnail platform accessId msg =
         Http.send msg request
 
 
-recentLinks : Id -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
-recentLinks profileId msg =
+
+-- recentLinks : Id -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
+-- recentLinks profileId msg =
+--     let
+--         url =
+--             baseUrl ++ "recent"
+--         request =
+--             Http.get url (Decode.list linkDecoder)
+--     in
+--         Http.send msg request
+
+
+recentLinkProviders : Id -> (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
+recentLinkProviders subscriberId msg =
     let
         url =
-            baseUrl ++ "recent"
+            baseUrl ++ "recent/" ++ (idText subscriberId)
 
         request =
-            Http.get url (Decode.list linkDecoder)
+            Http.get url (Decode.list providerDecoder)
     in
         Http.send msg request
 
