@@ -1159,9 +1159,19 @@ onSourcesUpdated subMsg model =
             Sources.RemoveResponse result ->
                 case result of
                     Ok sourceId ->
-                        ( { model | portal = { portal | provider = pendingProvider } }
-                        , runtime.provider profile.id NavigateToPortalResponse
-                        )
+                        let
+                            pendingProfile =
+                                pendingProvider.profile
+
+                            updatedSources =
+                                pendingProfile.sources |> List.filter (\s -> s.id /= Id sourceId)
+
+                            updatedProfile =
+                                { pendingProfile | sources = updatedSources }
+                        in
+                            ( { model | portal = { portal | provider = { pendingProvider | profile = updatedProfile } } }
+                            , Cmd.none
+                            )
 
                     Err reason ->
                         Debug.crash (toString reason) ( model, sourceCmd )

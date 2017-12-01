@@ -69,7 +69,8 @@ update msg model =
                 Debug.crash (toString error) ( model, Cmd.none )
 
             RemoveResponse (Ok sourceId) ->
-                ( { model | sources = model.sources |> List.filter (\s -> (idText s.id) /= sourceId) }, Cmd.none )
+                -- ( { model | sources = model.sources |> List.filter (\s -> (idText s.id) /= sourceId) }, Cmd.none )
+                ( model, Cmd.none )
 
             RemoveResponse (Err error) ->
                 Debug.crash (toString error) ( model, Cmd.none )

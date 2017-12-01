@@ -21739,29 +21739,14 @@ var _user$project$Controls_Sources$update = F2(
 				}
 			default:
 				if (_p0._0.ctor === 'Ok') {
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								sources: A2(
-									_elm_lang$core$List$filter,
-									function (s) {
-										return !_elm_lang$core$Native_Utils.eq(
-											_user$project$Domain_Core$idText(s.id),
-											_p0._0._0);
-									},
-									model.sources)
-							}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				} else {
 					return A2(
 						_elm_lang$core$Native_Utils.crash(
 							'Controls.Sources',
 							{
-								start: {line: 75, column: 17},
-								end: {line: 75, column: 28}
+								start: {line: 76, column: 17},
+								end: {line: 76, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p0._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -23789,6 +23774,18 @@ var _user$project$Home$onSourcesUpdated = F2(
 			default:
 				var _p35 = _p32._0;
 				if (_p35.ctor === 'Ok') {
+					var pendingProfile = pendingProvider.profile;
+					var updatedSources = A2(
+						_elm_lang$core$List$filter,
+						function (s) {
+							return !_elm_lang$core$Native_Utils.eq(
+								s.id,
+								_user$project$Domain_Core$Id(_p35._0));
+						},
+						pendingProfile.sources);
+					var updatedProfile = _elm_lang$core$Native_Utils.update(
+						pendingProfile,
+						{sources: updatedSources});
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -23796,17 +23793,21 @@ var _user$project$Home$onSourcesUpdated = F2(
 							{
 								portal: _elm_lang$core$Native_Utils.update(
 									portal,
-									{provider: pendingProvider})
+									{
+										provider: _elm_lang$core$Native_Utils.update(
+											pendingProvider,
+											{profile: updatedProfile})
+									})
 							}),
-						_1: A2(_user$project$Settings$runtime.provider, profile.id, _user$project$Home$NavigateToPortalResponse)
+						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
 					return A2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1167, column: 25},
-								end: {line: 1167, column: 36}
+								start: {line: 1177, column: 25},
+								end: {line: 1177, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p35._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
