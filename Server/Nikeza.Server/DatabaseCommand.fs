@@ -48,20 +48,25 @@ module internal Commands =
         commandFunc |> execute connectionString registerSql
 
     let addLinkTopic (linkTopic:LinkTopic) =
-        let linkTopicId =
-            let linkTopicsCommandFunc (command: SqlCommand) =
-                command |> addWithValue "@LinkId"  linkTopic.Link.Id
-                        |> addWithValue "@TopicId" linkTopic.Topic.Id
 
-            linkTopicsCommandFunc |> execute connectionString addLinkTopicSql
-        linkTopicId
+        let linkTopicsCommandFunc (command: SqlCommand) =
+            command |> addWithValue "@LinkId"  linkTopic.Link.Id
+                    |> addWithValue "@TopicId" linkTopic.Topic.Id
+
+        linkTopicsCommandFunc |> execute connectionString addLinkTopicSql
 
     let addTopic (info:TopicRequest) =
-        let commandFunc (command: SqlCommand) = 
-            command |> addWithValue "@Name" info.Name
-        
-        commandFunc |> execute connectionString addTopicSql
 
+        let topicName = info.Name.ToLower().Replace(" ", "-")
+
+        let commandFunc (command: SqlCommand) = 
+            command |> addWithValue "@Name" topicName
+
+        topicName 
+         |> getTopic 
+         |> function
+            |None   -> commandFunc |> execute connectionString addTopicSql
+            |Some t -> t.Id |> string
 
     let featureTopic (info:ProviderTopicRequest) =
         let commandFunc (command: SqlCommand) = 

@@ -514,10 +514,14 @@ update msg model =
                                     , searchResult = subscriptions
                                     , portal = { portal | provider = { provider | subscriptions = subscriptionIds } }
                                   }
-                                , runtime.providers ProvidersResponse
+                                , Cmd.none
+                                  --runtime.providers ProvidersResponse
                                 )
                             else
-                                ( model, runtime.providers ProvidersResponse )
+                                ( model
+                                , Cmd.none
+                                  --runtime.providers ProvidersResponse
+                                )
                     else
                         ( { model
                             | scopedProviders = subscriptions
@@ -2021,7 +2025,15 @@ navigate msg model location =
                             { portal
                                 | provider = { provider | profile = updatedProfile, filteredPortfolio = filtered }
                                 , profileEditor = profileEditor
-                                , requested = Domain.ViewRecent
+                                , requested =
+                                    if
+                                        String.isEmpty (updatedProfile.firstName |> nameText)
+                                            || String.isEmpty (updatedProfile.lastName |> nameText)
+                                            || String.isEmpty (updatedProfile.email |> emailText)
+                                    then
+                                        Domain.EditProfile
+                                    else
+                                        Domain.ViewRecent
                             }
                         , currentRoute = location
                     }

@@ -114,7 +114,14 @@ let getLinks (profileId:string) =
         command |> addWithValue "@ProfileId" profileId
 
     readInLinks |> getResults getLinksSql linksCommandFunc 
-                |> List.map attachTopics    
+                |> List.map attachTopics
+                
+let getLatestLinks (profileId:string) =
+    let linksCommandFunc (command: SqlCommand) = 
+        command |> addWithValue "@ProfileId" profileId
+
+    readInLinks |> getResults getLatestLinksSql linksCommandFunc 
+                |> List.map attachTopics  
 
 let toPortfolio links = 
     { Answers =  links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = Answer)
@@ -168,7 +175,7 @@ let rec getProvidersHelper sql parameterName profileId =
                             |> List.zip initialProviders
                             |> List.map (fun (p,t) -> 
                                 { p with Topics= t
-                                         RecentLinks= p.Profile.Id |> getLinks |> recentLinks
+                                         RecentLinks= p.Profile.Id |> getLatestLinks
                                          Followers=   p.Profile.Id |> getFollowerIds
                                 }
                   )

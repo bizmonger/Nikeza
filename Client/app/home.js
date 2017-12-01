@@ -23094,7 +23094,10 @@ var _user$project$Home$navigate = F3(
 												provider,
 												{profile: updatedProfile, filteredPortfolio: filtered}),
 											profileEditor: profileEditor,
-											requested: _user$project$Domain_Core$ViewRecent
+											requested: (_elm_lang$core$String$isEmpty(
+												_user$project$Domain_Core$nameText(updatedProfile.firstName)) || (_elm_lang$core$String$isEmpty(
+												_user$project$Domain_Core$nameText(updatedProfile.lastName)) || _elm_lang$core$String$isEmpty(
+												_user$project$Domain_Core$emailText(updatedProfile.email)))) ? _user$project$Domain_Core$EditProfile : _user$project$Domain_Core$ViewRecent
 										}),
 									currentRoute: location
 								});
@@ -23668,8 +23671,8 @@ var _user$project$Home$onNewLink = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1072, column: 25},
-								end: {line: 1072, column: 36}
+								start: {line: 1076, column: 25},
+								end: {line: 1076, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p26._0),
 						{ctor: '_Tuple2', _0: model, _1: newLinkCmd});
@@ -23777,8 +23780,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1153, column: 25},
-								end: {line: 1153, column: 36}
+								start: {line: 1157, column: 25},
+								end: {line: 1157, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p33._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -23802,8 +23805,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1163, column: 25},
-								end: {line: 1163, column: 36}
+								start: {line: 1167, column: 25},
+								end: {line: 1167, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p35._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -24757,12 +24760,8 @@ var _user$project$Home$update = F2(
 												{subscriptions: subscriptionIds})
 										})
 								}),
-							_1: _user$project$Settings$runtime.providers(_user$project$Home$ProvidersResponse)
-						} : {
-							ctor: '_Tuple2',
-							_0: model,
-							_1: _user$project$Settings$runtime.providers(_user$project$Home$ProvidersResponse)
-						};
+							_1: _elm_lang$core$Platform_Cmd$none
+						} : {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 					} else {
 						return {
 							ctor: '_Tuple2',
@@ -24777,8 +24776,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 530, column: 17},
-								end: {line: 530, column: 28}
+								start: {line: 534, column: 17},
+								end: {line: 534, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p42._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -24812,8 +24811,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 557, column: 17},
-								end: {line: 557, column: 28}
+								start: {line: 561, column: 17},
+								end: {line: 561, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p42._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});

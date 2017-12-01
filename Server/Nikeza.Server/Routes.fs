@@ -4,7 +4,6 @@ open System
 open Microsoft.AspNetCore.Http
 open Giraffe.HttpContextExtensions
 open Giraffe.HttpHandlers
-open Literals
 open Store
 open Model
 open Platforms
@@ -13,7 +12,6 @@ open Giraffe.Tasks
 open Registration
 open StackOverflow.Suggestions
 open Order
-open Nikeza.Server.Converters
 
 [<Literal>]
 let AuthScheme = "Cookie"

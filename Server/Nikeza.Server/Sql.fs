@@ -159,17 +159,17 @@ let getTopicSql = "SELECT Id, Name
 
                    
 
-let getLinkTopicsSql = "SELECT     Topic.Id, 
-                                   Topic.Name, 
-                                   isnull( (select 1 from FeaturedTopic where TopicId = Topic.Id),0) as IsFeatured 
-                        FROM       Topic
-                        INNER JOIN LinkTopic
-                                      ON   LinkTopic.TopicId = Topic.Id
-                        INNER JOIN Link
-                                      ON   LinkTopic.LinkId = Link.Id
-                        WHERE  Link.Id = @LinkId"
+let getLinkTopicsSql = "SELECT       Topic.Id, 
+                                     Topic.Name, 
+                                     isnull( (select top (1) 1 from FeaturedTopic where TopicId = Topic.Id),0) as IsFeatured 
 
-
+                        FROM         Topic
+                        INNER JOIN   LinkTopic
+                                        ON   LinkTopic.TopicId = Topic.Id
+                        INNER JOIN   Link
+                                        ON   LinkTopic.LinkId =  Link.Id
+                        WHERE        Link.Id = @LinkId"
+                        
 
 let deleteLinkTopicSql = "Delete     LinkTopic
                           FROM       LinkTopic
@@ -245,11 +245,31 @@ let getRecentSql = @"SELECT     Link.Id,
                                 Link.ContentTypeId, 
                                 Link.IsFeatured, 
                                 Link.Created
+
                      FROM       Link
-                     WHERE Link.Id NOT IN 
-                                  (SELECT LinkId
-					               FROM   ObservedLinks
-                                   WHERE  ObservedLinks.SubscriberId = SubscriberId)"
+                     INNER JOIN Subscription
+                           ON   Subscription.SubscriberId = @SubscriberId  AND
+                                Subscription.ProfileId =    Link.ProfileId
+
+                     WHERE      Link.Id NOT IN 
+                                       (SELECT ObservedLinks.LinkId
+					                    FROM   ObservedLinks
+                                        WHERE  ObservedLinks.SubscriberId = @SubscriberId)"
+                                     
+let getLatestLinksSql = @"SELECT TOP (3) 
+                                 Link.Id, 
+                                 Link.ProfileId, 
+                                 Link.Title, 
+                                 Link.Description, 
+                                 Link.Url, 
+                                 Link.ContentTypeId, 
+                                 Link.IsFeatured, 
+                                 Link.Created
+                                 
+                          FROM      Link
+
+                          WHERE     Link.ProfileId = @ProfileId
+                          ORDER BY  Link.Created DESC"
                                      
 
 let getFollowersSql = @"SELECT Profile.Id,

@@ -89,7 +89,7 @@ let readInFeaturedTopic (reader:SqlDataReader) =
     }
 
 let readInProfile (reader:SqlDataReader) = { 
-    Id=    reader.GetInt32 (0) |> string
+    Id=           reader.GetInt32 (0) |> string
     FirstName=    reader.GetString(1)
     LastName=     reader.GetString(2)
     Email=        reader.GetString(3)
