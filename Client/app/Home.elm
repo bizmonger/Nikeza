@@ -2097,7 +2097,10 @@ navigate msg model location =
                                         , email = profile.email
                                         , imageUrl = profile.imageUrl
                                     }
+                                , topics = provider.topics
+                                , portfolio = initPortfolio
                             }
+                        , chosenTopics = provider.topics
                     }
 
                 updatedModel =
@@ -2108,8 +2111,8 @@ navigate msg model location =
                                 | provider =
                                     { provider
                                         | profile = updatedProfile
-                                        , filteredPortfolio = filtered
-                                        , portfolio = portfolio
+                                        , filteredPortfolio = initPortfolio
+                                        , portfolio = initPortfolio
                                     }
                                 , profileEditor = profileEditor
                                 , requested =

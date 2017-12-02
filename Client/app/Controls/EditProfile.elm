@@ -88,7 +88,9 @@ update msg model =
                         String.split " " v
                             |> String.join "-"
                 in
-                    ( { model | currentTopic = Topic formattedInput True }, runtime.suggestedTopics formattedInput TopicSuggestionResponse )
+                    ( { model | currentTopic = Topic formattedInput True }
+                    , runtime.suggestedTopics formattedInput TopicSuggestionResponse
+                    )
 
             KeyDown key ->
                 if key == 13 then

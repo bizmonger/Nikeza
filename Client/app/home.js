@@ -18114,8 +18114,8 @@ var _user$project$Controls_EditProfile$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Controls.EditProfile',
 							{
-								start: {line: 112, column: 17},
-								end: {line: 112, column: 28}
+								start: {line: 114, column: 17},
+								end: {line: 114, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p0._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -18164,8 +18164,8 @@ var _user$project$Controls_EditProfile$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Controls.EditProfile',
 							{
-								start: {line: 140, column: 17},
-								end: {line: 140, column: 28}
+								start: {line: 142, column: 17},
+								end: {line: 142, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p0._0._0),
 						{ctor: '_Tuple2', _0: profile, _1: _elm_lang$core$Platform_Cmd$none});
@@ -23033,8 +23033,11 @@ var _user$project$Home$navigate = F3(
 										{
 											profile: _elm_lang$core$Native_Utils.update(
 												_user$project$Domain_Core$initProfile,
-												{id: profile.id, firstName: profile.firstName, lastName: profile.lastName, email: profile.email, imageUrl: profile.imageUrl})
-										})
+												{id: profile.id, firstName: profile.firstName, lastName: profile.lastName, email: profile.email, imageUrl: profile.imageUrl}),
+											topics: provider.topics,
+											portfolio: _user$project$Domain_Core$initPortfolio
+										}),
+									chosenTopics: provider.topics
 								});
 							var login = model.login;
 							var updatedModel = _elm_lang$core$Native_Utils.update(
@@ -23048,7 +23051,7 @@ var _user$project$Home$navigate = F3(
 										{
 											provider: _elm_lang$core$Native_Utils.update(
 												provider,
-												{profile: updatedProfile, filteredPortfolio: filtered, portfolio: portfolio}),
+												{profile: updatedProfile, filteredPortfolio: _user$project$Domain_Core$initPortfolio, portfolio: _user$project$Domain_Core$initPortfolio}),
 											profileEditor: profileEditor,
 											requested: (_elm_lang$core$String$isEmpty(
 												_user$project$Domain_Core$nameText(updatedProfile.firstName)) || (_elm_lang$core$String$isEmpty(
