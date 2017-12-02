@@ -51,7 +51,7 @@ module Nikeza.Server.WordPress
         
         { Id= -1
           ProfileId= profileId
-          Title= post.title |> replaceHtmlCodes
+          Title= post.title // |> replaceHtmlCodes
           Description= ""
           Url= post.URL
           Topics= topics

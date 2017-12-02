@@ -7,81 +7,81 @@ import Json.Decode as Decode exposing (Decoder, field)
 profileDecoder : Decoder JsonProfile
 profileDecoder =
     Decode.map7 JsonProfile
-        (field "Id" Decode.string)
-        (field "FirstName" Decode.string)
-        (field "LastName" Decode.string)
-        (field "Email" Decode.string)
-        (field "ImageUrl" Decode.string)
-        (field "Bio" Decode.string)
-        (field "Sources" <| Decode.list sourceDecoder)
+        (field "id" Decode.string)
+        (field "firstName" Decode.string)
+        (field "lastName" Decode.string)
+        (field "email" Decode.string)
+        (field "imageUrl" Decode.string)
+        (field "bio" Decode.string)
+        (field "sources" <| Decode.list sourceDecoder)
 
 
 sourceDecoder : Decoder JsonSource
 sourceDecoder =
     Decode.map5 JsonSource
-        (field "Id" Decode.int)
-        (field "ProfileId" Decode.string)
-        (field "Platform" Decode.string)
-        (field "AccessId" Decode.string)
-        (field "Links" (Decode.list linkDecoder))
+        (field "id" Decode.int)
+        (field "profileId" Decode.string)
+        (field "platform" Decode.string)
+        (field "accessId" Decode.string)
+        (field "links" (Decode.list linkDecoder))
 
 
 providerLinksDecoder : Decoder JsonProviderLinks
 providerLinksDecoder =
     Decode.map JsonLinkFields
-        (field "Links" <| Decode.list (Decode.lazy (\_ -> linkDecoder)))
+        (field "links" <| Decode.list (Decode.lazy (\_ -> linkDecoder)))
         |> Decode.map JsonProviderLinks
 
 
 topicDecoder : Decoder JsonTopic
 topicDecoder =
     Decode.map2 JsonTopic
-        (field "Name" Decode.string)
-        (field "IsFeatured" Decode.bool)
+        (field "name" Decode.string)
+        (field "isFeatured" Decode.bool)
 
 
 portfolioDecoder : Decoder JsonPortfolio
 portfolioDecoder =
     Decode.map4 JsonPortfolio
-        (field "Answers" <| Decode.list linkDecoder)
-        (field "Articles" <| Decode.list linkDecoder)
-        (field "Videos" <| Decode.list linkDecoder)
-        (field "Podcasts" <| Decode.list linkDecoder)
+        (field "answers" <| Decode.list linkDecoder)
+        (field "articles" <| Decode.list linkDecoder)
+        (field "videos" <| Decode.list linkDecoder)
+        (field "podcasts" <| Decode.list linkDecoder)
 
 
 bootstrapDecoder : Decoder JsonBootstrap
 bootstrapDecoder =
     Decode.map2 JsonBootstrap
-        (field "Providers" <| Decode.list providerDecoder)
-        (field "Platforms" <| Decode.list Decode.string)
+        (field "providers" <| Decode.list providerDecoder)
+        (field "platforms" <| Decode.list Decode.string)
 
 
 thumbnailDecoder : Decoder JsonThumbnail
 thumbnailDecoder =
     Decode.map2 JsonThumbnail
-        (field "ImageUrl" Decode.string)
-        (field "Platform" Decode.string)
+        (field "imageUrl" Decode.string)
+        (field "platform" Decode.string)
 
 
 linkDecoder : Decoder JsonLink
 linkDecoder =
     Decode.map7 JsonLink
-        (field "Id" Decode.int)
-        (field "ProfileId" Decode.string)
-        (field "Title" Decode.string)
-        (field "Url" Decode.string)
-        (field "ContentType" Decode.string)
-        (field "Topics" <| Decode.list topicDecoder)
-        (field "IsFeatured" Decode.bool)
+        (field "id" Decode.int)
+        (field "profileId" Decode.string)
+        (field "title" Decode.string)
+        (field "url" Decode.string)
+        (field "contentType" Decode.string)
+        (field "topics" <| Decode.list topicDecoder)
+        (field "isFeatured" Decode.bool)
 
 
 providerDecoder : Decoder JsonProvider
 providerDecoder =
     Decode.map6 JsonProviderFields
-        (field "Profile" profileDecoder)
-        (field "Topics" <| Decode.list topicDecoder)
-        (field "Portfolio" <| portfolioDecoder)
-        (field "RecentLinks" <| Decode.list linkDecoder)
-        (field "Subscriptions" <| Decode.list Decode.string)
-        (field "Followers" <| Decode.list Decode.string)
+        (field "profile" profileDecoder)
+        (field "topics" <| Decode.list topicDecoder)
+        (field "portfolio" <| portfolioDecoder)
+        (field "recentLinks" <| Decode.list linkDecoder)
+        (field "subscriptions" <| Decode.list Decode.string)
+        (field "followers" <| Decode.list Decode.string)
         |> Decode.map JsonProvider

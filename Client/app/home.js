@@ -17152,14 +17152,14 @@ var _user$project$Services_Encoders$encodeCredentials = function (credentials) {
 			ctor: '::',
 			_0: {
 				ctor: '_Tuple2',
-				_0: 'Email',
+				_0: 'email',
 				_1: _elm_lang$core$Json_Encode$string(credentials.email)
 			},
 			_1: {
 				ctor: '::',
 				_0: {
 					ctor: '_Tuple2',
-					_0: 'Password',
+					_0: 'password',
 					_1: _elm_lang$core$Json_Encode$string(credentials.password)
 				},
 				_1: {ctor: '[]'}
@@ -17173,7 +17173,7 @@ var _user$project$Services_Encoders$encodeFeaturedTopics = F2(
 				ctor: '::',
 				_0: {
 					ctor: '_Tuple2',
-					_0: 'Id',
+					_0: 'id',
 					_1: _elm_lang$core$Json_Encode$string(
 						_user$project$Domain_Core$idText(id))
 				},
@@ -17181,7 +17181,7 @@ var _user$project$Services_Encoders$encodeFeaturedTopics = F2(
 					ctor: '::',
 					_0: {
 						ctor: '_Tuple2',
-						_0: 'Topics',
+						_0: 'topics',
 						_1: _elm_lang$core$Json_Encode$list(
 							A2(_elm_lang$core$List$map, _elm_lang$core$Json_Encode$string, topics))
 					},
@@ -17195,14 +17195,14 @@ var _user$project$Services_Encoders$encodeTopic = function (topic) {
 			ctor: '::',
 			_0: {
 				ctor: '_Tuple2',
-				_0: 'Name',
+				_0: 'name',
 				_1: _elm_lang$core$Json_Encode$string(topic.name)
 			},
 			_1: {
 				ctor: '::',
 				_0: {
 					ctor: '_Tuple2',
-					_0: 'IsFeatured',
+					_0: 'isFeatured',
 					_1: _elm_lang$core$Json_Encode$bool(topic.isFeatured)
 				},
 				_1: {ctor: '[]'}
@@ -17215,7 +17215,7 @@ var _user$project$Services_Encoders$encodeId = function (id) {
 			ctor: '::',
 			_0: {
 				ctor: '_Tuple2',
-				_0: 'Id',
+				_0: 'id',
 				_1: _elm_lang$core$Json_Encode$string(
 					_user$project$Domain_Core$idText(id))
 			},
@@ -17228,7 +17228,7 @@ var _user$project$Services_Encoders$encodeSource = function (source) {
 			ctor: '::',
 			_0: {
 				ctor: '_Tuple2',
-				_0: 'Id',
+				_0: 'id',
 				_1: _elm_lang$core$Json_Encode$int(
 					function () {
 						var _p0 = _elm_lang$core$String$toInt(
@@ -17244,7 +17244,7 @@ var _user$project$Services_Encoders$encodeSource = function (source) {
 				ctor: '::',
 				_0: {
 					ctor: '_Tuple2',
-					_0: 'ProfileId',
+					_0: 'profileId',
 					_1: _elm_lang$core$Json_Encode$string(
 						_user$project$Domain_Core$idText(source.profileId))
 				},
@@ -17252,14 +17252,14 @@ var _user$project$Services_Encoders$encodeSource = function (source) {
 					ctor: '::',
 					_0: {
 						ctor: '_Tuple2',
-						_0: 'Platform',
+						_0: 'platform',
 						_1: _elm_lang$core$Json_Encode$string(source.platform)
 					},
 					_1: {
 						ctor: '::',
 						_0: {
 							ctor: '_Tuple2',
-							_0: 'AccessId',
+							_0: 'accessId',
 							_1: _elm_lang$core$Json_Encode$string(source.accessId)
 						},
 						_1: {ctor: '[]'}
@@ -17274,7 +17274,7 @@ var _user$project$Services_Encoders$encodeSubscriptionRequest = function (reques
 			ctor: '::',
 			_0: {
 				ctor: '_Tuple2',
-				_0: 'SubscriberId',
+				_0: 'subscriberId',
 				_1: _elm_lang$core$Json_Encode$string(
 					_user$project$Domain_Core$idText(request.subscriberId))
 			},
@@ -17282,7 +17282,7 @@ var _user$project$Services_Encoders$encodeSubscriptionRequest = function (reques
 				ctor: '::',
 				_0: {
 					ctor: '_Tuple2',
-					_0: 'ProfileId',
+					_0: 'profileId',
 					_1: _elm_lang$core$Json_Encode$string(
 						_user$project$Domain_Core$idText(request.providerId))
 				},
@@ -17297,49 +17297,49 @@ var _user$project$Services_Encoders$encodeProfile = function (profile) {
 			ctor: '::',
 			_0: {
 				ctor: '_Tuple2',
-				_0: 'Id',
+				_0: 'id',
 				_1: _elm_lang$core$Json_Encode$string(jsonProfile.id)
 			},
 			_1: {
 				ctor: '::',
 				_0: {
 					ctor: '_Tuple2',
-					_0: 'FirstName',
+					_0: 'firstName',
 					_1: _elm_lang$core$Json_Encode$string(jsonProfile.firstName)
 				},
 				_1: {
 					ctor: '::',
 					_0: {
 						ctor: '_Tuple2',
-						_0: 'LastName',
+						_0: 'lastName',
 						_1: _elm_lang$core$Json_Encode$string(jsonProfile.lastName)
 					},
 					_1: {
 						ctor: '::',
 						_0: {
 							ctor: '_Tuple2',
-							_0: 'Email',
+							_0: 'email',
 							_1: _elm_lang$core$Json_Encode$string(jsonProfile.email)
 						},
 						_1: {
 							ctor: '::',
 							_0: {
 								ctor: '_Tuple2',
-								_0: 'ImageUrl',
+								_0: 'imageUrl',
 								_1: _elm_lang$core$Json_Encode$string(jsonProfile.imageUrl)
 							},
 							_1: {
 								ctor: '::',
 								_0: {
 									ctor: '_Tuple2',
-									_0: 'Bio',
+									_0: 'bio',
 									_1: _elm_lang$core$Json_Encode$string(jsonProfile.bio)
 								},
 								_1: {
 									ctor: '::',
 									_0: {
 										ctor: '_Tuple2',
-										_0: 'Sources',
+										_0: 'sources',
 										_1: _elm_lang$core$Json_Encode$list(
 											A2(_elm_lang$core$List$map, _user$project$Services_Encoders$encodeSource, profile.sources))
 									},
@@ -17358,14 +17358,14 @@ var _user$project$Services_Encoders$encodeProfileAndTopics = function (profileAn
 			ctor: '::',
 			_0: {
 				ctor: '_Tuple2',
-				_0: 'Profile',
+				_0: 'profile',
 				_1: _user$project$Services_Encoders$encodeProfile(profileAndTopics.profile)
 			},
 			_1: {
 				ctor: '::',
 				_0: {
 					ctor: '_Tuple2',
-					_0: 'Topics',
+					_0: 'topics',
 					_1: _elm_lang$core$Json_Encode$list(
 						A2(
 							_elm_lang$core$List$map,
@@ -17384,14 +17384,14 @@ var _user$project$Services_Encoders$encodeLink = function (link) {
 			ctor: '::',
 			_0: {
 				ctor: '_Tuple2',
-				_0: 'Id',
+				_0: 'id',
 				_1: _elm_lang$core$Json_Encode$int(link.id)
 			},
 			_1: {
 				ctor: '::',
 				_0: {
 					ctor: '_Tuple2',
-					_0: 'ProfileId',
+					_0: 'profileId',
 					_1: _elm_lang$core$Json_Encode$string(
 						_user$project$Domain_Core$idText(link.profileId))
 				},
@@ -17399,7 +17399,7 @@ var _user$project$Services_Encoders$encodeLink = function (link) {
 					ctor: '::',
 					_0: {
 						ctor: '_Tuple2',
-						_0: 'Title',
+						_0: 'title',
 						_1: _elm_lang$core$Json_Encode$string(
 							_user$project$Domain_Core$titleText(link.title))
 					},
@@ -17407,7 +17407,7 @@ var _user$project$Services_Encoders$encodeLink = function (link) {
 						ctor: '::',
 						_0: {
 							ctor: '_Tuple2',
-							_0: 'Url',
+							_0: 'url',
 							_1: _elm_lang$core$Json_Encode$string(
 								_user$project$Domain_Core$urlText(link.url))
 						},
@@ -17415,7 +17415,7 @@ var _user$project$Services_Encoders$encodeLink = function (link) {
 							ctor: '::',
 							_0: {
 								ctor: '_Tuple2',
-								_0: 'Topics',
+								_0: 'topics',
 								_1: _elm_lang$core$Json_Encode$list(
 									A2(_elm_lang$core$List$map, _user$project$Services_Encoders$encodeTopic, link.topics))
 							},
@@ -17423,7 +17423,7 @@ var _user$project$Services_Encoders$encodeLink = function (link) {
 								ctor: '::',
 								_0: {
 									ctor: '_Tuple2',
-									_0: 'ContentType',
+									_0: 'contentType',
 									_1: _elm_lang$core$Json_Encode$string(
 										_user$project$Domain_Core$contentTypeToText(link.contentType))
 								},
@@ -17431,7 +17431,7 @@ var _user$project$Services_Encoders$encodeLink = function (link) {
 									ctor: '::',
 									_0: {
 										ctor: '_Tuple2',
-										_0: 'IsFeatured',
+										_0: 'isFeatured',
 										_1: _elm_lang$core$Json_Encode$bool(link.isFeatured)
 									},
 									_1: {ctor: '[]'}
@@ -17451,7 +17451,7 @@ var _user$project$Services_Encoders$encodeLinks = function (providerLinks) {
 			ctor: '::',
 			_0: {
 				ctor: '_Tuple2',
-				_0: 'Links',
+				_0: 'links',
 				_1: _elm_lang$core$Json_Encode$list(
 					A2(_elm_lang$core$List$map, _user$project$Services_Encoders$encodeLink, linkFields.links))
 			},
@@ -17464,14 +17464,14 @@ var _user$project$Services_Encoders$encodeFeatureLink = function (request) {
 			ctor: '::',
 			_0: {
 				ctor: '_Tuple2',
-				_0: 'LinkId',
+				_0: 'linkId',
 				_1: _elm_lang$core$Json_Encode$int(request.linkId)
 			},
 			_1: {
 				ctor: '::',
 				_0: {
 					ctor: '_Tuple2',
-					_0: 'IsFeatured',
+					_0: 'isFeatured',
 					_1: _elm_lang$core$Json_Encode$bool(request.isFeatured)
 				},
 				_1: {ctor: '[]'}
@@ -17484,7 +17484,7 @@ var _user$project$Services_Encoders$encodeThumbnailUpdate = function (request) {
 			ctor: '::',
 			_0: {
 				ctor: '_Tuple2',
-				_0: 'ProfileId',
+				_0: 'profileId',
 				_1: _elm_lang$core$Json_Encode$string(
 					_user$project$Domain_Core$idText(request.profileId))
 			},
@@ -17492,7 +17492,7 @@ var _user$project$Services_Encoders$encodeThumbnailUpdate = function (request) {
 				ctor: '::',
 				_0: {
 					ctor: '_Tuple2',
-					_0: 'ImageUrl',
+					_0: 'imageUrl',
 					_1: _elm_lang$core$Json_Encode$string(
 						_user$project$Domain_Core$urlText(request.imageUrl))
 				},
@@ -17506,28 +17506,28 @@ var _user$project$Services_Encoders$encodeRegistration = function (form) {
 			ctor: '::',
 			_0: {
 				ctor: '_Tuple2',
-				_0: 'FirstName',
+				_0: 'firstName',
 				_1: _elm_lang$core$Json_Encode$string(form.firstName)
 			},
 			_1: {
 				ctor: '::',
 				_0: {
 					ctor: '_Tuple2',
-					_0: 'LastName',
+					_0: 'lastName',
 					_1: _elm_lang$core$Json_Encode$string(form.lastName)
 				},
 				_1: {
 					ctor: '::',
 					_0: {
 						ctor: '_Tuple2',
-						_0: 'Email',
+						_0: 'email',
 						_1: _elm_lang$core$Json_Encode$string(form.email)
 					},
 					_1: {
 						ctor: '::',
 						_0: {
 							ctor: '_Tuple2',
-							_0: 'Password',
+							_0: 'password',
 							_1: _elm_lang$core$Json_Encode$string(form.password)
 						},
 						_1: {ctor: '[]'}
@@ -17540,44 +17540,44 @@ var _user$project$Services_Encoders$encodeRegistration = function (form) {
 var _user$project$Services_Decoders$thumbnailDecoder = A3(
 	_elm_lang$core$Json_Decode$map2,
 	_user$project$Services_Adapter$JsonThumbnail,
-	A2(_elm_lang$core$Json_Decode$field, 'ImageUrl', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'Platform', _elm_lang$core$Json_Decode$string));
+	A2(_elm_lang$core$Json_Decode$field, 'imageUrl', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'platform', _elm_lang$core$Json_Decode$string));
 var _user$project$Services_Decoders$topicDecoder = A3(
 	_elm_lang$core$Json_Decode$map2,
 	_user$project$Services_Adapter$JsonTopic,
-	A2(_elm_lang$core$Json_Decode$field, 'Name', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'IsFeatured', _elm_lang$core$Json_Decode$bool));
+	A2(_elm_lang$core$Json_Decode$field, 'name', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'isFeatured', _elm_lang$core$Json_Decode$bool));
 var _user$project$Services_Decoders$linkDecoder = A8(
 	_elm_lang$core$Json_Decode$map7,
 	_user$project$Services_Adapter$JsonLink,
-	A2(_elm_lang$core$Json_Decode$field, 'Id', _elm_lang$core$Json_Decode$int),
-	A2(_elm_lang$core$Json_Decode$field, 'ProfileId', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'Title', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'Url', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'ContentType', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int),
+	A2(_elm_lang$core$Json_Decode$field, 'profileId', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'url', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'contentType', _elm_lang$core$Json_Decode$string),
 	A2(
 		_elm_lang$core$Json_Decode$field,
-		'Topics',
+		'topics',
 		_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$topicDecoder)),
-	A2(_elm_lang$core$Json_Decode$field, 'IsFeatured', _elm_lang$core$Json_Decode$bool));
+	A2(_elm_lang$core$Json_Decode$field, 'isFeatured', _elm_lang$core$Json_Decode$bool));
 var _user$project$Services_Decoders$portfolioDecoder = A5(
 	_elm_lang$core$Json_Decode$map4,
 	_user$project$Services_Adapter$JsonPortfolio,
 	A2(
 		_elm_lang$core$Json_Decode$field,
-		'Answers',
+		'answers',
 		_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$linkDecoder)),
 	A2(
 		_elm_lang$core$Json_Decode$field,
-		'Articles',
+		'articles',
 		_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$linkDecoder)),
 	A2(
 		_elm_lang$core$Json_Decode$field,
-		'Videos',
+		'videos',
 		_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$linkDecoder)),
 	A2(
 		_elm_lang$core$Json_Decode$field,
-		'Podcasts',
+		'podcasts',
 		_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$linkDecoder)));
 var _user$project$Services_Decoders$providerLinksDecoder = A2(
 	_elm_lang$core$Json_Decode$map,
@@ -17587,7 +17587,7 @@ var _user$project$Services_Decoders$providerLinksDecoder = A2(
 		_user$project$Services_Adapter$JsonLinkFields,
 		A2(
 			_elm_lang$core$Json_Decode$field,
-			'Links',
+			'links',
 			_elm_lang$core$Json_Decode$list(
 				_elm_lang$core$Json_Decode$lazy(
 					function (_p0) {
@@ -17596,26 +17596,26 @@ var _user$project$Services_Decoders$providerLinksDecoder = A2(
 var _user$project$Services_Decoders$sourceDecoder = A6(
 	_elm_lang$core$Json_Decode$map5,
 	_user$project$Services_Adapter$JsonSource,
-	A2(_elm_lang$core$Json_Decode$field, 'Id', _elm_lang$core$Json_Decode$int),
-	A2(_elm_lang$core$Json_Decode$field, 'ProfileId', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'Platform', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'AccessId', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int),
+	A2(_elm_lang$core$Json_Decode$field, 'profileId', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'platform', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'accessId', _elm_lang$core$Json_Decode$string),
 	A2(
 		_elm_lang$core$Json_Decode$field,
-		'Links',
+		'links',
 		_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$linkDecoder)));
 var _user$project$Services_Decoders$profileDecoder = A8(
 	_elm_lang$core$Json_Decode$map7,
 	_user$project$Services_Adapter$JsonProfile,
-	A2(_elm_lang$core$Json_Decode$field, 'Id', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'FirstName', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'LastName', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'Email', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'ImageUrl', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'Bio', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'firstName', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'lastName', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'email', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'imageUrl', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'bio', _elm_lang$core$Json_Decode$string),
 	A2(
 		_elm_lang$core$Json_Decode$field,
-		'Sources',
+		'sources',
 		_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$sourceDecoder)));
 var _user$project$Services_Decoders$providerDecoder = A2(
 	_elm_lang$core$Json_Decode$map,
@@ -17623,34 +17623,34 @@ var _user$project$Services_Decoders$providerDecoder = A2(
 	A7(
 		_elm_lang$core$Json_Decode$map6,
 		_user$project$Services_Adapter$JsonProviderFields,
-		A2(_elm_lang$core$Json_Decode$field, 'Profile', _user$project$Services_Decoders$profileDecoder),
+		A2(_elm_lang$core$Json_Decode$field, 'profile', _user$project$Services_Decoders$profileDecoder),
 		A2(
 			_elm_lang$core$Json_Decode$field,
-			'Topics',
+			'topics',
 			_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$topicDecoder)),
-		A2(_elm_lang$core$Json_Decode$field, 'Portfolio', _user$project$Services_Decoders$portfolioDecoder),
+		A2(_elm_lang$core$Json_Decode$field, 'portfolio', _user$project$Services_Decoders$portfolioDecoder),
 		A2(
 			_elm_lang$core$Json_Decode$field,
-			'RecentLinks',
+			'recentLinks',
 			_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$linkDecoder)),
 		A2(
 			_elm_lang$core$Json_Decode$field,
-			'Subscriptions',
+			'subscriptions',
 			_elm_lang$core$Json_Decode$list(_elm_lang$core$Json_Decode$string)),
 		A2(
 			_elm_lang$core$Json_Decode$field,
-			'Followers',
+			'followers',
 			_elm_lang$core$Json_Decode$list(_elm_lang$core$Json_Decode$string))));
 var _user$project$Services_Decoders$bootstrapDecoder = A3(
 	_elm_lang$core$Json_Decode$map2,
 	_user$project$Services_Adapter$JsonBootstrap,
 	A2(
 		_elm_lang$core$Json_Decode$field,
-		'Providers',
+		'providers',
 		_elm_lang$core$Json_Decode$list(_user$project$Services_Decoders$providerDecoder)),
 	A2(
 		_elm_lang$core$Json_Decode$field,
-		'Platforms',
+		'platforms',
 		_elm_lang$core$Json_Decode$list(_elm_lang$core$Json_Decode$string)));
 
 var _user$project$Services_Gateway$baseUrl = 'http://localhost:5000/';
@@ -23012,7 +23012,6 @@ var _user$project$Home$navigate = F3(
 									_user$project$Home$NavigateToProviderResponse)
 							};
 						case 'portal':
-							var profileEditor = _user$project$Domain_Core$initProfileEditor;
 							var portfolio = _user$project$Domain_Core$initPortfolio;
 							var filtered = _user$project$Domain_Core$initPortfolio;
 							var portal = model.portal;
@@ -23022,6 +23021,17 @@ var _user$project$Home$navigate = F3(
 								profile,
 								{
 									id: _user$project$Domain_Core$Id(_p9._1._0)
+								});
+							var profileEditor = _elm_lang$core$Native_Utils.update(
+								_user$project$Domain_Core$initProfileEditor,
+								{
+									provider: _elm_lang$core$Native_Utils.update(
+										provider,
+										{
+											profile: _elm_lang$core$Native_Utils.update(
+												_user$project$Domain_Core$initProfile,
+												{id: profile.id, firstName: profile.firstName, lastName: profile.lastName, email: profile.email, imageUrl: profile.imageUrl})
+										})
 								});
 							var login = model.login;
 							var updatedModel = _elm_lang$core$Native_Utils.update(
@@ -23619,8 +23629,8 @@ var _user$project$Home$onNewLink = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1144, column: 25},
-								end: {line: 1144, column: 36}
+								start: {line: 1143, column: 25},
+								end: {line: 1143, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p26._0),
 						{ctor: '_Tuple2', _0: model, _1: newLinkCmd});
@@ -23728,8 +23738,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1225, column: 25},
-								end: {line: 1225, column: 36}
+								start: {line: 1224, column: 25},
+								end: {line: 1224, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p33._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -23769,8 +23779,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1245, column: 25},
-								end: {line: 1245, column: 36}
+								start: {line: 1244, column: 25},
+								end: {line: 1244, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p35._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -24795,8 +24805,7 @@ var _user$project$Home$update = F2(
 													subscriptions: subscriptionIds,
 													portfolio: _user$project$Domain_Core$initPortfolio,
 													recentLinks: {ctor: '[]'}
-												}),
-											profileEditor: _user$project$Domain_Core$initProfileEditor
+												})
 										})
 								}),
 							_1: _elm_lang$core$Platform_Cmd$none
@@ -24815,8 +24824,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 594, column: 17},
-								end: {line: 594, column: 28}
+								start: {line: 593, column: 17},
+								end: {line: 593, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p42._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
@@ -24850,8 +24859,8 @@ var _user$project$Home$update = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 621, column: 17},
-								end: {line: 621, column: 28}
+								start: {line: 620, column: 17},
+								end: {line: 620, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p42._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});

@@ -573,7 +573,6 @@ update msg model =
                                                     , portfolio = initPortfolio
                                                     , recentLinks = []
                                                 }
-                                            , profileEditor = initProfileEditor
                                         }
                                   }
                                 , Cmd.none
@@ -2089,7 +2088,19 @@ navigate msg model location =
                     { profile | id = Id id }
 
                 profileEditor =
-                    initProfileEditor
+                    { initProfileEditor
+                        | provider =
+                            { provider
+                                | profile =
+                                    { initProfile
+                                        | id = profile.id
+                                        , firstName = profile.firstName
+                                        , lastName = profile.lastName
+                                        , email = profile.email
+                                        , imageUrl = profile.imageUrl
+                                    }
+                            }
+                    }
 
                 updatedModel =
                     { model
