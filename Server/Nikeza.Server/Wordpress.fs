@@ -43,15 +43,19 @@ module Nikeza.Server.WordPress
                             |> suggestionsFromText 
                             |> List.map (fun n -> {Id= -1; Name=n; IsFeatured=false})
 
-        let topics = List.ofSeq post.Tags 
-                     |> List.map stringToTopic 
-                     |> List.append derivedTopics 
-                     |> Set.ofList 
-                     |> Set.toList
-        
+        let topics = 
+            post.Tags 
+             |> List.ofSeq
+             |> List.map stringToTopic 
+             |> List.append derivedTopics 
+             |> Set.ofList 
+             |> Set.toList
+
+        System.Diagnostics.Debug.WriteLine(post.title)
+
         { Id= -1
           ProfileId= profileId
-          Title= post.title // |> replaceHtmlCodes
+          Title= post.title |> replaceHtmlCodes
           Description= ""
           Url= post.URL
           Topics= topics

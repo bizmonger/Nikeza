@@ -49,7 +49,7 @@ module StackOverflow =
     let private toLink profileId item =
         { Id=          -1
           ProfileId=   profileId
-          Title=       item.title // |> replaceHtmlCodes
+          Title=       item.title |> replaceHtmlCodes
           Description= ""
           Url=         item.link
           Topics=      item.tags |> List.map (fun t -> { Id= -1; Name= t; IsFeatured= false })

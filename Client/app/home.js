@@ -21741,14 +21741,29 @@ var _user$project$Controls_Sources$update = F2(
 				}
 			default:
 				if (_p0._0.ctor === 'Ok') {
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								sources: A2(
+									_elm_lang$core$List$filter,
+									function (s) {
+										return !_elm_lang$core$Native_Utils.eq(
+											_user$project$Domain_Core$idText(s.id),
+											_p0._0._0);
+									},
+									model.sources)
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
 				} else {
 					return A2(
 						_elm_lang$core$Native_Utils.crash(
 							'Controls.Sources',
 							{
-								start: {line: 76, column: 17},
-								end: {line: 76, column: 28}
+								start: {line: 75, column: 17},
+								end: {line: 75, column: 28}
 							}),
 						_elm_lang$core$Basics$toString(_p0._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});

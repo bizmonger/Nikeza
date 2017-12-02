@@ -21,7 +21,7 @@ module Nikeza.Server.RSSFeed
 
             {   Id=          -1
                 ProfileId=   user.ProfileId
-                Title=       item.Element(XName.Get("title")).Value // |> replaceHtmlCodes
+                Title=       item.Element(XName.Get("title")).Value |> replaceHtmlCodes
                 Url=         item.Element(XName.Get("link")).Value
                 Description= item.Element(XName.Get("description")).Value
                 ContentType= Podcast |> contentTypeToString
