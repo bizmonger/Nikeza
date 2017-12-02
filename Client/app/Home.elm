@@ -92,6 +92,7 @@ type Msg
     | EditProfileAction EditProfile.Msg
     | ProviderContentTypeLinksAction ProviderContentTypeLinks.Msg
     | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
+    | ViewPortfolioResponse (Result Http.Error JsonProvider)
     | ThumbnailResponse (Result Http.Error JsonThumbnail)
     | SaveThumbnailResponse (Result Http.Error String)
     | ProvidersResponse (Result Http.Error (List JsonProvider))
@@ -259,6 +260,44 @@ update msg model =
 
                     Err _ ->
                         ( model, Cmd.none )
+
+            ViewPortfolioResponse response ->
+                case response of
+                    Ok jsonProvider ->
+                        let
+                            provider =
+                                jsonProvider |> toProvider
+
+                            portal =
+                                model.portal
+
+                            profile =
+                                provider.profile
+
+                            filtered =
+                                { answers = provider.filteredPortfolio |> getLinks Answer |> List.filter (\l -> l.isFeatured)
+                                , articles = provider.filteredPortfolio |> getLinks Article |> List.filter (\l -> l.isFeatured)
+                                , videos = provider.filteredPortfolio |> getLinks Video |> List.filter (\l -> l.isFeatured)
+                                , podcasts = provider.filteredPortfolio |> getLinks Podcast |> List.filter (\l -> l.isFeatured)
+                                , topics = provider.filteredPortfolio.topics
+                                }
+
+                            profileEditor =
+                                initProfileEditor
+
+                            updatedModel =
+                                { model
+                                    | portal =
+                                        { portal
+                                            | provider = { provider | filteredPortfolio = filtered }
+                                            , profileEditor = profileEditor
+                                        }
+                                }
+                        in
+                            ( updatedModel, Cmd.none )
+
+                    Err reason ->
+                        Debug.crash (toString reason) ( model, Cmd.none )
 
             NavigateToProviderResponse response ->
                 case response of
@@ -432,8 +471,22 @@ update msg model =
                 let
                     portal =
                         model.portal
+
+                    provider =
+                        portal.provider
                 in
-                    ( { model | portal = { portal | requested = Domain.AddLink } }, Cmd.none )
+                    ( { model
+                        | portal =
+                            { portal
+                                | provider = { provider | portfolio = initPortfolio, recentLinks = [] }
+                                , requested = Domain.AddLink
+                            }
+                        , portfolioSearch = initPortfolioSearch
+                        , scopedProviders = []
+                        , searchResult = []
+                      }
+                    , Cmd.none
+                    )
 
             ViewPortfolio ->
                 let
@@ -465,7 +518,7 @@ update msg model =
                                                 }
                                         }
                                   }
-                                , Cmd.none
+                                , runtime.provider provider.profile.id ViewPortfolioResponse
                                 )
 
                         _ ->
@@ -512,15 +565,22 @@ update msg model =
                                 ( { model
                                     | scopedProviders = subscriptions
                                     , searchResult = subscriptions
-                                    , portal = { portal | provider = { provider | subscriptions = subscriptionIds } }
+                                    , portal =
+                                        { portal
+                                            | provider =
+                                                { provider
+                                                    | subscriptions = subscriptionIds
+                                                    , portfolio = initPortfolio
+                                                    , recentLinks = []
+                                                }
+                                            , profileEditor = initProfileEditor
+                                        }
                                   }
                                 , Cmd.none
-                                  --runtime.providers ProvidersResponse
                                 )
                             else
                                 ( model
                                 , Cmd.none
-                                  --runtime.providers ProvidersResponse
                                 )
                     else
                         ( { model
@@ -581,11 +641,18 @@ update msg model =
                     portal =
                         model.portal
 
+                    provider =
+                        portal.provider
+
                     profile =
-                        portal.provider.profile
+                        provider.profile
                 in
                     ( { model
-                        | portal = { portal | requested = Domain.ViewRecent }
+                        | portal =
+                            { portal
+                                | provider = { provider | portfolio = initPortfolio }
+                                , requested = Domain.ViewRecent
+                            }
                       }
                     , runtime.subscriptions profile.id SubscriptionsResponse
                     )
@@ -1376,18 +1443,25 @@ applyToPortal provider model content =
 
 
 render : Provider -> Html Msg -> List Provider -> Portal -> Html Msg
-render provider content portal providers =
-    table []
-        [ tr []
-            [ td []
-                [ table [ class "portalLeftRegion" ]
-                    [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| urlText <| provider.profile.imageUrl ] [] ] ]
-                    , tr [] [ td [] <| renderNavigation providers portal ]
+render provider content providers portal =
+    let
+        profile =
+            provider.profile
+
+        filteredProviders =
+            providers |> List.filter (\p -> p.profile.id /= profile.id)
+    in
+        table []
+            [ tr []
+                [ td []
+                    [ table [ class "portalLeftRegion" ]
+                        [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| urlText <| provider.profile.imageUrl ] [] ] ]
+                        , tr [] [ td [] <| renderNavigation portal filteredProviders ]
+                        ]
                     ]
+                , td [] [ content ]
                 ]
-            , td [] [ content ]
             ]
-        ]
 
 
 headerContent : Model -> Html Msg
@@ -1433,7 +1507,7 @@ headerContent model =
 footerContent : Html Msg
 footerContent =
     footer [ class "copyright" ]
-        [ a [ href "mailto:scott.nimrod@bizmonger.net", target "_blank" ] [ text "Bizmonger" ] ]
+        [ a [ href "mailto:scott.nimrod@bizmonger.net", target "_blank" ] [ text "Feedback" ] ]
 
 
 providersUI : Maybe Provider -> Bool -> List Provider -> Html Msg
@@ -1670,7 +1744,7 @@ recentLinks providers =
 recentLinksContent : Id -> List Provider -> Html Msg
 recentLinksContent profileId providers =
     providers
-        |> List.filter (\p -> p.recentLinks /= [])
+        |> List.filter (\p -> p.recentLinks /= [] && p.profile.id /= profileId)
         |> recentProvidersUI profileId
 
 
@@ -1695,7 +1769,7 @@ searchProvidersUI loggedIn showSubscriptionState placeHolder providers =
 
 
 renderNavigation : Portal -> List Provider -> List (Html Msg)
-renderNavigation portal subscriptions =
+renderNavigation portal providers =
     let
         links =
             portal.provider.portfolio
@@ -1710,7 +1784,7 @@ renderNavigation portal subscriptions =
             "Sources " ++ "(" ++ (toString <| List.length profile.sources) ++ ")"
 
         recentCount =
-            recentLinks subscriptions |> List.length
+            providers |> recentLinks |> List.length
 
         newText =
             "Recent "
@@ -2011,29 +2085,39 @@ navigate msg model location =
                     provider.profile
 
                 filtered =
-                    { answers = provider.filteredPortfolio |> getLinks Answer |> List.filter (\l -> l.isFeatured)
-                    , articles = provider.filteredPortfolio |> getLinks Article |> List.filter (\l -> l.isFeatured)
-                    , videos = provider.filteredPortfolio |> getLinks Video |> List.filter (\l -> l.isFeatured)
-                    , podcasts = provider.filteredPortfolio |> getLinks Podcast |> List.filter (\l -> l.isFeatured)
-                    , topics = provider.filteredPortfolio.topics
-                    }
+                    initPortfolio
 
+                portfolio =
+                    initPortfolio
+
+                -- { answers = provider.filteredPortfolio |> getLinks Answer |> List.filter (\l -> l.isFeatured)
+                -- , articles = provider.filteredPortfolio |> getLinks Article |> List.filter (\l -> l.isFeatured)
+                -- , videos = provider.filteredPortfolio |> getLinks Video |> List.filter (\l -> l.isFeatured)
+                -- , podcasts = provider.filteredPortfolio |> getLinks Podcast |> List.filter (\l -> l.isFeatured)
+                -- , topics = provider.filteredPortfolio.topics
+                -- }
                 updatedProfile =
                     { profile | id = Id id }
 
                 profileEditor =
-                    { provider = { provider | profile = updatedProfile, filteredPortfolio = filtered }
-                    , chosenTopics = provider.topics
-                    , currentTopic = initTopic
-                    , topicSuggestions = []
-                    }
+                    initProfileEditor
 
+                -- { provider = { provider | profile = updatedProfile, filteredPortfolio = filtered }
+                -- , chosenTopics = provider.topics
+                -- , currentTopic = initTopic
+                -- , topicSuggestions = []
+                -- }
                 updatedModel =
                     { model
                         | login = { login | loggedIn = True }
                         , portal =
                             { portal
-                                | provider = { provider | profile = updatedProfile, filteredPortfolio = filtered }
+                                | provider =
+                                    { provider
+                                        | profile = updatedProfile
+                                        , filteredPortfolio = filtered
+                                        , portfolio = portfolio
+                                    }
                                 , profileEditor = profileEditor
                                 , requested =
                                     if
@@ -2045,6 +2129,8 @@ navigate msg model location =
                                     else
                                         Domain.ViewRecent
                             }
+                        , scopedProviders = []
+                        , searchResult = []
                         , currentRoute = location
                     }
             in

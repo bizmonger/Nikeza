@@ -7,7 +7,6 @@ import Services.Decoders exposing (..)
 import String exposing (..)
 import Http exposing (getString, Request, expectStringResponse, header)
 import Json.Decode as Decode exposing (Decoder, field)
-import Json.Encode as Encode
 
 
 baseUrl : String
@@ -70,18 +69,6 @@ thumbnail platform accessId msg =
             Http.get url thumbnailDecoder
     in
         Http.send msg request
-
-
-
--- recentLinks : Id -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
--- recentLinks profileId msg =
---     let
---         url =
---             baseUrl ++ "recent"
---         request =
---             Http.get url (Decode.list linkDecoder)
---     in
---         Http.send msg request
 
 
 recentLinkProviders : Id -> (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
