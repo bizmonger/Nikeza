@@ -83,7 +83,12 @@ update msg model =
                     ( { model | currentTopic = currentTopic }, Cmd.none )
 
             InputTopic v ->
-                ( { model | currentTopic = Topic v True }, runtime.suggestedTopics v TopicSuggestionResponse )
+                let
+                    formattedInput =
+                        String.split " " v
+                            |> String.join "-"
+                in
+                    ( { model | currentTopic = Topic formattedInput True }, runtime.suggestedTopics formattedInput TopicSuggestionResponse )
 
             KeyDown key ->
                 if key == 13 then

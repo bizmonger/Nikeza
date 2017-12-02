@@ -578,9 +578,7 @@ update msg model =
                                 , Cmd.none
                                 )
                             else
-                                ( model
-                                , Cmd.none
-                                )
+                                ( model, Cmd.none )
                     else
                         ( { model
                             | scopedProviders = subscriptions
