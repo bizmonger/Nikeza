@@ -34,14 +34,14 @@ let rec readInLinks links (reader:SqlDataReader) = reader.Read() |> function
 
     | true ->
         let link : Link = { 
-              Id=          reader.GetInt32  (0)
-              ProfileId=   reader.GetInt32  (1) |> string
-              Title=       reader.GetString (2)
-              Description= reader.GetString (3)
-              Url=         reader.GetString (4)
-              Topics=      []
-              ContentType= reader.GetInt32  (5) |> contentTypeIdToString
-              IsFeatured=  reader.GetBoolean(6)
+              Id=          reader.GetInt32   (0)
+              ProfileId=   reader.GetInt32   (1) |> string
+              Title=       reader.GetString  (2)
+              Description= reader.GetString  (3)
+              Url=         reader.GetString  (4)
+              Topics=      []                
+              ContentType= reader.GetInt32   (5) |> contentTypeIdToString
+              IsFeatured=  reader.GetBoolean (6)
               Timestamp=   reader.GetDateTime(7)
         }
         

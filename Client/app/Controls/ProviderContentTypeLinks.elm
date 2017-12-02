@@ -18,43 +18,30 @@ update msg provider =
                 pendingLinks =
                     provider.portfolio
 
-                removeLink linkToRemove links =
-                    links |> List.filter (\l -> l.title /= linkToRemove.title)
-
                 setFeaturedLink l =
                     if l.title /= link.title then
                         l
                     else
                         { link | isFeatured = isFeatured }
+
+                portfolio =
+                    provider.portfolio
+
+                setFeaturedLinks contentTypeLinks =
+                    contentTypeLinks |> List.map setFeaturedLink
             in
                 case link.contentType of
                     Article ->
-                        let
-                            links =
-                                provider.portfolio.articles |> List.map setFeaturedLink
-                        in
-                            { provider | portfolio = { pendingLinks | articles = links } }
+                        { provider | portfolio = { pendingLinks | articles = setFeaturedLinks portfolio.articles } }
 
                     Video ->
-                        let
-                            links =
-                                provider.portfolio.videos |> List.map setFeaturedLink
-                        in
-                            { provider | portfolio = { pendingLinks | videos = links } }
+                        { provider | portfolio = { pendingLinks | videos = setFeaturedLinks portfolio.videos } }
 
                     Podcast ->
-                        let
-                            links =
-                                provider.portfolio.podcasts |> List.map setFeaturedLink
-                        in
-                            { provider | portfolio = { pendingLinks | podcasts = links } }
+                        { provider | portfolio = { pendingLinks | podcasts = setFeaturedLinks portfolio.podcasts } }
 
                     Answer ->
-                        let
-                            links =
-                                provider.portfolio.answers |> List.map setFeaturedLink
-                        in
-                            { provider | portfolio = { pendingLinks | answers = links } }
+                        { provider | portfolio = { pendingLinks | answers = setFeaturedLinks portfolio.answers } }
 
                     All ->
                         provider

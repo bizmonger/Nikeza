@@ -20787,58 +20787,57 @@ var _user$project$Controls_ProviderContentTypeLinks$update = F2(
 	function (msg, provider) {
 		var _p0 = msg;
 		var _p2 = _p0._0._0;
+		var portfolio = provider.portfolio;
 		var setFeaturedLink = function (l) {
 			return (!_elm_lang$core$Native_Utils.eq(l.title, _p2.title)) ? l : _elm_lang$core$Native_Utils.update(
 				_p2,
 				{isFeatured: _p0._0._1});
 		};
-		var removeLink = F2(
-			function (linkToRemove, links) {
-				return A2(
-					_elm_lang$core$List$filter,
-					function (l) {
-						return !_elm_lang$core$Native_Utils.eq(l.title, linkToRemove.title);
-					},
-					links);
-			});
+		var setFeaturedLinks = function (contentTypeLinks) {
+			return A2(_elm_lang$core$List$map, setFeaturedLink, contentTypeLinks);
+		};
 		var pendingLinks = provider.portfolio;
 		var _p1 = _p2.contentType;
 		switch (_p1.ctor) {
 			case 'Article':
-				var links = A2(_elm_lang$core$List$map, setFeaturedLink, provider.portfolio.articles);
 				return _elm_lang$core$Native_Utils.update(
 					provider,
 					{
 						portfolio: _elm_lang$core$Native_Utils.update(
 							pendingLinks,
-							{articles: links})
+							{
+								articles: setFeaturedLinks(portfolio.articles)
+							})
 					});
 			case 'Video':
-				var links = A2(_elm_lang$core$List$map, setFeaturedLink, provider.portfolio.videos);
 				return _elm_lang$core$Native_Utils.update(
 					provider,
 					{
 						portfolio: _elm_lang$core$Native_Utils.update(
 							pendingLinks,
-							{videos: links})
+							{
+								videos: setFeaturedLinks(portfolio.videos)
+							})
 					});
 			case 'Podcast':
-				var links = A2(_elm_lang$core$List$map, setFeaturedLink, provider.portfolio.podcasts);
 				return _elm_lang$core$Native_Utils.update(
 					provider,
 					{
 						portfolio: _elm_lang$core$Native_Utils.update(
 							pendingLinks,
-							{podcasts: links})
+							{
+								podcasts: setFeaturedLinks(portfolio.podcasts)
+							})
 					});
 			case 'Answer':
-				var links = A2(_elm_lang$core$List$map, setFeaturedLink, provider.portfolio.answers);
 				return _elm_lang$core$Native_Utils.update(
 					provider,
 					{
 						portfolio: _elm_lang$core$Native_Utils.update(
 							pendingLinks,
-							{answers: links})
+							{
+								answers: setFeaturedLinks(portfolio.answers)
+							})
 					});
 			case 'All':
 				return provider;
@@ -22875,6 +22874,7 @@ var _user$project$Home$onUpdateProviderContentTypeLinks = F3(
 		var _p6 = subMsg;
 		var _p8 = _p6._0._0;
 		var _p7 = _p6._0._1;
+		var filteredPortfolio = provider.filteredPortfolio;
 		var updatedLink = _elm_lang$core$Native_Utils.update(
 			_p8,
 			{isFeatured: _p7});
@@ -22885,31 +22885,31 @@ var _user$project$Home$onUpdateProviderContentTypeLinks = F3(
 			},
 			updatedLink,
 			A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, provider.filteredPortfolio));
-		var filteredPortfolio = _p7 ? {
+		var updatedPortfolio = _p7 ? {
 			answers: A2(
 				_elm_lang$core$List$filter,
 				function (l) {
 					return _elm_lang$core$Native_Utils.eq(l.contentType, _user$project$Domain_Core$Answer);
 				},
-				{ctor: '::', _0: updatedLink, _1: filteredLinks}),
+				filteredLinks),
 			articles: A2(
 				_elm_lang$core$List$filter,
 				function (l) {
 					return _elm_lang$core$Native_Utils.eq(l.contentType, _user$project$Domain_Core$Article);
 				},
-				{ctor: '::', _0: updatedLink, _1: filteredLinks}),
+				filteredLinks),
 			podcasts: A2(
 				_elm_lang$core$List$filter,
 				function (l) {
 					return _elm_lang$core$Native_Utils.eq(l.contentType, _user$project$Domain_Core$Podcast);
 				},
-				{ctor: '::', _0: updatedLink, _1: filteredLinks}),
+				filteredLinks),
 			videos: A2(
 				_elm_lang$core$List$filter,
 				function (l) {
 					return _elm_lang$core$Native_Utils.eq(l.contentType, _user$project$Domain_Core$Video);
 				},
-				{ctor: '::', _0: updatedLink, _1: filteredLinks}),
+				filteredLinks),
 			topics: model.portal.provider.filteredPortfolio.topics
 		} : {
 			answers: A2(
@@ -22940,17 +22940,7 @@ var _user$project$Home$onUpdateProviderContentTypeLinks = F3(
 		};
 		return {
 			ctor: '_Tuple2',
-			_0: _elm_lang$core$Native_Utils.update(
-				model,
-				{
-					portal: _elm_lang$core$Native_Utils.update(
-						portal,
-						{
-							provider: _elm_lang$core$Native_Utils.update(
-								provider,
-								{filteredPortfolio: filteredPortfolio})
-						})
-				}),
+			_0: model,
 			_1: A2(
 				_user$project$Settings$runtime.featureLink,
 				{linkId: _p8.id, isFeatured: _p7},
@@ -23629,8 +23619,8 @@ var _user$project$Home$onNewLink = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1143, column: 25},
-								end: {line: 1143, column: 36}
+								start: {line: 1144, column: 25},
+								end: {line: 1144, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p26._0),
 						{ctor: '_Tuple2', _0: model, _1: newLinkCmd});
@@ -23738,8 +23728,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1224, column: 25},
-								end: {line: 1224, column: 36}
+								start: {line: 1225, column: 25},
+								end: {line: 1225, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p33._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -23779,8 +23769,8 @@ var _user$project$Home$onSourcesUpdated = F2(
 						_elm_lang$core$Native_Utils.crash(
 							'Home',
 							{
-								start: {line: 1244, column: 25},
-								end: {line: 1244, column: 36}
+								start: {line: 1245, column: 25},
+								end: {line: 1245, column: 36}
 							}),
 						_elm_lang$core$Basics$toString(_p35._0),
 						{ctor: '_Tuple2', _0: model, _1: sourceCmd});
@@ -25278,7 +25268,7 @@ var _user$project$Home$homePage = function (model) {
 	return A2(_user$project$Home$renderPage, mainContent, model);
 };
 var _user$project$Home$renderNavigation = F2(
-	function (portal, providers) {
+	function (portal, subscriptions) {
 		var noLinks = _elm_lang$core$List$isEmpty(
 			A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, portal.provider.portfolio));
 		var displayNavigation = function (buttons) {
@@ -25301,18 +25291,9 @@ var _user$project$Home$renderNavigation = F2(
 		var membersText = _p67._2;
 		var linkText = _p67._3;
 		var profileText = _p67._4;
+		var newText = 'Latest';
 		var recentCount = _elm_lang$core$List$length(
-			_user$project$Home$recentLinks(providers));
-		var newText = A2(
-			_elm_lang$core$Basics_ops['++'],
-			'Recent ',
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				'(',
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					_elm_lang$core$Basics$toString(recentCount),
-					')')));
+			_user$project$Home$recentLinks(subscriptions));
 		var profile = portal.provider.profile;
 		var sourcesText = A2(
 			_elm_lang$core$Basics_ops['++'],
@@ -27133,14 +27114,8 @@ var _user$project$Home$renderNavigation = F2(
 		return (needName && noLinks) ? displayNavigation(noSourcesNoLinks) : (((!portal.sourcesNavigation) && (!portal.portfolioNavigation)) ? displayNavigation(enableOnlySourcesAndLinks) : ((portal.sourcesNavigation && (!portal.portfolioNavigation)) ? displayNavigation(enableOnlySourcesAndLinks) : displayNavigation(allNavigation)));
 	});
 var _user$project$Home$render = F4(
-	function (provider, content, providers, portal) {
+	function (provider, content, subscriptions, portal) {
 		var profile = provider.profile;
-		var filteredProviders = A2(
-			_elm_lang$core$List$filter,
-			function (p) {
-				return !_elm_lang$core$Native_Utils.eq(p.profile.id, profile.id);
-			},
-			providers);
 		return A2(
 			_elm_lang$html$Html$table,
 			{ctor: '[]'},
@@ -27206,7 +27181,7 @@ var _user$project$Home$render = F4(
 													_0: A2(
 														_elm_lang$html$Html$td,
 														{ctor: '[]'},
-														A2(_user$project$Home$renderNavigation, portal, filteredProviders)),
+														A2(_user$project$Home$renderNavigation, portal, subscriptions)),
 													_1: {ctor: '[]'}
 												}),
 											_1: {ctor: '[]'}
@@ -27233,7 +27208,7 @@ var _user$project$Home$render = F4(
 var _user$project$Home$applyToPortal = F3(
 	function (provider, model, content) {
 		var portal = model.portal;
-		return _elm_lang$core$Native_Utils.eq(portal.provider, _user$project$Domain_Core$initProvider) ? A4(_user$project$Home$render, provider, content, model.providers, portal) : A4(_user$project$Home$render, portal.provider, content, model.providers, portal);
+		return _elm_lang$core$Native_Utils.eq(portal.provider, _user$project$Domain_Core$initProvider) ? A4(_user$project$Home$render, provider, content, model.scopedProviders, portal) : A4(_user$project$Home$render, portal.provider, content, model.scopedProviders, portal);
 	});
 var _user$project$Home$view = function (model) {
 	var _p71 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);

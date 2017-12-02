@@ -810,17 +810,20 @@ onUpdateProviderContentTypeLinks subMsg model linksfrom =
                     updatedLink =
                         { link | isFeatured = bit }
 
+                    filteredPortfolio =
+                        provider.filteredPortfolio
+
                     filteredLinks =
                         provider.filteredPortfolio
                             |> getLinks All
                             |> List.Extra.replaceIf (\l -> l.title == link.title) updatedLink
 
-                    filteredPortfolio =
+                    updatedPortfolio =
                         if bit then
-                            { answers = (updatedLink :: filteredLinks) |> List.filter (\l -> l.contentType == Answer)
-                            , articles = (updatedLink :: filteredLinks) |> List.filter (\l -> l.contentType == Article)
-                            , podcasts = (updatedLink :: filteredLinks) |> List.filter (\l -> l.contentType == Podcast)
-                            , videos = (updatedLink :: filteredLinks) |> List.filter (\l -> l.contentType == Video)
+                            { answers = filteredLinks |> List.filter (\l -> l.contentType == Answer)
+                            , articles = filteredLinks |> List.filter (\l -> l.contentType == Article)
+                            , podcasts = filteredLinks |> List.filter (\l -> l.contentType == Podcast)
+                            , videos = filteredLinks |> List.filter (\l -> l.contentType == Video)
                             , topics = model.portal.provider.filteredPortfolio.topics
                             }
                         else
@@ -831,9 +834,7 @@ onUpdateProviderContentTypeLinks subMsg model linksfrom =
                             , topics = model.portal.provider.filteredPortfolio.topics
                             }
                 in
-                    ( { model | portal = { portal | provider = { provider | filteredPortfolio = filteredPortfolio } } }
-                    , runtime.featureLink { linkId = link.id, isFeatured = bit } FeatureLinkResponse
-                    )
+                    ( model, runtime.featureLink { linkId = link.id, isFeatured = bit } FeatureLinkResponse )
 
 
 onEditProfile : EditProfile.Msg -> Model -> ( Model, Cmd Msg )
@@ -1437,26 +1438,23 @@ applyToPortal provider model content =
             model.portal
     in
         if portal.provider == initProvider then
-            portal |> render provider content model.providers
+            portal |> render provider content model.scopedProviders
         else
-            portal |> render portal.provider content model.providers
+            portal |> render portal.provider content model.scopedProviders
 
 
 render : Provider -> Html Msg -> List Provider -> Portal -> Html Msg
-render provider content providers portal =
+render provider content subscriptions portal =
     let
         profile =
             provider.profile
-
-        filteredProviders =
-            providers |> List.filter (\p -> p.profile.id /= profile.id)
     in
         table []
             [ tr []
                 [ td []
                     [ table [ class "portalLeftRegion" ]
                         [ tr [ class "bio" ] [ td [] [ img [ class "profile", src <| urlText <| provider.profile.imageUrl ] [] ] ]
-                        , tr [] [ td [] <| renderNavigation portal filteredProviders ]
+                        , tr [] [ td [] <| renderNavigation portal subscriptions ]
                         ]
                     ]
                 , td [] [ content ]
@@ -1769,7 +1767,7 @@ searchProvidersUI loggedIn showSubscriptionState placeHolder providers =
 
 
 renderNavigation : Portal -> List Provider -> List (Html Msg)
-renderNavigation portal providers =
+renderNavigation portal subscriptions =
     let
         links =
             portal.provider.portfolio
@@ -1784,13 +1782,10 @@ renderNavigation portal providers =
             "Sources " ++ "(" ++ (toString <| List.length profile.sources) ++ ")"
 
         recentCount =
-            providers |> recentLinks |> List.length
+            subscriptions |> recentLinks |> List.length
 
         newText =
-            "Recent "
-                ++ "("
-                ++ (recentCount |> toString)
-                ++ ")"
+            "Latest"
 
         ( portfolioText, subscriptionsText, membersText, linkText, profileText ) =
             ( "Portfolio", "Subscriptions", "Members", "Link", "Profile" )
@@ -2090,23 +2085,12 @@ navigate msg model location =
                 portfolio =
                     initPortfolio
 
-                -- { answers = provider.filteredPortfolio |> getLinks Answer |> List.filter (\l -> l.isFeatured)
-                -- , articles = provider.filteredPortfolio |> getLinks Article |> List.filter (\l -> l.isFeatured)
-                -- , videos = provider.filteredPortfolio |> getLinks Video |> List.filter (\l -> l.isFeatured)
-                -- , podcasts = provider.filteredPortfolio |> getLinks Podcast |> List.filter (\l -> l.isFeatured)
-                -- , topics = provider.filteredPortfolio.topics
-                -- }
                 updatedProfile =
                     { profile | id = Id id }
 
                 profileEditor =
                     initProfileEditor
 
-                -- { provider = { provider | profile = updatedProfile, filteredPortfolio = filtered }
-                -- , chosenTopics = provider.topics
-                -- , currentTopic = initTopic
-                -- , topicSuggestions = []
-                -- }
                 updatedModel =
                     { model
                         | login = { login | loggedIn = True }
