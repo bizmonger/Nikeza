@@ -6,11 +6,15 @@ let creatorEmail = "scott.nimrod@bizmonger.net"
 [<Literal>]
 let DefaultThumbnail = "http://www.ngu.edu/myimages/silhouette2230.jpg"
 
-[<Literal>]
-let KeyFile_YouTube = @"YouTube_APIKey.key"
 
 [<Literal>]
-let KeyFile_StackOverflow = @"StackOverflow_APIKey.key"
+let KeyFile_SqlConnection = "SqlConnectionString.key"
+
+[<Literal>]
+let KeyFile_YouTube = "YouTube_API.key"
+
+[<Literal>]
+let KeyFile_StackOverflow = "StackOverflow_API.key"
 
 [<Literal>]
 let KeyNotRequired = "no key provided"

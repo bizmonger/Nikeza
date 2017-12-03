@@ -10,17 +10,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\keys\StackOverflow_APIKey.key" Link="StackOverflow_APIKey.key">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Content Include="..\keys\SqlConnectionString.key" Link="SqlConnectionString.key">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\keys\Stackoverflow_APIKey_Description.key" Link="Stackoverflow_APIKey_Description.key">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Content Include="..\keys\StackOverflow_API.key" Link="StackOverflow_API.key">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\keys\YouTube_APIKey.key" Link="YouTube_APIKey.key">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Content Include="..\keys\Stackoverflow_API_Description.key" Link="Stackoverflow_API_Description.key">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\keys\YouTube_API.key" Link="YouTube_API.key">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\keys\YouTube_ChannelId.key" Link="YouTube_ChannelId.key">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

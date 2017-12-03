@@ -51,8 +51,6 @@ module Nikeza.Server.WordPress
              |> Set.ofList 
              |> Set.toList
 
-        System.Diagnostics.Debug.WriteLine(post.title)
-
         { Id= -1
           ProfileId= profileId
           Title= post.title |> replaceHtmlCodes
