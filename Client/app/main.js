@@ -21962,13 +21962,13 @@ var _user$project$Controls_Sources$view = function (model) {
 		});
 };
 
-var _user$project$Home$tokenizeUrl = function (urlHash) {
+var _user$project$Main$tokenizeUrl = function (urlHash) {
 	return A2(
 		_elm_lang$core$List$drop,
 		1,
 		A2(_elm_lang$core$String$split, '/', urlHash));
 };
-var _user$project$Home$linksUI = function (links) {
+var _user$project$Main$linksUI = function (links) {
 	return A2(
 		_elm_lang$core$List$map,
 		function (link) {
@@ -22000,11 +22000,11 @@ var _user$project$Home$linksUI = function (links) {
 		},
 		A2(_elm_lang$core$List$take, 5, links));
 };
-var _user$project$Home$contentWithTopicUI = F5(
+var _user$project$Main$contentWithTopicUI = F5(
 	function (linksFrom, profileId, contentType, topic, links) {
 		return A2(
 			_elm_lang$core$List$append,
-			_user$project$Home$linksUI(links),
+			_user$project$Main$linksUI(links),
 			{
 				ctor: '::',
 				_0: A2(
@@ -22031,7 +22031,7 @@ var _user$project$Home$contentWithTopicUI = F5(
 				_1: {ctor: '[]'}
 			});
 	});
-var _user$project$Home$pageNotFound = A2(
+var _user$project$Main$pageNotFound = A2(
 	_elm_lang$html$Html$div,
 	{ctor: '[]'},
 	{
@@ -22039,7 +22039,7 @@ var _user$project$Home$pageNotFound = A2(
 		_0: _elm_lang$html$Html$text('Page not found'),
 		_1: {ctor: '[]'}
 	});
-var _user$project$Home$removeProvider = F2(
+var _user$project$Main$removeProvider = F2(
 	function (profileId, providers) {
 		return A2(
 			_elm_lang$core$List$filter,
@@ -22048,14 +22048,14 @@ var _user$project$Home$removeProvider = F2(
 			},
 			providers);
 	});
-var _user$project$Home$recentLinks = function (providers) {
+var _user$project$Main$recentLinks = function (providers) {
 	var onRecentLinks = function (provider) {
 		return (!_elm_lang$core$List$isEmpty(provider.recentLinks)) ? _elm_lang$core$Maybe$Just(provider.recentLinks) : _elm_lang$core$Maybe$Nothing;
 	};
 	return _elm_lang$core$List$concat(
 		A2(_elm_lang$core$List$filterMap, onRecentLinks, providers));
 };
-var _user$project$Home$providerTopicPage = F2(
+var _user$project$Main$providerTopicPage = F2(
 	function (linksfrom, model) {
 		var profileId = model.profile.id;
 		var contentTable = function (topic) {
@@ -22142,7 +22142,7 @@ var _user$project$Home$providerTopicPage = F2(
 												_elm_lang$html$Html$div,
 												{ctor: '[]'},
 												A5(
-													_user$project$Home$contentWithTopicUI,
+													_user$project$Main$contentWithTopicUI,
 													linksfrom,
 													profileId,
 													_user$project$Domain_Core$Answer,
@@ -22165,7 +22165,7 @@ var _user$project$Home$providerTopicPage = F2(
 													_elm_lang$html$Html$div,
 													{ctor: '[]'},
 													A5(
-														_user$project$Home$contentWithTopicUI,
+														_user$project$Main$contentWithTopicUI,
 														linksfrom,
 														profileId,
 														_user$project$Domain_Core$Article,
@@ -22238,7 +22238,7 @@ var _user$project$Home$providerTopicPage = F2(
 														_elm_lang$html$Html$div,
 														{ctor: '[]'},
 														A5(
-															_user$project$Home$contentWithTopicUI,
+															_user$project$Main$contentWithTopicUI,
 															linksfrom,
 															profileId,
 															_user$project$Domain_Core$Podcast,
@@ -22261,7 +22261,7 @@ var _user$project$Home$providerTopicPage = F2(
 															_elm_lang$html$Html$div,
 															{ctor: '[]'},
 															A5(
-																_user$project$Home$contentWithTopicUI,
+																_user$project$Main$contentWithTopicUI,
 																linksfrom,
 																profileId,
 																_user$project$Domain_Core$Video,
@@ -22422,10 +22422,10 @@ var _user$project$Home$providerTopicPage = F2(
 					_1: {ctor: '[]'}
 				});
 		} else {
-			return _user$project$Home$pageNotFound;
+			return _user$project$Main$pageNotFound;
 		}
 	});
-var _user$project$Home$footerContent = A2(
+var _user$project$Main$footerContent = A2(
 	_elm_lang$html$Html$footer,
 	{
 		ctor: '::',
@@ -22452,7 +22452,7 @@ var _user$project$Home$footerContent = A2(
 			}),
 		_1: {ctor: '[]'}
 	});
-var _user$project$Home$renderProfileBase = F2(
+var _user$project$Main$renderProfileBase = F2(
 	function (provider, linksContent) {
 		return A2(
 			_elm_lang$html$Html$table,
@@ -22670,7 +22670,7 @@ var _user$project$Home$renderProfileBase = F2(
 				_1: {ctor: '[]'}
 			});
 	});
-var _user$project$Home$filterProviders = F2(
+var _user$project$Main$filterProviders = F2(
 	function (matchValue, providers) {
 		var isMatch = function (name) {
 			return A2(
@@ -22691,11 +22691,11 @@ var _user$project$Home$filterProviders = F2(
 		};
 		return A2(_elm_lang$core$List$filter, onName, providers);
 	});
-var _user$project$Home$matchProviders = F2(
+var _user$project$Main$matchProviders = F2(
 	function (matchValue, providers) {
-		return A2(_user$project$Home$filterProviders, matchValue, providers);
+		return A2(_user$project$Main$filterProviders, matchValue, providers);
 	});
-var _user$project$Home$updatePortfolio = F2(
+var _user$project$Main$updatePortfolio = F2(
 	function (portfolio, addedLinks) {
 		var answers = A2(
 			_elm_lang$core$List$append,
@@ -22735,7 +22735,7 @@ var _user$project$Home$updatePortfolio = F2(
 				addedLinks));
 		return {topics: portfolio.topics, articles: articles, videos: videos, podcasts: podcasts, answers: answers};
 	});
-var _user$project$Home$onRemove = F2(
+var _user$project$Main$onRemove = F2(
 	function (model, sources) {
 		var provider = model.portal.provider;
 		var _p1 = {ctor: '_Tuple2', _0: provider.profile, _1: model.portal};
@@ -22761,7 +22761,7 @@ var _user$project$Home$onRemove = F2(
 			{portal: portal});
 		return {ctor: '_Tuple2', _0: newState, _1: _elm_lang$core$Platform_Cmd$none};
 	});
-var _user$project$Home$Model = function (a) {
+var _user$project$Main$Model = function (a) {
 	return function (b) {
 		return function (c) {
 			return function (d) {
@@ -22782,19 +22782,19 @@ var _user$project$Home$Model = function (a) {
 		};
 	};
 };
-var _user$project$Home$NavigateBack = {ctor: 'NavigateBack'};
-var _user$project$Home$Subscription = function (a) {
+var _user$project$Main$NavigateBack = {ctor: 'NavigateBack'};
+var _user$project$Main$Subscription = function (a) {
 	return {ctor: 'Subscription', _0: a};
 };
-var _user$project$Home$OnRegistration = function (a) {
+var _user$project$Main$OnRegistration = function (a) {
 	return {ctor: 'OnRegistration', _0: a};
 };
-var _user$project$Home$onRegistration = F2(
+var _user$project$Main$onRegistration = F2(
 	function (subMsg, model) {
 		var _p2 = A2(_user$project$Controls_Register$update, subMsg, model.registration);
 		var form = _p2._0;
 		var subCmd = _p2._1;
-		var registrationCmd = A2(_elm_lang$core$Platform_Cmd$map, _user$project$Home$OnRegistration, subCmd);
+		var registrationCmd = A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$OnRegistration, subCmd);
 		var _p3 = subMsg;
 		switch (_p3.ctor) {
 			case 'FirstNameInput':
@@ -22871,14 +22871,14 @@ var _user$project$Home$onRegistration = F2(
 				}
 		}
 	});
-var _user$project$Home$Register = {ctor: 'Register'};
-var _user$project$Home$Search = function (a) {
+var _user$project$Main$Register = {ctor: 'Register'};
+var _user$project$Main$Search = function (a) {
 	return {ctor: 'Search', _0: a};
 };
-var _user$project$Home$FeatureLinkResponse = function (a) {
+var _user$project$Main$FeatureLinkResponse = function (a) {
 	return {ctor: 'FeatureLinkResponse', _0: a};
 };
-var _user$project$Home$onUpdateProviderContentTypeLinks = F3(
+var _user$project$Main$onUpdateProviderContentTypeLinks = F3(
 	function (subMsg, model, linksfrom) {
 		var provider = function () {
 			var _p5 = linksfrom;
@@ -22962,31 +22962,31 @@ var _user$project$Home$onUpdateProviderContentTypeLinks = F3(
 			_1: A2(
 				_user$project$Settings$runtime.featureLink,
 				{linkId: _p8.id, isFeatured: _p7},
-				_user$project$Home$FeatureLinkResponse)
+				_user$project$Main$FeatureLinkResponse)
 		};
 	});
-var _user$project$Home$NavigateToProviderTopicResponse = function (a) {
+var _user$project$Main$NavigateToProviderTopicResponse = function (a) {
 	return {ctor: 'NavigateToProviderTopicResponse', _0: a};
 };
-var _user$project$Home$NavigateToProviderResponse = function (a) {
+var _user$project$Main$NavigateToProviderResponse = function (a) {
 	return {ctor: 'NavigateToProviderResponse', _0: a};
 };
-var _user$project$Home$NavigateToPortalProviderMemberTopicResponse = function (a) {
+var _user$project$Main$NavigateToPortalProviderMemberTopicResponse = function (a) {
 	return {ctor: 'NavigateToPortalProviderMemberTopicResponse', _0: a};
 };
-var _user$project$Home$NavigateToPortalProviderMemberResponse = function (a) {
+var _user$project$Main$NavigateToPortalProviderMemberResponse = function (a) {
 	return {ctor: 'NavigateToPortalProviderMemberResponse', _0: a};
 };
-var _user$project$Home$NavigateToPortalProviderTopicResponse = function (a) {
+var _user$project$Main$NavigateToPortalProviderTopicResponse = function (a) {
 	return {ctor: 'NavigateToPortalProviderTopicResponse', _0: a};
 };
-var _user$project$Home$NavigateToPortalResponse = function (a) {
+var _user$project$Main$NavigateToPortalResponse = function (a) {
 	return {ctor: 'NavigateToPortalResponse', _0: a};
 };
-var _user$project$Home$BootstrapResponse = function (a) {
+var _user$project$Main$BootstrapResponse = function (a) {
 	return {ctor: 'BootstrapResponse', _0: a};
 };
-var _user$project$Home$init = function (location) {
+var _user$project$Main$init = function (location) {
 	return {
 		ctor: '_Tuple2',
 		_0: {
@@ -23001,18 +23001,18 @@ var _user$project$Home$init = function (location) {
 			selectedProvider: _user$project$Domain_Core$initProvider,
 			portfolioSearch: _user$project$Domain_Core$initPortfolioSearch
 		},
-		_1: _user$project$Settings$runtime.bootstrap(_user$project$Home$BootstrapResponse)
+		_1: _user$project$Settings$runtime.bootstrap(_user$project$Main$BootstrapResponse)
 	};
 };
-var _user$project$Home$FollowersResponse = function (a) {
+var _user$project$Main$FollowersResponse = function (a) {
 	return {ctor: 'FollowersResponse', _0: a};
 };
-var _user$project$Home$SubscriptionsResponse = function (a) {
+var _user$project$Main$SubscriptionsResponse = function (a) {
 	return {ctor: 'SubscriptionsResponse', _0: a};
 };
-var _user$project$Home$navigate = F3(
+var _user$project$Main$navigate = F3(
 	function (msg, model, location) {
-		var _p9 = _user$project$Home$tokenizeUrl(location.hash);
+		var _p9 = _user$project$Main$tokenizeUrl(location.hash);
 		_v5_8:
 		do {
 			if ((_p9.ctor === '::') && (_p9._1.ctor === '::')) {
@@ -23027,7 +23027,7 @@ var _user$project$Home$navigate = F3(
 								_1: A2(
 									_user$project$Settings$runtime.provider,
 									_user$project$Domain_Core$Id(_p9._1._0),
-									_user$project$Home$NavigateToProviderResponse)
+									_user$project$Main$NavigateToProviderResponse)
 							};
 						case 'portal':
 							var portfolio = _user$project$Domain_Core$initPortfolio;
@@ -23080,7 +23080,7 @@ var _user$project$Home$navigate = F3(
 							return {
 								ctor: '_Tuple2',
 								_0: updatedModel,
-								_1: A2(_user$project$Settings$runtime.recentLinkProviders, updatedProfile.id, _user$project$Home$SubscriptionsResponse)
+								_1: A2(_user$project$Settings$runtime.recentLinkProviders, updatedProfile.id, _user$project$Main$SubscriptionsResponse)
 							};
 						default:
 							break _v5_8;
@@ -23101,7 +23101,7 @@ var _user$project$Home$navigate = F3(
 									_0: _elm_lang$core$Native_Utils.update(
 										model,
 										{currentRoute: location}),
-									_1: A2(_user$project$Settings$runtime.provider, providerId, _user$project$Home$NavigateToProviderTopicResponse)
+									_1: A2(_user$project$Settings$runtime.provider, providerId, _user$project$Main$NavigateToProviderTopicResponse)
 								};
 							case 'portal':
 								var _p11 = {
@@ -23116,7 +23116,7 @@ var _user$project$Home$navigate = F3(
 									_0: _elm_lang$core$Native_Utils.update(
 										model,
 										{currentRoute: location}),
-									_1: A2(_user$project$Settings$runtime.provider, providerId, _user$project$Home$NavigateToPortalProviderTopicResponse)
+									_1: A2(_user$project$Settings$runtime.provider, providerId, _user$project$Main$NavigateToPortalProviderTopicResponse)
 								};
 							default:
 								break _v5_8;
@@ -23136,7 +23136,7 @@ var _user$project$Home$navigate = F3(
 									_0: _elm_lang$core$Native_Utils.update(
 										model,
 										{currentRoute: location}),
-									_1: A2(_user$project$Settings$runtime.provider, providerId, _user$project$Home$NavigateToPortalProviderMemberTopicResponse)
+									_1: A2(_user$project$Settings$runtime.provider, providerId, _user$project$Main$NavigateToPortalProviderMemberTopicResponse)
 								};
 							} else {
 								break _v5_8;
@@ -23153,7 +23153,7 @@ var _user$project$Home$navigate = F3(
 											_1: A2(
 												_user$project$Settings$runtime.provider,
 												_user$project$Domain_Core$Id(_p9._1._0),
-												_user$project$Home$NavigateToProviderResponse)
+												_user$project$Main$NavigateToProviderResponse)
 										};
 									} else {
 										break _v5_8;
@@ -23177,7 +23177,7 @@ var _user$project$Home$navigate = F3(
 												_1: A2(
 													_user$project$Settings$runtime.provider,
 													_user$project$Domain_Core$Id(_p9._1._1._1._0),
-													_user$project$Home$NavigateToPortalProviderMemberResponse)
+													_user$project$Main$NavigateToPortalProviderMemberResponse)
 											};
 										default:
 											break _v5_8;
@@ -23200,28 +23200,28 @@ var _user$project$Home$navigate = F3(
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
-var _user$project$Home$ProvidersResponse = function (a) {
+var _user$project$Main$ProvidersResponse = function (a) {
 	return {ctor: 'ProvidersResponse', _0: a};
 };
-var _user$project$Home$SaveThumbnailResponse = function (a) {
+var _user$project$Main$SaveThumbnailResponse = function (a) {
 	return {ctor: 'SaveThumbnailResponse', _0: a};
 };
-var _user$project$Home$ThumbnailResponse = function (a) {
+var _user$project$Main$ThumbnailResponse = function (a) {
 	return {ctor: 'ThumbnailResponse', _0: a};
 };
-var _user$project$Home$ViewPortfolioResponse = function (a) {
+var _user$project$Main$ViewPortfolioResponse = function (a) {
 	return {ctor: 'ViewPortfolioResponse', _0: a};
 };
-var _user$project$Home$ProviderTopicContentTypeLinksAction = function (a) {
+var _user$project$Main$ProviderTopicContentTypeLinksAction = function (a) {
 	return {ctor: 'ProviderTopicContentTypeLinksAction', _0: a};
 };
-var _user$project$Home$ProviderContentTypeLinksAction = function (a) {
+var _user$project$Main$ProviderContentTypeLinksAction = function (a) {
 	return {ctor: 'ProviderContentTypeLinksAction', _0: a};
 };
-var _user$project$Home$EditProfileAction = function (a) {
+var _user$project$Main$EditProfileAction = function (a) {
 	return {ctor: 'EditProfileAction', _0: a};
 };
-var _user$project$Home$onEditProfile = F2(
+var _user$project$Main$onEditProfile = F2(
 	function (subMsg, model) {
 		var _p13 = {ctor: '_Tuple2', _0: model.portal, _1: model.portal.provider};
 		var portal = _p13._0;
@@ -23229,7 +23229,7 @@ var _user$project$Home$onEditProfile = F2(
 		var _p14 = A2(_user$project$Controls_EditProfile$update, subMsg, portal.profileEditor);
 		var updatedEditor = _p14._0;
 		var subCmd = _p14._1;
-		var editCmd = A2(_elm_lang$core$Platform_Cmd$map, _user$project$Home$EditProfileAction, subCmd);
+		var editCmd = A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$EditProfileAction, subCmd);
 		var newState = _elm_lang$core$Native_Utils.update(
 			model,
 			{
@@ -23283,16 +23283,16 @@ var _user$project$Home$onEditProfile = F2(
 				}
 		}
 	});
-var _user$project$Home$PortfolioAction = function (a) {
+var _user$project$Main$PortfolioAction = function (a) {
 	return {ctor: 'PortfolioAction', _0: a};
 };
-var _user$project$Home$onPortfolioAction = F3(
+var _user$project$Main$onPortfolioAction = F3(
 	function (subMsg, model, linksfrom) {
 		var portfolioSearch = model.portfolioSearch;
 		var _p17 = A2(_user$project$Controls_Portfolio$update, subMsg, portfolioSearch);
 		var updatedPortfolioSearch = _p17._0;
 		var subCmd = _p17._1;
-		var portfolioCmd = A2(_elm_lang$core$Platform_Cmd$map, _user$project$Home$PortfolioAction, subCmd);
+		var portfolioCmd = A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$PortfolioAction, subCmd);
 		var provider = function () {
 			var _p18 = linksfrom;
 			if (_p18.ctor === 'FromPortal') {
@@ -23464,10 +23464,10 @@ var _user$project$Home$onPortfolioAction = F3(
 				};
 		}
 	});
-var _user$project$Home$NewLink = function (a) {
+var _user$project$Main$NewLink = function (a) {
 	return {ctor: 'NewLink', _0: a};
 };
-var _user$project$Home$onNewLink = F2(
+var _user$project$Main$onNewLink = F2(
 	function (subMsg, model) {
 		var _p23 = {ctor: '_Tuple2', _0: model.portal, _1: model.portal.provider};
 		var pendingPortal = _p23._0;
@@ -23481,7 +23481,7 @@ var _user$project$Home$onNewLink = F2(
 				{profileId: provider.profile.id}));
 		var newLinks = _p24._0;
 		var subCmd = _p24._1;
-		var newLinkCmd = A2(_elm_lang$core$Platform_Cmd$map, _user$project$Home$NewLink, subCmd);
+		var newLinkCmd = A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$NewLink, subCmd);
 		var portal = _elm_lang$core$Native_Utils.update(
 			pendingPortal,
 			{newLinks: newLinks});
@@ -23634,7 +23634,7 @@ var _user$project$Home$onNewLink = F2(
 							provider: _elm_lang$core$Native_Utils.update(
 								provider,
 								{
-									portfolio: A2(_user$project$Home$updatePortfolio, provider.portfolio, newLinks.added),
+									portfolio: A2(_user$project$Main$updatePortfolio, provider.portfolio, newLinks.added),
 									filteredPortfolio: newFilteredPortfolio
 								})
 						});
@@ -23648,7 +23648,7 @@ var _user$project$Home$onNewLink = F2(
 				} else {
 					return A2(
 						_elm_lang$core$Native_Utils.crash(
-							'Home',
+							'Main',
 							{
 								start: {line: 1141, column: 25},
 								end: {line: 1141, column: 36}
@@ -23658,10 +23658,10 @@ var _user$project$Home$onNewLink = F2(
 				}
 		}
 	});
-var _user$project$Home$SourcesUpdated = function (a) {
+var _user$project$Main$SourcesUpdated = function (a) {
 	return {ctor: 'SourcesUpdated', _0: a};
 };
-var _user$project$Home$onSourcesUpdated = F2(
+var _user$project$Main$onSourcesUpdated = F2(
 	function (subMsg, model) {
 		var pendingPortal = model.portal;
 		var provider = pendingPortal.provider;
@@ -23680,7 +23680,7 @@ var _user$project$Home$onSourcesUpdated = F2(
 			});
 		var sources = _p31._0;
 		var subCmd = _p31._1;
-		var sourceCmd = A2(_elm_lang$core$Platform_Cmd$map, _user$project$Home$SourcesUpdated, subCmd);
+		var sourceCmd = A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$SourcesUpdated, subCmd);
 		var pendingProvider = _elm_lang$core$Native_Utils.update(
 			provider,
 			{
@@ -23731,7 +23731,7 @@ var _user$project$Home$onSourcesUpdated = F2(
 				if (_p33.ctor === 'Ok') {
 					var _p34 = _p33._0;
 					var source = _user$project$Services_Adapter$toSource(_p34);
-					var portfolio = A2(_user$project$Home$updatePortfolio, provider.portfolio, source.links);
+					var portfolio = A2(_user$project$Main$updatePortfolio, provider.portfolio, source.links);
 					var updatedProvider = _elm_lang$core$Native_Utils.update(
 						pendingProvider,
 						{portfolio: portfolio, filteredPortfolio: portfolio});
@@ -23752,12 +23752,12 @@ var _user$project$Home$onSourcesUpdated = F2(
 							_user$project$Settings$runtime.thumbnail,
 							_user$project$Domain_Core$Platform(_p34.platform),
 							_p34.accessId,
-							_user$project$Home$ThumbnailResponse)
+							_user$project$Main$ThumbnailResponse)
 					};
 				} else {
 					return A2(
 						_elm_lang$core$Native_Utils.crash(
-							'Home',
+							'Main',
 							{
 								start: {line: 1222, column: 25},
 								end: {line: 1222, column: 36}
@@ -23798,7 +23798,7 @@ var _user$project$Home$onSourcesUpdated = F2(
 				} else {
 					return A2(
 						_elm_lang$core$Native_Utils.crash(
-							'Home',
+							'Main',
 							{
 								start: {line: 1242, column: 25},
 								end: {line: 1242, column: 36}
@@ -23808,14 +23808,14 @@ var _user$project$Home$onSourcesUpdated = F2(
 				}
 		}
 	});
-var _user$project$Home$RecentProviderLinks = function (a) {
+var _user$project$Main$RecentProviderLinks = function (a) {
 	return {ctor: 'RecentProviderLinks', _0: a};
 };
-var _user$project$Home$recentProvidersUI = F2(
+var _user$project$Main$recentProvidersUI = F2(
 	function (clientId, providers) {
 		return A2(
 			_elm_lang$html$Html$map,
-			_user$project$Home$RecentProviderLinks,
+			_user$project$Main$RecentProviderLinks,
 			A2(
 				_elm_lang$html$Html$div,
 				{
@@ -23856,10 +23856,10 @@ var _user$project$Home$recentProvidersUI = F2(
 					}
 				}));
 	});
-var _user$project$Home$recentLinksContent = F2(
+var _user$project$Main$recentLinksContent = F2(
 	function (profileId, providers) {
 		return A2(
-			_user$project$Home$recentProvidersUI,
+			_user$project$Main$recentProvidersUI,
 			profileId,
 			A2(
 				_elm_lang$core$List$filter,
@@ -23870,14 +23870,14 @@ var _user$project$Home$recentLinksContent = F2(
 				},
 				providers));
 	});
-var _user$project$Home$ProfileThumbnail = function (a) {
+var _user$project$Main$ProfileThumbnail = function (a) {
 	return {ctor: 'ProfileThumbnail', _0: a};
 };
-var _user$project$Home$providersUI = F3(
+var _user$project$Main$providersUI = F3(
 	function (loggedIn, showSubscriptionState, providers) {
 		return A2(
 			_elm_lang$html$Html$map,
-			_user$project$Home$ProfileThumbnail,
+			_user$project$Main$ProfileThumbnail,
 			A2(
 				_elm_lang$html$Html$div,
 				{ctor: '[]'},
@@ -23886,7 +23886,7 @@ var _user$project$Home$providersUI = F3(
 					A2(_user$project$Controls_ProfileThumbnail$thumbnail, loggedIn, showSubscriptionState),
 					providers)));
 	});
-var _user$project$Home$searchProvidersUI = F4(
+var _user$project$Main$searchProvidersUI = F4(
 	function (loggedIn, showSubscriptionState, placeHolder, providers) {
 		return A2(
 			_elm_lang$html$Html$table,
@@ -23916,7 +23916,7 @@ var _user$project$Home$searchProvidersUI = F4(
 												_0: _elm_lang$html$Html_Attributes$placeholder(placeHolder),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onInput(_user$project$Home$Search),
+													_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$Search),
 													_1: {ctor: '[]'}
 												}
 											}
@@ -23944,7 +23944,7 @@ var _user$project$Home$searchProvidersUI = F4(
 										{ctor: '[]'},
 										{
 											ctor: '::',
-											_0: A3(_user$project$Home$providersUI, loggedIn, showSubscriptionState, providers),
+											_0: A3(_user$project$Main$providersUI, loggedIn, showSubscriptionState, providers),
 											_1: {ctor: '[]'}
 										}),
 									_1: {ctor: '[]'}
@@ -23955,16 +23955,16 @@ var _user$project$Home$searchProvidersUI = F4(
 				}
 			});
 	});
-var _user$project$Home$filteredProvidersUI = F3(
+var _user$project$Main$filteredProvidersUI = F3(
 	function (loggedIn, placeHolder, providers) {
 		return A4(
-			_user$project$Home$searchProvidersUI,
+			_user$project$Main$searchProvidersUI,
 			_elm_lang$core$Maybe$Just(loggedIn),
 			true,
 			placeHolder,
-			A2(_user$project$Home$removeProvider, loggedIn.profile.id, providers));
+			A2(_user$project$Main$removeProvider, loggedIn.profile.id, providers));
 	});
-var _user$project$Home$content = F2(
+var _user$project$Main$content = F2(
 	function (contentToEmbed, model) {
 		var portal = model.portal;
 		var loggedIn = portal.provider;
@@ -23980,7 +23980,7 @@ var _user$project$Home$content = F2(
 						ctor: '::',
 						_0: A2(
 							_elm_lang$html$Html$map,
-							_user$project$Home$SourcesUpdated,
+							_user$project$Main$SourcesUpdated,
 							_user$project$Controls_Sources$view(
 								{profileId: portal.provider.profile.id, platforms: model.platforms, source: portal.newSource, sources: loggedIn.profile.sources})),
 						_1: {ctor: '[]'}
@@ -23998,7 +23998,7 @@ var _user$project$Home$content = F2(
 								ctor: '::',
 								_0: A2(
 									_elm_lang$html$Html$map,
-									_user$project$Home$PortfolioAction,
+									_user$project$Main$PortfolioAction,
 									A2(
 										_user$project$Controls_Portfolio$view,
 										_user$project$Domain_Core$FromPortal,
@@ -24025,7 +24025,7 @@ var _user$project$Home$content = F2(
 						ctor: '::',
 						_0: A2(
 							_elm_lang$html$Html$map,
-							_user$project$Home$EditProfileAction,
+							_user$project$Main$EditProfileAction,
 							_user$project$Controls_EditProfile$view(updatedEditor)),
 						_1: {ctor: '[]'}
 					});
@@ -24078,7 +24078,7 @@ var _user$project$Home$content = F2(
 				var linkSummary = portal.newLinks;
 				var newLinkEditor = A2(
 					_elm_lang$html$Html$map,
-					_user$project$Home$NewLink,
+					_user$project$Main$NewLink,
 					_user$project$Controls_NewLinks$view(linkSummary));
 				var update = linkSummary.canAdd ? A2(
 					_elm_lang$html$Html$div,
@@ -24129,35 +24129,35 @@ var _user$project$Home$content = F2(
 					});
 			case 'ViewSubscriptions':
 				return A4(
-					_user$project$Home$searchProvidersUI,
+					_user$project$Main$searchProvidersUI,
 					_elm_lang$core$Maybe$Just(loggedIn),
 					true,
 					'name on subscription',
 					model.searchResult);
 			case 'ViewFollowers':
 				return A4(
-					_user$project$Home$searchProvidersUI,
+					_user$project$Main$searchProvidersUI,
 					_elm_lang$core$Maybe$Just(loggedIn),
 					true,
 					'name of follower',
 					model.searchResult);
 			case 'ViewProviders':
-				return A3(_user$project$Home$filteredProvidersUI, loggedIn, 'name', model.searchResult);
+				return A3(_user$project$Main$filteredProvidersUI, loggedIn, 'name', model.searchResult);
 			default:
-				return A2(_user$project$Home$recentLinksContent, loggedIn.profile.id, model.searchResult);
+				return A2(_user$project$Main$recentLinksContent, loggedIn.profile.id, model.searchResult);
 		}
 	});
-var _user$project$Home$OnLogin = function (a) {
+var _user$project$Main$OnLogin = function (a) {
 	return {ctor: 'OnLogin', _0: a};
 };
-var _user$project$Home$onLogin = F2(
+var _user$project$Main$onLogin = F2(
 	function (subMsg, model) {
 		var _p38 = A2(_user$project$Controls_Login$update, subMsg, model.login);
 		var login = _p38._0;
 		var subCmd = _p38._1;
 		var _p39 = {
 			ctor: '_Tuple2',
-			_0: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Home$OnLogin, subCmd),
+			_0: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$OnLogin, subCmd),
 			_1: model.portal
 		};
 		var loginCmd = _p39._0;
@@ -24231,7 +24231,7 @@ var _user$project$Home$onLogin = F2(
 				};
 		}
 	});
-var _user$project$Home$update = F2(
+var _user$project$Main$update = F2(
 	function (msg, model) {
 		var initialTopics = F2(
 			function (topics, links) {
@@ -24245,7 +24245,7 @@ var _user$project$Home$update = F2(
 		var _p42 = msg;
 		switch (_p42.ctor) {
 			case 'UrlChange':
-				return A3(_user$project$Home$navigate, msg, model, _p42._0);
+				return A3(_user$project$Main$navigate, msg, model, _p42._0);
 			case 'SaveThumbnailResponse':
 				var _p43 = _p42._0;
 				if (_p43.ctor === 'Ok') {
@@ -24280,7 +24280,7 @@ var _user$project$Home$update = F2(
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{portal: updatedPortal}),
-						_1: A2(_user$project$Settings$runtime.updateThumbnail, request, _user$project$Home$SaveThumbnailResponse)
+						_1: A2(_user$project$Settings$runtime.updateThumbnail, request, _user$project$Main$SaveThumbnailResponse)
 					};
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -24343,7 +24343,7 @@ var _user$project$Home$update = F2(
 				} else {
 					return A2(
 						_elm_lang$core$Native_Utils.crash(
-							'Home',
+							'Main',
 							{
 								start: {line: 222, column: 25},
 								end: {line: 222, column: 36}
@@ -24456,7 +24456,7 @@ var _user$project$Home$update = F2(
 				} else {
 					return A2(
 						_elm_lang$core$Native_Utils.crash(
-							'Home',
+							'Main',
 							{
 								start: {line: 300, column: 25},
 								end: {line: 300, column: 36}
@@ -24526,7 +24526,7 @@ var _user$project$Home$update = F2(
 				} else {
 					return A2(
 						_elm_lang$core$Native_Utils.crash(
-							'Home',
+							'Main',
 							{
 								start: {line: 362, column: 25},
 								end: {line: 362, column: 36}
@@ -24563,7 +24563,7 @@ var _user$project$Home$update = F2(
 				} else {
 					return A2(
 						_elm_lang$core$Native_Utils.crash(
-							'Home',
+							'Main',
 							{
 								start: {line: 383, column: 25},
 								end: {line: 383, column: 36}
@@ -24578,9 +24578,9 @@ var _user$project$Home$update = F2(
 					_1: _elm_lang$navigation$Navigation$load('/#/register')
 				};
 			case 'OnRegistration':
-				return A2(_user$project$Home$onRegistration, _p42._0, model);
+				return A2(_user$project$Main$onRegistration, _p42._0, model);
 			case 'OnLogin':
-				return A2(_user$project$Home$onLogin, _p42._0, model);
+				return A2(_user$project$Main$onLogin, _p42._0, model);
 			case 'Search':
 				if (_p42._0 === '') {
 					var scopedProviders = model.scopedProviders;
@@ -24589,11 +24589,11 @@ var _user$project$Home$update = F2(
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{searchResult: scopedProviders}),
-						_1: _user$project$Settings$runtime.providers(_user$project$Home$ProvidersResponse)
+						_1: _user$project$Settings$runtime.providers(_user$project$Main$ProvidersResponse)
 					};
 				} else {
 					var scopedProviders = model.scopedProviders;
-					var result = A2(_user$project$Home$matchProviders, _p42._0, scopedProviders);
+					var result = A2(_user$project$Main$matchProviders, _p42._0, scopedProviders);
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -24609,7 +24609,7 @@ var _user$project$Home$update = F2(
 				var _p59 = A2(_user$project$Controls_ProfileThumbnail$update, _p62, provider);
 				var updatedProvider = _p59._0;
 				var subCmd = _p59._1;
-				var profileThumbnailCmd = A2(_elm_lang$core$Platform_Cmd$map, _user$project$Home$ProfileThumbnail, subCmd);
+				var profileThumbnailCmd = A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$ProfileThumbnail, subCmd);
 				var _p60 = _p62;
 				if (_p60.ctor === 'UpdateSubscription') {
 					return {
@@ -24659,7 +24659,7 @@ var _user$project$Home$update = F2(
 												{subscriptions: subscriptions})
 										})
 								}),
-							_1: A2(_user$project$Settings$runtime.subscriptions, provider.profile.id, _user$project$Home$SubscriptionsResponse)
+							_1: A2(_user$project$Settings$runtime.subscriptions, provider.profile.id, _user$project$Main$SubscriptionsResponse)
 						};
 					} else {
 						return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -24708,7 +24708,7 @@ var _user$project$Home$update = F2(
 				};
 			case 'ViewPortfolio':
 				var portal = model.portal;
-				var _p63 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+				var _p63 = _user$project$Main$tokenizeUrl(model.currentRoute.hash);
 				if ((((_p63.ctor === '::') && (_p63._0 === 'portal')) && (_p63._1.ctor === '::')) && (_p63._1._1.ctor === '[]')) {
 					var provider = portal.provider;
 					var filtered = {
@@ -24752,7 +24752,7 @@ var _user$project$Home$update = F2(
 											{portfolio: provider.portfolio, filteredPortfolio: filtered})
 									})
 							}),
-						_1: A2(_user$project$Settings$runtime.provider, provider.profile.id, _user$project$Home$ViewPortfolioResponse)
+						_1: A2(_user$project$Settings$runtime.provider, provider.profile.id, _user$project$Main$ViewPortfolioResponse)
 					};
 				} else {
 					return {
@@ -24796,7 +24796,7 @@ var _user$project$Home$update = F2(
 								portal,
 								{requested: _user$project$Domain_Core$ViewSubscriptions})
 						}),
-					_1: A2(_user$project$Settings$runtime.subscriptions, profile.id, _user$project$Home$SubscriptionsResponse)
+					_1: A2(_user$project$Settings$runtime.subscriptions, profile.id, _user$project$Main$SubscriptionsResponse)
 				};
 			case 'SubscriptionsResponse':
 				if (_p42._0.ctor === 'Ok') {
@@ -24843,7 +24843,7 @@ var _user$project$Home$update = F2(
 				} else {
 					return A2(
 						_elm_lang$core$Native_Utils.crash(
-							'Home',
+							'Main',
 							{
 								start: {line: 591, column: 17},
 								end: {line: 591, column: 28}
@@ -24863,7 +24863,7 @@ var _user$project$Home$update = F2(
 								portal,
 								{requested: _user$project$Domain_Core$ViewFollowers})
 						}),
-					_1: A2(_user$project$Settings$runtime.followers, profile.id, _user$project$Home$FollowersResponse)
+					_1: A2(_user$project$Settings$runtime.followers, profile.id, _user$project$Main$FollowersResponse)
 				};
 			case 'FollowersResponse':
 				if (_p42._0.ctor === 'Ok') {
@@ -24878,7 +24878,7 @@ var _user$project$Home$update = F2(
 				} else {
 					return A2(
 						_elm_lang$core$Native_Utils.crash(
-							'Home',
+							'Main',
 							{
 								start: {line: 618, column: 17},
 								end: {line: 618, column: 28}
@@ -24900,7 +24900,7 @@ var _user$project$Home$update = F2(
 								portal,
 								{requested: _user$project$Domain_Core$ViewProviders})
 						}),
-					_1: _user$project$Settings$runtime.providers(_user$project$Home$ProvidersResponse)
+					_1: _user$project$Settings$runtime.providers(_user$project$Main$ProvidersResponse)
 				};
 			case 'ViewRecent':
 				var portal = model.portal;
@@ -24920,18 +24920,18 @@ var _user$project$Home$update = F2(
 									requested: _user$project$Domain_Core$ViewRecent
 								})
 						}),
-					_1: A2(_user$project$Settings$runtime.subscriptions, profile.id, _user$project$Home$SubscriptionsResponse)
+					_1: A2(_user$project$Settings$runtime.subscriptions, profile.id, _user$project$Main$SubscriptionsResponse)
 				};
 			case 'SourcesUpdated':
-				return A2(_user$project$Home$onSourcesUpdated, _p42._0, model);
+				return A2(_user$project$Main$onSourcesUpdated, _p42._0, model);
 			case 'NewLink':
-				return A2(_user$project$Home$onNewLink, _p42._0, model);
+				return A2(_user$project$Main$onNewLink, _p42._0, model);
 			case 'EditProfileAction':
-				return A2(_user$project$Home$onEditProfile, _p42._0, model);
+				return A2(_user$project$Main$onEditProfile, _p42._0, model);
 			case 'PortfolioAction':
-				return A3(_user$project$Home$onPortfolioAction, _p42._0, model, providerSource);
+				return A3(_user$project$Main$onPortfolioAction, _p42._0, model, providerSource);
 			case 'ProviderContentTypeLinksAction':
-				return A3(_user$project$Home$onUpdateProviderContentTypeLinks, _p42._0, model, providerSource);
+				return A3(_user$project$Main$onUpdateProviderContentTypeLinks, _p42._0, model, providerSource);
 			case 'ProviderTopicContentTypeLinksAction':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Subscription':
@@ -24940,13 +24940,13 @@ var _user$project$Home$update = F2(
 					return {
 						ctor: '_Tuple2',
 						_0: model,
-						_1: A2(_user$project$Settings$runtime.subscriptions, _p64._0.profile.id, _user$project$Home$SubscriptionsResponse)
+						_1: A2(_user$project$Settings$runtime.subscriptions, _p64._0.profile.id, _user$project$Main$SubscriptionsResponse)
 					};
 				} else {
 					return {
 						ctor: '_Tuple2',
 						_0: model,
-						_1: A2(_user$project$Settings$runtime.subscriptions, _p64._0.profile.id, _user$project$Home$SubscriptionsResponse)
+						_1: A2(_user$project$Settings$runtime.subscriptions, _p64._0.profile.id, _user$project$Main$SubscriptionsResponse)
 					};
 				}
 			default:
@@ -24957,15 +24957,15 @@ var _user$project$Home$update = F2(
 				};
 		}
 	});
-var _user$project$Home$ViewRecent = {ctor: 'ViewRecent'};
-var _user$project$Home$ViewProviders = {ctor: 'ViewProviders'};
-var _user$project$Home$ViewFollowers = {ctor: 'ViewFollowers'};
-var _user$project$Home$ViewSubscriptions = {ctor: 'ViewSubscriptions'};
-var _user$project$Home$EditProfile = {ctor: 'EditProfile'};
-var _user$project$Home$ViewPortfolio = {ctor: 'ViewPortfolio'};
-var _user$project$Home$AddNewLink = {ctor: 'AddNewLink'};
-var _user$project$Home$ViewSources = {ctor: 'ViewSources'};
-var _user$project$Home$headerContent = function (model) {
+var _user$project$Main$ViewRecent = {ctor: 'ViewRecent'};
+var _user$project$Main$ViewProviders = {ctor: 'ViewProviders'};
+var _user$project$Main$ViewFollowers = {ctor: 'ViewFollowers'};
+var _user$project$Main$ViewSubscriptions = {ctor: 'ViewSubscriptions'};
+var _user$project$Main$EditProfile = {ctor: 'EditProfile'};
+var _user$project$Main$ViewPortfolio = {ctor: 'ViewPortfolio'};
+var _user$project$Main$AddNewLink = {ctor: 'AddNewLink'};
+var _user$project$Main$ViewSources = {ctor: 'ViewSources'};
+var _user$project$Main$headerContent = function (model) {
 	var loginUI = function (model) {
 		var profile = model.portal.provider.profile;
 		var profileId = profile.id;
@@ -24994,7 +24994,7 @@ var _user$project$Home$headerContent = function (model) {
 					_0: _elm_lang$html$Html_Attributes$class('ProfileSettings'),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
+						_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$EditProfile),
 						_1: {ctor: '[]'}
 					}
 				},
@@ -25010,7 +25010,7 @@ var _user$project$Home$headerContent = function (model) {
 					_0: _elm_lang$html$Html_Attributes$class('ProfileSettings'),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
+						_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewSources),
 						_1: {ctor: '[]'}
 					}
 				},
@@ -25046,7 +25046,7 @@ var _user$project$Home$headerContent = function (model) {
 		var sources = _p65._4;
 		return (!loggedIn) ? A2(
 			_elm_lang$html$Html$map,
-			_user$project$Home$OnLogin,
+			_user$project$Main$OnLogin,
 			_user$project$Controls_Login$view(model.login)) : A2(
 			_elm_lang$html$Html$div,
 			{
@@ -25124,10 +25124,10 @@ var _user$project$Home$headerContent = function (model) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Home$renderPage = F2(
+var _user$project$Main$renderPage = F2(
 	function (content, model) {
 		var placeHolder = function () {
-			var _p66 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+			var _p66 = _user$project$Main$tokenizeUrl(model.currentRoute.hash);
 			_v39_3:
 			do {
 				if (_p66.ctor === '[]') {
@@ -25170,7 +25170,7 @@ var _user$project$Home$renderPage = F2(
 							_0: _elm_lang$html$Html_Attributes$src('Assets/BackButton.jpg'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$NavigateBack),
+								_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$NavigateBack),
 								_1: {ctor: '[]'}
 							}
 						}
@@ -25183,7 +25183,7 @@ var _user$project$Home$renderPage = F2(
 			{ctor: '[]'},
 			{
 				ctor: '::',
-				_0: _user$project$Home$headerContent(model),
+				_0: _user$project$Main$headerContent(model),
 				_1: {
 					ctor: '::',
 					_0: placeHolder,
@@ -25192,14 +25192,14 @@ var _user$project$Home$renderPage = F2(
 						_0: content,
 						_1: {
 							ctor: '::',
-							_0: _user$project$Home$footerContent,
+							_0: _user$project$Main$footerContent,
 							_1: {ctor: '[]'}
 						}
 					}
 				}
 			});
 	});
-var _user$project$Home$homePage = function (model) {
+var _user$project$Main$homePage = function (model) {
 	var mainContent = A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -25233,7 +25233,7 @@ var _user$project$Home$homePage = function (model) {
 													_0: _elm_lang$html$Html_Attributes$placeholder('name'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Events$onInput(_user$project$Home$Search),
+														_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$Search),
 														_1: {ctor: '[]'}
 													}
 												}
@@ -25265,7 +25265,7 @@ var _user$project$Home$homePage = function (model) {
 											{ctor: '[]'},
 											{
 												ctor: '::',
-												_0: A3(_user$project$Home$providersUI, _elm_lang$core$Maybe$Nothing, false, model.searchResult),
+												_0: A3(_user$project$Main$providersUI, _elm_lang$core$Maybe$Nothing, false, model.searchResult),
 												_1: {ctor: '[]'}
 											}),
 										_1: {ctor: '[]'}
@@ -25283,7 +25283,7 @@ var _user$project$Home$homePage = function (model) {
 											ctor: '::',
 											_0: A2(
 												_elm_lang$html$Html$map,
-												_user$project$Home$OnRegistration,
+												_user$project$Main$OnRegistration,
 												_user$project$Controls_Register$view(model.registration)),
 											_1: {ctor: '[]'}
 										}),
@@ -25295,9 +25295,9 @@ var _user$project$Home$homePage = function (model) {
 				}),
 			_1: {ctor: '[]'}
 		});
-	return A2(_user$project$Home$renderPage, mainContent, model);
+	return A2(_user$project$Main$renderPage, mainContent, model);
 };
-var _user$project$Home$renderNavigation = F2(
+var _user$project$Main$renderNavigation = F2(
 	function (portal, subscriptions) {
 		var noLinks = _elm_lang$core$List$isEmpty(
 			A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$All, portal.provider.portfolio));
@@ -25323,7 +25323,7 @@ var _user$project$Home$renderNavigation = F2(
 		var profileText = _p67._4;
 		var newText = 'Latest';
 		var recentCount = _elm_lang$core$List$length(
-			_user$project$Home$recentLinks(subscriptions));
+			_user$project$Main$recentLinks(subscriptions));
 		var profile = portal.provider.profile;
 		var sourcesText = A2(
 			_elm_lang$core$Basics_ops['++'],
@@ -25346,7 +25346,7 @@ var _user$project$Home$renderNavigation = F2(
 						_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
+							_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewSources),
 							_1: {ctor: '[]'}
 						}
 					},
@@ -25370,7 +25370,7 @@ var _user$project$Home$renderNavigation = F2(
 								_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$AddNewLink),
 									_1: {ctor: '[]'}
 								}
 							},
@@ -25395,7 +25395,7 @@ var _user$project$Home$renderNavigation = F2(
 								_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton3'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewSources),
 									_1: {ctor: '[]'}
 								}
 							},
@@ -25419,7 +25419,7 @@ var _user$project$Home$renderNavigation = F2(
 										_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+											_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$AddNewLink),
 											_1: {ctor: '[]'}
 										}
 									},
@@ -25442,7 +25442,7 @@ var _user$project$Home$renderNavigation = F2(
 								_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewSources),
 									_1: {ctor: '[]'}
 								}
 							},
@@ -25466,7 +25466,7 @@ var _user$project$Home$renderNavigation = F2(
 										_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton3'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+											_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$AddNewLink),
 											_1: {ctor: '[]'}
 										}
 									},
@@ -25489,7 +25489,7 @@ var _user$project$Home$renderNavigation = F2(
 								_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewSources),
 									_1: {ctor: '[]'}
 								}
 							},
@@ -25513,7 +25513,7 @@ var _user$project$Home$renderNavigation = F2(
 										_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+											_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$AddNewLink),
 											_1: {ctor: '[]'}
 										}
 									},
@@ -25551,7 +25551,7 @@ var _user$project$Home$renderNavigation = F2(
 								_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$EditProfile),
 									_1: {ctor: '[]'}
 								}
 							},
@@ -25575,7 +25575,7 @@ var _user$project$Home$renderNavigation = F2(
 										_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
+											_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewSources),
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Attributes$disabled(true),
@@ -25603,7 +25603,7 @@ var _user$project$Home$renderNavigation = F2(
 												_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton3'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+													_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$AddNewLink),
 													_1: {
 														ctor: '::',
 														_0: _elm_lang$html$Html_Attributes$disabled(true),
@@ -25632,7 +25632,7 @@ var _user$project$Home$renderNavigation = F2(
 								_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton3'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$EditProfile),
 									_1: {ctor: '[]'}
 								}
 							},
@@ -25656,7 +25656,7 @@ var _user$project$Home$renderNavigation = F2(
 										_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
+											_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewSources),
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Attributes$disabled(true),
@@ -25684,7 +25684,7 @@ var _user$project$Home$renderNavigation = F2(
 												_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+													_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$AddNewLink),
 													_1: {
 														ctor: '::',
 														_0: _elm_lang$html$Html_Attributes$disabled(true),
@@ -25713,7 +25713,7 @@ var _user$project$Home$renderNavigation = F2(
 								_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$EditProfile),
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$EditProfile),
 									_1: {ctor: '[]'}
 								}
 							},
@@ -25737,7 +25737,7 @@ var _user$project$Home$renderNavigation = F2(
 										_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSources),
+											_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewSources),
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Attributes$disabled(true),
@@ -25765,7 +25765,7 @@ var _user$project$Home$renderNavigation = F2(
 												_0: _elm_lang$html$Html_Attributes$class('navigationButton3'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+													_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$AddNewLink),
 													_1: {
 														ctor: '::',
 														_0: _elm_lang$html$Html_Attributes$disabled(true),
@@ -25814,7 +25814,7 @@ var _user$project$Home$renderNavigation = F2(
 								_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton4'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewRecent),
 									_1: {ctor: '[]'}
 								}
 							},
@@ -25844,7 +25844,7 @@ var _user$project$Home$renderNavigation = F2(
 											_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewPortfolio),
+												_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewPortfolio),
 												_1: {ctor: '[]'}
 											}
 										},
@@ -25868,7 +25868,7 @@ var _user$project$Home$renderNavigation = F2(
 													_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$AddNewLink),
 														_1: {ctor: '[]'}
 													}
 												},
@@ -25898,7 +25898,7 @@ var _user$project$Home$renderNavigation = F2(
 																_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																_1: {
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
+																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewSubscriptions),
 																	_1: {ctor: '[]'}
 																}
 															},
@@ -25922,7 +25922,7 @@ var _user$project$Home$renderNavigation = F2(
 																		_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																		_1: {
 																			ctor: '::',
-																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
+																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewFollowers),
 																			_1: {ctor: '[]'}
 																		}
 																	},
@@ -25946,7 +25946,7 @@ var _user$project$Home$renderNavigation = F2(
 																				_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																				_1: {
 																					ctor: '::',
-																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
+																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewProviders),
 																					_1: {ctor: '[]'}
 																				}
 																			},
@@ -25979,7 +25979,7 @@ var _user$project$Home$renderNavigation = F2(
 								_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewRecent),
 									_1: {ctor: '[]'}
 								}
 							},
@@ -26009,7 +26009,7 @@ var _user$project$Home$renderNavigation = F2(
 											_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewPortfolio),
+												_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewPortfolio),
 												_1: {ctor: '[]'}
 											}
 										},
@@ -26033,7 +26033,7 @@ var _user$project$Home$renderNavigation = F2(
 													_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$AddNewLink),
 														_1: {ctor: '[]'}
 													}
 												},
@@ -26063,7 +26063,7 @@ var _user$project$Home$renderNavigation = F2(
 																_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																_1: {
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
+																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewSubscriptions),
 																	_1: {ctor: '[]'}
 																}
 															},
@@ -26087,7 +26087,7 @@ var _user$project$Home$renderNavigation = F2(
 																		_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																		_1: {
 																			ctor: '::',
-																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
+																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewFollowers),
 																			_1: {ctor: '[]'}
 																		}
 																	},
@@ -26111,7 +26111,7 @@ var _user$project$Home$renderNavigation = F2(
 																				_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																				_1: {
 																					ctor: '::',
-																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
+																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewProviders),
 																					_1: {ctor: '[]'}
 																				}
 																			},
@@ -26144,7 +26144,7 @@ var _user$project$Home$renderNavigation = F2(
 								_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewRecent),
 									_1: {ctor: '[]'}
 								}
 							},
@@ -26174,7 +26174,7 @@ var _user$project$Home$renderNavigation = F2(
 											_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton4'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewPortfolio),
+												_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewPortfolio),
 												_1: {ctor: '[]'}
 											}
 										},
@@ -26198,7 +26198,7 @@ var _user$project$Home$renderNavigation = F2(
 													_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$AddNewLink),
 														_1: {ctor: '[]'}
 													}
 												},
@@ -26228,7 +26228,7 @@ var _user$project$Home$renderNavigation = F2(
 																_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																_1: {
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
+																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewSubscriptions),
 																	_1: {ctor: '[]'}
 																}
 															},
@@ -26252,7 +26252,7 @@ var _user$project$Home$renderNavigation = F2(
 																		_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																		_1: {
 																			ctor: '::',
-																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
+																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewFollowers),
 																			_1: {ctor: '[]'}
 																		}
 																	},
@@ -26276,7 +26276,7 @@ var _user$project$Home$renderNavigation = F2(
 																				_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																				_1: {
 																					ctor: '::',
-																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
+																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewProviders),
 																					_1: {ctor: '[]'}
 																				}
 																			},
@@ -26309,7 +26309,7 @@ var _user$project$Home$renderNavigation = F2(
 								_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewRecent),
 									_1: {ctor: '[]'}
 								}
 							},
@@ -26339,7 +26339,7 @@ var _user$project$Home$renderNavigation = F2(
 											_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewPortfolio),
+												_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewPortfolio),
 												_1: {ctor: '[]'}
 											}
 										},
@@ -26363,7 +26363,7 @@ var _user$project$Home$renderNavigation = F2(
 													_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton4'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$AddNewLink),
 														_1: {ctor: '[]'}
 													}
 												},
@@ -26393,7 +26393,7 @@ var _user$project$Home$renderNavigation = F2(
 																_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																_1: {
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
+																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewSubscriptions),
 																	_1: {ctor: '[]'}
 																}
 															},
@@ -26417,7 +26417,7 @@ var _user$project$Home$renderNavigation = F2(
 																		_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																		_1: {
 																			ctor: '::',
-																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
+																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewFollowers),
 																			_1: {ctor: '[]'}
 																		}
 																	},
@@ -26441,7 +26441,7 @@ var _user$project$Home$renderNavigation = F2(
 																				_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																				_1: {
 																					ctor: '::',
-																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
+																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewProviders),
 																					_1: {ctor: '[]'}
 																				}
 																			},
@@ -26474,7 +26474,7 @@ var _user$project$Home$renderNavigation = F2(
 								_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewRecent),
 									_1: {ctor: '[]'}
 								}
 							},
@@ -26504,7 +26504,7 @@ var _user$project$Home$renderNavigation = F2(
 											_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewPortfolio),
+												_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewPortfolio),
 												_1: {ctor: '[]'}
 											}
 										},
@@ -26528,7 +26528,7 @@ var _user$project$Home$renderNavigation = F2(
 													_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$AddNewLink),
 														_1: {ctor: '[]'}
 													}
 												},
@@ -26558,7 +26558,7 @@ var _user$project$Home$renderNavigation = F2(
 																_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																_1: {
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
+																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewSubscriptions),
 																	_1: {ctor: '[]'}
 																}
 															},
@@ -26582,7 +26582,7 @@ var _user$project$Home$renderNavigation = F2(
 																		_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																		_1: {
 																			ctor: '::',
-																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
+																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewFollowers),
 																			_1: {ctor: '[]'}
 																		}
 																	},
@@ -26606,7 +26606,7 @@ var _user$project$Home$renderNavigation = F2(
 																				_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																				_1: {
 																					ctor: '::',
-																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
+																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewProviders),
 																					_1: {ctor: '[]'}
 																				}
 																			},
@@ -26639,7 +26639,7 @@ var _user$project$Home$renderNavigation = F2(
 								_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewRecent),
 									_1: {ctor: '[]'}
 								}
 							},
@@ -26669,7 +26669,7 @@ var _user$project$Home$renderNavigation = F2(
 											_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewPortfolio),
+												_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewPortfolio),
 												_1: {ctor: '[]'}
 											}
 										},
@@ -26693,7 +26693,7 @@ var _user$project$Home$renderNavigation = F2(
 													_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$AddNewLink),
 														_1: {ctor: '[]'}
 													}
 												},
@@ -26723,7 +26723,7 @@ var _user$project$Home$renderNavigation = F2(
 																_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton4'),
 																_1: {
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
+																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewSubscriptions),
 																	_1: {ctor: '[]'}
 																}
 															},
@@ -26747,7 +26747,7 @@ var _user$project$Home$renderNavigation = F2(
 																		_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																		_1: {
 																			ctor: '::',
-																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
+																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewFollowers),
 																			_1: {ctor: '[]'}
 																		}
 																	},
@@ -26771,7 +26771,7 @@ var _user$project$Home$renderNavigation = F2(
 																				_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																				_1: {
 																					ctor: '::',
-																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
+																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewProviders),
 																					_1: {ctor: '[]'}
 																				}
 																			},
@@ -26818,7 +26818,7 @@ var _user$project$Home$renderNavigation = F2(
 								_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewRecent),
 									_1: {ctor: '[]'}
 								}
 							},
@@ -26848,7 +26848,7 @@ var _user$project$Home$renderNavigation = F2(
 											_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewPortfolio),
+												_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewPortfolio),
 												_1: {ctor: '[]'}
 											}
 										},
@@ -26872,7 +26872,7 @@ var _user$project$Home$renderNavigation = F2(
 													_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$AddNewLink),
 														_1: {ctor: '[]'}
 													}
 												},
@@ -26902,7 +26902,7 @@ var _user$project$Home$renderNavigation = F2(
 																_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																_1: {
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
+																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewSubscriptions),
 																	_1: {ctor: '[]'}
 																}
 															},
@@ -26926,7 +26926,7 @@ var _user$project$Home$renderNavigation = F2(
 																		_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton4'),
 																		_1: {
 																			ctor: '::',
-																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
+																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewFollowers),
 																			_1: {ctor: '[]'}
 																		}
 																	},
@@ -26950,7 +26950,7 @@ var _user$project$Home$renderNavigation = F2(
 																				_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																				_1: {
 																					ctor: '::',
-																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
+																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewProviders),
 																					_1: {ctor: '[]'}
 																				}
 																			},
@@ -26983,7 +26983,7 @@ var _user$project$Home$renderNavigation = F2(
 								_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewRecent),
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewRecent),
 									_1: {ctor: '[]'}
 								}
 							},
@@ -27013,7 +27013,7 @@ var _user$project$Home$renderNavigation = F2(
 											_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewPortfolio),
+												_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewPortfolio),
 												_1: {ctor: '[]'}
 											}
 										},
@@ -27037,7 +27037,7 @@ var _user$project$Home$renderNavigation = F2(
 													_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$AddNewLink),
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$AddNewLink),
 														_1: {ctor: '[]'}
 													}
 												},
@@ -27067,7 +27067,7 @@ var _user$project$Home$renderNavigation = F2(
 																_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																_1: {
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewSubscriptions),
+																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewSubscriptions),
 																	_1: {ctor: '[]'}
 																}
 															},
@@ -27091,7 +27091,7 @@ var _user$project$Home$renderNavigation = F2(
 																		_0: _elm_lang$html$Html_Attributes$class('navigationButton4'),
 																		_1: {
 																			ctor: '::',
-																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewFollowers),
+																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewFollowers),
 																			_1: {ctor: '[]'}
 																		}
 																	},
@@ -27115,7 +27115,7 @@ var _user$project$Home$renderNavigation = F2(
 																				_0: _elm_lang$html$Html_Attributes$class('selectedNavigationButton4'),
 																				_1: {
 																					ctor: '::',
-																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Home$ViewProviders),
+																					_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ViewProviders),
 																					_1: {ctor: '[]'}
 																				}
 																			},
@@ -27143,7 +27143,7 @@ var _user$project$Home$renderNavigation = F2(
 		var links = portal.provider.portfolio;
 		return (needName && noLinks) ? displayNavigation(noSourcesNoLinks) : (((!portal.sourcesNavigation) && (!portal.portfolioNavigation)) ? displayNavigation(enableOnlySourcesAndLinks) : ((portal.sourcesNavigation && (!portal.portfolioNavigation)) ? displayNavigation(enableOnlySourcesAndLinks) : displayNavigation(allNavigation)));
 	});
-var _user$project$Home$render = F4(
+var _user$project$Main$render = F4(
 	function (provider, content, subscriptions, portal) {
 		var profile = provider.profile;
 		return A2(
@@ -27211,7 +27211,7 @@ var _user$project$Home$render = F4(
 													_0: A2(
 														_elm_lang$html$Html$td,
 														{ctor: '[]'},
-														A2(_user$project$Home$renderNavigation, portal, subscriptions)),
+														A2(_user$project$Main$renderNavigation, portal, subscriptions)),
 													_1: {ctor: '[]'}
 												}),
 											_1: {ctor: '[]'}
@@ -27235,25 +27235,25 @@ var _user$project$Home$render = F4(
 				_1: {ctor: '[]'}
 			});
 	});
-var _user$project$Home$applyToPortal = F3(
+var _user$project$Main$applyToPortal = F3(
 	function (provider, model, content) {
 		var portal = model.portal;
-		return _elm_lang$core$Native_Utils.eq(portal.provider, _user$project$Domain_Core$initProvider) ? A4(_user$project$Home$render, provider, content, model.scopedProviders, portal) : A4(_user$project$Home$render, portal.provider, content, model.scopedProviders, portal);
+		return _elm_lang$core$Native_Utils.eq(portal.provider, _user$project$Domain_Core$initProvider) ? A4(_user$project$Main$render, provider, content, model.scopedProviders, portal) : A4(_user$project$Main$render, portal.provider, content, model.scopedProviders, portal);
 	});
-var _user$project$Home$view = function (model) {
-	var _p71 = _user$project$Home$tokenizeUrl(model.currentRoute.hash);
+var _user$project$Main$view = function (model) {
+	var _p71 = _user$project$Main$tokenizeUrl(model.currentRoute.hash);
 	_v43_10:
 	do {
 		if (_p71.ctor === '[]') {
-			return _user$project$Home$homePage(model);
+			return _user$project$Main$homePage(model);
 		} else {
 			if (_p71._1.ctor === '[]') {
 				if (_p71._0 === 'register') {
 					return A2(
-						_user$project$Home$renderPage,
+						_user$project$Main$renderPage,
 						A2(
 							_elm_lang$html$Html$map,
-							_user$project$Home$OnRegistration,
+							_user$project$Main$OnRegistration,
 							_user$project$Controls_Register$view(model.registration)),
 						model);
 				} else {
@@ -27264,13 +27264,13 @@ var _user$project$Home$view = function (model) {
 					switch (_p71._0) {
 						case 'provider':
 							return A2(
-								_user$project$Home$renderPage,
+								_user$project$Main$renderPage,
 								A2(
-									_user$project$Home$renderProfileBase,
+									_user$project$Main$renderProfileBase,
 									model.selectedProvider,
 									A2(
 										_elm_lang$html$Html$map,
-										_user$project$Home$PortfolioAction,
+										_user$project$Main$PortfolioAction,
 										A2(
 											_user$project$Controls_Portfolio$view,
 											_user$project$Domain_Core$FromOther,
@@ -27278,11 +27278,11 @@ var _user$project$Home$view = function (model) {
 								model);
 						case 'portal':
 							var mainContent = A3(
-								_user$project$Home$applyToPortal,
+								_user$project$Main$applyToPortal,
 								model.portal.provider,
 								model,
-								A2(_user$project$Home$content, _elm_lang$core$Maybe$Nothing, model));
-							return A2(_user$project$Home$renderPage, mainContent, model);
+								A2(_user$project$Main$content, _elm_lang$core$Maybe$Nothing, model));
+							return A2(_user$project$Main$renderPage, mainContent, model);
 						default:
 							break _v43_10;
 					}
@@ -27290,8 +27290,8 @@ var _user$project$Home$view = function (model) {
 					if (_p71._1._1._1.ctor === '[]') {
 						if (_p71._0 === 'provider') {
 							return A2(
-								_user$project$Home$renderPage,
-								A2(_user$project$Home$providerTopicPage, _user$project$Domain_Core$FromOther, model.selectedProvider),
+								_user$project$Main$renderPage,
+								A2(_user$project$Main$providerTopicPage, _user$project$Domain_Core$FromOther, model.selectedProvider),
 								model);
 						} else {
 							break _v43_10;
@@ -27303,15 +27303,15 @@ var _user$project$Home$view = function (model) {
 									if (_p71._1._1._0 === 'all') {
 										var contentToEmbed = A2(
 											_elm_lang$html$Html$map,
-											_user$project$Home$ProviderContentTypeLinksAction,
+											_user$project$Main$ProviderContentTypeLinksAction,
 											A3(
 												_user$project$Controls_ProviderContentTypeLinks$view,
 												model.selectedProvider,
 												_user$project$Domain_Core$toContentType(_p71._1._1._1._0),
 												false));
 										return A2(
-											_user$project$Home$renderPage,
-											A2(_user$project$Home$renderProfileBase, model.selectedProvider, contentToEmbed),
+											_user$project$Main$renderPage,
+											A2(_user$project$Main$renderProfileBase, model.selectedProvider, contentToEmbed),
 											model);
 									} else {
 										break _v43_10;
@@ -27321,32 +27321,32 @@ var _user$project$Home$view = function (model) {
 										case 'all':
 											var linksContent = A2(
 												_elm_lang$html$Html$map,
-												_user$project$Home$ProviderContentTypeLinksAction,
+												_user$project$Main$ProviderContentTypeLinksAction,
 												A3(
 													_user$project$Controls_ProviderContentTypeLinks$view,
 													model.portal.provider,
 													_user$project$Domain_Core$toContentType(_p71._1._1._1._0),
 													true));
-											var contentToEmbed = A3(_user$project$Home$applyToPortal, model.portal.provider, model, linksContent);
+											var contentToEmbed = A3(_user$project$Main$applyToPortal, model.portal.provider, model, linksContent);
 											return A2(
-												_user$project$Home$renderPage,
+												_user$project$Main$renderPage,
 												A2(
-													_user$project$Home$content,
+													_user$project$Main$content,
 													_elm_lang$core$Maybe$Just(contentToEmbed),
 													model),
 												model);
 										case 'provider':
 											var contentLinks = A2(
-												_user$project$Home$renderProfileBase,
+												_user$project$Main$renderProfileBase,
 												model.selectedProvider,
 												A2(
 													_elm_lang$html$Html$map,
-													_user$project$Home$PortfolioAction,
+													_user$project$Main$PortfolioAction,
 													A2(
 														_user$project$Controls_Portfolio$view,
 														_user$project$Domain_Core$FromOther,
 														{provider: model.selectedProvider, topicSuggestions: model.portfolioSearch.topicSuggestions, selectedTopic: model.portfolioSearch.selectedTopic, inputValue: model.portfolioSearch.inputValue})));
-											return A2(_user$project$Home$renderPage, contentLinks, model);
+											return A2(_user$project$Main$renderPage, contentLinks, model);
 										default:
 											break _v43_10;
 									}
@@ -27361,15 +27361,15 @@ var _user$project$Home$view = function (model) {
 											var topic = A2(_user$project$Domain_Core$Topic, _p71._1._1._0, false);
 											var contentToEmbed = A2(
 												_elm_lang$html$Html$map,
-												_user$project$Home$ProviderTopicContentTypeLinksAction,
+												_user$project$Main$ProviderTopicContentTypeLinksAction,
 												A3(
 													_user$project$Controls_ProviderTopicContentTypeLinks$view,
 													model.selectedProvider,
 													topic,
 													_user$project$Domain_Core$toContentType(_p71._1._1._1._1._0)));
 											return A2(
-												_user$project$Home$renderPage,
-												A2(_user$project$Home$renderProfileBase, model.selectedProvider, contentToEmbed),
+												_user$project$Main$renderPage,
+												A2(_user$project$Main$renderProfileBase, model.selectedProvider, contentToEmbed),
 												model);
 										} else {
 											break _v43_10;
@@ -27377,17 +27377,17 @@ var _user$project$Home$view = function (model) {
 									case 'portal':
 										if (_p71._1._1._0 === 'provider') {
 											var contentLinks = A2(
-												_user$project$Home$renderProfileBase,
+												_user$project$Main$renderProfileBase,
 												model.selectedProvider,
 												A2(
 													_elm_lang$html$Html$map,
-													_user$project$Home$ProviderTopicContentTypeLinksAction,
+													_user$project$Main$ProviderTopicContentTypeLinksAction,
 													A3(
 														_user$project$Controls_ProviderTopicContentTypeLinks$view,
 														model.selectedProvider,
 														A2(_user$project$Domain_Core$Topic, _p71._1._1._1._1._0, false),
 														_user$project$Domain_Core$All)));
-											return A2(_user$project$Home$renderPage, contentLinks, model);
+											return A2(_user$project$Main$renderPage, contentLinks, model);
 										} else {
 											break _v43_10;
 										}
@@ -27403,27 +27403,27 @@ var _user$project$Home$view = function (model) {
 			}
 		}
 	} while(false);
-	return _user$project$Home$pageNotFound;
+	return _user$project$Main$pageNotFound;
 };
-var _user$project$Home$UrlChange = function (a) {
+var _user$project$Main$UrlChange = function (a) {
 	return {ctor: 'UrlChange', _0: a};
 };
-var _user$project$Home$main = A2(
+var _user$project$Main$main = A2(
 	_elm_lang$navigation$Navigation$program,
-	_user$project$Home$UrlChange,
+	_user$project$Main$UrlChange,
 	{
-		init: _user$project$Home$init,
-		view: _user$project$Home$view,
-		update: _user$project$Home$update,
+		init: _user$project$Main$init,
+		view: _user$project$Main$view,
+		update: _user$project$Main$update,
 		subscriptions: function (_p72) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();
 
 var Elm = {};
-Elm['Home'] = Elm['Home'] || {};
-if (typeof _user$project$Home$main !== 'undefined') {
-    _user$project$Home$main(Elm['Home'], 'Home', {"types":{"message":"Home.Msg","aliases":{"Domain.Core.LinkToCreate":{"type":"{ base : Domain.Core.Link , currentTopic : Domain.Core.Topic , topicSuggestions : List Domain.Core.Topic }","args":[]},"Services.Adapter.JsonSource":{"type":"{ id : Int , profileId : String , platform : String , accessId : String , links : List Services.Adapter.JsonLink }","args":[]},"Domain.Core.Provider":{"type":"{ profile : Domain.Core.Profile , topics : List Domain.Core.Topic , portfolio : Domain.Core.Portfolio , filteredPortfolio : Domain.Core.Portfolio , recentLinks : List Domain.Core.Link , followers : List Domain.Core.Id , subscriptions : List Domain.Core.Id }","args":[]},"Services.Adapter.JsonProfile":{"type":"{ id : String , firstName : String , lastName : String , email : String , imageUrl : String , bio : String , sources : List Services.Adapter.JsonSource }","args":[]},"Domain.Core.Topic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Services.Adapter.JsonThumbnail":{"type":"{ imageUrl : String, platform : String }","args":[]},"Services.Adapter.JsonTopic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Domain.Core.Profile":{"type":"{ id : Domain.Core.Id , firstName : Domain.Core.Name , lastName : Domain.Core.Name , email : Domain.Core.Email , imageUrl : Domain.Core.Url , bio : String , sources : List Domain.Core.Source }","args":[]},"Navigation.Location":{"type":"{ href : String , host : String , hostname : String , protocol : String , origin : String , port_ : String , pathname : String , search : String , hash : String , username : String , password : String }","args":[]},"Domain.Core.NewLinks":{"type":"{ profileId : Domain.Core.Id , current : Domain.Core.LinkToCreate , canAdd : Bool , added : List Domain.Core.Link }","args":[]},"Http.Response":{"type":"{ url : String , status : { code : Int, message : String } , headers : Dict.Dict String String , body : body }","args":["body"]},"Services.Adapter.JsonPortfolio":{"type":"{ articles : List Services.Adapter.JsonLink , videos : List Services.Adapter.JsonLink , podcasts : List Services.Adapter.JsonLink , answers : List Services.Adapter.JsonLink }","args":[]},"Domain.Core.Link":{"type":"{ id : Int , profileId : Domain.Core.Id , title : Domain.Core.Title , url : Domain.Core.Url , topics : List Domain.Core.Topic , contentType : Domain.Core.ContentType , isFeatured : Bool }","args":[]},"Services.Adapter.JsonBootstrap":{"type":"{ providers : List Services.Adapter.JsonProvider , platforms : List String }","args":[]},"Domain.Core.Source":{"type":"{ id : Domain.Core.Id , profileId : Domain.Core.Id , platform : String , accessId : String , links : List Domain.Core.Link }","args":[]},"Domain.Core.Portfolio":{"type":"{ topics : List Domain.Core.Topic , answers : List Domain.Core.Link , articles : List Domain.Core.Link , videos : List Domain.Core.Link , podcasts : List Domain.Core.Link }","args":[]},"Services.Adapter.JsonLink":{"type":"{ id : Int , profileId : String , title : String , url : String , contentType : String , topics : List Domain.Core.Topic , isFeatured : Bool }","args":[]},"Services.Adapter.JsonProviderFields":{"type":"{ profile : Services.Adapter.JsonProfile , topics : List Services.Adapter.JsonTopic , portfolio : Services.Adapter.JsonPortfolio , recentLinks : List Services.Adapter.JsonLink , subscriptions : List String , followers : List String }","args":[]}},"unions":{"Controls.RecentProviderLinks.Msg":{"tags":{"None":[]},"args":[]},"Domain.Core.Name":{"tags":{"Name":["String"]},"args":[]},"Controls.ProviderTopicContentTypeLinks.Msg":{"tags":{"None":[]},"args":[]},"Controls.Portfolio.Msg":{"tags":{"KeyDown":["Int"],"TopicSuggestionResponse":["Result.Result Http.Error (List String)"],"TopicSelected":["Domain.Core.Topic"],"Input":["String"]},"args":[]},"Domain.Core.Email":{"tags":{"Email":["String"]},"args":[]},"Dict.NColor":{"tags":{"Black":[],"BBlack":[],"Red":[],"NBlack":[]},"args":[]},"Controls.ProfileThumbnail.Msg":{"tags":{"SubscribeResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"UpdateSubscription":["Domain.Core.SubscriptionUpdate"]},"args":[]},"Services.Adapter.JsonProvider":{"tags":{"JsonProvider":["Services.Adapter.JsonProviderFields"]},"args":[]},"Domain.Core.Url":{"tags":{"Url":["String"]},"args":[]},"Home.Msg":{"tags":{"ViewPortfolioResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"NewLink":["Controls.NewLinks.Msg"],"NavigateToProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ProfileThumbnail":["Controls.ProfileThumbnail.Msg"],"ViewPortfolio":[],"ViewProviders":[],"NavigateToPortalProviderMemberResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"OnLogin":["Controls.Login.Msg"],"UrlChange":["Navigation.Location"],"ProviderContentTypeLinksAction":["Controls.ProviderContentTypeLinks.Msg"],"ViewSubscriptions":[],"ViewFollowers":[],"Subscription":["Domain.Core.SubscriptionUpdate"],"NavigateToPortalProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ViewSources":[],"SubscriptionsResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"NavigateToPortalResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"NavigateToProviderResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"Search":["String"],"SaveThumbnailResponse":["Result.Result Http.Error String"],"ViewRecent":[],"ProvidersResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"RecentProviderLinks":["Controls.RecentProviderLinks.Msg"],"BootstrapResponse":["Result.Result Http.Error Services.Adapter.JsonBootstrap"],"EditProfileAction":["Controls.EditProfile.Msg"],"NavigateBack":[],"ProviderTopicContentTypeLinksAction":["Controls.ProviderTopicContentTypeLinks.Msg"],"PortfolioAction":["Controls.Portfolio.Msg"],"ThumbnailResponse":["Result.Result Http.Error Services.Adapter.JsonThumbnail"],"EditProfile":[],"FeatureLinkResponse":["Result.Result Http.Error Int"],"AddNewLink":[],"OnRegistration":["Controls.Register.Msg"],"SourcesUpdated":["Controls.Sources.Msg"],"NavigateToPortalProviderMemberTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"FollowersResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"Register":[]},"args":[]},"Controls.Sources.Msg":{"tags":{"RemoveResponse":["Result.Result Http.Error String"],"InputPlatform":["String"],"InputAccessId":["String"],"AddResponse":["Result.Result Http.Error Services.Adapter.JsonSource"],"Remove":["Domain.Core.Source"],"Add":["Domain.Core.Source"]},"args":[]},"Result.Result":{"tags":{"Err":["error"],"Ok":["value"]},"args":["error","value"]},"Http.Error":{"tags":{"Timeout":[],"BadStatus":["Http.Response String"],"BadPayload":["String","Http.Response String"],"BadUrl":["String"],"NetworkError":[]},"args":[]},"Controls.ProviderContentTypeLinks.Msg":{"tags":{"Featured":["( Domain.Core.Link, Bool )"]},"args":[]},"Controls.Register.Msg":{"tags":{"Submit":[],"ConfirmInput":["String"],"EmailInput":["String"],"FirstNameInput":["String"],"PasswordInput":["String"],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProfile"]},"args":[]},"Dict.LeafColor":{"tags":{"LBlack":[],"LBBlack":[]},"args":[]},"Controls.EditProfile.Msg":{"tags":{"RemoveTopic":["Domain.Core.Topic"],"InputTopic":["String"],"EmailInput":["String"],"KeyDown":["Int"],"AddTopic":["Domain.Core.Topic"],"FirstNameInput":["String"],"TopicSuggestionResponse":["Result.Result Http.Error (List String)"],"Update":[],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProvider"]},"args":[]},"Controls.NewLinks.Msg":{"tags":{"RemoveTopic":["Domain.Core.Topic"],"InputTopic":["String"],"KeyDown":["Int"],"InputUrl":["String"],"AddTopic":["Domain.Core.Topic"],"InputTitle":["String"],"TopicSuggestionResponse":["Result.Result Http.Error (List String)"],"InputContentType":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonLink"],"AddLink":["Domain.Core.NewLinks"]},"args":[]},"Domain.Core.ContentType":{"tags":{"Answer":[],"Featured":[],"Podcast":[],"Article":[],"Unknown":[],"All":[],"Video":[]},"args":[]},"Domain.Core.Title":{"tags":{"Title":["String"]},"args":[]},"Controls.Login.Msg":{"tags":{"Attempt":["( String, String )"],"PasswordInput":["String"],"UserInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProvider"]},"args":[]},"Dict.Dict":{"tags":{"RBNode_elm_builtin":["Dict.NColor","k","v","Dict.Dict k v","Dict.Dict k v"],"RBEmpty_elm_builtin":["Dict.LeafColor"]},"args":["k","v"]},"Domain.Core.Id":{"tags":{"Id":["String"]},"args":[]},"Domain.Core.SubscriptionUpdate":{"tags":{"Subscribe":["Domain.Core.Provider","Domain.Core.Provider"],"Unsubscribe":["Domain.Core.Provider","Domain.Core.Provider"]},"args":[]}}},"versions":{"elm":"0.18.0"}});
+Elm['Main'] = Elm['Main'] || {};
+if (typeof _user$project$Main$main !== 'undefined') {
+    _user$project$Main$main(Elm['Main'], 'Main', {"types":{"message":"Main.Msg","aliases":{"Domain.Core.LinkToCreate":{"type":"{ base : Domain.Core.Link , currentTopic : Domain.Core.Topic , topicSuggestions : List Domain.Core.Topic }","args":[]},"Services.Adapter.JsonSource":{"type":"{ id : Int , profileId : String , platform : String , accessId : String , links : List Services.Adapter.JsonLink }","args":[]},"Domain.Core.Provider":{"type":"{ profile : Domain.Core.Profile , topics : List Domain.Core.Topic , portfolio : Domain.Core.Portfolio , filteredPortfolio : Domain.Core.Portfolio , recentLinks : List Domain.Core.Link , followers : List Domain.Core.Id , subscriptions : List Domain.Core.Id }","args":[]},"Services.Adapter.JsonProfile":{"type":"{ id : String , firstName : String , lastName : String , email : String , imageUrl : String , bio : String , sources : List Services.Adapter.JsonSource }","args":[]},"Domain.Core.Topic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Services.Adapter.JsonThumbnail":{"type":"{ imageUrl : String, platform : String }","args":[]},"Services.Adapter.JsonTopic":{"type":"{ name : String, isFeatured : Bool }","args":[]},"Domain.Core.Profile":{"type":"{ id : Domain.Core.Id , firstName : Domain.Core.Name , lastName : Domain.Core.Name , email : Domain.Core.Email , imageUrl : Domain.Core.Url , bio : String , sources : List Domain.Core.Source }","args":[]},"Navigation.Location":{"type":"{ href : String , host : String , hostname : String , protocol : String , origin : String , port_ : String , pathname : String , search : String , hash : String , username : String , password : String }","args":[]},"Domain.Core.NewLinks":{"type":"{ profileId : Domain.Core.Id , current : Domain.Core.LinkToCreate , canAdd : Bool , added : List Domain.Core.Link }","args":[]},"Http.Response":{"type":"{ url : String , status : { code : Int, message : String } , headers : Dict.Dict String String , body : body }","args":["body"]},"Services.Adapter.JsonPortfolio":{"type":"{ articles : List Services.Adapter.JsonLink , videos : List Services.Adapter.JsonLink , podcasts : List Services.Adapter.JsonLink , answers : List Services.Adapter.JsonLink }","args":[]},"Domain.Core.Link":{"type":"{ id : Int , profileId : Domain.Core.Id , title : Domain.Core.Title , url : Domain.Core.Url , topics : List Domain.Core.Topic , contentType : Domain.Core.ContentType , isFeatured : Bool }","args":[]},"Services.Adapter.JsonBootstrap":{"type":"{ providers : List Services.Adapter.JsonProvider , platforms : List String }","args":[]},"Domain.Core.Source":{"type":"{ id : Domain.Core.Id , profileId : Domain.Core.Id , platform : String , accessId : String , links : List Domain.Core.Link }","args":[]},"Domain.Core.Portfolio":{"type":"{ topics : List Domain.Core.Topic , answers : List Domain.Core.Link , articles : List Domain.Core.Link , videos : List Domain.Core.Link , podcasts : List Domain.Core.Link }","args":[]},"Services.Adapter.JsonLink":{"type":"{ id : Int , profileId : String , title : String , url : String , contentType : String , topics : List Domain.Core.Topic , isFeatured : Bool }","args":[]},"Services.Adapter.JsonProviderFields":{"type":"{ profile : Services.Adapter.JsonProfile , topics : List Services.Adapter.JsonTopic , portfolio : Services.Adapter.JsonPortfolio , recentLinks : List Services.Adapter.JsonLink , subscriptions : List String , followers : List String }","args":[]}},"unions":{"Controls.RecentProviderLinks.Msg":{"tags":{"None":[]},"args":[]},"Main.Msg":{"tags":{"ViewPortfolioResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"NewLink":["Controls.NewLinks.Msg"],"NavigateToProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ProfileThumbnail":["Controls.ProfileThumbnail.Msg"],"ViewPortfolio":[],"ViewProviders":[],"NavigateToPortalProviderMemberResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"OnLogin":["Controls.Login.Msg"],"UrlChange":["Navigation.Location"],"ProviderContentTypeLinksAction":["Controls.ProviderContentTypeLinks.Msg"],"ViewSubscriptions":[],"ViewFollowers":[],"Subscription":["Domain.Core.SubscriptionUpdate"],"NavigateToPortalProviderTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"ViewSources":[],"SubscriptionsResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"NavigateToPortalResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"NavigateToProviderResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"Search":["String"],"SaveThumbnailResponse":["Result.Result Http.Error String"],"ViewRecent":[],"ProvidersResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"RecentProviderLinks":["Controls.RecentProviderLinks.Msg"],"BootstrapResponse":["Result.Result Http.Error Services.Adapter.JsonBootstrap"],"EditProfileAction":["Controls.EditProfile.Msg"],"NavigateBack":[],"ProviderTopicContentTypeLinksAction":["Controls.ProviderTopicContentTypeLinks.Msg"],"PortfolioAction":["Controls.Portfolio.Msg"],"ThumbnailResponse":["Result.Result Http.Error Services.Adapter.JsonThumbnail"],"EditProfile":[],"FeatureLinkResponse":["Result.Result Http.Error Int"],"AddNewLink":[],"OnRegistration":["Controls.Register.Msg"],"SourcesUpdated":["Controls.Sources.Msg"],"NavigateToPortalProviderMemberTopicResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"FollowersResponse":["Result.Result Http.Error (List Services.Adapter.JsonProvider)"],"Register":[]},"args":[]},"Domain.Core.Name":{"tags":{"Name":["String"]},"args":[]},"Controls.ProviderTopicContentTypeLinks.Msg":{"tags":{"None":[]},"args":[]},"Controls.Portfolio.Msg":{"tags":{"KeyDown":["Int"],"TopicSuggestionResponse":["Result.Result Http.Error (List String)"],"TopicSelected":["Domain.Core.Topic"],"Input":["String"]},"args":[]},"Domain.Core.Email":{"tags":{"Email":["String"]},"args":[]},"Dict.NColor":{"tags":{"Black":[],"BBlack":[],"Red":[],"NBlack":[]},"args":[]},"Controls.ProfileThumbnail.Msg":{"tags":{"SubscribeResponse":["Result.Result Http.Error Services.Adapter.JsonProvider"],"UpdateSubscription":["Domain.Core.SubscriptionUpdate"]},"args":[]},"Services.Adapter.JsonProvider":{"tags":{"JsonProvider":["Services.Adapter.JsonProviderFields"]},"args":[]},"Domain.Core.Url":{"tags":{"Url":["String"]},"args":[]},"Controls.Sources.Msg":{"tags":{"RemoveResponse":["Result.Result Http.Error String"],"InputPlatform":["String"],"InputAccessId":["String"],"AddResponse":["Result.Result Http.Error Services.Adapter.JsonSource"],"Remove":["Domain.Core.Source"],"Add":["Domain.Core.Source"]},"args":[]},"Result.Result":{"tags":{"Err":["error"],"Ok":["value"]},"args":["error","value"]},"Http.Error":{"tags":{"Timeout":[],"BadStatus":["Http.Response String"],"BadPayload":["String","Http.Response String"],"BadUrl":["String"],"NetworkError":[]},"args":[]},"Controls.ProviderContentTypeLinks.Msg":{"tags":{"Featured":["( Domain.Core.Link, Bool )"]},"args":[]},"Controls.Register.Msg":{"tags":{"Submit":[],"ConfirmInput":["String"],"EmailInput":["String"],"FirstNameInput":["String"],"PasswordInput":["String"],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProfile"]},"args":[]},"Dict.LeafColor":{"tags":{"LBlack":[],"LBBlack":[]},"args":[]},"Controls.EditProfile.Msg":{"tags":{"RemoveTopic":["Domain.Core.Topic"],"InputTopic":["String"],"EmailInput":["String"],"KeyDown":["Int"],"AddTopic":["Domain.Core.Topic"],"FirstNameInput":["String"],"TopicSuggestionResponse":["Result.Result Http.Error (List String)"],"Update":[],"LastNameInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProvider"]},"args":[]},"Controls.NewLinks.Msg":{"tags":{"RemoveTopic":["Domain.Core.Topic"],"InputTopic":["String"],"KeyDown":["Int"],"InputUrl":["String"],"AddTopic":["Domain.Core.Topic"],"InputTitle":["String"],"TopicSuggestionResponse":["Result.Result Http.Error (List String)"],"InputContentType":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonLink"],"AddLink":["Domain.Core.NewLinks"]},"args":[]},"Domain.Core.ContentType":{"tags":{"Answer":[],"Featured":[],"Podcast":[],"Article":[],"Unknown":[],"All":[],"Video":[]},"args":[]},"Domain.Core.Title":{"tags":{"Title":["String"]},"args":[]},"Controls.Login.Msg":{"tags":{"Attempt":["( String, String )"],"PasswordInput":["String"],"UserInput":["String"],"Response":["Result.Result Http.Error Services.Adapter.JsonProvider"]},"args":[]},"Dict.Dict":{"tags":{"RBNode_elm_builtin":["Dict.NColor","k","v","Dict.Dict k v","Dict.Dict k v"],"RBEmpty_elm_builtin":["Dict.LeafColor"]},"args":["k","v"]},"Domain.Core.Id":{"tags":{"Id":["String"]},"args":[]},"Domain.Core.SubscriptionUpdate":{"tags":{"Subscribe":["Domain.Core.Provider","Domain.Core.Provider"],"Unsubscribe":["Domain.Core.Provider","Domain.Core.Provider"]},"args":[]}}},"versions":{"elm":"0.18.0"}});
 }
 
 if (typeof define === "function" && define['amd'])

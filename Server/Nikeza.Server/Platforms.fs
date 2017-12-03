@@ -28,8 +28,8 @@ let platformFromString (platform:string) =
     | _               -> Other
 
 let getKey = function
-    | YouTube       -> File.ReadAllText(KeyFile_YouTube)
-    | StackOverflow -> File.ReadAllText(KeyFile_StackOverflow)
+    | YouTube       -> File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(),KeyFile_YouTube))
+    | StackOverflow -> File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(),KeyFile_StackOverflow))
     | WordPress     -> KeyNotRequired
     | Medium        -> KeyNotRequired
     | RSSFeed       -> KeyNotRequired

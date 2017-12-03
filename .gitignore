@@ -1,5 +1,9 @@
 # Created by https://www.gitignore.io/api/f#,linux,windows,macos,vim,emacs,visualstudio,visualstudiocode
 
+# keys
+keys/
+*.key
+
 ### F# ###
 lib/debug
 lib/release

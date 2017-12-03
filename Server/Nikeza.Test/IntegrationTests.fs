@@ -23,7 +23,6 @@ let setup() = registerProfile creatorRegistrationForm |> ignore
 let teardown() = cleanDataStore()
 
 
-
 [<Test>]
 let ``Removing data source updates portfolio`` () =
     
@@ -531,16 +530,16 @@ let ``Get profiles`` () =
 let ``Get profile`` () =
 
     registerProfile someForm
-    |> getProfile
-    |> function | Some _ -> ()
-                | None   -> Assert.Fail()
+     |> getProfile
+     |> function | Some _ -> ()
+                 | None   -> Assert.Fail()
 
 [<Test>]
 let ``Get platforms`` () =
 
     getPlatforms() 
-    |> List.isEmpty 
-    |> should equal false
+     |> List.isEmpty 
+     |> should equal false
 
 [<Test>]
 let ``Adding data source results in links saved`` () =

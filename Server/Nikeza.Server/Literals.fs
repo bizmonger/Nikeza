@@ -7,10 +7,10 @@ let creatorEmail = "scott.nimrod@bizmonger.net"
 let DefaultThumbnail = "http://www.ngu.edu/myimages/silhouette2230.jpg"
 
 [<Literal>]
-let KeyFile_YouTube = @"C:\Nikeza\YouTube_APIKey.txt"
+let KeyFile_YouTube = @"YouTube_APIKey.key"
 
 [<Literal>]
-let KeyFile_StackOverflow = @"C:\Nikeza\StackOverflow_APIKey.txt"
+let KeyFile_StackOverflow = @"StackOverflow_APIKey.key"
 
 [<Literal>]
 let KeyNotRequired = "no key provided"

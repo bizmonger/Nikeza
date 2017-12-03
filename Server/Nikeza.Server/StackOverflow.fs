@@ -104,7 +104,7 @@ module StackOverflow =
         let client = httpClient APIBaseAddress
 
         try let url =        String.Format(TagsUrl, pageNumber |> string)
-            let urlWithKey = sprintf "%s&key=%s" url (File.ReadAllText(KeyFile_StackOverflow))
+            let urlWithKey = sprintf "%s&key=%s" url (File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), KeyFile_StackOverflow)))
             let response =   client.GetAsync(urlWithKey) |> toResult
             if response.IsSuccessStatusCode
                then let json = response.Content.ReadAsStringAsync() |> toResult

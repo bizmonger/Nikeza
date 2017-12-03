@@ -1,13 +1,13 @@
 module Utils
 let toResult task = task |> Async.AwaitTask |> Async.RunSynchronously
 
-let replaceHtmlCodes (text:string) = text.Replace("amp;", "")
-                                         .Replace("&#39;","'")
-                                         .Replace("&#8217;", "'")
-                                         .Replace("&#8230;", "...")
-                                         .Replace("&#8220;", "'")
-                                         .Replace("&#8221;", "'")
-                                         .Replace("&#8211;", "-")
+let replaceHtmlCodes (text:string) = text.Replace("amp;"    , "")
+                                         .Replace("&#39;"   , "'")
+                                         .Replace("&#8217;" , "'")
+                                         .Replace("&#8230;" , "...")
+                                         .Replace("&#8220;" , "'")
+                                         .Replace("&#8221;" , "'")
+                                         .Replace("&#8211;" , "-")
 
 let monthTextToInteger = function
     | "Jan" -> 1
