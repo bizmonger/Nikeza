@@ -5,6 +5,7 @@ module Suggestions =
     open Nikeza.Server.Topics.Marketing
     open Topics.Other
     open SuggestionFinder
+    
     let getSuggestions (text:string) =
 
         getSuggestions text <| StackOverflow.CachedTags.Instance()

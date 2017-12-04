@@ -283,7 +283,7 @@ update msg model =
                                 }
 
                             profileEditor =
-                                initProfileEditor
+                                { initProfileEditor | chosenTopics = provider.topics }
 
                             updatedModel =
                                 { model

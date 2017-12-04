@@ -69,7 +69,7 @@ let getSources profileId =
         
     let sources = readInSources |> getResults getSourcesSql commandFunc
                                 |> List.map (fun s -> s.Id |> getSource)
-    sources
+    sources |> List.choose id
 
 let getProfileByEmail email =
     let commandFunc (command: SqlCommand) = 
@@ -84,8 +84,7 @@ let getProfileByEmail email =
 let loginProfile email =
     email |> getProfileByEmail
           |> function
-             | Some p -> let sources = getSources p.Id |> List.choose id
-                         Some { p with Sources = sources }
+             | Some p -> Some { p with Sources = getSources p.Id }
              | None   -> None
 
 let getProfiles profileId sql parameterName =
@@ -262,6 +261,7 @@ and getProvider profileId =
                           Followers=   profileId |> getFollowers |> List.map (fun f -> f.Profile.Id)
                           Portfolio=   profileId |> getLinks |> toPortfolio
                           RecentLinks= profileId |> getRecent
+                          Profile=     { p.Profile with Sources= profileId |> getSources }
                  }
         | _ -> None
 

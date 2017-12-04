@@ -24409,7 +24409,6 @@ var _user$project$Main$update = F2(
 			case 'ViewPortfolioResponse':
 				var _p53 = _p42._0;
 				if (_p53.ctor === 'Ok') {
-					var profileEditor = _user$project$Domain_Core$initProfileEditor;
 					var portal = model.portal;
 					var provider = _user$project$Services_Adapter$toProvider(_p53._0);
 					var profile = provider.profile;
@@ -24440,6 +24439,9 @@ var _user$project$Main$update = F2(
 							A2(_user$project$Domain_Core$getLinks, _user$project$Domain_Core$Podcast, provider.filteredPortfolio)),
 						topics: provider.filteredPortfolio.topics
 					};
+					var profileEditor = _elm_lang$core$Native_Utils.update(
+						_user$project$Domain_Core$initProfileEditor,
+						{chosenTopics: provider.topics});
 					var updatedModel = _elm_lang$core$Native_Utils.update(
 						model,
 						{
