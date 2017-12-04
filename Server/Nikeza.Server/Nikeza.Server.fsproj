@@ -73,7 +73,8 @@
     <Compile Include="Wordpress.fs" />
     <Compile Include="Medium.fs" />
     <Compile Include="RSSFeed.fs" />
-    <Compile Include="Topics.fs" />
+    <Compile Include="TopicsForMarketing.fs" />
+    <Compile Include="Suggestions.fs" />
     <Compile Include="CommandDetails.fs" />
     <Compile Include="Store.fs" />
     <Compile Include="Platforms.fs" />

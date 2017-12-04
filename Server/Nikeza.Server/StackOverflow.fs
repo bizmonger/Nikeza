@@ -9,7 +9,6 @@ module StackOverflow =
     open Model
     open Http
     open Literals
-    open SuggestionFinder
 
     [<Literal>]
     let private TagsUrl =    "2.2/tags?page={0}&order=desc&sort=popular&site=stackoverflow&filter=!-.G.68grSaJm"
