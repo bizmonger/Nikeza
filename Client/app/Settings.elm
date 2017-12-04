@@ -26,7 +26,7 @@ type alias Dependencies msg =
     , provider : Providerfunction msg
     , featuredTopics : FeaturedTopicsfunction msg
     , providers : Providersfunction msg
-    , portfolio : Portfoliofunction msg
+    , links : Linksfunction msg
     , addLink : AddLinkfunction msg
     , removeLink : RemoveLinkfunction msg
     , topicLinks : TopicLinksfunction msg
@@ -60,7 +60,7 @@ runtime =
                 Services.provider
                 Services.featuredTopics
                 Services.providers
-                Services.portfolio
+                Services.links
                 Services.addLink
                 Services.removeLink
                 Services.topicLinks
@@ -72,7 +72,6 @@ runtime =
                 Services.followers
                 Services.follow
                 Services.unsubscribe
-                -- Services.recentLinks
                 Services.recentLinkProviders
                 Services.featureLink
 
@@ -88,7 +87,7 @@ runtime =
                 TestAPI.provider
                 TestAPI.featuredTopics
                 TestAPI.providers
-                TestAPI.portfolio
+                TestAPI.links
                 TestAPI.addLink
                 TestAPI.removeLink
                 TestAPI.topicLinks
@@ -100,6 +99,5 @@ runtime =
                 TestAPI.followers
                 TestAPI.follow
                 TestAPI.unsubscribe
-                -- TestAPI.recentLinks
                 TestAPI.recentLinkProviders
                 TestAPI.featureLink

@@ -301,16 +301,6 @@ followers profileId msg =
         [] |> httpSuccess msg
 
 
-
--- recentLinks : Id -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
--- recentLinks profileId msg =
---     [ recentLinks1 |> toJsonLinks
---     , recentLinks2 |> toJsonLinks
---     ]
---         |> List.concat
---         |> httpSuccess msg
-
-
 recentLinkProviders : Id -> (Result Http.Error (List JsonProvider) -> msg) -> Cmd msg
 recentLinkProviders profileId msg =
     [ jsonProvider2, jsonProvider3 ] |> httpSuccess msg
@@ -535,14 +525,9 @@ podcasts id =
     id |> linksToContent Podcast
 
 
-portfolio : Id -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
-portfolio profileId msg =
-    { answers = (profileId |> linksToContent Answer) |> toJsonLinks
-    , articles = (profileId |> linksToContent Article) |> toJsonLinks
-    , videos = (profileId |> linksToContent Video) |> toJsonLinks
-    , podcasts = (profileId |> linksToContent Podcast) |> toJsonLinks
-    }
-        |> httpSuccess msg
+links : Id -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+links profileId msg =
+    provider profileId msg
 
 
 addLink : Link -> (Result Http.Error JsonLink -> msg) -> Cmd msg

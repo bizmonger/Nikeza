@@ -59,17 +59,18 @@ let getSource sourceId =
     let sources = readInSources |> getResults getSourceSql sourceCommandFunc
     sources |> List.tryHead
             |> function
-            | Some source -> let links = linksFrom source.Platform source.ProfileId
-                             Some { source with Links= links }
+            | Some source -> Some source
+                             // let links = linksFrom source.Platform source.ProfileId
+                             // Some { source with Links= links }
             | None -> None
 
 let getSources profileId =
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue "@ProfileId" profileId
         
-    let sources = readInSources |> getResults getSourcesSql commandFunc
-                                |> List.map (fun s -> s.Id |> getSource)
-    sources |> List.choose id
+    readInSources 
+     |> getResults getSourcesSql commandFunc
+     |> List.map id
 
 let getProfileByEmail email =
     let commandFunc (command: SqlCommand) = 
@@ -83,9 +84,6 @@ let getProfileByEmail email =
 
 let loginProfile email =
     email |> getProfileByEmail
-          |> function
-             | Some p -> Some { p with Sources = getSources p.Id }
-             | None   -> None
 
 let getProfiles profileId sql parameterName =
     let commandFunc (command: SqlCommand) = 
@@ -259,7 +257,7 @@ and getProvider profileId =
         | p::_ -> 
             Some { p with Topics=      profileId |> getFeaturedTopics
                           Followers=   profileId |> getFollowers |> List.map (fun f -> f.Profile.Id)
-                          Portfolio=   profileId |> getLinks |> toPortfolio
+                          Portfolio=   [] |> toPortfolio // profileId |> getLinks |> toPortfolio
                           RecentLinks= profileId |> getRecent
                           Profile=     { p.Profile with Sources= profileId |> getSources }
                  }
@@ -268,10 +266,8 @@ and getProvider profileId =
 let login email =
     email |> loginProfile 
           |> function
-             | Some p -> match getProvider p.Id with
-                         | Some provider -> Some { provider with Profile = p |> toProfileRequest }
-                         | None          -> None
-             | None -> None
+             | Some p -> p.Id |> getProvider
+             | None   -> None
 
 let getTopic (topicName:string) =
     let topics = getTopics topicName getTopicSql "@Name"

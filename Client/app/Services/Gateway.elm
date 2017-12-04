@@ -123,17 +123,14 @@ featuredTopics id topics msg =
         Http.send msg request
 
 
-portfolio : Id -> (Result Http.Error JsonPortfolio -> msg) -> Cmd msg
-portfolio profileId msg =
+links : Id -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+links profileId msg =
     let
         url =
-            baseUrl ++ (idText profileId) ++ "links"
-
-        body =
-            (encodeId profileId) |> Http.jsonBody
+            baseUrl ++ "links/" ++ (idText profileId)
 
         request =
-            Http.post url body portfolioDecoder
+            Http.get url providerDecoder
     in
         Http.send msg request
 

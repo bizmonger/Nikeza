@@ -166,7 +166,13 @@ let private fetchProviders x: HttpHandler =
     json <| getProviders()
 
 let private fetchLinks providerId: HttpHandler =
-    json <| getLinks providerId
+
+    let links =    providerId |> getLinks
+    providerId 
+     |> getProvider
+     |> function
+        | Some p -> json <| { p with Portfolio= links |> toPortfolio }
+        | None   -> json []
 
 let private fetchSuggestedTopics (text) =
     json <| Suggestions.getSuggestions text

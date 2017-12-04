@@ -241,24 +241,24 @@ let deleteSourceLinksSql =
                   "DELETE SourceLinks
                    WHERE  SourceLinks.SourceId = @SourceId"
 
-let getRecentSql = @"SELECT     Link.Id, 
-                                Link.ProfileId, 
-                                Link.Title, 
-                                Link.Description, 
-                                Link.Url, 
-                                Link.ContentTypeId, 
-                                Link.IsFeatured, 
-                                Link.Created
+let getRecentSql = @"SELECT Top (3) Link.Id, 
+                                    Link.ProfileId, 
+                                    Link.Title, 
+                                    Link.Description, 
+                                    Link.Url, 
+                                    Link.ContentTypeId, 
+                                    Link.IsFeatured, 
+                                    Link.Created
 
-                     FROM       Link
-                     INNER JOIN Subscription
-                           ON   Subscription.SubscriberId = @SubscriberId  AND
-                                Subscription.ProfileId =    Link.ProfileId
+                     FROM           Link
+                     INNER JOIN     Subscription
+                           ON       Subscription.SubscriberId = @SubscriberId  AND
+                                    Subscription.ProfileId =    Link.ProfileId
 
-                     WHERE      Link.Id NOT IN 
-                                       (SELECT ObservedLinks.LinkId
-					                    FROM   ObservedLinks
-                                        WHERE  ObservedLinks.SubscriberId = @SubscriberId)"
+                     WHERE          Link.Id NOT IN 
+                                           (SELECT ObservedLinks.LinkId
+					                        FROM   ObservedLinks
+                                            WHERE  ObservedLinks.SubscriberId = @SubscriberId)"
                                      
 let getLatestLinksSql = @"SELECT TOP (3) 
                                  Link.Id, 

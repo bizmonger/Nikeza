@@ -92,14 +92,13 @@ type Msg
     | EditProfileAction EditProfile.Msg
     | ProviderContentTypeLinksAction ProviderContentTypeLinks.Msg
     | ProviderTopicContentTypeLinksAction ProviderTopicContentTypeLinks.Msg
-    | ViewPortfolioResponse (Result Http.Error JsonProvider)
+    | ViewLinksResponse (Result Http.Error JsonProvider)
     | ThumbnailResponse (Result Http.Error JsonThumbnail)
     | SaveThumbnailResponse (Result Http.Error String)
     | ProvidersResponse (Result Http.Error (List JsonProvider))
     | SubscriptionsResponse (Result Http.Error (List JsonProvider))
     | FollowersResponse (Result Http.Error (List JsonProvider))
     | BootstrapResponse (Result Http.Error JsonBootstrap)
-    | NavigateToPortalResponse (Result Http.Error JsonProvider)
     | NavigateToPortalProviderTopicResponse (Result Http.Error JsonProvider)
     | NavigateToPortalProviderMemberResponse (Result Http.Error JsonProvider)
     | NavigateToPortalProviderMemberTopicResponse (Result Http.Error JsonProvider)
@@ -261,15 +260,12 @@ update msg model =
                     Err _ ->
                         ( model, Cmd.none )
 
-            ViewPortfolioResponse response ->
+            ViewLinksResponse response ->
                 case response of
                     Ok jsonProvider ->
                         let
                             provider =
                                 jsonProvider |> toProvider
-
-                            portal =
-                                model.portal
 
                             profile =
                                 provider.profile
@@ -281,20 +277,27 @@ update msg model =
                                 , podcasts = provider.filteredPortfolio |> getLinks Podcast |> List.filter (\l -> l.isFeatured)
                                 , topics = provider.filteredPortfolio.topics
                                 }
-
-                            profileEditor =
-                                { initProfileEditor | chosenTopics = provider.topics }
-
-                            updatedModel =
-                                { model
-                                    | portal =
-                                        { portal
-                                            | provider = { provider | filteredPortfolio = filtered }
-                                            , profileEditor = profileEditor
-                                        }
-                                }
                         in
-                            ( updatedModel, Cmd.none )
+                            if model.login.loggedIn then
+                                let
+                                    portal =
+                                        model.portal
+
+                                    profileEditor =
+                                        { initProfileEditor | chosenTopics = provider.topics }
+
+                                    updatedModel =
+                                        { model
+                                            | portal =
+                                                { portal
+                                                    | provider = { provider | filteredPortfolio = filtered }
+                                                    , profileEditor = profileEditor
+                                                }
+                                        }
+                                in
+                                    ( updatedModel, Cmd.none )
+                            else
+                                ( { model | selectedProvider = { provider | filteredPortfolio = filtered } }, Cmd.none )
 
                     Err reason ->
                         Debug.crash (toString reason) ( model, Cmd.none )
@@ -357,27 +360,6 @@ update msg model =
                 case response of
                     Ok _ ->
                         ( model, Cmd.none )
-
-                    Err reason ->
-                        Debug.crash (toString reason) ( model, Cmd.none )
-
-            NavigateToPortalResponse response ->
-                case response of
-                    Ok jsonProvider ->
-                        let
-                            ( portal, provider ) =
-                                ( model.portal, jsonProvider |> toProvider )
-
-                            pendingPortal =
-                                { portal
-                                    | provider = provider
-                                    , sourcesNavigation = provider.profile.sources |> List.isEmpty
-                                    , addLinkNavigation = True
-                                    , portfolioNavigation = portfolioExists provider.portfolio
-                                    , requested = Domain.ViewRecent
-                                }
-                        in
-                            ( { model | portal = pendingPortal }, Cmd.none )
 
                     Err reason ->
                         Debug.crash (toString reason) ( model, Cmd.none )
@@ -518,7 +500,7 @@ update msg model =
                                                 }
                                         }
                                   }
-                                , runtime.provider provider.profile.id ViewPortfolioResponse
+                                , runtime.links provider.profile.id ViewLinksResponse
                                 )
 
                         _ ->
@@ -1996,14 +1978,14 @@ renderNavigation portal subscriptions =
         needName =
             (String.isEmpty (nameText profile.firstName)) || (String.isEmpty (nameText profile.lastName))
 
-        noLinks =
-            (portal.provider.portfolio |> getLinks All |> List.isEmpty)
+        sourcesAvailable =
+            not (portal.provider.profile.sources |> List.isEmpty)
     in
-        if needName && noLinks then
+        if needName && not sourcesAvailable then
             displayNavigation noSourcesNoLinks
-        else if not portal.sourcesNavigation && not portal.portfolioNavigation then
+        else if not portal.sourcesNavigation && not portal.portfolioNavigation && not sourcesAvailable then
             displayNavigation enableOnlySourcesAndLinks
-        else if portal.sourcesNavigation && not portal.portfolioNavigation then
+        else if portal.sourcesNavigation && not portal.portfolioNavigation && not sourcesAvailable then
             displayNavigation enableOnlySourcesAndLinks
         else
             displayNavigation allNavigation
@@ -2050,10 +2032,10 @@ navigate : Msg -> Model -> Location -> ( Model, Cmd Msg )
 navigate msg model location =
     case tokenizeUrl location.hash of
         [ "provider", id ] ->
-            ( { model | currentRoute = location }, runtime.provider (Id id) NavigateToProviderResponse )
+            ( { model | currentRoute = location }, runtime.links (Id id) ViewLinksResponse )
 
         [ "provider", id, "all", contentType ] ->
-            ( { model | currentRoute = location }, runtime.provider (Id id) NavigateToProviderResponse )
+            ( { model | currentRoute = location }, runtime.links (Id id) ViewLinksResponse )
 
         [ "provider", id, topic ] ->
             let

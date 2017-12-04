@@ -8,7 +8,7 @@ let replaceHtmlCodes (text:string) = text.Replace("amp;"    , "")
                                          .Replace("&#8220;" , "'")
                                          .Replace("&#8221;" , "'")
                                          .Replace("&#8211;" , "-")
-
+                                         .Replace("&quot;", "\"")
 let monthTextToInteger = function
     | "Jan" -> 1
     | "Feb" -> 2
