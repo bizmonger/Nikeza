@@ -9,6 +9,7 @@ module StackOverflow =
     open Model
     open Http
     open Literals
+    open SuggestionFinder
 
     [<Literal>]
     let private TagsUrl =    "2.2/tags?page={0}&order=desc&sort=popular&site=stackoverflow&filter=!-.G.68grSaJm"
@@ -129,12 +130,12 @@ module StackOverflow =
             let allTags = CachedTags.Instance() |> Set.ofList
 
             title.Split(' ')
-            |> Array.map(fun w -> w.Replace(":", "")
-                                   .Replace(",", "")
-                                   .Trim().ToLower())
-            |> Set.ofArray
-            |> Set.intersect allTags 
-            |> Set.toList
+             |> Array.map(fun w -> w.Replace(":", "")
+                                    .Replace(",", "")
+                                    .Trim().ToLower())
+             |> Set.ofArray
+             |> Set.intersect allTags 
+             |> Set.toList
             
         let getRelatedTags (tag:string) =
 
@@ -169,37 +170,7 @@ module StackOverflow =
                  finally client.Dispose()
             else []
 
-        let getSearchItem text =
-            let decodeIfNeeded (stringValue:string) = stringValue.Replace("%23", "#")
-            let searchItem = decodeIfNeeded text
-            searchItem
-
-
         let getAllTags (searchItem:string) =
             if searchItem <> "" && searchItem.Length > 1
                 then CachedTags.Instance() |> List.map (fun t -> t.ToLower())
-                else []
-
-        let findMatch (text:string) =
-
-            let searchItem = getSearchItem text
-            let tags = searchItem |> getAllTags
-
-            if not (tags |> List.isEmpty)
-               then tags 
-                     |> List.filter(fun t -> t.Contains(searchItem.ToLower()))
-                     |> List.filter (fun t -> t = searchItem)
-                     |> List.tryHead
-               else None
- 
-        let getSuggestions (text:string) =
-
-            let searchItem = getSearchItem text
-            let tags = searchItem |> getAllTags
-
-            if not (tags |> List.isEmpty)
-               then searchItem |> findMatch 
-                               |> function
-                                  | Some tag -> getRelatedTags tag
-                                  | None     -> tags |> List.filter(fun t -> t.Contains(searchItem.ToLower()))
                 else []

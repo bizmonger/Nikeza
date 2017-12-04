@@ -67,11 +67,13 @@
     <Compile Include="Sql.fs" />
     <Compile Include="Read.fs" />
     <Compile Include="Http.fs" />
+    <Compile Include="SuggestionFinder.fs" />
     <Compile Include="Stackoverflow.fs" />
     <Compile Include="Youtube.fs" />
     <Compile Include="Wordpress.fs" />
     <Compile Include="Medium.fs" />
     <Compile Include="RSSFeed.fs" />
+    <Compile Include="Topics.fs" />
     <Compile Include="CommandDetails.fs" />
     <Compile Include="Store.fs" />
     <Compile Include="Platforms.fs" />

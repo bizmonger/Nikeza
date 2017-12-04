@@ -169,7 +169,8 @@ let private fetchLinks providerId: HttpHandler =
     json <| getLinks providerId
 
 let private fetchSuggestedTopics (text) =
-    json <| getSuggestions text
+    //json <| getSuggestions text
+    json <| Topics.getSuggestions text
 
 let private fetchRecent (subscriberId) =
     json <| getProvidersWithRecent subscriberId
