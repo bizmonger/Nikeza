@@ -15,6 +15,13 @@ open Order
 
 [<Literal>]
 let AuthScheme = "Cookie"
+open System.IO
+open Literals
+
+let localHost =   "Data Source=DESKTOP-GE7O8JT\\SQLEXPRESS;Initial Catalog=Nikeza;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" 
+//let remoteHost = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(),KeyFile_SqlConnection))
+
+let connectionString = localHost
 
 let private registrationHandler: HttpHandler = 
     fun next ctx -> 

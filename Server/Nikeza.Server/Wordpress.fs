@@ -15,7 +15,7 @@ module Nikeza.Server.WordPress
     let private ArticlesUrl =      "rest/v1/sites/{0}/posts?number=100&page={1}"
 
     [<Literal>]
-    let private DefaultThumbnail = "rest/v1/sites/bizmonger.wordpress.com/posts?number=1&page=1"
+    let private DefaultThumbnail = "rest/v1/sites/{0}/posts?number=1&page=1"
 
     type Tag = { ID: string; name: string }
 

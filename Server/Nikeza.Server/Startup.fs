@@ -13,6 +13,7 @@ open Giraffe.HttpHandlers
 open Giraffe.Middleware
 open Giraffe.Razor.Middleware
 open Nikeza.Server.Routes
+open Microsoft.AspNetCore.Mvc
 
 
 // ---------------------------------
