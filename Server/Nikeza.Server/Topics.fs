@@ -2,6 +2,7 @@ namespace Nikeza.Server.Topics
 
 module Marketing =
     let marketingTopics = [ "advertising"
+                            "marketing"
                             "branding"
                             "competition"
                             "consumer-behavior"
