@@ -101,7 +101,7 @@ type Msg
     | BootstrapResponse (Result Http.Error JsonBootstrap)
     | NavigateToPortalProviderTopicResponse (Result Http.Error JsonProvider)
     | NavigateToPortalProviderMemberResponse (Result Http.Error JsonProvider)
-    | NavigateToPortalProviderMemberTopicResponse (Result Http.Error JsonProvider)
+    | NavigateToProviderMemberTopicResponse (Result Http.Error JsonProvider)
     | NavigateToProviderResponse (Result Http.Error JsonProvider)
     | NavigateToProviderTopicResponse (Result Http.Error JsonProvider)
     | FeatureLinkResponse (Result Http.Error Int)
@@ -244,7 +244,7 @@ update msg model =
                     Err _ ->
                         ( model, Cmd.none )
 
-            NavigateToPortalProviderMemberTopicResponse response ->
+            NavigateToProviderMemberTopicResponse response ->
                 case response of
                     Ok jsonProvider ->
                         ( { model | selectedProvider = jsonProvider |> toProvider }, Cmd.none )
@@ -2042,7 +2042,7 @@ navigate msg model location =
                 ( providerId, providerTopic ) =
                     ( (Id id), (Topic topic False) )
             in
-                ( { model | currentRoute = location }, runtime.provider providerId NavigateToProviderTopicResponse )
+                ( { model | currentRoute = location }, runtime.links providerId NavigateToProviderTopicResponse )
 
         [ "portal", id ] ->
             let
@@ -2129,7 +2129,7 @@ navigate msg model location =
                 ( providerId, providerTopic ) =
                     ( (Id id), (Topic topic False) )
             in
-                ( { model | currentRoute = location }, runtime.provider providerId NavigateToPortalProviderMemberTopicResponse )
+                ( { model | currentRoute = location }, runtime.links providerId NavigateToProviderMemberTopicResponse )
 
         [ "portal", clientId, "provider", id ] ->
             ( { model | currentRoute = location }, runtime.provider (Id id) NavigateToPortalProviderMemberResponse )

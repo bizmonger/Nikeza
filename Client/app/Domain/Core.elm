@@ -181,7 +181,7 @@ initProfile =
     , lastName = Name undefined
     , email = Email undefined
     , imageUrl = Url undefined
-    , bio = undefined
+    , bio = ""
     , sources = []
     }
 
