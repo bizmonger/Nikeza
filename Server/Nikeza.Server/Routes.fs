@@ -60,7 +60,7 @@ let private followHandler: HttpHandler =
                     |> getFollowers 
                     |> List.exists(fun f -> f.Profile.Id = data.SubscriberId)
 
-               let result =
+               let getResult() =
                    match (getProvider data.SubscriberId, getProvider data.ProfileId) with
                    | (Some user, Some provider) -> json { User= user; Provider= provider }
                    | (Some _, None)             -> (setStatusCode 400 >=> json "provider not found")
@@ -69,8 +69,8 @@ let private followHandler: HttpHandler =
 
                if not alreadyFollowing
                    then Follow data |> execute |> ignore
-                        return! result next ctx
-                   else return! result next ctx
+                        return! getResult() next ctx
+                   else return! getResult() next ctx
              } 
 
 let private unsubscribeHandler: HttpHandler = 
