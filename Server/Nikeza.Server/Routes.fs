@@ -47,9 +47,9 @@ let private loginHandler: HttpHandler =
 let private fetchProvider providerId: HttpHandler =
     fun next ctx ->
         getProvider providerId
-        |> function
-          | Some p -> ctx.WriteJson p
-          | None   -> (setStatusCode 400 >=> json "provider not found") next ctx
+         |> function
+           | Some p -> ctx.WriteJson p
+           | None   -> (setStatusCode 400 >=> json "provider not found") next ctx
 
 let private followHandler: HttpHandler = 
     fun next ctx -> 
@@ -60,15 +60,17 @@ let private followHandler: HttpHandler =
                     |> getFollowers 
                     |> List.exists(fun f -> f.Profile.Id = data.SubscriberId)
 
+               let result =
+                   match (getProvider data.SubscriberId, getProvider data.ProfileId) with
+                   | (Some user, Some provider) -> json { User= user; Provider= provider }
+                   | (Some _, None)             -> (setStatusCode 400 >=> json "provider not found")
+                   | (None, Some _)             -> (setStatusCode 400 >=> json "user not found")    
+                   | (None, None)               -> (setStatusCode 400 >=> json "user and provider not found")
+
                if not alreadyFollowing
-
                    then Follow data |> execute |> ignore
-                   
-                        match (getProvider data.SubscriberId, getProvider data.ProfileId) with
-                        | (Some user, Some provider) -> return! json { User= user; Provider= provider } next ctx
-                        | _                          -> return! (setStatusCode 400 >=> json "user not found") next ctx
-
-                   else return! (setStatusCode 400 >=> json "user not found") next ctx
+                        return! result next ctx
+                   else return! result next ctx
              } 
 
 let private unsubscribeHandler: HttpHandler = 
@@ -79,7 +81,9 @@ let private unsubscribeHandler: HttpHandler =
                
                match (getProvider data.SubscriberId, getProvider data.ProfileId) with
                | (Some user, Some provider) -> return! json { User= user; Provider= provider } next ctx
-               | _                          -> return! (setStatusCode 400 >=> json "user not found") next ctx          
+               | (Some _, None)             -> return! (setStatusCode 400 >=> json "provider not found") next ctx
+               | (None, Some _)             -> return! (setStatusCode 400 >=> json "user not found")     next ctx
+               | (None, None)               -> return! (setStatusCode 400 >=> json "user and provider not found") next ctx
         } 
 
 let private featureLinkHandler: HttpHandler = 
