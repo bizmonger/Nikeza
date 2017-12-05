@@ -61,17 +61,12 @@ let private followHandler: HttpHandler =
                     |> List.exists(fun f -> f.Profile.Id = data.SubscriberId)
 
                if not alreadyFollowing
+
                    then Follow data |> execute |> ignore
-
-                        let user =     getProvider data.SubscriberId
-                        let provider = getProvider data.ProfileId
-               
-                        if user.IsSome && provider.IsSome
-
-                           then let result = { User= user.Value; Provider= provider.Value }
-                                return! json result next ctx
-
-                           else return! (setStatusCode 400 >=> json "user not found") next ctx
+                   
+                        match (getProvider data.SubscriberId, getProvider data.ProfileId) with
+                        | (Some user, Some provider) -> return! json { User= user; Provider= provider } next ctx
+                        | _                          -> return! (setStatusCode 400 >=> json "user not found") next ctx
 
                    else return! (setStatusCode 400 >=> json "user not found") next ctx
              } 
@@ -82,13 +77,9 @@ let private unsubscribeHandler: HttpHandler =
 
                Unsubscribe data |> execute |> ignore
                
-               let user =     getProvider data.SubscriberId
-               let provider = getProvider data.ProfileId
-               
-               if user.IsSome && provider.IsSome
-                  then let result = { User= user.Value; Provider= provider.Value }
-                       return! json result next ctx
-                  else return! (setStatusCode 400 >=> json "user not found") next ctx            
+               match (getProvider data.SubscriberId, getProvider data.ProfileId) with
+               | (Some user, Some provider) -> return! json { User= user; Provider= provider } next ctx
+               | _                          -> return! (setStatusCode 400 >=> json "user not found") next ctx          
         } 
 
 let private featureLinkHandler: HttpHandler = 
