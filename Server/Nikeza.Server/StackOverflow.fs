@@ -72,11 +72,11 @@ module StackOverflow =
 
            else ThumbnailUrl
 
-    let rec private getLinks platformUser (pageNumber:int) existingLinks =
+    let rec private getLinks (platformUser:PlatformUser) (pageNumber:int) existingLinks =
 
-        let user =     platformUser.User
-        let url =      String.Format(AnswersUrl, user.AccessId, pageNumber, platformUser.APIKey)
-        let response = sendRequest APIBaseAddress url user.AccessId platformUser.APIKey
+        let (user:User) = platformUser.User
+        let url =         String.Format(AnswersUrl, user.AccessId, pageNumber, platformUser.APIKey)
+        let response =    sendRequest APIBaseAddress url user.AccessId platformUser.APIKey
 
         if response.IsSuccessStatusCode
            then let json =  response.Content.ReadAsStringAsync() |> toResult

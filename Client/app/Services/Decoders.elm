@@ -85,3 +85,10 @@ providerDecoder =
         (field "subscriptions" <| Decode.list Decode.string)
         (field "followers" <| Decode.list Decode.string)
         |> Decode.map JsonProvider
+
+
+subscriptionActionResponseDecoder : Decoder JsonSubscriptionActionResponse
+subscriptionActionResponseDecoder =
+    Decode.map2 JsonSubscriptionActionResponse
+        (field "user" providerDecoder)
+        (field "provider" providerDecoder)

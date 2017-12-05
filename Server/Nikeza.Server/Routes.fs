@@ -54,6 +54,7 @@ let private fetchProvider providerId: HttpHandler =
 let private followHandler: HttpHandler = 
     fun next ctx -> 
         task { let! data = ctx.BindJson<FollowRequest>()
+
                let alreadyFollowing = 
                    data.ProfileId 
                     |> getFollowers 
@@ -61,16 +62,33 @@ let private followHandler: HttpHandler =
 
                if not alreadyFollowing
                    then Follow data |> execute |> ignore
-                   else ()
-               return! fetchProvider data.ProfileId next ctx 
+
+                        let user =     getProvider data.SubscriberId
+                        let provider = getProvider data.ProfileId
+               
+                        if user.IsSome && provider.IsSome
+
+                           then let result = { User= user.Value; Provider= provider.Value }
+                                return! json result next ctx
+
+                           else return! (setStatusCode 400 >=> json "user not found") next ctx
+
+                   else return! (setStatusCode 400 >=> json "user not found") next ctx
              } 
 
 let private unsubscribeHandler: HttpHandler = 
     fun next ctx -> 
-        task { 
-            let! data = ctx.BindJson<UnsubscribeRequest>()
-            Unsubscribe data |> execute |> ignore
-            return! fetchProvider data.ProfileId next ctx  
+        task { let! data = ctx.BindJson<UnsubscribeRequest>()
+
+               Unsubscribe data |> execute |> ignore
+               
+               let user =     getProvider data.SubscriberId
+               let provider = getProvider data.ProfileId
+               
+               if user.IsSome && provider.IsSome
+                  then let result = { User= user.Value; Provider= provider.Value }
+                       return! json result next ctx
+                  else return! (setStatusCode 400 >=> json "user not found") next ctx            
         } 
 
 let private featureLinkHandler: HttpHandler = 

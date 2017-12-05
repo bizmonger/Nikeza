@@ -43,7 +43,7 @@ let getThumbnail accessId platform = platform |> function
     | RSSFeed       -> DefaultThumbnail
     | Other         -> DefaultThumbnail
 
-let linksFrom platformUser : Link list =
+let linksFrom (platformUser:PlatformUser) : Link list =
 
     let user =  platformUser.User
     

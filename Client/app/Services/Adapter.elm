@@ -95,16 +95,11 @@ type alias TopicLinksfunction msg =
 
 
 type alias Followfunction msg =
-    SubscriptionRequest -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+    SubscriptionRequest -> (Result Http.Error JsonSubscriptionActionResponse -> msg) -> Cmd msg
 
 
 type alias Unsubscribefunction msg =
-    SubscriptionRequest -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
-
-
-
--- type alias RecentLinksfunction msg =
---     Id -> (Result Http.Error (List JsonLink) -> msg) -> Cmd msg
+    SubscriptionRequest -> (Result Http.Error JsonSubscriptionActionResponse -> msg) -> Cmd msg
 
 
 type alias RecentLinkProvidersfunction msg =
@@ -214,6 +209,12 @@ type alias JsonProviderFields =
     , recentLinks : List JsonLink
     , subscriptions : List String
     , followers : List String
+    }
+
+
+type alias JsonSubscriptionActionResponse =
+    { user : JsonProvider
+    , provider : JsonProvider
     }
 
 

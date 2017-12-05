@@ -12,31 +12,31 @@ import Tuple exposing (first, second)
 
 type Msg
     = UpdateSubscription SubscriptionUpdate
-    | SubscribeResponse (Result Http.Error JsonProvider)
+    | SubscribeResponse (Result Http.Error JsonSubscriptionActionResponse)
 
 
 update : Msg -> Provider -> ( Provider, Cmd Msg )
-update msg endUser =
+update msg provider =
     case msg of
-        SubscribeResponse result ->
-            case result of
-                Ok providerResponse ->
-                    ( endUser, Cmd.none )
+        SubscribeResponse response ->
+            case response of
+                Ok result ->
+                    let
+                        updatedProvider =
+                            result.provider
+                    in
+                        ( updatedProvider |> toProvider, Cmd.none )
 
                 Err _ ->
-                    ( endUser, Cmd.none )
+                    ( provider, Cmd.none )
 
         UpdateSubscription action ->
             case action of
                 Subscribe user targetProvider ->
-                    ( user, (runtime.follow { subscriberId = user.profile.id, providerId = targetProvider.profile.id }) SubscribeResponse )
+                    ( targetProvider, (runtime.follow { subscriberId = user.profile.id, providerId = targetProvider.profile.id }) SubscribeResponse )
 
                 Unsubscribe user targetProvider ->
-                    let
-                        subscriptions =
-                            user.subscriptions |> List.filter (\s -> s /= targetProvider.profile.id)
-                    in
-                        ( { user | subscriptions = subscriptions }, (runtime.unsubscribe { subscriberId = user.profile.id, providerId = targetProvider.profile.id }) SubscribeResponse )
+                    ( targetProvider, (runtime.unsubscribe { subscriberId = user.profile.id, providerId = targetProvider.profile.id }) SubscribeResponse )
 
 
 organize : List Topic -> List Topic -> List Topic -> ( List Topic, List Topic )
@@ -75,11 +75,8 @@ organize group1 group2 remainingTopics =
 thumbnail : Maybe Provider -> Bool -> Provider -> Html Msg
 thumbnail loggedIn showSubscriptionState provider =
     let
-        profile =
-            provider.profile
-
         formatTopic topic =
-            a [ href <| urlText <| providerTopicUrl (Just profile.id) profile.id topic ]
+            a [ href <| urlText <| providerTopicUrl (Just provider.profile.id) provider.profile.id topic ]
                 [ button [ class "topicsButton" ] [ text <| topicText topic ] ]
 
         concatTopics topic1 topic2 =
@@ -108,7 +105,7 @@ thumbnail loggedIn showSubscriptionState provider =
 
         nameAndTopics =
             div [ class "thumnnailDetails" ]
-                [ label [ class "profileName" ] [ text <| (profile.firstName |> nameText) ++ " " ++ (profile.lastName |> nameText) ]
+                [ label [ class "profileName" ] [ text <| (provider.profile.firstName |> nameText) ++ " " ++ (provider.profile.lastName |> nameText) ]
                 , br [] []
                 , group1
                 , group2
@@ -130,7 +127,7 @@ thumbnail loggedIn showSubscriptionState provider =
             Just user ->
                 let
                     alreadySubscribed =
-                        user.subscriptions |> List.any (\subscription -> subscription == profile.id)
+                        user.subscriptions |> List.any (\subscription -> subscription == provider.profile.id)
 
                     placeholder =
                         if not alreadySubscribed && showSubscriptionState then
@@ -144,8 +141,8 @@ thumbnail loggedIn showSubscriptionState provider =
                         [ table []
                             [ tr []
                                 [ td []
-                                    [ a [ href <| urlText <| providerUrl (Just user.profile.id) profile.id ]
-                                        [ img [ src <| urlText profile.imageUrl, width 80, height 80 ] [] ]
+                                    [ a [ href <| urlText <| providerUrl (Just user.profile.id) provider.profile.id ]
+                                        [ img [ src <| urlText provider.profile.imageUrl, width 80, height 80 ] [] ]
                                     , br [] []
                                     , label [ class "subscribed" ] [ text <| toString (List.length (provider.followers)) ++ " subscribers" ]
                                     ]
@@ -161,8 +158,8 @@ thumbnail loggedIn showSubscriptionState provider =
                     [ table []
                         [ tr []
                             [ td []
-                                [ a [ href <| urlText <| providerUrl Nothing profile.id ]
-                                    [ img [ src <| urlText profile.imageUrl, width 80, height 80 ] [] ]
+                                [ a [ href <| urlText <| providerUrl Nothing provider.profile.id ]
+                                    [ img [ src <| urlText provider.profile.imageUrl, width 80, height 80 ] [] ]
                                 , br [] []
                                 , label [ class "subscribed" ] [ text <| toString (List.length (provider.followers)) ++ " subscribers" ]
                                 ]

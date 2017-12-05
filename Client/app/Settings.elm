@@ -38,8 +38,6 @@ type alias Dependencies msg =
     , followers : Followersfunction msg
     , follow : Followfunction msg
     , unsubscribe : Unsubscribefunction msg
-
-    -- , recentLinks : RecentLinksfunction msg
     , recentLinkProviders : RecentLinkProvidersfunction msg
     , featureLink : FeatureLinkfunction msg
     }

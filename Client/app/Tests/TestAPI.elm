@@ -780,11 +780,11 @@ bootstrap msg =
         |> httpSuccess msg
 
 
-follow : SubscriptionRequest -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+follow : SubscriptionRequest -> (Result Http.Error JsonSubscriptionActionResponse -> msg) -> Cmd msg
 follow request msg =
-    provider2 |> toJsonProvider |> httpSuccess msg
+    { user = jsonProvider2, provider = jsonProvider3 } |> httpSuccess msg
 
 
-unsubscribe : SubscriptionRequest -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+unsubscribe : SubscriptionRequest -> (Result Http.Error JsonSubscriptionActionResponse -> msg) -> Cmd msg
 unsubscribe request msg =
-    provider2 |> toJsonProvider |> httpSuccess msg
+    { user = jsonProvider2, provider = jsonProvider3 } |> httpSuccess msg

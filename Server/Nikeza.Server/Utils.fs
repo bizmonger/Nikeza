@@ -1,4 +1,5 @@
 module Utils
+
 let toResult task = task |> Async.AwaitTask |> Async.RunSynchronously
 
 let replaceHtmlCodes (text:string) = text.Replace("amp;"    , "")

@@ -397,44 +397,72 @@ update msg model =
                     portal =
                         model.portal
 
-                    provider =
+                    loggedIn =
                         portal.provider
 
-                    ( updatedProvider, subCmd ) =
-                        ProfileThumbnail.update subMsg provider
+                    executeUpdate updatedProvider profileThumbnailCommand =
+                        case subMsg of
+                            ProfileThumbnail.UpdateSubscription _ ->
+                                ( { model | portal = { portal | provider = loggedIn } }, profileThumbnailCommand )
 
-                    profileThumbnailCmd =
-                        Cmd.map ProfileThumbnail subCmd
+                            ProfileThumbnail.SubscribeResponse (Ok result) ->
+                                let
+                                    providerId =
+                                        updatedProvider.profile.id
+
+                                    userIsSubscribedTo =
+                                        updatedProvider.followers |> List.any (\s -> s == loggedIn.profile.id)
+
+                                    portalUserSubscriptions =
+                                        if userIsSubscribedTo then
+                                            updatedProvider.profile.id :: loggedIn.subscriptions
+                                        else
+                                            loggedIn.subscriptions |> List.filter (\s -> s /= updatedProvider.profile.id)
+                                in
+                                    ( { model
+                                        | portal =
+                                            { portal
+                                                | provider = result.user |> toProvider
+                                                , provider = { loggedIn | subscriptions = portalUserSubscriptions }
+                                            }
+                                        , providers = model.searchResult |> List.Extra.replaceIf (\p -> p.profile.id == providerId) updatedProvider
+                                        , scopedProviders = model.scopedProviders |> List.Extra.replaceIf (\p -> p.profile.id == providerId) updatedProvider
+                                        , searchResult = model.searchResult |> List.Extra.replaceIf (\p -> p.profile.id == providerId) updatedProvider
+                                      }
+                                    , profileThumbnailCommand
+                                    )
+
+                            ProfileThumbnail.SubscribeResponse (Err reason) ->
+                                Debug.crash (toString reason) ( model, profileThumbnailCommand )
+
+                    updateProvider targetProvider =
+                        let
+                            ( updatedProvider, subCmd ) =
+                                ProfileThumbnail.update subMsg targetProvider
+
+                            profileThumbnailCmd =
+                                Cmd.map ProfileThumbnail subCmd
+                        in
+                            executeUpdate updatedProvider profileThumbnailCmd
                 in
                     case subMsg of
-                        ProfileThumbnail.UpdateSubscription _ ->
-                            ( { model | portal = { portal | provider = updatedProvider } }, profileThumbnailCmd )
+                        UpdateSubscription action ->
+                            case action of
+                                Subscribe _ targetProvider ->
+                                    updateProvider targetProvider
 
-                        ProfileThumbnail.SubscribeResponse (Ok jsonProvider) ->
-                            let
-                                (JsonProvider fields) =
-                                    jsonProvider
+                                Unsubscribe _ targetProvider ->
+                                    updateProvider targetProvider
 
-                                subscriptions =
-                                    if fields.subscriptions |> List.any (\s -> (Id s) == updatedProvider.profile.id) then
-                                        (Id fields.profile.id) :: updatedProvider.subscriptions
-                                    else
-                                        updatedProvider.subscriptions |> List.filter (\s -> (idText s) /= fields.profile.id)
-                            in
-                                ( { model
-                                    | portal =
-                                        { portal
-                                            | provider =
-                                                { updatedProvider
-                                                    | subscriptions = subscriptions
-                                                }
-                                        }
-                                  }
-                                , runtime.subscriptions provider.profile.id SubscriptionsResponse
-                                )
+                        SubscribeResponse response ->
+                            case response of
+                                Ok result ->
+                                    result.provider
+                                        |> toProvider
+                                        |> updateProvider
 
-                        ProfileThumbnail.SubscribeResponse (Err reason) ->
-                            ( model, Cmd.none )
+                                Err reason ->
+                                    Debug.crash (toString reason) ( model, Cmd.none )
 
             RecentProviderLinks subMsg ->
                 ( model, Cmd.none )

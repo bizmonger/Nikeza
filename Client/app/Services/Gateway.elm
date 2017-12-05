@@ -320,7 +320,7 @@ followers profileId msg =
         Http.send msg request
 
 
-follow : SubscriptionRequest -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+follow : SubscriptionRequest -> (Result Http.Error JsonSubscriptionActionResponse -> msg) -> Cmd msg
 follow followRequest msg =
     let
         url =
@@ -330,12 +330,12 @@ follow followRequest msg =
             encodeSubscriptionRequest followRequest |> Http.jsonBody
 
         request =
-            Http.post url body providerDecoder
+            Http.post url body subscriptionActionResponseDecoder
     in
         Http.send msg request
 
 
-unsubscribe : SubscriptionRequest -> (Result Http.Error JsonProvider -> msg) -> Cmd msg
+unsubscribe : SubscriptionRequest -> (Result Http.Error JsonSubscriptionActionResponse -> msg) -> Cmd msg
 unsubscribe unsubscribeRequest msg =
     let
         url =
@@ -345,6 +345,6 @@ unsubscribe unsubscribeRequest msg =
             encodeSubscriptionRequest unsubscribeRequest |> Http.jsonBody
 
         request =
-            Http.post url body providerDecoder
+            Http.post url body subscriptionActionResponseDecoder
     in
         Http.send msg request

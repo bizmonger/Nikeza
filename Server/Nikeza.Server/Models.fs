@@ -205,6 +205,12 @@ type ProviderRequest = {
 }
 
 [<CLIMutable>]
+type SubscribeActionResponse = { 
+    User:     ProviderRequest
+    Provider: ProviderRequest
+}
+
+[<CLIMutable>]
 type Bootstrap = { 
     Providers: ProviderRequest list
     Platforms: String list
