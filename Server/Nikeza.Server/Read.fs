@@ -106,6 +106,19 @@ let rec readInProfiles profiles (reader:SqlDataReader) = reader.Read() |> functi
                readInProfiles (profile::profiles) reader
     | false -> profiles
 
+
+let readInSynched (reader:SqlDataReader) = { 
+    Id=           reader.GetInt32   (0)
+    ProfileId=    reader.GetInt32   (1)
+    SourceId=     reader.GetInt32   (2)
+    LastSynched=  reader.GetDateTime(3)
+}
+
+let rec readInSynchedItems synchedItems (reader:SqlDataReader) = reader.Read() |> function
+    | true  -> let synched = reader |> readInSynched
+               readInSynchedItems (synched::synchedItems) reader
+    | false -> synchedItems
+
 let rec readInFeaturedTopics topics (reader:SqlDataReader) = reader.Read() |> function
     | true  -> let topic = reader |> readInFeaturedTopic
                readInFeaturedTopics (topic::topics) reader

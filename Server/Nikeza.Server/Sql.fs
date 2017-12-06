@@ -338,12 +338,19 @@ let getSourcesSql = @"SELECT Id,
                              AccessId
                       FROM   Source
                       WHERE  ProfileId = @ProfileId"
+
 let getSourceSql = @"SELECT  Source.Id,
                              Source.ProfileId,
                              Source.Platform,
                              Source.AccessId
                       FROM   Source
                       WHERE  Id = @SourceId"
+
+let lastSynchedSql = @"Select ProfileId, 
+                              SourceId,
+                              LastSynched
+                       FROM   SyncHistory
+                       WHERE  SourceId = @SourceId"
 
 let getPlatformsSql = @"SELECT Name FROM Platform"
 

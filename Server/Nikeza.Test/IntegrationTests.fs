@@ -42,6 +42,23 @@ let ``Sync stackoverflow`` () =
      |> should be (greaterThan <| List.length initialLinks)
 
 [<Test>]
+let ``adding data source updates sync history`` () =
+    
+    // Setup
+    let profileId = registerProfile someForm
+    let source =  { someSource with AccessId= stackoverflowUserId
+                                    ProfileId= profileId
+                                    Platform=  StackOverflow |> PlatformToString }
+
+    let sourceId = AddSource { source with ProfileId= unbox profileId } |> execute
+    
+    // Test
+    getLastSynched <| Int32.Parse(sourceId)
+    |> function
+       | Some lastSynched -> lastSynched.ToShortDateString |> should equal DateTime.Now.Date.ToShortDateString
+       | None -> Assert.Fail()
+
+[<Test>]
 let ``get last synch date from stackoverflow`` () =
     
     // Setup
@@ -53,11 +70,10 @@ let ``get last synch date from stackoverflow`` () =
     let sourceId = AddSource { source with ProfileId= unbox profileId } |> execute
     
     // Test
-    let lastSynched = getLastSynched source.Id
-
-    // Verify
-    lastSynched                  .Date.ToShortDateString
-     |> should equal DateTime.Now.Date.ToShortDateString
+    getLastSynched <| Int32.Parse(sourceId)
+    |> function
+       | Some lastSynched -> lastSynched.ToShortDateString |> should equal DateTime.Now.Date.ToShortDateString
+       | None      -> Assert.Fail()
 
 [<Test>]
 let ``Removing data source updates portfolio`` () =

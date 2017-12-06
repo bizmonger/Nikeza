@@ -73,9 +73,17 @@ let getSources profileId =
      |> getResults getSourcesSql commandFunc
      |> List.map id
 
-let getLastSynched (sourceId:int) : DateTime =
-    DateTime.MinValue
+let getLastSynched (sourceId:int) : DateTime option =
+    let commandFunc (command: SqlCommand) = 
+        command |> addWithValue "@SourceId" sourceId
 
+    readInSynchedItems 
+     |> getResults lastSynchedSql commandFunc
+     |> List.tryHead
+     |> function
+        | Some info -> Some info.LastSynched
+        | None      -> None
+    
 let getProfileByEmail email =
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue "@Email" email
@@ -93,8 +101,7 @@ let getProfiles profileId sql parameterName =
     let commandFunc (command: SqlCommand) = 
         command |> addWithValue parameterName profileId
         
-    let profiles = readInProfiles |> getResults sql commandFunc
-    profiles
+    readInProfiles |> getResults sql commandFunc
 
 let getTopics topicName sql parameterName =
     let commandFunc (command: SqlCommand) = 

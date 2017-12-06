@@ -94,6 +94,14 @@ type ProviderTopic = {
     IsFeatured: bool
 }
 
+
+type Synched = { 
+    Id:          int
+    ProfileId:   int
+    SourceId:    int
+    LastSynched: DateTime
+}
+
 [<CLIMutable>]
 type Link = { 
     Id:            int
