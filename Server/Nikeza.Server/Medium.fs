@@ -198,3 +198,7 @@ module Nikeza.Server.Medium
                  let postsBlock = json.Substring(postsIndex, json.Length - postsIndex)
                  [] |> linksFrom postsBlock user json
             else []
+
+
+    let newMediumLinks (user:User) =
+        []

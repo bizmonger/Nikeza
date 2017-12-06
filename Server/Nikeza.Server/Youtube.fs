@@ -244,3 +244,6 @@ let rec youtubeLinks (platformUser:PlatformUser) =
 
     } |> Async.RunSynchronously
       |> List.map (fun video -> linkOf video user.ProfileId )
+
+let rec newYoutubeLinks (platformUser:PlatformUser) =
+    []

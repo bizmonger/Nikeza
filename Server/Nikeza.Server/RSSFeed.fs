@@ -50,3 +50,7 @@ module Nikeza.Server.RSSFeed
 
                else []
         links
+
+
+    let newRssLinks (user:User) =
+        []

@@ -101,3 +101,6 @@ module Nikeza.Server.WordPress
 
     let wordpressLinks (user:User) =
         [] |> getLinks user 1
+
+    let newWordpressLinks (user:User) =
+        []

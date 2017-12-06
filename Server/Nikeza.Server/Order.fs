@@ -20,3 +20,4 @@ open Commands
 
         | AddSource       info -> addDataSource    info
         | RemoveSource    info -> removeDataSource info
+        | SyncSource      info -> SyncDataSource   info

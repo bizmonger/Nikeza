@@ -43,7 +43,7 @@ let getThumbnail accessId platform = platform |> function
     | RSSFeed       -> DefaultThumbnail
     | Other         -> DefaultThumbnail
 
-let linksFrom (platformUser:PlatformUser) : Link list =
+let platformLinks (platformUser:PlatformUser) =
 
     let user =  platformUser.User
     
@@ -53,4 +53,16 @@ let linksFrom (platformUser:PlatformUser) : Link list =
     | WordPress     -> user         |> wordpressLinks
     | Medium        -> user         |> mediumLinks
     | RSSFeed       -> user         |> rssLinks
+    | Other         -> []
+
+let newPlatformLinks (platformUser:PlatformUser) =
+
+    let user =  platformUser.User
+    
+    platformUser.Platform |> function
+    | YouTube       -> platformUser |> newYoutubeLinks
+    | StackOverflow -> platformUser |> newStackoverflowLinks
+    | WordPress     -> user         |> newWordpressLinks
+    | Medium        -> user         |> newMediumLinks
+    | RSSFeed       -> user         |> newRssLinks
     | Other         -> []

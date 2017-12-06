@@ -236,6 +236,7 @@ type Command =
   
     | AddSource       of DataSourceRequest
     | RemoveSource    of RemoveDataSourceRequest
+    | SyncSource      of DataSourceRequest
 
 // FUNCTIONS
 let isEmpty portfolio =

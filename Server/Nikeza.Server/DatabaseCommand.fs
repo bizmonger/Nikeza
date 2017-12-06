@@ -219,33 +219,48 @@ module internal Commands =
 
         commandFunc |> execute connectionString updateThumbnailSql
 
-    let addDataSource (info:DataSourceRequest) =
+    let private dataSourceToPlatformUser (info:DataSourceRequest) =
 
         let apikey = info.Platform |> platformFromString |> getKey
-        let platformUser = {
-            ProfileId=  info.ProfileId
-            Platform=   info.Platform |> platformFromString
-            APIKey=     apikey
-            User=     { AccessId = info.AccessId; ProfileId= info.ProfileId }
+        { ProfileId=  info.ProfileId
+          Platform=   info.Platform |> platformFromString
+          APIKey=     apikey
+          User=     { AccessId = info.AccessId; ProfileId= info.ProfileId }
         }
 
-        let links =   linksFrom platformUser
+    let updateSourceRequest info links =
         let linkIds = links |> Seq.map addLink |> Seq.toList
         let zipped =  Seq.zip links linkIds
+
         let updatedLinks = 
             zipped |> Seq.map (fun linkAndId -> 
                                 let link = fst linkAndId
                                 let id   = snd linkAndId
                                 { link with Id = Int32.Parse(id) })
 
-        let pendingSource = { info with Links= updatedLinks }
-        let sourceId =        addSource pendingSource
+        { info with Links= updatedLinks }
+
+    let addDataSource (info:DataSourceRequest) =
+    
+        let links =         info  |> dataSourceToPlatformUser |> platformLinks
+        let pendingSource = links |> updateSourceRequest info
+        let sourceId =      addSource pendingSource
+
         let updatedSource = { pendingSource with Id = Int32.Parse(sourceId) }
 
-        updatedLinks 
+        pendingSource.Links 
          |> Seq.toList 
-         |> List.iter (fun link -> addSourceLink updatedSource link |> ignore ) 
+         |> List.iter (fun link -> addSourceLink updatedSource link |> ignore )
+
         sourceId
+
+    let SyncDataSource (info:DataSourceRequest) =
+
+        let newLinks =      info     |> dataSourceToPlatformUser |> newPlatformLinks
+        let pendingSource = newLinks |> updateSourceRequest info
+
+        newLinks |> List.iter (fun link -> addSourceLink pendingSource link |> ignore )
+        info.Id  |> string
 
     let removeDataSource (info:RemoveDataSourceRequest) =
         

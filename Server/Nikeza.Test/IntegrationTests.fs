@@ -22,6 +22,25 @@ let setup() = registerProfile creatorRegistrationForm |> ignore
 [<TearDown>]
 let teardown() = cleanDataStore()
 
+[<Test>]
+let ``Sync stackoverflow`` () =
+    
+    // Setup
+    let profileId =    registerProfile someForm
+    let request =    { someSource with ProfileId= unbox profileId }
+    let sourceId =     AddSource request |> execute
+    let initialLinks = getLinks profileId
+    let partialLinks = initialLinks |> List.take(List.length initialLinks - 1)
+    
+    // Test
+    SyncSource request |> execute |> ignore
+
+    // Verify
+    profileId 
+     |> getLinks 
+     |> List.length 
+     |> should be (greaterThan <| List.length initialLinks)
+
 
 [<Test>]
 let ``Removing data source updates portfolio`` () =

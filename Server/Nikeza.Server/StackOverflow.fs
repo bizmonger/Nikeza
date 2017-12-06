@@ -95,6 +95,9 @@ module StackOverflow =
 
     let stackoverflowLinks platformUser =
         [] |> getLinks platformUser 1
+
+    let newStackoverflowLinks platformUser =
+        []
  
     type Tag =          { name : string }
     type TagsResponse = { items: Tag list }
