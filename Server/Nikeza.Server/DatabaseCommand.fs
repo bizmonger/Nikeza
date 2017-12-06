@@ -141,6 +141,12 @@ module internal Commands =
         
         commandFunc |> execute connectionString deleteLinkSql
 
+    let updateSyncHistory sourceId =
+        let commandFunc (command: SqlCommand) = 
+            command |> addWithValue "@SourceId" sourceId
+        
+        commandFunc |> execute connectionString updateSyncHistorySql
+
     let removeLinkTopic linkId =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@LinkId" linkId
@@ -247,6 +253,8 @@ module internal Commands =
         let sourceId =      addSource pendingSource
 
         let updatedSource = { pendingSource with Id = Int32.Parse(sourceId) }
+
+        updateSyncHistory sourceId |> ignore
 
         pendingSource.Links 
          |> Seq.toList 

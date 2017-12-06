@@ -346,11 +346,14 @@ let getSourceSql = @"SELECT  Source.Id,
                       FROM   Source
                       WHERE  Id = @SourceId"
 
-let lastSynchedSql = @"Select ProfileId, 
-                              SourceId,
+let lastSynchedSql = @"Select SourceId,
                               LastSynched
                        FROM   SyncHistory
                        WHERE  SourceId = @SourceId"
+
+let updateSyncHistorySql = @"Update SynchHistory,
+                             Set    LastSynched = CURRENT_TIMESTAMP
+                             WHERE   SourceId = @SourceId"
 
 let getPlatformsSql = @"SELECT Name FROM Platform"
 
