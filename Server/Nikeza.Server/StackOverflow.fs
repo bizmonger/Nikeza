@@ -19,6 +19,11 @@ module StackOverflow =
     [<Literal>]
     let private AnswersUrl = "2.2/users/{0}/answers?page={1}&pagesize=100&order=desc&sort=activity&site=stackoverflow&filter=!Fcazzsr2b3M)LbUjGAu-Fs0Wf8&key={2}"
 
+    
+    [<Literal>]
+    let private AnswersPostDateUrl = "2.2/users/{0}/answers?page={1}&fromdate{2}&pagesize=100&order=desc&sort=activity&site=stackoverflow&filter=!Fcazzsr2b3M)LbUjGAu-Fs0Wf8&key={3}"
+
+
     [<Literal>]
     let private APIBaseAddress = "https://api.stackexchange.com/"
 
@@ -72,10 +77,9 @@ module StackOverflow =
 
            else ThumbnailUrl
 
-    let rec private getLinks (platformUser:PlatformUser) (pageNumber:int) existingLinks =
+    let rec private getLinks (platformUser:PlatformUser) (pageNumber:int) (url:string) existingLinks =
 
         let (user:User) = platformUser.User
-        let url =         String.Format(AnswersUrl, user.AccessId, pageNumber, platformUser.APIKey)
         let response =    sendRequest APIBaseAddress url user.AccessId platformUser.APIKey
 
         if response.IsSuccessStatusCode
@@ -90,14 +94,22 @@ module StackOverflow =
                    then existingLinks
                    else links 
                          |> List.append existingLinks 
-                         |> getLinks platformUser (pageNumber + 1)
+                         |> getLinks platformUser (pageNumber + 1) url
            else []
 
-    let stackoverflowLinks platformUser =
-        [] |> getLinks platformUser 1
+    let stackoverflowLinks (platformUser:PlatformUser) =
+        let pageNumber = 1
+        let url = String.Format(AnswersUrl, platformUser.User.AccessId, pageNumber, platformUser.APIKey)
+        [] |> getLinks platformUser pageNumber url
 
-    let newStackoverflowLinks platformUser =
-        []
+    let newStackoverflowLinks (lastSynched:DateTime) (platformUser:PlatformUser) =
+
+        let convertDate date = 1512086400 // Todo
+
+        let pageNumber = 1
+        let lastSynced = convertDate lastSynched
+        let url = String.Format(AnswersPostDateUrl, platformUser.User.AccessId, pageNumber, lastSynced, platformUser.APIKey)
+        [] |> getLinks platformUser pageNumber url
  
     type Tag =          { name : string }
     type TagsResponse = { items: Tag list }

@@ -200,5 +200,5 @@ module Nikeza.Server.Medium
             else []
 
 
-    let newMediumLinks (user:User) =
+    let newMediumLinks (lastSynched:DateTime) (user:User) =
         []

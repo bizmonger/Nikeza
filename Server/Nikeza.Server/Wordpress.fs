@@ -102,5 +102,5 @@ module Nikeza.Server.WordPress
     let wordpressLinks (user:User) =
         [] |> getLinks user 1
 
-    let newWordpressLinks (user:User) =
+    let newWordpressLinks (lastSynched:DateTime) (user:User) =
         []

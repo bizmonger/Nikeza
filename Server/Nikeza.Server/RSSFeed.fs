@@ -52,5 +52,5 @@ module Nikeza.Server.RSSFeed
         links
 
 
-    let newRssLinks (user:User) =
+    let newRssLinks (lastSynched:DateTime) (user:User) =
         []

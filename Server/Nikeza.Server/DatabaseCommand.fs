@@ -254,13 +254,21 @@ module internal Commands =
 
         sourceId
 
+    let getLastSynched sourceId : DateTime option =
+        None
+
     let SyncDataSource (info:DataSourceRequest) =
 
-        let newLinks =      info     |> dataSourceToPlatformUser |> newPlatformLinks
-        let pendingSource = newLinks |> updateSourceRequest info
+        getLastSynched info.Id 
+         |> function
+            | Some lastSynched ->
+                let newLinks =      info     |> dataSourceToPlatformUser |> newPlatformLinks lastSynched
+                let updatedSource = newLinks |> updateSourceRequest info
 
-        newLinks |> List.iter (fun link -> addSourceLink pendingSource link |> ignore )
-        info.Id  |> string
+                newLinks |> List.iter (fun link -> addSourceLink updatedSource link |> ignore )
+                info.Id  |> string
+
+            | None -> info.Id  |> string
 
     let removeDataSource (info:RemoveDataSourceRequest) =
         

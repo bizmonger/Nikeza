@@ -1,5 +1,6 @@
 ﻿module Nikeza.Server.Platforms
 
+open System
 open System.IO
 open Literals
 open Model
@@ -55,14 +56,14 @@ let platformLinks (platformUser:PlatformUser) =
     | RSSFeed       -> user         |> rssLinks
     | Other         -> []
 
-let newPlatformLinks (platformUser:PlatformUser) =
+let newPlatformLinks (lastSynched:DateTime) (platformUser:PlatformUser) =
 
     let user =  platformUser.User
     
     platformUser.Platform |> function
-    | YouTube       -> platformUser |> newYoutubeLinks
-    | StackOverflow -> platformUser |> newStackoverflowLinks
-    | WordPress     -> user         |> newWordpressLinks
-    | Medium        -> user         |> newMediumLinks
-    | RSSFeed       -> user         |> newRssLinks
+    | YouTube       -> platformUser |> newYoutubeLinks       lastSynched
+    | StackOverflow -> platformUser |> newStackoverflowLinks lastSynched
+    | WordPress     -> user         |> newWordpressLinks     lastSynched
+    | Medium        -> user         |> newMediumLinks        lastSynched
+    | RSSFeed       -> user         |> newRssLinks           lastSynched
     | Other         -> []

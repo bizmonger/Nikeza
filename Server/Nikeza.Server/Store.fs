@@ -20,6 +20,7 @@ module private Store =
 
 open Model
 open Sql
+open System
     
 let getResults sql commandFunc readInData =
     let (reader, connection) = Store.query connectionString sql commandFunc
@@ -71,6 +72,9 @@ let getSources profileId =
     readInSources 
      |> getResults getSourcesSql commandFunc
      |> List.map id
+
+let getLastSynched (sourceId:int) : DateTime =
+    DateTime.MinValue
 
 let getProfileByEmail email =
     let commandFunc (command: SqlCommand) = 

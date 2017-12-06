@@ -41,6 +41,23 @@ let ``Sync stackoverflow`` () =
      |> List.length 
      |> should be (greaterThan <| List.length initialLinks)
 
+[<Test>]
+let ``get last synch date from stackoverflow`` () =
+    
+    // Setup
+    let profileId = registerProfile someForm
+    let source =  { someSource with AccessId= stackoverflowUserId
+                                    ProfileId= profileId
+                                    Platform=  StackOverflow |> PlatformToString }
+
+    let sourceId = AddSource { source with ProfileId= unbox profileId } |> execute
+    
+    // Test
+    let lastSynched = getLastSynched source.Id
+
+    // Verify
+    lastSynched                  .Date.ToShortDateString
+     |> should equal DateTime.Now.Date.ToShortDateString
 
 [<Test>]
 let ``Removing data source updates portfolio`` () =
