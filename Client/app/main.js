@@ -17650,7 +17650,7 @@ var _user$project$Services_Decoders$subscriptionActionResponseDecoder = A3(
 	A2(_elm_lang$core$Json_Decode$field, 'user', _user$project$Services_Decoders$providerDecoder),
 	A2(_elm_lang$core$Json_Decode$field, 'provider', _user$project$Services_Decoders$providerDecoder));
 
-var _user$project$Services_Gateway$baseUrl = 'http://localhost:5000/';
+var _user$project$Services_Gateway$baseUrl = 'http://nikeza.io/';
 var _user$project$Services_Gateway$tryLogin = F2(
 	function (credentials, msg) {
 		var body = _elm_lang$http$Http$jsonBody(

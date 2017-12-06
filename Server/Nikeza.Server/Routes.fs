@@ -215,8 +215,7 @@ let webApp: HttpHandler =
     choose [
         GET >=>
             choose [
-                //route "/" >=> htmlFile "/hostingstart.html"
-                route  "/"                  >=> htmlFile "/home.html"
+                route "/"                   >=> htmlFile "index.html"
                 route  "/options"           >=> setHttpHeader "Allow" "GET, OPTIONS, POST" // CORS support
                 routef "/bootstrap/%s"          fetchBootstrap
                 routef "/providers/%s"          fetchProviders

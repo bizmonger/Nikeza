@@ -90,9 +90,6 @@
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\*.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="*.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
