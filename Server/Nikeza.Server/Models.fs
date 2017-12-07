@@ -97,7 +97,6 @@ type ProviderTopic = {
 
 type Synched = { 
     Id:          int
-    ProfileId:   int
     SourceId:    int
     LastSynched: DateTime
 }

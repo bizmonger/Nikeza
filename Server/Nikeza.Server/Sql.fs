@@ -346,7 +346,8 @@ let getSourceSql = @"SELECT  Source.Id,
                       FROM   Source
                       WHERE  Id = @SourceId"
 
-let lastSynchedSql = @"Select SourceId,
+let lastSynchedSql = @"Select Id,
+                              SourceId,
                               LastSynched
                        FROM   SyncHistory
                        WHERE  SourceId = @SourceId"
@@ -357,7 +358,7 @@ let updateSyncHistorySql = @"Update SyncHistory
 
 let addSyncHistorySql = @"INSERT INTO SyncHistory
                           OUTPUT INSERTED.ID
-                          VALUES      (SourceId, CURRENT_TIMESTAMP)"
+                          VALUES      (@SourceId, CURRENT_TIMESTAMP)"
 
 let getSyncHistorySql = @"SELECT LastSynched
                           FROM   SyncHistory

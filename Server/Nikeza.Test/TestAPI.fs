@@ -113,6 +113,7 @@ let cleanDataStore() =
     executeCommand @"DELETE FROM Link"
     executeCommand @"DELETE FROM FeaturedTopic"
     executeCommand @"DELETE FROM Topic"
+    executeCommand @"DELETE FROM SyncHistory"
     executeCommand @"DELETE FROM Source"
     executeCommand @"DELETE FROM Subscription"
     executeCommand @"DELETE FROM ProviderSources"

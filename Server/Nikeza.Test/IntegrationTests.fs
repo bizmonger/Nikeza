@@ -45,6 +45,7 @@ let ``Sync stackoverflow`` () =
 let ``adding data source updates sync history`` () =
     
     // Setup
+    cleanDataStore()
     let profileId = registerProfile someForm
     let source =  { someSource with AccessId= stackoverflowUserId
                                     ProfileId= profileId
@@ -55,7 +56,10 @@ let ``adding data source updates sync history`` () =
     // Test
     getLastSynched <| Int32.Parse(sourceId)
      |> function
-        | Some lastSynched -> lastSynched.ToShortDateString |> should equal DateTime.Now.Date.ToShortDateString
+        | Some lastSynched -> 
+            let synchedOn = lastSynched.ToShortDateString()
+            let today =     DateTime.Now.ToShortDateString()
+            synchedOn |> should equal today
         | None             -> Assert.Fail()
 
 [<Test>]

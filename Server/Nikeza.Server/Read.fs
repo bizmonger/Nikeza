@@ -107,11 +107,10 @@ let rec readInProfiles profiles (reader:SqlDataReader) = reader.Read() |> functi
     | false -> profiles
 
 
-let readInSynched (reader:SqlDataReader) = { 
+let readInSynched (reader:SqlDataReader) : Synched = { 
     Id=           reader.GetInt32   (0)
-    ProfileId=    reader.GetInt32   (1)
-    SourceId=     reader.GetInt32   (2)
-    LastSynched=  reader.GetDateTime(3)
+    SourceId=     reader.GetInt32   (1)
+    LastSynched=  reader.GetDateTime(2)
 }
 
 let rec readInSynchedItems synchedItems (reader:SqlDataReader) = reader.Read() |> function

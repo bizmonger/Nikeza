@@ -262,21 +262,22 @@ module internal Commands =
     
         let links =         info  |> dataSourceToPlatformUser |> platformLinks
         let pendingSource = links |> updateSourceRequest info
-        let sourceId =      addSource pendingSource
+        let sourceIdText =  addSource pendingSource
+        let sourceId =      Int32.Parse(sourceIdText)
 
-        let updatedSource = { pendingSource with Id = Int32.Parse(sourceId) }
+        let updatedSource = { pendingSource with Id = sourceId }
 
-        Int32.Parse(sourceId)
-            |> getLastSynched 
-            |> function
+        sourceId
+         |> getLastSynched 
+         |> function
             | Some _ -> updateSyncHistory sourceId |> ignore
-            | None   -> addSyncHistory sourceId    |> ignore
+            | None   -> addSyncHistory    sourceId |> ignore
 
         pendingSource.Links 
          |> Seq.toList 
          |> List.iter (fun link -> addSourceLink updatedSource link |> ignore )
 
-        sourceId
+        sourceId |> string
 
     let getLastSynched sourceId : DateTime option =
         None
