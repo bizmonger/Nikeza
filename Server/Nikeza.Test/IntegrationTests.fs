@@ -24,16 +24,19 @@ let teardown() = cleanDataStore()
 
 [<Test>]
 let ``Sync stackoverflow`` () =
-    
+
     // Setup
     let profileId =    registerProfile someForm
-    let request =    { someSource with ProfileId= unbox profileId }
-    let sourceId =     AddSource request |> execute
+    let source =  { someSource with AccessId= stackoverflowUserId
+                                    ProfileId= profileId
+                                    Platform=  StackOverflow |> PlatformToString }
+
+    let sourceId =     AddSource source |> execute
     let initialLinks = getLinks profileId
     let partialLinks = initialLinks |> List.take(List.length initialLinks - 1)
     
     // Test
-    SyncSource request |> execute |> ignore
+    SyncSource { source with Id = Int32.Parse(sourceId) } |> execute |> ignore
 
     // Verify
     profileId 
@@ -45,7 +48,6 @@ let ``Sync stackoverflow`` () =
 let ``adding data source updates sync history`` () =
     
     // Setup
-    cleanDataStore()
     let profileId = registerProfile someForm
     let source =  { someSource with AccessId= stackoverflowUserId
                                     ProfileId= profileId
@@ -60,24 +62,8 @@ let ``adding data source updates sync history`` () =
             let synchedOn = lastSynched.ToShortDateString()
             let today =     DateTime.Now.ToShortDateString()
             synchedOn |> should equal today
-        | None             -> Assert.Fail()
 
-[<Test>]
-let ``get last synch date from stackoverflow`` () =
-    
-    // Setup
-    let profileId = registerProfile someForm
-    let source =  { someSource with AccessId= stackoverflowUserId
-                                    ProfileId= profileId
-                                    Platform=  StackOverflow |> PlatformToString }
-
-    let sourceId = AddSource { source with ProfileId= unbox profileId } |> execute
-    
-    // Test
-    getLastSynched <| Int32.Parse(sourceId)
-    |> function
-       | Some lastSynched -> lastSynched.ToShortDateString |> should equal DateTime.Now.Date.ToShortDateString
-       | None -> Assert.Fail()
+        | None -> Assert.Fail()
 
 [<Test>]
 let ``Removing data source updates portfolio`` () =

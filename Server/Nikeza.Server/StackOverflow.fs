@@ -51,17 +51,17 @@ module StackOverflow =
     type Thumbnail =         { profile_image: string }
     type ThumbnailResponse = { items: Thumbnail list }
 
-    let private toLink profileId item =
-        { Id=          -1
-          ProfileId=   profileId
-          Title=       item.title |> replaceHtmlCodes
-          Description= ""
-          Url=         item.link
-          Topics=      item.tags |> List.map (fun t -> { Id= -1; Name= t; IsFeatured= false })
-          ContentType= "Answers"
-          IsFeatured=  false
-          Timestamp=   DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds((float item.creation_date))
-        }
+    let private toLink profileId item = { 
+        Id=          -1
+        ProfileId=   profileId
+        Title=       item.title |> replaceHtmlCodes
+        Description= ""
+        Url=         item.link
+        Topics=      item.tags |> List.map (fun t -> { Id= -1; Name= t; IsFeatured= false })
+        ContentType= "Answers"
+        IsFeatured=  false
+        Timestamp=   DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds((float item.creation_date))
+    }
 
     let getThumbnail accessId key =
 
@@ -109,11 +109,11 @@ module StackOverflow =
 
     let newStackoverflowLinks (lastSynched:DateTime) (platformUser:PlatformUser) =
 
-        let convertDate date = 1512086400 // Todo
+        let convertDate (date:DateTime) = sprintf "%i-%i-%i" date.Year date.Month date.Day
 
         let pageNumber = 1
-        let lastSynced = convertDate lastSynched
-        let url = String.Format(AnswersPostDateUrl, platformUser.User.AccessId, pageNumber, lastSynced, platformUser.APIKey)
+        let fromDate = convertDate lastSynched
+        let url = String.Format(AnswersPostDateUrl, platformUser.User.AccessId, pageNumber, fromDate, platformUser.APIKey)
         [] |> getLinks platformUser pageNumber url
  
     type Tag =          { name : string }

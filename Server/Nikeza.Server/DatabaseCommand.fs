@@ -159,6 +159,15 @@ module internal Commands =
         
         commandFunc |> execute connectionString addSyncHistorySql
 
+    //let getLastSynched sourceId : DateTime option =
+    //    sourceId
+    //     |> readInSyn
+    //     |> getSyncHistory
+    //     |> List.tryHead
+    //     |> function | Some info -> Some info.LastSynched
+    //                 | None      -> None    
+
+
     let removeLinkTopic linkId =
         let commandFunc (command: SqlCommand) = 
             command |> addWithValue "@LinkId" linkId
@@ -278,11 +287,8 @@ module internal Commands =
          |> List.iter (fun link -> addSourceLink updatedSource link |> ignore )
 
         sourceId |> string
-
-    let getLastSynched sourceId : DateTime option =
-        None
-
-    let SyncDataSource (info:DataSourceRequest) =
+        
+    let syncDataSource (info:DataSourceRequest) =
 
         getLastSynched info.Id 
          |> function
