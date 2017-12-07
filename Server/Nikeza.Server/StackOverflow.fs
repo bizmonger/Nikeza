@@ -90,11 +90,16 @@ module StackOverflow =
                      |> List.map (fun item -> toLink user.ProfileId item)
                      |> List.rev
 
+                let newPageNumber = pageNumber + 1
+                let oldPage = String.Format("page={0}", (pageNumber)  |> string)
+                let newPage = String.Format("page={0}", newPageNumber |> string)
+                let newUrl = url.Replace(oldPage, newPage)
+
                 if links |> List.isEmpty
                    then existingLinks
                    else links 
                          |> List.append existingLinks 
-                         |> getLinks platformUser (pageNumber + 1) url
+                         |> getLinks platformUser newPageNumber newUrl
            else []
 
     let stackoverflowLinks (platformUser:PlatformUser) =

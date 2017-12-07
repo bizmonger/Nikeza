@@ -23,13 +23,12 @@ open Sql
 open System
     
 let getResults sql commandFunc readInData =
+
     let (reader, connection) = Store.query connectionString sql commandFunc
     
-    let entities = 
-        try     readInData [] reader
-        finally reader.Dispose()
-                connection.Close()
-    entities
+    try     readInData [] reader
+    finally reader.Dispose()
+            connection.Close()
 
 let attachTopics (link:Link) =
     let linkTopicsCommandFunc (command: SqlCommand) = 

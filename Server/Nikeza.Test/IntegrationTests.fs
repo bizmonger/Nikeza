@@ -54,9 +54,9 @@ let ``adding data source updates sync history`` () =
     
     // Test
     getLastSynched <| Int32.Parse(sourceId)
-    |> function
-       | Some lastSynched -> lastSynched.ToShortDateString |> should equal DateTime.Now.Date.ToShortDateString
-       | None -> Assert.Fail()
+     |> function
+        | Some lastSynched -> lastSynched.ToShortDateString |> should equal DateTime.Now.Date.ToShortDateString
+        | None             -> Assert.Fail()
 
 [<Test>]
 let ``get last synch date from stackoverflow`` () =
@@ -73,7 +73,7 @@ let ``get last synch date from stackoverflow`` () =
     getLastSynched <| Int32.Parse(sourceId)
     |> function
        | Some lastSynched -> lastSynched.ToShortDateString |> should equal DateTime.Now.Date.ToShortDateString
-       | None      -> Assert.Fail()
+       | None -> Assert.Fail()
 
 [<Test>]
 let ``Removing data source updates portfolio`` () =

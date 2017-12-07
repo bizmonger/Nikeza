@@ -351,9 +351,17 @@ let lastSynchedSql = @"Select SourceId,
                        FROM   SyncHistory
                        WHERE  SourceId = @SourceId"
 
-let updateSyncHistorySql = @"Update SynchHistory,
+let updateSyncHistorySql = @"Update SyncHistory
                              Set    LastSynched = CURRENT_TIMESTAMP
                              WHERE   SourceId = @SourceId"
+
+let addSyncHistorySql = @"INSERT INTO SyncHistory
+                          OUTPUT INSERTED.ID
+                          VALUES      (SourceId, CURRENT_TIMESTAMP)"
+
+let getSyncHistorySql = @"SELECT LastSynched
+                          FROM   SyncHistory
+                          WHERE  SourceId = @SourceId"
 
 let getPlatformsSql = @"SELECT Name FROM Platform"
 
