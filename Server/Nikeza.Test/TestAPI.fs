@@ -107,13 +107,13 @@ let executeCommand sql =
     dispose connection command
 
 let cleanDataStore() =
+    executeCommand @"DELETE FROM SyncHistory"
     executeCommand @"DELETE FROM ObservedLinks"
     executeCommand @"DELETE FROM SourceLinks"
     executeCommand @"DELETE FROM LinkTopic"
     executeCommand @"DELETE FROM Link"
     executeCommand @"DELETE FROM FeaturedTopic"
     executeCommand @"DELETE FROM Topic"
-    executeCommand @"DELETE FROM SyncHistory"
     executeCommand @"DELETE FROM Source"
     executeCommand @"DELETE FROM Subscription"
     executeCommand @"DELETE FROM ProviderSources"

@@ -628,11 +628,15 @@ let ``Adding data source results in links with topics found`` () =
     let profileId = registerProfile someForm
 
     // Test
-    let sourceId = AddSource { someSource with ProfileId= unbox profileId } |> execute
+    let source =  { someSource with AccessId= stackoverflowUserId
+                                    ProfileId= profileId
+                                    Platform=  StackOverflow |> PlatformToString }
+
+    let sourceId = AddSource source |> execute
 
     // Verify
     getSource sourceId |> function
-    | Some source -> source.Links |> Seq.forall(fun l -> l.Topics |> List.isEmpty |> not) |> should equal false
+    | Some source -> source.Links |> Seq.exists(fun l -> l.Topics |> List.isEmpty |> not) |> should equal false
     | None        -> Assert.Fail()
     
 [<Test>]
@@ -727,19 +731,14 @@ let ``Fetching provider includes their featured topics`` () =
 
 
 [<Test>]
-let ``Logging into portal retrieves portfolio`` () =
+let ``Logging into portal retrieves provider`` () =
 
     //Setup
     let profileId = registerProfile someForm
-    let link =    { someLink with Topics= [someProviderTopic]; ProfileId= profileId }
-    AddLink link |> execute |> ignore
 
     // Test
     match login someForm.Email with
-          | Some provider ->
-             if  provider.Portfolio |> isEmpty
-                then Assert.Fail()
-                else ()
+          | Some provider -> ()
           | None -> Assert.Fail()
 
 [<EntryPoint>]

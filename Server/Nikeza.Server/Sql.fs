@@ -352,6 +352,9 @@ let lastSynchedSql = @"Select Id,
                        FROM   SyncHistory
                        WHERE  SourceId = @SourceId"
 
+let deleteSyncHistorySql = @"DELETE SyncHistory
+                             WHERE  SourceId = @SourceId"
+
 let updateSyncHistorySql = @"Update SyncHistory
                              Set    LastSynched = CURRENT_TIMESTAMP
                              WHERE   SourceId = @SourceId"

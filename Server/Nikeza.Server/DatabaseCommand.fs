@@ -312,6 +312,9 @@ module internal Commands =
         let deleteSourceLinksCommandFunc (command: SqlCommand) = 
             command |> addWithValue "@SourceId" info.Id
 
+        let deleteSyncHistoryCommandFunc (command: SqlCommand) = 
+            command |> addWithValue "@SourceId" info.Id
+
         let deleteLinkTopics (links: Link list) = 
             links |> List.iter (fun l -> removeLinkTopic l.Id |> ignore)
 
@@ -320,7 +323,10 @@ module internal Commands =
         
         let links = linksFromSource info.Id getSourceLinksBySourceIdSql
         
+        deleteSyncHistoryCommandFunc |> execute connectionString deleteSyncHistorySql |> ignore
         deleteSourceLinksCommandFunc |> execute connectionString deleteSourceLinksSql |> ignore
+
         links |> deleteLinkTopics
         links |> deleteLinks
+
         deleteSourceCommandFunc |> execute connectionString deleteSourceSql
