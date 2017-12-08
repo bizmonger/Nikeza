@@ -79,9 +79,9 @@ module Nikeza.Server.WordPress
                 url
            else ""
 
-    let rec private getLinks (user:User) (pageNumber:int) existingLinks =
+    let rec private getLinks (user:User) (pageNumber:int) url existingLinks =
 
-        let response = sendRequest APIBaseAddress ArticlesUrl user.AccessId <| string pageNumber
+        let response = sendRequest APIBaseAddress url user.AccessId <| string pageNumber
 
         if  response.IsSuccessStatusCode
             then let json =     response.Content.ReadAsStringAsync() |> toResult
@@ -95,12 +95,30 @@ module Nikeza.Server.WordPress
                     then result.posts  |> Seq.toList 
                                        |> List.map (fun post -> toLink user.ProfileId post)
                                        |> List.append <| existingLinks
-                                       |> getLinks user (pageNumber + 1)
+                                       |> getLinks user (pageNumber + 1) url
                     else existingLinks
             else []
 
     let wordpressLinks (user:User) =
-        [] |> getLinks user 1
+        [] |> getLinks user 1 ArticlesUrl
 
     let newWordpressLinks (lastSynched:DateTime) (user:User) =
-        []
+        let convertDate (date:DateTime) =
+            
+            let EnsureTwoDigits (x:int) =
+                x |> string
+                  |> String.length 
+                  |> function
+                     | 1 -> sprintf "0%i" x
+                     | 2 -> x |> string
+                     | _ -> "00"
+
+            let month = date.Month |> EnsureTwoDigits
+            let day =   date.Day   |> EnsureTwoDigits
+
+            sprintf "%i%s%s" date.Year month day
+
+        let pageNumber = 1
+        let fromDate = convertDate lastSynched
+        let dateUrl =  sprintf "%s&after=%s" ArticlesUrl fromDate
+        [] |> getLinks user 1 dateUrl

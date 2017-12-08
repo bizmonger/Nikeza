@@ -23,7 +23,7 @@ let setup() = registerProfile creatorRegistrationForm |> ignore
 let teardown() = cleanDataStore()
 
 [<Test>]
-let ``Sync stackoverflow`` () =
+let ``Sync Stackoverflow`` () =
 
     // Setup
     let profileId = registerProfile someForm
@@ -42,6 +42,29 @@ let ``Sync stackoverflow`` () =
     // Verify
     profileId 
      |> getLinks 
+     |> List.length 
+     |> should be (greaterThan <| List.length initialLinks)
+
+[<Test>]
+let ``Sync WordPress`` () =
+
+    // Setup
+    let profileId = registerProfile someForm
+    let source =  { someSource with AccessId= wordpressUserId
+                                    ProfileId= profileId
+                                    Platform=  WordPress |> PlatformToString }
+
+    let sourceId =     AddSource source |> execute
+    let initialLinks = getLinks profileId
+
+    modifyDbForSyncTest sourceId |> ignore
+    
+    // Test
+    SyncSource { source with Id = Int32.Parse(sourceId) } |> execute |> ignore
+
+    // Verify
+    profileId 
+     |> getLinks
      |> List.length 
      |> should be (greaterThan <| List.length initialLinks)
 
