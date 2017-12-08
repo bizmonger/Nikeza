@@ -21,7 +21,7 @@ module StackOverflow =
 
     
     [<Literal>]
-    let private AnswersPostDateUrl = "2.2/users/{0}/answers?page={1}&fromdate{2}&pagesize=100&order=desc&sort=activity&site=stackoverflow&filter=!Fcazzsr2b3M)LbUjGAu-Fs0Wf8&key={3}"
+    let private AnswersPostDateUrl = "2.2/users/{0}/answers?page={1}&fromdate={2}&pagesize=100&order=desc&sort=activity&site=stackoverflow&filter=!Fcazzsr2b3M)LbUjGAu-Fs0Wf8&key={3}"
 
 
     [<Literal>]
@@ -109,7 +109,8 @@ module StackOverflow =
 
     let newStackoverflowLinks (lastSynched:DateTime) (platformUser:PlatformUser) =
 
-        let convertDate (date:DateTime) = sprintf "%i-%i-%i" date.Year date.Month date.Day
+        let convertDate (date:DateTime) =
+            ((DateTimeOffset)date).ToUnixTimeSeconds()
 
         let pageNumber = 1
         let fromDate = convertDate lastSynched

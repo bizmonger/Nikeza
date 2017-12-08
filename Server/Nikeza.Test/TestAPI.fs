@@ -123,6 +123,24 @@ let cleanup command connection =
     dispose connection command
     cleanDataStore()
 
+
+
+let modifyDbForSyncTest sourceId =
+
+    executeCommand @"DELETE FROM SourceLinks"
+
+    let sql = @"UPDATE SyncHistory
+                SET    LastSynched = @LastSynched
+                WHERE  SourceId = @SourceId"
+
+    let (connection,command) = createCommand sql connectionString
+
+    connection.Open()
+    command.Parameters.AddWithValue("@SourceId",    sourceId) |> ignore
+    command.Parameters.AddWithValue("@LastSynched", DateTime.Now.AddYears(-1)) |> ignore
+    command.ExecuteNonQuery()  |> ignore
+    connection.Close()
+
 let getLastId tableName =
 
     let rec getIds (reader:SqlDataReader) ids dataAvailable =

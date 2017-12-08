@@ -26,14 +26,15 @@ let teardown() = cleanDataStore()
 let ``Sync stackoverflow`` () =
 
     // Setup
-    let profileId =    registerProfile someForm
+    let profileId = registerProfile someForm
     let source =  { someSource with AccessId= stackoverflowUserId
                                     ProfileId= profileId
                                     Platform=  StackOverflow |> PlatformToString }
 
     let sourceId =     AddSource source |> execute
     let initialLinks = getLinks profileId
-    let partialLinks = initialLinks |> List.take(List.length initialLinks - 1)
+
+    modifyDbForSyncTest sourceId |> ignore
     
     // Test
     SyncSource { source with Id = Int32.Parse(sourceId) } |> execute |> ignore
@@ -304,7 +305,7 @@ let ``Follow Provider`` () =
     try
         connection.Open()
         command.Parameters.AddWithValue("@SubscriberId", subscriberId) |> ignore
-        command.Parameters.AddWithValue("@ProfileId",   profileId)   |> ignore
+        command.Parameters.AddWithValue("@ProfileId",    profileId)    |> ignore
 
         use reader = command |> prepareReader
         let entryAdded = reader.GetInt32(0) = Int32.Parse (subscriberId) && 

@@ -293,10 +293,13 @@ module internal Commands =
         getLastSynched info.Id 
          |> function
             | Some lastSynched ->
-                let newLinks =      info     |> dataSourceToPlatformUser |> newPlatformLinks lastSynched
-                let updatedSource = newLinks |> updateSourceRequest info
+                let updatedSource = info |> dataSourceToPlatformUser 
+                                         |> newPlatformLinks lastSynched 
+                                         |> updateSourceRequest info
+                updatedSource.Links 
+                 |> List.ofSeq 
+                 |> List.iter (fun link -> addSourceLink updatedSource link |> ignore )
 
-                newLinks |> List.iter (fun link -> addSourceLink updatedSource link |> ignore )
                 info.Id  |> string
 
             | None -> info.Id  |> string
