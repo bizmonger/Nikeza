@@ -121,4 +121,4 @@ module Nikeza.Server.WordPress
         let pageNumber = 1
         let fromDate = convertDate lastSynched
         let dateUrl =  sprintf "%s&after=%s" ArticlesUrl fromDate
-        [] //|> getLinks user 1 dateUrl
+        [] |> getLinks user 1 dateUrl

@@ -249,6 +249,7 @@ module internal Commands =
     let private dataSourceToPlatformUser (info:DataSourceRequest) =
 
         let apikey = info.Platform |> platformFromString |> getKey
+
         { ProfileId=  info.ProfileId
           Platform=   info.Platform |> platformFromString
           APIKey=     apikey
@@ -256,6 +257,7 @@ module internal Commands =
         }
 
     let updateSourceRequest info links =
+        
         let linkIds = links |> Seq.map addLink |> Seq.toList
         let zipped =  Seq.zip links linkIds
 
