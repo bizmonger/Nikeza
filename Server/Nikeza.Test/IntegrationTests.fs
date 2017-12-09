@@ -22,6 +22,24 @@ let setup() = registerProfile creatorRegistrationForm |> ignore
 [<TearDown>]
 let teardown() = cleanDataStore()
 
+
+[<Test>]
+let ``Sync YouTube`` () =
+
+    // Setup
+    let profileId = registerProfile someForm
+    let source =  { someSource with AccessId= youtubeUserId
+                                    ProfileId= profileId
+                                    Platform=  YouTube |> PlatformToString }
+
+    let sourceId =     AddSource source |> execute
+    let initialLinks = getLinks profileId
+
+    modifyDbForSyncTest sourceId |> ignore
+    
+    // Test
+    SyncSource { source with Id = Int32.Parse(sourceId) } |> execute |> ignore
+
 [<Test>]
 let ``Sync Stackoverflow`` () =
 
@@ -248,10 +266,10 @@ let ``Load links from YouTube`` () =
                                     Platform=  YouTube |> PlatformToString }
     // Test
     AddSource { source with ProfileId= unbox profileId } |> execute |> ignore
-    let links = source.ProfileId |> Store.linksFrom source.Platform |> List.toSeq
+    let links = source.ProfileId |> Store.linksFrom source.Platform
 
     // Verify
-    links |> Seq.isEmpty |> should equal false
+    links |> List.isEmpty |> should equal false
 
 [<Test>]
 let ``Read YouTube APIKey file`` () =

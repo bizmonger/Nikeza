@@ -24,6 +24,9 @@ let private tagsUrl = "videos?key={0}&fields=items(snippet(title,tags))&part=sni
 [<Literal>]
 let private thumbnailUrl = "channels?part=snippet&fields=items%2Fsnippet%2Fthumbnails%2Fdefault&id={0}&key={1}"
 
+[<Literal>]
+let private publishedAfterUrl = "search?channelId={0}&key={1}&part=snippet,id&order=date&maxResults=50"
+
 [<CLIMutable>]
 type Default =    { url:string }
 
@@ -108,8 +111,9 @@ module Playlist =
     
     let uploads: Uploads = 
         fun channel youTubeService ->
-            let playlistId = channel.ContentDetails.RelatedPlaylists.Uploads
+            let playlistId =         channel.ContentDetails.RelatedPlaylists.Uploads
             let playListItemConfig = configPlaylistReq playlistId
+
             let rec pager (acc: seq<Video>) (nextPageToken) = async {
                 match nextPageToken with
                 | null -> return acc
@@ -121,17 +125,17 @@ module Playlist =
                     let! playlistItemRep = playlistItemListReq.ExecuteAsync() |> Async.AwaitTask
 
                     let  videosWithTags = 
-                         playlistItemRep.Items
-                         |> Seq.map(fun video -> 
-                             let snippet = video.Snippet
-                             
-                             { Id=          snippet.ResourceId.VideoId
-                               Title=       snippet.Title |> replaceHtmlCodes
-                               Url=         UrlPrefix + snippet.ResourceId.VideoId
-                               Description= snippet.Description
-                               PostDate=    (snippet.PublishedAt.Value.ToString("d"))
-                               Tags = []
-                             })
+                            playlistItemRep.Items
+                             |> Seq.map(fun video -> 
+                                 let snippet = video.Snippet
+                                 
+                                 { Id=          snippet.ResourceId.VideoId
+                                   Title=       snippet.Title |> replaceHtmlCodes
+                                   Url=         UrlPrefix + snippet.ResourceId.VideoId
+                                   Description= snippet.Description
+                                   PostDate=    (snippet.PublishedAt.Value.ToString("d"))
+                                   Tags = []
+                                 })
 
                     return! pager (Seq.concat [acc; videosWithTags]) playlistItemRep.NextPageToken 
             }    
@@ -147,6 +151,7 @@ let uploadsOrEmpty channel youTubeService = channel |> function
 let getThumbnail accessId key =
 
     let response = sendRequest BaseAddress thumbnailUrl accessId key
+
     if  response.IsSuccessStatusCode
         then let json =     response.Content.ReadAsStringAsync() |> toResult
              let settings = JsonSerializerSettings()
@@ -155,7 +160,7 @@ let getThumbnail accessId key =
              let result = JsonConvert.DeserializeObject<Response>(json, settings)
              match result.items |> Seq.toList with
              | h::_ -> h.snippet.thumbnails.``default``.url
-             | _    ->  DefaultThumbnail
+             | _    -> DefaultThumbnail
 
         else DefaultThumbnail
 
@@ -221,6 +226,7 @@ let uploadList: UploadList = fun youTubeService id ->
     }
 
 open Authentication
+open System.Xml
 
 let linkOf video profileId = {
     Id=          0
@@ -245,5 +251,23 @@ let rec youtubeLinks (platformUser:PlatformUser) =
     } |> Async.RunSynchronously
       |> List.map (fun video -> linkOf video user.ProfileId )
 
+
+let private getLinks url  (platformUser:PlatformUser)=
+
+    let response = sendRequest BaseAddress url platformUser.User.AccessId  platformUser.APIKey
+
+    if  response.IsSuccessStatusCode
+        then let json =     response.Content.ReadAsStringAsync() |> toResult             
+             let result =      JsonConvert.DeserializeObject<Response>(json)
+             []
+        else []
+
 let rec newYoutubeLinks (lastSynched:DateTime) (platformUser:PlatformUser) =
-    []
+
+    let convertToRFC3339 (date:DateTime) = 
+        XmlConvert.ToString(date, XmlDateTimeSerializationMode.Utc)
+
+    let date = convertToRFC3339 lastSynched
+
+    let url = sprintf "%s&publishedAfter=%s" publishedAfterUrl date
+    platformUser |> getLinks url
