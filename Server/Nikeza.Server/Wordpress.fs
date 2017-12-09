@@ -102,7 +102,7 @@ module Nikeza.Server.WordPress
     let wordpressLinks (user:User) =
         [] |> getLinks user 1 ArticlesUrl
 
-    let newWordpressLinks (lastSynched:DateTime) (user:User) =
+    let newWordpressLinks (lastSynched:DateTime) (user:User) : Link list =
         let convertDate (date:DateTime) =
             
             let EnsureTwoDigits (x:int) =
@@ -121,4 +121,4 @@ module Nikeza.Server.WordPress
         let pageNumber = 1
         let fromDate = convertDate lastSynched
         let dateUrl =  sprintf "%s&after=%s" ArticlesUrl fromDate
-        [] |> getLinks user 1 dateUrl
+        [] //|> getLinks user 1 dateUrl

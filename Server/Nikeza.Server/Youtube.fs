@@ -46,6 +46,29 @@ type Item =       { snippet : Snippet }
 [<CLIMutable>]
 type Response =   { items : Item seq }
 
+[<CLIMutable>]
+type Id = { 
+    kind: string
+    videoId : string
+}
+
+[<CLIMutable>]
+type Snippet2 = { 
+    publishedAt : DateTime
+    title: string
+    description: string
+}
+
+[<CLIMutable>]
+type Item2 = { 
+    id: Id
+    snippet : Snippet2
+}
+
+[<CLIMutable>]
+type Response2 =   { items : Item2 seq }
+
+
 type Video = {
     Id:          string
     Title:       string
@@ -175,7 +198,7 @@ let getTags apiKey videosWithTags =
       let screen tags = 
           tags |> List.choose (fun tag -> if isBlackListed tag then Some tag else None )
 
-      let getTags item =
+      let getTags (item:Item) =
           if item.snippet.tags |> isNull
               then []
               else item.snippet.tags 
@@ -252,14 +275,28 @@ let rec youtubeLinks (platformUser:PlatformUser) =
       |> List.map (fun video -> linkOf video user.ProfileId )
 
 
-let private getLinks url  (platformUser:PlatformUser)=
+let private getLinks url (platformUser:PlatformUser) : Link list=
 
     let response = sendRequest BaseAddress url platformUser.User.AccessId  platformUser.APIKey
 
     if  response.IsSuccessStatusCode
-        then let json =     response.Content.ReadAsStringAsync() |> toResult             
-             let result =      JsonConvert.DeserializeObject<Response>(json)
-             []
+        then let json =   response.Content.ReadAsStringAsync() |> toResult
+             let settings = JsonSerializerSettings()
+             settings.MissingMemberHandling <- MissingMemberHandling.Ignore
+
+             let result = JsonConvert.DeserializeObject<Response2>(json, settings)
+             let videos = result.items |> Seq.toList
+                                       |> List.map (fun item ->
+                                                     let snippet = item.snippet
+                                                     { Id=          item.id.videoId
+                                                       Title=       snippet.title |> replaceHtmlCodes
+                                                       Url=         UrlPrefix + item.id.videoId
+                                                       Description= snippet.description
+                                                       PostDate=    (snippet.publishedAt.ToString("d"))
+                                                       Tags = []
+                                                     }
+                                                   )
+             videos |> List.map(fun v -> linkOf v platformUser.User.ProfileId)
         else []
 
 let rec newYoutubeLinks (lastSynched:DateTime) (platformUser:PlatformUser) =
