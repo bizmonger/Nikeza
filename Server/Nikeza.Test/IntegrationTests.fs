@@ -23,6 +23,27 @@ let setup() = registerProfile creatorRegistrationForm |> ignore
 let teardown() = cleanDataStore()
 
 [<Test>]
+let ``Get all sources`` () =
+
+    // Setup
+    let profileId = registerProfile someForm
+
+    let source1 =  { someSource with AccessId=  stackoverflowUserId
+                                     ProfileId= profileId
+                                     Platform=  StackOverflow |> PlatformToString }
+
+    let source2 =  { someSource with AccessId=  youtubeUserId
+                                     ProfileId= profileId
+                                     Platform=  YouTube       |> PlatformToString }
+
+    AddSource source1 |> execute |> ignore
+    AddSource source2 |> execute |> ignore
+
+    let sources = getAllSources()
+    sources |> List.iter (fun s -> System.Diagnostics.Debug.WriteLine(s))
+    sources |> List.length |> should equal 2
+
+[<Test>]
 let ``Sync history updated after syncing`` () =
 
     // Setup
@@ -45,17 +66,6 @@ let ``Sync history updated after syncing`` () =
      |> function
         | Some lastSynched -> lastSynched.ToShortDateString() |> should equal (DateTime.Now.ToShortDateString())
         | None             -> Assert.Fail()
-
-[<Test>]
-let ``Get all sources`` () =
-
-    // Setup
-    let profileId = registerProfile someForm
-    let source =  { someSource with AccessId= File.ReadAllText(ChannelIdFile) }
-    AddSource { source with ProfileId= unbox profileId } |> execute |> ignore
-
-    // Test
-    getAllSources() |> List.isEmpty |> should equal false
 
 [<Test>]
 let ``Sync Medium`` () =
