@@ -23,6 +23,30 @@ let setup() = registerProfile creatorRegistrationForm |> ignore
 let teardown() = cleanDataStore()
 
 [<Test>]
+let ``Sync history updated after syncing`` () =
+
+    // Setup
+    let profileId = registerProfile someForm
+    let source =  { someSource with AccessId= stackoverflowUserId
+                                    ProfileId= profileId
+                                    Platform=  StackOverflow |> PlatformToString }
+
+    let sourceId =     AddSource source |> execute
+    let initialLinks = getLinks profileId
+
+    modifyDbForSyncTest sourceId |> ignore
+    
+    // Test
+    SyncSource { source with Id = Int32.Parse(sourceId) } |> execute |> ignore
+
+    // Verify
+    Int32.Parse(sourceId) 
+     |> getLastSynched
+     |> function
+        | Some lastSynched -> lastSynched.ToShortDateString() |> should equal (DateTime.Now.ToShortDateString())
+        | None             -> Assert.Fail()
+
+[<Test>]
 let ``Get all sources`` () =
 
     // Setup

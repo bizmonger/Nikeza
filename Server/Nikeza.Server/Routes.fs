@@ -17,10 +17,12 @@ open System.IO
 open Literals
 open Nikeza.Server.DatabaseCommand.Commands
 
-let localHost =   "Data Source=DESKTOP-GE7O8JT\\SQLEXPRESS;Initial Catalog=Nikeza;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" 
-//let remoteHost = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(),KeyFile_SqlConnection))
+//-----------------------------------------------------------------------
+// DEPLOYMENT
+//-----------------------------------------------------------------------
+// dotnet publish -c Release -o "C:\Nikeza\deployment" --runtime win8-x64
+//-----------------------------------------------------------------------
 
-let connectionString = localHost
 
 let private registrationHandler: HttpHandler = 
     fun next ctx -> 

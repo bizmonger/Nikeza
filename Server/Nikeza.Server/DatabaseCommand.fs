@@ -293,6 +293,8 @@ module internal Commands =
                  |> List.ofSeq 
                  |> List.iter (fun link -> addSourceLink updatedSource link |> ignore )
 
+                updateSyncHistory info.Id |> ignore
+
                 info.Id  |> string
 
             | None -> info.Id  |> string

@@ -2,9 +2,10 @@ module Nikeza.Server.Sql
 open System.IO
 open Literals
 
-let connectionString = 
-      "Data Source=DESKTOP-GE7O8JT\\SQLEXPRESS;Initial Catalog=Nikeza;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
-      //File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(),KeyFile_SqlConnection))
+let localHost =   "Data Source=DESKTOP-GE7O8JT\\SQLEXPRESS;Initial Catalog=Nikeza;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" 
+//let remoteHost = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(),KeyFile_SqlConnection))
+
+let connectionString = localHost
 
 let findUserByEmailSql = "SELECT * FROM Profile Where Email = @Email"
 
@@ -363,11 +364,12 @@ let deleteSyncHistorySql = @"DELETE SyncHistory
 
 let updateSyncHistorySql = @"Update SyncHistory
                              Set    LastSynched = CURRENT_TIMESTAMP
-                             WHERE   SourceId = @SourceId"
+                             WHERE  SourceId = @SourceId"
 
-let addSyncHistorySql = @"INSERT INTO SyncHistory
-                          OUTPUT INSERTED.ID
-                          VALUES      (@SourceId, CURRENT_TIMESTAMP)"
+let addSyncHistorySql = @"INSERT  INTO SyncHistory
+                          (SourceId, LastSynched)
+                          OUTPUT  INSERTED.ID
+                          VALUES (@SourceId, CURRENT_TIMESTAMP)"
 
 let getSyncHistorySql = @"SELECT LastSynched
                           FROM   SyncHistory
