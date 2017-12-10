@@ -201,4 +201,5 @@ module Nikeza.Server.Medium
 
 
     let newMediumLinks (lastSynched:DateTime) (user:User) =
-        []
+        user |> mediumLinks
+             |> List.filter (fun l -> l.Timestamp >= lastSynched)

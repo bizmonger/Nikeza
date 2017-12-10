@@ -22,6 +22,28 @@ let setup() = registerProfile creatorRegistrationForm |> ignore
 [<TearDown>]
 let teardown() = cleanDataStore()
 
+[<Test>]
+let ``Sync Medium`` () =
+
+    // Setup
+    let profileId = registerProfile someForm
+    let source =  { someSource with AccessId=  mediumUserId
+                                    ProfileId= profileId
+                                    Platform=  Medium |> PlatformToString }
+
+    let sourceId =     AddSource source |> execute
+    let initialLinks = getLinks profileId
+
+    modifyDbForSyncTest sourceId |> ignore
+    
+    // Test
+    SyncSource { source with Id = Int32.Parse(sourceId) } |> execute |> ignore
+
+    // Verify
+    profileId 
+     |> getLinks 
+     |> List.length 
+     |> should be (greaterThan <| List.length initialLinks)
 
 [<Test>]
 let ``Sync RSS`` () =
