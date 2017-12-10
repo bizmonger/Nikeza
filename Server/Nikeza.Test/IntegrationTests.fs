@@ -13,7 +13,7 @@ open Model
 open Literals
 open Platforms
 open StackOverflow.Suggestions
-open Order
+open Command
 open Registration
 
 [<SetUp>]
@@ -21,6 +21,17 @@ let setup() = registerProfile creatorRegistrationForm |> ignore
 
 [<TearDown>]
 let teardown() = cleanDataStore()
+
+[<Test>]
+let ``Get all sources`` () =
+
+    // Setup
+    let profileId = registerProfile someForm
+    let source =  { someSource with AccessId= File.ReadAllText(ChannelIdFile) }
+    AddSource { source with ProfileId= unbox profileId } |> execute |> ignore
+
+    // Test
+    getAllSources() |> List.isEmpty |> should equal false
 
 [<Test>]
 let ``Sync Medium`` () =
@@ -213,14 +224,12 @@ let ``Adding data source maintains topics`` () =
     let link = links.[0]
     link.Topics |> List.isEmpty |> should equal false
 
-
 [<Test>]
 let ``get topics from text`` () =
 
     suggestionsFromText "F#: Revisiting the Vending Machine Kata." 
      |> List.contains "f#" 
      |> should equal true
-
 
 [<Test>]
 let ``Load links from RSS feed`` () =
@@ -407,7 +416,6 @@ let ``Follow Provider`` () =
 
     // Teardown
     finally dispose connection command
-
 
 [<Test>]
 let ``Unsubscribe from Provider`` () =

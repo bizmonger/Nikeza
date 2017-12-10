@@ -9,12 +9,10 @@ open Model
 open Platforms
 open Authentication
 open Giraffe.Tasks
-open Registration
-open StackOverflow.Suggestions
-open Command
 
 [<Literal>]
 let AuthScheme = "Cookie"
+
 open System.IO
 open Literals
 open Nikeza.Server.DatabaseCommand.Commands
@@ -223,7 +221,7 @@ let webApp: HttpHandler =
             choose [
                 route "/"                   >=> htmlFile "index.html"
                 route  "/options"           >=> setHttpHeader "Allow" "GET, OPTIONS, POST" // CORS support
-                //routef "/syncsources/%s"        syncSources
+                routef "/syncsources/%s"        syncSources
                 routef "/bootstrap/%s"          fetchBootstrap
                 routef "/providers/%s"          fetchProviders
                 routef "/links/%s"              fetchLinks
