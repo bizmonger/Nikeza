@@ -24,6 +24,29 @@ let teardown() = cleanDataStore()
 
 
 [<Test>]
+let ``Sync RSS`` () =
+
+    // Setup
+    let profileId = registerProfile someForm
+    let source =  { someSource with AccessId=  rssFeedId
+                                    ProfileId= profileId
+                                    Platform=  RSSFeed |> PlatformToString }
+
+    let sourceId =     AddSource source |> execute
+    let initialLinks = getLinks profileId
+
+    modifyDbForSyncTest sourceId |> ignore
+    
+    // Test
+    SyncSource { source with Id = Int32.Parse(sourceId) } |> execute |> ignore
+
+    // Verify
+    profileId 
+     |> getLinks 
+     |> List.length 
+     |> should be (greaterThan <| List.length initialLinks)
+
+[<Test>]
 let ``Sync YouTube`` () =
 
     // Setup
@@ -39,7 +62,13 @@ let ``Sync YouTube`` () =
     
     // Test
     SyncSource { source with Id = Int32.Parse(sourceId) } |> execute |> ignore
-
+    
+    // Verify
+    profileId 
+     |> getLinks 
+     |> List.length 
+     |> should be (greaterThan <| List.length initialLinks)
+     
 [<Test>]
 let ``Sync Stackoverflow`` () =
 

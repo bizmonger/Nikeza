@@ -51,6 +51,6 @@ module Nikeza.Server.RSSFeed
                else []
         links
 
-
     let newRssLinks (lastSynched:DateTime) (user:User) =
-        []
+        user |> rssLinks
+             |> List.filter (fun l -> l.Timestamp >= lastSynched)
