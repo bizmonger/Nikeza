@@ -12,10 +12,10 @@ let readCommand (connection: SqlConnection) (command: SqlCommand) readerFunc =
     let reader = command.ExecuteReader()
     seq { while reader.Read() do yield readerFunc(reader) }
 
-let createCommand sql connectionString =
-    let connection = new SqlConnection(connectionString)
-    let command =    new SqlCommand(sql,connection)
-    (connection, command)
+//let createCommand sql connectionString =
+//    let connection = new SqlConnection(connectionString)
+//    let command =    new SqlCommand(sql,connection)
+//    (connection, command)
 
 let sqlReader (reader: SqlDataReader) = { 
     Id =    reader.["Id"].ToString()

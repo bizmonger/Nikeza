@@ -1,4 +1,4 @@
-module Nikeza.Server.Order
+module Nikeza.Server.Command
 
 open DatabaseCommand
 open Model

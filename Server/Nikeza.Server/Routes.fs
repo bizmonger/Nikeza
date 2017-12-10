@@ -11,12 +11,13 @@ open Authentication
 open Giraffe.Tasks
 open Registration
 open StackOverflow.Suggestions
-open Order
+open Command
 
 [<Literal>]
 let AuthScheme = "Cookie"
 open System.IO
 open Literals
+open Nikeza.Server.DatabaseCommand.Commands
 
 let localHost =   "Data Source=DESKTOP-GE7O8JT\\SQLEXPRESS;Initial Catalog=Nikeza;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" 
 //let remoteHost = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(),KeyFile_SqlConnection))
@@ -27,7 +28,7 @@ let private registrationHandler: HttpHandler =
     fun next ctx -> 
         task {
             let! data = ctx.BindJson<RegistrationRequest>()
-            match register { data with Email= data.Email.ToLower() } with
+            match Registration.register { data with Email= data.Email.ToLower() } with
             | Success profile -> return! json profile next ctx
             | Failure         -> return! (setStatusCode 400 >=> json "registration failed") next ctx
         }
@@ -68,7 +69,7 @@ let private followHandler: HttpHandler =
                    | (None, None)               -> (setStatusCode 400 >=> json "user and provider not found")
 
                if not alreadyFollowing
-                   then Follow data |> execute |> ignore
+                   then Follow data |> Command.execute |> ignore
                         return! getResult() next ctx
                    else return! getResult() next ctx
              } 
@@ -77,7 +78,7 @@ let private unsubscribeHandler: HttpHandler =
     fun next ctx -> 
         task { let! data = ctx.BindJson<UnsubscribeRequest>()
 
-               Unsubscribe data |> execute |> ignore
+               Unsubscribe data |> Command.execute |> ignore
                
                match (getProvider data.SubscriberId, getProvider data.ProfileId) with
                | (Some user, Some provider) -> return! json { User= user; Provider= provider } next ctx
@@ -90,7 +91,7 @@ let private featureLinkHandler: HttpHandler =
     fun next ctx -> 
         task { 
             let! data = ctx.BindJson<FeatureLinkRequest>()
-            FeatureLink data |> execute |> ignore
+            FeatureLink data |> Command.execute |> ignore
             return! json data.LinkId next ctx
         }
 
@@ -98,7 +99,7 @@ let private featuredTopicsHandler: HttpHandler =
     fun next ctx -> 
         task { 
             let! data = ctx.BindJson<FeaturedTopicsRequest>()
-            UpdateTopics data |> execute |> ignore
+            UpdateTopics data |> Command.execute |> ignore
             return! fetchProvider data.ProfileId next ctx
         }
 
@@ -106,7 +107,7 @@ let private updateProfileHandler: HttpHandler =
     fun next ctx -> 
         task { 
             let! data = ctx.BindJson<ProfileRequest>()
-            UpdateProfile data |> execute |> ignore
+            UpdateProfile data |> Command.execute |> ignore
             return! json data next ctx
         }
 
@@ -117,8 +118,8 @@ let private updateProviderHandler: HttpHandler =
             let topicsRequest = { ProfileId= data.Profile.Id
                                   Names=     data.Topics |> List.map (fun t -> t.Name) }
                                   
-            UpdateProfile data.Profile  |> execute |> ignore
-            UpdateTopics  topicsRequest |> execute |> ignore
+            UpdateProfile data.Profile  |> Command.execute |> ignore
+            UpdateTopics  topicsRequest |> Command.execute |> ignore
 
             match getProvider data.Profile.Id with
             | Some provider -> return! json provider next ctx
@@ -129,7 +130,7 @@ let private addSourceHandler: HttpHandler =
     fun next ctx -> 
         task { 
             let! data = ctx.BindJson<DataSourceRequest>()
-            let sourceId = AddSource data |> execute
+            let sourceId = AddSource data |> Command.execute
             let links =    data.ProfileId |> Store.linksFrom data.Platform |> List.toSeq
             let source = { data with Id = Int32.Parse(sourceId); Links = links }
             return! json source next ctx
@@ -140,7 +141,7 @@ let private removeSourceHandler (sourceId:string): HttpHandler =
         task {
             let id = Int32.Parse(sourceId)
             let (data:RemoveDataSourceRequest) = { Id= id }
-            RemoveSource data |> execute |> ignore
+            RemoveSource data |> Command.execute |> ignore
             return! json sourceId next ctx
         }
 
@@ -148,7 +149,7 @@ let private addLinkHandler: HttpHandler =
     fun next ctx -> 
         task { 
             let! data = ctx.BindJson<Link>()
-            let linkId = AddLink { data with Description = ""; Timestamp= DateTime.Now } |> execute
+            let linkId = AddLink { data with Description = ""; Timestamp= DateTime.Now } |> Command.execute
             return! json { data with Id = Int32.Parse(linkId) } next ctx
         }
 
@@ -156,7 +157,7 @@ let private removeLinkHandler: HttpHandler =
     fun _ ctx -> 
         task { 
             let! data = ctx.BindJson<RemoveLinkRequest>()
-            RemoveLink data |> execute |> ignore
+            RemoveLink data |> Command.execute |> ignore
             return Some ctx
         }
 
@@ -164,7 +165,7 @@ let private updateThumbnailHandler: HttpHandler =
     fun _ ctx -> 
         task { 
             let! data = ctx.BindJson<UpdateThumbnailRequest>()
-            UpdateThumbnail data |> execute |> ignore
+            UpdateThumbnail data |> Command.execute |> ignore
             return Some ctx
         }
 
@@ -174,6 +175,11 @@ let private fetchBootstrap x: HttpHandler =
 
     let providers = getProviders()
     json { Providers= providers; Platforms=getPlatforms() }
+
+let private syncSources x: HttpHandler =
+
+    getAllSources() |> List.iter (fun s -> s |> syncDataSource |> ignore)
+    json []
 
 let private fetchProviders x: HttpHandler =
     json <| getProviders()
@@ -217,6 +223,7 @@ let webApp: HttpHandler =
             choose [
                 route "/"                   >=> htmlFile "index.html"
                 route  "/options"           >=> setHttpHeader "Allow" "GET, OPTIONS, POST" // CORS support
+                //routef "/syncsources/%s"        syncSources
                 routef "/bootstrap/%s"          fetchBootstrap
                 routef "/providers/%s"          fetchProviders
                 routef "/links/%s"              fetchLinks

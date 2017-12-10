@@ -346,6 +346,12 @@ let getSourceSql = @"SELECT  Source.Id,
                       FROM   Source
                       WHERE  Id = @SourceId"
 
+let getAllSourcesSql = @"SELECT  Source.Id,
+                                 Source.ProfileId,
+                                 Source.Platform,
+                                 Source.AccessId
+                          FROM   Source"
+
 let lastSynchedSql = @"Select Id,
                               SourceId,
                               LastSynched
