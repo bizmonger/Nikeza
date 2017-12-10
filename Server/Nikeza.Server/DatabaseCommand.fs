@@ -297,7 +297,8 @@ module internal Commands =
 
                 info.Id  |> string
 
-            | None -> info.Id  |> string
+            | None -> addSyncHistory info.Id |> ignore
+                      info.Id |> string
 
     let removeDataSource (info:RemoveDataSourceRequest) =
         
