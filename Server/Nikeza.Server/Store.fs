@@ -21,7 +21,7 @@ module private Store =
 open Model
 open Sql
 open System
-    
+
 let getResults sql commandFunc readInData =
 
     let (reader, connection) = Store.query connectionString sql commandFunc
@@ -66,10 +66,8 @@ let getSource sourceId =
     let sources = readInSources |> getResults getSourceSql sourceCommandFunc
     sources |> List.tryHead
             |> function
-            | Some source -> Some source
-                             // let links = linksFrom source.Platform source.ProfileId
-                             // Some { source with Links= links }
-            | None -> None
+               | Some source -> Some source 
+               | None        -> None
 
 let getSources profileId =
     let commandFunc (command: SqlCommand) = 

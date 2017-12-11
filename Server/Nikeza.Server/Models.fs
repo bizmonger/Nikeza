@@ -48,17 +48,17 @@ let contentTypeIdToString = function
 
 [<CLIMutable>]
 type RegistrationRequest = {
-        FirstName: string 
-        LastName:  string
-        Email:     string
-        Password:  string
-    }
+    FirstName: string 
+    LastName:  string
+    Email:     string
+    Password:  string
+}
         
 [<CLIMutable>]
 type LogInRequest = {
-        Email:    string
-        Password: string 
-    }
+    Email:    string
+    Password: string 
+}
 
 [<CLIMutable>]
 type FollowRequest =      { SubscriberId: string; ProfileId: string }
@@ -93,7 +93,6 @@ type ProviderTopic = {
     Name:       string
     IsFeatured: bool
 }
-
 
 type Synched = { 
     Id:          int

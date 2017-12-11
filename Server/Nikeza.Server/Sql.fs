@@ -261,15 +261,15 @@ let getRecentSql = @"SELECT Top (3) Link.Id,
 					                        FROM   ObservedLinks
                                             WHERE  ObservedLinks.SubscriberId = @SubscriberId)"
                                      
-let getLatestLinksSql = @"SELECT TOP (3) 
-                                 Link.Id, 
-                                 Link.ProfileId, 
-                                 Link.Title, 
-                                 Link.Description, 
-                                 Link.Url, 
-                                 Link.ContentTypeId, 
-                                 Link.IsFeatured, 
-                                 Link.Created
+let getLatestLinksSql = @"SELECT    TOP (3) 
+                                    Link.Id, 
+                                    Link.ProfileId, 
+                                    Link.Title, 
+                                    Link.Description, 
+                                    Link.Url, 
+                                    Link.ContentTypeId, 
+                                    Link.IsFeatured, 
+                                    Link.Created
                                  
                           FROM      Link
 
