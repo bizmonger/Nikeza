@@ -133,6 +133,7 @@ sourceUI source =
         tr [ class "sources" ]
             [ td [] [ text source.platform ]
             , td [] [ i [ class "accessId" ] [ text accessId ] ]
-            , td [] [ label [ class "linksCount" ] [ text <| (source.links |> List.length |> toString) ++ " links" ] ]
+
+            -- , td [] [ label [ class "linksCount" ] [ text <| (source.links |> List.length |> toString) ++ " links" ] ]
             , td [] [ button [ class "disconnectSource", onClick <| Remove source ] [ text "X" ] ]
             ]

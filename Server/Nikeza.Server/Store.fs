@@ -127,20 +127,22 @@ let getLinks (profileId:string) =
 
     readInLinks |> getResults getLinksSql linksCommandFunc 
                 |> List.map attachTopics
+                |> List.sortByDescending (fun l -> l.Timestamp)
                 
 let getLatestLinks (profileId:string) =
     let linksCommandFunc (command: SqlCommand) = 
         command |> addWithValue "@ProfileId" profileId
 
     readInLinks |> getResults getLatestLinksSql linksCommandFunc 
-                |> List.map attachTopics  
+                |> List.map attachTopics
+                |> List.sortByDescending (fun l -> l.Timestamp)
 
-let toPortfolio links = 
-    { Answers =  links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = Answer)
-      Articles = links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = Article)
-      Videos =   links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = ContentType.Video)
-      Podcasts = links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = Podcast)
-    }
+let toPortfolio links = { 
+    Answers =  links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = Answer)
+    Articles = links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = Article)
+    Videos =   links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = ContentType.Video)
+    Podcasts = links |> List.filter (fun l -> l.ContentType |> contentTypeFromString = Podcast)
+}
 
 let getProfile profileId =
     let profiles = getProfiles profileId getProfileSql "@ProfileId"
@@ -185,7 +187,7 @@ let rec getProvidersHelper sql parameterName profileId =
     let providers =        initialProviders 
                             |> List.map (fun p -> p.Profile.Id |> getFeaturedTopics)
                             |> List.zip initialProviders
-                            |> List.map (fun (p,t) -> 
+                            |> List.map (fun (p,t) ->
                                 { p with Topics= t
                                          RecentLinks= p.Profile.Id |> getLatestLinks
                                          Followers=   p.Profile.Id |> getFollowerIds

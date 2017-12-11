@@ -13,8 +13,6 @@ open Giraffe.Tasks
 [<Literal>]
 let AuthScheme = "Cookie"
 
-open System.IO
-open Literals
 open Nikeza.Server.DatabaseCommand.Commands
 
 //-----------------------------------------------------------------------
@@ -129,7 +127,7 @@ let private updateProviderHandler: HttpHandler =
 let private addSourceHandler: HttpHandler = 
     fun next ctx -> 
         task { 
-            let! data = ctx.BindJson<DataSourceRequest>()
+            let! data =    ctx.BindJson<DataSourceRequest>()
             let sourceId = AddSource data |> Command.execute
             let links =    data.ProfileId |> Store.linksFrom data.Platform |> List.toSeq
             let source = { data with Id = Int32.Parse(sourceId); Links = links }

@@ -155,6 +155,18 @@ view model =
         profile =
             provider.profile
 
+        firstNameCompleted =
+            not (String.isEmpty (nameText profile.firstName))
+
+        lastNameCompleted =
+            not (String.isEmpty (nameText profile.lastName))
+
+        emailCompleted =
+            not (String.isEmpty (emailText profile.email))
+
+        canSave =
+            firstNameCompleted && lastNameCompleted && emailCompleted
+
         toButton topic =
             div []
                 [ button [ class "topicsButton", onClick <| AddTopic topic ] [ text <| topicText topic ]
@@ -199,5 +211,5 @@ view model =
                 , tr [] [ td [] [ div [] selectedTopicsUI ] ]
                 ]
             , br [] []
-            , button [ class "saveProfile", onClick Update ] [ text "Save" ]
+            , button [ class "saveProfile", onClick Update, disabled (not canSave) ] [ text "Save" ]
             ]

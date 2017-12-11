@@ -14285,6 +14285,13 @@ var _user$project$Controls_EditProfile$view = function (model) {
 	};
 	var provider = model.provider;
 	var profile = provider.profile;
+	var firstNameCompleted = !_elm_lang$core$String$isEmpty(
+		_user$project$Domain_Core$nameText(profile.firstName));
+	var lastNameCompleted = !_elm_lang$core$String$isEmpty(
+		_user$project$Domain_Core$nameText(profile.lastName));
+	var emailCompleted = !_elm_lang$core$String$isEmpty(
+		_user$project$Domain_Core$emailText(profile.email));
+	var canSave = firstNameCompleted && (lastNameCompleted && emailCompleted);
 	return A2(
 		_elm_lang$html$Html$div,
 		{
@@ -14539,7 +14546,11 @@ var _user$project$Controls_EditProfile$view = function (model) {
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Events$onClick(_user$project$Controls_EditProfile$Update),
-												_1: {ctor: '[]'}
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$disabled(!canSave),
+													_1: {ctor: '[]'}
+												}
 											}
 										},
 										{
@@ -17600,52 +17611,25 @@ var _user$project$Controls_Sources$sourceUI = function (source) {
 						{
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$label,
+								_elm_lang$html$Html$button,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('linksCount'),
-									_1: {ctor: '[]'}
+									_0: _elm_lang$html$Html_Attributes$class('disconnectSource'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(
+											_user$project$Controls_Sources$Remove(source)),
+										_1: {ctor: '[]'}
+									}
 								},
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html$text(
-										A2(
-											_elm_lang$core$Basics_ops['++'],
-											_elm_lang$core$Basics$toString(
-												_elm_lang$core$List$length(source.links)),
-											' links')),
+									_0: _elm_lang$html$Html$text('X'),
 									_1: {ctor: '[]'}
 								}),
 							_1: {ctor: '[]'}
 						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$td,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$button,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('disconnectSource'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(
-												_user$project$Controls_Sources$Remove(source)),
-											_1: {ctor: '[]'}
-										}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text('X'),
-										_1: {ctor: '[]'}
-									}),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}
+					_1: {ctor: '[]'}
 				}
 			}
 		});
