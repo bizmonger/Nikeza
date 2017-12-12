@@ -117,7 +117,9 @@ thumbnail loggedIn showSubscriptionState provider =
                     |> List.map
                         (\l ->
                             [ p [ class "recentLink" ]
-                                [ a [ href <| urlText l.url, target "_blank" ] [ text <| titleText l.title ] ]
+                                [ label [] []
+                                , a [ href <| urlText l.url, target "_blank" ] [ text <| titleText l.title ]
+                                ]
                             ]
                         )
                     |> List.concat

@@ -183,6 +183,7 @@ type alias JsonLink =
     , contentType : String
     , topics : List Topic
     , isFeatured : Bool
+    , timestamp : String
     }
 
 
@@ -315,6 +316,7 @@ toLink link =
     , contentType = link.contentType |> toContentType
     , topics = link.topics
     , isFeatured = link.isFeatured
+    , timestamp = link.timestamp
     }
 
 
@@ -332,6 +334,7 @@ toJsonLink link =
     , contentType = link.contentType |> contentTypeToText
     , topics = link.topics
     , isFeatured = link.isFeatured
+    , timestamp = link.timestamp
     }
 
 

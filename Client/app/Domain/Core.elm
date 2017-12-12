@@ -6,7 +6,6 @@ import Dict
 import Dict.Extra as Dict
 import Json.Decode as Json
 import Html exposing (..)
-import Set exposing (..)
 
 
 initForm : Form
@@ -287,6 +286,7 @@ type alias Link =
     , topics : List Topic
     , contentType : ContentType
     , isFeatured : Bool
+    , timestamp : String
     }
 
 
@@ -303,6 +303,7 @@ initLink =
     , contentType = Unknown
     , topics = []
     , isFeatured = False
+    , timestamp = "1/1/1900"
     }
 
 

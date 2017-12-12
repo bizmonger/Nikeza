@@ -23,6 +23,7 @@ import List.Extra exposing (groupWhile, uniqueBy)
 
 
 -- elm-live Main.elm --open --output=main.js --debug
+-- elm-make Main.elm --output=main.html
 
 
 main =

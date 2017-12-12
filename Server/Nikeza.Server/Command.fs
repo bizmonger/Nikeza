@@ -5,19 +5,19 @@ open Model
 open Commands
 
 let execute = function
-    | UpdateProfile   info -> updateProfile    info
-    | UpdateThumbnail info -> updateThumbnail  info
-       
-    | Follow          info -> follow           info
-    | Unsubscribe     info -> unsubscribe      info
-      
-    | AddLink         info -> addLink          info
-    | RemoveLink      info -> removeLink       info
-    | FeatureLink     info -> featureLink      info
-    | ObserveLinks    info -> observeLinks     info
+    | UpdateProfile   info -> info |> updateProfile
+    | UpdateThumbnail info -> info |> updateThumbnail
 
-    | UpdateTopics    info -> featureTopics    info
+    | Follow          info -> info |> follow
+    | Unsubscribe     info -> info |> unsubscribe
 
-    | AddSource       info -> addDataSource    info
-    | RemoveSource    info -> removeDataSource info
-    | SyncSource      info -> syncDataSource   info
+    | AddLink         info -> info |> addLink
+    | RemoveLink      info -> info |> removeLink 
+    | FeatureLink     info -> info |> featureLink
+    | ObserveLinks    info -> info |> observeLinks
+
+    | UpdateTopics    info -> info |> featureTopics
+
+    | AddSource       info -> info |> addDataSource
+    | RemoveSource    info -> info |> removeDataSource
+    | SyncSource      info -> info |> syncDataSource

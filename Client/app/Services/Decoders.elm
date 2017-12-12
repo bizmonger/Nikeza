@@ -65,7 +65,7 @@ thumbnailDecoder =
 
 linkDecoder : Decoder JsonLink
 linkDecoder =
-    Decode.map7 JsonLink
+    Decode.map8 JsonLink
         (field "id" Decode.int)
         (field "profileId" Decode.string)
         (field "title" Decode.string)
@@ -73,6 +73,7 @@ linkDecoder =
         (field "contentType" Decode.string)
         (field "topics" <| Decode.list topicDecoder)
         (field "isFeatured" Decode.bool)
+        (field "timestamp" Decode.string)
 
 
 providerDecoder : Decoder JsonProvider

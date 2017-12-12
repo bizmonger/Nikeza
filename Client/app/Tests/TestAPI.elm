@@ -308,20 +308,20 @@ recentLinkProviders profileId msg =
 
 recentLinks1 : List Link
 recentLinks1 =
-    [ Link 0 profile1.id someVideoTitle6 someUrl [ someTopic1 ] Video True
+    [ Link 0 profile1.id someVideoTitle6 someUrl [ someTopic1 ] Video True "1/1/1900"
     ]
 
 
 recentLinks2 : List Link
 recentLinks2 =
-    [ Link 1 profile2.id somePodcastTitle6 someUrl [ someTopic1 ] Video True
-    , Link 2 profile2.id someAnswerTitle6 someUrl [ someTopic1 ] Video True
+    [ Link 1 profile2.id somePodcastTitle6 someUrl [ someTopic1 ] Video True "1/1/1900"
+    , Link 2 profile2.id someAnswerTitle6 someUrl [ someTopic1 ] Video True "1/1/1900"
     ]
 
 
 recentLinks3 : List Link
 recentLinks3 =
-    [ Link 3 profile3.id someArticleTitle6 someUrl [ someTopic1 ] Video True
+    [ Link 3 profile3.id someArticleTitle6 someUrl [ someTopic1 ] Video True "1/1/1900"
     ]
 
 
@@ -387,7 +387,7 @@ jsonProfile5 =
 
 jsonLink1 : JsonLink
 jsonLink1 =
-    JsonLink 0 (jsonProfile1.id) (titleText someArticleTitle1) (urlText someUrl) "video" [] False
+    JsonLink 0 (jsonProfile1.id) (titleText someArticleTitle1) (urlText someUrl) "video" [] False "1/1/1900"
 
 
 jsonProvider1 : JsonProvider
@@ -564,49 +564,49 @@ linksToContent contentType profileId =
         -- NOTE !!! We're hardcoding a profile here due to some unresolved bug
         case contentType of
             Article ->
-                [ Link 0 profileHolder.id someArticleTitle1 someUrl [ someTopic1 ] Article False
-                , Link 1 profileHolder.id someArticleTitle2 someUrl [ someTopic2 ] Article True
-                , Link 2 profileHolder.id someArticleTitle3 someUrl [ someTopic3 ] Article False
-                , Link 3 profileHolder.id someArticleTitle4 someUrl [ someTopic4 ] Article True
-                , Link 4 profileHolder.id someArticleTitle5 someUrl [ someTopic5 ] Article False
+                [ Link 0 profileHolder.id someArticleTitle1 someUrl [ someTopic1 ] Article False "1/1/1900"
+                , Link 1 profileHolder.id someArticleTitle2 someUrl [ someTopic2 ] Article True "1/1/1900"
+                , Link 2 profileHolder.id someArticleTitle3 someUrl [ someTopic3 ] Article False "1/1/1900"
+                , Link 3 profileHolder.id someArticleTitle4 someUrl [ someTopic4 ] Article True "1/1/1900"
+                , Link 4 profileHolder.id someArticleTitle5 someUrl [ someTopic5 ] Article False "1/1/1900"
                 ]
 
             Video ->
-                [ Link 0 profileHolder.id someVideoTitle1 someUrl [ someTopic1 ] Video False
-                , Link 1 profileHolder.id someVideoTitle2 someUrl [ someTopic2 ] Video True
-                , Link 2 profileHolder.id someVideoTitle3 someUrl [ someTopic3 ] Video False
-                , Link 3 profileHolder.id someVideoTitle4 someUrl [ someTopic4 ] Video True
-                , Link 4 profileHolder.id someVideoTitle5 someUrl [ someTopic5 ] Video False
+                [ Link 0 profileHolder.id someVideoTitle1 someUrl [ someTopic1 ] Video False "1/1/1900"
+                , Link 1 profileHolder.id someVideoTitle2 someUrl [ someTopic2 ] Video True "1/1/1900"
+                , Link 2 profileHolder.id someVideoTitle3 someUrl [ someTopic3 ] Video False "1/1/1900"
+                , Link 3 profileHolder.id someVideoTitle4 someUrl [ someTopic4 ] Video True "1/1/1900"
+                , Link 4 profileHolder.id someVideoTitle5 someUrl [ someTopic5 ] Video False "1/1/1900"
                 ]
 
             Podcast ->
-                [ Link 0 profileHolder.id somePodcastTitle1 someUrl [ someTopic1 ] Podcast False
-                , Link 1 profileHolder.id somePodcastTitle2 someUrl [ someTopic2 ] Podcast True
-                , Link 2 profileHolder.id somePodcastTitle3 someUrl [ someTopic3 ] Podcast False
-                , Link 3 profileHolder.id somePodcastTitle4 someUrl [ someTopic4 ] Podcast True
-                , Link 4 profileHolder.id somePodcastTitle5 someUrl [ someTopic5 ] Podcast False
+                [ Link 0 profileHolder.id somePodcastTitle1 someUrl [ someTopic1 ] Podcast False "1/1/1900"
+                , Link 1 profileHolder.id somePodcastTitle2 someUrl [ someTopic2 ] Podcast True "1/1/1900"
+                , Link 2 profileHolder.id somePodcastTitle3 someUrl [ someTopic3 ] Podcast False "1/1/1900"
+                , Link 3 profileHolder.id somePodcastTitle4 someUrl [ someTopic4 ] Podcast True "1/1/1900"
+                , Link 4 profileHolder.id somePodcastTitle5 someUrl [ someTopic5 ] Podcast False "1/1/1900"
                 ]
 
             Answer ->
-                [ Link 0 profileHolder.id someAnswerTitle1 someUrl [ someTopic1 ] Answer False
-                , Link 1 profileHolder.id someAnswerTitle2 someUrl [ someTopic2 ] Answer True
-                , Link 2 profileHolder.id someAnswerTitle3 someUrl [ someTopic3 ] Answer False
-                , Link 3 profileHolder.id someAnswerTitle4 someUrl [ someTopic4 ] Answer True
-                , Link 4 profileHolder.id someAnswerTitle5 someUrl [ someTopic5 ] Answer False
+                [ Link 0 profileHolder.id someAnswerTitle1 someUrl [ someTopic1 ] Answer False "1/1/1900"
+                , Link 1 profileHolder.id someAnswerTitle2 someUrl [ someTopic2 ] Answer True "1/1/1900"
+                , Link 2 profileHolder.id someAnswerTitle3 someUrl [ someTopic3 ] Answer False "1/1/1900"
+                , Link 3 profileHolder.id someAnswerTitle4 someUrl [ someTopic4 ] Answer True "1/1/1900"
+                , Link 4 profileHolder.id someAnswerTitle5 someUrl [ someTopic5 ] Answer False "1/1/1900"
                 ]
 
             All ->
                 []
 
             Featured ->
-                [ Link 1 profileHolder.id someArticleTitle2 someUrl [ someTopic2 ] Article True
-                , Link 3 profileHolder.id someArticleTitle4 someUrl [ someTopic4 ] Article True
-                , Link 1 profileHolder.id someVideoTitle2 someUrl [ someTopic2 ] Video True
-                , Link 3 profileHolder.id someVideoTitle4 someUrl [ someTopic4 ] Video True
-                , Link 1 profileHolder.id someAnswerTitle2 someUrl [ someTopic2 ] Answer True
-                , Link 3 profileHolder.id someAnswerTitle4 someUrl [ someTopic4 ] Answer True
-                , Link 1 profileHolder.id somePodcastTitle2 someUrl [ someTopic2 ] Podcast True
-                , Link 3 profileHolder.id somePodcastTitle4 someUrl [ someTopic4 ] Podcast True
+                [ Link 1 profileHolder.id someArticleTitle2 someUrl [ someTopic2 ] Article True "1/1/1900"
+                , Link 3 profileHolder.id someArticleTitle4 someUrl [ someTopic4 ] Article True "1/1/1900"
+                , Link 1 profileHolder.id someVideoTitle2 someUrl [ someTopic2 ] Video True "1/1/1900"
+                , Link 3 profileHolder.id someVideoTitle4 someUrl [ someTopic4 ] Video True "1/1/1900"
+                , Link 1 profileHolder.id someAnswerTitle2 someUrl [ someTopic2 ] Answer True "1/1/1900"
+                , Link 3 profileHolder.id someAnswerTitle4 someUrl [ someTopic4 ] Answer True "1/1/1900"
+                , Link 1 profileHolder.id somePodcastTitle2 someUrl [ someTopic2 ] Podcast True "1/1/1900"
+                , Link 3 profileHolder.id somePodcastTitle4 someUrl [ someTopic4 ] Podcast True "1/1/1900"
                 ]
 
             Unknown ->
