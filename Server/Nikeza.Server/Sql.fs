@@ -158,6 +158,18 @@ let getLinksSql = "SELECT Id,
                    FROM   [dbo].[Link]
                    WHERE  ProfileId = @ProfileId"
 
+let getLinkSql = "SELECT Id, 
+                         ProfileId, 
+                         Title, 
+                         Description, 
+                         Url, 
+                         ContentTypeId, 
+                         IsFeatured, 
+                         Created
+
+                  FROM   [dbo].[Link]
+                  WHERE  Title = @Title"
+
 let getTopicSql = "SELECT Id, Name
                    FROM   [dbo].[Topic]
                    WHERE  Name = @Name"

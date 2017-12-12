@@ -283,12 +283,17 @@ module internal Commands =
         
     let syncDataSource (info:DataSourceRequest) =
 
+        let notInDatabase link =
+            getLink link.Title |> List.isEmpty
+
         getLastSynched info.Id 
          |> function
             | Some lastSynched ->
-                let updatedSource = info |> dataSourceToPlatformUser 
-                                         |> newPlatformLinks lastSynched 
-                                         |> updateSourceRequest info
+                let newLinks = info |> dataSourceToPlatformUser 
+                                    |> newPlatformLinks lastSynched
+                                    |> List.filter(fun l -> l |> notInDatabase)
+
+                let updatedSource = newLinks |> updateSourceRequest info
                 updatedSource.Links 
                  |> List.ofSeq 
                  |> List.iter (fun link -> addSourceLink updatedSource link |> ignore )

@@ -128,6 +128,14 @@ let getLinks (profileId:string) =
     readInLinks |> getResults getLinksSql linksCommandFunc 
                 |> List.map attachTopics
                 |> List.sortByDescending (fun l -> l.Timestamp)
+
+let getLink (title:string) =
+    let linksCommandFunc (command: SqlCommand) = 
+        command |> addWithValue "@Title" title
+
+    readInLinks |> getResults getLinkSql linksCommandFunc 
+                |> List.map attachTopics
+                |> List.sortByDescending (fun l -> l.Timestamp)
                 
 let getLatestLinks (profileId:string) =
     let linksCommandFunc (command: SqlCommand) = 
@@ -205,6 +213,7 @@ and getFollowers profileId : ProviderRequest list =
 
 and getProviders () =
     let providers = getProvidersHelper getProfilesSql "" ""
+                     |> List.sortByDescending (fun p -> p.RecentLinks |> List.sortByDescending(fun l -> l.Timestamp))
     providers
 
 and getFollowerIds profileId : string list =
@@ -274,7 +283,7 @@ and getProvider profileId =
         | p::_ -> 
             Some { p with Topics=      profileId |> getFeaturedTopics
                           Followers=   profileId |> getFollowers |> List.map (fun f -> f.Profile.Id)
-                          Portfolio=   [] |> toPortfolio // profileId |> getLinks |> toPortfolio
+                          Portfolio=   [] |> toPortfolio
                           RecentLinks= profileId |> getRecent
                           Profile=     { p.Profile with Sources= profileId |> getSources }
                  }

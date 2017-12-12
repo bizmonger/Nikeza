@@ -88,7 +88,7 @@ let ``Sync Medium`` () =
     profileId 
      |> getLinks 
      |> List.length 
-     |> should be (greaterThan <| List.length initialLinks)
+     |> should be (equal <| List.length initialLinks)
 
 [<Test>]
 let ``Sync RSS`` () =
@@ -111,7 +111,7 @@ let ``Sync RSS`` () =
     profileId 
      |> getLinks 
      |> List.length 
-     |> should be (greaterThan <| List.length initialLinks)
+     |> should be (equal <| List.length initialLinks)
 
 [<Test>]
 let ``Sync YouTube`` () =
@@ -134,7 +134,7 @@ let ``Sync YouTube`` () =
     profileId 
      |> getLinks 
      |> List.length 
-     |> should be (greaterThan <| List.length initialLinks)
+     |> should be (equal <| List.length initialLinks)
      
 [<Test>]
 let ``Sync Stackoverflow`` () =
@@ -157,7 +157,7 @@ let ``Sync Stackoverflow`` () =
     profileId 
      |> getLinks 
      |> List.length 
-     |> should be (greaterThan <| List.length initialLinks)
+     |> should be (equal <| List.length initialLinks)
 
 [<Test>]
 let ``Sync WordPress`` () =
@@ -180,7 +180,7 @@ let ``Sync WordPress`` () =
     profileId 
      |> getLinks
      |> List.length 
-     |> should be (greaterThan <| List.length initialLinks)
+     |> should be (equal <| List.length initialLinks)
 
 [<Test>]
 let ``adding data source updates sync history`` () =

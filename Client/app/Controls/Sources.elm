@@ -99,7 +99,7 @@ view model =
                     "xyz.wordpress.com"
 
                 "RSS Feed" ->
-                    "i.e. xyz.com/feed/123"
+                    "i.e. http://xyz.com/feed/123"
 
                 _ ->
                     "username"
