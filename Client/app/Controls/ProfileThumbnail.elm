@@ -111,13 +111,21 @@ thumbnail loggedIn showSubscriptionState provider =
                 , group2
                 ]
 
+        parseDate dateText =
+            case dateText |> String.split "-" of
+                [ year, month, day ] ->
+                    month ++ "/" ++ (day |> String.left 2) ++ "/" ++ year
+
+                _ ->
+                    dateText
+
         recentLinks =
             div [ class "centerDiv" ]
                 (provider.recentLinks
                     |> List.map
                         (\l ->
                             [ p [ class "recentLink" ]
-                                [ label [] []
+                                [ label [ class "postDate" ] [ text (parseDate l.timestamp) ]
                                 , a [ href <| urlText l.url, target "_blank" ] [ text <| titleText l.title ]
                                 ]
                             ]

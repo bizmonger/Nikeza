@@ -80,7 +80,7 @@ update msg model =
                     currentTopic =
                         Topic "" False
                 in
-                    ( { model | currentTopic = currentTopic }, Cmd.none )
+                    ( { model | currentTopic = currentTopic, topicSuggestions = [] }, Cmd.none )
 
             InputTopic v ->
                 let

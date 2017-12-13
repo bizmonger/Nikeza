@@ -372,6 +372,11 @@ td.login {
     text-align: right;
 }
 
+label.postDate {
+    color: rgb(7, 116, 163);
+    margin-right: 15px;
+}
+
 div.recentThumbnail {
     margin-left: 15px;
 }

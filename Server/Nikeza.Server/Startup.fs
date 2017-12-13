@@ -39,7 +39,8 @@ let configureCors (builder : CorsPolicyBuilder) =
 let configureApp (app : IApplicationBuilder) =
     app.UseCors configureCors |> ignore
     app.UseGiraffeErrorHandler errorHandler |> ignore
-    app.UseStaticFiles() |> ignore
+    app.UseDefaultFiles() |> ignore
+    app.UseStaticFiles()  |> ignore
     app.UseGiraffe webApp
  
 let configureServices (services : IServiceCollection) =

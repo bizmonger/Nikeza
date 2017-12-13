@@ -14,6 +14,7 @@ open Giraffe.Tasks
 let AuthScheme = "Cookie"
 
 open Nikeza.Server.DatabaseCommand.Commands
+open System.Threading
 
 //-----------------------------------------------------------------------
 // DEPLOYMENT
@@ -169,7 +170,7 @@ let private updateThumbnailHandler: HttpHandler =
 
 let private fetchBootstrap x: HttpHandler =
 
-    StackOverflow.CachedTags.Instance() |> ignore
+    Tasks.Task.Run(fun _ -> StackOverflow.CachedTags.Instance() |> ignore) |> ignore
 
     let providers = getProviders()
     json { Providers= providers; Platforms=getPlatforms() }
