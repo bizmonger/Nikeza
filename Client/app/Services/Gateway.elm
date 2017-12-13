@@ -11,7 +11,7 @@ import Json.Decode as Decode exposing (Decoder, field)
 
 baseUrl : String
 baseUrl =
-    --"http://nikeza.io/"
+    --    "http://nikeza.io/"
     "http://localhost:5000/"
 
 

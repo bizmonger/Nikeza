@@ -22,7 +22,6 @@ open System.Threading
 // dotnet publish -c Release -o "C:\Nikeza\deployment" --runtime win8-x64
 //-----------------------------------------------------------------------
 
-
 let private registrationHandler: HttpHandler = 
     fun next ctx -> 
         task {
@@ -33,7 +32,8 @@ let private registrationHandler: HttpHandler =
         }
 
 let private loginHandler: HttpHandler = 
-    fun next ctx -> 
+    fun next ctx ->
+        Tasks.Task.Run(fun _ -> StackOverflow.CachedTags.Instance() |> ignore) |> ignore
         task {
             let! data = ctx.BindJson<LogInRequest>()
             let  email = data.Email.ToLower()
@@ -46,6 +46,7 @@ let private loginHandler: HttpHandler =
 
 let private fetchProvider providerId: HttpHandler =
     fun next ctx ->
+        Tasks.Task.Run(fun _ -> StackOverflow.CachedTags.Instance() |> ignore) |> ignore
         getProvider providerId
          |> function
            | Some p -> ctx.WriteJson p
@@ -184,6 +185,8 @@ let private fetchProviders x: HttpHandler =
     json <| getProviders()
 
 let private fetchLinks providerId: HttpHandler =
+
+    Tasks.Task.Run(fun _ -> StackOverflow.CachedTags.Instance() |> ignore) |> ignore
 
     let links =    providerId |> getLinks
     providerId 

@@ -294,9 +294,10 @@ module internal Commands =
                                     |> List.filter(fun l -> l |> notInDatabase)
 
                 let updatedSource = newLinks |> updateSourceRequest info
+
                 updatedSource.Links 
                  |> List.ofSeq 
-                 |> List.iter (fun link -> addSourceLink updatedSource link |> ignore )
+                 |> List.iter (fun link -> link |> addSourceLink updatedSource |> ignore )
 
                 updateSyncHistory info.Id |> ignore
 
