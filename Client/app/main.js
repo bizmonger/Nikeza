@@ -19052,6 +19052,7 @@ var _user$project$Controls_NewLinks$InputTitle = function (a) {
 	return {ctor: 'InputTitle', _0: a};
 };
 var _user$project$Controls_NewLinks$view = function (model) {
+	var hasContentType = !_elm_lang$core$Native_Utils.eq(model.current.base.contentType, _user$project$Domain_Core$Unknown);
 	var _p6 = {ctor: '_Tuple2', _0: model.current, _1: model.current.base};
 	var current = _p6._0;
 	var base = _p6._1;
@@ -19180,6 +19181,11 @@ var _user$project$Controls_NewLinks$view = function (model) {
 				}
 			}
 		});
+	var titleCompleted = !_elm_lang$core$String$isEmpty(
+		_user$project$Domain_Core$titleText(base.title));
+	var urlCompleted = !_elm_lang$core$String$isEmpty(
+		_user$project$Domain_Core$urlText(base.url));
+	var canAdd = titleCompleted && (urlCompleted && hasContentType);
 	var selectedTopicsUI = A2(
 		_elm_lang$core$List$map,
 		function (t) {
@@ -19561,7 +19567,11 @@ var _user$project$Controls_NewLinks$view = function (model) {
 														ctor: '::',
 														_0: _elm_lang$html$Html_Events$onClick(
 															_user$project$Controls_NewLinks$AddLink(model)),
-														_1: {ctor: '[]'}
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$disabled(!canAdd),
+															_1: {ctor: '[]'}
+														}
 													}
 												},
 												{

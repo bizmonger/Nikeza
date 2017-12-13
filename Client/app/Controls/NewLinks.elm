@@ -235,6 +235,18 @@ view model =
                 , option [ value "Answer", selected isAnswer ] [ text "Answer" ]
                 , option [ value "Podcast", selected isPodcast ] [ text "Podcast" ]
                 ]
+
+        titleCompleted =
+            not (String.isEmpty (titleText base.title))
+
+        urlCompleted =
+            not (String.isEmpty (urlText base.url))
+
+        hasContentType =
+            model.current.base.contentType /= Unknown
+
+        canAdd =
+            titleCompleted && urlCompleted && hasContentType
     in
         div [ class "mainContent" ]
             [ h3 [ class "portalTopicHeader" ] [ text "Link" ]
@@ -260,7 +272,7 @@ view model =
                             , tr [] [ td [] [ div [] selectedTopicsUI ] ]
                             ]
                         ]
-                    , td [] [ button [ class "addLink", onClick <| AddLink model ] [ text "Add Link" ] ]
+                    , td [] [ button [ class "addLink", onClick <| AddLink model, disabled (not canAdd) ] [ text "Add Link" ] ]
                     ]
                 ]
             ]
