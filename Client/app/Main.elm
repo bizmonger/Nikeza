@@ -823,27 +823,22 @@ onUpdateProviderContentTypeLinks subMsg model linksfrom =
                         provider.filteredPortfolio
 
                     filteredLinks =
-                        provider.filteredPortfolio
+                        filteredPortfolio
                             |> getLinks All
                             |> List.Extra.replaceIf (\l -> l.title == link.title) updatedLink
 
                     updatedPortfolio =
-                        if bit then
-                            { answers = filteredLinks |> List.filter (\l -> l.contentType == Answer)
-                            , articles = filteredLinks |> List.filter (\l -> l.contentType == Article)
-                            , podcasts = filteredLinks |> List.filter (\l -> l.contentType == Podcast)
-                            , videos = filteredLinks |> List.filter (\l -> l.contentType == Video)
-                            , topics = model.portal.provider.filteredPortfolio.topics
-                            }
-                        else
-                            { answers = filteredLinks |> List.filter (\l -> l.contentType == Answer)
-                            , articles = filteredLinks |> List.filter (\l -> l.contentType == Article)
-                            , podcasts = filteredLinks |> List.filter (\l -> l.contentType == Podcast)
-                            , videos = filteredLinks |> List.filter (\l -> l.contentType == Video)
-                            , topics = model.portal.provider.filteredPortfolio.topics
-                            }
+                        { answers = filteredLinks |> List.filter (\l -> l.contentType == Answer)
+                        , articles = filteredLinks |> List.filter (\l -> l.contentType == Article)
+                        , podcasts = filteredLinks |> List.filter (\l -> l.contentType == Podcast)
+                        , videos = filteredLinks |> List.filter (\l -> l.contentType == Video)
+                        , topics = filteredPortfolio.topics
+                        }
+
+                    updatedPortal =
+                        { portal | provider = { provider | filteredPortfolio = updatedPortfolio } }
                 in
-                    ( model, runtime.featureLink { linkId = link.id, isFeatured = bit } FeatureLinkResponse )
+                    ( { model | portal = updatedPortal }, runtime.featureLink { linkId = link.id, isFeatured = bit } FeatureLinkResponse )
 
 
 onEditProfile : EditProfile.Msg -> Model -> ( Model, Cmd Msg )
@@ -2036,7 +2031,10 @@ linksUI links =
                     title =
                         formatTitle link
                 in
-                    a [ href <| urlText link.url, target "_blank" ] [ text title, br [] [] ]
+                    div []
+                        [ label [ class "postDate" ] [ text (parseDate link.timestamp) ]
+                        , a [ href <| urlText link.url, target "_blank" ] [ text title, br [] [] ]
+                        ]
             )
 
 

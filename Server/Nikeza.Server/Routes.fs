@@ -188,11 +188,12 @@ let private fetchLinks providerId: HttpHandler =
 
     Tasks.Task.Run(fun _ -> StackOverflow.CachedTags.Instance() |> ignore) |> ignore
 
-    let links =    providerId |> getLinks
     providerId 
      |> getProvider
      |> function
-        | Some p -> json <| { p with Portfolio= links |> toPortfolio }
+        | Some p -> json <| { p with Portfolio= providerId 
+                                                 |> getLinks 
+                                                 |> toPortfolio }
         | None   -> json []
 
 let private fetchSuggestedTopics (text) =

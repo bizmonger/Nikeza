@@ -588,3 +588,13 @@ allTopicContentUrl linksFrom id contentType topic =
 onKeyDown : (Int -> msg) -> Attribute msg
 onKeyDown tagger =
     on "keydown" (Json.map tagger keyCode)
+
+
+parseDate : String -> String
+parseDate dateText =
+    case dateText |> String.split "-" of
+        [ year, month, day ] ->
+            month ++ "/" ++ (day |> String.left 2) ++ "/" ++ year
+
+        _ ->
+            dateText

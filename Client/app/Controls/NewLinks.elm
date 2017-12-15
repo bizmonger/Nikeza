@@ -52,7 +52,7 @@ update msg model =
             InputUrl v ->
                 let
                     hasText domainName =
-                        if model.current.base.url |> urlText |> String.toLower |> String.contains domainName then
+                        if v |> String.toLower |> String.contains domainName then
                             True
                         else
                             False
@@ -100,7 +100,7 @@ update msg model =
                     ( { model | current = { linkToCreate | base = { linkToCreateBase | url = Url v, contentType = contentType } } }, Cmd.none )
 
             InputTopic "" ->
-                ( { model | current = { linkToCreate | currentTopic = Topic "" False } }, Cmd.none )
+                ( { model | current = { linkToCreate | currentTopic = Topic "" False, topicSuggestions = [] } }, Cmd.none )
 
             InputTopic v ->
                 ( { model | current = { linkToCreate | currentTopic = Topic v False } }, runtime.suggestedTopics v TopicSuggestionResponse )

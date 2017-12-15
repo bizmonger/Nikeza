@@ -12,7 +12,8 @@ type Msg
 formatLink : Link -> Html Msg
 formatLink link =
     div []
-        [ a [ href <| urlText <| link.url, target "_blank" ] [ label [ class "recentLink" ] [ text <| titleText link.title ] ]
+        [ label [ class "postDate" ] [ text (parseDate link.timestamp) ]
+        , a [ href <| urlText <| link.url, target "_blank" ] [ label [ class "recentLink" ] [ text <| titleText link.title ] ]
         , br [] []
         ]
 

@@ -64,7 +64,7 @@ view provider contentType isOwner =
             ( provider.portfolio, "featured" )
 
         posts =
-            links |> getLinks contentType |> List.sortWith compareLinks
+            links |> getLinks contentType
 
         checkbox link =
             input [ type_ "checkbox", checked link.isFeatured, onCheck (\b -> Featured ( link, b )) ] []

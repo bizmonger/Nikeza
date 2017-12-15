@@ -7,6 +7,7 @@ import Http
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
+import String.Extra exposing (replace)
 
 
 type Msg
@@ -87,6 +88,7 @@ update msg model =
                     formattedInput =
                         String.split " " v
                             |> String.join "-"
+                            |> String.Extra.replace "." "%2E"
                 in
                     ( { model | currentTopic = Topic formattedInput True }
                     , runtime.suggestedTopics formattedInput TopicSuggestionResponse
