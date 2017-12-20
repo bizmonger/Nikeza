@@ -1,4 +1,4 @@
-module Nikeza.Shared
+module Nikeza.Common
 
 open System
 

@@ -9,4 +9,8 @@
     <Compile Include="Events.fs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
+  </ItemGroup>
+
 </Project>

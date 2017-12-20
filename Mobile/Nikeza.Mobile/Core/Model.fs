@@ -1,5 +1,6 @@
 ﻿module Model
 
+open Nikeza.Common
 
 type Email =      Email      of string
 type Password =   Password   of string
@@ -10,31 +11,31 @@ type FirstName =  FirstName  of string
 type LastName =   LastName   of string
 
 type FeatureLinkRequest = { 
-    LinkId: Id
+    LinkId:     Id
     isFeatured: bool 
 }
 
 type FeatureTopicsrequest = { 
     ProfileId: Id
-    Names: string list
+    Names:     string list
 }
 
 type Profile = {
-    Id : Id
-    Email : Email
+    Id :         Id
+    Email :      Email
     EntityName : EntityName
 }
 
 type Provider = {
-    Profile: Profile
-    RecentLinks:   Link   list
+    Profile:     Profile
+    RecentLinks: Link list
 }
 
     module Registration =
         type Form = {
-            Email: Email
+            Email:    Email
             Password: Password
-            Confirm: Password
+            Confirm:  Password
         }
 
         type UnvalidatedForm = { Form : Form }
@@ -42,11 +43,11 @@ type Provider = {
 
     module ProfileForm =
         type Form = {
-            Email: Email
+            Email:       Email
             EntityName : EntityName
-            ImageUrl : Url
-            FirstName : FirstName option
-            LastName :  LastName  option
+            ImageUrl :   Url
+            FirstName :  FirstName option
+            LastName :   LastName  option
         }
 
         type Unvalidated = { Form : Form }
