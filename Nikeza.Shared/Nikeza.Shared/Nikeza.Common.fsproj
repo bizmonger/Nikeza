@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Shared.fs" />
+    <Compile Include="Common.fs" />
   </ItemGroup>
 
 </Project>

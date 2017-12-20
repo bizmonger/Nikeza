@@ -27,6 +27,7 @@ type Profile = {
 
 type Provider = {
     Profile: Profile
+    RecentLinks:   Link   list
 }
 
     module Registration =
