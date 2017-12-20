@@ -2,7 +2,7 @@ module Nikeza.Server.Model
 
 open System
 open Literals
-open Nikeza.Shared
+open Nikeza.Common
 
 type Platform =
     | YouTube

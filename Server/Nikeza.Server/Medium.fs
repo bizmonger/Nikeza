@@ -5,7 +5,7 @@ module Nikeza.Server.Medium
     open Http
     open Literals
     open Utils
-    open Nikeza.Shared
+    open Nikeza.Common
     open Newtonsoft.Json
 
     [<Literal>]

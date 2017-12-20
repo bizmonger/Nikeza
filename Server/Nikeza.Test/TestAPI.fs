@@ -9,7 +9,7 @@ open Read
 open Literals
 open DatabaseCommand
 open Model
-open Nikeza.Shared
+open Nikeza.Common
 
 [<Literal>]
 let ChannelIdFile = @"YouTube_ChannelId.key"

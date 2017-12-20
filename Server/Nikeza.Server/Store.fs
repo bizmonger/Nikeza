@@ -4,7 +4,7 @@ open System.Data.SqlClient
 open CommandDetails
 open Read
 open Converters
-open Nikeza.Shared
+open Nikeza.Common
 
 module private Store = 
     let executeQuery (command: SqlCommand) = command.ExecuteReader()

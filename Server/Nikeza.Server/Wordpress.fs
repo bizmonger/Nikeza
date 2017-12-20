@@ -7,7 +7,7 @@ module Nikeza.Server.WordPress
     open Http
     open Utils
     open StackOverflow.Suggestions
-    open Nikeza.Shared
+    open Nikeza.Common
 
     [<Literal>]
     let private APIBaseAddress =   "https://public-api.wordpress.com/"

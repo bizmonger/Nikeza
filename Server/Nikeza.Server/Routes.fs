@@ -10,7 +10,7 @@ open Store
 open Model
 open Platforms
 open Authentication
-open Nikeza.Shared
+open Nikeza.Common
 
 [<Literal>]
 let AuthScheme = "Cookie"
@@ -19,7 +19,7 @@ open Nikeza.Server.DatabaseCommand.Commands
 open System.Threading
 open Microsoft.AspNetCore.Authentication.Cookies
 open System.Security.Claims
-open Nikeza.Shared
+open Nikeza.Common
 
 //-----------------------------------------------------------------------
 // DEPLOYMENT

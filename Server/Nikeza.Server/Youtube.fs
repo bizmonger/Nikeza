@@ -6,7 +6,7 @@ open Literals
 open Utils
 open Model
 open StackOverflow
-open Nikeza.Shared
+open Nikeza.Common
 open FSharp.Control
 open Google.Apis.Services
 open Google.Apis.YouTube.v3

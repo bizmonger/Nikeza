@@ -6,7 +6,7 @@ open Model
 open Store
 open Sql
 open Platforms
-open Nikeza.Shared
+open Nikeza.Common
 
 let dispose (connection:SqlConnection) (command:SqlCommand) =
     connection.Dispose()

@@ -6,7 +6,7 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nikeza.Server", "Nikeza.Ser
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nikeza.Test", "Nikeza.Test\Nikeza.Test.fsproj", "{6E2F19F2-5C36-4524-832E-7F80838F6EE7}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nikeza.Shared", "..\Nikeza.Shared\Nikeza.Shared\Nikeza.Shared.fsproj", "{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nikeza.Common", "..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj", "{455B3350-3C0C-403B-AECF-1E74C37B1655}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,18 +42,18 @@ Global
 		{6E2F19F2-5C36-4524-832E-7F80838F6EE7}.Release|x64.Build.0 = Release|Any CPU
 		{6E2F19F2-5C36-4524-832E-7F80838F6EE7}.Release|x86.ActiveCfg = Release|Any CPU
 		{6E2F19F2-5C36-4524-832E-7F80838F6EE7}.Release|x86.Build.0 = Release|Any CPU
-		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Debug|x64.Build.0 = Debug|Any CPU
-		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Debug|x86.Build.0 = Debug|Any CPU
-		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Release|Any CPU.Build.0 = Release|Any CPU
-		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Release|x64.ActiveCfg = Release|Any CPU
-		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Release|x64.Build.0 = Release|Any CPU
-		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Release|x86.ActiveCfg = Release|Any CPU
-		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Release|x86.Build.0 = Release|Any CPU
+		{455B3350-3C0C-403B-AECF-1E74C37B1655}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{455B3350-3C0C-403B-AECF-1E74C37B1655}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{455B3350-3C0C-403B-AECF-1E74C37B1655}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{455B3350-3C0C-403B-AECF-1E74C37B1655}.Debug|x64.Build.0 = Debug|Any CPU
+		{455B3350-3C0C-403B-AECF-1E74C37B1655}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{455B3350-3C0C-403B-AECF-1E74C37B1655}.Debug|x86.Build.0 = Debug|Any CPU
+		{455B3350-3C0C-403B-AECF-1E74C37B1655}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{455B3350-3C0C-403B-AECF-1E74C37B1655}.Release|Any CPU.Build.0 = Release|Any CPU
+		{455B3350-3C0C-403B-AECF-1E74C37B1655}.Release|x64.ActiveCfg = Release|Any CPU
+		{455B3350-3C0C-403B-AECF-1E74C37B1655}.Release|x64.Build.0 = Release|Any CPU
+		{455B3350-3C0C-403B-AECF-1E74C37B1655}.Release|x86.ActiveCfg = Release|Any CPU
+		{455B3350-3C0C-403B-AECF-1E74C37B1655}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

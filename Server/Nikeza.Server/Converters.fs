@@ -1,7 +1,7 @@
 ﻿module Nikeza.Server.Converters
 
 open Nikeza.Server.Model
-open Nikeza.Shared
+open Nikeza.Common
 
 let toPortfolio links : Portfolio = { 
     Answers=  links |> List.filter (fun l -> l.ContentType = (contentTypeToString Answer))
