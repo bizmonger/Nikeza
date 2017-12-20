@@ -6,6 +6,7 @@ module Nikeza.Server.RSSFeed
     open Http
     open Utils
     open StackOverflow.Suggestions
+    open Nikeza.Shared
     
     let rssLinks (user:User) =
 

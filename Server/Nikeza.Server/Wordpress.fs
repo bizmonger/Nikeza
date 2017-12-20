@@ -1,12 +1,13 @@
 module Nikeza.Server.WordPress
 
+    open System
     open System.Collections.Generic
     open Newtonsoft.Json
     open Model
     open Http
     open Utils
     open StackOverflow.Suggestions
-    open System
+    open Nikeza.Shared
 
     [<Literal>]
     let private APIBaseAddress =   "https://public-api.wordpress.com/"

@@ -39,6 +39,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../Nikeza.Server/Nikeza.Server.fsproj" />
+    <ProjectReference Include="..\..\Nikeza.Shared\Nikeza.Shared\Nikeza.Shared.fsproj" />
   </ItemGroup>
 
   <ItemGroup>

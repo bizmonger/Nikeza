@@ -4,6 +4,7 @@ open System.Data.SqlClient
 open CommandDetails
 open Read
 open Converters
+open Nikeza.Shared
 
 module private Store = 
     let executeQuery (command: SqlCommand) = command.ExecuteReader()
@@ -295,7 +296,7 @@ let login email =
              | Some p -> p.Id |> getProvider
              | None   -> None
 
-let getTopic (topicName:string) =
+let getTopic (topicName:string) : Topic option =
     let topics = getTopics topicName getTopicSql "@Name"
     topics |> List.tryHead
 

@@ -7,6 +7,7 @@ open Literals
 open Store
 open Model
 open Commands
+open Nikeza.Shared
 
 let (creatorRegistrationForm:RegistrationRequest) = { 
     FirstName = "Scott"

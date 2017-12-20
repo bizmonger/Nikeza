@@ -5,6 +5,7 @@ module internal Nikeza.Server.Authentication
     open System.Security.Cryptography
     open Microsoft.AspNetCore.Cryptography.KeyDerivation
     open Store
+    open Nikeza.Shared
 
     type LoginResponse = 
         | Authenticated of ClaimsPrincipal

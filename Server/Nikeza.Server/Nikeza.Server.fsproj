@@ -24,33 +24,36 @@
 
   <!-- ASP.NET Core -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Core" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" version="2.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" version="2.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.1-beta1" />
   </ItemGroup>
 
   <!-- Giraffe -->
   <ItemGroup>
-    <PackageReference Include="Giraffe" Version="0.1.0-beta-310" />
-    <PackageReference Include="Giraffe.Razor" Version="0.1.0-beta-100" />
+    <PackageReference Include="Giraffe" Version="0.1.0-beta-500" />
+    <PackageReference Include="Giraffe.Razor" Version="0.1.0-beta-300" />
   </ItemGroup>
 
   <!-- External Packages -->
   <ItemGroup>
-    <PackageReference Include="System.Data.SqlClient" Version="4.4.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.4.2" />
     <PackageReference Include="System.Net.Http" Version="4.3.3" />
     <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.*" />
-    <PackageReference Include="Google.Apis" Version="1.29.2" />
-    <PackageReference Include="Google.Apis.Auth" Version="1.29.2" />
-    <PackageReference Include="Google.Apis.YouTube.v3" Version="1.29.2.1006" />
+    <PackageReference Include="Google.Apis" Version="1.32.0" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.32.0" />
+    <PackageReference Include="Google.Apis.YouTube.v3" Version="1.32.0.1079" />
   </ItemGroup>
 
   <!-- Watcher -->
@@ -110,6 +113,9 @@
     <Content Include="..\keys\YouTube_ChannelId.key" Link="YouTube_ChannelId.key">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Nikeza.Shared\Nikeza.Shared\Nikeza.Shared.fsproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Update="FSharp.Core" Version="4.2.3" />

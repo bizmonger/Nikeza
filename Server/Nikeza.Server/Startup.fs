@@ -14,6 +14,8 @@ open Giraffe.Middleware
 open Giraffe.Razor.Middleware
 open Nikeza.Server.Routes
 open Microsoft.AspNetCore.Mvc
+open Microsoft.AspNetCore.Authentication.Cookies
+open Routes
 
 
 // ---------------------------------
@@ -36,11 +38,19 @@ let configureCors (builder : CorsPolicyBuilder) =
            .AllowAnyHeader()
            .AllowCredentials() |> ignore
 
+let cookieAuth (o : CookieAuthenticationOptions) =
+    do
+        o.Cookie.HttpOnly     <- true
+        o.Cookie.SecurePolicy <- CookieSecurePolicy.SameAsRequest
+        o.SlidingExpiration   <- true
+        o.ExpireTimeSpan      <- TimeSpan.FromDays 7.0
+
 let configureApp (app : IApplicationBuilder) =
     app.UseCors configureCors |> ignore
     app.UseGiraffeErrorHandler errorHandler |> ignore
-    app.UseDefaultFiles() |> ignore
-    app.UseStaticFiles()  |> ignore
+    app.UseDefaultFiles()   |> ignore
+    app.UseStaticFiles()    |> ignore
+    app.UseAuthentication() |> ignore
     app.UseGiraffe webApp
  
 let configureServices (services : IServiceCollection) =
@@ -48,8 +58,10 @@ let configureServices (services : IServiceCollection) =
     let serviceProvider  = services.BuildServiceProvider()
     let environment =      serviceProvider.GetService<IHostingEnvironment>()
     let viewsFolderPath =  IO.Path.Combine(environment.ContentRootPath, "Views")
+    
     services.AddRazorEngine (viewsFolderPath) |> ignore
-    services.AddAuthentication() |> ignore
+    services.AddAuthentication(authScheme)
+            .AddCookie(fun o -> o |> cookieAuth) |> ignore
     services.AddCors() |> ignore // Enables CORS
 
 let configureLogging (loggerFactory : ILoggerFactory) =

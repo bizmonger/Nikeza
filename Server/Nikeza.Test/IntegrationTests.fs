@@ -15,6 +15,7 @@ open Platforms
 open StackOverflow.Suggestions
 open Command
 open Registration
+open Nikeza.Shared
 
 [<SetUp>]
 let setup() = registerProfile creatorRegistrationForm |> ignore

@@ -2,19 +2,24 @@ module Nikeza.Server.Routes
 
 open System
 open Microsoft.AspNetCore.Http
+open Microsoft.AspNetCore.Authentication
 open Giraffe.HttpContextExtensions
 open Giraffe.HttpHandlers
+open Giraffe.Tasks
 open Store
 open Model
 open Platforms
 open Authentication
-open Giraffe.Tasks
+open Nikeza.Shared
 
 [<Literal>]
 let AuthScheme = "Cookie"
 
 open Nikeza.Server.DatabaseCommand.Commands
 open System.Threading
+open Microsoft.AspNetCore.Authentication.Cookies
+open System.Security.Claims
+open Nikeza.Shared
 
 //-----------------------------------------------------------------------
 // DEPLOYMENT
@@ -25,23 +30,36 @@ open System.Threading
 let private registrationHandler: HttpHandler = 
     fun next ctx -> 
         task {
-            let! data = ctx.BindJson<RegistrationRequest>()
+            let! data = ctx.BindJsonAsync<RegistrationRequest>()
             match Registration.register { data with Email= data.Email.ToLower() } with
             | Success profile -> return! json profile next ctx
             | Failure         -> return! (setStatusCode 400 >=> json "registration failed") next ctx
         }
 
-let private loginHandler: HttpHandler = 
-    fun next ctx ->
+
+let authScheme = CookieAuthenticationDefaults.AuthenticationScheme 
+
+let loginHandler =
+    fun (next : HttpFunc) (ctx : HttpContext) ->
+        
         Tasks.Task.Run(fun _ -> StackOverflow.CachedTags.Instance() |> ignore) |> ignore
+
         task {
-            let! data = ctx.BindJson<LogInRequest>()
+            let! data = ctx.BindJsonAsync<LogInRequest>()
             let  email = data.Email.ToLower()
+
             if   authenticate email data.Password
                  then match login email with
-                      | Some provider -> return! json provider next ctx
-                      | None          -> return! (setStatusCode 400 >=> json "Invalid login") next ctx
-                 else return! (setStatusCode 400 >=> json "Invalid login") next ctx                                                       
+                      | Some provider -> 
+                          let claims = [ Claim(ClaimTypes.Name, email) ]
+                          let identity = ClaimsIdentity(claims, authScheme)
+                          let user     = ClaimsPrincipal(identity)
+                          
+                          do!     ctx.SignInAsync(authScheme, user)
+                          return! json provider next ctx
+
+                      | None -> return! (setStatusCode 400 >=> json "Invalid login") next ctx
+                 else return! (setStatusCode 400 >=> json "Invalid login") next ctx
         }
 
 let private fetchProvider providerId: HttpHandler =
@@ -49,12 +67,12 @@ let private fetchProvider providerId: HttpHandler =
         Tasks.Task.Run(fun _ -> StackOverflow.CachedTags.Instance() |> ignore) |> ignore
         getProvider providerId
          |> function
-           | Some p -> ctx.WriteJson p
+           | Some p -> ctx.WriteJsonAsync p
            | None   -> (setStatusCode 400 >=> json "provider not found") next ctx
 
 let private followHandler: HttpHandler = 
-    fun next ctx -> 
-        task { let! data = ctx.BindJson<FollowRequest>()
+    fun next ctx ->
+        task { let! data = ctx.BindJsonAsync<FollowRequest>()
 
                let alreadyFollowing = 
                    data.ProfileId 
@@ -76,7 +94,7 @@ let private followHandler: HttpHandler =
 
 let private unsubscribeHandler: HttpHandler = 
     fun next ctx -> 
-        task { let! data = ctx.BindJson<UnsubscribeRequest>()
+        task { let! data = ctx.BindJsonAsync<UnsubscribeRequest>()
 
                Unsubscribe data |> Command.execute |> ignore
                
@@ -90,7 +108,7 @@ let private unsubscribeHandler: HttpHandler =
 let private featureLinkHandler: HttpHandler = 
     fun next ctx -> 
         task { 
-            let! data = ctx.BindJson<FeatureLinkRequest>()
+            let! data = ctx.BindJsonAsync<FeatureLinkRequest>()
             FeatureLink data |> Command.execute |> ignore
             return! json data.LinkId next ctx
         }
@@ -98,7 +116,7 @@ let private featureLinkHandler: HttpHandler =
 let private featuredTopicsHandler: HttpHandler = 
     fun next ctx -> 
         task { 
-            let! data = ctx.BindJson<FeaturedTopicsRequest>()
+            let! data = ctx.BindJsonAsync<FeaturedTopicsRequest>()
             UpdateTopics data |> Command.execute |> ignore
             return! fetchProvider data.ProfileId next ctx
         }
@@ -106,7 +124,7 @@ let private featuredTopicsHandler: HttpHandler =
 let private updateProfileHandler: HttpHandler = 
     fun next ctx -> 
         task { 
-            let! data = ctx.BindJson<ProfileRequest>()
+            let! data = ctx.BindJsonAsync<ProfileRequest>()
             UpdateProfile data |> Command.execute |> ignore
             return! json data next ctx
         }
@@ -114,7 +132,7 @@ let private updateProfileHandler: HttpHandler =
 let private updateProviderHandler: HttpHandler = 
     fun next ctx -> 
         task { 
-            let! data = ctx.BindJson<ProfileAndTopicsRequest>()
+            let! data = ctx.BindJsonAsync<ProfileAndTopicsRequest>()
             let topicsRequest = { ProfileId= data.Profile.Id
                                   Names=     data.Topics |> List.map (fun t -> t.Name) }
                                   
@@ -129,7 +147,7 @@ let private updateProviderHandler: HttpHandler =
 let private addSourceHandler: HttpHandler = 
     fun next ctx -> 
         task { 
-            let! data =    ctx.BindJson<DataSourceRequest>()
+            let! data =    ctx.BindJsonAsync<DataSourceRequest>()
             let sourceId = AddSource data |> Command.execute
             let links =    data.ProfileId |> Store.linksFrom data.Platform |> List.toSeq
             let source = { data with Id = Int32.Parse(sourceId); Links = links }
@@ -148,7 +166,7 @@ let private removeSourceHandler (sourceId:string): HttpHandler =
 let private addLinkHandler: HttpHandler = 
     fun next ctx -> 
         task { 
-            let! data = ctx.BindJson<Link>()
+            let! data = ctx.BindJsonAsync<Link>()
             let linkId = AddLink { data with Description = ""; Timestamp= DateTime.Now } |> Command.execute
             return! json { data with Id = Int32.Parse(linkId) } next ctx
         }
@@ -156,7 +174,7 @@ let private addLinkHandler: HttpHandler =
 let private removeLinkHandler: HttpHandler = 
     fun _ ctx -> 
         task { 
-            let! data = ctx.BindJson<RemoveLinkRequest>()
+            let! data = ctx.BindJsonAsync<RemoveLinkRequest>()
             RemoveLink data |> Command.execute |> ignore
             return Some ctx
         }
@@ -164,7 +182,7 @@ let private removeLinkHandler: HttpHandler =
 let private updateThumbnailHandler: HttpHandler = 
     fun _ ctx -> 
         task { 
-            let! data = ctx.BindJson<UpdateThumbnailRequest>()
+            let! data = ctx.BindJsonAsync<UpdateThumbnailRequest>()
             UpdateThumbnail data |> Command.execute |> ignore
             return Some ctx
         }
@@ -219,12 +237,26 @@ let private fetchThumbnail (platform:string , accessId:string) =
          |> Platforms.getThumbnail accessId
                                  
     json { ImageUrl= thumbnail(); Platform= platform }
-         
+
+let private OnLandingPage: HttpHandler = 
+    htmlFile "index.html"
+    //fun next ctx ->
+    //    task {
+    //        let isAuthenticated = ctx.User.Identity.IsAuthenticated
+
+    //        if isAuthenticated
+    //           then let email = ctx.User.Identity.Name
+    //                match login email with
+    //                | Some provider -> return! json provider next ctx
+    //                | None          -> return htmlFile "index.html" // Compile Error
+    //           else return htmlFile "index.html"                    // Compile Error
+        //}
+    
 let webApp: HttpHandler = 
     choose [
         GET >=>
             choose [
-                route "/"                   >=> htmlFile "index.html"
+                route "/"                   >=> OnLandingPage
                 route  "/options"           >=> setHttpHeader "Allow" "GET, OPTIONS, POST" // CORS support
                 routef "/syncsources/%s"        syncSources
                 routef "/bootstrap/%s"          fetchBootstrap

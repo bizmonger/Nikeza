@@ -4,6 +4,7 @@ open System
 open System.Data.SqlClient
 open Nikeza.Server.Model
 open Nikeza.Server.Converters
+open Nikeza.Shared
 
 let readCommand (connection: SqlConnection) (command: SqlCommand) readerFunc =
     if connection.State = Data.ConnectionState.Closed

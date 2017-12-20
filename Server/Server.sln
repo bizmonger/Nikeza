@@ -6,10 +6,9 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nikeza.Server", "Nikeza.Ser
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nikeza.Test", "Nikeza.Test\Nikeza.Test.fsproj", "{6E2F19F2-5C36-4524-832E-7F80838F6EE7}"
 EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nikeza.Shared", "..\Nikeza.Shared\Nikeza.Shared\Nikeza.Shared.fsproj", "{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}"
+EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -43,11 +42,26 @@ Global
 		{6E2F19F2-5C36-4524-832E-7F80838F6EE7}.Release|x64.Build.0 = Release|Any CPU
 		{6E2F19F2-5C36-4524-832E-7F80838F6EE7}.Release|x86.ActiveCfg = Release|Any CPU
 		{6E2F19F2-5C36-4524-832E-7F80838F6EE7}.Release|x86.Build.0 = Release|Any CPU
+		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Debug|x64.Build.0 = Debug|Any CPU
+		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Debug|x86.Build.0 = Debug|Any CPU
+		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Release|x64.ActiveCfg = Release|Any CPU
+		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Release|x64.Build.0 = Release|Any CPU
+		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Release|x86.ActiveCfg = Release|Any CPU
+		{13DDA57E-1A52-41EB-8DA7-ECA80A846A96}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {625B74B9-3E63-4BB8-9DD9-F255D944471D}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

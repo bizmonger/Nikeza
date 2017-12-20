@@ -2056,6 +2056,11 @@ tokenizeUrl urlHash =
     urlHash |> String.split "/" |> List.drop 1
 
 
+tryGetSession : () -> Maybe Provider
+tryGetSession () =
+    Nothing
+
+
 navigate : Msg -> Model -> Location -> ( Model, Cmd Msg )
 navigate msg model location =
     case tokenizeUrl location.hash of
