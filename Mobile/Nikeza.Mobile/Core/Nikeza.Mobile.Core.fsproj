@@ -5,13 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Model.fs" />
     <Compile Include="Events.fs" />
     <Compile Include="Commands.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
+    <ProjectReference Include="..\Profile\Nikeza.Mobile.Profile.fsproj" />
   </ItemGroup>
 
 </Project>

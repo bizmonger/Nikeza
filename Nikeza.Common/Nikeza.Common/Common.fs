@@ -2,6 +2,12 @@ module Nikeza.Common
 
 open System
 
+type Id =          Id         of string
+type ProviderId =  ProviderId of string
+type ProfileId =   ProfileId  of string
+type LinkId =      LinkId     of int
+type Url = Url                of string
+
 [<CLIMutable>]
 type LogInRequest = {
     Email:    string
@@ -59,6 +65,11 @@ type UpdateThumbnailRequest = {
 
 [<CLIMutable>]
 type FeatureLinkRequest = { LinkId: int; IsFeatured: bool }
+
+type FeatureTopicsrequest = { 
+    ProfileId: Id
+    Names:     string list
+}
 
 [<CLIMutable>]
 type RecentRequest = { SubscriberId: string }
