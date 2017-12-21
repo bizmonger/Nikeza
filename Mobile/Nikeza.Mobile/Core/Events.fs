@@ -6,7 +6,7 @@ type TopicEvents = TopicsFeatured of FeatureTopicsrequest
 
 type NotificationEvents =
     | ContentDiscovered of Provider
-    | NewSubscriber
+    | NewSubscriber     of Profile
 
 type LinkEvents =
     | LinkFeatured   of FeatureLinkRequest
@@ -14,20 +14,15 @@ type LinkEvents =
 
 type RegistrationEvents =
     | FormValidated         of Registration.UnvalidatedForm
+    | FormNotValidated      of Registration.UnvalidatedForm
     | FormSubmitted         of Registration.ValidatedForm
     | RegistrationSucceeded of Profile
     | RegistrationFailed    of Registration.ValidatedForm
     | LoginRequested        of Id
-    
-type AuthenticationEvents =
-    | LoggedIn
-    | LoggedOut
 
-type AppEvents =
-    | AppLoaded
-    | AppSuspended
-    | AppExiting
-    | UnhandledException
+type AuthenticationEvents =
+    | LoggedIn  of Profile
+    | LoggedOut of Profile
 
 type ProfileEvents =
     | ProfileRequested of Id
@@ -36,12 +31,12 @@ type ProfileEvents =
     | Unsubscribed     of Id
 
 type PageRequested =
-    | Portal
-    | EditProfile of ProfileForm.Unvalidated
+    | Portal           of Profile
+    | EditProfile      of ProfileForm.Unvalidated
     | Registration
-    | Latest
-    | Subscriptions
-    | Followers
-    | Portfolio
-    | ContentTypeLinks
-    | TopicLinks
+    | Latest           of Profile
+    | Subscriptions    of Profile
+    | Followers        of Profile
+    | Portfolio        of Profile
+    | ContentTypeLinks of Profile
+    | TopicLinks       of Profile

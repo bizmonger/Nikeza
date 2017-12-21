@@ -81,6 +81,13 @@ type Bootstrap = {
     Platforms: String list
 }
 
+[<CLIMutable>]
+type BootstrapSignedIn = { 
+    Providers: ProviderRequest list
+    Platforms: String list
+    User:      ProviderRequest
+}
+
 type Result<'a> = 
     | Success of 'a
     | Failure

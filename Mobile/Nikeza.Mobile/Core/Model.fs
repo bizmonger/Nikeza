@@ -10,6 +10,8 @@ type Url =        Url        of string
 type FirstName =  FirstName  of string
 type LastName =   LastName   of string
 
+type Page = Page of Profile
+
 type FeatureLinkRequest = { 
     LinkId:     Id
     isFeatured: bool 
@@ -29,6 +31,11 @@ type Profile = {
 type Provider = {
     Profile:     Profile
     RecentLinks: Link list
+}
+
+type Credentials = {
+    email    : Email
+    password : Password
 }
 
     module Registration =

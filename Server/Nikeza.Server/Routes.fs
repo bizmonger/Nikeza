@@ -189,10 +189,25 @@ let private updateThumbnailHandler: HttpHandler =
 
 let private fetchBootstrap x: HttpHandler =
 
-    Tasks.Task.Run(fun _ -> StackOverflow.CachedTags.Instance() |> ignore) |> ignore
+    fun next ctx ->
+        Tasks.Task.Run(fun _ -> StackOverflow.CachedTags.Instance() |> ignore) |> ignore
 
-    let providers = getProviders()
-    json { Providers= providers; Platforms=getPlatforms() }
+        task {
+            let providers = getProviders()
+            let isAuthenticated = ctx.User.Identity.IsAuthenticated
+            let defaultBootstrap = { Providers= providers; Platforms=getPlatforms() }
+
+            if isAuthenticated
+               then let email = ctx.User.Identity.Name
+                    match login email with
+                    | Some provider -> return! json { Providers= providers
+                                                      Platforms=getPlatforms()
+                                                      User= provider }          next ctx
+
+                    | None          -> return! json defaultBootstrap next ctx
+
+                else return! json defaultBootstrap next ctx
+        }
 
 let private syncSources x: HttpHandler =
 
@@ -238,25 +253,11 @@ let private fetchThumbnail (platform:string , accessId:string) =
                                  
     json { ImageUrl= thumbnail(); Platform= platform }
 
-let private OnLandingPage: HttpHandler = 
-    htmlFile "index.html"
-    //fun next ctx ->
-    //    task {
-    //        let isAuthenticated = ctx.User.Identity.IsAuthenticated
-
-    //        if isAuthenticated
-    //           then let email = ctx.User.Identity.Name
-    //                match login email with
-    //                | Some provider -> return! json provider next ctx
-    //                | None          -> return htmlFile "index.html" // Compile Error
-    //           else return htmlFile "index.html"                    // Compile Error
-        //}
-    
 let webApp: HttpHandler = 
     choose [
         GET >=>
             choose [
-                route "/"                   >=> OnLandingPage
+                route "/"                   >=> htmlFile "index.html"
                 route  "/options"           >=> setHttpHeader "Allow" "GET, OPTIONS, POST" // CORS support
                 routef "/syncsources/%s"        syncSources
                 routef "/bootstrap/%s"          fetchBootstrap
