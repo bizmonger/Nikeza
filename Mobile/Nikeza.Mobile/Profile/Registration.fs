@@ -14,7 +14,6 @@ type Profile = {
     EntityName : EntityName
 }
 
-    //module AccountCreation =
 type Form = {
     Email:    Email
     Password: Password

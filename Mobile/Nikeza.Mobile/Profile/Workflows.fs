@@ -2,41 +2,10 @@
 
 open Commands
 open Events
-open Registration
-open Nikeza.Common
-open Nikeza.DataTransfer
-
-let private validateRegistration (unvalidatedForm:UnvalidatedForm) : RegistrationEvents list =
-
-    let isValidEmail email = false
-
-    let form = unvalidatedForm.Form
-
-    if  not (form.Email |> isValidEmail) then
-          [FormNotValidated unvalidatedForm]
-
-    elif form.Password <> form.Confirm then
-          [FormNotValidated unvalidatedForm]
-
-    else  [FormValidated { Form= form }]
-
-let private isValid (credentials:LogInRequest) =
-    let validEmail =    not <| System.String.IsNullOrEmpty(credentials.Email)
-    let validPassword = not <| System.String.IsNullOrEmpty(credentials.Password)
-
-    validEmail && validPassword
-
-let private validateEdit (edited:ProfileEdited) =
-    let validEmail =     not <| System.String.IsNullOrEmpty(edited.Profile.Email)
-    let validFirstName = not <| System.String.IsNullOrEmpty(edited.Profile.FirstName)
-    let validLastName =  not <| System.String.IsNullOrEmpty(edited.Profile.LastName)
-
-    if validEmail && validFirstName && validLastName
-       then [ProfileValidated    edited]
-       else [ProfileNotValidated edited]
+open WorkflowDetails
 
 let handleRegistration = function
-    | Validate form -> validateRegistration form
+    | ValidateRegistration form -> validateRegistration form
     | _ -> []
 
 let handleSession = function
@@ -49,7 +18,7 @@ let handleSession = function
                                            | Error credentials -> [LogoutFailed]
     | _ -> []
 
-let handleUpdate = function
+let handleEdit = function
     | ValidateEdit profile  -> validateEdit profile 
     | HandleSave   response -> response |> function
                                            | Ok    profile -> [ProfileSaved      profile]

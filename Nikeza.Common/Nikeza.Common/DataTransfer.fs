@@ -19,3 +19,4 @@ type ProfileEdited =    { Profile : Profile }
 [<CLIMutable>]
 type ProfileSubmitted = { Profile : Profile }
 
+type LoginResponse = Provider
