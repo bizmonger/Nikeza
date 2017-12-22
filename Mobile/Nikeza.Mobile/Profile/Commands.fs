@@ -9,5 +9,5 @@ type Command =
     | HandleLogin  of Result<Provider, Credentials>
     | HandleLogout of Result<unit,     Credentials>
 
-    | ValidateEdit of Profile
+    | ValidateEdit of ProfileEdited
     | HandleSave   of Result<Profile, ProfileSubmitted>

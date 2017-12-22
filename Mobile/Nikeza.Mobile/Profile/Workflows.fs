@@ -4,8 +4,9 @@ open Commands
 open Events
 open Registration
 open Nikeza.Common
+open Nikeza.DataTransfer
 
-let private validate (unvalidatedForm:UnvalidatedForm) : RegistrationEvents list =
+let private validateRegistration (unvalidatedForm:UnvalidatedForm) : RegistrationEvents list =
 
     let isValidEmail email = false
 
@@ -19,14 +20,23 @@ let private validate (unvalidatedForm:UnvalidatedForm) : RegistrationEvents list
 
     else  [FormValidated { Form= form }]
 
-let isValid (credentials:LogInRequest) =
+let private isValid (credentials:LogInRequest) =
     let validEmail =    not <| System.String.IsNullOrEmpty(credentials.Email)
     let validPassword = not <| System.String.IsNullOrEmpty(credentials.Password)
 
     validEmail && validPassword
 
+let private validateEdit (edited:ProfileEdited) =
+    let validEmail =     not <| System.String.IsNullOrEmpty(edited.Profile.Email)
+    let validFirstName = not <| System.String.IsNullOrEmpty(edited.Profile.FirstName)
+    let validLastName =  not <| System.String.IsNullOrEmpty(edited.Profile.LastName)
+
+    if validEmail && validFirstName && validLastName
+       then [ProfileValidated    edited]
+       else [ProfileNotValidated edited]
+
 let handleRegistration = function
-    | Validate form -> validate form
+    | Validate form -> validateRegistration form
     | _ -> []
 
 let handleSession = function
@@ -40,8 +50,8 @@ let handleSession = function
     | _ -> []
 
 let handleUpdate = function
-    | ValidateEdit profile  -> []
+    | ValidateEdit profile  -> validateEdit profile 
     | HandleSave   response -> response |> function
-                                           | Ok    profile -> [ProfileSaved profile]
-                                           | Error profile -> [ProfileSavedFailed profile]
+                                           | Ok    profile -> [ProfileSaved      profile]
+                                           | Error profile -> [ProfileSaveFailed profile]
     | _ -> []

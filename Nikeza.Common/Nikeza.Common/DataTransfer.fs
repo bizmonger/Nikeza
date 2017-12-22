@@ -14,7 +14,7 @@ type Credentials = LogInRequest
 [<CLIMutable>]
 type Profile = ProfileRequest
 
-type ProfileDraft =     { Profile : Profile }
+type ProfileEdited =    { Profile : Profile }
 
 [<CLIMutable>]
 type ProfileSubmitted = { Profile : Profile }
