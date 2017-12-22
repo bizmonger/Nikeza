@@ -12,10 +12,10 @@ type RegistrationEvents =
     | LoginRequested        of ProfileId
 
 type AuthenticationEvents =
-    | LoggedIn     of Provider
-    | LoginFailed  of LogInRequest
-    | LogOutFailed
+    | LoggedIn    of Provider
+    | LoginFailed of LogInRequest
     | LoggedOut
+    | LogoutFailed
 
 type ProfileEvents =
     | ProfileRequested   of ProfileId

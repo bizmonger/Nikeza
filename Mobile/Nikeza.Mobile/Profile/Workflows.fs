@@ -36,7 +36,7 @@ let handleSession = function
 
     | HandleLogout response -> response |> function
                                            | Ok _              -> [LoggedOut]
-                                           | Error credentials -> [LogOutFailed]
+                                           | Error credentials -> [LogoutFailed]
     | _ -> []
 
 let handleUpdate = function
