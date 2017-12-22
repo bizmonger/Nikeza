@@ -9,17 +9,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nikeza.Mobile", "Nikeza.Mob
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Nikeza.Client.WebRequests", "Nikeza.Client.WebRequests\Nikeza.Client.WebRequests.fsproj", "{7CF586AA-B1E2-44A8-90B6-6A414FE44A26}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nikeza.Mobile.Core", "Core\Nikeza.Mobile.Core.fsproj", "{BA119A86-EF80-4854-95FC-7B0E2AED524A}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nikeza.Mobile.AppLogic", "Core\Nikeza.Mobile.AppLogic.fsproj", "{BA119A86-EF80-4854-95FC-7B0E2AED524A}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nikeza.Common", "..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj", "{90E1C6BB-B9D6-4081-B0E1-ED1414C2060F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{5D9B92E8-DBD4-4EBD-8427-37D41A147781}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Nikeza.Mobile.Profile", "Profile\Nikeza.Mobile.Profile.fsproj", "{A98E9556-CF8A-46B3-9CF5-760C657A0850}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nikeza.Mobile.Profile", "Profile\Nikeza.Mobile.Profile.fsproj", "{A98E9556-CF8A-46B3-9CF5-760C657A0850}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Nikeza.Mobile.Subscriptions", "Subscriptions\Nikeza.Mobile.Subscriptions.fsproj", "{ED5526A4-3865-43B2-9F12-3D2A4E5F8E7B}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nikeza.Mobile.Subscriptions", "Subscriptions\Nikeza.Mobile.Subscriptions.fsproj", "{ED5526A4-3865-43B2-9F12-3D2A4E5F8E7B}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Nikeza.Mobile.Portfolio", "Portfolio\Nikeza.Mobile.Portfolio.fsproj", "{B9B36589-9387-4217-9F9C-D225C4F54D1C}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nikeza.Mobile.Portfolio", "Portfolio\Nikeza.Mobile.Portfolio.fsproj", "{B9B36589-9387-4217-9F9C-D225C4F54D1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -249,6 +249,8 @@ Global
 		{032EC769-87F6-46CF-9097-0891007BF362} = {5D9B92E8-DBD4-4EBD-8427-37D41A147781}
 		{61A11E2C-9083-430A-9706-CDF34ADEDDBF} = {5D9B92E8-DBD4-4EBD-8427-37D41A147781}
 		{7CF586AA-B1E2-44A8-90B6-6A414FE44A26} = {5D9B92E8-DBD4-4EBD-8427-37D41A147781}
+		{BA119A86-EF80-4854-95FC-7B0E2AED524A} = {5D9B92E8-DBD4-4EBD-8427-37D41A147781}
+		{90E1C6BB-B9D6-4081-B0E1-ED1414C2060F} = {5D9B92E8-DBD4-4EBD-8427-37D41A147781}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {020121EE-EF29-420E-A832-D64AD5AFBFE6}

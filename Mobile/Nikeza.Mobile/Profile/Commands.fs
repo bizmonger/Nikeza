@@ -1,13 +1,13 @@
 ﻿module Commands
 
-open Nikeza.Mobile.Registration
 open Nikeza.Common
+open Nikeza.DataTransfer
 
 type Command =
-    | Validate      of Registration.UnvalidatedForm
-    | TrySubmit     of Registration.ValidatedForm
+    | Validate     of Registration.UnvalidatedForm
 
-    | Login         of LogInRequest
+    | HandleLogin  of Result<Provider, Credentials>
+    | HandleLogout of Result<unit,     Credentials>
 
-    | Edit          of Profile
-    | Save          of Profile
+    | ValidateEdit of Profile
+    | HandleSave   of Result<Profile, ProfileSubmitted>

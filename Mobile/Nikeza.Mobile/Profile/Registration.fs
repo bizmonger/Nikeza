@@ -1,4 +1,4 @@
-﻿module Nikeza.Mobile.Registration
+﻿module Registration
 
 open Nikeza.Common
 
@@ -14,15 +14,15 @@ type Profile = {
     EntityName : EntityName
 }
 
-    module Registration =
-        type Form = {
-            Email:    Email
-            Password: Password
-            Confirm:  Password
-        }
+    //module AccountCreation =
+type Form = {
+    Email:    Email
+    Password: Password
+    Confirm:  Password
+}
 
-        type UnvalidatedForm = { Form : Form }
-        type ValidatedForm =   { Form : Form }
+type UnvalidatedForm = { Form : Form }
+type ValidatedForm =   { Form : Form }
 
-        type Unvalidated = { Form : ProfileRequest }
-        type Validated =   { Form : ProfileRequest }
+type Unvalidated = { Form : ProfileRequest }
+type Validated =   { Form : ProfileRequest }

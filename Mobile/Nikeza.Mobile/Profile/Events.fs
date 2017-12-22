@@ -1,7 +1,7 @@
 ﻿module Events
 
 open Nikeza.Common
-open Nikeza.Mobile.Registration
+open Nikeza.DataTransfer
 
 type RegistrationEvents =
     | FormValidated         of Registration.UnvalidatedForm
@@ -12,11 +12,14 @@ type RegistrationEvents =
     | LoginRequested        of ProfileId
 
 type AuthenticationEvents =
-    | LoggedIn  of Profile
-    | LoggedOut of Profile
+    | LoggedIn     of Provider
+    | LoginFailed  of LogInRequest
+    | LogOutFailed
+    | LoggedOut
 
 type ProfileEvents =
-    | ProfileRequested of ProfileId
-    | ProfileSaved     of Registration.Validated
-    | Subscribed       of ProviderId
-    | Unsubscribed     of ProviderId
+    | ProfileRequested   of ProfileId
+    | ProfileSaved       of Nikeza.DataTransfer.Profile
+    | ProfileSavedFailed of ProfileSubmitted
+    | Subscribed         of ProviderId
+    | Unsubscribed       of ProviderId

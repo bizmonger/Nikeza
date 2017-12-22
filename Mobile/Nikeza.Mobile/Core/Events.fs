@@ -1,6 +1,6 @@
 module Noeza.Mobile.Core.Events
 
-open Nikeza.Mobile.Registration
+open Registration
 
 type PageRequested =
     | Portal           of Profile

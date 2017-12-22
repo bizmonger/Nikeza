@@ -5,9 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Model.fs" />
     <Compile Include="Registration.fs" />
     <Compile Include="Commands.fs" />
     <Compile Include="Events.fs" />
+    <Compile Include="Workflows.fs" />
   </ItemGroup>
 
   <ItemGroup>
