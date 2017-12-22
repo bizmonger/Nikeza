@@ -9,5 +9,5 @@ let handleSubscription = function
                                           | Error profileId  -> [SubscriberAddFailed profileId]
 
     | Unsubscribe response -> response |> function
-                                          | Ok    info       -> [SubscriberRemoved    info.User]
+                                          | Ok    info       -> [SubscriberRemoved      info.User]
                                           | Error profileId  -> [SubscriberRemoveFailed profileId]

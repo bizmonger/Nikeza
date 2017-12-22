@@ -14,8 +14,8 @@ let handleSession = function
                                            | Error credentials -> [LoginFailed credentials]
 
     | HandleLogout response -> response |> function
-                                           | Ok _              -> [LoggedOut]
-                                           | Error credentials -> [LogoutFailed]
+                                           | Ok _    -> [LoggedOut]
+                                           | Error _ -> [LogoutFailed]
     | _ -> []
 
 let handleEdit = function
