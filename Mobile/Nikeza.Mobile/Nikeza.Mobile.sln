@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nikeza.Mobile.Android", "Ni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nikeza.Mobile", "Nikeza.Mobile\Nikeza.Mobile\Nikeza.Mobile.csproj", "{61A11E2C-9083-430A-9706-CDF34ADEDDBF}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Nikeza.Client.WebRequests", "Nikeza.Client.WebRequests\Nikeza.Client.WebRequests.fsproj", "{7CF586AA-B1E2-44A8-90B6-6A414FE44A26}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Nikeza.Mobile.Gateway", "Nikeza.Client.WebRequests\Nikeza.Mobile.Gateway.fsproj", "{7CF586AA-B1E2-44A8-90B6-6A414FE44A26}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nikeza.Mobile.AppLogic", "Core\Nikeza.Mobile.AppLogic.fsproj", "{BA119A86-EF80-4854-95FC-7B0E2AED524A}"
 EndProject

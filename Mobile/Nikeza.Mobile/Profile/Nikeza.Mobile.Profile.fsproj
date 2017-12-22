@@ -4,11 +4,16 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="Registration.fs" />
     <Compile Include="Commands.fs" />
     <Compile Include="Events.fs" />
-    <Compile Include="WorkflowDetails.fs" />
+    <Compile Include="Workflow.Implementation.fs" />
     <Compile Include="Workflows.fs" />
   </ItemGroup>
 

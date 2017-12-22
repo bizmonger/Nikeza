@@ -6,6 +6,12 @@ open Nikeza.Common
 type Provider = ProviderRequest
 
 [<CLIMutable>]
+type User =     ProviderRequest
+
+[<CLIMutable>]
+type SubscriptionResponse = { User :  User; Provider: Provider }
+
+[<CLIMutable>]
 type ProfileAndTopics = ProfileAndTopicsRequest
 
 [<CLIMutable>]
