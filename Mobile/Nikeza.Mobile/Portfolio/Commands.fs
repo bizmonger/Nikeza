@@ -1,9 +1,10 @@
-﻿module Nikeza.Mobile.Commands
+﻿module Commands
 
+open Nikeza.DataTransfer
 open Nikeza.Common
 
 type Command =
-    | FeatureLink   of LinkId
-    | UnfeatureLink of LinkId
-
-    | View          of ProviderRequest
+    | FeatureLink    of Result<LinkId, LinkId>
+    | UnfeatureLink  of Result<LinkId, LinkId>
+    | FeatureTopics  of Result<TopicId list, TopicId list>
+    | View           of Result<Provider, ProviderId>

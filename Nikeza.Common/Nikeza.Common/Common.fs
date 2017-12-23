@@ -6,6 +6,7 @@ type Id =          Id         of string
 type ProviderId =  ProviderId of string
 type ProfileId =   ProfileId  of string
 type LinkId =      LinkId     of int
+type TopicId =     TopicId    of int
 type Url = Url                of string
 
 [<CLIMutable>]
