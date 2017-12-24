@@ -4,11 +4,17 @@ open Commands
 open Events
 open WorkflowDetails
 
-let handleRegistration = function
+type RegistrationWorkflow = Command -> RegistrationEvent list
+type SessionWorkflow =      Command -> SessionEvent      list
+type ProfileWorkflow =      Command -> ProfileEvent      list
+
+let handleRegistration : RegistrationWorkflow = 
+    fun command -> command |> function
     | ValidateRegistration form -> validateRegistration form
     | _ -> []
 
-let handleSession = function
+let handleSession : SessionWorkflow = 
+    fun command -> command |> function
     | HandleLogin  response -> response |> function
                                            | Ok    provider    -> [LoggedIn    provider]
                                            | Error credentials -> [LoginFailed credentials]
@@ -18,7 +24,8 @@ let handleSession = function
                                            | Error _ -> [LogoutFailed]
     | _ -> []
 
-let handleEdit = function
+let handleEdit : ProfileWorkflow = 
+    fun command -> command |> function
     | ValidateEdit profile  -> validateEdit profile 
     | HandleSave   response -> response |> function
                                            | Ok    profile -> [ProfileSaved      profile]

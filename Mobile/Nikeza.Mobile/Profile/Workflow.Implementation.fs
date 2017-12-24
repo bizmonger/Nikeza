@@ -5,7 +5,7 @@ open Registration
 open Nikeza.Common
 open Nikeza.DataTransfer
 
-let validateRegistration (unvalidatedForm:UnvalidatedForm) : RegistrationEvents list =
+let validateRegistration (unvalidatedForm:UnvalidatedForm) : RegistrationEvent list =
 
     let isValidEmail email = false
 

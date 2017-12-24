@@ -3,7 +3,7 @@ module Events
 open Nikeza.DataTransfer
 open Nikeza.Common
 
-type NotificationEvents =
+type NotificationEvent =
     | LinksDiscovered        of Provider
 
     | SubscriberAdded        of User

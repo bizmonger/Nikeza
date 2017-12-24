@@ -3,7 +3,10 @@
 open Commands
 open Events
 
-let handleSubscription = function
+type Workflow = Command -> NotificationEvent list
+
+let handle : Workflow =
+    fun command -> command |> function
     | Subscribe   response -> response |> function
                                           | Ok    info       -> [SubscriberAdded     info.User]
                                           | Error profileId  -> [SubscriberAddFailed profileId]

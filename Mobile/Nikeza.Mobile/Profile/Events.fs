@@ -3,7 +3,7 @@
 open Nikeza.Common
 open Nikeza.DataTransfer
 
-type RegistrationEvents =
+type RegistrationEvent =
     | FormValidated         of Registration.UnvalidatedForm
     | FormNotValidated      of Registration.UnvalidatedForm
     | FormSubmitted         of Registration.ValidatedForm
@@ -11,13 +11,13 @@ type RegistrationEvents =
     | RegistrationFailed    of Registration.ValidatedForm
     | LoginRequested        of ProfileId
 
-type AuthenticationEvents =
+type SessionEvent =
     | LoggedIn    of Provider
     | LoginFailed of LogInRequest
     | LoggedOut
     | LogoutFailed
 
-type ProfileEvents =
+type ProfileEvent =
     | ProfileValidated    of ProfileEdited
     | ProfileNotValidated of ProfileEdited
     | ProfileRequested    of ProfileId

@@ -3,7 +3,7 @@ module Events
 open Nikeza.Common
 open Nikeza.DataTransfer
 
-type Events =
+type PortfolioEvent =
     | LinkFeatured         of LinkId
     | LinkFeaturedFailed   of LinkId
 
