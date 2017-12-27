@@ -3,11 +3,16 @@
 open Nikeza.Common
 open Nikeza.DataTransfer
 
-let tryFollow (request:FollowRequest) :           Result<SubscriptionResponse, ProfileId> = 
-    Error (request.ProfileId |> ProfileId)
+type TryRequest<'request, 'response, 'errorInfo> = 
+                'request -> Result<'response, 'errorInfo>
 
-let tryUnsubscribe (request:UnsubscribeRequest) : Result<SubscriptionResponse, ProfileId> = 
-    Error (request.ProfileId |> ProfileId)
+let tryFollow :       TryRequest<FollowRequest, SubscriptionResponse, ProfileId> =
+    fun (request:FollowRequest) ->
+        Error (request.ProfileId |> ProfileId)
+
+let tryUnsubscribe :  TryRequest<UnsubscribeRequest, SubscriptionResponse, ProfileId> =
+    fun (request:UnsubscribeRequest) ->
+        Error (request.ProfileId |> ProfileId)
 
 type ResultOf =
     | Follow      of Result<SubscriptionResponse, ProfileId>

@@ -1,7 +1,7 @@
 ﻿module Workflows
 
-open IO
 open Commands
+open IO
 open Logic
 open Events
 
