@@ -1,16 +1,20 @@
 ﻿module Workflows
 
+open IO
 open Commands
+open Logic
 open Events
 
-type Workflow = Command -> NotificationEvent list
+type private Workflow = Command -> NotificationEvent list
 
-let handle : Workflow =
+let handle : Workflow = 
     fun command -> command |> function
-    | Subscribe   response -> response |> function
-                                          | Ok    info       -> [SubscriberAdded     info.User]
-                                          | Error profileId  -> [SubscriberAddFailed profileId]
+    | Command.Follow      request -> request 
+                                      |> tryFollow 
+                                      |> ResultOf.Follow 
+                                      |> handle
 
-    | Unsubscribe response -> response |> function
-                                          | Ok    info       -> [SubscriberRemoved      info.User]
-                                          | Error profileId  -> [SubscriberRemoveFailed profileId]
+    | Command.Unsubscribe request -> request 
+                                      |> tryUnsubscribe 
+                                      |> ResultOf.Unsubscribe  
+                                      |> handle
