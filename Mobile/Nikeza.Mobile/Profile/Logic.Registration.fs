@@ -5,13 +5,17 @@ open Registration
 open Nikeza.Common
 open Commands
 
-type private Logic = ResultOf -> RegistrationEvent list
+type private Logic = ResultOf.Registration -> RegistrationEvent list
 
 let handle : Logic =
     fun resultOf -> resultOf |> function
-        | SubmitRegistration   result -> []
-        | ValidateRegistration result -> []
-        | _ -> []
+        | ResultOf.Registration.Submit   result -> result |> function
+                                                             | Ok    profile -> [RegistrationSucceeded profile]
+                                                             | Error form    -> [RegistrationFailed    form]
+
+        | ResultOf.Registration.Validate result -> result |> function
+                                                             | Ok    form -> [FormValidated    form]
+                                                             | Error form -> [FormNotValidated form]
 
 let validate (unvalidatedForm:UnvalidatedForm) : Result<ValidatedForm, UnvalidatedForm> =
 

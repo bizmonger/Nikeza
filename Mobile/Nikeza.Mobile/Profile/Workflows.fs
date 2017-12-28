@@ -6,39 +6,35 @@ open Logic.Registration
 open Events
 open Logic
 
-type RegistrationWorkflow = Command -> RegistrationEvent list
-type SessionWorkflow =      Command -> SessionEvent      list
-type EditWorkflow =          Command -> ProfileEvent      list
+type RegistrationWorkflow = RegistrationCommand -> RegistrationEvent list
+type SessionWorkflow =      SessionCommand      -> SessionEvent      list
+type EditWorkflow =         EditCommand         -> ProfileEvent      list
 
 let handleRegistration : RegistrationWorkflow =
     fun command -> command |> function
-    | Command.ValidateRegistration form -> form |> validate
-                                                |> ResultOf.ValidateRegistration
+    | RegistrationCommand.Validate form -> form |> validate
+                                                |> ResultOf.Registration.Validate
                                                 |> Registration.handle
 
-    | Command.SubmitRegistration   form -> form |> trySubmit
-                                                |> ResultOf.SubmitRegistration
+    | RegistrationCommand.Submit   form -> form |> trySubmit
+                                                |> ResultOf.Registration.Submit
                                                 |> Registration.handle
-    | _ -> []
 
 let handleSession : SessionWorkflow = 
     fun command -> command |> function
-    | Command.Login credentials -> credentials |> tryLogin
-                                               |> ResultOf.Login
-                                               |> Session.handle
-
-    | Command.Logout -> tryLogout()
-                         |> ResultOf.Logout
-                         |> Session.handle
-    | _ -> []
+    | SessionCommand.Login credentials -> credentials |> tryLogin
+                                                      |> ResultOf.Login
+                                                      |> Session.handle
+    | SessionCommand.Logout -> tryLogout()
+                                |> ResultOf.Logout
+                                |> Session.handle
 
 let handleEdit : EditWorkflow = 
     fun command -> command |> function
-    | Command.ValidateEdit profile  -> profile |> Edit.validate 
-                                               |> ResultOf.ValidateProfile
-                                               |> Edit.handle
+    | EditCommand.Validate profile -> profile |> Edit.validate 
+                                              |> ResultOf.Editor.Validate
+                                              |> Edit.handle
 
-    | Command.Save         profile  -> profile |> IO.trySave
-                                               |> ResultOf.Save
-                                               |> Edit.handle
-    | _ -> []
+    | EditCommand.Save     profile -> profile |> IO.trySave
+                                              |> ResultOf.Editor.Save
+                                              |> Edit.handle

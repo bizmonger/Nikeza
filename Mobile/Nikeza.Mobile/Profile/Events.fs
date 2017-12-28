@@ -4,9 +4,8 @@ open Nikeza.Common
 open Nikeza.DataTransfer
 
 type RegistrationEvent =
-    | FormValidated         of Registration.UnvalidatedForm
+    | FormValidated         of Registration.ValidatedForm
     | FormNotValidated      of Registration.UnvalidatedForm
-    | FormSubmitted         of Registration.ValidatedForm
     | RegistrationSucceeded of Profile
     | RegistrationFailed    of Registration.ValidatedForm
     | LoginRequested        of ProfileId
