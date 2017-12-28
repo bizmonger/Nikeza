@@ -8,11 +8,11 @@ type EntityName = EntityName of string
 type FirstName =  FirstName  of string
 type LastName =   LastName   of string
 
-type Profile = {
-    Id :         Id
-    Email :      Email
-    EntityName : EntityName
-}
+//type Profile = {
+//    Id :         Id
+//    Email :      Email
+//    EntityName : EntityName
+//}
 
 type Form = {
     Email:    Email

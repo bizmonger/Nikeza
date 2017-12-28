@@ -13,7 +13,7 @@ type RegistrationEvent =
 
 type SessionEvent =
     | LoggedIn    of Provider
-    | LoginFailed of LogInRequest
+    | LoginFailed of Credentials
     | LoggedOut
     | LogoutFailed
 

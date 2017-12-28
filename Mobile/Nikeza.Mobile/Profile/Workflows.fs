@@ -2,8 +2,9 @@
 
 open Commands
 open IO
-open Logic
+open Logic.Registration
 open Events
+open Logic
 
 type RegistrationWorkflow = Command -> RegistrationEvent list
 type SessionWorkflow =      Command -> SessionEvent      list
@@ -11,23 +12,25 @@ type ProfileWorkflow =      Command -> ProfileEvent      list
 
 let handleRegistration : RegistrationWorkflow =
     fun command -> command |> function
-    | Command.ValidateRegistration form -> form |> validateRegistration
-                                                |> handleRegistration
+    | Command.ValidateRegistration form -> form |> validate
+                                                |> ResultOf.ValidateEdit
+                                                |> Registration.handle
 
     | Command.SubmitRegistration   form -> form |> trySubmit
-                                                |> handleRegistration
+                                                |> ResultOf.SubmitRegistration
+                                                |> Registration.handle
     | _ -> []
 
-//let handleSession : SessionWorkflow = 
-//    fun command -> command |> function
-//    | HandleLogin  response -> response |> function
-//                                           | Ok    provider    -> [LoggedIn    provider]
-//                                           | Error credentials -> [LoginFailed credentials]
+let handleSession : SessionWorkflow = 
+    fun command -> command |> function
+    | Command.HandleLogin  credentials -> credentials |> tryLogin
+                                                      |> ResultOf.Login
+                                                      |> Session.handle
 
-//    | HandleLogout response -> response |> function
-//                                           | Ok _    -> [LoggedOut]
-//                                           | Error _ -> [LogoutFailed]
-//    | _ -> []
+    | Command.HandleLogout -> tryLogout()
+                               |> ResultOf.Logout
+                               |> Session.handle
+    | _ -> []
 
 //let handleEdit : ProfileWorkflow = 
 //    fun command -> command |> function

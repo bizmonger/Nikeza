@@ -1,5 +1,6 @@
 module Noeza.Mobile.Core.Events
 
+open Nikeza.DataTransfer
 open Registration
 
 type PageRequested =
