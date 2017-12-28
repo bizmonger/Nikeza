@@ -1,4 +1,4 @@
-﻿module Logic
+﻿module internal Logic
 
 open IO
 open Events

@@ -1,4 +1,4 @@
-﻿module IO
+﻿module internal IO
 
 open Nikeza.Common
 open Nikeza.DataTransfer
@@ -7,11 +7,11 @@ type TryRequest<'request, 'response, 'errorInfo> =
                 'request -> Result<'response, 'errorInfo>
 
 let tryFollow :       TryRequest<FollowRequest, SubscriptionResponse, ProfileId> =
-    fun (request:FollowRequest) ->
+    fun request ->
         Error (request.ProfileId |> ProfileId)
 
 let tryUnsubscribe :  TryRequest<UnsubscribeRequest, SubscriptionResponse, ProfileId> =
-    fun (request:UnsubscribeRequest) ->
+    fun request ->
         Error (request.ProfileId |> ProfileId)
 
 type ResultOf =

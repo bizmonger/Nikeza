@@ -1,23 +1,32 @@
-﻿module internal WorkflowDetails
+﻿module internal Logic
 
 open Events
 open Registration
 open Nikeza.Common
 open Nikeza.DataTransfer
+open Commands
 
-let validateRegistration (unvalidatedForm:UnvalidatedForm) : RegistrationEvent list =
+type private Logic = ResultOf -> RegistrationEvent list
+
+let handleRegistration : Logic =
+    fun resultOf -> resultOf |> function
+        | SubmitRegistration   result -> []
+        | ValidateRegistration result -> []
+        | _ -> []
+
+let validateRegistration (unvalidatedForm:UnvalidatedForm) : ResultOf =
 
     let isValidEmail email = false
 
     let form = unvalidatedForm.Form
 
-    if  not (form.Email |> isValidEmail) then
-          [FormNotValidated unvalidatedForm]
+    if   not (form.Email |> isValidEmail) then
+          ResultOf.ValidateRegistration <| Error unvalidatedForm
 
     elif form.Password <> form.Confirm then
-          [FormNotValidated unvalidatedForm]
+          ResultOf.ValidateRegistration <| Error unvalidatedForm
 
-    else  [FormValidated { Form= form }]
+    else  ResultOf.ValidateRegistration <| Ok { Form= form }
 
 let isValid (credentials:LogInRequest) =
     let validEmail =    not <| System.String.IsNullOrEmpty(credentials.Email)

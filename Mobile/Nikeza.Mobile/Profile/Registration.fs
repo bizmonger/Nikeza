@@ -22,6 +22,3 @@ type Form = {
 
 type UnvalidatedForm = { Form : Form }
 type ValidatedForm =   { Form : Form }
-
-type Unvalidated = { Form : ProfileRequest }
-type Validated =   { Form : ProfileRequest }

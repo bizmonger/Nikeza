@@ -4,7 +4,7 @@ open Registration
 
 type PageRequested =
     | Portal           of Profile
-    | EditProfile      of Registration.Unvalidated
+    | EditProfile      of UnvalidatedForm
     | Registration
     | Latest           of Profile
     | Subscriptions    of Profile
