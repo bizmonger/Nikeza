@@ -14,6 +14,7 @@
     <Compile Include="Events.fs" />
     <Compile Include="Commands.fs" />
     <Compile Include="IO.fs" />
+    <Compile Include="Logic.edit.fs" />
     <Compile Include="Logic.session.fs" />
     <Compile Include="Logic.registration.fs" />
     <Compile Include="Workflows.fs" />

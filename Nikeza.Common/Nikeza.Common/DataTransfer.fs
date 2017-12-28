@@ -20,9 +20,7 @@ type Credentials = LogInRequest
 [<CLIMutable>]
 type Profile = ProfileRequest
 
-type ProfileEdited =    { Profile : Profile }
-
-[<CLIMutable>]
-type ProfileSubmitted = { Profile : Profile }
+type EditedProfile =    { Profile : Profile }
+type ValidatedProfile = { Profile : Profile }
 
 type LoginResponse = Provider

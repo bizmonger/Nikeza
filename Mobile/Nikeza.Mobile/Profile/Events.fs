@@ -18,10 +18,10 @@ type SessionEvent =
     | LogoutFailed
 
 type ProfileEvent =
-    | ProfileValidated    of ProfileEdited
-    | ProfileNotValidated of ProfileEdited
+    | ProfileValidated    of ValidatedProfile
+    | ProfileNotValidated of EditedProfile
     | ProfileRequested    of ProfileId
     | ProfileSaved        of Nikeza.DataTransfer.Profile
-    | ProfileSaveFailed   of ProfileSubmitted
+    | ProfileSaveFailed   of ValidatedProfile
     | Subscribed          of ProviderId
     | Unsubscribed        of ProviderId

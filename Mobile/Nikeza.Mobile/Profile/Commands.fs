@@ -7,11 +7,11 @@ type Command =
     | ValidateRegistration of Registration.UnvalidatedForm
     | SubmitRegistration   of Registration.ValidatedForm
                            
-    | HandleLogin          of Credentials
-    | HandleLogout         
-                           
-    | ValidateEdit         of ProfileEdited
-    | HandleSave           of ProfileEdited
+    | Login                of Credentials
+    | Logout               
+                                 
+    | ValidateEdit         of EditedProfile
+    | Save                 of ValidatedProfile
                            
 type ResultOf =            
     | SubmitRegistration   of Result<Nikeza.DataTransfer.Profile, Registration.ValidatedForm>
@@ -20,5 +20,5 @@ type ResultOf =
     | Login                of Result<Provider, Credentials>
     | Logout               of Result<unit, unit>
                            
-    | ValidateEdit         of Result<ValidatedForm, UnvalidatedForm>
-    | HandleSave           of Result<Profile, ProfileSubmitted>
+    | ValidateProfile      of Result<ValidatedProfile, EditedProfile>
+    | Save                 of Result<Profile, ValidatedProfile>
