@@ -1,8 +1,6 @@
 ﻿module Workflows
 
 open Commands
-open IO
-open Logic.Registration
 open Events
 open Logic
 
@@ -12,22 +10,22 @@ type EditWorkflow =         EditCommand         -> ProfileEvent      list
 
 let handleRegistration : RegistrationWorkflow =
     fun command -> command |> function
-    | RegistrationCommand.Validate form -> form |> validate
+    | RegistrationCommand.Validate form -> form |> Registration.validate
                                                 |> ResultOf.Registration.Validate
                                                 |> Registration.handle
 
-    | RegistrationCommand.Submit   form -> form |> trySubmit
+    | RegistrationCommand.Submit   form -> form |> IO.trySubmit
                                                 |> ResultOf.Registration.Submit
                                                 |> Registration.handle
 
 let handleSession : SessionWorkflow = 
     fun command -> command |> function
-    | SessionCommand.Login credentials -> credentials |> tryLogin
+    | SessionCommand.Login credentials -> credentials |> IO.tryLogin
                                                       |> ResultOf.Login
                                                       |> Session.handle
-    | SessionCommand.Logout -> tryLogout()
-                                |> ResultOf.Logout
-                                |> Session.handle
+    | SessionCommand.Logout -> IO.tryLogout()
+                                 |> ResultOf.Logout
+                                 |> Session.handle
 
 let handleEdit : EditWorkflow = 
     fun command -> command |> function
