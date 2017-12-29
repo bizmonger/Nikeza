@@ -3,8 +3,8 @@
 open Commands
 open Events
 
-type private LinksWorkflow =  LinkCommand    -> LinksEvent     list
-type private TopicsWorkflow = TopicsCommand  -> TopicsEvent    list
+type private LinksWorkflow =  LinkCommand   -> LinksEvent  list
+type private TopicsWorkflow = TopicsCommand -> TopicsEvent list
 
 let handleLinks : LinksWorkflow = fun command -> command |> function
     | LinkCommand.Feature   linkId -> 

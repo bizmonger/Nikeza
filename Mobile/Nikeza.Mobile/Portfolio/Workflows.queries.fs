@@ -9,4 +9,4 @@ let handlePortfolio : PortfolioWorkflow = fun query -> query |> function
     Query.Portfolio providerId ->
                     providerId |> Query.portfolio
                                |> ResultOf.Portfolio.Query
-                               |> Portfolio.handle
+                               |> Portfolio.Result.handle

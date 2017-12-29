@@ -9,7 +9,7 @@ type private Handle = ResultOf.Topics -> TopicsEvent list
 let handle : Handle =
     fun response ->
         response |> function
-                    | Topics.Feature result -> 
-                                     result |> function
-                                               | Ok    topicIds -> [TopicsFeatured       topicIds]
-                                               | Error topicIds -> [TopicsFeaturedFailed topicIds]
+                    Topics.Feature result -> 
+                                   result |> function
+                                             | Ok    topicIds -> [TopicsFeatured       topicIds]
+                                             | Error topicIds -> [TopicsFeaturedFailed topicIds]
