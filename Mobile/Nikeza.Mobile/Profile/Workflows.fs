@@ -4,9 +4,9 @@ open Commands
 open Events
 open Logic
 
-type RegistrationWorkflow = RegistrationCommand -> RegistrationEvent list
-type SessionWorkflow =      SessionCommand      -> SessionEvent      list
-type EditWorkflow =         EditCommand         -> ProfileEvent      list
+type private RegistrationWorkflow = RegistrationCommand -> RegistrationEvent list
+type private SessionWorkflow =      SessionCommand      -> SessionEvent      list
+type private EditWorkflow =         EditCommand         -> ProfileEvent      list
 
 let handleRegistration : RegistrationWorkflow =
     fun command -> command |> function

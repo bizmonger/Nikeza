@@ -1,13 +1,13 @@
 ﻿module internal Logic.Registration
 
+open Nikeza.Common
 open Events
 open Registration
-open Nikeza.Common
 open Commands
 
-type private Logic = ResultOf.Registration -> RegistrationEvent list
+type private Registration = ResultOf.Registration -> RegistrationEvent list
 
-let handle : Logic =
+let handle : Registration =
     fun resultOf -> resultOf |> function
         | ResultOf.Registration.Submit   result -> result |> function
                                                              | Ok    profile -> [RegistrationSucceeded profile]

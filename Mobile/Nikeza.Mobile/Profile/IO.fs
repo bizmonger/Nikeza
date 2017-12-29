@@ -3,10 +3,10 @@
 open Registration
 open Nikeza.DataTransfer
 
-type TrySubmit = ValidatedForm    -> Result<Profile, ValidatedForm>
-type TryLogin =  Credentials      -> Result<Provider, Credentials>
-type TryLogout = unit             -> Result<unit, unit>
-type TrySave =   ValidatedProfile -> Result<Profile, ValidatedProfile>
+type private TrySubmit = ValidatedForm    -> Result<Profile, ValidatedForm>
+type private TryLogin =  Credentials      -> Result<Provider, Credentials>
+type private TryLogout = unit             -> Result<unit, unit>
+type private TrySave =   ValidatedProfile -> Result<Profile, ValidatedProfile>
 
 let trySubmit : TrySubmit = 
     fun form -> Error form

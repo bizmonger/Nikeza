@@ -3,7 +3,7 @@
 open Commands
 open Events
 
-type HandleLogin = ResultOf.Session -> SessionEvent list
+type private HandleLogin = ResultOf.Session -> SessionEvent list
 
 let handle : HandleLogin = 
     fun result -> 
