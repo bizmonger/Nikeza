@@ -13,7 +13,7 @@
     <Compile Include="Registration.fs" />
     <Compile Include="Events.fs" />
     <Compile Include="Commands.fs" />
-    <Compile Include="IO.fs" />
+    <Compile Include="Try.fs" />
     <Compile Include="Logic.editor.fs" />
     <Compile Include="Logic.session.fs" />
     <Compile Include="Logic.registration.fs" />

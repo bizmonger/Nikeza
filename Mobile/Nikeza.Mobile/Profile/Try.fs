@@ -1,4 +1,4 @@
-﻿module internal IO
+﻿module internal Try
 
 open Registration
 open Nikeza.DataTransfer
@@ -8,14 +8,14 @@ type private TryLogin =  Credentials      -> Result<Provider, Credentials>
 type private TryLogout = unit             -> Result<unit, unit>
 type private TrySave =   ValidatedProfile -> Result<Profile, ValidatedProfile>
 
-let trySubmit : TrySubmit = 
+let submit : TrySubmit = 
     fun form -> Error form
 
-let tryLogout : TryLogout = 
+let logout : TryLogout = 
     fun () -> Error ()
 
-let tryLogin : TryLogin = 
+let login : TryLogin = 
     fun credentials -> Error credentials
 
-let trySave : TrySave = 
+let save : TrySave = 
     fun profile -> Error profile

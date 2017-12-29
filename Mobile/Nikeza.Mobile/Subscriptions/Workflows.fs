@@ -1,7 +1,7 @@
 ﻿module Workflows
 
 open Commands
-open IO
+open Try
 open Logic
 open Events
 
@@ -10,10 +10,10 @@ type private Workflow = Command -> NotificationEvent list
 let handle : Workflow = 
     fun command -> command |> function
     | Command.Follow      request -> 
-                          request |> tryFollow 
+                          request |> Try.follow 
                                   |> ResultOf.Follow 
-                                  |> handle
+                                  |> Result.handle
     | Command.Unsubscribe request -> 
-                          request |> tryUnsubscribe 
+                          request |> Try.unsubscribe 
                                   |> ResultOf.Unsubscribe  
-                                  |> handle
+                                  |> Result.handle

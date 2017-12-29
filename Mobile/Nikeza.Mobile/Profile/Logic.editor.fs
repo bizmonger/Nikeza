@@ -17,14 +17,15 @@ let validate : Validate =
            then Ok    { Profile= edit.Profile }
            else Error { Profile= edit.Profile }
 
-let handle : Handle =
-    fun response -> 
-        response |> function
-                    | ResultOf.Editor.Validate result -> 
-                                               result |> function
-                                                         | Ok    profile -> [ProfileValidated    profile]
-                                                         | Error profile -> [ProfileNotValidated profile]
-                    | ResultOf.Editor.Save     result -> 
-                                               result |> function
-                                                         | Ok    profile -> [ProfileSaved      profile]
-                                                         | Error profile -> [ProfileSaveFailed profile]
+module Result =
+    let handle : Handle =
+        fun response -> 
+            response |> function
+                        | ResultOf.Editor.Validate result -> 
+                                                   result |> function
+                                                             | Ok    profile -> [ProfileValidated    profile]
+                                                             | Error profile -> [ProfileNotValidated profile]
+                        | ResultOf.Editor.Save     result -> 
+                                                   result |> function
+                                                             | Ok    profile -> [ProfileSaved      profile]
+                                                             | Error profile -> [ProfileSaveFailed profile]

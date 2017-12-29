@@ -7,17 +7,6 @@ open Commands
 
 type private Registration = ResultOf.Registration -> RegistrationEvent list
 
-let handle : Registration =
-    fun resultOf -> resultOf |> function
-        | ResultOf.Registration.Submit   result -> 
-                                         result |> function
-                                                   | Ok    profile -> [RegistrationSucceeded profile]
-                                                   | Error form    -> [RegistrationFailed    form]
-        | ResultOf.Registration.Validate result -> 
-                                         result |> function
-                                                   | Ok    form -> [FormValidated    form]
-                                                   | Error form -> [FormNotValidated form]
-
 let validate (unvalidatedForm:UnvalidatedForm) : Result<ValidatedForm, UnvalidatedForm> =
 
     let isValidEmail email = false
@@ -25,10 +14,10 @@ let validate (unvalidatedForm:UnvalidatedForm) : Result<ValidatedForm, Unvalidat
     let form = unvalidatedForm.Form
 
     if   not (form.Email |> isValidEmail) then
-          Error unvalidatedForm
+            Error unvalidatedForm
 
     elif form.Password <> form.Confirm then
-          Error unvalidatedForm
+            Error unvalidatedForm
 
     else  Ok { Form= form }
 
@@ -37,3 +26,17 @@ let isValid (credentials:LogInRequest) =
     let validPassword = not <| System.String.IsNullOrEmpty(credentials.Password)
 
     validEmail && validPassword
+
+module Result =
+    let handle : Registration =
+        fun resultOf -> resultOf |> function
+            | ResultOf.Registration.Submit   result -> 
+                                             result |> function
+                                                       | Ok    profile -> [ RegistrationSucceeded    profile
+                                                                            LoginRequested        <| ProfileId profile.Id ]
+                                                       | Error form    -> [ RegistrationFailed       form ]
+
+            | ResultOf.Registration.Validate result -> 
+                                             result |> function
+                                                       | Ok    form -> [FormValidated    form]
+                                                       | Error form -> [FormNotValidated form]

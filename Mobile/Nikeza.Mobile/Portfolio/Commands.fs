@@ -1,10 +1,17 @@
 ﻿module Commands
 
-open Nikeza.DataTransfer
 open Nikeza.Common
 
-type Command =
-    | FeatureLink    of Result<LinkId, LinkId>
-    | UnfeatureLink  of Result<LinkId, LinkId>
-    | FeatureTopics  of Result<TopicId list, TopicId list>
-    | View           of Result<Provider, ProviderId>
+type LinkCommand =
+    | Feature   of LinkId
+    | Unfeature of LinkId
+
+type TopicsCommand =    Feature of TopicId list
+
+module ResultOf =
+
+    type Link =
+        | Feature   of Result<LinkId, LinkId>
+        | Unfeature of Result<LinkId, LinkId>
+
+    type Topics = Feature of Result<TopicId list, TopicId list>

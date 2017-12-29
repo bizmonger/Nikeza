@@ -13,28 +13,28 @@ let handleRegistration : RegistrationWorkflow =
     | RegistrationCommand.Validate form -> 
                                    form |> Registration.validate
                                         |> ResultOf.Registration.Validate
-                                        |> Registration.handle
+                                        |> Registration.Result.handle
     | RegistrationCommand.Submit   form -> 
-                                   form |> IO.trySubmit
+                                   form |> Try.submit
                                         |> ResultOf.Registration.Submit
-                                        |> Registration.handle
+                                        |> Registration.Result.handle
 let handleSession : SessionWorkflow = 
     fun command -> command |> function
     | SessionCommand.Login credentials -> 
-                           credentials |> IO.tryLogin
+                           credentials |> Try.login
                                        |> ResultOf.Login
-                                       |> Session.handle
+                                       |> Session.Result.handle
 
-    | SessionCommand.Logout -> IO.tryLogout()
-                                 |> ResultOf.Logout
-                                 |> Session.handle
+    | SessionCommand.Logout -> Try.logout()
+                                |> ResultOf.Logout
+                                |> Session.Result.handle
 let handleEdit : EditWorkflow = 
     fun command -> command |> function
     | EditCommand.Validate profile -> 
                            profile |> Edit.validate 
                                    |> ResultOf.Editor.Validate
-                                   |> Edit.handle
+                                   |> Edit.Result.handle
     | EditCommand.Save     profile -> 
-                           profile |> IO.trySave
+                           profile |> Try.save
                                    |> ResultOf.Editor.Save
-                                   |> Edit.handle
+                                   |> Edit.Result.handle
