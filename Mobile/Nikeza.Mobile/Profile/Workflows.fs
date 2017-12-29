@@ -18,7 +18,6 @@ let handleRegistration : RegistrationWorkflow =
                                    form |> IO.trySubmit
                                         |> ResultOf.Registration.Submit
                                         |> Registration.handle
-
 let handleSession : SessionWorkflow = 
     fun command -> command |> function
     | SessionCommand.Login credentials -> 
@@ -29,7 +28,6 @@ let handleSession : SessionWorkflow =
     | SessionCommand.Logout -> IO.tryLogout()
                                  |> ResultOf.Logout
                                  |> Session.handle
-
 let handleEdit : EditWorkflow = 
     fun command -> command |> function
     | EditCommand.Validate profile -> 
