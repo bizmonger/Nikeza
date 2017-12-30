@@ -8,7 +8,7 @@ module Registration =
 
     type private LinkResult =   ResultOf.Link   -> LinksEvent list
 
-    let linkResult : LinkResult =
+    let result : LinkResult =
         fun response ->
             response |> function
                         | Link.Feature   result -> 
