@@ -1,4 +1,4 @@
-﻿module internal Handle.Registration
+﻿module internal Are.Registration
 
 open Commands
 open Events
@@ -6,7 +6,7 @@ open Nikeza.Common
 
 type private Registration = ResultOf.Registration -> RegistrationEvent list
 
-let result : Registration =
+let events : Registration =
     fun resultOf -> resultOf |> function
         | ResultOf.Registration.Submit   result -> 
                                             result |> function

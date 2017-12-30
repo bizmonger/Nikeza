@@ -1,4 +1,4 @@
-﻿module internal Handle
+﻿module internal Are
 
 open Events
 open Commands
@@ -8,7 +8,7 @@ module Registration =
 
     type private LinkResult =   ResultOf.Link   -> LinksEvent list
 
-    let result : LinkResult =
+    let events : LinkResult =
         fun response ->
             response |> function
                         | Link.Feature   result -> 
@@ -23,7 +23,7 @@ module Registration =
 module Topics =
     type private TopicsResult = ResultOf.Topics -> TopicsEvent list
 
-    let result : TopicsResult =
+    let events : TopicsResult =
         fun response ->
             response |> function
                         Topics.Feature result -> 

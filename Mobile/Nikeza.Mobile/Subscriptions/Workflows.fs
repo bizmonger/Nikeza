@@ -2,7 +2,6 @@
 
 open Commands
 open Try
-open Logic
 open Events
 
 type private Workflow = Command -> NotificationEvent list
@@ -12,8 +11,8 @@ let handle : Workflow =
     | Command.Follow      request -> 
                           request |> Try.follow 
                                   |> ResultOf.Follow 
-                                  |> Handle.result
+                                  |> Are.Subscriptions.events
     | Command.Unsubscribe request -> 
                           request |> Try.unsubscribe 
                                   |> ResultOf.Unsubscribe  
-                                  |> Handle.result
+                                  |> Are.Subscriptions.events

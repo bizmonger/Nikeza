@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="foo.fs" />
     <Compile Include="Registration.fs" />
     <Compile Include="Events.fs" />
     <Compile Include="Commands.fs" />

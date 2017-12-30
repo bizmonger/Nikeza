@@ -1,13 +1,13 @@
-﻿module internal Logic
+﻿module internal Are
 
 open Events
 open Try
 
 type private Logic = ResultOf -> NotificationEvent list
 
-module Handle =
+module Subscriptions =
 
-    let result : Logic =
+    let events : Logic =
         fun command -> command |> function
         | Follow      response -> 
                       response |> function

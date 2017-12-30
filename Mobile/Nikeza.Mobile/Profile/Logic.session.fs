@@ -1,11 +1,11 @@
-﻿module Handle.Session
+﻿module Are.Session
 
 open Commands
 open Events
 
 type private HandleLogin = ResultOf.Session -> SessionEvent list
 
-    let result : HandleLogin = 
+    let events : HandleLogin = 
         fun result -> 
             result |> function 
                       | ResultOf.Session.Login result -> 
