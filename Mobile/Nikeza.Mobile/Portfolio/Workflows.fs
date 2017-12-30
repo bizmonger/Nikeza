@@ -1,4 +1,4 @@
-﻿module Workflows.Commands
+﻿module Workflows
 
 open Commands
 open Events
