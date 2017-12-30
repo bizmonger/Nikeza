@@ -12,8 +12,8 @@ module Subscriptions =
         | Command.Follow      request -> 
                               request |> Try.follow 
                                       |> ResultOf.Follow 
-                                      |> Are.Subscriptions.events
+                                      |> Are.Subscription.events
         | Command.Unsubscribe request -> 
                               request |> Try.unsubscribe 
                                       |> ResultOf.Unsubscribe  
-                                      |> Are.Subscriptions.events
+                                      |> Are.Subscription.events

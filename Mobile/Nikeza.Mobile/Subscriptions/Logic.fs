@@ -5,7 +5,7 @@ open Try
 
 type private Logic = ResultOf -> NotificationEvent list
 
-module Subscriptions =
+module Subscription =
 
     let events : Logic =
         fun command -> command |> function
