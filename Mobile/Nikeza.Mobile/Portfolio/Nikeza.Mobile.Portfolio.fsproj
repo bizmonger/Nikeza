@@ -17,7 +17,7 @@
     <Compile Include="Logic.links.fs" />
     <Compile Include="Logic.portfolio.fs" />
     <Compile Include="Logic.topics.fs" />
-    <Compile Include="Workflows.commands.fs" />
+    <Compile Include="Workflows.fs" />
   </ItemGroup>
 
   <ItemGroup>
