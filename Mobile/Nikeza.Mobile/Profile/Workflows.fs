@@ -13,21 +13,21 @@ let handleRegistration : RegistrationWorkflow =
     | RegistrationCommand.Validate form -> 
                                    form |> Registration.validate
                                         |> ResultOf.Registration.Validate
-                                        |> Registration.Result.handle
+                                        |> Handle.Registration.result
     | RegistrationCommand.Submit   form -> 
                                    form |> Try.submit
                                         |> ResultOf.Registration.Submit
-                                        |> Registration.Result.handle
+                                        |> Handle.Registration.result
 let handleSession : SessionWorkflow = 
     fun command -> command |> function
     | SessionCommand.Login credentials -> 
                            credentials |> Try.login
                                        |> ResultOf.Login
-                                       |> Session.Result.handle
+                                       |> Handle.Session.result
 
     | SessionCommand.Logout -> Try.logout()
                                 |> ResultOf.Logout
-                                |> Session.Result.handle
+                                |> Handle.Session.result
 let handleEdit : EditWorkflow = 
     fun command -> command |> function
     | EditCommand.Validate profile -> 

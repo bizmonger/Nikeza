@@ -12,8 +12,8 @@ let handle : Workflow =
     | Command.Follow      request -> 
                           request |> Try.follow 
                                   |> ResultOf.Follow 
-                                  |> Result.handle
+                                  |> Handle.result
     | Command.Unsubscribe request -> 
                           request |> Try.unsubscribe 
                                   |> ResultOf.Unsubscribe  
-                                  |> Result.handle
+                                  |> Handle.result

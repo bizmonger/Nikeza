@@ -5,9 +5,9 @@ open Try
 
 type private Logic = ResultOf -> NotificationEvent list
 
-module Result =
+module Handle =
 
-    let handle : Logic =
+    let result : Logic =
         fun command -> command |> function
         | Follow      response -> 
                       response |> function

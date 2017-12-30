@@ -10,15 +10,15 @@ let handleLinks : LinksWorkflow = fun command -> command |> function
     | LinkCommand.Feature   linkId -> 
                             linkId |> Try.featureLink
                                    |> ResultOf.Link.Feature
-                                   |> LinkResult.handle
+                                   |> Handle.Registration.linkResult
                                    
     | LinkCommand.Unfeature linkId -> 
                             linkId |> Try.unfeatureLink
                                    |> ResultOf.Link.Feature
-                                   |> LinkResult.handle
+                                   |> Handle.Registration.linkResult
 
 let handleTopics : TopicsWorkflow = fun command -> command |> function
     TopicsCommand.Feature topicIds ->
                           topicIds |> Try.featureTopics
                                    |> ResultOf.Topics.Feature
-                                   |> TopicResult.handle
+                                   |> Handle.Topics.result

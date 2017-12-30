@@ -14,9 +14,7 @@
     <Compile Include="Events.fs" />
     <Compile Include="Query.fs" />
     <Compile Include="Try.fs" />
-    <Compile Include="Logic.links.fs" />
-    <Compile Include="Logic.portfolio.fs" />
-    <Compile Include="Logic.topics.fs" />
+    <Compile Include="Logic.fs" />
     <Compile Include="Workflows.fs" />
   </ItemGroup>
 

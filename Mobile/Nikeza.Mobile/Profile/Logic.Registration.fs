@@ -1,42 +1,21 @@
-﻿module internal Logic.Registration
+﻿module internal Handle.Registration
 
-open Nikeza.Common
-open Events
-open Registration
 open Commands
+open Events
+open Nikeza.Common
 
 type private Registration = ResultOf.Registration -> RegistrationEvent list
 
-let validate (unvalidatedForm:UnvalidatedForm) : Result<ValidatedForm, UnvalidatedForm> =
+let result : Registration =
+    fun resultOf -> resultOf |> function
+        | ResultOf.Registration.Submit   result -> 
+                                            result |> function
+                                                    | Ok    profile -> [ RegistrationSucceeded    profile
+                                                                         LoginRequested        <| ProfileId profile.Id ]
+                                                    | Error form    -> [ RegistrationFailed       form ]
 
-    let isValidEmail email = false
+        | ResultOf.Registration.Validate result -> 
+                                            result |> function
+                                                    | Ok    form -> [FormValidated    form]
+                                                    | Error form -> [FormNotValidated form]
 
-    let form = unvalidatedForm.Form
-
-    if   not (form.Email |> isValidEmail) then
-            Error unvalidatedForm
-
-    elif form.Password <> form.Confirm then
-            Error unvalidatedForm
-
-    else  Ok { Form= form }
-
-let isValid (credentials:LogInRequest) =
-    let validEmail =    not <| System.String.IsNullOrEmpty(credentials.Email)
-    let validPassword = not <| System.String.IsNullOrEmpty(credentials.Password)
-
-    validEmail && validPassword
-
-module Result =
-    let handle : Registration =
-        fun resultOf -> resultOf |> function
-            | ResultOf.Registration.Submit   result -> 
-                                             result |> function
-                                                       | Ok    profile -> [ RegistrationSucceeded    profile
-                                                                            LoginRequested        <| ProfileId profile.Id ]
-                                                       | Error form    -> [ RegistrationFailed       form ]
-
-            | ResultOf.Registration.Validate result -> 
-                                             result |> function
-                                                       | Ok    form -> [FormValidated    form]
-                                                       | Error form -> [FormNotValidated form]

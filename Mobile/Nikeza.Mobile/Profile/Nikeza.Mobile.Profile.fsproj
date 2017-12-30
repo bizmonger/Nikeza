@@ -16,6 +16,7 @@
     <Compile Include="Try.fs" />
     <Compile Include="Logic.editor.fs" />
     <Compile Include="Logic.session.fs" />
+    <Compile Include="Logic.validation.fs" />
     <Compile Include="Logic.registration.fs" />
     <Compile Include="Workflows.fs" />
   </ItemGroup>

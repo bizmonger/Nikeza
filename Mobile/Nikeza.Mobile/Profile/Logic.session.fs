@@ -1,13 +1,11 @@
-﻿module internal Logic.Session
+﻿module Handle.Session
 
 open Commands
 open Events
 
 type private HandleLogin = ResultOf.Session -> SessionEvent list
 
-module Result =
-
-    let handle : HandleLogin = 
+    let result : HandleLogin = 
         fun result -> 
             result |> function 
                       | ResultOf.Session.Login result -> 
