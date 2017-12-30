@@ -11,14 +11,12 @@
 
   <ItemGroup>
     <Compile Include="Commands.fs" />
-    <Compile Include="Queries.fs" />
     <Compile Include="Events.fs" />
     <Compile Include="Query.fs" />
     <Compile Include="Try.fs" />
     <Compile Include="Logic.links.fs" />
     <Compile Include="Logic.portfolio.fs" />
     <Compile Include="Logic.topics.fs" />
-    <Compile Include="Workflows.queries.fs" />
     <Compile Include="Workflows.commands.fs" />
   </ItemGroup>
 
