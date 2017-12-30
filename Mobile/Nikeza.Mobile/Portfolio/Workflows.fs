@@ -4,7 +4,7 @@ open Commands
 open Events
 
 module Links =
-    type private LinksWorkflow =  LinkCommand   -> LinksEvent  list
+    type private LinksWorkflow = LinkCommand -> LinksEvent  list
 
     let workflow : LinksWorkflow = fun command -> command |> function
         | LinkCommand.Feature   linkId -> 
