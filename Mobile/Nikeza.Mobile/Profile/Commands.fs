@@ -5,9 +5,9 @@ open Nikeza.DataTransfer
 type UnvalidatedForm = Nikeza.Mobile.Profile.Registration.UnvalidatedForm
 type ValidatedForm =   Nikeza.Mobile.Profile.Registration.ValidatedForm
 
-type RegistrationCommand =
-    | Validate of UnvalidatedForm
-    | Submit   of ValidatedForm
+module Registration =
+    type Validate = Execute of UnvalidatedForm
+    type Submit =   Execute   of ValidatedForm
 
 type SessionCommand =                          
     | Login  of Credentials
@@ -26,6 +26,8 @@ type EditCommand =
             | Login  of Result<Provider, Credentials>
             | Logout of Result<unit, unit>
 
-        type Registration =            
-            | Submit   of Result<Nikeza.DataTransfer.Profile, ValidatedForm>
-            | Validate of Result<ValidatedForm, UnvalidatedForm>
+        type Submit =            
+            Executed of Result<Nikeza.DataTransfer.Profile, ValidatedForm>
+
+        type Validation =
+            BeingExecuted of Result<ValidatedForm, UnvalidatedForm>

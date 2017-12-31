@@ -6,12 +6,13 @@ open Nikeza.DataTransfer
 type UnvalidatedForm = Nikeza.Mobile.Profile.Registration.UnvalidatedForm
 type ValidatedForm =   Nikeza.Mobile.Profile.Registration.ValidatedForm
 
-type RegistrationEvent =
+type RegistrationValidationEvent =
     | FormValidated         of ValidatedForm
     | FormNotValidated      of UnvalidatedForm
+
+type RegistrationSubmissionEvent =
     | RegistrationSucceeded of Profile
     | RegistrationFailed    of ValidatedForm
-    | LoginRequested        of ProfileId
 
 type SessionEvent =
     | LoggedIn    of Provider

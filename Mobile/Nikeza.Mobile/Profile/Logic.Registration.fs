@@ -2,20 +2,25 @@
 
 open Nikeza.Mobile.Profile.Commands
 open Nikeza.Mobile.Profile.Events
-open Nikeza.Common
 
-type private Registration = ResultOf.Registration -> RegistrationEvent list
+module Submission =
+    type private RegistrationSubmission = ResultOf.Submit -> RegistrationSubmissionEvent list
 
-let events : Registration =
-    fun resultOf -> resultOf |> function
-        | ResultOf.Registration.Submit   result -> 
-                                         result |> function
-                                                 | Ok    profile -> [ RegistrationSucceeded    profile
-                                                                      LoginRequested        <| ProfileId profile.Id ]
-                                                 | Error form    -> [ RegistrationFailed       form ]
+    let events : RegistrationSubmission =
+        fun resultOf -> 
+            resultOf |> function
+                        ResultOf.Submit.Executed result -> 
+                                                 result |> function
+                                                         | Ok    profile -> [ RegistrationSucceeded profile]
+                                                         | Error form    -> [ RegistrationFailed    form ]
 
-        | ResultOf.Registration.Validate result -> 
-                                         result |> function
-                                                 | Ok    form -> [FormValidated    form]
-                                                 | Error form -> [FormNotValidated form]
+module Validation =
+    type private RegistrationValidation = ResultOf.Validation -> RegistrationValidationEvent list
 
+    let events : RegistrationValidation =
+        fun resultOf -> 
+            resultOf |> function
+                        ResultOf.Validation.BeingExecuted result -> 
+                                                          result |> function
+                                                                    | Error form -> [FormNotValidated form]
+                                                                    | Ok    form -> [FormValidated    form]

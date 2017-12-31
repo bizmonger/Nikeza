@@ -2,7 +2,7 @@ namespace Nikeza.Mobile.UILogic.Registration
 
 open System.Windows.Input
 open Nikeza.Mobile.UILogic
-open Nikeza.Mobile.Profile.Commands
+open Nikeza.Mobile.Profile.Commands.Registration
 open Nikeza.Mobile.Profile.Registration
 open Nikeza.Mobile.Profile.Events
 
@@ -31,17 +31,24 @@ type ViewModel() as x =
 
     let validate() =
         { UnvalidatedForm.Form= form() |> toDomainForm } 
-          |> RegistrationCommand.Validate 
-          |> Execute.Registration.workflow
+          |> Validate.Execute 
+          |> Targeting.ValidateRegistration.workflow
           |> List.exists formValidated
 
+    let eventToPage = function
+        | RegistrationSucceeded _ -> () // displayPortal()
+        | RegistrationFailed    _ -> () // displayError()
+
+    let withPage events =
+        events |> List.iter eventToPage
+               
     let submit() =
         validatedForm |> function 
-                         | Some form -> 
-                                form |> RegistrationCommand.Submit 
-                                     |> Execute.Registration.workflow
-                                     |> ignore
-
+                         | Some form ->
+                                form |> Submit.Execute 
+                                     |> Targeting.SubmitRegistration.workflow
+                                     |> withPage
+                                     
                          | None -> ()
 
     let validateCommand = DelegateCommand( (fun _ -> x.IsValidated <- validate()) , fun _ -> true)
