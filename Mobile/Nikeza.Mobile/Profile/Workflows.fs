@@ -22,22 +22,22 @@ module ValidateRegistration =
     let workflow : ValidateWorkflow =
         fun command -> command |> function
             Validate.Execute form -> 
-                                                 form |> Registration.validate
-                                                      |> ResultOf.Validation.BeingExecuted
-                                                      |> Are.Registration.Validation.events
+                             form |> Registration.validate
+                                  |> ResultOf.Validation.BeingExecuted
+                                  |> Are.Registration.Validation.events
 module Session =
     type private SessionWorkflow = SessionCommand -> SessionEvent list
 
     let workflow : SessionWorkflow = 
         fun command -> command |> function
-                                  | SessionCommand.Login credentials -> 
-                                                         credentials |> Try.login
-                                                                     |> ResultOf.Login
-                                                                     |> Are.Session.events
-    
-                                  | SessionCommand.Logout -> Try.logout()
-                                                                 |> ResultOf.Logout
-                                                                 |> Are.Session.events
+        | SessionCommand.Login credentials -> 
+                               credentials |> Try.login
+                                           |> ResultOf.Login
+                                           |> Are.Session.events
+        
+        | SessionCommand.Logout -> Try.logout()
+                                       |> ResultOf.Logout
+                                       |> Are.Session.events
 
 module Edit =
     type private EditWorkflow = EditCommand -> ProfileEvent list
