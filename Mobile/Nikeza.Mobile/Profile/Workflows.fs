@@ -1,4 +1,4 @@
-﻿module Targeting
+﻿module In
 
 open Nikeza.Mobile.Profile.Commands
 open Nikeza.Mobile.Profile.Commands.Registration

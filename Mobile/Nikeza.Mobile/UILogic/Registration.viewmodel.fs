@@ -10,39 +10,50 @@ type UIForm = Registration.Types.Form
 type DomainForm = Nikeza.Mobile.Profile.Registration.Form
 type events<'a> = List<'a>
 
-type ViewModel() as x =
+module That =
+    let generatesPage events =
 
-    let form() = { 
-        UIForm.Email=    x.Email
-        UIForm.Password= x.Password
-        UIForm.Confirm=  x.Confirm
-    }
+        let eventToPage = function
+        | RegistrationSucceeded _ -> () // displayPortal()
+        | RegistrationFailed    _ -> () // displayError()
+
+        events |> List.iter eventToPage
+
+module Updates =
+    let statusOf formValidated events = 
+        events |> List.exists formValidated
+
+type ViewModel() as x =
 
     let mutable validatedForm = None
 
-    let formValidated = function
+    let isValidated = function
         | FormValidated form -> validatedForm <- Some form; true
         | _ -> false
 
     let validate() =
-        { UnvalidatedForm.Form= form() |> toDomainForm } 
-          |> Validate.Execute 
-          |> Targeting.ValidateRegistration.workflow
-          |> List.exists formValidated
 
-    let eventToPage = function
-        | RegistrationSucceeded _ -> () // displayPortal()
-        | RegistrationFailed    _ -> () // displayError()
+        let form() = { 
+            UIForm.Email=    x.Email
+            UIForm.Password= x.Password
+            UIForm.Confirm=  x.Confirm
+        }
 
-    let withPage events =
-        events |> List.iter eventToPage
+        let updatesValidationStatus events = 
+            events |> List.exists isValidated
+
+        form() 
+         |> ofUnvalidated
+         |> Validate.Execute 
+         |> In.ValidateRegistration.workflow
+         |> Updates.statusOf isValidated
                
     let submit() =
         validatedForm |> function 
                          | Some form ->
                                 form |> Submit.Execute 
-                                     |> Targeting.SubmitRegistration.workflow
-                                     |> withPage
+                                     |> In.SubmitRegistration.workflow
+                                     |> That.generatesPage
                                      
                          | None -> ()
 
