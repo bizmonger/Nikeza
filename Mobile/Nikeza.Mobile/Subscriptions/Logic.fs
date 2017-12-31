@@ -11,9 +11,9 @@ module Subscription =
         fun command -> command |> function
         | Follow      response -> 
                       response |> function
-                                  | Ok    info       -> [SubscriberAdded        info.User]
-                                  | Error profileId  -> [SubscriberAddFailed    profileId]
+                                  | Ok    info      -> [SubscriberAdded        info.User]
+                                  | Error profileId -> [SubscriberAddFailed    profileId]
         | Unsubscribe response -> 
                       response |> function
-                                  | Ok    info       -> [SubscriberRemoved      info.User]
-                                  | Error profileId  -> [SubscriberRemoveFailed profileId]
+                                  | Ok    info      -> [SubscriberRemoved      info.User]
+                                  | Error profileId -> [SubscriberRemoveFailed profileId]
