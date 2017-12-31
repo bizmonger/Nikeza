@@ -20,7 +20,7 @@ module Validation =
     let events : RegistrationValidation =
         fun resultOf -> 
             resultOf |> function
-                        ResultOf.Validation.BeingExecuted result -> 
-                                                          result |> function
-                                                                    | Error form -> [FormNotValidated form]
-                                                                    | Ok    form -> [FormValidated    form]
+                        ResultOf.Validation.Executed result -> 
+                                                     result |> function
+                                                               | Error form -> [FormNotValidated form]
+                                                               | Ok    form -> [FormValidated    form]

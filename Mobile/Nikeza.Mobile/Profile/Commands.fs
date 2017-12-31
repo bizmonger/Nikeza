@@ -30,4 +30,4 @@ type EditCommand =
             Executed of Result<Nikeza.DataTransfer.Profile, ValidatedForm>
 
         type Validation =
-            BeingExecuted of Result<ValidatedForm, UnvalidatedForm>
+            Executed of Result<ValidatedForm, UnvalidatedForm>

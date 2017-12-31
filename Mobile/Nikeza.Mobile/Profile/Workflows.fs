@@ -23,7 +23,7 @@ module ValidateRegistration =
         fun command -> command |> function
             Validate.Execute form -> 
                              form |> Registration.validate
-                                  |> ResultOf.Validation.BeingExecuted
+                                  |> ResultOf.Validation.Executed
                                   |> Are.Registration.Validation.events
 module Session =
     type private SessionWorkflow = SessionCommand -> SessionEvent list
