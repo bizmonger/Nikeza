@@ -23,18 +23,31 @@ type ViewModel() as x =
           Confirm =  Password form.Password
     }
 
+    let mutable validatedForm = None
+
     let formValidated = function
-        | FormValidated _ -> true
+        | FormValidated form -> validatedForm <- Some form; true
         | _               -> false
 
-    let validate = DelegateCommand( (fun _ -> ()) , fun _ -> true)
+    let validate() =
+        { UnvalidatedForm.Form= form() |> toDomainForm } 
+          |> RegistrationCommand.Validate 
+          |> Execute.Registration.workflow
+          |> List.exists formValidated
 
-    let submit =   DelegateCommand( (fun _ -> ()), 
-                                     fun _ -> { UnvalidatedForm.Form= form() |> toDomainForm } 
-                                                |> RegistrationCommand.Validate 
-                                                |> Execute.Registration.workflow
-                                                |> List.exists formValidated )
+    let submit() =
+        validatedForm |> function 
+                         | Some form -> 
+                                form |> RegistrationCommand.Submit 
+                                     |> Execute.Registration.workflow
+                                     |> ignore
 
+                         | None -> ()
+
+    let validateCommand = DelegateCommand( (fun _ -> x.IsValidated <- validate()) , fun _ -> true)
+
+    let submitCommand =   DelegateCommand( (fun _ -> ()), 
+                                            fun _ -> x.IsValidated <- validate(); x.IsValidated )
     let mutable email =    ""
     let mutable password = ""
     let mutable confirm =  ""
@@ -56,5 +69,5 @@ type ViewModel() as x =
         with get() =      isValidated
         and  set(value) = isValidated <- value
 
-    member x.Validate = validate :> ICommand
-    member x.Submit =   submit   :> ICommand
+    member x.Validate = validateCommand :> ICommand
+    member x.Submit =   submitCommand   :> ICommand
