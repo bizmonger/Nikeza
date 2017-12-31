@@ -1,7 +1,7 @@
 ﻿module Execute
 
-open Commands
-open Events
+open Nikeza.Mobile.Portfolio.Commands
+open Nikeza.Mobile.Portfolio.Events
 
 module Links =
     type private LinksWorkflow = LinkCommand -> LinksEvent  list

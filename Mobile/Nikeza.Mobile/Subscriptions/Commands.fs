@@ -1,4 +1,4 @@
-﻿module Commands
+﻿module Nikeza.Mobile.Subscription.Commands
 
 open Nikeza.Common
 

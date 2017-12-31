@@ -2,7 +2,7 @@ namespace UILogic.Registration
 
 open UILogic
 open System.Windows.Input
-open Commands
+open Nikeza.Mobile.Profile.Commands
 open Nikeza.Mobile.Profile.Registration
 open Nikeza.Mobile.Profile.Events
 

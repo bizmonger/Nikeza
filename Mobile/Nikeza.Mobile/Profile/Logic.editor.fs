@@ -1,7 +1,7 @@
 ﻿module internal Are.Edit
 
 open Nikeza.Mobile.Profile.Events
-open Commands
+open Nikeza.Mobile.Profile.Commands
 
 type private Handle =   ResultOf.Editor -> ProfileEvent list
 

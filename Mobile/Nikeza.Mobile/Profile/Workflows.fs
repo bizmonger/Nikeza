@@ -1,6 +1,6 @@
 ﻿module Execute
 
-open Commands
+open Nikeza.Mobile.Profile.Commands
 open Nikeza.Mobile.Profile.Events
 open Logic
 

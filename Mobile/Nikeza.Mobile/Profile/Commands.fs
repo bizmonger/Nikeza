@@ -1,4 +1,4 @@
-﻿module Commands
+﻿module Nikeza.Mobile.Profile.Commands
 
 open Nikeza.DataTransfer
 

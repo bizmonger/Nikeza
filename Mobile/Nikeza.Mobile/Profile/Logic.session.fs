@@ -1,6 +1,6 @@
 ﻿module Are.Session
 
-open Commands
+open Nikeza.Mobile.Profile.Commands
 open Nikeza.Mobile.Profile.Events
 
 type private HandleLogin = ResultOf.Session -> SessionEvent list

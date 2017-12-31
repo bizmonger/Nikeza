@@ -1,4 +1,4 @@
-module Events
+module Nikeza.Mobile.Portfolio.Events
 
 open Nikeza.Common
 

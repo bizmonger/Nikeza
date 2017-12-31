@@ -1,8 +1,8 @@
 ﻿module Execute
 
-open Commands
+open Nikeza.Mobile.Subscription.Commands
+open Nikeza.Mobile.Subscription.Events
 open Try
-open Events
 
 module Subscriptions =
     type private Workflow = Command -> NotificationEvent list

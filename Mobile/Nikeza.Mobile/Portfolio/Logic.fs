@@ -1,8 +1,8 @@
 ﻿module internal Are
 
-open Events
-open Commands
-open Commands.ResultOf
+open Nikeza.Mobile.Portfolio.Events
+open Nikeza.Mobile.Portfolio.Commands
+open Nikeza.Mobile.Portfolio.Commands.ResultOf
 
 module Registration =
 

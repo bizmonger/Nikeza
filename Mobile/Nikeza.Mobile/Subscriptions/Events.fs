@@ -1,4 +1,4 @@
-module Events
+module Nikeza.Mobile.Subscription.Events
 
 open Nikeza.DataTransfer
 open Nikeza.Common

@@ -1,4 +1,4 @@
-﻿module Commands
+﻿module Nikeza.Mobile.Portfolio.Commands
 
 open Nikeza.Common
 

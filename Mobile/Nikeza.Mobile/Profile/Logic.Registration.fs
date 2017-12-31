@@ -1,6 +1,6 @@
 ﻿module internal Are.Registration
 
-open Commands
+open Nikeza.Mobile.Profile.Commands
 open Nikeza.Mobile.Profile.Events
 open Nikeza.Common
 
