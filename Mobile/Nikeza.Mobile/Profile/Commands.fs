@@ -7,7 +7,7 @@ type ValidatedForm =   Nikeza.Mobile.Profile.Registration.ValidatedForm
 
 module Registration =
     type Validate = Execute of UnvalidatedForm
-    type Submit =   Execute   of ValidatedForm
+    type Submit =   Execute of ValidatedForm
 
 type SessionCommand =                          
     | Login  of Credentials

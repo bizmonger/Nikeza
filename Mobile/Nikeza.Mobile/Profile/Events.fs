@@ -7,8 +7,8 @@ type UnvalidatedForm = Nikeza.Mobile.Profile.Registration.UnvalidatedForm
 type ValidatedForm =   Nikeza.Mobile.Profile.Registration.ValidatedForm
 
 type RegistrationValidationEvent =
-    | FormValidated         of ValidatedForm
-    | FormNotValidated      of UnvalidatedForm
+    | FormValidated    of ValidatedForm
+    | FormNotValidated of UnvalidatedForm
 
 type RegistrationSubmissionEvent =
     | RegistrationSucceeded of Profile
