@@ -1,4 +1,4 @@
-﻿module Registration.Types
+﻿module Nikeza.Mobile.UILogic.Registration.Types
 
 type Form = {
     Email:string

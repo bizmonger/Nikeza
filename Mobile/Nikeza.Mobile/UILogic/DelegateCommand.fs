@@ -1,4 +1,4 @@
-﻿namespace UILogic
+﻿namespace Nikeza.Mobile.UILogic
 
 open System.Windows.Input
 open System

@@ -1,7 +1,7 @@
-namespace UILogic.Registration
+namespace Nikeza.Mobile.UILogic.Registration
 
-open UILogic
 open System.Windows.Input
+open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Profile.Commands
 open Nikeza.Mobile.Profile.Registration
 open Nikeza.Mobile.Profile.Events
@@ -27,7 +27,7 @@ type ViewModel() as x =
 
     let formValidated = function
         | FormValidated form -> validatedForm <- Some form; true
-        | _               -> false
+        | _ -> false
 
     let validate() =
         { UnvalidatedForm.Form= form() |> toDomainForm } 

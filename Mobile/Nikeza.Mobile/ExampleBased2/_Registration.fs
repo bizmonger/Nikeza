@@ -2,7 +2,7 @@ module Tests.Registration
 
 open FsUnit
 open NUnit.Framework
-open UILogic.Registration
+open Nikeza.Mobile.UILogic.Registration
 
 [<Test>]
 let ``Registration succeeds with email and matching passwords`` () =
