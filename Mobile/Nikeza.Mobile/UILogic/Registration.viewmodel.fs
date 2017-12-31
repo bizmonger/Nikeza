@@ -33,20 +33,14 @@ type ViewModel() as x =
 
     let validate() =
 
-        let form() = { 
-            UIForm.Email=    x.Email
-            UIForm.Password= x.Password
-            UIForm.Confirm=  x.Confirm
-        }
-
-        let updatesValidationStatus events = 
-            events |> List.exists isValidated
-
-        form() 
-         |> ofUnvalidated
-         |> Validate.Execute 
-         |> In.ValidateRegistration.workflow
-         |> Updates.statusOf isValidated
+        { UIForm.Email=    x.Email
+          UIForm.Password= x.Password
+          UIForm.Confirm=  x.Confirm
+        } 
+        |> ofUnvalidated
+        |> Validate.Execute 
+        |> In.ValidateRegistration.workflow
+        |> Updates.statusOf isValidated
                
     let submit() =
         validatedForm |> function 
