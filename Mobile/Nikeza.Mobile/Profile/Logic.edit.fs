@@ -1,4 +1,4 @@
-﻿module Edit
+﻿module internal Edit
 
 open Nikeza.DataTransfer
 

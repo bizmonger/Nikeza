@@ -1,7 +1,9 @@
 ﻿module internal Logic.Registration
 
 open Nikeza.Common
-open Registration
+
+type ValidatedForm =   Nikeza.Mobile.Profile.Registration.ValidatedForm
+type UnvalidatedForm = Nikeza.Mobile.Profile.Registration.UnvalidatedForm
 
 let validate (unvalidatedForm:UnvalidatedForm) : Result<ValidatedForm, UnvalidatedForm> =
 

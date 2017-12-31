@@ -1,7 +1,7 @@
 ﻿module Execute
 
 open Commands
-open Events
+open Nikeza.Mobile.Profile.Events
 open Logic
 
 module Registration =
@@ -16,7 +16,7 @@ module Registration =
         | RegistrationCommand.Submit   form -> 
                                        form |> Try.submit
                                             |> ResultOf.Registration.Submit
-                                        |> Are.Registration.events
+                                            |> Are.Registration.events
 
 module Session =
     type private SessionWorkflow = SessionCommand -> SessionEvent list

@@ -1,4 +1,4 @@
-﻿module Registration
+﻿module Nikeza.Mobile.Profile.Registration
 
 type Email =      Email      of string
 type Password =   Password   of string

@@ -1,7 +1,8 @@
 module Noeza.Mobile.Core.Events
 
 open Nikeza.DataTransfer
-open Registration
+
+type UnvalidatedForm = Nikeza.Mobile.Profile.Registration.UnvalidatedForm
 
 type PageRequested =
     | Portal           of Profile

@@ -1,13 +1,16 @@
-﻿module Events
+﻿module Nikeza.Mobile.Profile.Events
 
 open Nikeza.Common
 open Nikeza.DataTransfer
 
+type UnvalidatedForm = Nikeza.Mobile.Profile.Registration.UnvalidatedForm
+type ValidatedForm =   Nikeza.Mobile.Profile.Registration.ValidatedForm
+
 type RegistrationEvent =
-    | FormValidated         of Registration.ValidatedForm
-    | FormNotValidated      of Registration.UnvalidatedForm
+    | FormValidated         of ValidatedForm
+    | FormNotValidated      of UnvalidatedForm
     | RegistrationSucceeded of Profile
-    | RegistrationFailed    of Registration.ValidatedForm
+    | RegistrationFailed    of ValidatedForm
     | LoginRequested        of ProfileId
 
 type SessionEvent =
