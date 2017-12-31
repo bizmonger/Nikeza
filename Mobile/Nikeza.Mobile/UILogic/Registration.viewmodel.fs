@@ -27,11 +27,10 @@ type ViewModel() as x =
 
     let mutable validatedForm = None
 
-    let isValidated = function
-        | FormValidated form -> validatedForm <- Some form; true
-        | _ -> false
-
     let validate() =
+        let isValidated = function
+            | FormValidated form -> validatedForm <- Some form; true
+            | _ -> false
 
         { UIForm.Email=    x.Email
           UIForm.Password= x.Password
