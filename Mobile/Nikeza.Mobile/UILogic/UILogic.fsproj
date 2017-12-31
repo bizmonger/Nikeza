@@ -5,8 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="DelegateCommand.fs" />
     <Compile Include="Registration.types.fs" />
+    <Compile Include="Adapter.fs" />
+    <Compile Include="DelegateCommand.fs" />
     <Compile Include="Registration.viewmodel.fs" />
   </ItemGroup>
 

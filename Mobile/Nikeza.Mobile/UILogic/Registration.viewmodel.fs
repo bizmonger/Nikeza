@@ -3,11 +3,12 @@ namespace Nikeza.Mobile.UILogic.Registration
 open System.Windows.Input
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Profile.Commands.Registration
-open Nikeza.Mobile.Profile.Registration
 open Nikeza.Mobile.Profile.Events
+open Adapter
 
 type UIForm = Registration.Types.Form
 type DomainForm = Nikeza.Mobile.Profile.Registration.Form
+type events<'a> = List<'a>
 
 type ViewModel() as x =
 
@@ -15,12 +16,6 @@ type ViewModel() as x =
         UIForm.Email=    x.Email
         UIForm.Password= x.Password
         UIForm.Confirm=  x.Confirm
-    }
-
-    let toDomainForm (form:UIForm) : DomainForm = { 
-          Email =    Email    form.Email
-          Password = Password form.Password
-          Confirm =  Password form.Password
     }
 
     let mutable validatedForm = None
