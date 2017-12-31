@@ -12,7 +12,6 @@ type events<'a> = List<'a>
 
 module That =
     let generatesPage events =
-
         let eventToPage = function
         | RegistrationSucceeded _ -> () // displayPortal()
         | RegistrationFailed    _ -> () // displayError()
@@ -59,21 +58,21 @@ type ViewModel() as x =
     let mutable confirm =  ""
     let mutable isValidated = false
 
+    member x.Validate = validateCommand :> ICommand
+    member x.Submit =   submitCommand   :> ICommand
+
     member x.Email
-        with get() =      email 
-        and  set(value) = email <- value
+             with get() =      email 
+             and  set(value) = email <- value
 
     member x.Password
-        with get() =      password
-        and  set(value) = password <- value
+             with get() =      password
+             and  set(value) = password <- value
 
     member x.Confirm
         with get() =      confirm
         and  set(value) = confirm <- value
 
     member x.IsValidated
-        with get() =      isValidated
-        and  set(value) = isValidated <- value
-
-    member x.Validate = validateCommand :> ICommand
-    member x.Submit =   submitCommand   :> ICommand
+             with get() =      isValidated
+             and  set(value) = isValidated <- value
