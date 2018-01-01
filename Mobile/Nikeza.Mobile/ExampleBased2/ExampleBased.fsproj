@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="TestAPI.fs" />
     <Compile Include="_Registration.fs" />
   </ItemGroup>
 

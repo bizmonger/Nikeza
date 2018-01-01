@@ -1,17 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard1.6</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Events.fs" />
+    <Compile Include="Pages.fs" />
     <Compile Include="Commands.fs" />
+    <Compile Include="Navigation.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
     <ProjectReference Include="..\Profile\Nikeza.Mobile.Profile.fsproj" />
+    <ProjectReference Include="..\UILogic\UILogic.fsproj" />
   </ItemGroup>
 
   <ItemGroup>

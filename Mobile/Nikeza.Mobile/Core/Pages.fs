@@ -1,10 +1,11 @@
-module Noeza.Mobile.Core.Events
+module Nikeza.Mobile.AppLogic.Pages
 
 open Nikeza.DataTransfer
 
 type UnvalidatedForm = Nikeza.Mobile.Profile.Registration.UnvalidatedForm
 
 type PageRequested =
+    | ErrorRegistering of Profile
     | Portal           of Profile
     | EditProfile      of UnvalidatedForm
     | Registration

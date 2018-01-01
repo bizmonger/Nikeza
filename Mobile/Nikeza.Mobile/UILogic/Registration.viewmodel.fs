@@ -6,17 +6,9 @@ open Nikeza.Mobile.Profile.Commands.Registration
 open Nikeza.Mobile.Profile.Events
 open Adapter
 
-type UIForm = Registration.Types.Form
+type Form = Registration.Types.Form
 type DomainForm = Nikeza.Mobile.Profile.Registration.Form
 type events<'a> = List<'a>
-
-module That =
-    let generatesPage events =
-        let eventToPage = function
-        | RegistrationSucceeded _ -> () // displayPortal()
-        | RegistrationFailed    _ -> () // displayError()
-
-        events |> List.iter eventToPage
 
 module Updates =
     let statusOf formValidated events = 
@@ -26,32 +18,36 @@ type ViewModel() as x =
 
     let mutable validatedForm = None
 
+    let eventOccurred = new Event<_>()
+
     let validate() =
         let isValidated = function
             | FormValidated form -> validatedForm <- Some form; true
             | _ -> false
 
-        { UIForm.Email=    x.Email
-          UIForm.Password= x.Password
-          UIForm.Confirm=  x.Confirm
+        { Form.Email=    x.Email
+          Form.Password= x.Password
+          Form.Confirm=  x.Confirm
         } 
         |> ofUnvalidated
         |> Validate.Execute 
         |> In.ValidateRegistration.workflow
         |> Updates.statusOf isValidated
+
+    let publishEvents events =
+        events |> List.iter(fun event -> eventOccurred.Trigger(event))
                
     let submit() =
         validatedForm |> function 
-                         | Some form ->
+                         | Some form -> 
                                 form |> Submit.Execute 
                                      |> In.SubmitRegistration.workflow
-                                     |> That.generatesPage
-                                     
+                                     |> publishEvents
                          | None -> ()
 
     let validateCommand = DelegateCommand( (fun _ -> x.IsValidated <- validate()) , fun _ -> true)
 
-    let submitCommand =   DelegateCommand( (fun _ -> ()), 
+    let submitCommand =   DelegateCommand( (fun _ -> submit() |> ignore), 
                                             fun _ -> x.IsValidated <- validate(); x.IsValidated )
     let mutable email =    ""
     let mutable password = ""
@@ -60,6 +56,9 @@ type ViewModel() as x =
 
     member x.Validate = validateCommand :> ICommand
     member x.Submit =   submitCommand   :> ICommand
+
+    [<CLIEvent>]
+    member x.EventOccured = eventOccurred.Publish
 
     member x.Email
              with get() =      email 
