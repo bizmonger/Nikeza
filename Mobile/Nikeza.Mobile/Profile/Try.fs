@@ -1,23 +1,22 @@
-﻿module internal Try
+﻿module Try
 
 open Nikeza.DataTransfer
 
-type ValidatedForm =   Nikeza.Mobile.Profile.Registration.ValidatedForm
-type UnvalidatedForm = Nikeza.Mobile.Profile.Registration.UnvalidatedForm
+type private ValidatedForm =   Nikeza.Mobile.Profile.Registration.ValidatedForm
 
-type private TrySubmit = ValidatedForm    -> Result<Profile, ValidatedForm>
-type private TryLogin =  Credentials      -> Result<Provider, Credentials>
-type private TryLogout = unit             -> Result<unit, unit>
-type private TrySave =   ValidatedProfile -> Result<Profile, ValidatedProfile>
+type SubmitRegistration = ValidatedForm    -> Result<Profile, ValidatedForm>
+type Login =              Credentials      -> Result<Provider, Credentials>
+type Logout =             unit             -> Result<unit, unit>
+type Save =               ValidatedProfile -> Result<Profile, ValidatedProfile>
 
-let submit : TrySubmit = 
+let submit : SubmitRegistration = 
     fun form -> Error form
 
-let logout : TryLogout = 
+let internal logout : Logout = 
     fun () -> Error ()
 
-let login : TryLogin = 
+let internal login : Login = 
     fun credentials -> Error credentials
 
-let save : TrySave = 
+let internal save : Save = 
     fun profile -> Error profile

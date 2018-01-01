@@ -6,12 +6,12 @@ open Nikeza.Mobile.Profile.Events
 open Logic
 
 module SubmitRegistration =
-    type private SubmitWorkflow = Submit -> RegistrationSubmissionEvent list
+    type private SubmitWorkflow = Try.SubmitRegistration -> Submit -> RegistrationSubmissionEvent list
 
     let workflow : SubmitWorkflow =
-        fun command -> command |> function
+        fun submit command -> command |> function
             Submit.Execute form -> 
-                form |> Try.submit
+                form |> submit
                      |> ResultOf.Submit.Executed
                      |> Are.Registration.Submission.events
 

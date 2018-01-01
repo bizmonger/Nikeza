@@ -5,6 +5,7 @@ open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Profile.Commands.Registration
 open Nikeza.Mobile.Profile.Events
 open Adapter
+open In
 
 type Form = Registration.Types.Form
 type DomainForm = Nikeza.Mobile.Profile.Registration.Form
@@ -14,7 +15,7 @@ module Updates =
     let statusOf formValidated events = 
         events |> List.exists formValidated
 
-type ViewModel() as x =
+type ViewModel(submitFn:Try.SubmitRegistration) as x =
 
     let mutable validatedForm = None
 
@@ -33,15 +34,15 @@ type ViewModel() as x =
         |> Validate.Execute 
         |> In.ValidateRegistration.workflow
         |> Updates.statusOf isValidated
-
-    let publishEvents events =
-        events |> List.iter(fun event -> eventOccurred.Trigger(event))
                
     let submit() =
+        let publishEvents events =
+            events |> List.iter(fun event -> eventOccurred.Trigger(event))
+
         validatedForm |> function 
                          | Some form -> 
                                 form |> Submit.Execute 
-                                     |> In.SubmitRegistration.workflow
+                                     |> In.SubmitRegistration.workflow submitFn
                                      |> publishEvents
                          | None -> ()
 
@@ -49,6 +50,7 @@ type ViewModel() as x =
 
     let submitCommand =   DelegateCommand( (fun _ -> submit() |> ignore), 
                                             fun _ -> x.IsValidated <- validate(); x.IsValidated )
+
     let mutable email =    ""
     let mutable password = ""
     let mutable confirm =  ""

@@ -6,9 +6,11 @@ open Nikeza.Mobile.Profile.Events
 
 type Navigation() =
 
+    let request page = () // Todo...
+
     let toPage = function
         | RegistrationSucceeded _ -> PageRequested.Portal
         | RegistrationFailed    _ -> PageRequested.ErrorRegistering
 
-    let viewModel = ViewModel()
-    do viewModel.EventOccured.Add(fun event -> event |> toPage |> ignore)
+    let viewModel = ViewModel(Try.submit)
+    do viewModel.EventOccured.Add(fun event -> event |> toPage |> request)
