@@ -1,7 +1,7 @@
 ﻿module internal Are
 
 open Nikeza.Mobile.Subscription.Events
-open Try
+open Nikeza.Mobile.Subscriptions.Try
 
 type private Logic = ResultOf -> NotificationEvent list
 

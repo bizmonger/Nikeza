@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard1.6</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -13,6 +13,7 @@
     <Compile Include="Try.fs" />
     <Compile Include="Commands.fs" />
     <Compile Include="Events.fs" />
+    <Compile Include="Query.fs" />
     <Compile Include="Logic.fs" />
     <Compile Include="Workflows.fs" />
   </ItemGroup>

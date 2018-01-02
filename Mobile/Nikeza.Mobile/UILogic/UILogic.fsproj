@@ -5,16 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Portal.viewmodel.fs" />
+    <Compile Include="Publisher.fs" />
     <Compile Include="Registration.types.fs" />
     <Compile Include="Adapter.fs" />
     <Compile Include="DelegateCommand.fs" />
     <Compile Include="Registration.viewmodel.fs" />
+    <Compile Include="Portal.recent.viewmodel.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
     <ProjectReference Include="..\Profile\Nikeza.Mobile.Profile.fsproj" />
+    <ProjectReference Include="..\Subscriptions\Nikeza.Mobile.Subscriptions.fsproj" />
   </ItemGroup>
 
   <ItemGroup>

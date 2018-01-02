@@ -4,8 +4,8 @@ open System.Windows.Input
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Profile.Commands.Registration
 open Nikeza.Mobile.Profile.Events
+open Nikeza.Mobile.UILogic.Publisher
 open Adapter
-open In
 
 type Form = Registration.Types.Form
 
@@ -34,14 +34,11 @@ type ViewModel(implementation:Try.SubmitFn) as x =
           |> Updates.statusOf isValidated
                
     let submit() =
-        let publishEvents events =
-            events |> List.iter(fun event -> eventOccurred.Trigger(event))
-
         validatedForm |> function 
                          | Some form -> 
                                 form |> Command.Execute 
                                      |> In.SubmitRegistration.workflow implementation
-                                     |> publishEvents
+                                     |> publishEvents eventOccurred
                          | None -> ()
 
     let validateCommand = DelegateCommand( (fun _ -> x.IsValidated <- validate()) , fun _ -> true)

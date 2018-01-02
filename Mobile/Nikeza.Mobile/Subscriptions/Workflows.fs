@@ -2,9 +2,11 @@
 
 open Nikeza.Mobile.Subscription.Commands
 open Nikeza.Mobile.Subscription.Events
-open Try
+open Nikeza.Mobile.Subscriptions.Try
 
 module Subscriptions =
+    open Nikeza.Mobile.Subscriptions
+
     type private Workflow = Command -> NotificationEvent list
 
     let workflow : Workflow = 

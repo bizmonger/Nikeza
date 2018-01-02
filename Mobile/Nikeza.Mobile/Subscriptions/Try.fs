@@ -1,4 +1,4 @@
-﻿module internal Try
+﻿module Nikeza.Mobile.Subscriptions.Try
 
 open Nikeza.Common
 open Nikeza.DataTransfer
