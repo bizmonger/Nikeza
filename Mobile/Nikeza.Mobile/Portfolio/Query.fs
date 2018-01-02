@@ -1,9 +1,9 @@
-﻿module internal Query
+﻿module Nikeza.Mobile.Portfolio.Query
 
+open Nikeza.Mobile.Portfolio.Events
 open Nikeza.Common
-open Nikeza.DataTransfer
 
-type private TryGetPortfolio = ProviderId -> Result<Provider, ProviderId>
+type TryGetPortfolio = ProviderId -> QueryEvent list
 
 let portfolio : TryGetPortfolio =
-    fun providerId -> Error providerId
+    fun providerId -> [GetPortfolioFailed providerId]
