@@ -38,7 +38,7 @@ type ViewModel(implementation:Try.SubmitFn) as x =
                          | Some form -> 
                                 form |> Command.Execute 
                                      |> In.SubmitRegistration.workflow implementation
-                                     |> publishEvents eventOccurred
+                                     |> publish eventOccurred
                          | None -> ()
 
     let validateCommand = DelegateCommand( (fun _ -> x.IsValidated <- validate()) , fun _ -> true)

@@ -1,10 +1,10 @@
 ﻿namespace Nikeza.Mobile.UILogic.Portal.Recent
 
+open Nikeza.Common
 open Nikeza.DataTransfer
 open Nikeza.Mobile.Subscriptions
 open Nikeza.Mobile.UILogic.Publisher
 open Nikeza.Mobile.Subscription.Events
-open Nikeza.Common
 
 type ViewModel(user:Provider) as x =
 
@@ -18,4 +18,4 @@ type ViewModel(user:Provider) as x =
         Query.latest <| ProfileId user.Profile.Id
          |> function
             | GetLatestSucceeded providers :: [] -> latest <- providers
-            | otherEvents -> publishEvents eventOccurred otherEvents
+            | otherEvents -> publish eventOccurred otherEvents
