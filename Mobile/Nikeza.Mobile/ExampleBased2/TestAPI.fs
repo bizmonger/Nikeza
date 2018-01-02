@@ -1,25 +1,25 @@
 ﻿module TestAPI
 
 open Nikeza.Mobile.UILogic.Registration
-open Nikeza.DataTransfer
 open Try
 
 let someEmail =    "scott@abc.com"
 let somePassword = "some_password"
 
-let mockSubmit : SubmitRegistration =
-    fun validated -> Ok { Profile.Id =        ""
-                          Profile.FirstName = ""
-                          Profile.LastName =  ""
-                          Profile.Email =     ""
-                          Profile.Bio =       ""
-                          Profile.ImageUrl =  ""
-                          Profile.Sources =   []
-                        }
+let mockSubmit : SubmitFn =
+    fun _ -> Ok { Id =        ""
+                  FirstName = ""
+                  LastName =  ""
+                  Email =     ""
+                  Bio =       ""
+                  ImageUrl =  ""
+                  Sources =   []
+                }
 
-module Apply =
+type ViewModel with
 
-    let valuesTo (viewmodel:ViewModel) =
-        viewmodel.Email    <- someEmail
-        viewmodel.Password <- somePassword
-        viewmodel.Confirm  <- somePassword
+    member x.FillIn () =
+           x.Email    <- someEmail
+           x.Password <- somePassword
+           x.Confirm  <- somePassword
+           x

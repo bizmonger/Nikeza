@@ -28,12 +28,14 @@ let ``Registration submitted after being validated`` () =
     let mutable registrationSucceeded = false
 
     let registration = ViewModel(mockSubmit)
-    Apply.valuesTo registration
 
-    registration.EventOccured.Add(fun event -> 
-                                      event |> function
-                                               | RegistrationSucceeded _ -> registrationSucceeded <- true
-                                               | RegistrationFailed    _ -> registrationSucceeded <- false)
+    registration.FillIn()
+                .EventOccured
+                .Add(fun event -> 
+                         event |> function
+                                  | RegistrationSucceeded _ -> registrationSucceeded <- true
+                                  | RegistrationFailed    _ -> registrationSucceeded <- false)
+
     registration.Validate.Execute()
 
     // Test
