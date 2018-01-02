@@ -4,9 +4,10 @@ open Nikeza.Mobile.Profile.Commands
 open Nikeza.Mobile.Profile.Commands.Registration
 open Nikeza.Mobile.Profile.Events
 open Logic
+open Try
 
 module SubmitRegistration =
-    type private SubmitWorkflow = Try.SubmitFn -> Command -> RegistrationSubmissionEvent list
+    type private SubmitWorkflow = SubmitFn -> Command -> RegistrationSubmissionEvent list
 
     let workflow : SubmitWorkflow =
         fun submitFn command -> command |> function

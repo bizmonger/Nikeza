@@ -8,8 +8,6 @@ open Adapter
 open In
 
 type Form = Registration.Types.Form
-type DomainForm = Nikeza.Mobile.Profile.Registration.Form
-type events<'a> = List<'a>
 
 module Updates =
     let statusOf formValidated events = 
@@ -30,10 +28,10 @@ type ViewModel(implementation:Try.SubmitFn) as x =
           Form.Password= x.Password
           Form.Confirm=  x.Confirm
         } 
-        |> ofUnvalidated
-        |> Validate.Execute 
-        |> In.ValidateRegistration.workflow
-        |> Updates.statusOf isValidated
+          |> ofUnvalidated
+          |> Validate.Execute 
+          |> In.ValidateRegistration.workflow
+          |> Updates.statusOf isValidated
                
     let submit() =
         let publishEvents events =
