@@ -11,28 +11,31 @@ open Nikeza.Mobile.Portfolio
 type PortfolioEvent =     Nikeza.Mobile.Portfolio.Events.QueryEvent
 type SubscriptionsEvent = Nikeza.Mobile.Subscription.Events.QueryEvent
 
-type ViewModel(user:Provider) as x =
+type ViewModel(user:Provider) =
 
     let portfolioEvent =     new Event<PortfolioEvent>()
     let subscriptionsEvent = new Event<SubscriptionsEvent>()
 
-    let selection: Provider option = None
-
-    let mutable latest:Provider list = []
+    let mutable selection: Provider option = None
+    let mutable latest:    Provider list =   []
     
-    let view() =
+    let viewProvider() =
         selection |> function
                      | Some provider -> provider.Profile.Id 
-                                         |>ProviderId  
+                                         |> ProviderId  
                                          |> Query.portfolio
                                          |> publish portfolioEvent
                      | None -> ()
 
-    member x.View = DelegateCommand( (fun _ -> view() ), fun _ -> selection.IsSome)
+    member x.ViewProvider = DelegateCommand( (fun _ -> viewProvider() ), fun _ -> selection.IsSome)
 
-    member x.User =      user
-    member x.Selection = selection
-    member x.Latest =    latest
+    member x.Selection
+             with get() =      selection
+             and  set(value) = selection <- value
+
+    member x.Providers
+             with get() =      latest
+             and  set(value) = latest    <- value
 
     member x.Load() =
         Query.latest <| ProfileId user.Profile.Id
