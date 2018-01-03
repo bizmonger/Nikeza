@@ -40,14 +40,11 @@ type ViewModel() as x =
                            |> EditCommand.Save 
                            |> In.Edit.workflow
                            |> publish eventOcurred
-                    | None -> ()
+                   | None -> ()
+
+    member x.SaveCommand = DelegateCommand( (fun _ -> save()) , fun _ -> canSave() )
 
     member x.FirstName = ""
     member x.LastName =  ""
     member x.Email =     ""
-    member x.Topics = []
-
-    member x.SaveCommand = DelegateCommand( (fun _ -> save()) , fun _ -> canSave() )
-
-
-
+    member x.Topics =    []
