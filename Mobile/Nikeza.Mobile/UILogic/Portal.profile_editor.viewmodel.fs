@@ -1,14 +1,14 @@
 ﻿module Nikeza.Mobile.UILogic.Portal.ProfileEditor
 
-open Nikeza.Mobile.UILogic
 open System
-open Nikeza.Mobile.Profile.Commands
-open Nikeza.Mobile.UILogic.Publisher
-open Nikeza.Mobile.Profile
+open System.Windows.Input
 open Nikeza.Common
 open Nikeza.DataTransfer
+open Nikeza.Mobile.UILogic
+open Nikeza.Mobile.Profile.Commands
+open Nikeza.Mobile.UILogic.Publisher
 open Nikeza.Mobile.Profile.Try
-open System.Windows.Input
+open Nikeza.Mobile.Profile
 
 type ViewModel(saveFn:SaveFn) as x =
 
