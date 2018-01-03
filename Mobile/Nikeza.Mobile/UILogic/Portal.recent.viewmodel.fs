@@ -2,7 +2,6 @@
 
 open Nikeza.Common
 open Nikeza.DataTransfer
-open Nikeza.Mobile.Subscriptions
 open Nikeza.Mobile.UILogic.Publisher
 open Nikeza.Mobile.Subscription.Events
 open Nikeza.Mobile.Subscriptions.Query
