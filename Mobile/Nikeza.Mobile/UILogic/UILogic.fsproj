@@ -11,6 +11,7 @@
     <Compile Include="DelegateCommand.fs" />
     <Compile Include="Registration.viewmodel.fs" />
     <Compile Include="Portal.recent.viewmodel.fs" />
+    <Compile Include="Portal.profile_editor.viewmodel.fs" />
   </ItemGroup>
 
   <ItemGroup>

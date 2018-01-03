@@ -2,7 +2,6 @@
 
 open Try
 open Nikeza.Common
-open Nikeza.Mobile.UILogic.Registration
 open Nikeza.Mobile.Subscription.Events
 open Nikeza.Mobile.Subscriptions.Query
 
@@ -48,7 +47,7 @@ let mockSubmit : SubmitFn =
 let mockRecent : RecentFn =
     fun _ -> [GetLatestSucceeded [someProvider]]
 
-type ViewModel with
+type Nikeza.Mobile.UILogic.Registration.ViewModel with
 
     member x.FillIn () =
            x.Email    <- someEmail

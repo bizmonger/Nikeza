@@ -1,4 +1,4 @@
-﻿module In
+﻿module Nikeza.Mobile.Profile.In
 
 open Nikeza.Mobile.Profile.Commands
 open Nikeza.Mobile.Profile.Commands.Registration
@@ -25,6 +25,7 @@ module ValidateRegistration =
                              form |> Registration.validate
                                   |> ResultOf.Validation.Executed
                                   |> Are.Registration.Validation.events
+
 module Session =
     type private SessionWorkflow = SessionCommand -> SessionEvent list
 

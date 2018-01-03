@@ -6,6 +6,7 @@ open Nikeza.Mobile.Profile.Commands.Registration
 open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.UILogic.Publisher
 open Adapter
+open Nikeza.Mobile.Profile
 
 type Form = Registration.Types.Form
 

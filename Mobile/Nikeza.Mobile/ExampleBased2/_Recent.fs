@@ -1,4 +1,4 @@
-﻿module Tests.Latest
+﻿module Tests.Recent
 
 open FsUnit
 open NUnit.Framework
