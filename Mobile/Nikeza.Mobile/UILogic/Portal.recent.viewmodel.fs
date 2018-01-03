@@ -5,13 +5,14 @@ open Nikeza.DataTransfer
 open Nikeza.Mobile.Subscriptions
 open Nikeza.Mobile.UILogic.Publisher
 open Nikeza.Mobile.Subscription.Events
+open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Portfolio
 
 type PortfolioEvent =     Nikeza.Mobile.Portfolio.Events.QueryEvent
 type SubscriptionsEvent = Nikeza.Mobile.Subscription.Events.QueryEvent
 
-type ViewModel(user:Provider) =
+type ViewModel(user:Provider, getRecent:RecentFn) =
 
     let portfolioEvent =     new Event<PortfolioEvent>()
     let subscriptionsEvent = new Event<SubscriptionsEvent>()
@@ -38,7 +39,7 @@ type ViewModel(user:Provider) =
              and  set(value) = latest    <- value
 
     member x.Load() =
-        Query.latest <| ProfileId user.Profile.Id
+        getRecent <| ProfileId user.Profile.Id
          |> function
             | GetLatestSucceeded providers :: [] -> latest <- providers
             | otherEvents -> publish subscriptionsEvent otherEvents

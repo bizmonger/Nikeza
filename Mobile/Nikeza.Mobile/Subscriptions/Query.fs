@@ -4,8 +4,7 @@ open Nikeza.Mobile.Subscription.Events
 
 open Nikeza.Common
 
-type LatestFn = ProfileId -> QueryEvent list
+type RecentFn = ProfileId -> QueryEvent list
 
-let latest : LatestFn =
-    fun _ -> 
-        [GetLatestFailed "Not yet implemented"]
+let latest : RecentFn =
+    fun _ -> [GetLatestFailed "Not yet implemented"]
