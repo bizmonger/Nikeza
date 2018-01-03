@@ -24,7 +24,7 @@ type ProfileEvent =
     | ProfileValidated    of ValidatedProfile
     | ProfileNotValidated of EditedProfile
     | ProfileRequested    of ProfileId
-    | ProfileSaved        of Nikeza.DataTransfer.Profile
+    | ProfileSaved        of Profile
     | ProfileSaveFailed   of ValidatedProfile
     | Subscribed          of ProviderId
     | Unsubscribed        of ProviderId

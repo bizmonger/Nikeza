@@ -1,4 +1,4 @@
-﻿module Try
+﻿module Nikeza.Mobile.Profile.Try
 
 open Nikeza.DataTransfer
 

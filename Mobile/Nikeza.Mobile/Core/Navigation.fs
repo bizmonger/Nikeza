@@ -3,6 +3,7 @@
 open Nikeza.Mobile.AppLogic.Pages
 open Nikeza.Mobile.UILogic.Registration
 open Nikeza.Mobile.Profile.Events
+open Nikeza.Mobile.Profile
 
 type Navigation() =
 

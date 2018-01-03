@@ -41,15 +41,15 @@ module Session =
                                        |> Are.Session.events
 
 module Edit =
-    type private EditWorkflow = EditCommand -> ProfileEvent list
+    type private EditWorkflow = SaveFn -> EditCommand -> ProfileEvent list
 
     let workflow : EditWorkflow = 
-        fun command -> command |> function
+        fun saveFn command -> command |> function
         | EditCommand.Validate profile -> 
                                profile |> Edit.validate 
                                        |> ResultOf.Editor.Validate
                                        |> Are.Edit.events
         | EditCommand.Save     profile -> 
-                               profile |> Try.save
+                               profile |> saveFn
                                        |> ResultOf.Editor.Save
                                        |> Are.Edit.events

@@ -1,12 +1,15 @@
 ﻿module TestAPI
 
-open Try
+open Nikeza.Mobile.Profile.Try
 open Nikeza.Common
 open Nikeza.Mobile.Subscription.Events
 open Nikeza.Mobile.Subscriptions.Query
+open Nikeza.DataTransfer
 
-let someEmail =    "scott@abc.com"
-let somePassword = "some_password"
+let someFirstName = "Scott"
+let someLastName =  "Nimrod"
+let someEmail =     "scott@abc.com"
+let somePassword =  "some_password"
 
 let someProfile:ProfileRequest = { 
     Id =        ""
@@ -46,6 +49,9 @@ let mockSubmit : SubmitFn =
 
 let mockRecent : RecentFn =
     fun _ -> [GetLatestSucceeded [someProvider]]
+
+let mockSave : SaveFn =
+    fun _ -> Ok someProfile
 
 type Nikeza.Mobile.UILogic.Registration.ViewModel with
 

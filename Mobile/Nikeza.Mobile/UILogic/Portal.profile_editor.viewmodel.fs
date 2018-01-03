@@ -7,12 +7,18 @@ open Nikeza.Mobile.UILogic.Publisher
 open Nikeza.Mobile.Profile
 open Nikeza.Common
 open Nikeza.DataTransfer
+open Nikeza.Mobile.Profile.Try
+open System.Windows.Input
 
-type ViewModel() as x =
+type ViewModel(saveFn:SaveFn) as x =
 
     let eventOcurred = new Event<_>()
 
-    let mutable profile:ValidatedProfile option= None 
+    let mutable profile = None
+    let mutable firstName = ""
+    let mutable lastName =  ""
+    let mutable email =     ""
+    let mutable topics =    []
 
     let canSave() =
         let refreshState =
@@ -38,13 +44,27 @@ type ViewModel() as x =
                    | Some validated -> 
                           validated 
                            |> EditCommand.Save 
-                           |> In.Edit.workflow
+                           |> In.Edit.workflow saveFn
                            |> publish eventOcurred
                    | None -> ()
 
-    member x.SaveCommand = DelegateCommand( (fun _ -> save()) , fun _ -> canSave() )
+    member x.ValidateCommand = DelegateCommand( (fun _ -> canSave() |> ignore) , fun _ -> true ) :> ICommand
+    member x.SaveCommand =     DelegateCommand( (fun _ -> save()) , fun _ -> canSave() )         :> ICommand
 
-    member x.FirstName = ""
-    member x.LastName =  ""
-    member x.Email =     ""
-    member x.Topics =    []
+    member x.FirstName
+        with get() =     firstName
+        and set(value) = firstName <- value
+
+    member x.LastName
+        with get() =     lastName
+        and set(value) = lastName <- value
+
+    member x.Email
+        with get() =     email
+        and set(value) = email <- value
+
+    member x.Topics
+        with get() =     topics
+        and set(value) = topics <- value
+
+    member x.EventOccurred = eventOcurred.Publish
