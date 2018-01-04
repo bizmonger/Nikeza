@@ -1,4 +1,4 @@
-﻿module TestAPI
+﻿module Nikeza.Mobile.TestAPI
 
 open Nikeza.Common
 open Nikeza.Mobile.Profile.Try
@@ -69,6 +69,18 @@ let mockFollow : FollowFn =
 
 let mockUnsubscribe : UnsubscribeFn =
     fun _ -> Ok {User= someProvider; Provider=someProvider}
+
+
+module Portfolio =
+    open Nikeza.Mobile.UILogic.Portal.Portfolio
+
+    let injected = {
+        UserId =        ProviderId someProfile.Id
+        ProviderId =    ProviderId someProvider.Profile.Id
+        PortfolioFn =   mockPortfolio
+        FollowFn =      mockFollow
+        UnsubscribeFn = mockUnsubscribe
+    }
 
 type Nikeza.Mobile.UILogic.Registration.ViewModel with
 

@@ -2,10 +2,10 @@
 
 open FsUnit
 open NUnit.Framework
-open TestAPI
+open Nikeza.Mobile.TestAPI
+open Nikeza.Mobile.TestAPI.Portfolio
 open Nikeza.Mobile.UILogic.Portal
 open Nikeza.Mobile.Subscriptions.Events
-open Nikeza.Common
 
 [<Test>]
 let ``Load recent links from providers`` () =
@@ -47,7 +47,7 @@ let ``Load subscriptions`` () =
 let ``Load portfolio``() =
     
     // Setup
-    let viewmodel = Portfolio.ViewModel(ProviderId someProfile.Id, ProviderId someProvider.Profile.Id, mockPortfolio, mockFollow, mockUnsubscribe)
+    let viewmodel = Portfolio.ViewModel(injected)
 
     // Test
     viewmodel.Load()
@@ -61,13 +61,12 @@ let ``Follow provider``() =
     // Setup
     let mutable followSucceeded = false
     
-    let viewmodel = Portfolio.ViewModel(ProviderId someProfile.Id, ProviderId someProvider.Profile.Id, mockPortfolio, mockFollow, mockUnsubscribe)
+    let viewmodel = Portfolio.ViewModel(injected)
 
     viewmodel.CommandEvents().Add(fun event ->
                                       event |> function 
                                                | SubscriberAdded _ -> followSucceeded <- true
                                                | _ ->                 followSucceeded <- false)
-    
     // Test
     viewmodel.Follow.Execute()
 
@@ -80,7 +79,7 @@ let ``Unsubscribe from provider``() =
     // Setup
     let mutable unsubscribeSucceeded = false
    
-    let viewmodel = Portfolio.ViewModel(ProviderId someProfile.Id, ProviderId someProvider.Profile.Id, mockPortfolio, mockFollow, mockUnsubscribe)
+    let viewmodel = Portfolio.ViewModel(injected)
 
     viewmodel.CommandEvents().Add(fun event ->
                                       event |> function 

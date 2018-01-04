@@ -2,7 +2,7 @@
 
 open FsUnit
 open NUnit.Framework
-open TestAPI
+open Nikeza.Mobile.TestAPI
 open Nikeza.Mobile.UILogic.Portal.ProfileEditor
 open Nikeza.Mobile.Profile.Events
 

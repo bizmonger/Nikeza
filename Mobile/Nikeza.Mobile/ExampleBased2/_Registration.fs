@@ -2,8 +2,8 @@ module Tests.Registration
 
 open FsUnit
 open NUnit.Framework
+open Nikeza.Mobile.TestAPI
 open Nikeza.Mobile.UILogic.Registration
-open TestAPI
 open Nikeza.Mobile.Profile.Events
 
 [<Test>]
