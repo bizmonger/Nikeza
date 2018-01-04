@@ -48,8 +48,11 @@ type ViewModel(saveFn:SaveFn) as x =
                            |> publish eventOcurred
                    | None -> ()
 
-    member x.ValidateCommand = DelegateCommand( (fun _ -> canSave() |> ignore) , fun _ -> true ) :> ICommand
-    member x.SaveCommand =     DelegateCommand( (fun _ -> save()) , fun _ -> canSave() )         :> ICommand
+    member x.ValidateCommand = DelegateCommand( (fun _ -> canSave() |> ignore) , 
+                                                 fun _ -> true )      :> ICommand
+
+    member x.SaveCommand =     DelegateCommand( (fun _ -> save()) ,
+                                                 fun _ -> canSave() ) :> ICommand
 
     member x.FirstName
         with get() =     firstName
@@ -57,11 +60,11 @@ type ViewModel(saveFn:SaveFn) as x =
 
     member x.LastName
         with get() =     lastName
-        and set(value) = lastName <- value
+        and set(value) = lastName  <- value
 
     member x.Email
         with get() =     email
-        and set(value) = email <- value
+        and set(value) = email  <- value
 
     member x.Topics
         with get() =     topics

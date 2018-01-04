@@ -14,7 +14,7 @@ module Updates =
     let statusOf formValidated events = 
         events |> List.exists formValidated
 
-type ViewModel(implementation:Try.SubmitFn) as x =
+type ViewModel(submitFn:Try.SubmitFn) as x =
 
     let mutable validatedForm = None
 
@@ -38,7 +38,7 @@ type ViewModel(implementation:Try.SubmitFn) as x =
         validatedForm |> function 
                          | Some form -> 
                                 form |> Command.Execute 
-                                     |> In.SubmitRegistration.workflow implementation
+                                     |> In.SubmitRegistration.workflow submitFn
                                      |> publish eventOccurred
                          | None -> ()
 

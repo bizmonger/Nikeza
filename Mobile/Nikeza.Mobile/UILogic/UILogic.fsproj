@@ -10,8 +10,10 @@
     <Compile Include="Adapter.fs" />
     <Compile Include="DelegateCommand.fs" />
     <Compile Include="Registration.viewmodel.fs" />
-    <Compile Include="Portal.recent.viewmodel.fs" />
-    <Compile Include="Portal.profile_editor.viewmodel.fs" />
+    <Compile Include="Portal.Recent.viewmodel.fs" />
+    <Compile Include="Portal.Members.viewmodel.fs" />
+    <Compile Include="Portal.Subscriptions.viewmodel.fs" />
+    <Compile Include="Portal.ProfileEditor.viewmodel.fs" />
   </ItemGroup>
 
   <ItemGroup>
