@@ -1,4 +1,4 @@
-﻿namespace Nikeza.Mobile.UILogic.Portal.Members
+﻿namespace Nikeza.Mobile.UILogic.Portal.Subscriptions
 
 open Nikeza.Common
 open Nikeza.DataTransfer
@@ -11,13 +11,13 @@ open Nikeza.Mobile.Portfolio
 type PortfolioEvent =     Nikeza.Mobile.Portfolio.Events.QueryEvent
 type SubscriptionsEvent = Nikeza.Mobile.Subscription.Events.QueryEvent
 
-type ViewModel(user:Provider, getMembers:MembersFn) =
+type ViewModel(user:Provider, getSubscriptions:SubscriptionsFn) =
 
     let portfolioEvent =     new Event<PortfolioEvent>()
     let subscriptionsEvent = new Event<SubscriptionsEvent>()
 
-    let mutable selection: Provider option = None
-    let mutable members:   Provider list =   []
+    let mutable selection:     Provider option = None
+    let mutable subscriptions: Provider list =   []
     
     let viewProvider() =
         selection |> function
@@ -31,13 +31,14 @@ type ViewModel(user:Provider, getMembers:MembersFn) =
 
     member x.Selection
              with get() =      selection
-             and  set(value) = selection <- value
+             and  set(value) = selection     <- value
 
     member x.Providers
-             with get() =      members
-             and  set(value) = members   <- value
+             with get() =      subscriptions
+             and  set(value) = subscriptions <- value
 
     member x.Load() =
-        getMembers() |> function
-                       | GetMembersSucceeded providers :: [] -> members <- providers
-                       | otherEvents -> publish subscriptionsEvent otherEvents
+             getSubscriptions <| ProfileId user.Profile.Id
+              |> function
+                 | GetSubscriptionsSucceeded providers :: _ -> subscriptions <- providers
+                 | otherEvents -> publish subscriptionsEvent otherEvents

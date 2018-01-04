@@ -15,5 +15,5 @@ type TopicsEvent =
     | TopicsFeaturedFailed of TopicId list
 
 type QueryEvent =
-    | GetPortfolioFailed   of ProviderId
-    | GetPortfolioSuceeded of Provider
+    | GetPortfolioFailed    of ProviderId
+    | GetPortfolioSucceeded of Provider

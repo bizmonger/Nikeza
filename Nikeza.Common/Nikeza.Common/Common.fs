@@ -155,3 +155,29 @@ type ProfileAndTopicsRequest ={
     Profile: ProfileRequest
     Topics:  ProviderTopic list
 }
+
+let uninitializedProfile:ProfileRequest = { 
+    Id =        ""
+    FirstName = ""
+    LastName =  ""
+    Email =     ""
+    ImageUrl =  ""
+    Bio =       ""
+    Sources =   []
+}
+
+let uninitializedPortfolio = { 
+    Answers  = []
+    Articles = []
+    Videos =   []
+    Podcasts = []
+}
+
+let uninitializedProvider = {
+    Profile =      uninitializedProfile
+    Topics =        []
+    Portfolio=     uninitializedPortfolio
+    RecentLinks=   []
+    Subscriptions= []
+    Followers=     []
+}

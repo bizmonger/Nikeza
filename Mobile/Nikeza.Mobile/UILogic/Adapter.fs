@@ -2,7 +2,13 @@
 
 open Nikeza.Mobile.Profile.Registration
 
-type UIForm = Nikeza.Mobile.UILogic.Registration.Types.Form
+type Form = {
+    Email:string
+    Password:string
+    Confirm:string
+}
+
+type UIForm = Form
 type DomainForm = Nikeza.Mobile.Profile.Registration.Form
 
 let ofUnvalidated (form:UIForm) : UnvalidatedForm = {

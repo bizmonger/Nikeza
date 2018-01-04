@@ -6,14 +6,14 @@
 
   <ItemGroup>
     <Compile Include="Publisher.fs" />
-    <Compile Include="Registration.types.fs" />
     <Compile Include="Adapter.fs" />
     <Compile Include="DelegateCommand.fs" />
-    <Compile Include="Registration.viewmodel.fs" />
-    <Compile Include="Portal.Recent.viewmodel.fs" />
-    <Compile Include="Portal.Members.viewmodel.fs" />
-    <Compile Include="Portal.Subscriptions.viewmodel.fs" />
-    <Compile Include="Portal.ProfileEditor.viewmodel.fs" />
+    <Compile Include="ViewModels\Registration.viewmodel.fs" />
+    <Compile Include="ViewModels\Portal.Recent.viewmodel.fs" />
+    <Compile Include="ViewModels\Portal.Members.viewmodel.fs" />
+    <Compile Include="ViewModels\Portal.Subscriptions.viewmodel.fs" />
+    <Compile Include="ViewModels\Portal.ProfileEditor.viewmodel.fs" />
+    <Compile Include="ViewModels\Portal.Portfolio.viewmodel.fs" />
   </ItemGroup>
 
   <ItemGroup>

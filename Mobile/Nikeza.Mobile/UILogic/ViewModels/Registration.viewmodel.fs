@@ -8,8 +8,6 @@ open Nikeza.Mobile.UILogic.Publisher
 open Adapter
 open Nikeza.Mobile.Profile
 
-type Form = Registration.Types.Form
-
 module Updates =
     let statusOf formValidated events = 
         events |> List.exists formValidated
