@@ -1,4 +1,4 @@
-﻿module Execute
+﻿module Nikeza.Mobile.Subscription.Execute
 
 open Nikeza.Mobile.Subscription.Commands
 open Nikeza.Mobile.Subscription.Events
