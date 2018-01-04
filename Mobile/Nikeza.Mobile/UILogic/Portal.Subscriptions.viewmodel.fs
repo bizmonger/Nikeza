@@ -16,8 +16,8 @@ type ViewModel(user:Provider, getSubscriptions:SubscriptionsFn) =
     let portfolioEvent =     new Event<PortfolioEvent>()
     let subscriptionsEvent = new Event<SubscriptionsEvent>()
 
-    let mutable selection: Provider option = None
-    let mutable subscriptions:    Provider list =   []
+    let mutable selection:     Provider option = None
+    let mutable subscriptions: Provider list =   []
     
     let viewProvider() =
         selection |> function
