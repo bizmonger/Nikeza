@@ -13,5 +13,11 @@ type NotificationEvent =
     | SubscriberRemoveFailed of ProfileId
 
 type QueryEvent =
-    | GetLatestSucceeded of Provider list
-    | GetLatestFailed    of string
+    | GetRecentSucceeded   of Provider list
+    | GetLatestFailed      of string
+                               
+    | GetMembersSucceeded  of Provider list
+    | GetMembersFailed     of string
+
+    | GetSubscriptionsSucceeded of Provider list
+    | GetSubscriptionsFailed    of string

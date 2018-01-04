@@ -40,5 +40,5 @@ type ViewModel(user:Provider, getRecent:RecentFn) =
     member x.Load() =
         getRecent <| ProfileId user.Profile.Id
          |> function
-            | GetLatestSucceeded providers :: [] -> recent <- providers
+            | GetRecentSucceeded providers :: [] -> recent <- providers
             | otherEvents -> publish subscriptionsEvent otherEvents

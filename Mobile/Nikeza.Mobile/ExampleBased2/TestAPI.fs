@@ -48,7 +48,13 @@ let mockSubmit : SubmitFn =
                 }
 
 let mockRecent : RecentFn =
-    fun _ -> [GetLatestSucceeded [someProvider]]
+    fun _ -> [GetRecentSucceeded [someProvider]]
+
+let mockMembers : MembersFn =
+    fun _ -> [GetMembersSucceeded [someProvider]]
+
+let mockSubscriptions : SubscriptionsFn =
+    fun _ -> [GetSubscriptionsSucceeded [someProvider]]
 
 let mockSave : SaveFn =
     fun _ -> Ok someProfile
