@@ -1,10 +1,9 @@
 ﻿module TestAPI
 
-open Nikeza.Mobile.Profile.Try
 open Nikeza.Common
+open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Subscription.Events
 open Nikeza.Mobile.Subscriptions.Query
-open Nikeza.DataTransfer
 
 let someFirstName = "Scott"
 let someLastName =  "Nimrod"
@@ -18,7 +17,7 @@ let someProfile:ProfileRequest = {
     Email =     ""
     ImageUrl =  ""
     Bio =       ""
-    Sources =    []
+    Sources =   []
 }
 
 let somePortfolio = { 
