@@ -8,7 +8,6 @@ open Nikeza.Mobile.UILogic.Publisher
 open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Try
 open Nikeza.Mobile.Subscriptions.Command
-open Nikeza.Mobile
 open Nikeza.Mobile.Subscription.Subscriptions
 
 type PortfolioQuery = Nikeza.Mobile.Portfolio.Events.QueryEvent

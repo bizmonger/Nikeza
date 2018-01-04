@@ -61,7 +61,6 @@ let ``Follow provider``() =
     // Setup
     let mutable followSucceeded = false
     
-    let subscriberId = someProfile.Id
     let viewmodel = Portfolio.ViewModel(ProviderId someProfile.Id, ProviderId someProvider.Profile.Id, mockPortfolio, mockFollow, mockUnsubscribe)
 
     viewmodel.CommandEvents().Add(fun event ->
@@ -79,11 +78,16 @@ let ``Follow provider``() =
 let ``Unsubscribe from provider``() =
     
     // Setup
+    let mutable unsubscribeSucceeded = false
+   
     let viewmodel = Portfolio.ViewModel(ProviderId someProfile.Id, ProviderId someProvider.Profile.Id, mockPortfolio, mockFollow, mockUnsubscribe)
-    viewmodel.Follow.Execute()
 
+    viewmodel.CommandEvents().Add(fun event ->
+                                      event |> function 
+                                               | SubscriberRemoved _ -> unsubscribeSucceeded <- true
+                                               | _ ->                   unsubscribeSucceeded <- false)
     // Test
     viewmodel.Unsubscribe.Execute()
 
     // Verify
-    Assert.Fail()
+    unsubscribeSucceeded |> should equal true
