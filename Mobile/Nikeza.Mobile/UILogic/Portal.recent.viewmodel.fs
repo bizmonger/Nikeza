@@ -17,7 +17,7 @@ type ViewModel(user:Provider, getRecent:RecentFn) =
     let subscriptionsEvent = new Event<SubscriptionsEvent>()
 
     let mutable selection: Provider option = None
-    let mutable latest:    Provider list =   []
+    let mutable recent:    Provider list =   []
     
     let viewProvider() =
         selection |> function
@@ -34,11 +34,11 @@ type ViewModel(user:Provider, getRecent:RecentFn) =
              and  set(value) = selection <- value
 
     member x.Providers
-             with get() =      latest
-             and  set(value) = latest    <- value
+             with get() =      recent
+             and  set(value) = recent    <- value
 
     member x.Load() =
         getRecent <| ProfileId user.Profile.Id
          |> function
-            | GetLatestSucceeded providers :: [] -> latest <- providers
+            | GetLatestSucceeded providers :: [] -> recent <- providers
             | otherEvents -> publish subscriptionsEvent otherEvents
