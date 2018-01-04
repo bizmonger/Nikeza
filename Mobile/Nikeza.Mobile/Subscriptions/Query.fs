@@ -1,7 +1,7 @@
 ﻿module Nikeza.Mobile.Subscriptions.Query
 
 open Nikeza.Common
-open Nikeza.Mobile.Subscription.Events
+open Nikeza.Mobile.Subscriptions.Events
 
 type RecentFn =        ProfileId -> QueryEvent list
 type SubscriptionsFn = ProfileId -> QueryEvent list

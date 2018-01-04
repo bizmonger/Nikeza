@@ -3,40 +3,43 @@
 open System.Windows.Input
 open Nikeza.Common
 open Nikeza.Mobile.Portfolio.Events
-open Nikeza.Mobile.Portfolio.Query
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.UILogic.Publisher
-open Nikeza.Mobile.Subscription
-open Nikeza.Mobile.Subscription.Commands
-open Nikeza.Mobile.Subscription.Events
+open Nikeza.Mobile.Subscriptions.Events
+open Nikeza.Mobile.Subscriptions.Try
+open Nikeza.Mobile.Subscriptions.Command
+open Nikeza.Mobile
+open Nikeza.Mobile.Subscription.Subscriptions
 
 type PortfolioQuery = Nikeza.Mobile.Portfolio.Events.QueryEvent
 
-type ViewModel(userId, providerId, getPortfolio) =
+type ViewModel(userId, providerId, getPortfolio, followFn:FollowFn, unsubscribeFn:UnsubscribeFn) =
 
-    let mutable provider =  uninitializedProvider
+    let mutable provider =  None
     let eventsFromQuery =   Event<PortfolioQuery>()
     let eventsFromCommand = Event<NotificationEvent>()
 
     let getId profileId = profileId |> function ProviderId id -> id
     
     let isAlreadyFollowing subscriberId =
-        provider.Followers |> List.contains subscriberId
+        provider |> function
+                    | Some p -> p.Followers |> List.contains subscriberId
+                    | None -> false
 
     let follow() =
         { FollowRequest.SubscriberId= getId userId
           FollowRequest.ProfileId=    getId providerId 
         } 
-           |> Command.Follow 
-           |> Execute.Subscriptions.workflow 
+           |> Follow.Command.Execute
+           |> Workflow.follow followFn
            |> publish eventsFromCommand
 
     let unsubscribe() =
         { UnsubscribeRequest.SubscriberId= getId userId
           UnsubscribeRequest.ProfileId=    getId providerId 
         } 
-           |> Command.Unsubscribe
-           |> Execute.Subscriptions.workflow 
+           |> Unsubscribe.Command.Execute
+           |> Workflow.unsubscribe unsubscribeFn
            |> publish eventsFromCommand
 
     let followCommand =      DelegateCommand( (fun _ -> follow() ), 
@@ -54,8 +57,8 @@ type ViewModel(userId, providerId, getPortfolio) =
              providerId 
               |> getPortfolio
               |> function
-                 | GetPortfolioSucceeded p :: _ -> provider <- p
+                 | GetPortfolioSucceeded p :: _ -> provider <- Some p
                  | otherEvents -> otherEvents |> publish eventsFromQuery
 
-    member x.QueryEvents() =   eventsFromQuery.Trigger
-    member x.CommandEvents() = eventsFromCommand.Trigger
+    member x.QueryEvents() =   eventsFromQuery.Publish
+    member x.CommandEvents() = eventsFromCommand.Publish

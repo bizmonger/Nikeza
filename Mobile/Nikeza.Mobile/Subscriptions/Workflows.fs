@@ -1,21 +1,28 @@
-﻿module Nikeza.Mobile.Subscription.Execute
+﻿module Nikeza.Mobile.Subscription
 
-open Nikeza.Mobile.Subscription.Commands
-open Nikeza.Mobile.Subscription.Events
+open Nikeza.Mobile.Subscriptions.Command
+open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Try
 
 module Subscriptions =
-    open Nikeza.Mobile.Subscriptions
+    
+    module Workflow =
+        open Nikeza.Mobile.Subscriptions.Try.Follow
+        open Nikeza.Mobile.Subscriptions.Try.Unsubscribe
 
-    type private Workflow = Command -> NotificationEvent list
+        type private FollowWorkflow =      FollowFn      -> Follow.Command ->      NotificationEvent list
+        type private UnsubscribeWorkflow = UnsubscribeFn -> Unsubscribe.Command -> NotificationEvent list
 
-    let workflow : Workflow = 
-        fun command -> command |> function
-        | Command.Follow      request -> 
-                              request |> Try.follow 
-                                      |> ResultOf.Follow 
-                                      |> Are.Subscription.events
-        | Command.Unsubscribe request -> 
-                              request |> Try.unsubscribe 
-                                      |> ResultOf.Unsubscribe  
-                                      |> Are.Subscription.events
+        let follow : FollowWorkflow = 
+            fun followFn command -> command |> function
+             Follow.Command.Execute request -> 
+                                    request |> followFn
+                                            |> ResultOf.Follow 
+                                            |> Are.Subscription.Follow.events
+                                            
+        let unsubscribe : UnsubscribeWorkflow =
+            fun unsubscribeFn command -> command |> function
+             Unsubscribe.Command.Execute request -> 
+                                         request |> unsubscribeFn
+                                                 |> ResultOf.Unsubscribe  
+                                                 |> Are.Subscription.Unsubscribe.events

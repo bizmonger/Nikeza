@@ -1,4 +1,4 @@
-module Nikeza.Mobile.Subscription.Events
+module Nikeza.Mobile.Subscriptions.Events
 
 open Nikeza.DataTransfer
 open Nikeza.Common
@@ -6,10 +6,10 @@ open Nikeza.Common
 type NotificationEvent =
     | LinksDiscovered        of Provider
 
-    | SubscriberAdded        of User
+    | SubscriberAdded        of ProfileId
     | SubscriberAddFailed    of ProfileId
     
-    | SubscriberRemoved      of User
+    | SubscriberRemoved      of ProfileId
     | SubscriberRemoveFailed of ProfileId
 
 type QueryEvent =

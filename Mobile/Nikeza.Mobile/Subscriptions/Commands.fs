@@ -1,7 +1,9 @@
-﻿module Nikeza.Mobile.Subscription.Commands
+﻿module Nikeza.Mobile.Subscriptions.Command
 
 open Nikeza.Common
 
-type Command =
-    | Follow      of FollowRequest
-    | Unsubscribe of UnsubscribeRequest
+module Follow =
+    type Command = Execute of FollowRequest
+
+module Unsubscribe =
+    type Command = Execute of UnsubscribeRequest

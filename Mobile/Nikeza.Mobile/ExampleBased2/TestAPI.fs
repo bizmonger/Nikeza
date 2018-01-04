@@ -2,8 +2,11 @@
 
 open Nikeza.Common
 open Nikeza.Mobile.Profile.Try
-open Nikeza.Mobile.Subscription.Events
+open Nikeza.Mobile.Subscriptions.Try
+open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Query
+open Nikeza.Mobile.Portfolio.Query
+open Nikeza.Mobile.Portfolio.Events
 
 let someFirstName = "Scott"
 let someLastName =  "Nimrod"
@@ -57,6 +60,15 @@ let mockSubscriptions : SubscriptionsFn =
 
 let mockSave : SaveFn =
     fun _ -> Ok someProfile
+
+let mockPortfolio : PortfolioFn =
+    fun _ -> [GetPortfolioSucceeded someProvider]
+
+let mockFollow : FollowFn =
+    fun _ -> Ok {User= someProvider; Provider=someProvider}
+
+let mockUnsubscribe : UnsubscribeFn =
+    fun _ -> Ok {User= someProvider; Provider=someProvider}
 
 type Nikeza.Mobile.UILogic.Registration.ViewModel with
 

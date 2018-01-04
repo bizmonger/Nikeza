@@ -3,13 +3,13 @@
 open Nikeza.Common
 open Nikeza.DataTransfer
 open Nikeza.Mobile.UILogic.Publisher
-open Nikeza.Mobile.Subscription.Events
+open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Portfolio
 
 type PortfolioEvent =     Nikeza.Mobile.Portfolio.Events.QueryEvent
-type SubscriptionsEvent = Nikeza.Mobile.Subscription.Events.QueryEvent
+type SubscriptionsEvent = Nikeza.Mobile.Subscriptions.Events.QueryEvent
 
 type ViewModel(user:Provider, getMembers:MembersFn) =
 
