@@ -14,6 +14,8 @@ module Updates =
 
 type ViewModel(submitFn:Try.SubmitFn) as x =
 
+    inherit ViewModelBase()
+
     let mutable validatedForm = None
 
     let eventOccurred = new Event<_>()
@@ -45,7 +47,7 @@ type ViewModel(submitFn:Try.SubmitFn) as x =
     let submitCommand =   DelegateCommand( (fun _ -> submit() |> ignore), 
                                             fun _ -> x.IsValidated <- validate(); x.IsValidated )
 
-    let mutable email =    ""
+    let mutable email =    "<enter email address>"
     let mutable password = ""
     let mutable confirm =  ""
     let mutable isValidated = false
@@ -59,15 +61,17 @@ type ViewModel(submitFn:Try.SubmitFn) as x =
     member x.Email
              with get() =      email 
              and  set(value) = email <- value
+                               base.NotifyPropertyChanged (<@ x.Email @>)
 
     member x.Password
              with get() =      password
              and  set(value) = password <- value
 
     member x.Confirm
-        with get() =      confirm
-        and  set(value) = confirm <- value
+        with get() =           confirm
+        and  set(value) =      confirm <- value
 
     member x.IsValidated
              with get() =      isValidated
              and  set(value) = isValidated <- value
+                               base.NotifyPropertyChanged (<@ x.IsValidated @>)

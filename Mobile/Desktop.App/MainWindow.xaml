@@ -3,10 +3,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Desktop.App"
+        xmlns:local="clr-namespace:Nikeza.Mobile.UILogic.Registration;assembly=Nikeza.Mobile.UILogic"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TextBox Grid.Row="0" Text="{Binding Email}" />
+        <PasswordBox Grid.Row="1" x:Name="Password" />
+        <PasswordBox Grid.Row="2" x:Name="Confirm" />
+        <Button Grid.Row="3" Content="Submit" Height="30" Width="60" Command="{Binding Submit}" />
+
     </Grid>
 </Window>

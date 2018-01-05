@@ -15,7 +15,7 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nikeza.Mobile.Subscriptions
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nikeza.Mobile.Portfolio", "Portfolio\Nikeza.Mobile.Portfolio.fsproj", "{B9B36589-9387-4217-9F9C-D225C4F54D1C}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "UILogic", "UILogic\UILogic.fsproj", "{2F426613-6ECC-440F-B9CD-5F2D46CAD82A}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nikeza.Mobile.UILogic", "UILogic\Nikeza.Mobile.UILogic.fsproj", "{2F426613-6ECC-440F-B9CD-5F2D46CAD82A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A790698C-919E-4AD2-98BD-90FE74982679}"
 EndProject

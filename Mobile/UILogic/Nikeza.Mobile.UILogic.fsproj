@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
+    <AssemblyName>Nikeza.Mobile.UILogic</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,6 +10,7 @@
     <Compile Include="Publisher.fs" />
     <Compile Include="Adapter.fs" />
     <Compile Include="DelegateCommand.fs" />
+    <Compile Include="ViewModelBase.fs" />
     <Compile Include="ViewModels\Registration.viewmodel.fs" />
     <Compile Include="ViewModels\Portal.Recent.viewmodel.fs" />
     <Compile Include="ViewModels\Portal.Members.viewmodel.fs" />
