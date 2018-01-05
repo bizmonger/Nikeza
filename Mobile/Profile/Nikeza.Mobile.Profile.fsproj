@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
+    <ProjectReference Include="..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
   </ItemGroup>
 
   <ItemGroup>

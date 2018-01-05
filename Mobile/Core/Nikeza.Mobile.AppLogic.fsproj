@@ -10,13 +10,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
+    <ProjectReference Include="..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
     <ProjectReference Include="..\Profile\Nikeza.Mobile.Profile.fsproj" />
     <ProjectReference Include="..\UILogic\UILogic.fsproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Update="FSharp.Core" Version="4.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="System.ValueTuple" Version="4.4.0" />
   </ItemGroup>
 
 </Project>
