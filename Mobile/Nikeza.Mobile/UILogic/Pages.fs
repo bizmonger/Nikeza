@@ -1,6 +1,5 @@
 module Nikeza.Mobile.UILogic.Pages
 
-open Nikeza.DataTransfer
 open Nikeza.Common
 
 type UnvalidatedForm = Nikeza.Mobile.Profile.Registration.UnvalidatedForm

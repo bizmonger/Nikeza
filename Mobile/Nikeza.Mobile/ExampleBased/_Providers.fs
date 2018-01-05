@@ -5,6 +5,7 @@ open NUnit.Framework
 open Nikeza.Mobile.TestAPI
 open Nikeza.Mobile.TestAPI.Portfolio
 open Nikeza.Mobile.UILogic.Portal
+open Nikeza.Mobile.UILogic.Pages
 open Nikeza.Mobile.Subscriptions.Events
 
 [<Test>]
@@ -63,10 +64,11 @@ let ``Follow provider``() =
     
     let viewmodel = Portfolio.ViewModel(injected)
 
-    viewmodel.CommandEvents().Add(fun event ->
-                                      event |> function 
-                                               | SubscriberAdded _ -> followSucceeded <- true
-                                               | _ ->                 followSucceeded <- false)
+    viewmodel.CommandEvents()
+             .Add(fun event ->
+                      event |> function 
+                               | SubscriberAdded _ -> followSucceeded <- true
+                               | _ ->                 followSucceeded <- false)
     // Test
     viewmodel.Follow.Execute()
 
@@ -81,12 +83,89 @@ let ``Unsubscribe from provider``() =
    
     let viewmodel = Portfolio.ViewModel(injected)
 
-    viewmodel.CommandEvents().Add(fun event ->
-                                      event |> function 
-                                               | SubscriberRemoved _ -> unsubscribeSucceeded <- true
-                                               | _ ->                   unsubscribeSucceeded <- false)
+    viewmodel.CommandEvents()
+             .Add(fun event ->
+                      event |> function 
+                               | SubscriberRemoved _ -> unsubscribeSucceeded <- true
+                               | _ ->                   unsubscribeSucceeded <- false)
     // Test
     viewmodel.Unsubscribe.Execute()
 
     // Verify
     unsubscribeSucceeded |> should equal true
+
+[<Test>]
+let ``Navigate: portfolio -> articles``() =
+    
+    // Setup
+    let mutable pageRequested = false
+   
+    let viewmodel = Portfolio.ViewModel(injected)
+
+    viewmodel.PageRequested()
+             .Add(fun event ->
+                      event |> function 
+                               | PageRequested.Articles _ -> pageRequested <- true
+                               | _ ->                        pageRequested <- false)
+    // Test
+    viewmodel.Articles.Execute()
+
+    // Verify
+    pageRequested |> should equal true
+
+[<Test>]
+let ``Navigate: portfolio -> videos``() =
+    
+    // Setup
+    let mutable pageRequested = false
+   
+    let viewmodel = Portfolio.ViewModel(injected)
+
+    viewmodel.PageRequested()
+             .Add(fun event ->
+                      event |> function 
+                               | PageRequested.Videos _ -> pageRequested <- true
+                               | _ ->                      pageRequested <- false)
+    // Test
+    viewmodel.Videos.Execute()
+
+    // Verify
+    pageRequested |> should equal true
+
+[<Test>]
+let ``Navigate: portfolio -> answers``() =
+    
+    // Setup
+    let mutable pageRequested = false
+   
+    let viewmodel = Portfolio.ViewModel(injected)
+
+    viewmodel.PageRequested()
+             .Add(fun event ->
+                      event |> function 
+                               | PageRequested.Answers _ -> pageRequested <- true
+                               | _ ->                       pageRequested <- false)
+    // Test
+    viewmodel.Answers.Execute()
+
+    // Verify
+    pageRequested |> should equal true
+
+[<Test>]
+let ``Navigate: portfolio -> podcasts``() =
+    
+    // Setup
+    let mutable pageRequested = false
+   
+    let viewmodel = Portfolio.ViewModel(injected)
+
+    viewmodel.PageRequested()
+             .Add(fun event ->
+                      event |> function 
+                               | PageRequested.Podcasts _ -> pageRequested <- true
+                               | _ ->                        pageRequested <- false)
+    // Test
+    viewmodel.Podcasts.Execute()
+
+    // Verify
+    pageRequested |> should equal true

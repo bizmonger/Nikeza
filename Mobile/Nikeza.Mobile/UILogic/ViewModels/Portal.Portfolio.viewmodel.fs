@@ -65,10 +65,15 @@ type ViewModel(injected) =
                                                fun _ -> isAlreadyFollowing <| getId injected.UserId ) 
                                                :> ICommand
 
-    let articlesCommand = DelegateCommand( (fun _ -> articles()), fun _ -> true) 
-    let videosCommand =   DelegateCommand( (fun _ -> videos()),   fun _ -> true) 
-    let answersCommand =  DelegateCommand( (fun _ -> answers()),  fun _ -> true) 
-    let podcastsCommand = DelegateCommand( (fun _ -> podcasts()), fun _ -> true) 
+    let articlesCommand = DelegateCommand( (fun _ -> articles()), fun _ -> true) :> ICommand
+    let videosCommand =   DelegateCommand( (fun _ -> videos()),   fun _ -> true) :> ICommand
+    let answersCommand =  DelegateCommand( (fun _ -> answers()),  fun _ -> true) :> ICommand
+    let podcastsCommand = DelegateCommand( (fun _ -> podcasts()), fun _ -> true) :> ICommand
+
+    member x.Articles = articlesCommand
+    member x.Videos =   videosCommand
+    member x.Answers =  answersCommand
+    member x.Podcasts = podcastsCommand
 
     member x.Follow =      followCommand
     member x.Unsubscribe = unsubscribeCommand
@@ -83,3 +88,4 @@ type ViewModel(injected) =
 
     member x.QueryEvents() =   eventsFromQuery.Publish
     member x.CommandEvents() = commandEvents.Publish
+    member x.PageRequested() = pageRequested.Publish
