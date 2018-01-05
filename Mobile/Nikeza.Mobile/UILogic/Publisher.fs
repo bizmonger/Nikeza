@@ -1,4 +1,7 @@
 ﻿module Nikeza.Mobile.UILogic.Publisher
 
-let publish (eventOccurred:Event<_>) events =
+let publishEvents (eventOccurred:Event<_>) events =
     events |> List.iter(fun event -> eventOccurred.Trigger(event))
+
+let publishEvent (eventOccurred:Event<_>) event =
+    eventOccurred.Trigger(event)

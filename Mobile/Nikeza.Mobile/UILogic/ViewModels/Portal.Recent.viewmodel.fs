@@ -24,7 +24,7 @@ type ViewModel(user:Provider, getRecent:RecentFn) =
                      | Some provider -> provider.Profile.Id 
                                          |> ProviderId  
                                          |> Query.portfolio
-                                         |> publish portfolioEvent
+                                         |> publishEvents portfolioEvent
                      | None -> ()
 
     member x.ViewProvider = DelegateCommand( (fun _ -> viewProvider() ), fun _ -> selection.IsSome)
@@ -41,4 +41,4 @@ type ViewModel(user:Provider, getRecent:RecentFn) =
         getRecent <| ProfileId user.Profile.Id
          |> function
             | GetRecentSucceeded providers :: [] -> recent <- providers
-            | otherEvents -> publish subscriptionsEvent otherEvents
+            | otherEvents -> publishEvents subscriptionsEvent otherEvents

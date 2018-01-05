@@ -24,7 +24,7 @@ type ViewModel(user:Provider, getMembers:MembersFn) =
                      | Some provider -> provider.Profile.Id 
                                          |> ProviderId  
                                          |> Query.portfolio
-                                         |> publish portfolioEvent
+                                         |> publishEvents portfolioEvent
                      | None -> ()
 
     member x.ViewProvider = DelegateCommand( (fun _ -> viewProvider() ), fun _ -> selection.IsSome)
@@ -40,4 +40,4 @@ type ViewModel(user:Provider, getMembers:MembersFn) =
     member x.Load() =
              getMembers() |> function
                             | GetMembersSucceeded providers :: _ -> members <- providers
-                            | otherEvents -> publish subscriptionsEvent otherEvents
+                            | otherEvents -> publishEvents subscriptionsEvent otherEvents

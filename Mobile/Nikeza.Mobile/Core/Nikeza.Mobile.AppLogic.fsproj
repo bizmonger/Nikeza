@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Pages.fs" />
     <Compile Include="Commands.fs" />
     <Compile Include="Navigation.fs" />
   </ItemGroup>

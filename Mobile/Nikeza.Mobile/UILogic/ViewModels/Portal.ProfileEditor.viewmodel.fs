@@ -45,7 +45,7 @@ type ViewModel(saveFn:SaveFn) as x =
                           validated 
                            |> EditCommand.Save 
                            |> In.Edit.workflow saveFn
-                           |> publish eventOcurred
+                           |> publishEvents eventOcurred
                    | None -> ()
 
     member x.ValidateCommand = DelegateCommand( (fun _ -> canSave() |> ignore) , 
