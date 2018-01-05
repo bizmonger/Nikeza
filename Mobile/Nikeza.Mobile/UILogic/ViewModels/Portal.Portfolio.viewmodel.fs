@@ -2,15 +2,15 @@
 
 open System.Windows.Input
 open Nikeza.Common
-open Nikeza.Mobile.Portfolio.Events
 open Nikeza.Mobile.UILogic
+open Nikeza.Mobile.UILogic.Pages
 open Nikeza.Mobile.UILogic.Publisher
 open Nikeza.Mobile.Subscription
 open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Try
 open Nikeza.Mobile.Subscriptions.Command
+open Nikeza.Mobile.Portfolio.Events
 open Nikeza.Mobile.Portfolio.Query
-open Nikeza.Mobile.UILogic.Pages
 
 type PortfolioQuery = Nikeza.Mobile.Portfolio.Events.QueryEvent
 

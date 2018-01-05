@@ -5,10 +5,10 @@ open System.Windows.Input
 open Nikeza.Common
 open Nikeza.DataTransfer
 open Nikeza.Mobile.UILogic
-open Nikeza.Mobile.Profile.Commands
 open Nikeza.Mobile.UILogic.Publisher
-open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Profile
+open Nikeza.Mobile.Profile.Commands
+open Nikeza.Mobile.Profile.Try
 
 type ViewModel(saveFn:SaveFn) as x =
 

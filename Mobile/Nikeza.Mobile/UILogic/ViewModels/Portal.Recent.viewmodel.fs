@@ -2,10 +2,10 @@
 
 open Nikeza.Common
 open Nikeza.DataTransfer
+open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.UILogic.Publisher
 open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Query
-open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Portfolio
 
 type PortfolioEvent =     Nikeza.Mobile.Portfolio.Events.QueryEvent

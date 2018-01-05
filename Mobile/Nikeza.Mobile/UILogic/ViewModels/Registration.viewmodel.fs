@@ -2,11 +2,11 @@ namespace Nikeza.Mobile.UILogic.Registration
 
 open System.Windows.Input
 open Nikeza.Mobile.UILogic
-open Nikeza.Mobile.Profile.Commands.Registration
-open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.UILogic.Publisher
-open Adapter
+open Nikeza.Mobile.UILogic.Adapter
 open Nikeza.Mobile.Profile
+open Nikeza.Mobile.Profile.Events
+open Nikeza.Mobile.Profile.Commands.Registration
 
 module Updates =
     let statusOf formValidated events = 
