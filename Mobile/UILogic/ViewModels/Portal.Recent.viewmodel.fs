@@ -13,6 +13,8 @@ type SubscriptionsEvent = Nikeza.Mobile.Subscriptions.Events.QueryEvent
 
 type ViewModel(user:Provider, getRecent:RecentFn) =
 
+    inherit ViewModelBase()
+
     let portfolioEvent =     new Event<PortfolioEvent>()
     let subscriptionsEvent = new Event<SubscriptionsEvent>()
 

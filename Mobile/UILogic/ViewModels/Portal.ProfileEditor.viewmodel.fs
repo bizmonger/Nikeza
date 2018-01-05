@@ -12,6 +12,8 @@ open Nikeza.Mobile.Profile.Try
 
 type ViewModel(saveFn:SaveFn) as x =
 
+    inherit ViewModelBase()
+
     let eventOcurred = new Event<_>()
 
     let mutable profile = None

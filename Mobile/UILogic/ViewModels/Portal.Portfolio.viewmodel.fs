@@ -15,14 +15,16 @@ open Nikeza.Mobile.Portfolio.Query
 type PortfolioQuery = Nikeza.Mobile.Portfolio.Events.QueryEvent
 
 type Depedencies = {
-    UserId :        ProviderId
-    ProviderId :    ProviderId
-    PortfolioFn :  PortfolioFn
-    FollowFn :      FollowFn
-    UnsubscribeFn : UnsubscribeFn
+        UserId :        ProviderId
+        ProviderId :    ProviderId
+        PortfolioFn :   PortfolioFn
+        FollowFn :      FollowFn
+        UnsubscribeFn : UnsubscribeFn
 }
 
 type ViewModel(injected) =
+
+    inherit ViewModelBase()
 
     let mutable provider =  None
     let eventsFromQuery =   Event<PortfolioQuery>()
