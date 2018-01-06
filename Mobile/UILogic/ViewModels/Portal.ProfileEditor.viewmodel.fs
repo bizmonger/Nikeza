@@ -10,7 +10,7 @@ open Nikeza.Mobile.Profile
 open Nikeza.Mobile.Profile.Commands
 open Nikeza.Mobile.Profile.Try
 
-type ViewModel(saveFn:SaveFn) as x =
+type ViewModel(user:Profile, saveFn:SaveFn) as x =
 
     inherit ViewModelBase()
 
@@ -24,7 +24,7 @@ type ViewModel(saveFn:SaveFn) as x =
 
     let canSave() =
         let refreshState =
-            profile <- Some { Profile = { Id = ""
+            profile <- Some { Profile = { Id =       user.Id
                                           FirstName= x.FirstName
                                           LastName=  x.LastName
                                           Email=     x.Email

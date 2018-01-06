@@ -23,3 +23,8 @@ type PageRequested =
     | Podcasts          of ProviderId
                         
     | TopicLinks        of Profile
+
+    with member x.TryProfile() =
+                  match x with
+                  | Portal profile -> Some profile
+                  | _              -> None

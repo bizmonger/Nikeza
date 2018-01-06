@@ -1,10 +1,9 @@
 ﻿using System.Windows;
-using Microsoft.FSharp.Core;
 using Nikeza.Mobile.AppLogic;
 using Nikeza.Mobile.UILogic;
-using static Nikeza.Common;
-using static Nikeza.Mobile.Profile.Registration;
-using static Nikeza.Mobile.AppLogic.TestAPI;
+using Registration = Nikeza.Mobile.UILogic.Registration.ViewModel;
+using ProfileEditor = Nikeza.Mobile.UILogic.Portal.ProfileEditor.ViewModel;
+using static Desktop.App.FunctionFactory;
 
 namespace Desktop.App
 {
@@ -16,14 +15,27 @@ namespace Desktop.App
         {
             InitializeComponent();
 
-            var cs_submit = FSharpFunc<ValidatedForm, FSharpResult<ProfileRequest, ValidatedForm>>.FromConverter(mockSubmit);
-            var registration = new Nikeza.Mobile.UILogic.Registration.ViewModel(cs_submit);
-            _viewmodels = new ViewModels(registration);
+            var registration =         new Registration(SubmitRegistration());
+            var profileEditor_nulled = new ProfileEditor(null, null);
+            _viewmodels = new ViewModels(registration, profileEditor_nulled);
 
             var navigation = new Navigation(_viewmodels);
-            navigation.Requested += (s, e) => { if (e.IsPortal) AppFrame.Navigate(new PortalPage()); };
+            navigation.Requested += (s, e) => 
+                {
+                    if (e.IsPortal) HandleProfileEditor(e);
+                };
 
             AppFrame.Navigate(new RegistrationPage());
+        }
+
+        void HandleProfileEditor(Pages.PageRequested pageRequested)
+        {
+            AppFrame.Navigate(new PortalPage());
+
+            var profile =       pageRequested.TryProfile().Value;
+            var profileEditor = new ProfileEditor(profile, SaveProfile());
+
+            _viewmodels.ProfileEditor = profileEditor;
         }
 
         public ViewModels ViewModels() => _viewmodels;
