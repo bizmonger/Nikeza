@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.6</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Nikeza.Mobile.UILogic</AssemblyName>
   </PropertyGroup>
 
@@ -17,6 +17,7 @@
     <Compile Include="ViewModels\Portal.Subscriptions.viewmodel.fs" />
     <Compile Include="ViewModels\Portal.ProfileEditor.viewmodel.fs" />
     <Compile Include="ViewModels\Portal.Portfolio.viewmodel.fs" />
+    <Compile Include="ViewModels.fs" />
   </ItemGroup>
 
   <ItemGroup>

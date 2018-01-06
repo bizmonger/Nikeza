@@ -1,22 +1,22 @@
-﻿using System.Windows;
+﻿using System.Windows.Controls;
 using Microsoft.FSharp.Core;
 using Nikeza.Mobile.Profile;
 using Nikeza.Mobile.UILogic.Registration;
 using static Nikeza.Common;
 using static Nikeza.Mobile.Profile.Registration;
+using static Nikeza.Mobile.AppLogic.TestAPI;
 
 namespace Desktop.App
 {
-    public partial class MainWindow : Window
+    public partial class RegistrationPage : Page
     {
         ViewModel _viewmodel;
 
-        public MainWindow()
+        public RegistrationPage()
         {
             InitializeComponent();
 
-            var cs_submit = FSharpFunc<ValidatedForm, FSharpResult<ProfileRequest,ValidatedForm>>.FromConverter(Try.submit);
-            _viewmodel = new ViewModel(cs_submit);
+            // TODO: Assign viewmodel here...
 
             Password.PasswordChanged += (s, e) =>
                 {

@@ -1,17 +1,23 @@
 ﻿namespace Nikeza.Mobile.AppLogic
 
+open System.Collections.Generic
+open Nikeza.Mobile.AppLogic.TestAPI
+open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.UILogic.Pages
 open Nikeza.Mobile.UILogic.Registration
 open Nikeza.Mobile.Profile.Events
-open Nikeza.Mobile.Profile
 
-type Navigation() =
+type Navigation(viewmodels) =
 
-    let request page = () // Todo...
+    let requested = Event<_>()
+    let request page = requested.Trigger(page)
 
     let toPage = function
-        | RegistrationSucceeded _ -> PageRequested.Portal
-        | RegistrationFailed    _ -> PageRequested.RegistrationError
+        | RegistrationSucceeded profile -> profile |> PageRequested.Portal
+        | RegistrationFailed    form    -> form    |> PageRequested.RegistrationError
 
-    let viewModel = ViewModel(Try.submit)
-    do viewModel.EventOccured.Add(fun event -> event |> toPage |> request)
+    let viewModel = viewmodels.Registration
+    do viewModel.PageRequested.Add(fun event -> event |> toPage |> request)
+
+    [<CLIEvent>]
+    member x.Requested = requested.Publish

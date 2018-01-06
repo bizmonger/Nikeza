@@ -9,8 +9,8 @@ type LoginFn =  Credentials      -> Result<Provider, Credentials>
 type LogoutFn = unit             -> Result<unit, unit>
 type SaveFn =   ValidatedProfile -> Result<Profile, ValidatedProfile>
 
-let submit : SubmitFn = 
-    fun registration -> Error registration
+//let submit : SubmitFn = 
+//    fun registration -> Error registration
 
 let internal logout : LogoutFn = 
     fun () -> Error ()

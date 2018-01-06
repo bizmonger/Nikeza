@@ -1,18 +1,20 @@
 module Nikeza.Mobile.UILogic.Pages
 
 open Nikeza.Common
+open Nikeza
+open Nikeza.Mobile.Profile.Registration
 
 type UnvalidatedForm = Nikeza.Mobile.Profile.Registration.UnvalidatedForm
 
 type PageRequested =
     | Registration
-    | RegistrationError of Profile
-    | Portal            of Profile
+    | RegistrationError of ValidatedForm
+    | Portal            of DataTransfer.Profile
     | EditProfile       of UnvalidatedForm
                         
-    | Latest            of Profile
-    | Subscriptions     of Profile
-    | Followers         of Profile
+    | Latest            of DataTransfer.Profile
+    | Subscriptions     of DataTransfer.Profile
+    | Followers         of DataTransfer.Profile
                         
     | Portfolio         of ProviderId
     | Videos            of ProviderId
