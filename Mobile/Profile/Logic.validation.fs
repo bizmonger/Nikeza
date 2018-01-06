@@ -1,5 +1,6 @@
 ﻿module internal Logic.Registration
 
+open System
 open Nikeza.Common
 open Nikeza.Mobile.Profile.Registration
 
@@ -12,16 +13,22 @@ let validate (unvalidatedForm:UnvalidatedForm) : Result<ValidatedForm, Unvalidat
 
     let  form = unvalidatedForm.Form
 
+    let (password,confirm) =
+        (form.Password |> function Password p -> p, form.Confirm  |> function Password p -> p)
+
     if   not (form.Email |> isValidEmail) then
          Error unvalidatedForm
 
-    elif form.Password <> form.Confirm then
+    elif String.length password < 3 then
+         Error unvalidatedForm
+
+    elif not (password = confirm) then
          Error unvalidatedForm
 
     else Ok { Form= form }
 
 let isValid (credentials:LogInRequest) =
-    let validEmail =    not <| System.String.IsNullOrEmpty(credentials.Email)
-    let validPassword = not <| System.String.IsNullOrEmpty(credentials.Password)
+    let validEmail =    not <| String.IsNullOrEmpty(credentials.Email)
+    let validPassword = not <| String.IsNullOrEmpty(credentials.Password)
 
     validEmail && validPassword

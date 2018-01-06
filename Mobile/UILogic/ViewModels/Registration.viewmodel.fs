@@ -44,8 +44,8 @@ type ViewModel(submitFn:Try.SubmitFn) as x =
 
     let validateCommand = DelegateCommand( (fun _ -> x.IsValidated <- validate()) , fun _ -> true)
 
-    let submitCommand =   DelegateCommand( (fun _ -> submit() |> ignore), 
-                                            fun _ -> x.IsValidated <- validate(); x.IsValidated )
+    let submitCommand =   DelegateCommand( (fun _ -> submit() ),
+                                            fun _ -> x.IsValidated <- validate(); true )
 
     let mutable email =    "<enter email address>"
     let mutable password = ""

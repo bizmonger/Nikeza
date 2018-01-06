@@ -18,7 +18,7 @@
         <TextBox Grid.Row="0" Text="{Binding Email}" />
         <PasswordBox Grid.Row="1" x:Name="Password" />
         <PasswordBox Grid.Row="2" x:Name="Confirm" />
-        <Button Grid.Row="3" Content="Submit" Height="30" Width="60" Command="{Binding Submit}" />
+        <Button Grid.Row="3" Content="Submit" Command="{Binding Submit}" IsEnabled="{Binding IsValidated, UpdateSourceTrigger=PropertyChanged}"  Height="30" Width="60"  />
 
     </Grid>
 </Window>
