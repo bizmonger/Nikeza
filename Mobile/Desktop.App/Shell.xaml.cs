@@ -1,9 +1,5 @@
 ﻿using System.Windows;
-using Nikeza.Mobile.AppLogic;
 using Nikeza.Mobile.UILogic;
-using Registration = Nikeza.Mobile.UILogic.Registration.ViewModel;
-using ProfileEditor = Nikeza.Mobile.UILogic.Portal.ProfileEditor.ViewModel;
-using static Desktop.App.FunctionFactory;
 
 namespace Desktop.App
 {
@@ -15,27 +11,14 @@ namespace Desktop.App
         {
             InitializeComponent();
 
-            var registration =         new Registration(SubmitRegistration());
-            var profileEditor_nulled = new ProfileEditor(null, null);
-            _viewmodels = new ViewModels(registration, profileEditor_nulled);
+            _viewmodels = InitViewmodels();
 
-            var navigation = new Navigation(_viewmodels);
-            navigation.Requested += (s, e) => 
+            new Nikeza.Mobile.AppLogic.Navigation(_viewmodels).Requested += (s, pageRequested) =>
                 {
-                    if (e.IsPortal) HandleProfileEditor(e);
+                    if (pageRequested.IsPortal) AppFrame.Load(pageRequested, _viewmodels);
                 };
 
             AppFrame.Navigate(new RegistrationPage());
-        }
-
-        void HandleProfileEditor(Pages.PageRequested pageRequested)
-        {
-            AppFrame.Navigate(new PortalPage());
-
-            var profile =       pageRequested.TryProfile().Value;
-            var profileEditor = new ProfileEditor(profile, SaveProfile());
-
-            _viewmodels.ProfileEditor = profileEditor;
         }
 
         public ViewModels ViewModels() => _viewmodels;

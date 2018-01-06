@@ -61,11 +61,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="FunctionFactory.cs" />
+    <Compile Include="NavigateTo.cs" />
     <Compile Include="PortalPage.xaml.cs">
       <DependentUpon>PortalPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="RegistrationPage.xaml.cs">
       <DependentUpon>RegistrationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shell.xaml.internal.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
     <Page Include="PortalPage.xaml">
       <SubType>Designer</SubType>
