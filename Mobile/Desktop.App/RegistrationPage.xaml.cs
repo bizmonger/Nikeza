@@ -5,6 +5,8 @@ using Nikeza.Mobile.UILogic.Registration;
 using static Nikeza.Common;
 using static Nikeza.Mobile.Profile.Registration;
 using static Nikeza.Mobile.AppLogic.TestAPI;
+using System.Windows;
+using Nikeza.Mobile.UILogic;
 
 namespace Desktop.App
 {
@@ -16,7 +18,10 @@ namespace Desktop.App
         {
             InitializeComponent();
 
-            // TODO: Assign viewmodel here...
+            var app = Application.Current as App;
+            var shell = app.MainWindow as Shell;
+
+            shell.RequestViewModels += (viewmodels) => _viewmodel = viewmodels.Registration;
 
             Password.PasswordChanged += (s, e) =>
                 {
