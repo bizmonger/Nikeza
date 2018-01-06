@@ -10,8 +10,7 @@ namespace Desktop.App
 {
     public partial class Shell : Window
     {
-        public delegate void RequestViewModelsHandler(ViewModels viewmodels);
-        public event RequestViewModelsHandler RequestViewModels;
+        ViewModels _viewmodels;
 
         public Shell()
         {
@@ -19,13 +18,14 @@ namespace Desktop.App
 
             var cs_submit = FSharpFunc<ValidatedForm, FSharpResult<ProfileRequest, ValidatedForm>>.FromConverter(mockSubmit);
             var registration = new Nikeza.Mobile.UILogic.Registration.ViewModel(cs_submit);
-            var viewmodels = new ViewModels(registration);
-            RequestViewModels(viewmodels);
+            _viewmodels = new ViewModels(registration);
 
-            var navigation = new Navigation(viewmodels);
+            var navigation = new Navigation(_viewmodels);
             navigation.Requested += (s, e) => { if (e.IsPortal) AppFrame.Navigate(new PortalPage()); };
 
             AppFrame.Navigate(new RegistrationPage());
         }
+
+        public ViewModels ViewModels() => _viewmodels;
     }
 }

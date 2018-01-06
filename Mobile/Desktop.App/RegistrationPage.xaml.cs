@@ -21,7 +21,7 @@ namespace Desktop.App
             var app = Application.Current as App;
             var shell = app.MainWindow as Shell;
 
-            shell.RequestViewModels += (viewmodels) => _viewmodel = viewmodels.Registration;
+            _viewmodel = shell.ViewModels().Registration;
 
             Password.PasswordChanged += (s, e) =>
                 {
@@ -35,7 +35,7 @@ namespace Desktop.App
                     _viewmodel.Validate.Execute(null);
                 };
 
-            DataContext = _viewmodel;
+                DataContext = _viewmodel;
         }
     }
 }
