@@ -62,6 +62,9 @@
     </ApplicationDefinition>
     <Compile Include="FunctionFactory.cs" />
     <Compile Include="NavigateTo.cs" />
+    <Compile Include="NavigateTo.internal.cs">
+      <DependentUpon>NavigateTo.cs</DependentUpon>
+    </Compile>
     <Compile Include="PortalPage.xaml.cs">
       <DependentUpon>PortalPage.xaml</DependentUpon>
     </Compile>

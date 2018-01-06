@@ -15,7 +15,7 @@ namespace Desktop.App
 
             new Nikeza.Mobile.AppLogic.Navigation(_viewmodels).Requested += (s, pageRequested) =>
                 {
-                    if (pageRequested.IsPortal) AppFrame.Load(pageRequested, _viewmodels);
+                    AppFrame.Load(pageRequested, _viewmodels);
                 };
 
             AppFrame.Navigate(new RegistrationPage());
