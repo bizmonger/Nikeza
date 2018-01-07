@@ -12,7 +12,7 @@ let ``Save edited profile`` () =
     // Setup
     let mutable saveOccurred = false
 
-    let profileEditor = ViewModel(mockSave)
+    let profileEditor = ViewModel(someUser, mockSave)
 
     profileEditor.EventOccurred
                  .Add(fun events ->

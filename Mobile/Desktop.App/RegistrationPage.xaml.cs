@@ -1,12 +1,6 @@
 ﻿using System.Windows.Controls;
-using Microsoft.FSharp.Core;
-using Nikeza.Mobile.Profile;
 using Nikeza.Mobile.UILogic.Registration;
-using static Nikeza.Common;
-using static Nikeza.Mobile.Profile.Registration;
-using static Nikeza.Mobile.AppLogic.TestAPI;
 using System.Windows;
-using Nikeza.Mobile.UILogic;
 
 namespace Desktop.App
 {
@@ -17,11 +11,8 @@ namespace Desktop.App
         public RegistrationPage()
         {
             InitializeComponent();
-
-            var app = Application.Current as App;
-            var shell = app.MainWindow as Shell;
-
-            _viewmodel = shell.ViewModels().Registration;
+            
+            _viewmodel = new ViewModel(FunctionFactory.SubmitRegistration());
 
             Password.PasswordChanged += (s, e) =>
                 {
@@ -35,7 +26,7 @@ namespace Desktop.App
                     _viewmodel.Validate.Execute(null);
                 };
 
-                DataContext = _viewmodel;
+            DataContext = _viewmodel;
         }
     }
 }

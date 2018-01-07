@@ -1,6 +1,7 @@
 ﻿module Nikeza.Mobile.TestAPI
 
 open Nikeza.Common
+open Nikeza.DataTransfer
 open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Subscriptions.Try
 open Nikeza.Mobile.Subscriptions.Events
@@ -22,6 +23,17 @@ let someProfile:ProfileRequest = {
     Bio =       ""
     Sources =   []
 }
+
+let someUser:Profile = { 
+    Id =        ""
+    FirstName = ""
+    LastName =  ""
+    Email =     ""
+    ImageUrl =  ""
+    Bio =       ""
+    Sources =   []
+}
+
 
 let somePortfolio = { 
     Answers  = []

@@ -1,14 +1,14 @@
-﻿using Nikeza.Mobile.UILogic;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using static Nikeza.Mobile.UILogic.Pages;
 
 namespace Desktop.App
 {
     public static partial class Navigation
     {
-        public static void Load(this Frame appFrame, Pages.PageRequested requested, ViewModels viewmodels)
+        public static void Load(this Frame appFrame, PageRequested requested)
         {
             if (requested.IsPortal)
-                ToPortal(appFrame, requested, viewmodels);
+                ToPortal(appFrame, requested);
         }
     }
 }

@@ -17,7 +17,6 @@
     <Compile Include="ViewModels\Portal.Subscriptions.viewmodel.fs" />
     <Compile Include="ViewModels\Portal.ProfileEditor.viewmodel.fs" />
     <Compile Include="ViewModels\Portal.Portfolio.viewmodel.fs" />
-    <Compile Include="ViewModels.fs" />
   </ItemGroup>
 
   <ItemGroup>

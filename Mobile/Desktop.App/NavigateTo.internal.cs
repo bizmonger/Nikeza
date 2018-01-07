@@ -8,14 +8,11 @@ namespace Desktop.App
 {
     public static partial class Navigation
     {
-        static void ToPortal(Frame appFrame, Pages.PageRequested pageRequested, ViewModels viewmodels)
+        static void ToPortal(Frame appFrame, Pages.PageRequested pageRequested)
         {
-            var profile = pageRequested.TryProfile().Value;
-            var profileEditor = new ProfileEditor(profile, SaveProfile());
-
-            viewmodels.ProfileEditor = profileEditor;
-
-            appFrame.Navigate(new PortalPage());
+            var page = new PortalPage();
+            page.DataContext = new ProfileEditor(pageRequested.TryProfile().Value, SaveProfile());
+            appFrame.Navigate(page);
         }
     }
 }

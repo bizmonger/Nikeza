@@ -71,9 +71,6 @@
     <Compile Include="RegistrationPage.xaml.cs">
       <DependentUpon>RegistrationPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Shell.xaml.internal.cs">
-      <DependentUpon>Shell.xaml</DependentUpon>
-    </Compile>
     <Page Include="PortalPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
