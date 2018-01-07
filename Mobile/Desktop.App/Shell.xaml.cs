@@ -1,7 +1,5 @@
 ﻿using System.Windows;
 
-using AppNavigation = Nikeza.Mobile.AppLogic.Navigation;
-
 namespace Desktop.App
 {
     public partial class Shell : Window
@@ -9,10 +7,13 @@ namespace Desktop.App
         public Shell()
         {
             InitializeComponent();
-            
-            new AppNavigation().Requested += (sender, requested) => AppFrame.Load(requested);
 
-            AppFrame.Navigate(new RegistrationPage());
+            var registrationPage = new RegistrationPage();
+            var registrationViewmodel = registrationPage.DataContext as Nikeza.Mobile.UILogic.Registration.ViewModel;
+
+            registrationViewmodel.PageRequested += navigateFromRegistration;
+            
+            AppFrame.Navigate(registrationPage);
         }
     }
 }

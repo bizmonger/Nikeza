@@ -1,6 +1,5 @@
 ﻿using System.Windows.Controls;
 using Nikeza.Mobile.UILogic.Registration;
-using System.Windows;
 
 namespace Desktop.App
 {

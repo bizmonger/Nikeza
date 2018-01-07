@@ -28,3 +28,10 @@ type ProfileEvent =
     | ProfileSaveFailed   of ValidatedProfile
     | Subscribed          of ProviderId
     | Unsubscribed        of ProviderId
+
+type RegistrationSubmissionEvent with
+    member x.TryGetProfile() = 
+           match x with
+           | RegistrationSucceeded profile -> Some profile
+           | _                             -> None
+    
