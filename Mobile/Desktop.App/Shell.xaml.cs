@@ -8,11 +8,7 @@ namespace Desktop.App
         {
             InitializeComponent();
 
-            var registrationPage = new RegistrationPage();
-            var registrationViewmodel = registrationPage.DataContext as Nikeza.Mobile.UILogic.Registration.ViewModel;
-
-            registrationViewmodel.PageRequested += navigateFromRegistration;
-            
+            var registrationPage = InitRegistration();
             AppFrame.Navigate(registrationPage);
         }
     }
