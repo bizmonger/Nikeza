@@ -2,7 +2,7 @@
 
 open Nikeza.DataTransfer
 
-type private ValidatedForm =   Nikeza.Mobile.Profile.Registration.ValidatedForm
+type private ValidatedForm = Nikeza.Mobile.Profile.Registration.ValidatedForm
 
 type SubmitFn = ValidatedForm    -> Result<Profile, ValidatedForm>
 type LoginFn =  Credentials      -> Result<Provider, Credentials>

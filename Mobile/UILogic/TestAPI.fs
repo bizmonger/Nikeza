@@ -24,8 +24,20 @@ let someProfileRequest = {
     Nikeza.Common.ProfileRequest.Sources =   []
 }
 
+open Nikeza.Mobile.Profile.Registration
+
+let someValidatedForm = { 
+   Form = { Email= Email ""
+            Password= Password ""
+            Confirm=  Password ""
+          }
+    }
+
 let mockSubmit : SubmitFn =
     fun _ -> Ok someProfile
+
+let mockFailedSubmit : SubmitFn =
+    fun _ -> Error someValidatedForm
 
 let mockSave : SaveFn =
     fun _ -> Ok someProfileRequest
