@@ -1,5 +1,6 @@
 ﻿using Nikeza.Mobile.Profile;
 using static Desktop.App.FunctionFactory;
+using RegistrationViewModel = Nikeza.Mobile.UILogic.Registration.ViewModel;
 using ProfileEditorViewmodel = Nikeza.Mobile.UILogic.Portal.ProfileEditor.ViewModel;
 
 namespace Desktop.App
@@ -9,9 +10,9 @@ namespace Desktop.App
         RegistrationPage InitRegistration()
         {
             var registrationPage = new RegistrationPage();
-            var registrationViewmodel = registrationPage.DataContext as Nikeza.Mobile.UILogic.Registration.ViewModel;
+            var registration = registrationPage.DataContext as RegistrationViewModel;
 
-            registrationViewmodel.PageRequested += navigateFromRegistration;
+            registration.EventOccurred += navigateFromRegistration;
             return registrationPage;
         }
 

@@ -30,7 +30,7 @@ let ``Registration submitted after being validated`` () =
     let registration = ViewModel(mockSubmit)
 
     registration.FillIn()
-                .PageRequested
+                .EventOccurred
                 .Add(fun event -> 
                          event |> function
                                   | RegistrationSucceeded _ -> registrationSucceeded <- true

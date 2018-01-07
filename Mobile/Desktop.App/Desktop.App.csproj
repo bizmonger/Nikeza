@@ -123,10 +123,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Nikeza.Mobile.AppLogic.fsproj">
-      <Project>{ba119a86-ef80-4854-95fc-7b0e2aed524a}</Project>
-      <Name>Nikeza.Mobile.AppLogic</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Profile\Nikeza.Mobile.Profile.fsproj">
       <Project>{a98e9556-cf8a-46b3-9cf5-760c657a0850}</Project>
       <Name>Nikeza.Mobile.Profile</Name>

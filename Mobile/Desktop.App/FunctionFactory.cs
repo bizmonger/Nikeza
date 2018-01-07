@@ -1,7 +1,7 @@
 ﻿using Microsoft.FSharp.Core;
 using static Nikeza.Common;
 using static Nikeza.Mobile.Profile.Registration;
-using static Nikeza.Mobile.AppLogic.TestAPI;
+using static Nikeza.Mobile.UILogic.TestAPI;
 using static Nikeza.DataTransfer;
 
 namespace Desktop.App

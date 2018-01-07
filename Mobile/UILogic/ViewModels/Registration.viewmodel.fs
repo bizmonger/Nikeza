@@ -56,7 +56,7 @@ type ViewModel(submitFn:Try.SubmitFn) as x =
     member x.Submit =   submitCommand   :> ICommand
 
     [<CLIEvent>]
-    member x.PageRequested = eventOccurred.Publish
+    member x.EventOccurred = eventOccurred.Publish
 
     member x.Email
              with get() =      email 

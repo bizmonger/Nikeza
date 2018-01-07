@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Compile Include="TestAPI.fs" />
-    <Compile Include="Commands.fs" />
   </ItemGroup>
 
   <ItemGroup>
