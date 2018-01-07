@@ -13,6 +13,8 @@ namespace Desktop.App
             
             _viewmodel = new ViewModel(FunctionFactory.SubmitRegistration());
 
+            Email.GotFocus += (s, e) => { Email.Text = ""; };
+
             Password.PasswordChanged += (s, e) =>
                 {
                     _viewmodel.Password = Password.Password;
