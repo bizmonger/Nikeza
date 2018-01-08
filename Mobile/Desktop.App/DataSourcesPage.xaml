@@ -3,10 +3,50 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Desktop.App"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="DataSourcesPage">
+      Title="Data Sources">
 
-    <Label Content="Data Sources" FontSize="36" Foreground="Blue" />
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+
+        <ListView Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Platforms}" SelectedItem="{Binding Platform}" />
+        <TextBox  Grid.Row="0" Grid.Column="1" Text="{Binding AccessId}" />
+        <Button   Grid.Row="0" Grid.Column="2" Command="{Binding Add}" Content="Add" />
+
+        <ListView ItemsSource="{Binding Sources}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0" Content="{Binding Platform}" />
+                        <Label Grid.Row="0" Grid.Column="1" Content="{Binding AccessId}" />
+                        
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+
 </Page>

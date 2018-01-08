@@ -1,8 +1,8 @@
 ﻿using System.Windows.Controls;
 using static Desktop.App.FunctionFactory;
-using RegistrationViewModel = Nikeza.Mobile.UILogic.Registration.ViewModel;
-using ProfileEditorViewmodel = Nikeza.Mobile.UILogic.Portal.ProfileEditor.ViewModel;
 using static Nikeza.Mobile.Profile.Events;
+using RegistrationViewModel =  Nikeza.Mobile.UILogic.Registration.ViewModel;
+using ProfileEditorViewmodel = Nikeza.Mobile.UILogic.Portal.ProfileEditor.ViewModel;
 using static Nikeza.Common;
 
 namespace Desktop.App
@@ -18,30 +18,30 @@ namespace Desktop.App
             return registrationPage;
         }
 
-        void FromRegistration(RegistrationSubmissionEvent disEvent)
+        void FromRegistration(RegistrationSubmissionEvent theEvent)
         {
-            if      (disEvent.IsRegistrationSucceeded)
-                        To.Portal(AppFrame, disEvent);
+            if      (theEvent.IsRegistrationSucceeded)
+                        To.Portal(AppFrame, theEvent);
 
-            else if (disEvent.IsRegistrationFailed)
-                        To.Error(AppFrame, disEvent);
+            else if (theEvent.IsRegistrationFailed)
+                        To.Error(AppFrame, theEvent);
         }
 
-        static void FromPortalEditor(Frame AppFrame, ProfileEvent disEvent)
+        static void FromPortalEditor(Frame AppFrame, ProfileEvent theEvent)
         {
-            if      (disEvent.IsProfileSaved)
-                        To.DataSources(AppFrame, disEvent.TryGetProfile().Value);
+            if      (theEvent.IsProfileSaved)
+                        To.DataSources(AppFrame, theEvent.TryGetProfile().Value);
 
-            else if (disEvent.IsProfileSaveFailed)
-                        To.Error(AppFrame, disEvent);
+            else if (theEvent.IsProfileSaveFailed)
+                        To.Error(AppFrame, theEvent);
         }
 
         private class To
         {
-            internal static void Portal(Frame AppFrame, RegistrationSubmissionEvent disEvent)
+            internal static void Portal(Frame AppFrame, RegistrationSubmissionEvent theEvent)
             {
                 var portalPage = new PortalPage();
-                var viewmodel =  new ProfileEditorViewmodel(disEvent.TryGetProfile().Value, SaveProfile());
+                var viewmodel =  new ProfileEditorViewmodel(theEvent.TryGetProfile().Value, SaveProfile());
 
                 viewmodel.EventOccurred += (s, e) => FromPortalEditor(AppFrame, e);
                 portalPage.DataContext =   viewmodel;
@@ -49,10 +49,10 @@ namespace Desktop.App
                 AppFrame.Navigate(portalPage);
             }
             
-            internal static void Error(Frame AppFrame, RegistrationSubmissionEvent disEvent) =>
+            internal static void Error(Frame AppFrame, RegistrationSubmissionEvent theEvent) =>
                 AppFrame.Navigate(new ErrorPage());
 
-            internal static void Error(Frame AppFrame, ProfileEvent disEvent) =>
+            internal static void Error(Frame AppFrame, ProfileEvent theEvent) =>
                 AppFrame.Navigate(new ErrorPage());
 
             internal static void DataSources(Frame AppFrame, ProfileRequest profile) =>

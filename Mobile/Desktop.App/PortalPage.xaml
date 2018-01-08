@@ -27,11 +27,15 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <TextBox x:Name="FirstName" Grid.Row="0" Text="{Binding FirstName}" />
-        <TextBox x:Name="LastName"  Grid.Row="1" Text="{Binding LastName}"  />
-        <TextBox x:Name="Email"     Grid.Row="2" Text="{Binding Email}"     />
-        <Button  Grid.Row="3" Content="Save"  Command="{Binding Save}" IsEnabled="{Binding IsValidated}" />
+        <TextBox x:Name= "FirstName" Grid.Row="0" Text=   "{Binding FirstName}" />
+        <TextBox x:Name= "LastName"  Grid.Row="1" Text=   "{Binding LastName}"  />
+        <TextBox x:Name= "Email"     Grid.Row="2" Text=   "{Binding Email}"     />
+        
+        <ComboBox ItemsSource="{Binding Topics}" />
+        <Button Content="Save" Grid.Row="4" Command="{Binding Save}" IsEnabled="{Binding IsValidated}" />
+        
     </Grid>
 </Page>
