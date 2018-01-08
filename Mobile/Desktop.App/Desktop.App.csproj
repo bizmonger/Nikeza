@@ -70,8 +70,8 @@
     <Compile Include="PortalPage.xaml.internal.cs">
       <DependentUpon>PortalPage.xaml.cs</DependentUpon>
     </Compile>
-    <Compile Include="RegistrationErrorPage.xaml.cs">
-      <DependentUpon>RegistrationErrorPage.xaml</DependentUpon>
+    <Compile Include="ErrorPage.xaml.cs">
+      <DependentUpon>ErrorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="RegistrationPage.xaml.cs">
       <DependentUpon>RegistrationPage.xaml</DependentUpon>
@@ -87,7 +87,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RegistrationErrorPage.xaml">
+    <Page Include="ErrorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
