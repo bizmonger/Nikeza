@@ -76,7 +76,13 @@
     <Compile Include="RegistrationPage.xaml.cs">
       <DependentUpon>RegistrationPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Shell.xaml.internal.cs">
+    <Compile Include="Shell.xaml.datasources.cs">
+      <DependentUpon>Shell.xaml.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Shell.xaml.profileeditor.cs">
+      <DependentUpon>Shell.xaml.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Shell.xaml.registration.cs">
       <DependentUpon>Shell.xaml.cs</DependentUpon>
     </Compile>
     <Page Include="DataSourcesPage.xaml">
