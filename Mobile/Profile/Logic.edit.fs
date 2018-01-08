@@ -2,7 +2,7 @@
 
 open Nikeza.DataTransfer
 
-type private Validate = EditedProfile   -> Result<ValidatedProfile, EditedProfile>
+type private Validate = EditedProfile -> Result<ValidatedProfile, EditedProfile>
 
 let validate : Validate =
     fun edit ->

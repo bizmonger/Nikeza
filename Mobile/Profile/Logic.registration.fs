@@ -1,9 +1,10 @@
 ﻿module internal Are.Registration
 
-open Nikeza.Mobile.Profile.Commands
 open Nikeza.Mobile.Profile.Events
 
 module Submission =
+    open Nikeza.Mobile.Profile.Commands.Registration.Submit
+
     type private RegistrationSubmission = ResultOf.Submit -> RegistrationSubmissionEvent list
 
     let events : RegistrationSubmission =
@@ -15,12 +16,14 @@ module Submission =
                                                          | Error form    -> [ RegistrationFailed    form ]
 
 module Validation =
-    type private RegistrationValidation = ResultOf.Validation -> RegistrationValidationEvent list
+    open Nikeza.Mobile.Profile.Commands.Registration.Validate
+
+    type private RegistrationValidation = ResultOf.Validate -> RegistrationValidationEvent list
 
     let events : RegistrationValidation =
         fun resultOf -> 
             resultOf |> function
-                        ResultOf.Validation.Executed result -> 
+                        ResultOf.Validate.Executed result -> 
                                                      result |> function
                                                                | Error form -> [FormNotValidated form]
                                                                | Ok    form -> [FormValidated    form]

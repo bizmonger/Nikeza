@@ -21,13 +21,17 @@ type SessionEvent =
     | LogoutFailed
 
 type ProfileEvent =
-    | ProfileValidated    of ValidatedProfile
-    | ProfileNotValidated of EditedProfile
     | ProfileRequested    of ProfileId
-    | ProfileSaved        of Profile
-    | ProfileSaveFailed   of ValidatedProfile
+
+type SubscriptionEvent =
     | Subscribed          of ProviderId
     | Unsubscribed        of ProviderId
+
+type ProfileEditorEvent =
+    | ProfileValidated    of ValidatedProfile
+    | ProfileNotValidated of EditedProfile
+    | ProfileSaved        of Profile
+    | ProfileSaveFailed   of ValidatedProfile
 
 type RegistrationSubmissionEvent with
     member x.TryGetProfile() = 
@@ -35,7 +39,7 @@ type RegistrationSubmissionEvent with
            | RegistrationSucceeded profile -> Some profile
            | _                             -> None
 
-type ProfileEvent with
+type ProfileEditorEvent with
     member x.TryGetProfile() =
            match x with
            | ProfileSaved profile -> Some profile

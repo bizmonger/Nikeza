@@ -14,8 +14,8 @@ type ViewModel() as x =
         not <| String.IsNullOrEmpty x.Platform &&
                String.IsNullOrEmpty x.AccessId
 
-    let add =    DelegateCommand( (fun _ -> todo...) , fun _ -> canAdd() )
-    let remove = DelegateCommand( (fun _ -> todo...) , fun _ -> true )
+    let add =    DelegateCommand( (fun _ -> () (*todo...*)) , fun _ -> canAdd() )
+    let remove = DelegateCommand( (fun _ -> () (*todo...*)) , fun _ -> true )
 
     member x.Platform
              with get() =      platform

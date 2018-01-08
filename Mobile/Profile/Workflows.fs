@@ -7,6 +7,8 @@ open Logic
 open Try
 
 module SubmitRegistration =
+    open Submit
+
     type private SubmitWorkflow = SubmitFn -> Command -> RegistrationSubmissionEvent list
 
     let workflow : SubmitWorkflow =
@@ -17,13 +19,15 @@ module SubmitRegistration =
                                  |> Are.Registration.Submission.events
 
 module ValidateRegistration =
+    open Registration.Validate
+
     type private ValidateWorkflow = Validate -> RegistrationValidationEvent list
 
     let workflow : ValidateWorkflow =
         fun command -> command |> function
             Validate.Execute form -> 
                              form |> Registration.validate
-                                  |> ResultOf.Validation.Executed
+                                  |> ResultOf.Validate.Executed
                                   |> Are.Registration.Validation.events
 
 module Session =
@@ -41,15 +45,22 @@ module Session =
                                        |> Are.Session.events
 
 module Edit =
-    type private EditWorkflow = SaveFn -> EditCommand -> ProfileEvent list
+    open Commands.ProfileEditor.Validate
+    open Commands.ProfileEditor.Save
+
+    type private EditWorkflow = SaveFn -> EditCommand -> ProfileEditorEvent list
 
     let workflow : EditWorkflow = 
         fun saveFn command -> command |> function
         | EditCommand.Validate profile -> 
                                profile |> Edit.validate 
                                        |> ResultOf.Editor.Validate
-                                       |> Are.Edit.events
+                                       |> Are.Edit.Validate.events
         | EditCommand.Save     profile -> 
                                profile |> saveFn
                                        |> ResultOf.Editor.Save
-                                       |> Are.Edit.events
+                                       |> Are.Edit.Save.events
+
+//module AddSource =
+//    type private AddWorkflow = Source -> AddComand -> AddSourceEvent list
+//    todo...

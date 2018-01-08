@@ -27,7 +27,7 @@ namespace Desktop.App
                         To.Error(AppFrame, theEvent);
         }
 
-        static void FromPortalEditor(Frame AppFrame, ProfileEvent theEvent)
+        static void FromPortalEditor(Frame AppFrame, ProfileEditorEvent theEvent)
         {
             if      (theEvent.IsProfileSaved)
                         To.DataSources(AppFrame, theEvent.TryGetProfile().Value);
@@ -52,7 +52,7 @@ namespace Desktop.App
             internal static void Error(Frame AppFrame, RegistrationSubmissionEvent theEvent) =>
                 AppFrame.Navigate(new ErrorPage());
 
-            internal static void Error(Frame AppFrame, ProfileEvent theEvent) =>
+            internal static void Error(Frame AppFrame, ProfileEditorEvent theEvent) =>
                 AppFrame.Navigate(new ErrorPage());
 
             internal static void DataSources(Frame AppFrame, ProfileRequest profile) =>
