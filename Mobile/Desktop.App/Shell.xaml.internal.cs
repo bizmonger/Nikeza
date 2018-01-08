@@ -1,9 +1,9 @@
 ﻿using System.Windows.Controls;
+using static Nikeza.Common;
 using static Desktop.App.FunctionFactory;
 using static Nikeza.Mobile.Profile.Events;
 using RegistrationViewModel =  Nikeza.Mobile.UILogic.Registration.ViewModel;
 using ProfileEditorViewmodel = Nikeza.Mobile.UILogic.Portal.ProfileEditor.ViewModel;
-using static Nikeza.Common;
 
 namespace Desktop.App
 {
