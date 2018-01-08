@@ -75,11 +75,16 @@ type ViewModel(user:Profile, saveFn:SaveFn) as x =
         with get() =     topics    
         and set(value) = topics    <- value
                          base.NotifyPropertyChanged (<@ x.Topics @>)
-
-
+                         
     member x.IsValidated
              with get() =      isValidated
              and  set(value) = isValidated <- value
                                base.NotifyPropertyChanged (<@ x.IsValidated @>)
 
     member x.EventOccurred = eventOcurred.Publish
+
+    member x.FirstNameDefault
+             with get() = firstName
+
+    member x. LastNameDefault 
+              with get() = lastName

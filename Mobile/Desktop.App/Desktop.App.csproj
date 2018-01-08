@@ -64,6 +64,9 @@
     <Compile Include="PortalPage.xaml.cs">
       <DependentUpon>PortalPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PortalPage.xaml.internal.cs">
+      <DependentUpon>PortalPage.xaml.cs</DependentUpon>
+    </Compile>
     <Compile Include="RegistrationErrorPage.xaml.cs">
       <DependentUpon>RegistrationErrorPage.xaml</DependentUpon>
     </Compile>
