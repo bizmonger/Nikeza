@@ -16,11 +16,11 @@ namespace Desktop.App
         void FocusResonse(TextBox textbox, string compareValue)
         {
             _viewmodel = DataContext as ViewModel;
+            
+            if ( textbox.Text == compareValue )
+                 textbox.Text = "";
 
-            textbox.SelectAll();
-
-            if (textbox.Text == compareValue)
-                textbox.Text = "";
+            else textbox.SelectAll();
         }
     }
 }
