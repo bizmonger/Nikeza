@@ -24,10 +24,10 @@ let ``Save edited profile`` () =
     profileEditor.LastName  <- someLastName
     profileEditor.Email     <- someEmail
 
-    profileEditor.ValidateCommand.Execute()
+    profileEditor.Validate.Execute()
 
     // Test
-    profileEditor.SaveCommand.Execute()
+    profileEditor.Save.Execute()
 
     // Verify
     saveOccurred |> should equal true

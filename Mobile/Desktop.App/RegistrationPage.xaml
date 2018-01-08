@@ -7,6 +7,27 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Nikeza - Registration">
 
+    <Page.Resources>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Width"  Value="200" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="TextAlignment" Value="Center" />
+        </Style>
+
+        <Style TargetType="PasswordBox">
+            <Setter Property="Width"  Value="200" />
+            <Setter Property="Margin" Value="10" />
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Height"     Value="20" />
+            <Setter Property="Width"      Value="60" />
+            <Setter Property="Background" Value="#FF21BAF3" />
+        </Style>
+
+    </Page.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -15,10 +36,10 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <TextBox     Grid.Row="0" x:Name="Email" Text="{Binding Email}" Width="200" Margin="10" TextAlignment="Center" />
-        <PasswordBox Grid.Row="1" x:Name="Password" Width="200"  Margin="10" />
-        <PasswordBox Grid.Row="2" x:Name="Confirm"  Width="200"  Margin="10" />
-        <Button      Grid.Row="3" Content="Join" Command="{Binding Submit}" IsEnabled="{Binding IsValidated, UpdateSourceTrigger=PropertyChanged}"  Height="20" Width="60" Background="#FF21BAF3"   />
+        <TextBox     Grid.Row="0" x:Name="Email" Text="{Binding Email}" />
+        <PasswordBox Grid.Row="1" x:Name="Password" />
+        <PasswordBox Grid.Row="2" x:Name="Confirm"  />
+        <Button      Grid.Row="3" Content="Join" Command="{Binding Submit}" IsEnabled="{Binding IsValidated}"   />
 
     </Grid>
 </Page>

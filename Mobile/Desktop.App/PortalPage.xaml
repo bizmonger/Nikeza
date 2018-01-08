@@ -3,10 +3,35 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Desktop.App"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Portal">
 
-        <Label Content="Portal" FontSize="36" Foreground="Blue" />
+    <Page.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Width"  Value="200" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="TextAlignment" Value="Center" />
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Width"  Value="60" />
+            <Setter Property="Height" Value="20" />
+        </Style>
+        
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <TextBox x:Name="FirstName" Grid.Row="0" Text="{Binding FirstName}" />
+        <TextBox x:Name="LastName"  Grid.Row="1" Text="{Binding LastName}"  />
+        <TextBox x:Name="Email"     Grid.Row="2" Text="{Binding Email}"     />
+        <Button  Grid.Row="3" Content="Save"  Command="{Binding Save}" IsEnabled="{Binding IsValidated}" />
+    </Grid>
 </Page>
