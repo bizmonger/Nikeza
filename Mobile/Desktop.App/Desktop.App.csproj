@@ -60,6 +60,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataSourcesPage.xaml.cs">
+      <DependentUpon>DataSourcesPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FunctionFactory.cs" />
     <Compile Include="PortalPage.xaml.cs">
       <DependentUpon>PortalPage.xaml</DependentUpon>
@@ -76,6 +79,10 @@
     <Compile Include="Shell.xaml.internal.cs">
       <DependentUpon>Shell.xaml.cs</DependentUpon>
     </Compile>
+    <Page Include="DataSourcesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PortalPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

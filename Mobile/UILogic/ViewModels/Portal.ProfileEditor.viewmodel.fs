@@ -33,7 +33,6 @@ type ViewModel(user:Profile, saveFn:SaveFn) as x =
                          ImageUrl=  ""
                          Sources=   []
                        }
-                                  
     
         if not ( String.IsNullOrWhiteSpace (x.FirstName) &&
                                  String.IsNullOrWhiteSpace (x.LastName ) &&
@@ -81,6 +80,7 @@ type ViewModel(user:Profile, saveFn:SaveFn) as x =
              and  set(value) = isValidated <- value
                                base.NotifyPropertyChanged (<@ x.IsValidated @>)
 
+    [<CLIEvent>]
     member x.EventOccurred = eventOcurred.Publish
 
     member x.FirstNameDefault

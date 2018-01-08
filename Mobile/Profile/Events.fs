@@ -34,4 +34,9 @@ type RegistrationSubmissionEvent with
            match x with
            | RegistrationSucceeded profile -> Some profile
            | _                             -> None
-    
+
+type ProfileEvent with
+    member x.TryGetProfile() =
+           match x with
+           | ProfileSaved profile -> Some profile
+           | _                    -> None
