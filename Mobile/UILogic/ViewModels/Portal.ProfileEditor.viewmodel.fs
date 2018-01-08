@@ -32,17 +32,18 @@ type ViewModel(user:Profile, saveFn:SaveFn) as x =
                          FirstName= x.FirstName
                          LastName=  x.LastName
                          Email=     x.Email
-                         Bio=       ""
-                         ImageUrl=  ""
-                         Sources=   []
+                         Bio=       user.Bio
+                         ImageUrl=  user.ImageUrl
+                         Sources=   user.Sources
                        }
     
-        if not ( String.IsNullOrWhiteSpace (x.FirstName) &&
-                                 String.IsNullOrWhiteSpace (x.LastName ) &&
-                                 String.IsNullOrWhiteSpace (x.Email    ) )
+        if not <| String.IsNullOrWhiteSpace x.FirstName &&
+                  String.IsNullOrWhiteSpace x.LastName  &&
+                  String.IsNullOrWhiteSpace x.Email    
 
            then refreshState
                 x.IsValidated <- true;  true
+
            else x.IsValidated <- false; false
 
     let save() = 

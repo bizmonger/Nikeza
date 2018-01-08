@@ -1,16 +1,21 @@
 ﻿namespace Nikeza.Mobile.Portal.DataSources
 
+open System
 open Nikeza.Mobile.UILogic
 
-type ViewModel() =
+type ViewModel() as x =
     inherit ViewModelBase()
 
     let mutable platform = ""
     let mutable accessId = ""
     let mutable sources =  ""
 
-    let add =    DelegateCommand( (fun _ -> ()) , fun _ -> true )
-    let remove = DelegateCommand( (fun _ -> ()) , fun _ -> true )
+    let canAdd() =
+        not <| String.IsNullOrEmpty x.Platform &&
+               String.IsNullOrEmpty x.AccessId
+
+    let add =    DelegateCommand( (fun _ -> todo...) , fun _ -> canAdd() )
+    let remove = DelegateCommand( (fun _ -> todo...) , fun _ -> true )
 
     member x.Platform
              with get() =      platform
