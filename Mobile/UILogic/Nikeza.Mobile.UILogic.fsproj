@@ -12,6 +12,7 @@
     <Compile Include="DelegateCommand.fs" />
     <Compile Include="TestAPI.fs" />
     <Compile Include="ViewModelBase.fs" />
+    <Compile Include="ViewModels\Portal.DataSources.viewmodel.fs" />
     <Compile Include="ViewModels\Registration.viewmodel.fs" />
     <Compile Include="ViewModels\Portal.Recent.viewmodel.fs" />
     <Compile Include="ViewModels\Portal.Members.viewmodel.fs" />
