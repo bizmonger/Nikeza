@@ -16,12 +16,12 @@ type ViewModel(user:Profile, saveFn:SaveFn) as x =
 
     let eventOcurred = new Event<_>()
 
-    let mutable defaultFirstName = "<first name>"
-    let mutable defaultLastName =  "<last name>"
+    let mutable firstNamePlaceholder = "<first name>"
+    let mutable lastNamePlaceholder =  "<last name>"
 
     let mutable profile =     user
-    let mutable firstName =   defaultFirstName
-    let mutable lastName =    defaultLastName
+    let mutable firstName =   firstNamePlaceholder
+    let mutable lastName =    lastNamePlaceholder
     let mutable email =       user.Email
     let mutable topics =      []
     let mutable isValidated = false
@@ -88,7 +88,7 @@ type ViewModel(user:Profile, saveFn:SaveFn) as x =
     member x.EventOccurred = eventOcurred.Publish
 
     member x.FirstNameDefault
-             with get() = defaultFirstName
+             with get() = firstNamePlaceholder
 
     member x. LastNameDefault 
-              with get() = defaultLastName
+              with get() = lastNamePlaceholder
