@@ -32,15 +32,3 @@ type ProfileEditorEvent =
     | ProfileNotValidated of EditedProfile
     | ProfileSaved        of Profile
     | ProfileSaveFailed   of ValidatedProfile
-
-type RegistrationSubmissionEvent with
-    member x.TryGetProfile() = 
-           match x with
-           | RegistrationSucceeded profile -> Some profile
-           | _                             -> None
-
-type ProfileEditorEvent with
-    member x.TryGetProfile() =
-           match x with
-           | ProfileSaved profile -> Some profile
-           | _                    -> None

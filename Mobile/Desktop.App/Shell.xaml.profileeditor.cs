@@ -1,6 +1,8 @@
 ﻿using System.Windows.Controls;
-using static Desktop.App.FunctionFactory;
+using static Nikeza.Mobile.Profile.EventExtraction.ProfileEditorEventExtension;
+using static Nikeza.Mobile.Profile.EventExtraction.RegistrationSubmissionEventExtension;
 using static Nikeza.Mobile.Profile.Events;
+using static Desktop.App.FunctionFactory;
 using ProfileEditorViewmodel = Nikeza.Mobile.UILogic.Portal.ProfileEditor.ViewModel;
 
 namespace Desktop.App
