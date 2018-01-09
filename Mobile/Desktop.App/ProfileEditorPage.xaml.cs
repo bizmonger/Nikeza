@@ -8,10 +8,10 @@ namespace Desktop.App
         {
             InitializeComponent();
             
-            FirstName.GotFocus    += (s, e) => { FirstName.FocusResonse(_viewmodel.FirstNamePlaceholder, _viewmodel, DataContext); };
+            FirstName.GotFocus    += (s, e) => { FirstName.FocusResonse(_viewmodel, _viewmodel.FirstNamePlaceholder, DataContext); };
             FirstName.TextChanged += (s, e) => { InputResponse(); };
 
-            LastName.GotFocus     += (s, e) => { LastName.FocusResonse(_viewmodel.LastNamePlaceholder,   _viewmodel, DataContext); };
+            LastName.GotFocus     += (s, e) => { LastName.FocusResonse (_viewmodel, _viewmodel.LastNamePlaceholder,  DataContext); };
             LastName.TextChanged  += (s, e) => { InputResponse(); };
                                   
             Email.TextChanged     += (s, e) => { InputResponse(); };

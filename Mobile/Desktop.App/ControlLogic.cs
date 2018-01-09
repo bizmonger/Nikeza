@@ -4,7 +4,7 @@ namespace Desktop.App
 {
     static class ControlLogic
     {
-        internal static void FocusResonse<ViewModel>(this TextBox textbox, string compareValue, ViewModel viewmodel, object dataContext) where ViewModel : class
+        internal static void FocusResonse<ViewModel>(this TextBox textbox, ViewModel viewmodel, string compareValue, object dataContext) where ViewModel : class
         {
             viewmodel = dataContext as ViewModel;
 
@@ -14,7 +14,7 @@ namespace Desktop.App
             else textbox.SelectAll();
         }
 
-        internal static void FocusResonse<ViewModel>(this PasswordBox textbox, string compareValue, ViewModel viewmodel, object dataContext) where ViewModel : class
+        internal static void FocusResonse<ViewModel>(this PasswordBox textbox, ViewModel viewmodel, string compareValue, object dataContext) where ViewModel : class
         {
             viewmodel = dataContext as ViewModel;
 
