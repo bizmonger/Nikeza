@@ -9,7 +9,7 @@ namespace Desktop.App
 {
     public partial class Shell
     {
-        static void FromPortalEditor(Frame AppFrame, ProfileEditorEvent theEvent)
+        static void FromProfileEditor(Frame AppFrame, ProfileEditorEvent theEvent)
         {
             if (theEvent.IsProfileSaved)
                 ToDataSources(AppFrame, theEvent.TryGetProfile().Value);
@@ -23,7 +23,7 @@ namespace Desktop.App
             var portalPage = new PortalPage();
             var viewmodel = new ProfileEditorViewmodel(theEvent.TryGetProfile().Value, SaveProfile());
 
-            viewmodel.EventOccurred += (s, e) => FromPortalEditor(AppFrame, e);
+            viewmodel.EventOccurred += (s, e) => FromProfileEditor(AppFrame, e);
             portalPage.DataContext = viewmodel;
 
             AppFrame.Navigate(portalPage);
