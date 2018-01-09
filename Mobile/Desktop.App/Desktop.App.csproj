@@ -60,18 +60,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ControlLogic.cs" />
     <Compile Include="DataSourcesPage.xaml.cs">
       <DependentUpon>DataSourcesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="FunctionFactory.cs" />
-    <Compile Include="PortalPage.xaml.cs">
-      <DependentUpon>PortalPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PortalPage.xaml.internal.cs">
-      <DependentUpon>PortalPage.xaml.cs</DependentUpon>
+    <Compile Include="ProfileEditorPage.xaml.cs">
+      <DependentUpon>ProfileEditorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ErrorPage.xaml.cs">
       <DependentUpon>ErrorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileEditorPage.xaml.internal.cs">
+      <DependentUpon>ProfileEditorPage.xaml.cs</DependentUpon>
     </Compile>
     <Compile Include="RegistrationPage.xaml.cs">
       <DependentUpon>RegistrationPage.xaml</DependentUpon>
@@ -89,7 +90,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PortalPage.xaml">
+    <Page Include="ProfileEditorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

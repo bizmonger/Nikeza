@@ -87,8 +87,8 @@ type ViewModel(user:Profile, saveFn:SaveFn) as x =
     [<CLIEvent>]
     member x.EventOccurred = eventOcurred.Publish
 
-    member x.FirstNameDefault
+    member x.FirstNamePlaceholder
              with get() = firstNamePlaceholder
 
-    member x. LastNameDefault 
+    member x. LastNamePlaceholder
               with get() = lastNamePlaceholder

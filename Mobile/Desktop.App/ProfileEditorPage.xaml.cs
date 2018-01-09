@@ -2,16 +2,16 @@
 
 namespace Desktop.App
 {
-    public partial class PortalPage : Page
+    public partial class ProfileEditorPage : Page
     {
-        public PortalPage()
+        public ProfileEditorPage()
         {
             InitializeComponent();
             
-            FirstName.GotFocus    += (s, e) => { FocusResonse(FirstName, _viewmodel.FirstNameDefault); };
+            FirstName.GotFocus    += (s, e) => { FirstName.FocusResonse(_viewmodel.FirstNamePlaceholder, _viewmodel, DataContext); };
             FirstName.TextChanged += (s, e) => { InputResponse(); };
 
-            LastName.GotFocus     += (s, e) => { FocusResonse(LastName,  _viewmodel.LastNameDefault); };
+            LastName.GotFocus     += (s, e) => { LastName.FocusResonse(_viewmodel.LastNamePlaceholder,   _viewmodel, DataContext); };
             LastName.TextChanged  += (s, e) => { InputResponse(); };
                                   
             Email.TextChanged     += (s, e) => { InputResponse(); };

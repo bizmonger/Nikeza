@@ -47,9 +47,13 @@ type ViewModel(submitFn:Try.SubmitFn) as x =
     let submitCommand =   DelegateCommand( (fun _ -> submit() ),
                                             fun _ -> x.IsValidated <- validate(); true )
 
-    let mutable email =    "<enter email address>"
-    let mutable password = ""
-    let mutable confirm =  ""
+    let emailPlaceholder =    "enter email address"
+    let passwordPlaceholder = "password"
+    let confirmPlaceholder =  "confirm"
+
+    let mutable email =    emailPlaceholder
+    let mutable password = passwordPlaceholder
+    let mutable confirm =  confirmPlaceholder
     let mutable isValidated = false
 
     member x.Validate = validateCommand :> ICommand
@@ -75,3 +79,7 @@ type ViewModel(submitFn:Try.SubmitFn) as x =
              with get() =      isValidated
              and  set(value) = isValidated <- value
                                base.NotifyPropertyChanged (<@ x.IsValidated @>)
+
+    member x.EmailPlaceholder = emailPlaceholder
+    member x.PasswordPlaceholder = emailPlaceholder
+    member x.ConfirmPlaceholder = emailPlaceholder

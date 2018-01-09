@@ -20,7 +20,7 @@ namespace Desktop.App
 
         static void ToProfileEditor(Frame AppFrame, RegistrationSubmissionEvent theEvent)
         {
-            var portalPage = new PortalPage();
+            var portalPage = new ProfileEditorPage();
             var viewmodel = new ProfileEditorViewmodel(theEvent.TryGetProfile().Value, SaveProfile());
 
             viewmodel.EventOccurred += (s, e) => FromProfileEditor(AppFrame, e);
