@@ -48,8 +48,8 @@ type ViewModel(user:Profile, saveFn:SaveFn) as x =
 
     let save() = 
         { Profile= profile }
-           |> EditCommand.Save 
-           |> In.Edit.workflow saveFn
+           |> SaveCommand.Save 
+           |> In.Edit.Save.workflow saveFn
            |> publishEvents eventOcurred
                 
 

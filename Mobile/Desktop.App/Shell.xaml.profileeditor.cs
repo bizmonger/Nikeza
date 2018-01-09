@@ -9,7 +9,7 @@ namespace Desktop.App
 {
     public partial class Shell
     {
-        static void FromProfileEditor(Frame AppFrame, ProfileEditorEvent theEvent)
+        static void FromProfileEditor(Frame AppFrame, ProfileSaveEvent theEvent)
         {
             if (theEvent.IsProfileSaved)
                 ToDataSources(AppFrame, theEvent.TryGetProfile().Value);
@@ -29,7 +29,7 @@ namespace Desktop.App
             AppFrame.Navigate(portalPage);
         }
 
-        static void ToError(Frame AppFrame, ProfileEditorEvent theEvent) =>
+        static void ToError(Frame AppFrame, ProfileSaveEvent theEvent) =>
             AppFrame.Navigate(new ErrorPage());
     }
 }

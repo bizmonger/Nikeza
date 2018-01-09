@@ -9,9 +9,8 @@ type SessionCommand =
     | Login  of Credentials
     | Logout 
 
-type EditCommand =                      
-    | Validate of EditedProfile
-    | Save     of ValidatedProfile
+type ValidateCommand = Validate of EditedProfile
+type SaveCommand = Save of ValidatedProfile
 
 module Registration =
     type Validate =  Execute of UnvalidatedForm

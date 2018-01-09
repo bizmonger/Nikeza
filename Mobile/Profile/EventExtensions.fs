@@ -14,7 +14,7 @@ type RegistrationSubmissionEventExtension () =
 [<Extension>]
 type ProfileEditorEventExtension () =
     [<Extension>]
-    static member TryGetProfile(x:ProfileEditorEvent) =
+    static member TryGetProfile(x:ProfileSaveEvent) =
            match x with
            | ProfileSaved profile -> Some profile
            | _                    -> None

@@ -27,8 +27,10 @@ type SubscriptionEvent =
     | Subscribed          of ProviderId
     | Unsubscribed        of ProviderId
 
-type ProfileEditorEvent =
+type ProfileValidateEvent =
     | ProfileValidated    of ValidatedProfile
     | ProfileNotValidated of EditedProfile
+
+type ProfileSaveEvent =
     | ProfileSaved        of Profile
     | ProfileSaveFailed   of ValidatedProfile

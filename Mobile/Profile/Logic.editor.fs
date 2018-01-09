@@ -4,7 +4,7 @@ open Nikeza.Mobile.Profile.Events
 
 module Validate =
     open Nikeza.Mobile.Profile.Commands.ProfileEditor.Validate
-    type private Handle = ResultOf.Editor -> ProfileEditorEvent list
+    type private Handle = ResultOf.Editor -> ProfileValidateEvent list
 
     let events : Handle =
         fun response -> 
@@ -17,12 +17,12 @@ module Validate =
 module Save =
     open Nikeza.Mobile.Profile.Commands.ProfileEditor.Save
 
-    type private Handle = ResultOf.Editor -> ProfileEditorEvent list
+    type private Handle = ResultOf.Editor -> ProfileSaveEvent list
 
     let events : Handle =
         fun response -> 
             response |> function
-                        | ResultOf.Editor.Save     result -> 
-                                                   result |> function
-                                                             | Ok    profile -> [ProfileSaved      profile]
-                                                             | Error profile -> [ProfileSaveFailed profile]
+                         ResultOf.Editor.Save result -> 
+                                              result |> function
+                                                        | Ok    profile -> [ProfileSaved      profile]
+                                                        | Error profile -> [ProfileSaveFailed profile]
