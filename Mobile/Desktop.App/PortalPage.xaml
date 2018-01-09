@@ -18,6 +18,11 @@
             <Setter Property="Width"  Value="60" />
             <Setter Property="Height" Value="20" />
         </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Margin" Value="10" />
+        </Style>
         
     </Page.Resources>
 
@@ -34,7 +39,8 @@
         <TextBox x:Name= "LastName"  Grid.Row="1" Text=   "{Binding LastName}"  />
         <TextBox x:Name= "Email"     Grid.Row="2" Text=   "{Binding Email}"     />
         
-        <ComboBox ItemsSource="{Binding Topics}" />
+        <ComboBox Grid.Row="3" ItemsSource="{Binding Topics}" IsEditable="True" />
+        
         <Button Content="Save" Grid.Row="4" Command="{Binding Save}" IsEnabled="{Binding IsValidated}" />
         
     </Grid>
