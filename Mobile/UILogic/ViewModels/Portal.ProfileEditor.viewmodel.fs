@@ -7,7 +7,6 @@ open Nikeza.DataTransfer
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.UILogic.Publisher
 open Nikeza.Mobile.Profile
-open Nikeza.Mobile.Profile.Commands
 open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Profile.Commands.ProfileEditor
 
@@ -15,7 +14,7 @@ type ViewModel(user:Profile, saveFn:SaveFn) as x =
 
     inherit ViewModelBase()
 
-    let eventOcurred = new Event<_>()
+    let saveEvent = new Event<_>()
 
     let mutable firstNamePlaceholder = "<first name>"
     let mutable lastNamePlaceholder =  "<last name>"
@@ -49,9 +48,9 @@ type ViewModel(user:Profile, saveFn:SaveFn) as x =
 
     let save() = 
         { Profile= profile }
-           |> SaveCommand.Save 
-           |> In.Edit.Save.workflow saveFn
-           |> publishEvents eventOcurred
+           |> SaveCommand.Execute 
+           |> In.Editor.Save.workflow saveFn
+           |> publishEvents saveEvent
                 
 
     member x.Validate = DelegateCommand( (fun _ -> canSave() |> ignore) , 
@@ -86,7 +85,7 @@ type ViewModel(user:Profile, saveFn:SaveFn) as x =
                                base.NotifyPropertyChanged (<@ x.IsValidated @>)
 
     [<CLIEvent>]
-    member x.EventOccurred = eventOcurred.Publish
+    member x.EventOccurred = saveEvent.Publish
 
     member x.FirstNamePlaceholder
              with get() = firstNamePlaceholder

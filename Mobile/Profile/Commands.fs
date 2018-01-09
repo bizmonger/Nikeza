@@ -21,8 +21,8 @@ module Registration =
 
 module ProfileEditor =
 
-    type ValidateCommand = Validate of EditedProfile
-    type SaveCommand =     Save of ValidatedProfile
+    type ValidateCommand = Execute of EditedProfile
+    type SaveCommand =     Execute of ValidatedProfile
 
     module Validate =
         module ResultOf =
