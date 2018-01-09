@@ -55,9 +55,9 @@ module Editor =
         let workflow : ValidateWorkflow = 
             fun command -> command |> function
              ValidateCommand.Execute form -> 
-                                     form |> Edit.validate 
+                                     form |> Editor.validate 
                                           |> ResultOf.Editor.Validate
-                                          |> Are.Edit.Validate.events
+                                          |> Are.Editor.Validate.events
 
     module Save =
         open Commands.ProfileEditor.Save
@@ -70,7 +70,7 @@ module Editor =
              SaveCommand.Execute profile -> 
                                  profile |> saveFn
                                          |> ResultOf.Editor.Save
-                                         |> Are.Edit.Save.events
+                                         |> Are.Editor.Save.events
 
 //module AddSource =
 //    type private AddWorkflow = Source -> AddComand -> AddSourceEvent list
