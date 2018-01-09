@@ -47,27 +47,29 @@ module Session =
 module Edit =
     module Validate =
         open Commands.ProfileEditor.Validate
+        open Commands.ProfileEditor
         
         type private ValidateWorkflow = ValidateCommand -> ProfileValidateEvent list
 
         let workflow : ValidateWorkflow = 
             fun command -> command |> function
-             ValidateCommand.Validate profile -> 
-                                      profile |> Edit.validate 
-                                              |> ResultOf.Editor.Validate
-                                              |> Are.Edit.Validate.events
+             Validate profile -> 
+                      profile |> Edit.validate 
+                              |> ResultOf.Editor.Validate
+                              |> Are.Edit.Validate.events
 
     module Save =
         open Commands.ProfileEditor.Save
+        open Commands.ProfileEditor
 
         type private SaveWorkflow = SaveFn -> SaveCommand -> ProfileSaveEvent list
 
         let workflow : SaveWorkflow = 
             fun saveFn command -> command |> function
-             SaveCommand.Save     profile -> 
-                                  profile |> saveFn
-                                          |> ResultOf.Editor.Save
-                                          |> Are.Edit.Save.events
+             Save profile -> 
+                  profile |> saveFn
+                          |> ResultOf.Editor.Save
+                          |> Are.Edit.Save.events
 
 //module AddSource =
 //    type private AddWorkflow = Source -> AddComand -> AddSourceEvent list

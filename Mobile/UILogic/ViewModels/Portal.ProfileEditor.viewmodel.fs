@@ -9,6 +9,7 @@ open Nikeza.Mobile.UILogic.Publisher
 open Nikeza.Mobile.Profile
 open Nikeza.Mobile.Profile.Commands
 open Nikeza.Mobile.Profile.Try
+open Nikeza.Mobile.Profile.Commands.ProfileEditor
 
 type ViewModel(user:Profile, saveFn:SaveFn) as x =
 

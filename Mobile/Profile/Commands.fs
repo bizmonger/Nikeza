@@ -9,9 +9,6 @@ type SessionCommand =
     | Login  of Credentials
     | Logout 
 
-type ValidateCommand = Validate of EditedProfile
-type SaveCommand = Save of ValidatedProfile
-
 module Registration =
     type Validate =  Execute of UnvalidatedForm
     type Command =   Execute of ValidatedForm
@@ -23,6 +20,10 @@ module Registration =
         module ResultOf = type Submit = Executed of Result<Nikeza.DataTransfer.Profile, ValidatedForm>
 
 module ProfileEditor =
+
+    type ValidateCommand = Validate of EditedProfile
+    type SaveCommand =     Save of ValidatedProfile
+
     module Validate =
         module ResultOf =
             type Editor =     Validate of Result<ValidatedProfile, EditedProfile>
