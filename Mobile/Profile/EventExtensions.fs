@@ -1,4 +1,4 @@
-﻿module Nikeza.Mobile.Profile.EventExtraction
+﻿module Nikeza.Mobile.Profile.EventExtentions
 
 open System.Runtime.CompilerServices
 open Nikeza.Mobile.Profile.Events
