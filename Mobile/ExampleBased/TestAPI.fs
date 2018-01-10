@@ -64,22 +64,22 @@ let mockSubmit : SubmitFn =
                 }
 
 let mockRecent : RecentFn =
-    fun _ -> [GetRecentSucceeded [someProvider]]
+    fun _ -> Query.RecentSucceeded [someProvider]
 
 let mockMembers : MembersFn =
-    fun _ -> [GetMembersSucceeded [someProvider]]
+    fun _ -> Query.MembersSucceeded [someProvider]
 
 let mockSubscriptions : SubscriptionsFn =
-    fun _ -> [GetSubscriptionsSucceeded [someProvider]]
+    fun _ -> Query.SubscriptionsSucceeded [someProvider]
 
 let mockSave : SaveFn =
     fun _ -> Ok someProfile
 
 let mockTopics : TopicsFn =
-    fun _ -> GetTopicsSucceeded [{Id=0; Name="F#" }]
+    fun _ -> Query.TopicsSucceeded [{Id=0; Name="F#" }]
 
 let mockPortfolio : PortfolioFn =
-    fun _ -> [GetPortfolioSucceeded someProvider]
+    fun _ -> Query.Succeeded someProvider
 
 let mockFollow : FollowFn =
     fun _ -> Ok {User= someProvider; Provider=someProvider}

@@ -12,7 +12,7 @@ open Nikeza.Mobile.Subscriptions.Events
 let ``Load recent links from providers`` () =
     
     // Setup
-    let viewmodel = Recent.ViewModel(someProvider, mockRecent)
+    let viewmodel = Recent.ViewModel(someProvider, mockRecent, mockPortfolio)
     
     // Test
     viewmodel.Load()
