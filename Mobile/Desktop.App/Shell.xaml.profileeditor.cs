@@ -21,9 +21,9 @@ namespace Desktop.App
         static void ToProfileEditor(Frame AppFrame, RegistrationSubmissionEvent theEvent)
         {
             var portalPage = new ProfileEditorPage();
-            var viewmodel = new ProfileEditorViewmodel(theEvent.TryGetProfile().Value, SaveProfile());
+            var viewmodel = new ProfileEditorViewmodel(theEvent.TryGetProfile().Value, SaveProfile(), GetTopics());
 
-            viewmodel.EventOccurred += (s, e) => FromProfileEditor(AppFrame, e);
+            viewmodel.SaveEvent += (s, e) => FromProfileEditor(AppFrame, e);
             portalPage.DataContext = viewmodel;
 
             AppFrame.Navigate(portalPage);

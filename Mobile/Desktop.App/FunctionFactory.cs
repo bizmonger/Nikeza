@@ -3,6 +3,7 @@ using static Nikeza.Common;
 using static Nikeza.Mobile.Profile.Registration;
 using static Nikeza.Mobile.UILogic.TestAPI;
 using static Nikeza.DataTransfer;
+using static Nikeza.Mobile.Profile.Events;
 
 namespace Desktop.App
 {
@@ -13,5 +14,8 @@ namespace Desktop.App
 
         internal static FSharpFunc<ValidatedProfile, FSharpResult<ProfileRequest, ValidatedProfile>> SaveProfile() =>
             FSharpFunc<ValidatedProfile, FSharpResult<ProfileRequest, ValidatedProfile>>.FromConverter(mockSave);
+
+        internal static FSharpFunc<Unit, GetTopicsEvent> GetTopics() =>
+            FSharpFunc<Unit, GetTopicsEvent>.FromConverter(mockTopics);
     }
 }

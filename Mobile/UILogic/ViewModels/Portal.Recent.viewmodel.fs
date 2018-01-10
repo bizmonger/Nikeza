@@ -11,7 +11,7 @@ open Nikeza.Mobile.Portfolio
 type PortfolioEvent =     Nikeza.Mobile.Portfolio.Events.QueryEvent
 type SubscriptionsEvent = Nikeza.Mobile.Subscriptions.Events.QueryEvent
 
-type ViewModel(user:Provider, getRecent:RecentFn) =
+type ViewModel(user:Provider, recentFn:RecentFn) =
 
     inherit ViewModelBase()
 
@@ -40,7 +40,7 @@ type ViewModel(user:Provider, getRecent:RecentFn) =
              and  set(value) = recent    <- value
 
     member x.Load() =
-        getRecent <| ProfileId user.Profile.Id
+        recentFn <| ProfileId user.Profile.Id
          |> function
             | GetRecentSucceeded providers :: [] -> recent <- providers
-            | otherEvents -> publishEvents subscriptionsEvent otherEvents
+            | other -> publishEvents subscriptionsEvent other

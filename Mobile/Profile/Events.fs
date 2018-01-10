@@ -34,3 +34,7 @@ type ProfileValidateEvent =
 type ProfileSaveEvent =
     | ProfileSaved        of Profile
     | ProfileSaveFailed   of ValidatedProfile
+
+type GetTopicsEvent =
+    | GetTopicsSucceeded  of Topic list
+    | GetTopicsFailed     of string

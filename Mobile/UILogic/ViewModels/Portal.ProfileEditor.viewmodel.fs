@@ -8,13 +8,17 @@ open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.UILogic.Publisher
 open Nikeza.Mobile.Profile
 open Nikeza.Mobile.Profile.Try
+open Nikeza.Mobile.Profile.Query
+open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.Profile.Commands.ProfileEditor
+open System.Collections.ObjectModel
 
-type ViewModel(user:Profile, saveFn:SaveFn) as x =
+type ViewModel(user:Profile, saveFn:SaveFn, topicsFn:TopicsFn) as x =
 
     inherit ViewModelBase()
 
-    let saveEvent = new Event<_>()
+    let saveEvent =   new Event<_>()
+    let topicsEvent = new Event<_>()
 
     let mutable firstNamePlaceholder = "<first name>"
     let mutable lastNamePlaceholder =  "<last name>"
@@ -23,7 +27,7 @@ type ViewModel(user:Profile, saveFn:SaveFn) as x =
     let mutable firstName =   firstNamePlaceholder
     let mutable lastName =    lastNamePlaceholder
     let mutable email =       user.Email
-    let mutable topics =      []
+    let mutable topics =      ObservableCollection<string>()
     let mutable isValidated = false
 
     let canSave() =
@@ -60,35 +64,44 @@ type ViewModel(user:Profile, saveFn:SaveFn) as x =
                                           fun _ -> canSave() ) :> ICommand
 
     member x.FirstName
-        with get() =     firstName
-        and set(value) = firstName <- value
-                         base.NotifyPropertyChanged (<@ x.FirstName @>)
+        with get() =       firstName
+        and set(value) =   firstName <- value
+                           base.NotifyPropertyChanged (<@ x.FirstName @>)
 
     member x.LastName
-        with get() =     lastName
-        and set(value) = lastName  <- value
-                         base.NotifyPropertyChanged (<@ x.LastName @>)
+        with get() =       lastName
+        and set(value) =   lastName  <- value
+                           base.NotifyPropertyChanged (<@ x.LastName @>)
 
     member x.Email
-        with get() =     email
-        and set(value) = email     <- value
-                         base.NotifyPropertyChanged (<@ x.Email @>)
-                                   
-    member x.Topics                
-        with get() =     topics    
-        and set(value) = topics    <- value
-                         base.NotifyPropertyChanged (<@ x.Topics @>)
+        with get() =       email
+        and set(value) =   email     <- value
+                           base.NotifyPropertyChanged (<@ x.Email @>)
+                                     
+    member x.Topics                  
+        with get() =       topics    
+        and set(value) =   topics    <- value
+                           base.NotifyPropertyChanged (<@ x.Topics @>)
                          
     member x.IsValidated
-             with get() =      isValidated
-             and  set(value) = isValidated <- value
-                               base.NotifyPropertyChanged (<@ x.IsValidated @>)
+         with get() =      isValidated
+         and  set(value) = isValidated <- value
+                           base.NotifyPropertyChanged (<@ x.IsValidated @>)
 
-    [<CLIEvent>]
-    member x.EventOccurred = saveEvent.Publish
+    member x.Load() =
+        topicsFn()
+         |> function
+            | GetTopicsSucceeded v -> topics <- ObservableCollection(v |> Seq.map (fun topic -> topic.Name))
+            | other -> publishEvent topicsEvent other
 
     member x.FirstNamePlaceholder
-             with get() = firstNamePlaceholder
+        with get() = firstNamePlaceholder
 
-    member x. LastNamePlaceholder
-              with get() = lastNamePlaceholder
+    member x.LastNamePlaceholder
+        with get() = lastNamePlaceholder
+
+    [<CLIEvent>]
+    member x.SaveEvent =   saveEvent.Publish
+
+    [<CLIEvent>]
+    member x.TopicsEvent = topicsEvent.Publish

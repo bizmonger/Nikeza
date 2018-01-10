@@ -3,6 +3,8 @@
 open Nikeza.Common
 open Nikeza.DataTransfer
 open Nikeza.Mobile.Profile.Try
+open Nikeza.Mobile.Profile.Query
+open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.Subscriptions.Try
 open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Query
@@ -72,6 +74,9 @@ let mockSubscriptions : SubscriptionsFn =
 
 let mockSave : SaveFn =
     fun _ -> Ok someProfile
+
+let mockTopics : TopicsFn =
+    fun _ -> GetTopicsSucceeded [{Id=0; Name="F#" }]
 
 let mockPortfolio : PortfolioFn =
     fun _ -> [GetPortfolioSucceeded someProvider]

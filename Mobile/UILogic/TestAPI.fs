@@ -1,7 +1,8 @@
 ﻿module Nikeza.Mobile.UILogic.TestAPI
 
-
 open Nikeza.Mobile.Profile.Try
+open Nikeza.Mobile.Profile.Query
+open Nikeza.Mobile.Profile.Events
 open Nikeza.DataTransfer
 
 let someProfile = {
@@ -41,3 +42,6 @@ let mockFailedSubmit : SubmitFn =
 
 let mockSave : SaveFn =
     fun _ -> Ok someProfileRequest
+
+let mockTopics : TopicsFn =
+    fun _ -> GetTopicsSucceeded [{Id=0; Name="F#"}]
