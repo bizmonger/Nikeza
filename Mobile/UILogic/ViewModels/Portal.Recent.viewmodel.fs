@@ -8,7 +8,7 @@ open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio
 
-type PortfolioEvent =     Nikeza.Mobile.Portfolio.Events.QueryEvent
+type PortfolioEvent =     Nikeza.Mobile.Portfolio.Events.GetPortfolioEvent
 type SubscriptionsEvent = Nikeza.Mobile.Subscriptions.Events.QueryEvent
 
 type ViewModel(user:Provider, recentFn:RecentFn) =
@@ -26,7 +26,7 @@ type ViewModel(user:Provider, recentFn:RecentFn) =
                      | Some provider -> provider.Profile.Id 
                                          |> ProviderId  
                                          |> Query.portfolio
-                                         |> publishEvents portfolioEvent
+                                         |> publishEvent portfolioEvent
                      | None -> ()
 
     member x.ViewProvider = DelegateCommand( (fun _ -> viewProvider() ), fun _ -> selection.IsSome)
