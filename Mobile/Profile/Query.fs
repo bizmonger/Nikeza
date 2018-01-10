@@ -2,7 +2,7 @@
 
 open Nikeza.Mobile.Profile.Events
 
-type TopicsFn = unit-> GetTopicsEvent
+type TopicsFn = unit-> Query
 
 let topics : TopicsFn =
-    fun _ -> GetTopicsFailed "Not Implemented..."
+    fun _ -> TopicsFailed "Not Implemented..."

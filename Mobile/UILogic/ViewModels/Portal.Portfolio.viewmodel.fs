@@ -85,8 +85,8 @@ type ViewModel(injected) =
              injected.ProviderId 
               |> injected.PortfolioFn
               |> function
-                 | Succeeded p -> provider <- Some p
-                 | otherEvents -> otherEvents |> publishEvent queryEvent
+                 | Query.Succeeded p -> provider <- Some p
+                 | Query.Failed   id -> publishEvent pageRequested <| Pages.PortfolioError {Context=id; Description="Failed to load portfolio"}
 
     member x.QueryEvents() =   queryEvent.Publish
     member x.CommandEvents() = commandEvents.Publish

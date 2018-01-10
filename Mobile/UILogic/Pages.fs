@@ -27,6 +27,8 @@ type PageRequested =
                         
     | TopicLinks        of Profile
 
+    | Error             of string error
+
     with member x.TryProfile() =
                   match x with
                   | Portal profile -> Some profile

@@ -91,8 +91,8 @@ type ViewModel(user:Profile, saveFn:SaveFn, topicsFn:TopicsFn) as x =
     member x.Load() =
         topicsFn()
          |> function
-            | GetTopicsSucceeded v -> topics <- ObservableCollection(v |> Seq.map (fun topic -> topic.Name))
-            | other -> publishEvent topicsEvent other
+            | Query.TopicsSucceeded v -> topics <- ObservableCollection(v |> Seq.map (fun topic -> topic.Name))
+            | Query.TopicsFailed _    -> publishEvent topicsEvent Pages.Error
 
     member x.FirstNamePlaceholder
         with get() = firstNamePlaceholder

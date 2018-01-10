@@ -35,6 +35,6 @@ type ProfileSaveEvent =
     | ProfileSaved        of Profile
     | ProfileSaveFailed   of ValidatedProfile
 
-type GetTopicsEvent =
-    | GetTopicsSucceeded  of Topic list
-    | GetTopicsFailed     of string
+type Query =
+    | TopicsSucceeded  of Topic list
+    | TopicsFailed     of string

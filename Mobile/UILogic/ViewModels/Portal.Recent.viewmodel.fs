@@ -6,7 +6,6 @@ open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.UILogic.Publisher
 open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Query
-open Nikeza.Mobile.Portfolio
 open Nikeza.Mobile.Portfolio.Events
 open Nikeza.Mobile.Portfolio.Query
 open Nikeza.Mobile.UILogic.Pages
@@ -14,7 +13,7 @@ open Nikeza.Mobile.UILogic.Pages
 type PortfolioEvent =     Nikeza.Mobile.Portfolio.Events.Query
 type SubscriptionsEvent = Nikeza.Mobile.Subscriptions.Events.Query
 
-type ViewModel(user:Provider, recentFn:RecentFn, portfolioFn:PortfolioFn) =
+type ViewModel(user:Provider, queryRecent:RecentFn, queryPortfolio:PortfolioFn) =
 
     inherit ViewModelBase()
 
@@ -30,7 +29,7 @@ type ViewModel(user:Provider, recentFn:RecentFn, portfolioFn:PortfolioFn) =
             | Some provider -> 
                    provider.Profile.Id 
                     |> ProviderId  
-                    |> Query.portfolio
+                    |> queryPortfolio
                     |> function
                        | Query.Succeeded p  -> publishEvent pageRequested <| Portfolio p
                        | Query.Failed   id  -> publishEvent pageRequested <| PortfolioError { Context=id; Description="Failed to get portfolio" }
@@ -47,7 +46,7 @@ type ViewModel(user:Provider, recentFn:RecentFn, portfolioFn:PortfolioFn) =
              and  set(value) = recent    <- value
 
     member x.Load() =
-        recentFn <| ProfileId user.Profile.Id
+        queryRecent <| ProfileId user.Profile.Id
          |> function
             | Query.RecentSucceeded providers -> recent <- providers
             | other -> publishEvent subscriptionsEvent other
