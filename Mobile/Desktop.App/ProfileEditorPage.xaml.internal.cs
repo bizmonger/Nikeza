@@ -11,7 +11,6 @@ namespace Desktop.App
         void InputResponse(TextBox textbox, string placeholder)
         {
             _viewmodel = DataContext as ViewModel;
-            _viewmodel.Validate.Execute(null);
 
             if (textbox.Text == "" && !textbox.IsFocused)
                 textbox.Text = placeholder;

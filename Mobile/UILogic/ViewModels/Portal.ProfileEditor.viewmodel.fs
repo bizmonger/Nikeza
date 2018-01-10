@@ -33,7 +33,7 @@ type ViewModel(user:Profile, saveFn:SaveFn, getTopics:TopicsFn) as x =
     let mutable isValidated =    false
 
     let canSave() =
-        let refreshState =
+        let refreshState() =
             profile <- { Id =       user.Id
                          FirstName= x.FirstName
                          LastName=  x.LastName
@@ -42,12 +42,17 @@ type ViewModel(user:Profile, saveFn:SaveFn, getTopics:TopicsFn) as x =
                          ImageUrl=  user.ImageUrl
                          Sources=   user.Sources
                        }
-    
-        if not <| String.IsNullOrWhiteSpace x.FirstName &&
-                  String.IsNullOrWhiteSpace x.LastName  &&
-                  String.IsNullOrWhiteSpace x.Email    
 
-           then refreshState
+        let containsDefault() = 
+            x.FirstName = firstNamePlaceholder ||
+            x.LastName  = lastNamePlaceholder
+
+        if not <| containsDefault() &&
+           not <| String.IsNullOrWhiteSpace x.FirstName &&
+           not <| String.IsNullOrWhiteSpace x.LastName  &&
+           not <| String.IsNullOrWhiteSpace x.Email
+
+           then refreshState()
                 x.IsValidated <- true;  true
 
            else x.IsValidated <- false; false
@@ -62,32 +67,38 @@ type ViewModel(user:Profile, saveFn:SaveFn, getTopics:TopicsFn) as x =
         with get() =       firstName
         and set(value) =   firstName <- value
                            base.NotifyPropertyChanged (<@ x.FirstName @>)
+                           (x.Validate :> ICommand).Execute()
 
     member x.LastName
         with get() =       lastName
         and set(value) =   lastName  <- value
                            base.NotifyPropertyChanged (<@ x.LastName @>)
+                           (x.Validate :> ICommand).Execute()
 
     member x.Email
         with get() =       email
         and set(value) =   email     <- value
                            base.NotifyPropertyChanged (<@ x.Email @>)
-                                     
+                           (x.Validate :> ICommand).Execute()
+                           
     member x.Topics
         with get() =       topics    
         and  set(value) =  topics   <- value
                            base.NotifyPropertyChanged (<@ x.Topics @>)
+                           (x.Validate :> ICommand).Execute()
 
     member x.FeaturedTopics
         with get() =       featuredTopics    
         and  set(value) =  featuredTopics <- value
                            base.NotifyPropertyChanged (<@ x.FeaturedTopics @>)
+                           (x.Validate :> ICommand).Execute()
 
     member x.Topic
         with get() =       topic
         and  set(value) =  topic <- value
                            base.NotifyPropertyChanged (<@ x.Topic @>)
-                         
+                           (x.Validate :> ICommand).Execute()
+
     member x.IsValidated
          with get() =      isValidated
          and  set(value) = isValidated <- value
@@ -97,12 +108,11 @@ type ViewModel(user:Profile, saveFn:SaveFn, getTopics:TopicsFn) as x =
                                           fun _ -> true )      :> ICommand
 
     member x.Save =     DelegateCommand( (fun _ -> save()) ,
-                                          fun _ -> canSave() ) :> ICommand
+                                          fun _ -> true ) :> ICommand
 
     member x.Add =      DelegateCommand( (fun _ -> x.FeaturedTopics.Add(x.Topic)) ,
-                                          fun _ -> not (x.Topic = null) ) :> ICommand
+                                          fun _ -> true ) :> ICommand
 
-                           
     member x.FirstNamePlaceholder
         with get() = firstNamePlaceholder
 

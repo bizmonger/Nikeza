@@ -21,12 +21,19 @@
         <Style TargetType="Button">
             <Setter Property="Width"  Value="60" />
             <Setter Property="Height" Value="20" />
+            <Setter Property="Margin" Value="10" />
         </Style>
 
         <Style TargetType="ComboBox">
             <Setter Property="Width"  Value="200" />
             <Setter Property="Margin" Value="10" />
             <Setter Property="Text"   Value="Featured Topics" />
+        </Style>
+
+        <Style TargetType="ListView">
+            <Setter Property="Height" Value="40" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="Blue" />
         </Style>
     </Page.Resources>
 
@@ -45,16 +52,16 @@
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
 
-        <TextBox x:Name= "FirstName" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding FirstName}" />
-        <TextBox x:Name= "LastName"  Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding LastName}"  />
-        <TextBox x:Name= "Email"     Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Email}"     />
+        <TextBox x:Name= "FirstName" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBox x:Name= "LastName"  Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding LastName,  UpdateSourceTrigger=PropertyChanged}"  />
+        <TextBox x:Name= "Email"     Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Email,     UpdateSourceTrigger=PropertyChanged}"     />
 
         <ComboBox Grid.Row="3" Grid.Column="0" ItemsSource="{Binding Topics}" SelectedItem="{Binding Topic}" IsEditable="True" />
-        <Button   Grid.Row="3" Grid.Column="1" Command="{Binding Add}" IsEnabled="{Binding Topic, Converter={StaticResource NullableToBoolConverter}}" Content="Add" />
+        <Button   Grid.Row="3" Grid.Column="1" Command="{Binding Add}" IsEnabled="{Binding Topic, Converter={StaticResource NullableToBoolConverter}, UpdateSourceTrigger=PropertyChanged}" Content="Add" />
 
-        <ListView ItemsSource="{Binding FeaturedTopics}" />
+        <ListView Grid.Row="4" Grid.ColumnSpan="2" ItemsSource="{Binding FeaturedTopics}" />
 
-        <Button   Grid.Row="5" Grid.ColumnSpan="2" Command="{Binding Save}" IsEnabled="{Binding IsValidated}" Content="Save" />
+        <Button   Grid.Row="5" Grid.ColumnSpan="2" Command="{Binding Save}" IsEnabled="{Binding IsValidated, UpdateSourceTrigger=PropertyChanged}" Content="Save" />
         
     </Grid>
 </Page>
