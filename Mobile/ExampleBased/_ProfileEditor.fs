@@ -11,8 +11,8 @@ let ``Save edited profile`` () =
 
     // Setup
     let mutable saveOccurred = false
-
-    let profileEditor = ViewModel(someUser, mockSave, mockTopics)
+    let inject =      { User= someUser; SaveFn= mockSave; TopicsFn= mockTopics }
+    let profileEditor = ViewModel(inject)
 
     profileEditor.SaveEvent
                  .Add(fun events ->

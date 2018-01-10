@@ -4,6 +4,7 @@ using static Nikeza.Mobile.Profile.EventExtentions.RegistrationSubmissionEventEx
 using static Nikeza.Mobile.Profile.Events;
 using static Desktop.App.FunctionFactory;
 using ProfileEditorViewmodel = Nikeza.Mobile.UILogic.Portal.ProfileEditor.ViewModel;
+using Nikeza.Mobile.UILogic.Portal.ProfileEditor;
 
 namespace Desktop.App
 {
@@ -21,7 +22,8 @@ namespace Desktop.App
         static void ToProfileEditor(Frame AppFrame, RegistrationSubmissionEvent theEvent)
         {
             var portalPage = new ProfileEditorPage();
-            var viewmodel = new ProfileEditorViewmodel(theEvent.TryGetProfile().Value, SaveProfile(), GetTopics());
+            var inject = new Dependencies(theEvent.TryGetProfile().Value, SaveProfile(), GetTopics());
+            var viewmodel = new ProfileEditorViewmodel(inject);
 
             viewmodel.SaveEvent += (s, e) => FromProfileEditor(AppFrame, e);
             portalPage.DataContext = viewmodel;

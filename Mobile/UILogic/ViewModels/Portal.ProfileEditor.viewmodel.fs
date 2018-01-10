@@ -13,7 +13,13 @@ open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.Profile.Commands.ProfileEditor
 open System.Collections.ObjectModel
 
-type ViewModel(user:Profile, saveFn:SaveFn, getTopics:TopicsFn) as x =
+type Dependencies = {
+    User:     Profile
+    SaveFn:   SaveFn
+    TopicsFn: TopicsFn
+}
+
+type ViewModel(injected:Dependencies) as x =
 
     inherit ViewModelBase()
 
@@ -23,10 +29,10 @@ type ViewModel(user:Profile, saveFn:SaveFn, getTopics:TopicsFn) as x =
     let mutable firstNamePlaceholder = "first name"
     let mutable lastNamePlaceholder =  "last name"
 
-    let mutable profile =        user
+    let mutable profile =        injected.User
     let mutable firstName =      firstNamePlaceholder
     let mutable lastName =       lastNamePlaceholder
-    let mutable email =          user.Email
+    let mutable email =          injected.User.Email
     let mutable topics =         ObservableCollection<string>()
     let mutable featuredTopics = ObservableCollection<string>()
     let mutable topic:string =   null
@@ -34,13 +40,13 @@ type ViewModel(user:Profile, saveFn:SaveFn, getTopics:TopicsFn) as x =
 
     let canSave() =
         let refreshState() =
-            profile <- { Id =       user.Id
+            profile <- { Id =       injected.User.Id
                          FirstName= x.FirstName
                          LastName=  x.LastName
                          Email=     x.Email
-                         Bio=       user.Bio
-                         ImageUrl=  user.ImageUrl
-                         Sources=   user.Sources
+                         Bio=       injected.User.Bio
+                         ImageUrl=  injected.User.ImageUrl
+                         Sources=   injected.User.Sources
                        }
 
         let containsDefault() = 
@@ -60,7 +66,7 @@ type ViewModel(user:Profile, saveFn:SaveFn, getTopics:TopicsFn) as x =
     let save() = 
         { Profile= profile }
            |> SaveCommand.Execute 
-           |> In.Editor.Save.workflow saveFn
+           |> In.Editor.Save.workflow injected.SaveFn
            |> publishEvents saveEvent
 
     member x.FirstName
@@ -120,7 +126,7 @@ type ViewModel(user:Profile, saveFn:SaveFn, getTopics:TopicsFn) as x =
         with get() = lastNamePlaceholder
 
     member x.Init() =
-            getTopics()
+            injected.TopicsFn()
              |> function
                 | Query.TopicsSucceeded v -> topics <- ObservableCollection(v |> Seq.map (fun topic -> topic.Name))
                 | Query.TopicsFailed _    -> publishEvent topicsEvent Pages.Error
