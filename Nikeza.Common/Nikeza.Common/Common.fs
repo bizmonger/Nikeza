@@ -9,6 +9,8 @@ type LinkId =      LinkId     of int
 type TopicId =     TopicId    of int
 type Url = Url                of string
 
+type error<'a> = {Context:'a; Description:string}
+
 [<CLIMutable>]
 type LogInRequest = {
     Email:    string
