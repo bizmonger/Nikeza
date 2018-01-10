@@ -18,6 +18,7 @@ namespace Desktop.App
 
             if (textbox.Text != placeholder)
                  textbox.Foreground = new SolidColorBrush(Colors.Black);
+
             else textbox.Foreground = new SolidColorBrush(Colors.LightGray);
         }
     }

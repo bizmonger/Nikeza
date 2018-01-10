@@ -60,6 +60,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ControlLogic.cs" />
+    <Compile Include="Converters.cs" />
     <Compile Include="DataSourcesPage.xaml.cs">
       <DependentUpon>DataSourcesPage.xaml</DependentUpon>
     </Compile>

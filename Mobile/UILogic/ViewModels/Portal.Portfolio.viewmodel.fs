@@ -81,12 +81,14 @@ type ViewModel(injected) =
     member x.Unsubscribe = unsubscribeCommand
     member x.Provider =    provider
 
-    member x.Load() =
+    member x.Init() =
+
              injected.ProviderId 
               |> injected.PortfolioFn
               |> function
                  | Query.Succeeded p -> provider <- Some p
-                 | Query.Failed   id -> publishEvent pageRequested <| Pages.PortfolioError {Context=id; Description="Failed to load portfolio"}
+                 | Query.Failed   id -> let error = { Context=id; Description="Failed to load portfolio" }
+                                        pageRequested |> publishEvent <| Pages.PortfolioError error
 
     member x.QueryEvents() =   queryEvent.Publish
     member x.CommandEvents() = commandEvents.Publish

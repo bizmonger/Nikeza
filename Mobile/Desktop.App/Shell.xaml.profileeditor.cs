@@ -26,6 +26,8 @@ namespace Desktop.App
             viewmodel.SaveEvent += (s, e) => FromProfileEditor(AppFrame, e);
             portalPage.DataContext = viewmodel;
 
+            viewmodel.Init();
+
             AppFrame.Navigate(portalPage);
         }
 

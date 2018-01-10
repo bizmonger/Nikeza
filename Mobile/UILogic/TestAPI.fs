@@ -44,4 +44,7 @@ let mockSave : SaveFn =
     fun _ -> Ok someProfileRequest
 
 let mockTopics : TopicsFn =
-    fun _ -> TopicsSucceeded [{Id=0; Name="F#"}]
+    fun _ -> TopicsSucceeded [{ Id=0; Name="F#" }
+                              { Id=1; Name="Elm"}
+                              { Id=2; Name="Architecture" }
+                             ]

@@ -13,7 +13,7 @@ open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.Profile.Commands.ProfileEditor
 open System.Collections.ObjectModel
 
-type ViewModel(user:Profile, saveFn:SaveFn, topicsFn:TopicsFn) as x =
+type ViewModel(user:Profile, saveFn:SaveFn, getTopics:TopicsFn) as x =
 
     inherit ViewModelBase()
 
@@ -23,12 +23,14 @@ type ViewModel(user:Profile, saveFn:SaveFn, topicsFn:TopicsFn) as x =
     let mutable firstNamePlaceholder = "first name"
     let mutable lastNamePlaceholder =  "last name"
 
-    let mutable profile =     user
-    let mutable firstName =   firstNamePlaceholder
-    let mutable lastName =    lastNamePlaceholder
-    let mutable email =       user.Email
-    let mutable topics =      ObservableCollection<string>()
-    let mutable isValidated = false
+    let mutable profile =        user
+    let mutable firstName =      firstNamePlaceholder
+    let mutable lastName =       lastNamePlaceholder
+    let mutable email =          user.Email
+    let mutable topics =         ObservableCollection<string>()
+    let mutable featuredTopics = ObservableCollection<string>()
+    let mutable topic:string =   null
+    let mutable isValidated =    false
 
     let canSave() =
         let refreshState =
@@ -55,13 +57,6 @@ type ViewModel(user:Profile, saveFn:SaveFn, topicsFn:TopicsFn) as x =
            |> SaveCommand.Execute 
            |> In.Editor.Save.workflow saveFn
            |> publishEvents saveEvent
-                
-
-    member x.Validate = DelegateCommand( (fun _ -> canSave() |> ignore) , 
-                                          fun _ -> true )      :> ICommand
-
-    member x.Save =     DelegateCommand( (fun _ -> save()) ,
-                                          fun _ -> canSave() ) :> ICommand
 
     member x.FirstName
         with get() =       firstName
@@ -78,27 +73,47 @@ type ViewModel(user:Profile, saveFn:SaveFn, topicsFn:TopicsFn) as x =
         and set(value) =   email     <- value
                            base.NotifyPropertyChanged (<@ x.Email @>)
                                      
-    member x.Topics                  
+    member x.Topics
         with get() =       topics    
-        and set(value) =   topics    <- value
+        and  set(value) =  topics   <- value
                            base.NotifyPropertyChanged (<@ x.Topics @>)
+
+    member x.FeaturedTopics
+        with get() =       featuredTopics    
+        and  set(value) =  featuredTopics <- value
+                           base.NotifyPropertyChanged (<@ x.FeaturedTopics @>)
+
+    member x.Topic
+        with get() =       topic
+        and  set(value) =  topic <- value
+                           base.NotifyPropertyChanged (<@ x.Topic @>)
                          
     member x.IsValidated
          with get() =      isValidated
          and  set(value) = isValidated <- value
                            base.NotifyPropertyChanged (<@ x.IsValidated @>)
 
-    member x.Load() =
-        topicsFn()
-         |> function
-            | Query.TopicsSucceeded v -> topics <- ObservableCollection(v |> Seq.map (fun topic -> topic.Name))
-            | Query.TopicsFailed _    -> publishEvent topicsEvent Pages.Error
+    member x.Validate = DelegateCommand( (fun _ -> canSave() |> ignore) , 
+                                          fun _ -> true )      :> ICommand
 
+    member x.Save =     DelegateCommand( (fun _ -> save()) ,
+                                          fun _ -> canSave() ) :> ICommand
+
+    member x.Add =      DelegateCommand( (fun _ -> x.FeaturedTopics.Add(x.Topic)) ,
+                                          fun _ -> not (x.Topic = null) ) :> ICommand
+
+                           
     member x.FirstNamePlaceholder
         with get() = firstNamePlaceholder
 
     member x.LastNamePlaceholder
         with get() = lastNamePlaceholder
+
+    member x.Init() =
+            getTopics()
+             |> function
+                | Query.TopicsSucceeded v -> topics <- ObservableCollection(v |> Seq.map (fun topic -> topic.Name))
+                | Query.TopicsFailed _    -> publishEvent topicsEvent Pages.Error
 
     [<CLIEvent>]
     member x.SaveEvent =   saveEvent.Publish

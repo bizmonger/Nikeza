@@ -15,7 +15,7 @@ let ``Load recent links from providers`` () =
     let viewmodel = Recent.ViewModel(someProvider, mockRecent, mockPortfolio)
     
     // Test
-    viewmodel.Load()
+    viewmodel.Init()
 
     // Verify
     viewmodel.Providers |> List.isEmpty |> should equal false
@@ -27,7 +27,7 @@ let ``Load members`` () =
     let viewmodel = Members.ViewModel(someProvider, mockMembers)
     
     // Test
-    viewmodel.Load()
+    viewmodel.Init()
 
     // Verify
     viewmodel.Providers |> List.isEmpty |> should equal false
@@ -39,7 +39,7 @@ let ``Load subscriptions`` () =
     let viewmodel = Subscriptions.ViewModel(someProvider, mockSubscriptions)
     
     // Test
-    viewmodel.Load()
+    viewmodel.Init()
 
     // Verify
     viewmodel.Providers |> List.isEmpty |> should equal false
@@ -51,7 +51,7 @@ let ``Load portfolio``() =
     let viewmodel = Portfolio.ViewModel(injected)
 
     // Test
-    viewmodel.Load()
+    viewmodel.Init()
 
     // Verify
     viewmodel.Provider.IsSome |> should equal true

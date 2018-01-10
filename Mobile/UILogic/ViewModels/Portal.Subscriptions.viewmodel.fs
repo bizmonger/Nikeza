@@ -39,7 +39,7 @@ type ViewModel(user:Provider, getSubscriptions:SubscriptionsFn) =
              with get() =      subscriptions
              and  set(value) = subscriptions <- value
 
-    member x.Load() =
+    member x.Init() =
              getSubscriptions <| ProfileId user.Profile.Id
               |> function
                  | Query.SubscriptionsSucceeded providers -> subscriptions <- providers

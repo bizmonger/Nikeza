@@ -45,7 +45,7 @@ type ViewModel(user:Provider, queryRecent:RecentFn, queryPortfolio:PortfolioFn) 
              with get() =      recent
              and  set(value) = recent    <- value
 
-    member x.Load() =
+    member x.Init() =
         queryRecent <| ProfileId user.Profile.Id
          |> function
             | Query.RecentSucceeded providers -> recent <- providers

@@ -2,12 +2,16 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:converters="clr-namespace:Desktop.App.Converters"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Profile Editor">
 
     <Page.Resources>
+
+        <converters:NullableToBoolConverter x:Key="NullableToBoolConverter" />
+
         <Style TargetType="TextBox">
             <Setter Property="Width"  Value="200" />
             <Setter Property="Margin" Value="10" />
@@ -20,14 +24,15 @@
         </Style>
 
         <Style TargetType="ComboBox">
-            <Setter Property="Width" Value="200" />
+            <Setter Property="Width"  Value="200" />
             <Setter Property="Margin" Value="10" />
+            <Setter Property="Text"   Value="Featured Topics" />
         </Style>
-        
     </Page.Resources>
 
-    <Grid>
+    <Grid HorizontalAlignment="Center">
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -35,13 +40,21 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <TextBox x:Name= "FirstName" Grid.Row="0" Text=   "{Binding FirstName}" />
-        <TextBox x:Name= "LastName"  Grid.Row="1" Text=   "{Binding LastName}"  />
-        <TextBox x:Name= "Email"     Grid.Row="2" Text=   "{Binding Email}"     />
-        
-        <ComboBox Grid.Row="3" ItemsSource="{Binding Topics}" IsEditable="True" />
-        
-        <Button Content="Save" Grid.Row="4" Command="{Binding Save}" IsEnabled="{Binding IsValidated}" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+
+        <TextBox x:Name= "FirstName" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding FirstName}" />
+        <TextBox x:Name= "LastName"  Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding LastName}"  />
+        <TextBox x:Name= "Email"     Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Email}"     />
+
+        <ComboBox Grid.Row="3" Grid.Column="0" ItemsSource="{Binding Topics}" SelectedItem="{Binding Topic}" IsEditable="True" />
+        <Button   Grid.Row="3" Grid.Column="1" Command="{Binding Add}" IsEnabled="{Binding Topic, Converter={StaticResource NullableToBoolConverter}}" Content="Add" />
+
+        <ListView ItemsSource="{Binding FeaturedTopics}" />
+
+        <Button   Grid.Row="5" Grid.ColumnSpan="2" Command="{Binding Save}" IsEnabled="{Binding IsValidated}" Content="Save" />
         
     </Grid>
 </Page>
