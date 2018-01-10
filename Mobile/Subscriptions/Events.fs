@@ -12,12 +12,12 @@ type NotificationEvent =
     | SubscriberRemoved      of ProfileId
     | SubscriberRemoveFailed of ProfileId
 
-type QueryEvent =
-    | GetRecentSucceeded  of Provider list
-    | GetLatestFailed     of string
+type Query =
+    | RecentSucceeded  of Provider list
+    | LatestFailed     of string
                               
-    | GetMembersSucceeded of Provider list
-    | GetMembersFailed    of string
+    | MembersSucceeded of Provider list
+    | MembersFailed    of string
 
-    | GetSubscriptionsSucceeded of Provider list
-    | GetSubscriptionsFailed    of string
+    | SubscriptionsSucceeded of Provider list
+    | SubscriptionsFailed    of string

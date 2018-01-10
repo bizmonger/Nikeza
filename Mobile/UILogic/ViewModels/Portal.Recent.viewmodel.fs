@@ -8,12 +8,13 @@ open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio
 open Nikeza.Mobile.Portfolio.Events
+open Nikeza.Mobile.Portfolio.Query
 open Nikeza.Mobile.UILogic.Pages
 
 type PortfolioEvent =     Nikeza.Mobile.Portfolio.Events.Query
-type SubscriptionsEvent = Nikeza.Mobile.Subscriptions.Events.QueryEvent
+type SubscriptionsEvent = Nikeza.Mobile.Subscriptions.Events.Query
 
-type ViewModel(user:Provider, recentFn:RecentFn) =
+type ViewModel(user:Provider, recentFn:RecentFn, portfolioFn:PortfolioFn) =
 
     inherit ViewModelBase()
 
@@ -48,5 +49,5 @@ type ViewModel(user:Provider, recentFn:RecentFn) =
     member x.Load() =
         recentFn <| ProfileId user.Profile.Id
          |> function
-            | GetRecentSucceeded providers :: [] -> recent <- providers
-            | other -> publishEvents subscriptionsEvent other
+            | Query.RecentSucceeded providers -> recent <- providers
+            | other -> publishEvent subscriptionsEvent other
