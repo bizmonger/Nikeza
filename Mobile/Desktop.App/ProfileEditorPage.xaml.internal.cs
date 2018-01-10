@@ -1,4 +1,6 @@
 ﻿using Nikeza.Mobile.UILogic.Portal.ProfileEditor;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Desktop.App
 {
@@ -6,10 +8,17 @@ namespace Desktop.App
     {
         ViewModel _viewmodel;
 
-        void InputResponse()
+        void InputResponse(TextBox textbox, string placeholder)
         {
             _viewmodel = DataContext as ViewModel;
             _viewmodel.Validate.Execute(null);
+
+            if (textbox.Text == "" && !textbox.IsFocused)
+                textbox.Text = placeholder;
+
+            if (textbox.Text != placeholder)
+                 textbox.Foreground = new SolidColorBrush(Colors.Black);
+            else textbox.Foreground = new SolidColorBrush(Colors.LightGray);
         }
     }
 }

@@ -20,8 +20,8 @@ type ViewModel(user:Profile, saveFn:SaveFn, topicsFn:TopicsFn) as x =
     let saveEvent =   new Event<_>()
     let topicsEvent = new Event<_>()
 
-    let mutable firstNamePlaceholder = "<first name>"
-    let mutable lastNamePlaceholder =  "<last name>"
+    let mutable firstNamePlaceholder = "first name"
+    let mutable lastNamePlaceholder =  "last name"
 
     let mutable profile =     user
     let mutable firstName =   firstNamePlaceholder

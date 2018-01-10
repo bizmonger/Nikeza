@@ -39,7 +39,6 @@
       <HintPath>..\packages\FSharp.Core.4.2.3\lib\net45\FSharp.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Nikeza.Common, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -143,6 +142,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj">
+      <Project>{90e1c6bb-b9d6-4081-b0e1-ed1414c2060f}</Project>
+      <Name>Nikeza.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Profile\Nikeza.Mobile.Profile.fsproj">
       <Project>{a98e9556-cf8a-46b3-9cf5-760c657a0850}</Project>
       <Name>Nikeza.Mobile.Profile</Name>

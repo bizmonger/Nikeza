@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Desktop.App
 {
@@ -7,14 +8,16 @@ namespace Desktop.App
         public ProfileEditorPage()
         {
             InitializeComponent();
-            
-            FirstName.GotFocus    += (s, e) => { FirstName.FocusResonse(_viewmodel, _viewmodel.FirstNamePlaceholder, DataContext); };
-            FirstName.TextChanged += (s, e) => { InputResponse(); };
 
+            FirstName.Foreground = new SolidColorBrush(Colors.LightGray);
+            FirstName.GotFocus    += (s, e) => { FirstName.FocusResonse(_viewmodel, _viewmodel.FirstNamePlaceholder, DataContext); };
+            FirstName.TextChanged += (s, e) => { InputResponse(FirstName, _viewmodel != null ? _viewmodel.FirstNamePlaceholder : "first name"); };
+
+            LastName.Foreground = new SolidColorBrush(Colors.LightGray);
             LastName.GotFocus     += (s, e) => { LastName.FocusResonse (_viewmodel, _viewmodel.LastNamePlaceholder,  DataContext); };
-            LastName.TextChanged  += (s, e) => { InputResponse(); };
+            LastName.TextChanged  += (s, e) => { InputResponse(LastName, _viewmodel != null ? _viewmodel.LastNamePlaceholder : "last name"); };
                                   
-            Email.TextChanged     += (s, e) => { InputResponse(); };
+            Email.TextChanged     += (s, e) => { InputResponse(Email, ""); };
         }
     }
 }

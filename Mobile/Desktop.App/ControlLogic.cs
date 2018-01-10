@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Desktop.App
 {
@@ -11,7 +12,11 @@ namespace Desktop.App
             if (textbox.Text == compareValue)
                 textbox.Text = "";
 
-            else textbox.SelectAll();
+            else
+            {
+                textbox.Foreground = new SolidColorBrush(Colors.Black);
+                textbox.SelectAll();
+            }
         }
 
         internal static void FocusResonse<ViewModel>(this PasswordBox textbox, ViewModel viewmodel, string compareValue, object dataContext) where ViewModel : class
