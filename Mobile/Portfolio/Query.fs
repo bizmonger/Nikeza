@@ -3,7 +3,7 @@
 open Nikeza.Mobile.Portfolio.Events
 open Nikeza.Common
 
-type PortfolioFn = ProviderId -> GetPortfolioEvent
+type PortfolioFn = ProviderId -> Query
 
 let portfolio : PortfolioFn =
-    fun providerId -> GetPortfolioFailed providerId
+    fun providerId -> Failed providerId

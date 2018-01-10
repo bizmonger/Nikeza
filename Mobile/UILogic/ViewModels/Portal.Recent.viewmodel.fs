@@ -10,14 +10,14 @@ open Nikeza.Mobile.Portfolio
 open Nikeza.Mobile.Portfolio.Events
 open Nikeza.Mobile.UILogic.Pages
 
-type PortfolioEvent =     Nikeza.Mobile.Portfolio.Events.GetPortfolioEvent
+type PortfolioEvent =     Nikeza.Mobile.Portfolio.Events.Query
 type SubscriptionsEvent = Nikeza.Mobile.Subscriptions.Events.QueryEvent
 
 type ViewModel(user:Provider, recentFn:RecentFn) =
 
     inherit ViewModelBase()
 
-    let pageEvent =   new Event<PageRequested>()
+    let pageRequested =      new Event<PageRequested>()
     let subscriptionsEvent = new Event<SubscriptionsEvent>()
 
     let mutable selection: Provider option = None
@@ -31,8 +31,8 @@ type ViewModel(user:Provider, recentFn:RecentFn) =
                     |> ProviderId  
                     |> Query.portfolio
                     |> function
-                       | GetPortfolioSucceeded p  -> publishEvent pageEvent <| PageRequested.Portfolio p
-                       | GetPortfolioFailed    id -> publishEvent pageEvent <| PageRequested.PortfolioError { Context=id; Description="Failed to get portfolio" }
+                       | Query.Succeeded p  -> publishEvent pageRequested <| Portfolio p
+                       | Query.Failed   id  -> publishEvent pageRequested <| PortfolioError { Context=id; Description="Failed to get portfolio" }
             | None -> ()
 
     member x.ViewProvider = DelegateCommand( (fun _ -> viewProvider() ), fun _ -> selection.IsSome)

@@ -12,7 +12,7 @@ open Nikeza.Mobile.Subscriptions.Command
 open Nikeza.Mobile.Portfolio.Events
 open Nikeza.Mobile.Portfolio.Query
 
-type PortfolioQuery = Nikeza.Mobile.Portfolio.Events.GetPortfolioEvent
+type PortfolioQuery = Nikeza.Mobile.Portfolio.Events.Query
 
 type Depedencies = {
         UserId :        ProviderId
@@ -85,7 +85,7 @@ type ViewModel(injected) =
              injected.ProviderId 
               |> injected.PortfolioFn
               |> function
-                 | GetPortfolioSucceeded p -> provider <- Some p
+                 | Succeeded p -> provider <- Some p
                  | otherEvents -> otherEvents |> publishEvent queryEvent
 
     member x.QueryEvents() =   queryEvent.Publish

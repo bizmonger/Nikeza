@@ -8,7 +8,7 @@ open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio
 
-type PortfolioEvent =     Nikeza.Mobile.Portfolio.Events.GetPortfolioEvent
+type PortfolioEvent =     Nikeza.Mobile.Portfolio.Events.Query
 type SubscriptionsEvent = Nikeza.Mobile.Subscriptions.Events.QueryEvent
 
 type ViewModel(user:Provider, getSubscriptions:SubscriptionsFn) =
