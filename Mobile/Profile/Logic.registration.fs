@@ -24,6 +24,6 @@ module Validation =
         fun resultOf -> 
             resultOf |> function
                         ResultOf.Validate.Executed result -> 
-                                                     result |> function
-                                                               | Error form -> [FormNotValidated form]
-                                                               | Ok    form -> [FormValidated    form]
+                                                    result |> function
+                                                              | Error form -> [FormNotValidated form]
+                                                              | Ok    form -> [FormValidated    form]

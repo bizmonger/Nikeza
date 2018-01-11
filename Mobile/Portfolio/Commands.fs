@@ -6,7 +6,7 @@ type LinkCommand =
     | Feature   of LinkId
     | Unfeature of LinkId
 
-type TopicsCommand =    Feature of TopicId list
+type TopicsCommand = Feature of TopicId list
 
 module ResultOf =
 

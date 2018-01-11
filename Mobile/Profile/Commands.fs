@@ -26,7 +26,7 @@ module ProfileEditor =
 
     module Validate =
         module ResultOf =
-            type Editor =     Validate of Result<ValidatedProfile, EditedProfile>
+            type Editor =  Validate of Result<ValidatedProfile, EditedProfile>
 
     module Save =
         module ResultOf =
