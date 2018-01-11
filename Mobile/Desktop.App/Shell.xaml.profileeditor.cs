@@ -21,16 +21,16 @@ namespace Desktop.App
 
         static void ToProfileEditor(Frame AppFrame, RegistrationSubmissionEvent theEvent)
         {
-            var portalPage = new ProfileEditorPage();
+            var profileEditorPage = new ProfileEditorPage();
             var inject = new Dependencies(theEvent.TryGetProfile().Value, SaveProfile(), GetTopics());
             var viewmodel = new ProfileEditorViewmodel(inject);
 
             viewmodel.SaveEvent += (s, e) => FromProfileEditor(AppFrame, e);
-            portalPage.DataContext = viewmodel;
+            profileEditorPage.DataContext = viewmodel;
 
             viewmodel.Init();
 
-            AppFrame.Navigate(portalPage);
+            AppFrame.Navigate(profileEditorPage);
         }
 
         static void ToError(Frame AppFrame, ProfileSaveEvent theEvent) =>

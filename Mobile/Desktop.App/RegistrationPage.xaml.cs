@@ -13,9 +13,7 @@ namespace Desktop.App
             
             _viewmodel = new ViewModel(FunctionFactory.SubmitRegistration());
 
-            Email.GotFocus    += (s, e) => { Email.FocusResonse   (_viewmodel, _viewmodel.EmailPlaceholder,    DataContext); };
-            Password.GotFocus += (s, e) => { Password.FocusResonse(_viewmodel, _viewmodel.PasswordPlaceholder, DataContext); };
-            Confirm.GotFocus  += (s, e) => { Confirm.FocusResonse (_viewmodel, _viewmodel.ConfirmPlaceholder,  DataContext); };
+            Email.GotFocus    += (s, e) => { Email.FocusResonse   (_viewmodel, _viewmodel.EmailPlaceholder); };
 
             Password.PasswordChanged += (s, e) =>
                 {

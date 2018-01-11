@@ -12,7 +12,7 @@
   <ItemGroup>
     <Compile Include="Commands.fs" />
     <Compile Include="Events.fs" />
-    <Compile Include="Query.fs" />
+    <Compile Include="Queries.fs" />
     <Compile Include="Try.fs" />
     <Compile Include="Logic.fs" />
     <Compile Include="Workflows.fs" />

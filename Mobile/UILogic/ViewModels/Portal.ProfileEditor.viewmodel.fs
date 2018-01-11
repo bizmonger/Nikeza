@@ -19,7 +19,7 @@ type Dependencies = {
     TopicsFn: TopicsFn
 }
 
-type ViewModel(injected:Dependencies) as x =
+type ViewModel(injected) as x =
 
     inherit ViewModelBase()
 
