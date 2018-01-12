@@ -20,21 +20,28 @@ type SessionEvent =
     | LoggedOut
     | LogoutFailed
 
-type ProfileEvent =
-    | ProfileRequested    of ProfileId
+type ProfileEvent = ProfileRequested of ProfileId
 
 type SubscriptionEvent =
-    | Subscribed          of ProviderId
-    | Unsubscribed        of ProviderId
+    | Subscribed   of ProviderId
+    | Unsubscribed of ProviderId
 
 type ProfileValidateEvent =
     | ProfileValidated    of ValidatedProfile
     | ProfileNotValidated of EditedProfile
 
 type ProfileSaveEvent =
-    | ProfileSaved        of Profile
-    | ProfileSaveFailed   of ValidatedProfile
+    | ProfileSaved      of Profile
+    | ProfileSaveFailed of ValidatedProfile
 
-type Query =
-    | TopicsSucceeded  of Topic list
-    | TopicsFailed     of string
+type PlatformsQuery =
+    | PlatformsSucceeded of Platform list
+    | PlatformsFailed    of string
+
+type TopicsQuery =
+    | TopicsSucceeded of Topic list
+    | TopicsFailed    of string
+
+type SourcesQuery =
+    | SourcesSucceeded of DataSource list
+    | SourcesFailed    of string

@@ -7,6 +7,17 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Data Sources">
 
+    <Page.Resources>
+        <Style TargetType="ListView">
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+    </Page.Resources>
+
     <Grid>
         
         <Grid.RowDefinitions>
@@ -24,6 +35,7 @@
 
         <ListView Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Platforms}" SelectedItem="{Binding Platform}" />
         <TextBox  Grid.Row="0" Grid.Column="1" Text="{Binding AccessId}" />
+        
         <Button   Grid.Row="0" Grid.Column="2" Command="{Binding Add}" Content="Add" />
 
         <ListView ItemsSource="{Binding Sources}">
@@ -40,8 +52,8 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
-                        <Label Grid.Row="0" Grid.Column="0" Content="{Binding Platform}" />
-                        <Label Grid.Row="0" Grid.Column="1" Content="{Binding AccessId}" />
+                        <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Platform}" />
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding AccessId}" />
                         
                     </Grid>
                 </DataTemplate>

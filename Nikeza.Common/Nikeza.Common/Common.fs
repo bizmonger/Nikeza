@@ -9,6 +9,8 @@ type LinkId =      LinkId     of int
 type TopicId =     TopicId    of int
 type Url = Url                of string
 
+type Platform = Platform of string
+
 type error<'a> = {Context:'a; Description:string}
 
 [<CLIMutable>]
@@ -77,7 +79,6 @@ type FeatureTopicsrequest = {
 [<CLIMutable>]
 type RecentRequest = { SubscriberId: string }
 
-
 [<CLIMutable>]
 type DataSourceRequest = { 
     Id:        int
@@ -86,6 +87,8 @@ type DataSourceRequest = {
     AccessId:  string
     Links:     Link seq
 }
+
+type DataSource = DataSourceRequest
 
 [<CLIMutable>]
 type TopicRequest = { Name:string }

@@ -1,18 +1,23 @@
 ﻿namespace Nikeza.Mobile.Portal.DataSources
 
 open System
+open System.Collections.ObjectModel
 open Nikeza.Mobile.UILogic
+open Nikeza.Mobile.Profile.Events
+open Nikeza.Mobile.Profile
+open Nikeza.Common
 
 type ViewModel() as x =
     inherit ViewModelBase()
 
-    let mutable platform = ""
-    let mutable accessId = ""
-    let mutable sources =  ""
+    let mutable platforms = ObservableCollection<string>()
+    let mutable platform =  ""
+    let mutable accessId =  ""
+    let mutable sources =   ObservableCollection<string>()
 
     let canAdd() =
         not <| String.IsNullOrEmpty x.Platform &&
-               String.IsNullOrEmpty x.AccessId
+        not <| String.IsNullOrEmpty x.AccessId
 
     let add =    DelegateCommand( (fun _ -> () (*todo...*)) , fun _ -> canAdd() )
     let remove = DelegateCommand( (fun _ -> () (*todo...*)) , fun _ -> true )
@@ -31,6 +36,18 @@ type ViewModel() as x =
              with get() =      sources
              and  set(value) = sources <- value
                                base.NotifyPropertyChanged(<@ x.Sources @>)
+
+    member x.Platforms
+             with get() =      platforms
+             and  set(value) = platforms <- value
+                               base.NotifyPropertyChanged(<@ x.Platforms @>)
+
+    member x.Init() =
+             let events = Query.platforms()
+             events |> function
+                       | PlatformsSucceeded p -> platforms <- ObservableCollection<string>(p |> List.map(fun p -> let (Platform v) = p
+                                                                                                                  v))
+                       | PlatformsFailed    _ -> ()
 
     member x.Add =    add;
     member x.Remove = remove;

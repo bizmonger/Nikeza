@@ -76,7 +76,7 @@ let mockSave : SaveFn =
     fun _ -> Ok someProfile
 
 let mockTopics : TopicsFn =
-    fun _ -> Query.TopicsSucceeded [{Id=0; Name="F#" }]
+    fun _ -> TopicsQuery.TopicsSucceeded [{Id=0; Name="F#" }]
 
 let mockPortfolio : PortfolioFn =
     fun _ -> Query.Succeeded someProvider
