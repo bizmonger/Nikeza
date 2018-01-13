@@ -43,11 +43,14 @@ type ViewModel() as x =
                                base.NotifyPropertyChanged(<@ x.Platforms @>)
 
     member x.Init() =
-             let events = Query.platforms()
-             events |> function
-                       | PlatformsSucceeded p -> platforms <- ObservableCollection<string>(p |> List.map(fun p -> let (Platform v) = p
-                                                                                                                  v))
-                       | PlatformsFailed    _ -> ()
+
+             let namesOf platforms = 
+                platforms |> List.map(fun (Platform v) -> v)
+
+             Query.platforms()
+              |> function
+                 | PlatformsSucceeded p -> platforms <- ObservableCollection<string>(namesOf p)
+                 | PlatformsFailed    _ -> ()
 
     member x.Add =    add;
     member x.Remove = remove;
