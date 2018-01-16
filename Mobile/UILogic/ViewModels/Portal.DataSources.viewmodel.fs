@@ -45,7 +45,7 @@ type ViewModel() as x =
     member x.Init() =
 
              let namesOf platforms = 
-                platforms |> List.map(fun (Platform v) -> v)
+                platforms |> List.map(fun (Platform name) -> name)
 
              Query.platforms()
               |> function

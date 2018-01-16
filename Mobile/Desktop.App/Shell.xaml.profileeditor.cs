@@ -22,11 +22,11 @@ namespace Desktop.App
         static void ToProfileEditor(Frame AppFrame, RegistrationSubmissionEvent theEvent)
         {
             var profileEditorPage = new ProfileEditorPage();
-            var inject = new Dependencies(theEvent.TryGetProfile().Value, SaveProfile(), GetTopics());
-            var viewmodel = new ProfileEditorViewmodel(inject);
+            var inject =            new Dependencies(theEvent.TryGetProfile().Value, SaveProfile(), GetTopics());
+            var viewmodel =         new ProfileEditorViewmodel(inject);
 
             viewmodel.SaveEvent += (s, e) => FromProfileEditor(AppFrame, e);
-            profileEditorPage.DataContext = viewmodel;
+            profileEditorPage.Init(viewmodel);
 
             viewmodel.Init();
 

@@ -15,7 +15,7 @@ namespace Desktop.App
         internal static FSharpFunc<ValidatedProfile, FSharpResult<ProfileRequest, ValidatedProfile>> SaveProfile() =>
             FSharpFunc<ValidatedProfile, FSharpResult<ProfileRequest, ValidatedProfile>>.FromConverter(mockSave);
 
-        internal static FSharpFunc<Unit, Query> GetTopics() =>
-            FSharpFunc<Unit, Query>.FromConverter(mockTopics);
+        internal static FSharpFunc<Unit, TopicsQuery> GetTopics() =>
+            FSharpFunc<Unit, TopicsQuery>.FromConverter(mockTopics);
     }
 }
