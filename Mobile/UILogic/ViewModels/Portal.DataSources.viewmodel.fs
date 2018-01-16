@@ -7,7 +7,8 @@ open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.Profile
 open Nikeza.Common
 
-type ViewModel() as x =
+type ViewModel(platformsFn) as x =
+
     inherit ViewModelBase()
 
     let mutable platforms = ObservableCollection<string>()

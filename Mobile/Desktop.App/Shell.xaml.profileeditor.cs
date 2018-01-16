@@ -27,13 +27,11 @@ namespace Desktop.App
 
             viewmodel.SaveEvent += (s, e) => FromProfileEditor(AppFrame, e);
             profileEditorPage.Init(viewmodel);
-
-            viewmodel.Init();
-
+            
             AppFrame.Navigate(profileEditorPage);
         }
 
-        static void ToError(Frame AppFrame, ProfileSaveEvent theEvent) =>
+        static void ToError(Frame AppFrame, ProfileSaveEvent theEvent) => 
             AppFrame.Navigate(new ErrorPage());
     }
 }

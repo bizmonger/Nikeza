@@ -26,6 +26,7 @@ let someProfileRequest = {
 }
 
 open Nikeza.Mobile.Profile.Registration
+open Nikeza.Common
 
 let someValidatedForm = { 
    Form = { Email= Email ""
@@ -48,3 +49,9 @@ let mockTopics : TopicsFn =
                               { Id=1; Name="Elm"}
                               { Id=2; Name="Architecture" }
                              ]
+
+let mockPlatforms : PlatformsFn =
+    fun _ -> PlatformsQuery.PlatformsSucceeded [Platform "YouTube"
+                                                Platform "WordPress"
+                                                Platform "StackOverflow"
+                                               ]

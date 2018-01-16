@@ -17,5 +17,8 @@ namespace Desktop.App
 
         internal static FSharpFunc<Unit, TopicsQuery> GetTopics() =>
             FSharpFunc<Unit, TopicsQuery>.FromConverter(mockTopics);
+
+        internal static FSharpFunc<Unit, PlatformsQuery> GetPlatforms() =>
+            FSharpFunc<Unit, PlatformsQuery>.FromConverter(mockPlatforms);
     }
 }
