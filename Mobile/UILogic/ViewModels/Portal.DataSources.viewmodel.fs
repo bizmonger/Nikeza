@@ -4,10 +4,10 @@ open System
 open System.Collections.ObjectModel
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Profile.Events
-open Nikeza.Mobile.Profile
+open Nikeza.Mobile.Profile.Query
 open Nikeza.Common
 
-type ViewModel(platformsFn) as x =
+type ViewModel(platformsFn:PlatformsFn) as x =
 
     inherit ViewModelBase()
 
@@ -48,9 +48,9 @@ type ViewModel(platformsFn) as x =
              let namesOf platforms = 
                 platforms |> List.map(fun (Platform name) -> name)
 
-             Query.platforms()
+             platformsFn()
               |> function
-                 | PlatformsSucceeded p -> platforms <- ObservableCollection<string>(namesOf p)
+                 | PlatformsSucceeded p -> x.Platforms <- ObservableCollection<string>(namesOf p)
                  | PlatformsFailed    _ -> ()
 
     member x.Add =    add;

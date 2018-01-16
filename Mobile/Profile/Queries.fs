@@ -3,8 +3,8 @@
 open Nikeza.Mobile.Profile.Events
 
 type PlatformsFn = unit-> PlatformsQuery
-type TopicsFn =  unit-> TopicsQuery
-type SourcesFn = unit-> SourcesQuery
+type TopicsFn =    unit-> TopicsQuery
+type SourcesFn =   unit-> SourcesQuery
 
 let topics : TopicsFn =
     fun _ -> TopicsFailed    "Not Implemented..."
