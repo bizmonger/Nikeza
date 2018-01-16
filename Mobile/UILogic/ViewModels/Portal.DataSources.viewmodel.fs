@@ -44,13 +44,10 @@ type ViewModel(platformsFn:PlatformsFn) as x =
                                base.NotifyPropertyChanged(<@ x.Platforms @>)
 
     member x.Init() =
-
-             let namesOf platforms = 
-                platforms |> List.map(fun (Platform name) -> name)
-
+    
              platformsFn()
               |> function
-                 | PlatformsSucceeded p -> x.Platforms <- ObservableCollection<string>(namesOf p)
+                 | PlatformsSucceeded p -> x.Platforms <- ObservableCollection<string>(p)
                  | PlatformsFailed    _ -> ()
 
     member x.Add =    add;

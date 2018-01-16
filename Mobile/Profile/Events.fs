@@ -35,7 +35,7 @@ type ProfileSaveEvent =
     | ProfileSaveFailed of ValidatedProfile
 
 type PlatformsQuery =
-    | PlatformsSucceeded of Platform list
+    | PlatformsSucceeded of string list
     | PlatformsFailed    of string
 
 type TopicsQuery =

@@ -79,7 +79,7 @@ let mockTopics : TopicsFn =
     fun _ -> TopicsQuery.TopicsSucceeded [{Id=0; Name="F#" }]
 
 let mockPlatforms : PlatformsFn =
-    fun _ -> PlatformsQuery.PlatformsSucceeded [Platform "YouTube"; Platform "WordPress"; Platform "StackOverflow"]
+    fun _ -> PlatformsQuery.PlatformsSucceeded ["YouTube"; "WordPress"; "StackOverflow"]
 
 let mockPortfolio : PortfolioFn =
     fun _ -> Query.Succeeded someProvider

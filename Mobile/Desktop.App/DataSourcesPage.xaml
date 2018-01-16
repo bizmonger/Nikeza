@@ -33,7 +33,9 @@
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
 
-        <ListView Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Platforms}" SelectedItem="{Binding Platform}" />
+        <ListView Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Platforms, UpdateSourceTrigger=PropertyChanged}" 
+                                               SelectedItem="{Binding Platform}" />
+        
         <TextBox  Grid.Row="0" Grid.Column="1" Text="{Binding AccessId}" />
         
         <Button   Grid.Row="0" Grid.Column="2" Command="{Binding Add}" Content="Add" />

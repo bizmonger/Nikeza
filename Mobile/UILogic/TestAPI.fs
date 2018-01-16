@@ -51,7 +51,7 @@ let mockTopics : TopicsFn =
                              ]
 
 let mockPlatforms : PlatformsFn =
-    fun _ -> PlatformsQuery.PlatformsSucceeded [Platform "YouTube"
-                                                Platform "WordPress"
-                                                Platform "StackOverflow"
+    fun _ -> PlatformsQuery.PlatformsSucceeded [ "YouTube"
+                                                 "WordPress"
+                                                 "StackOverflow"
                                                ]
