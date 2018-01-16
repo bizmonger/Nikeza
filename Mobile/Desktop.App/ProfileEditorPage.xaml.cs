@@ -21,6 +21,6 @@ namespace Desktop.App
             Email.TextChanged     += (s, e) => { InputResponse(Email, ""); };
         }
 
-        public void Init(ViewModel viewmodel) => _viewmodel = viewmodel;
+        public void Init(ViewModel viewmodel) => DataContext = _viewmodel = viewmodel;
     }
 }
