@@ -39,6 +39,7 @@
       <HintPath>..\packages\FSharp.Core.4.2.3\lib\net45\FSharp.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Nikeza.Mobile.Portfolio, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -74,6 +75,9 @@
     <Compile Include="ProfileEditorPage.xaml.internal.cs">
       <DependentUpon>ProfileEditorPage.xaml.cs</DependentUpon>
     </Compile>
+    <Compile Include="RecentPage.xaml.cs">
+      <DependentUpon>RecentPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RegistrationPage.xaml.cs">
       <DependentUpon>RegistrationPage.xaml</DependentUpon>
     </Compile>
@@ -81,6 +85,9 @@
       <DependentUpon>Shell.xaml.cs</DependentUpon>
     </Compile>
     <Compile Include="Shell.xaml.profileeditor.cs">
+      <DependentUpon>Shell.xaml.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Shell.xaml.recent.cs">
       <DependentUpon>Shell.xaml.cs</DependentUpon>
     </Compile>
     <Compile Include="Shell.xaml.registration.cs">
@@ -95,6 +102,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ErrorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RecentPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -150,6 +161,10 @@
     <ProjectReference Include="..\Profile\Nikeza.Mobile.Profile.fsproj">
       <Project>{a98e9556-cf8a-46b3-9cf5-760c657a0850}</Project>
       <Name>Nikeza.Mobile.Profile</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Subscriptions\Nikeza.Mobile.Subscriptions.fsproj">
+      <Project>{ed5526a4-3865-43b2-9f12-3d2a4e5f8e7b}</Project>
+      <Name>Nikeza.Mobile.Subscriptions</Name>
     </ProjectReference>
     <ProjectReference Include="..\UILogic\Nikeza.Mobile.UILogic.fsproj">
       <Project>{2f426613-6ecc-440f-b9cd-5f2d46cad82a}</Project>

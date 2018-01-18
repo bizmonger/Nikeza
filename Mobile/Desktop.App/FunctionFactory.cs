@@ -4,6 +4,7 @@ using static Nikeza.DataTransfer;
 using static Nikeza.Mobile.Profile.Registration;
 using static Nikeza.Mobile.UILogic.TestAPI;
 using static Nikeza.Mobile.Profile.Events;
+using static Nikeza.Mobile.Subscriptions.Events;
 
 namespace Desktop.App
 {
@@ -20,5 +21,11 @@ namespace Desktop.App
 
         internal static FSharpFunc<Unit, PlatformsQuery> GetPlatforms() =>
             FSharpFunc<Unit, PlatformsQuery>.FromConverter(mockPlatforms);
+
+        internal static FSharpFunc<ProfileId, RecentQuery> GetRecent() =>
+            FSharpFunc<ProfileId, RecentQuery>.FromConverter(mockRecent);
+
+        internal static FSharpFunc<ProviderId, Nikeza.Mobile.Portfolio.Events.Query> GetPortfolio() =>
+            FSharpFunc<ProviderId, Nikeza.Mobile.Portfolio.Events.Query>.FromConverter(mockPortfolio);
     }
 }

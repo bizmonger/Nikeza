@@ -9,7 +9,7 @@ open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio
 
 type PortfolioEvent =     Nikeza.Mobile.Portfolio.Events.Query
-type SubscriptionsEvent = Nikeza.Mobile.Subscriptions.Events.Query
+type SubscriptionsEvent = Nikeza.Mobile.Subscriptions.Events.SubscriptionsQuery
 
 type ViewModel(user:Provider, getSubscriptions:SubscriptionsFn) =
 
@@ -42,5 +42,5 @@ type ViewModel(user:Provider, getSubscriptions:SubscriptionsFn) =
     member x.Init() =
              getSubscriptions <| ProfileId user.Profile.Id
               |> function
-                 | Query.SubscriptionsSucceeded providers -> subscriptions <- providers
+                 | SubscriptionsSucceeded providers -> subscriptions <- providers
                  | other -> publishEvent subscriptionsEvent other

@@ -3,16 +3,21 @@
 open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Profile.Query
 open Nikeza.Mobile.Profile.Events
-open Nikeza.DataTransfer
+open Nikeza.Mobile.Subscriptions.Events
+open Nikeza.Mobile.Subscriptions.Query
+open Nikeza.Mobile.Portfolio.Events
+open Nikeza.Mobile.Portfolio.Query
+open Nikeza.Mobile.Portfolio.Events
+open Nikeza.Common
 
 let someProfile = {
-    Profile.Id =        ""
-    Profile.FirstName = ""
-    Profile.LastName =  ""
-    Profile.Email =     "test@abc.com"
-    Profile.Bio =       ""
-    Profile.ImageUrl =  ""
-    Profile.Sources =   []
+    Nikeza.Common.ProfileRequest.Id =        ""
+    Nikeza.Common.ProfileRequest.FirstName = ""
+    Nikeza.Common.ProfileRequest.LastName =  ""
+    Nikeza.Common.ProfileRequest.Email =     "test@abc.com"
+    Nikeza.Common.ProfileRequest.Bio =       ""
+    Nikeza.Common.ProfileRequest.ImageUrl =  ""
+    Nikeza.Common.ProfileRequest.Sources =   []
 }
 
 let someProfileRequest = {
@@ -25,8 +30,26 @@ let someProfileRequest = {
     Nikeza.Common.ProfileRequest.Sources =   []
 }
 
+
+let somePortfolio = { 
+    Answers  = []
+    Articles = []
+    Videos =   []
+    Podcasts = []
+}
+
+let someProvider = {
+    Nikeza.Common.ProviderRequest.Profile =      someProfile
+    Nikeza.Common.ProviderRequest.Topics =        []
+    Nikeza.Common.ProviderRequest.Portfolio=     somePortfolio
+    Nikeza.Common.ProviderRequest.RecentLinks=   []
+    Nikeza.Common.ProviderRequest.Subscriptions= []
+    Nikeza.Common.ProviderRequest.Followers=     []
+}
+
 open Nikeza.Mobile.Profile.Registration
 open Nikeza.Common
+open Nikeza.Mobile.Subscriptions.Events
 
 let someValidatedForm = { 
    Form = { Email= Email ""
@@ -55,3 +78,9 @@ let mockPlatforms : PlatformsFn =
                                                  "WordPress"
                                                  "StackOverflow"
                                                ]
+
+let mockRecent : RecentFn =
+    fun _ -> RecentQuery.RecentSucceeded []
+
+let mockPortfolio : PortfolioFn =
+    fun _ -> Query.Succeeded someProvider

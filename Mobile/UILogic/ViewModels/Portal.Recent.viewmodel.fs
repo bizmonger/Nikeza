@@ -11,9 +11,9 @@ open Nikeza.Mobile.Portfolio.Query
 open Nikeza.Mobile.UILogic.Pages
 
 type PortfolioEvent =     Nikeza.Mobile.Portfolio.Events.Query
-type SubscriptionsEvent = Nikeza.Mobile.Subscriptions.Events.Query
+type SubscriptionsEvent = Nikeza.Mobile.Subscriptions.Events.RecentQuery
 
-type ViewModel(user:Provider, queryRecent:RecentFn, queryPortfolio:PortfolioFn) =
+type ViewModel(userId:string, queryRecent:RecentFn, queryPortfolio:PortfolioFn) =
 
     inherit ViewModelBase()
 
@@ -46,7 +46,7 @@ type ViewModel(user:Provider, queryRecent:RecentFn, queryPortfolio:PortfolioFn) 
              and  set(value) = recent    <- value
 
     member x.Init() =
-        queryRecent <| ProfileId user.Profile.Id
+        queryRecent <| ProfileId userId
          |> function
-            | Query.RecentSucceeded providers -> recent <- providers
+            | RecentQuery.RecentSucceeded providers -> recent <- providers
             | other -> publishEvent subscriptionsEvent other

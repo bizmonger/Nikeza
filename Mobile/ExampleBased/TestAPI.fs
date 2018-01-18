@@ -36,7 +36,6 @@ let someUser:Profile = {
     Sources =   []
 }
 
-
 let somePortfolio = { 
     Answers  = []
     Articles = []
@@ -64,13 +63,13 @@ let mockSubmit : SubmitFn =
                 }
 
 let mockRecent : RecentFn =
-    fun _ -> Query.RecentSucceeded [someProvider]
+    fun _ -> RecentSucceeded [someProvider]
 
 let mockMembers : MembersFn =
-    fun _ -> Query.MembersSucceeded [someProvider]
+    fun _ -> MembersSucceeded [someProvider]
 
 let mockSubscriptions : SubscriptionsFn =
-    fun _ -> Query.SubscriptionsSucceeded [someProvider]
+    fun _ -> SubscriptionsSucceeded [someProvider]
 
 let mockSave : SaveFn =
     fun _ -> Ok someProfile

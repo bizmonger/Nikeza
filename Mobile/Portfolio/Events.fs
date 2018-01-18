@@ -16,4 +16,4 @@ type TopicsEvent =
 
 type Query =
     | Failed    of ProviderId
-    | Succeeded of Provider
+    | Succeeded of ProviderRequest
