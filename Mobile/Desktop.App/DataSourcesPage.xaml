@@ -10,10 +10,23 @@
     <Page.Resources>
         <Style TargetType="ListView">
             <Setter Property="Width" Value="200" />
+            <Setter Property="Height" Value="50" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Height" Value="20" />
             <Setter Property="Margin" Value="5" />
         </Style>
         <Style TargetType="TextBox">
             <Setter Property="Width" Value="200" />
+            <Setter Property="Height" Value="20" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="20" />
+            <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="Margin" Value="5" />
         </Style>
     </Page.Resources>
@@ -33,14 +46,14 @@
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
 
-        <ListView Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Platforms, UpdateSourceTrigger=PropertyChanged}" 
+        <ComboBox Grid.Row="0" Grid.Column="0" ItemsSource= "{Binding Platforms, UpdateSourceTrigger=PropertyChanged}" 
                                                SelectedItem="{Binding Platform}" />
         
         <TextBox  Grid.Row="0" Grid.Column="1" Text="{Binding AccessId}" />
         
         <Button   Grid.Row="0" Grid.Column="2" Command="{Binding Add}" Content="Add" />
 
-        <ListView ItemsSource="{Binding Sources}">
+        <ListView Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Sources}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
