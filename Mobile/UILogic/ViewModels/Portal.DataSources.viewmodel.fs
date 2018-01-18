@@ -13,12 +13,16 @@ type ViewModel(platformsFn) as x =
     let mutable platform =  ""
     let mutable accessId =  ""
     let mutable sources =   ObservableCollection<string>()
+    let mutable validated = false
 
     let canAdd() =
-        not <| String.IsNullOrEmpty x.Platform &&
-        not <| String.IsNullOrEmpty x.AccessId
+        x.Validated <-
+            not <| String.IsNullOrEmpty x.Platform &&
+            not <| String.IsNullOrEmpty x.AccessId
 
-    let add =    DelegateCommand( (fun _ -> () (*todo...*)) , fun _ -> canAdd() )
+        x.Validated
+
+    let add =    DelegateCommand( (fun _ -> () (*todo...*)) , fun _ -> true )
     let remove = DelegateCommand( (fun _ -> () (*todo...*)) , fun _ -> true )
 
     member x.Platform
@@ -30,6 +34,7 @@ type ViewModel(platformsFn) as x =
              with get() =      accessId
              and  set(value) = accessId <- value
                                base.NotifyPropertyChanged(<@ x.AccessId @>)
+                               canAdd() |> ignore
 
     member x.Sources
              with get() =      sources
@@ -40,6 +45,11 @@ type ViewModel(platformsFn) as x =
              with get() =      platforms
              and  set(value) = platforms <- value
                                base.NotifyPropertyChanged(<@ x.Platforms @>)
+
+    member x.Validated
+             with get() =      validated
+             and  set(value) = validated <- value
+                               base.NotifyPropertyChanged(<@ x.Validated @>)
 
     member x.Init() =
     
