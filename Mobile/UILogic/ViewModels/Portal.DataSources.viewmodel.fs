@@ -16,6 +16,8 @@ type ViewModel(profileId, platformsFn) as x =
     let mutable sources =   ObservableCollection<DataSourceSubmit>()
     let mutable validated = false
 
+    let saveRequest = Event<_>()
+
     let canAdd() =
         x.Validated <-
             not <| String.IsNullOrEmpty x.Platform &&
@@ -64,3 +66,7 @@ type ViewModel(profileId, platformsFn) as x =
 
     member x.Add =    DelegateCommand( (fun _ -> x.Sources.Add(createSource())) , fun _ -> true )
     member x.Remove = DelegateCommand( (fun _ -> () (*todo...*)) , fun _ -> true )
+    member x.Save =   DelegateCommand( (fun _ -> saveRequest.Trigger()) , fun _ -> true )
+
+    [<CLIEvent>]
+    member x.SaveRequest = saveRequest.Publish
