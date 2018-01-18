@@ -4,10 +4,8 @@ open System
 open System.Collections.ObjectModel
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Profile.Events
-open Nikeza.Mobile.Profile.Query
-open Nikeza.Common
 
-type ViewModel(platformsFn:PlatformsFn) as x =
+type ViewModel(platformsFn) as x =
 
     inherit ViewModelBase()
 
