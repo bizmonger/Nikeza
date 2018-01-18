@@ -9,7 +9,7 @@ namespace Desktop.App
         static void ToDataSources(Frame AppFrame, ProfileRequest profile)
         {
             var page =      new DataSourcesPage();
-            var viewmodel = new ViewModel(FunctionFactory.GetPlatforms());
+            var viewmodel = new ViewModel(profile.Id, FunctionFactory.GetPlatforms());
 
             page.Init(viewmodel);
             AppFrame.Navigate(page);

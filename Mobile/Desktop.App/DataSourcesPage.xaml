@@ -68,8 +68,8 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
-                        <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Platform}" />
-                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding AccessId}" />
+                        <Label Grid.Row="0" Grid.Column="0" Content="{Binding Platform}" />
+                        <Label Grid.Row="0" Grid.Column="1" Content="{Binding AccessId}" />
                         
                     </Grid>
                 </DataTemplate>

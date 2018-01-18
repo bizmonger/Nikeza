@@ -2,17 +2,18 @@
 
 open System
 open System.Collections.ObjectModel
+open Nikeza.Common
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Profile.Events
 
-type ViewModel(platformsFn) as x =
+type ViewModel(profileId, platformsFn) as x =
 
     inherit ViewModelBase()
 
     let mutable platforms = ObservableCollection<string>()
     let mutable platform =  ""
     let mutable accessId =  ""
-    let mutable sources =   ObservableCollection<string>()
+    let mutable sources =   ObservableCollection<DataSourceSubmit>()
     let mutable validated = false
 
     let canAdd() =
@@ -22,9 +23,12 @@ type ViewModel(platformsFn) as x =
 
         x.Validated
 
-    let add =    DelegateCommand( (fun _ -> () (*todo...*)) , fun _ -> true )
-    let remove = DelegateCommand( (fun _ -> () (*todo...*)) , fun _ -> true )
-
+    let createSource() = {
+        ProfileId= profileId
+        Platform= x.Platform
+        AccessId= x.AccessId
+    }
+    
     member x.Platform
              with get() =      platform
              and  set(value) = platform <- value
@@ -58,5 +62,5 @@ type ViewModel(platformsFn) as x =
                  | PlatformsSucceeded p -> x.Platforms <- ObservableCollection<string>(p)
                  | PlatformsFailed    _ -> ()
 
-    member x.Add =    add;
-    member x.Remove = remove;
+    member x.Add =    DelegateCommand( (fun _ -> x.Sources.Add(createSource())) , fun _ -> true )
+    member x.Remove = DelegateCommand( (fun _ -> () (*todo...*)) , fun _ -> true )

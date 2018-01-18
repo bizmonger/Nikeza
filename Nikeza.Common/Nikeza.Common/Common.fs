@@ -88,6 +88,13 @@ type DataSourceRequest = {
     Links:     Link seq
 }
 
+[<CLIMutable>]
+type DataSourceSubmit = { 
+    ProfileId: string
+    Platform:  string
+    AccessId:  string
+}
+
 type DataSource = DataSourceRequest
 
 [<CLIMutable>]
