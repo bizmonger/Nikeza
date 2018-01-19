@@ -128,8 +128,8 @@ type ViewModel(injected) as x =
     member x.Init() =
             injected.TopicsFn()
              |> function
-                | TopicsQuery.TopicsSucceeded v -> topics <- ObservableCollection(v |> Seq.map (fun topic -> topic.Name))
-                | TopicsQuery.TopicsFailed _    -> publishEvent topicsEvent Pages.Error
+                | Ok v -> topics <- ObservableCollection(v |> Seq.map (fun topic -> topic.Name))
+                | Error _    -> publishEvent topicsEvent Pages.Error
 
     [<CLIEvent>]
     member x.SaveRequest = saveRequest.Publish

@@ -37,15 +37,3 @@ type ProfileSaveEvent =
 type SourcesSaveEvent =
     | SourcesSaved  of Profile
     | SourcesFailed of DataSourceSubmit list
-
-type PlatformsQuery =
-    | PlatformsSucceeded of string list
-    | PlatformsFailed    of string
-
-type TopicsQuery =
-    | TopicsSucceeded of Topic list
-    | TopicsFailed    of string
-
-type SourcesQuery =
-    | SourcesSucceeded of DataSource list
-    | SourcesFailed    of string

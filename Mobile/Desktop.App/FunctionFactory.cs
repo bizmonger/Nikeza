@@ -5,7 +5,6 @@ using static Nikeza.Mobile.Profile.Registration;
 using static Nikeza.Mobile.UILogic.TestAPI;
 using static Nikeza.Mobile.Profile.Events;
 using static Nikeza.Mobile.Subscriptions.Events;
-using System.Collections.Generic;
 using Microsoft.FSharp.Collections;
 
 namespace Desktop.App
@@ -18,11 +17,11 @@ namespace Desktop.App
         internal static FSharpFunc<ValidatedProfile, FSharpResult<ProfileRequest, ValidatedProfile>> SaveProfile() =>
             FSharpFunc<ValidatedProfile, FSharpResult<ProfileRequest, ValidatedProfile>>.FromConverter(mockSave);
 
-        internal static FSharpFunc<Unit, TopicsQuery> GetTopics() =>
-            FSharpFunc<Unit, TopicsQuery>.FromConverter(mockTopics);
+        internal static FSharpFunc<Unit, FSharpResult<FSharpList<Topic>, string>> GetTopics() =>
+            FSharpFunc<Unit, FSharpResult<FSharpList<Topic>, string>>.FromConverter(mockTopics);
 
-        internal static FSharpFunc<Unit, PlatformsQuery> GetPlatforms() =>
-            FSharpFunc<Unit, PlatformsQuery>.FromConverter(mockPlatforms);
+        internal static FSharpFunc<Unit, FSharpResult<FSharpList<string>, string>> GetPlatforms() =>
+            FSharpFunc<Unit, FSharpResult<FSharpList<string>, string>>.FromConverter(mockPlatforms);
 
         internal static FSharpFunc<ProfileId, RecentQuery> GetRecent() =>
             FSharpFunc<ProfileId, RecentQuery>.FromConverter(mockRecent);

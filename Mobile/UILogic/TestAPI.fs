@@ -71,16 +71,16 @@ let mockSaveSources : SourcesSaveFn =
     fun _ -> Ok someProfileRequest
 
 let mockTopics : TopicsFn =
-    fun _ -> TopicsSucceeded [{ Id=0; Name="F#" }
-                              { Id=1; Name="Elm"}
-                              { Id=2; Name="Architecture" }
-                             ]
+    fun _ -> Ok [{ Id=0; Name="F#" }
+                 { Id=1; Name="Elm"}
+                 { Id=2; Name="Architecture" }
+                ]
 
 let mockPlatforms : PlatformsFn =
-    fun _ -> PlatformsQuery.PlatformsSucceeded [ "YouTube"
-                                                 "WordPress"
-                                                 "StackOverflow"
-                                               ]
+    fun _ -> Ok [ "YouTube"
+                  "WordPress"
+                  "StackOverflow"
+                ]
 
 let mockRecent : RecentFn =
     fun _ -> RecentQuery.RecentSucceeded []

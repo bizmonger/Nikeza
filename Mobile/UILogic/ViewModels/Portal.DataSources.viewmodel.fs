@@ -6,10 +6,10 @@ open Nikeza.DataTransfer
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.UILogic.Publisher
 open Nikeza.Mobile.Profile
-open Nikeza.Mobile.Profile.Events
+open Nikeza.Mobile.Profile.Query
 open Nikeza.Mobile.Profile.Commands.DataSources
 
-type ViewModel(user:Profile, platformsFn, savefn) as x =
+type ViewModel(user:Profile, platformsFn:PlatformsFn, savefn) as x =
 
     inherit ViewModelBase()
 
@@ -71,8 +71,8 @@ type ViewModel(user:Profile, platformsFn, savefn) as x =
     
              platformsFn()
               |> function
-                 | PlatformsSucceeded p -> x.Platforms <- ObservableCollection<string>(p)
-                 | PlatformsFailed    _ -> ()
+                 | Ok p    -> x.Platforms <- ObservableCollection<string>(p)
+                 | Error _ -> ()
 
     member x.Add =    DelegateCommand( (fun _ -> x.Sources.Add(createSource())) , fun _ -> true )
     member x.Remove = DelegateCommand( (fun _ -> () (*todo...*)) , fun _ -> true )

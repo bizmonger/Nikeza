@@ -1,16 +1,16 @@
 ﻿module Nikeza.Mobile.Profile.Query
 
-open Nikeza.Mobile.Profile.Events
+open Nikeza.Common
 
-type PlatformsFn = unit-> PlatformsQuery
-type TopicsFn =    unit-> TopicsQuery
-type SourcesFn =   unit-> SourcesQuery
+type PlatformsFn = unit-> Result<string list, string>
+type TopicsFn =    unit-> Result<Topic list, string>
+type SourcesFn =   unit-> Result<DataSourceRequest list, string>
 
 let topics : TopicsFn =
-    fun _ -> TopicsFailed    "Not Implemented..."
+    fun _ -> Error "Not Implemented..."
                              
 let profile : SourcesFn =    
-    fun _ -> SourcesFailed   "Not Implemented..."
+    fun _ -> Error "Not Implemented..."
 
 let platforms : PlatformsFn =
-    fun _ -> PlatformsFailed "Not Implemented..."
+    fun _ -> Error "Not Implemented..."
