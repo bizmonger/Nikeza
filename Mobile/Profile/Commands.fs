@@ -37,3 +37,12 @@ module ResultOf =
     type Session =
         | Login  of Result<Provider, Credentials>
         | Logout of Result<unit, unit>
+
+module DataSources =
+
+    type SaveCommand = Execute of DataSourceSubmit list
+
+    module Save =
+        module ResultOf =
+
+            type Save = Execute of Result<Nikeza.DataTransfer.Profile, DataSourceSubmit list>

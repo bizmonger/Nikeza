@@ -23,7 +23,7 @@ type ViewModel(injected) as x =
 
     inherit ViewModelBase()
 
-    let saveEvent =   new Event<_>()
+    let saveRequest = new Event<_>()
     let topicsEvent = new Event<_>()
 
     let mutable firstNamePlaceholder = "first name"
@@ -67,7 +67,7 @@ type ViewModel(injected) as x =
         { Profile= profile }
            |> SaveCommand.Execute 
            |> In.Editor.Save.workflow injected.SaveFn
-           |> publishEvents saveEvent
+           |> publishEvents saveRequest
 
     member x.FirstName
         with get() =       firstName
@@ -132,7 +132,7 @@ type ViewModel(injected) as x =
                 | TopicsQuery.TopicsFailed _    -> publishEvent topicsEvent Pages.Error
 
     [<CLIEvent>]
-    member x.SaveEvent =   saveEvent.Publish
+    member x.SaveRequest = saveRequest.Publish
 
     [<CLIEvent>]
     member x.TopicsEvent = topicsEvent.Publish

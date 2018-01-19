@@ -18,3 +18,11 @@ type ProfileEditorEventExtension () =
            match x with
            | ProfileSaved profile -> Some profile
            | _                    -> None
+
+[<Extension>]
+type SourcesSaveEventExtension () =
+    [<Extension>]
+    static member TryGetProfile(x:SourcesSaveEvent) =
+           match x with
+           | SourcesSaved profile -> Some profile
+           | _                    -> None

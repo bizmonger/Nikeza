@@ -2,11 +2,14 @@
 
 open System
 open System.Collections.ObjectModel
-open Nikeza.Common
+open Nikeza.DataTransfer
 open Nikeza.Mobile.UILogic
+open Nikeza.Mobile.UILogic.Publisher
+open Nikeza.Mobile.Profile
 open Nikeza.Mobile.Profile.Events
+open Nikeza.Mobile.Profile.Commands.DataSources
 
-type ViewModel(profileId, platformsFn) as x =
+type ViewModel(user:Profile, platformsFn, savefn) as x =
 
     inherit ViewModelBase()
 
@@ -26,10 +29,17 @@ type ViewModel(profileId, platformsFn) as x =
         x.Validated
 
     let createSource() = {
-        ProfileId= profileId
+        ProfileId= user.Id
         Platform= x.Platform
         AccessId= x.AccessId
     }
+
+    let save() = 
+        x.Sources
+           |> List.ofSeq
+           |> SaveCommand.Execute 
+           |> In.DataSources.Save.workflow savefn
+           |> publishEvents saveRequest
     
     member x.Platform
              with get() =      platform
@@ -66,7 +76,7 @@ type ViewModel(profileId, platformsFn) as x =
 
     member x.Add =    DelegateCommand( (fun _ -> x.Sources.Add(createSource())) , fun _ -> true )
     member x.Remove = DelegateCommand( (fun _ -> () (*todo...*)) , fun _ -> true )
-    member x.Save =   DelegateCommand( (fun _ -> saveRequest.Trigger()) , fun _ -> true )
+    member x.Save =   DelegateCommand( (fun _ -> save()) , fun _ -> true )
 
     [<CLIEvent>]
     member x.SaveRequest = saveRequest.Publish

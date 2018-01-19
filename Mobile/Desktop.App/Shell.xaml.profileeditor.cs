@@ -25,13 +25,13 @@ namespace Desktop.App
             var inject =            new Dependencies(theEvent.TryGetProfile().Value, SaveProfile(), GetTopics());
             var viewmodel =         new ProfileEditorViewmodel(inject);
 
-            viewmodel.SaveEvent += (s, e) => FromProfileEditor(AppFrame, e);
+            viewmodel.SaveRequest += (s, e) => FromProfileEditor(AppFrame, e);
             profileEditorPage.Init(viewmodel);
             
             AppFrame.Navigate(profileEditorPage);
         }
 
-        static void ToError(Frame AppFrame, ProfileSaveEvent theEvent) => 
-            AppFrame.Navigate(new ErrorPage());
+        static void ToError(Frame appFrame, ProfileSaveEvent theEvent) => 
+            appFrame.Navigate(new ErrorPage());
     }
 }

@@ -73,6 +73,9 @@ let mockSubscriptions : SubscriptionsFn =
 
 let mockSave : SaveFn =
     fun _ -> Ok someProfile
+    
+let mockSaveSources : SourcesSaveFn =
+    fun _ -> Ok someProfile
 
 let mockTopics : TopicsFn =
     fun _ -> TopicsQuery.TopicsSucceeded [{Id=0; Name="F#" }]

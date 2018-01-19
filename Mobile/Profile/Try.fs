@@ -4,10 +4,11 @@ open Nikeza.DataTransfer
 
 type private ValidatedForm = Nikeza.Mobile.Profile.Registration.ValidatedForm
 
-type SubmitFn = ValidatedForm    -> Result<Profile, ValidatedForm>
-type LoginFn =  Credentials      -> Result<Provider, Credentials>
-type LogoutFn = unit             -> Result<unit, unit>
-type SaveFn =   ValidatedProfile -> Result<Profile, ValidatedProfile>
+type SubmitFn =      ValidatedForm         -> Result<Profile, ValidatedForm>
+type LoginFn =       Credentials           -> Result<Provider, Credentials>
+type LogoutFn =      unit                  -> Result<unit, unit>
+type SaveFn =        ValidatedProfile      -> Result<Profile, ValidatedProfile>
+type SourcesSaveFn = DataSourceSubmit list -> Result<Profile, DataSourceSubmit list>
 
 let submit : SubmitFn = 
     fun registration -> Error registration

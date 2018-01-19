@@ -10,7 +10,7 @@ open System.Linq
 let ``Initializing viewmodel loads platforms`` () =
     
     // Setup
-    let dataSources = ViewModel(someUser.Id, mockPlatforms)
+    let dataSources = ViewModel(someUser, mockPlatforms, mockSaveSources)
 
     // Test
     dataSources.Init()

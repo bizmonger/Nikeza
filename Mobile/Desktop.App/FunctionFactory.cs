@@ -5,6 +5,8 @@ using static Nikeza.Mobile.Profile.Registration;
 using static Nikeza.Mobile.UILogic.TestAPI;
 using static Nikeza.Mobile.Profile.Events;
 using static Nikeza.Mobile.Subscriptions.Events;
+using System.Collections.Generic;
+using Microsoft.FSharp.Collections;
 
 namespace Desktop.App
 {
@@ -27,5 +29,8 @@ namespace Desktop.App
 
         internal static FSharpFunc<ProviderId, Nikeza.Mobile.Portfolio.Events.Query> GetPortfolio() =>
             FSharpFunc<ProviderId, Nikeza.Mobile.Portfolio.Events.Query>.FromConverter(mockPortfolio);
+
+        internal static FSharpFunc<FSharpList<DataSourceSubmit>, FSharpResult<ProfileRequest, FSharpList<DataSourceSubmit>>> SaveSources() =>
+            FSharpFunc<FSharpList<DataSourceSubmit>, FSharpResult<ProfileRequest, FSharpList<DataSourceSubmit>>>.FromConverter(mockSaveSources);
     }
 }

@@ -1,5 +1,6 @@
 ﻿module Nikeza.Mobile.Profile.In
 
+open Nikeza
 open Nikeza.Mobile.Profile.Commands
 open Nikeza.Mobile.Profile.Commands.Registration
 open Nikeza.Mobile.Profile.Events
@@ -72,6 +73,17 @@ module Editor =
                                          |> ResultOf.Editor.Save
                                          |> Are.Editor.Save.events
 
-//module AddSource =
-//    type private AddWorkflow = Source -> AddComand -> AddSourceEvent list
-//    todo...
+module DataSources =
+
+    module Save =
+        open Commands.DataSources
+        open Commands.DataSources.Save
+
+        type private SaveWorkflow = SourcesSaveFn -> SaveCommand -> SourcesSaveEvent list
+
+        let workflow : SaveWorkflow = 
+            fun savefn command -> command |> function
+                SaveCommand.Execute sources -> 
+                                    sources |> savefn
+                                            |> ResultOf.Save.Execute
+                                            |> Are.DataSources.Save.events    

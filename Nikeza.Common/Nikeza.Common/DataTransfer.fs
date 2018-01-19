@@ -24,3 +24,10 @@ type EditedProfile =    { Profile : Profile }
 type ValidatedProfile = { Profile : Profile }
 
 type LoginResponse = Provider
+
+[<CLIMutable>]
+type DataSourceSubmit = { 
+    ProfileId: string
+    Platform:  string
+    AccessId:  string
+}

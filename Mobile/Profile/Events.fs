@@ -34,6 +34,10 @@ type ProfileSaveEvent =
     | ProfileSaved      of Profile
     | ProfileSaveFailed of ValidatedProfile
 
+type SourcesSaveEvent =
+    | SourcesSaved  of Profile
+    | SourcesFailed of DataSourceSubmit list
+
 type PlatformsQuery =
     | PlatformsSucceeded of string list
     | PlatformsFailed    of string
