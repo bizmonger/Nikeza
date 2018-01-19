@@ -4,7 +4,6 @@ open Nikeza.Common
 open Nikeza.DataTransfer
 open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Profile.Query
-open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.Subscriptions.Try
 open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Query

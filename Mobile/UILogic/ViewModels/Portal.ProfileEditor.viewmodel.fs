@@ -9,7 +9,6 @@ open Nikeza.Mobile.UILogic.Publisher
 open Nikeza.Mobile.Profile
 open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Profile.Query
-open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.Profile.Commands.ProfileEditor
 open System.Collections.ObjectModel
 

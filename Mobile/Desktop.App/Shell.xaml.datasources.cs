@@ -4,8 +4,6 @@ using static Nikeza.Common;
 using static Desktop.App.FunctionFactory;
 using static Nikeza.Mobile.Profile.Events;
 using static Nikeza.Mobile.Profile.EventExtentions.SourcesSaveEventExtension;
-using Nikeza.Mobile.Profile;
-using System;
 
 namespace Desktop.App
 {

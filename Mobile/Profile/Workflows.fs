@@ -1,6 +1,5 @@
 ﻿module Nikeza.Mobile.Profile.In
 
-open Nikeza
 open Nikeza.Mobile.Profile.Commands
 open Nikeza.Mobile.Profile.Commands.Registration
 open Nikeza.Mobile.Profile.Events
