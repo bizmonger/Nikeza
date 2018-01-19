@@ -14,7 +14,7 @@ open System.Collections.ObjectModel
 
 type Dependencies = {
     User:     Profile
-    SaveFn:   SaveFn
+    SaveFn:   SaveProfileFn
     TopicsFn: TopicsFn
 }
 

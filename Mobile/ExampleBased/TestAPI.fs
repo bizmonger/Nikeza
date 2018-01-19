@@ -70,10 +70,10 @@ let mockMembers : MembersFn =
 let mockSubscriptions : SubscriptionsFn =
     fun _ -> SubscriptionsSucceeded [someProvider]
 
-let mockSave : SaveFn =
+let mockSave : SaveProfileFn =
     fun _ -> Ok someProfile
     
-let mockSaveSources : SourcesSaveFn =
+let mockSaveSources : SaveSourcesFn =
     fun _ -> Ok someProfile
 
 let mockTopics : TopicsFn =

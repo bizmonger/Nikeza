@@ -7,8 +7,8 @@ type private ValidatedForm = Nikeza.Mobile.Profile.Registration.ValidatedForm
 type SubmitFn =      ValidatedForm         -> Result<Profile, ValidatedForm>
 type LoginFn =       Credentials           -> Result<Provider, Credentials>
 type LogoutFn =      unit                  -> Result<unit, unit>
-type SaveFn =        ValidatedProfile      -> Result<Profile, ValidatedProfile>
-type SourcesSaveFn = DataSourceSubmit list -> Result<Profile, DataSourceSubmit list>
+type SaveProfileFn = ValidatedProfile      -> Result<Profile, ValidatedProfile>
+type SaveSourcesFn = DataSourceSubmit list -> Result<Profile, DataSourceSubmit list>
 
 let submit : SubmitFn = 
     fun registration -> Error registration
@@ -19,5 +19,8 @@ let internal logout : LogoutFn =
 let internal login : LoginFn = 
     fun credentials -> Error credentials
 
-let internal save : SaveFn = 
+let internal saveProfile : SaveProfileFn = 
     fun profile -> Error profile
+
+let internal saveSources : SaveSourcesFn = 
+    fun sources -> Error sources

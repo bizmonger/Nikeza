@@ -64,10 +64,10 @@ let mockSubmit : SubmitFn =
 let mockFailedSubmit : SubmitFn =
     fun _ -> Error someValidatedForm
 
-let mockSave : SaveFn =
+let mockSave : SaveProfileFn =
     fun _ -> Ok someProfileRequest
 
-let mockSaveSources : SourcesSaveFn =
+let mockSaveSources : SaveSourcesFn =
     fun _ -> Ok someProfileRequest
 
 let mockTopics : TopicsFn =

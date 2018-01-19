@@ -63,7 +63,7 @@ module Editor =
         open Commands.ProfileEditor.Save
         open Commands.ProfileEditor
 
-        type private SaveWorkflow = SaveFn -> SaveCommand -> ProfileSaveEvent list
+        type private SaveWorkflow = SaveProfileFn -> SaveCommand -> ProfileSaveEvent list
 
         let workflow : SaveWorkflow = 
             fun saveFn command -> command |> function
@@ -78,7 +78,7 @@ module DataSources =
         open Commands.DataSources
         open Commands.DataSources.Save
 
-        type private SaveWorkflow = SourcesSaveFn -> SaveCommand -> SourcesSaveEvent list
+        type private SaveWorkflow = SaveSourcesFn -> SaveCommand -> SourcesSaveEvent list
 
         let workflow : SaveWorkflow = 
             fun savefn command -> command |> function
