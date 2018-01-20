@@ -2,12 +2,9 @@
 
 open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Profile.Query
-open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Query
-open Nikeza.Mobile.Portfolio.Events
 open Nikeza.Mobile.Portfolio.Query
-open Nikeza.Mobile.Portfolio.Events
 open Nikeza.Common
 
 let someProfile = {
@@ -48,8 +45,6 @@ let someProvider = {
 }
 
 open Nikeza.Mobile.Profile.Registration
-open Nikeza.Common
-open Nikeza.Mobile.Subscriptions.Events
 
 let someValidatedForm = { 
    Form = { Email= Email ""
@@ -86,4 +81,4 @@ let mockRecent : RecentFn =
     fun _ -> RecentQuery.RecentSucceeded []
 
 let mockPortfolio : PortfolioFn =
-    fun _ -> Query.Succeeded someProvider
+    fun _ -> Ok someProvider

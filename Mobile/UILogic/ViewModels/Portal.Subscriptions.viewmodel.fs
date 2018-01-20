@@ -8,14 +8,13 @@ open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio
 
-type PortfolioEvent =     Nikeza.Mobile.Portfolio.Events.Query
 type SubscriptionsEvent = Nikeza.Mobile.Subscriptions.Events.SubscriptionsQuery
 
 type ViewModel(user:Provider, getSubscriptions:SubscriptionsFn) =
 
     inherit ViewModelBase()
 
-    let portfolioEvent =     new Event<PortfolioEvent>()
+    let portfolioEvent =     new Event<_>()
     let subscriptionsEvent = new Event<SubscriptionsEvent>()
 
     let mutable selection:     Provider option = None

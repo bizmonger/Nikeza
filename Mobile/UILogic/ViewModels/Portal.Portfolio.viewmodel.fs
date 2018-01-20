@@ -9,10 +9,7 @@ open Nikeza.Mobile.Subscription
 open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Try
 open Nikeza.Mobile.Subscriptions.Command
-open Nikeza.Mobile.Portfolio.Events
 open Nikeza.Mobile.Portfolio.Query
-
-type PortfolioQuery = Nikeza.Mobile.Portfolio.Events.Query
 
 type Depedencies = {
         UserId :        ProviderId
@@ -27,9 +24,9 @@ type ViewModel(injected) =
     inherit ViewModelBase()
 
     let mutable provider =  None
-    let queryEvent =   Event<PortfolioQuery>()
-    let commandEvents =     Event<NotificationEvent>()
-    let pageRequested =     Event<PageRequested>()
+
+    let commandEvents = Event<NotificationEvent>()
+    let pageRequested = Event<PageRequested>()
 
     let getId profileId = profileId |> function ProviderId id -> id
     
@@ -86,10 +83,9 @@ type ViewModel(injected) =
              injected.ProviderId 
               |> injected.PortfolioFn
               |> function
-                 | Query.Succeeded p -> provider <- Some p
-                 | Query.Failed   id -> let error = { Context=id; Description="Failed to load portfolio" }
-                                        pageRequested |> publishEvent <| Pages.PortfolioError error
-
-    member x.QueryEvents() =   queryEvent.Publish
+                 | Result.Ok     p -> provider <- Some p
+                 | Result.Error id -> let error = { Context=id; Description="Failed to load portfolio" }
+                                      pageRequested |> publishEvent <| Pages.PortfolioError error
+                               
     member x.CommandEvents() = commandEvents.Publish
     member x.PageRequested() = pageRequested.Publish

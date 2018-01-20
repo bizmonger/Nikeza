@@ -60,39 +60,39 @@ let ``Load portfolio``() =
 let ``Follow provider``() =
     
     // Setup
-    let mutable followSucceeded = false
+    let mutable followed = false
     
     let viewmodel = Portfolio.ViewModel(injected)
 
     viewmodel.CommandEvents()
              .Add(fun event ->
                       event |> function 
-                               | SubscriberAdded _ -> followSucceeded <- true
-                               | _ ->                 followSucceeded <- false)
+                               | SubscriberAdded _ -> followed <- true
+                               | _ ->                 followed <- false)
     // Test
     viewmodel.Follow.Execute()
 
     // Verify
-    followSucceeded |> should equal true
+    followed |> should equal true
 
 [<Test>]
 let ``Unsubscribe from provider``() =
     
     // Setup
-    let mutable unsubscribeSucceeded = false
+    let mutable unsubscribed = false
    
     let viewmodel = Portfolio.ViewModel(injected)
 
     viewmodel.CommandEvents()
              .Add(fun event ->
                       event |> function 
-                               | SubscriberRemoved _ -> unsubscribeSucceeded <- true
-                               | _ ->                   unsubscribeSucceeded <- false)
+                               | SubscriberRemoved _ -> unsubscribed <- true
+                               | _ ->                   unsubscribed <- false)
     // Test
     viewmodel.Unsubscribe.Execute()
 
     // Verify
-    unsubscribeSucceeded |> should equal true
+    unsubscribed |> should equal true
 
 [<Test>]
 let ``Navigate: portfolio -> articles``() =

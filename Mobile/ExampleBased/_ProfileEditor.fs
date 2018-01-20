@@ -10,7 +10,7 @@ open Nikeza.Mobile.Profile.Events
 let ``Save edited profile`` () =
 
     // Setup
-    let mutable saveOccurred = false
+    let mutable saveRequested = false
     let inject =      { User= someUser; SaveFn= mockSave; TopicsFn= mockTopics }
     let profileEditor = ViewModel(inject)
 
@@ -18,7 +18,7 @@ let ``Save edited profile`` () =
                  .Add(fun events ->
                           events |> (fun event -> 
                                          event |> function
-                                                  | ProfileSaved _ -> saveOccurred <- true
+                                                  | ProfileSaved _ -> saveRequested <- true
                                                   | _ -> ()))
     profileEditor.FirstName <- someFirstName
     profileEditor.LastName  <- someLastName
@@ -30,4 +30,4 @@ let ``Save edited profile`` () =
     profileEditor.Save.Execute()
 
     // Verify
-    saveOccurred |> should equal true
+    saveRequested |> should equal true

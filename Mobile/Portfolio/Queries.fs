@@ -1,9 +1,8 @@
 ﻿module Nikeza.Mobile.Portfolio.Query
 
-open Nikeza.Mobile.Portfolio.Events
 open Nikeza.Common
 
-type PortfolioFn = ProviderId -> Query
+type PortfolioFn = ProviderId -> Result<ProviderRequest,ProviderId>
 
 let portfolio : PortfolioFn =
-    fun providerId -> Failed providerId
+    fun providerId -> Error providerId

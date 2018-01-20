@@ -6,11 +6,9 @@ open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.UILogic.Publisher
 open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Query
-open Nikeza.Mobile.Portfolio.Events
 open Nikeza.Mobile.Portfolio.Query
 open Nikeza.Mobile.UILogic.Pages
 
-type PortfolioEvent =     Nikeza.Mobile.Portfolio.Events.Query
 type SubscriptionsEvent = Nikeza.Mobile.Subscriptions.Events.RecentQuery
 
 type ViewModel(userId:string, queryRecent:RecentFn, queryPortfolio:PortfolioFn) =
@@ -31,8 +29,8 @@ type ViewModel(userId:string, queryRecent:RecentFn, queryPortfolio:PortfolioFn) 
                     |> ProviderId  
                     |> queryPortfolio
                     |> function
-                       | Query.Succeeded p  -> publishEvent pageRequested <| Portfolio p
-                       | Query.Failed   id  -> publishEvent pageRequested <| PortfolioError { Context=id; Description="Failed to get portfolio" }
+                       | Result.Ok     p  -> publishEvent pageRequested <| Portfolio p
+                       | Result.Error id  -> publishEvent pageRequested <| PortfolioError { Context=id; Description="Failed to get portfolio" }
             | None -> ()
 
     member x.ViewProvider = DelegateCommand( (fun _ -> viewProvider() ), fun _ -> selection.IsSome)

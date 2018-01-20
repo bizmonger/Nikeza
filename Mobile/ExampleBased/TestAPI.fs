@@ -8,7 +8,6 @@ open Nikeza.Mobile.Subscriptions.Try
 open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio.Query
-open Nikeza.Mobile.Portfolio.Events
 
 let someFirstName = "Scott"
 let someLastName =  "Nimrod"
@@ -83,7 +82,7 @@ let mockPlatforms : PlatformsFn =
     fun _ -> Ok ["YouTube"; "WordPress"; "StackOverflow"]
 
 let mockPortfolio : PortfolioFn =
-    fun _ -> Query.Succeeded someProvider
+    fun _ -> Ok someProvider
 
 let mockFollow : FollowFn =
     fun _ -> Ok {User= someProvider; Provider=someProvider}
