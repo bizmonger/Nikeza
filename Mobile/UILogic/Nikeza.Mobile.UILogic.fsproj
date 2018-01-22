@@ -12,13 +12,13 @@
     <Compile Include="DelegateCommand.fs" />
     <Compile Include="TestAPI.fs" />
     <Compile Include="ViewModelBase.fs" />
-    <Compile Include="ViewModels\Portal.DataSources.viewmodel.fs" />
+    <Compile Include="ViewModels\DataSources.viewmodel.fs" />
     <Compile Include="ViewModels\Registration.viewmodel.fs" />
-    <Compile Include="ViewModels\Portal.Recent.viewmodel.fs" />
-    <Compile Include="ViewModels\Portal.Members.viewmodel.fs" />
-    <Compile Include="ViewModels\Portal.Subscriptions.viewmodel.fs" />
-    <Compile Include="ViewModels\Portal.ProfileEditor.viewmodel.fs" />
-    <Compile Include="ViewModels\Portal.Portfolio.viewmodel.fs" />
+    <Compile Include="ViewModels\Recent.viewmodel.fs" />
+    <Compile Include="ViewModels\Members.viewmodel.fs" />
+    <Compile Include="ViewModels\Subscriptions.viewmodel.fs" />
+    <Compile Include="ViewModels\ProfileEditor.viewmodel.fs" />
+    <Compile Include="ViewModels\Portfolio.viewmodel.fs" />
   </ItemGroup>
 
   <ItemGroup>
