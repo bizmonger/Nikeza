@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using static Nikeza.Mobile.UILogic.TestAPI;
 
 namespace Desktop.App
 {
@@ -8,8 +9,10 @@ namespace Desktop.App
         {
             InitializeComponent();
 
-            var registrationPage = InitRegistration();
-            AppFrame.Navigate(registrationPage);
+            //var registrationPage = InitRegistration();
+            //AppFrame.Navigate(registrationPage);
+
+            ToRecent(AppFrame, someProfile);
         }
     }
 }
