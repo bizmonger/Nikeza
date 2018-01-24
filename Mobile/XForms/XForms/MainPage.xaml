@@ -4,8 +4,34 @@
              xmlns:local="clr-namespace:XForms"
              x:Class="XForms.MainPage">
 
-	<Label Text="Welcome to Xamarin.Forms!" 
-           VerticalOptions="Center" 
-           HorizontalOptions="Center" />
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Entry">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="WidthRequest" Value="250" />
+                <Setter Property="PlaceholderColor" Value="#5784cc" />
+            </Style>
+
+            <Style TargetType="Button">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="WidthRequest" Value="250" />
+                <Setter Property="BackgroundColor" Value="#5784cc" />
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid VerticalOptions="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Entry  Grid.Row="0" Text="{Binding Email}"    Placeholder="email" />
+        <Entry  Grid.Row="1" Text="{Binding Password}" Placeholder="password" IsPassword="True" Margin="0,100" />
+        <Button Grid.Row="2" Text="Next"  />
+    </Grid>
 
 </ContentPage>
