@@ -14,16 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
-    <ProjectReference Include="..\..\UILogic\Nikeza.Mobile.UILogic.fsproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="App.xaml.cs">
       <DependentUpon>*.xaml</DependentUpon>
     </Compile>
-    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="MainPage.xaml.cs">
-      <DependentUpon>*.xaml</DependentUpon>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Registration.xaml.cs">
+      <DependentUpon>Registration.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>
