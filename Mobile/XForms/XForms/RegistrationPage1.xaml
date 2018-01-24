@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:XForms"
+             x:Class="XForms.RegistrationPage1">
+
+    <StackLayout>
+
+        <StackLayout VerticalOptions="CenterAndExpand">
+            <Entry Style="{StaticResource RegistrationEntry}" Text="{Binding Email}"    Placeholder="email"  />
+            <Entry Style="{StaticResource RegistrationEntry}" Text="{Binding Password}" Placeholder="password" IsPassword="True" Margin="0,50,0,0"  />
+        </StackLayout>
+
+        <Button Style="{StaticResource RegistrationButton}" Text="Next" FontAttributes="Bold" FontSize="Medium" VerticalOptions="Fill" />
+    </StackLayout>
+
+</ContentPage>
