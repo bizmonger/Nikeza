@@ -15,14 +15,16 @@
 
             <Style TargetType="Button">
                 <Setter Property="HorizontalOptions" Value="Center" />
-                <Setter Property="WidthRequest" Value="250" />
+                <Setter Property="WidthRequest"  Value="200" />
+                <Setter Property="HeightRequest" Value="60" />
                 <Setter Property="BackgroundColor" Value="#5784cc" />
                 <Setter Property="TextColor" Value="White" />
+                <Setter Property="Margin" Value="0,50,0,0" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid VerticalOptions="Center">
+    <Grid VerticalOptions="End">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -31,7 +33,7 @@
 
         <Entry  Grid.Row="0" Text="{Binding Email}"    Placeholder="email" />
         <Entry  Grid.Row="1" Text="{Binding Password}" Placeholder="password" IsPassword="True" Margin="0,100" />
-        <Button Grid.Row="2" Text="Next"  />
+        <Button Grid.Row="2" Text="Next" FontAttributes="Bold" FontSize="Medium" VerticalOptions="End" />
     </Grid>
 
 </ContentPage>
