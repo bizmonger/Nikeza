@@ -70,10 +70,12 @@ type ViewModel(submitFn:Try.SubmitFn) as x =
     member x.Password
              with get() =      password
              and  set(value) = password <- value
+                               base.NotifyPropertyChanged (<@ x.Password @>)
 
     member x.Confirm
         with get() =           confirm
         and  set(value) =      confirm <- value
+                               base.NotifyPropertyChanged (<@ x.Confirm @>)
 
     member x.IsValidated
              with get() =      isValidated

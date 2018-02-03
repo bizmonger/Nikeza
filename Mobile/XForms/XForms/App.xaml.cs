@@ -9,7 +9,7 @@ namespace XForms
 		{
 			InitializeComponent();
 
-			MainPage = new XForms.RegistrationPage2();
+			MainPage = new XForms.RegistrationPage1();
 		}
 
 		protected override void OnStart ()
