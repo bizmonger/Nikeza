@@ -15,11 +15,11 @@ let ``Save edited profile`` () =
     let profileEditor = ViewModel(inject)
 
     profileEditor.SaveRequest
-                 .Add(fun events ->
-                          events |> (fun event -> 
-                                         event |> function
-                                                  | ProfileSaved _ -> saveRequested <- true
-                                                  | _ -> ()))
+                 .Add(fun event -> 
+                          event |> function
+                                   | ProfileSaved _ -> saveRequested <- true
+                                   | _ -> ())
+
     profileEditor.FirstName <- someFirstName
     profileEditor.LastName  <- someLastName
     profileEditor.Email     <- someEmail

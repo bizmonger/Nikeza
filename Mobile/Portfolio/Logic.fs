@@ -6,7 +6,7 @@ open Nikeza.Mobile.Portfolio.Commands.ResultOf
 
 module Registration =
 
-    type private LinkResult =   ResultOf.Link   -> LinksEvent list
+    type private LinkResult = ResultOf.Link -> LinksEvent list
 
     let events : LinkResult =
         fun response ->

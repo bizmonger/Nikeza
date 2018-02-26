@@ -82,6 +82,6 @@ type ViewModel(submitFn:Try.SubmitFn) as x =
              and  set(value) = isValidated <- value
                                base.NotifyPropertyChanged (<@ x.IsValidated @>)
 
-    member x.EmailPlaceholder = emailPlaceholder
+    member x.EmailPlaceholder =    emailPlaceholder
     member x.PasswordPlaceholder = emailPlaceholder
-    member x.ConfirmPlaceholder = emailPlaceholder
+    member x.ConfirmPlaceholder =  emailPlaceholder
