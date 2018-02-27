@@ -27,10 +27,11 @@ let ``Registration submitted after being validated`` () =
     // Setup
     let mutable successful = false
 
-    let hasRegistrationSucceeded event = 
-        event |> function 
-                 | RegistrationSucceeded _ -> successful <- true 
-                 | _                       -> successful <- false
+    let mutateOnSuccess = function 
+        | RegistrationSucceeded _ -> successful <- true 
+        | _                       -> successful <- false
+
+    let hasRegistrationSucceeded event = event |> mutateOnSuccess
 
     let handler events = events |> List.iter hasRegistrationSucceeded
     let registration =   ViewModel(mockSubmit, handler)
