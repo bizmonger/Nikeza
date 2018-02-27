@@ -25,21 +25,16 @@ let ``Registration validated with email and matching passwords`` () =
 let ``Registration submitted after being validated`` () =
     
     // Setup
-    let mutable registrationSucceeded = false
-
-    let registration = ViewModel(mockSubmit)
+    let registration =   ViewModel(mockSubmit)
+    let succeeded event = event |> function RegistrationSucceeded _ -> true | _ -> false
 
     registration.FillIn()
-                .EventOccurred
-                .Add(fun event -> 
-                         event |> function
-                                  | RegistrationSucceeded _ -> registrationSucceeded <- true
-                                  | RegistrationFailed    _ -> registrationSucceeded <- false)
-
     registration.Validate.Execute()
 
     // Test
     registration.Submit.Execute()
 
     // Verify
-    registrationSucceeded |> should equal true
+    registration.Events 
+     |> List.exists succeeded
+     |> should equal true

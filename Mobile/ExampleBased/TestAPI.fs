@@ -108,4 +108,3 @@ type Nikeza.Mobile.UILogic.Registration.ViewModel with
            x.Email    <- someEmail
            x.Password <- somePassword
            x.Confirm  <- somePassword
-           x

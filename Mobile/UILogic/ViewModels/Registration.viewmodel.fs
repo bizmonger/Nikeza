@@ -2,7 +2,6 @@ namespace Nikeza.Mobile.UILogic.Registration
 
 open System.Windows.Input
 open Nikeza.Mobile.UILogic
-open Nikeza.Mobile.UILogic.Publisher
 open Nikeza.Mobile.UILogic.Adapter
 open Nikeza.Mobile.Profile
 open Nikeza.Mobile.Profile.Events
@@ -17,8 +16,6 @@ type ViewModel(submitFn:Try.SubmitFn) as x =
     inherit ViewModelBase()
 
     let mutable validatedForm = None
-
-    let eventOccurred = new Event<_>()
 
     let validate() =
         let isValidated = function
@@ -36,10 +33,9 @@ type ViewModel(submitFn:Try.SubmitFn) as x =
                
     let submit() =
         validatedForm |> function 
-                         | Some form -> 
-                                form |> Command.Execute 
-                                     |> In.SubmitRegistration.workflow submitFn
-                                     |> publishEvents eventOccurred
+                         | Some form -> x.Events <-
+                                        form |> Command.Execute 
+                                             |> In.SubmitRegistration.workflow submitFn
                          | None -> ()
 
     let validateCommand = DelegateCommand( (fun _ -> x.IsValidated <- validate()) , fun _ -> true)
@@ -59,9 +55,8 @@ type ViewModel(submitFn:Try.SubmitFn) as x =
     member x.Validate = validateCommand :> ICommand
     member x.Submit =   submitCommand   :> ICommand
 
-    [<CLIEvent>]
-    member x.EventOccurred = eventOccurred.Publish
-
+    member val Events = [] with get,set
+    
     member x.Email
              with get() =      email 
              and  set(value) = email <- value
