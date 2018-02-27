@@ -28,7 +28,7 @@ let ``Registration submitted after being validated`` () =
     let registration =   ViewModel(mockSubmit)
     let succeeded event = event |> function RegistrationSucceeded _ -> true | _ -> false
 
-    registration.FillIn()
+    registration.FillOut()
     registration.Validate.Execute()
 
     // Test

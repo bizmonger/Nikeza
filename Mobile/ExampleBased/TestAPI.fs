@@ -104,7 +104,7 @@ module Portfolio =
 
 type Nikeza.Mobile.UILogic.Registration.ViewModel with
 
-    member x.FillIn () =
+    member x.FillOut () =
            x.Email    <- someEmail
            x.Password <- somePassword
            x.Confirm  <- somePassword
