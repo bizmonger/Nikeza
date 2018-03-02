@@ -12,14 +12,5 @@ type NotificationEvent =
     | SubscriberRemoved      of ProfileId
     | SubscriberRemoveFailed of ProfileId
 
-type RecentQuery =
-    | RecentSucceeded of Provider list
-    | RecentFailed    of string
-
-type MembersQuery =
-    | MembersSucceeded of Provider list
-    | MembersFailed    of string
-
-type SubscriptionsQuery =
-    | SubscriptionsSucceeded of Provider list
-    | SubscriptionsFailed    of string
+type EventsAggregated =
+    | NotificationEvent  of NotificationEvent

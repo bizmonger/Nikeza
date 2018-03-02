@@ -9,14 +9,14 @@ open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio.Query
 open Nikeza.Mobile.UILogic.Pages
 
-type SubscriptionsEvent = Nikeza.Mobile.Subscriptions.Events.RecentQuery
+//type SubscriptionsEvent = Nikeza.Mobile.Subscriptions.Events.RecentQuery
 
 type ViewModel(userId:string, queryRecent:RecentFn, queryPortfolio:PortfolioFn) =
 
     inherit ViewModelBase()
 
     let pageRequested =      new Event<PageRequested>()
-    let subscriptionsEvent = new Event<SubscriptionsEvent>()
+    let subscriptionsEvent = new Event<_>()
 
     let mutable selection: Provider option = None
     let mutable recent:    Provider list =   []
@@ -46,5 +46,5 @@ type ViewModel(userId:string, queryRecent:RecentFn, queryPortfolio:PortfolioFn) 
     member x.Init() =
         queryRecent <| ProfileId userId
          |> function
-            | RecentQuery.RecentSucceeded providers -> recent <- providers
-            | other -> publishEvent subscriptionsEvent other
+            | Ok providers -> recent <- providers
+            | other  -> publishEvent subscriptionsEvent other

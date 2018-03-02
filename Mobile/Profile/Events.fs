@@ -20,8 +20,6 @@ type SessionEvent =
     | LoggedOut
     | LogoutFailed
 
-type ProfileEvent = ProfileRequested of ProfileId
-
 type SubscriptionEvent =
     | Subscribed   of ProviderId
     | Unsubscribed of ProviderId
@@ -37,3 +35,12 @@ type ProfileSaveEvent =
 type SourcesSaveEvent =
     | SourcesSaved  of Profile
     | SourcesFailed of DataSourceSubmit list
+
+type EventsAggregated =
+    | RegistrationValidationEvent of RegistrationValidationEvent
+    | RegistrationSubmissionEvent of RegistrationSubmissionEvent
+    | SessionEvent                of SessionEvent
+    | SubscriptionEvent           of SubscriptionEvent
+    | ProfileValidateEvent        of ProfileValidateEvent
+    | ProfileSaveEvent            of ProfileSaveEvent
+    | SourcesSaveEvent            of SourcesSaveEvent

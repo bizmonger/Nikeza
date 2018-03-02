@@ -78,7 +78,7 @@ let mockPlatforms : PlatformsFn =
                 ]
 
 let mockRecent : RecentFn =
-    fun _ -> RecentQuery.RecentSucceeded []
+    fun _ -> Ok []
 
 let mockPortfolio : PortfolioFn =
     fun _ -> Ok someProvider

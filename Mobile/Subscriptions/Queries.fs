@@ -1,11 +1,10 @@
 ﻿module Nikeza.Mobile.Subscriptions.Query
 
 open Nikeza.Common
-open Nikeza.Mobile.Subscriptions.Events
 
-type RecentFn =        ProfileId -> RecentQuery
-type SubscriptionsFn = ProfileId -> SubscriptionsQuery
-type MembersFn =       unit      -> MembersQuery
+type RecentFn =        ProfileId -> Result<ProviderRequest list, string>
+type SubscriptionsFn = ProfileId -> Result<ProviderRequest list, string>
+type MembersFn =       unit      -> Result<ProviderRequest list, string>
 
 let recent : RecentFn =
-    fun _ -> RecentFailed "Not yet implemented"
+    fun _ -> Error "Not yet implemented"

@@ -8,14 +8,14 @@ open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio
 
-type SubscriptionsEvent = Nikeza.Mobile.Subscriptions.Events.SubscriptionsQuery
+//type SubscriptionsEvent = Nikeza.Mobile.Subscriptions.Events.SubscriptionsQuery
 
 type ViewModel(user:Provider, getSubscriptions:SubscriptionsFn) =
 
     inherit ViewModelBase()
 
     let portfolioEvent =     new Event<_>()
-    let subscriptionsEvent = new Event<SubscriptionsEvent>()
+    let subscriptionsEvent = new Event<_>()
 
     let mutable selection:     Provider option = None
     let mutable subscriptions: Provider list =   []
@@ -41,5 +41,5 @@ type ViewModel(user:Provider, getSubscriptions:SubscriptionsFn) =
     member x.Init() =
              getSubscriptions <| ProfileId user.Profile.Id
               |> function
-                 | SubscriptionsSucceeded providers -> subscriptions <- providers
-                 | other -> publishEvent subscriptionsEvent other
+                 | Ok providers -> subscriptions <- providers
+                 | Error other  -> publishEvent subscriptionsEvent other

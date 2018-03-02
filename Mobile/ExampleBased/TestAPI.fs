@@ -61,13 +61,13 @@ let mockSubmit : SubmitFn =
                 }
 
 let mockRecent : RecentFn =
-    fun _ -> RecentSucceeded [someProvider]
+    fun _ -> Ok [someProvider]
 
 let mockMembers : MembersFn =
-    fun _ -> MembersSucceeded [someProvider]
+    fun _ -> Ok [someProvider]
 
 let mockSubscriptions : SubscriptionsFn =
-    fun _ -> SubscriptionsSucceeded [someProvider]
+    fun _ -> Ok [someProvider]
 
 let mockSave : SaveProfileFn =
     fun _ -> Ok someProfile
