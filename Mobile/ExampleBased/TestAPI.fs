@@ -8,6 +8,7 @@ open Nikeza.Mobile.Subscriptions.Try
 open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio.Query
+open Nikeza.Mobile.UILogic.Registration
 
 let someFirstName = "Scott"
 let someLastName =  "Nimrod"
@@ -89,6 +90,15 @@ let mockFollow : FollowFn =
 
 let mockUnsubscribe : UnsubscribeFn =
     fun _ -> Ok {User= someProvider; Provider=someProvider}
+
+module Registration =
+
+    let viewmodelDependencies =
+
+        let responders =   { ForRegistrationSubmission= [] }
+        let functions =    { Submit=mockSubmit }
+    
+        { SideEffectFunctions=  functions; EventResponders= responders }
 
 
 module Portfolio =

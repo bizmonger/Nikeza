@@ -6,41 +6,43 @@ open Nikeza.Mobile.TestAPI
 open Nikeza.Mobile.UILogic.Registration
 open Nikeza.Mobile.Profile.Events
 
-//[<Test>]
-//let ``Registration validated with email and matching passwords`` () =
+[<Test>]
+let ``Registration validated with email and matching passwords`` () =
     
-//    // Setup
-//    let registration = ViewModel(mockSubmit, [])
-//    registration.Email    <- someEmail
-//    registration.Password <- somePassword
-//    registration.Confirm  <- somePassword
+    // Setup
+    let registration = ViewModel(Registration.viewmodelDependencies)
+    registration.Email    <- someEmail
+    registration.Password <- somePassword
+    registration.Confirm  <- somePassword
 
-//    // Test
-//    registration.Validate.Execute()
+    // Test
+    registration.Validate.Execute()
 
-//    // Verify
-//    registration.IsValidated |> should equal true
+    // Verify
+    registration.IsValidated |> should equal true
 
-//[<Test>]
-//let ``Registration submitted after being validated`` () =
+[<Test>]
+let ``Registration submitted after being validated`` () =
     
-//    // Setup
-//    let mutable successful = false
+    // Setup
+    let mutable successful = false
 
-//    let mutateOnSuccess = function 
-//        | RegistrationSucceeded _ -> successful <- true 
-//        | _                       -> successful <- false
+    let mutateOnSuccess = function 
+        | RegistrationSucceeded _ -> successful <- true 
+        | _                       -> successful <- false
 
-//    let hasRegistrationSucceeded event = event |> mutateOnSuccess
+    let hasRegistrationSucceeded event = event |> mutateOnSuccess
 
-//    let handler events = events |> List.iter hasRegistrationSucceeded
-//    let registration =   ViewModel(mockSubmit, [handler])
+    let responders =   { ForRegistrationSubmission= [hasRegistrationSucceeded] }
+    let dependencies = { Registration.viewmodelDependencies with EventResponders= responders }
+    
+    let registration =   ViewModel(dependencies)
 
-//    registration.FillOut()
-//    registration.Validate.Execute()
+    registration.FillOut()
+    registration.Validate.Execute()
 
-//    // Test
-//    registration.Submit.Execute()
+    // Test
+    registration.Submit.Execute()
 
-//    // Verify
-//    successful |> should equal true
+    // Verify
+    successful |> should equal true
