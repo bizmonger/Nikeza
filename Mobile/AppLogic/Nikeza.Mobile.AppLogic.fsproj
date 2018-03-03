@@ -52,6 +52,7 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="EventResponse.fs" />
     <Compile Include="HandleProfile.fs" />
     <Compile Include="HandlePortfolio.fs" />
     <Compile Include="HandleSubscriptions.fs" />

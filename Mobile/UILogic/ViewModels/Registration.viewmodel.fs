@@ -11,7 +11,7 @@ module Updates =
     let statusOf formValidated events = 
         events |> List.exists formValidated
 
-type ViewModel(submitFn:Try.SubmitFn, handleEvents) as x =
+type ViewModel(submitFn:Try.SubmitFn, handlers:(RegistrationSubmissionEvent list -> unit) list) as x =
 
     inherit ViewModelBase()
 
@@ -32,11 +32,17 @@ type ViewModel(submitFn:Try.SubmitFn, handleEvents) as x =
           |> Updates.statusOf isValidated
                
     let submit() =
+
+        let handleEvents event = 
+            handlers |> List.iter(fun handle -> handle event)
+
+        
         validatedForm |> function 
                          | Some form -> 
                                 form |> Command.Execute 
                                      |> In.SubmitRegistration.workflow submitFn
                                      |> handleEvents
+                                     
                          | None -> ()
 
     let validateCommand = DelegateCommand( (fun _ -> x.IsValidated <- validate()) , fun _ -> true)

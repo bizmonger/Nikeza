@@ -10,7 +10,7 @@ open Nikeza.Mobile.Profile.Events
 let ``Registration validated with email and matching passwords`` () =
     
     // Setup
-    let registration = ViewModel(mockSubmit, fun _ -> ())
+    let registration = ViewModel(mockSubmit, [])
     registration.Email    <- someEmail
     registration.Password <- somePassword
     registration.Confirm  <- somePassword
@@ -34,7 +34,7 @@ let ``Registration submitted after being validated`` () =
     let hasRegistrationSucceeded event = event |> mutateOnSuccess
 
     let handler events = events |> List.iter hasRegistrationSucceeded
-    let registration =   ViewModel(mockSubmit, handler)
+    let registration =   ViewModel(mockSubmit, [handler])
 
     registration.FillOut()
     registration.Validate.Execute()
