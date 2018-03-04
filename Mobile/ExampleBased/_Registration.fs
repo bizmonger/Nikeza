@@ -5,6 +5,7 @@ open NUnit.Framework
 open Nikeza.Mobile.TestAPI
 open Nikeza.Mobile.UILogic.Registration
 open Nikeza.Mobile.Profile.Events
+open Nikeza.Mobile.AppLogic
 
 [<Test>]
 let ``Registration validated with email and matching passwords`` () =
@@ -46,3 +47,18 @@ let ``Registration submitted after being validated`` () =
 
     // Verify
     successful |> should equal true
+
+[<Test>]
+let ``Navigation requested after registration submitted`` () =
+    
+    // Setup
+    let responders =     ProfileEvents.addTo { ForRegistrationSubmission= [] }
+    let dependencies = { Registration.viewmodelDependencies with EventResponders= responders }
+
+    let registration =   ViewModel(dependencies)
+
+    registration.FillOut()
+    registration.Validate.Execute()
+
+    // Test
+    registration.Submit.Execute()

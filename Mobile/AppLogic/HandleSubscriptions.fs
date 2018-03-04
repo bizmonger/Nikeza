@@ -2,7 +2,6 @@
 
 module HandleSubscriptions =
 
-    open Nikeza.Mobile.Subscriptions.Events
-
-    let events = function
-        | NotificationEvent _ -> ()
+    let addTo responders =
+ 
+        responders

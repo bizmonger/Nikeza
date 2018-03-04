@@ -12,7 +12,3 @@ type LinksEvent =
 type TopicsEvent =
     | TopicsFeatured       of TopicId list
     | TopicsFeaturedFailed of TopicId list
-
-type EventsAggregated =
-    | LinksEvent  of LinksEvent
-    | TopicsEvent of TopicsEvent

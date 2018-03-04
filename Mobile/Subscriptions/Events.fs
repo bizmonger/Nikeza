@@ -11,6 +11,3 @@ type NotificationEvent =
     
     | SubscriberRemoved      of ProfileId
     | SubscriberRemoveFailed of ProfileId
-
-type EventsAggregated =
-    | NotificationEvent  of NotificationEvent

@@ -35,12 +35,3 @@ type ProfileSaveEvent =
 type SourcesSaveEvent =
     | SourcesSaved  of Profile
     | SourcesFailed of DataSourceSubmit list
-
-type EventsAggregated =
-    | RegistrationValidationEvent of RegistrationValidationEvent
-    | RegistrationSubmissionEvent of RegistrationSubmissionEvent
-    | SessionEvent                of SessionEvent
-    | SubscriptionEvent           of SubscriptionEvent
-    | ProfileValidateEvent        of ProfileValidateEvent
-    | ProfileSaveEvent            of ProfileSaveEvent
-    | SourcesSaveEvent            of SourcesSaveEvent

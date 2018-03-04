@@ -52,7 +52,6 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="EventResponse.fs" />
     <Compile Include="HandleProfile.fs" />
     <Compile Include="HandlePortfolio.fs" />
     <Compile Include="HandleSubscriptions.fs" />
@@ -92,6 +91,11 @@
     <ProjectReference Include="..\Subscriptions\Nikeza.Mobile.Subscriptions.fsproj">
       <Name>Nikeza.Mobile.Subscriptions</Name>
       <Project>{ed5526a4-3865-43b2-9f12-3d2a4e5f8e7b}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\UILogic\Nikeza.Mobile.UILogic.fsproj">
+      <Name>Nikeza.Mobile.UILogic</Name>
+      <Project>{2f426613-6ecc-440f-b9cd-5f2d46cad82a}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

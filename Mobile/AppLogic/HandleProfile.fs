@@ -2,17 +2,15 @@
 
 module ProfileEvents =
 
+    open Nikeza.Mobile.UILogic.Registration
     open Nikeza.Mobile.Profile.Events
-    open Nikeza.Mobile.AppLogic.Response
+    open System.Diagnostics
 
-    let handle = function
-        | RegistrationSubmissionEvent e -> 
-                                      e |> function
-                                           | RegistrationSucceeded p -> navigate <| NavigateToPortal p
-                                           | RegistrationFailed    p -> ()
+    let addTo responders =
+ 
+        let handle =  function
+         | RegistrationSubmissionEvent.RegistrationSucceeded p -> (Debug.WriteLine(sprintf "Request: Navigate to Portal\n %A" p))
+         | RegistrationSubmissionEvent.RegistrationFailed    _ -> ()
 
-        | SessionEvent                e -> ()
-        | SubscriptionEvent           e -> ()
-        | ProfileSaveEvent            e -> ()
-        | SourcesSaveEvent            e -> ()
-        | _ -> ()
+        let handlers = handle::responders.ForRegistrationSubmission
+        { responders with Responders.ForRegistrationSubmission= handlers }

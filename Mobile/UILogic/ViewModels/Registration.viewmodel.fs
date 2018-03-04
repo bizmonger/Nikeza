@@ -15,7 +15,6 @@ type SideEffectFunctions = {
     Submit : Try.SubmitFn
 }
 
-
 type Responders = {
     ForRegistrationSubmission : (RegistrationSubmissionEvent -> unit) list
 }
