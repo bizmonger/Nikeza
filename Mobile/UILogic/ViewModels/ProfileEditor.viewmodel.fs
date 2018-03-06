@@ -85,7 +85,7 @@ type ViewModel(dependencies) as x =
     let save() =
     
         let broadcast (events) = 
-            events |> List.iter (fun event -> handle event responders.ForProfileSave)
+            events |> List.iter (fun event -> responders.ForProfileSave|> handle event)
         
         { Profile= profile }
            |> SaveCommand.Execute 
@@ -151,9 +151,9 @@ type ViewModel(dependencies) as x =
     member x.Init() =
 
         let broadcast (events:QueryTopicsFailed list) = 
-            events |> List.iter (fun event -> handle event responders.ForTopicsFnFailed)
+            events |> List.iter (fun event -> responders.ForTopicsFnFailed |> handle event)
             
         query.Topics()
             |> function
             | Ok    v -> topics <- ObservableCollection(v |> Seq.map (fun topic -> topic.Name))
-            | Error msg -> broadcast [QueryTopicsFailed msg]  // publishEvent topicsEvent Pages.Error
+            | Error msg -> broadcast [QueryTopicsFailed msg]

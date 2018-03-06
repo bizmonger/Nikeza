@@ -51,7 +51,7 @@ type ViewModel(dependencies) as x =
     let submit() =
 
         let broadcast events =
-            events |> List.iter (fun event -> handle event responders.ForRegistrationSubmission)
+            events |> List.iter (fun event -> responders.ForRegistrationSubmission |> handle event)
 
         validatedForm |> function 
                          | Some form -> 
