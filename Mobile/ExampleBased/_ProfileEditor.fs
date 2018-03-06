@@ -5,14 +5,14 @@ open NUnit.Framework
 open Nikeza.Mobile.TestAPI
 open Nikeza.Mobile.UILogic.Portal.ProfileEditor
 open Nikeza.Mobile.Profile.Events
+open Nikeza.Mobile.TestAPI.ProfileEditor
 
 [<Test>]
 let ``Save edited profile`` () =
 
     // Setup
     let mutable saveRequested = false
-    let inject =      { User= someUser; SaveFn= mockSave; TopicsFn= mockTopics }
-    let profileEditor = ViewModel(inject)
+    let profileEditor = ViewModel(dependencies)
 
     profileEditor.SaveRequest
                  .Add(fun event -> 

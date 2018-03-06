@@ -5,13 +5,14 @@ open NUnit.Framework
 open Nikeza.Mobile.TestAPI
 open Nikeza.Mobile.UILogic.Registration
 open Nikeza.Mobile.Profile.Events
-open Nikeza.Mobile.AppLogic
+open Nikeza.Mobile.AppLogic.ProfileEvents.Register
+open Nikeza.Mobile.TestAPI.Registration
 
 [<Test>]
 let ``Registration validated with email and matching passwords`` () =
     
     // Setup
-    let registration = ViewModel(Registration.viewmodelDependencies)
+    let registration = ViewModel(dependencies)
     registration.Email    <- someEmail
     registration.Password <- somePassword
     registration.Confirm  <- somePassword
@@ -35,7 +36,7 @@ let ``Registration submitted after being validated`` () =
     let hasRegistrationSucceeded event = event |> mutateOnSuccess
 
     let responders =   { ForRegistrationSubmission= [hasRegistrationSucceeded] }
-    let dependencies = { Registration.viewmodelDependencies with EventResponders= responders }
+    let dependencies = { dependencies with EventResponders= responders }
     
     let registration =   ViewModel(dependencies)
 
@@ -52,8 +53,8 @@ let ``Registration submitted after being validated`` () =
 let ``Navigation requested after registration submitted`` () =
     
     // Setup
-    let responders =     ProfileEvents.addTo { ForRegistrationSubmission= [] }
-    let dependencies = { Registration.viewmodelDependencies with EventResponders= responders }
+    let responders =     addResponders { ForRegistrationSubmission= [] }
+    let dependencies = { dependencies with EventResponders= responders }
 
     let registration =   ViewModel(dependencies)
 

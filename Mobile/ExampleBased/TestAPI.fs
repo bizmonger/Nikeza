@@ -5,10 +5,8 @@ open Nikeza.DataTransfer
 open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Profile.Query
 open Nikeza.Mobile.Subscriptions.Try
-open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio.Query
-open Nikeza.Mobile.UILogic.Registration
 
 let someFirstName = "Scott"
 let someLastName =  "Nimrod"
@@ -91,9 +89,26 @@ let mockFollow : FollowFn =
 let mockUnsubscribe : UnsubscribeFn =
     fun _ -> Ok {User= someProvider; Provider=someProvider}
 
+module ProfileEditor =
+
+    open Nikeza.Mobile.UILogic.Portal.ProfileEditor
+    
+    let dependencies =
+
+        let responders =   { ForProfileSave= [] }
+        let sideEffects =  { Save= mockSave }
+    
+        { SideEffectFunctions=  sideEffects
+          EventResponders= responders 
+          User = someUser
+          Query = { Topics= mockTopics }
+        }
+
 module Registration =
 
-    let viewmodelDependencies =
+    open Nikeza.Mobile.UILogic.Registration
+
+    let dependencies =
 
         let responders =   { ForRegistrationSubmission= [] }
         let functions =    { Submit=mockSubmit }

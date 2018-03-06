@@ -11,16 +11,35 @@ open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Profile.Query
 open Nikeza.Mobile.Profile.Commands.ProfileEditor
 open System.Collections.ObjectModel
+open Nikeza.Mobile.Profile.Events
 
-type Dependencies = {
-    User:     Profile
-    SaveFn:   SaveProfileFn
-    TopicsFn: TopicsFn
+type SideEffectFunctions = {
+    Save : SaveProfileFn
 }
 
-type ViewModel(injected) as x =
+type Query = {
+    Topics : TopicsFn
+}
+
+type Responders = {
+    ForProfileSave : (ProfileSaveEvent -> unit) list
+}
+
+type Dependencies = {
+    User                : Profile
+    Query               : Query
+    SideEffectFunctions : SideEffectFunctions
+    EventResponders     : Responders
+}
+
+
+type ViewModel(dependencies) as x =
 
     inherit ViewModelBase()
+
+    let query =      dependencies.Query
+    let user =       dependencies.User
+    let sideeffect = dependencies.SideEffectFunctions
 
     let saveRequest = new Event<_>()
     let topicsEvent = new Event<_>()
@@ -28,10 +47,10 @@ type ViewModel(injected) as x =
     let mutable firstNamePlaceholder = "first name"
     let mutable lastNamePlaceholder =  "last name"
 
-    let mutable profile =        injected.User
+    let mutable profile =        dependencies.User
     let mutable firstName =      firstNamePlaceholder
     let mutable lastName =       lastNamePlaceholder
-    let mutable email =          injected.User.Email
+    let mutable email =          dependencies.User.Email
     let mutable topics =         ObservableCollection<string>()
     let mutable featuredTopics = ObservableCollection<string>()
     let mutable topic:string =   null
@@ -39,13 +58,14 @@ type ViewModel(injected) as x =
 
     let canSave() =
         let refreshState() =
-            profile <- { Id =       injected.User.Id
+        
+            profile <- { Id =       user.Id
                          FirstName= x.FirstName
                          LastName=  x.LastName
                          Email=     x.Email
-                         Bio=       injected.User.Bio
-                         ImageUrl=  injected.User.ImageUrl
-                         Sources=   injected.User.Sources
+                         Bio=       user.Bio
+                         ImageUrl=  user.ImageUrl
+                         Sources=   user.Sources
                        }
 
         let containsDefault() = 
@@ -63,9 +83,10 @@ type ViewModel(injected) as x =
            else x.IsValidated <- false; false
 
     let save() = 
+        
         { Profile= profile }
            |> SaveCommand.Execute 
-           |> In.Editor.Save.workflow injected.SaveFn
+           |> In.Editor.Save.workflow sideeffect.Save
            |> publishEvents saveRequest
 
     member x.FirstName
@@ -125,7 +146,8 @@ type ViewModel(injected) as x =
         with get() = lastNamePlaceholder
 
     member x.Init() =
-            injected.TopicsFn()
+            
+            query.Topics()
              |> function
                 | Ok v -> topics <- ObservableCollection(v |> Seq.map (fun topic -> topic.Name))
                 | Error _    -> publishEvent topicsEvent Pages.Error
