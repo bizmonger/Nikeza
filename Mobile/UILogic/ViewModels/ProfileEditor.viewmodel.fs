@@ -12,6 +12,7 @@ open Nikeza.Mobile.Profile.Query
 open Nikeza.Mobile.Profile.Commands.ProfileEditor
 open System.Collections.ObjectModel
 open Nikeza.Mobile.Profile.Events
+open Nikeza.Mobile.UILogic.Response
 
 type SideEffectFunctions = {
     Save : SaveProfileFn
@@ -22,7 +23,8 @@ type Query = {
 }
 
 type Responders = {
-    ForProfileSave : (ProfileSaveEvent -> unit) list
+    ForProfileSave    : (ProfileSaveEvent  -> unit) list
+    ForTopicsFnFailed : (QueryTopicsFailed -> unit) list
 }
 
 type Dependencies = {
@@ -39,11 +41,9 @@ type ViewModel(dependencies) as x =
 
     let query =      dependencies.Query
     let user =       dependencies.User
-    let sideeffect = dependencies.SideEffectFunctions
-
-    let saveRequest = new Event<_>()
-    let topicsEvent = new Event<_>()
-
+    let sideEffect = dependencies.SideEffectFunctions
+    let responders = dependencies.EventResponders
+    
     let mutable firstNamePlaceholder = "first name"
     let mutable lastNamePlaceholder =  "last name"
 
@@ -82,12 +82,15 @@ type ViewModel(dependencies) as x =
 
            else x.IsValidated <- false; false
 
-    let save() = 
+    let save() =
+    
+        let broadcast (events) = 
+            events |> List.iter (fun event -> handle event responders.ForProfileSave)
         
         { Profile= profile }
            |> SaveCommand.Execute 
-           |> In.Editor.Save.workflow sideeffect.Save
-           |> publishEvents saveRequest
+           |> In.Editor.Save.workflow sideEffect.Save
+           |> broadcast
 
     member x.FirstName
         with get() =       firstName
@@ -146,14 +149,11 @@ type ViewModel(dependencies) as x =
         with get() = lastNamePlaceholder
 
     member x.Init() =
+
+        let broadcast (events:QueryTopicsFailed list) = 
+            events |> List.iter (fun event -> handle event responders.ForTopicsFnFailed)
             
-            query.Topics()
-             |> function
-                | Ok v -> topics <- ObservableCollection(v |> Seq.map (fun topic -> topic.Name))
-                | Error _    -> publishEvent topicsEvent Pages.Error
-
-    [<CLIEvent>]
-    member x.SaveRequest = saveRequest.Publish
-
-    [<CLIEvent>]
-    member x.TopicsEvent = topicsEvent.Publish
+        query.Topics()
+            |> function
+            | Ok    v -> topics <- ObservableCollection(v |> Seq.map (fun topic -> topic.Name))
+            | Error msg -> broadcast [QueryTopicsFailed msg]  // publishEvent topicsEvent Pages.Error

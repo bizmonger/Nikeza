@@ -12,13 +12,15 @@ let ``Save edited profile`` () =
 
     // Setup
     let mutable saveRequested = false
-    let profileEditor = ViewModel(dependencies)
 
-    profileEditor.SaveRequest
-                 .Add(fun event -> 
-                          event |> function
-                                   | ProfileSaved _ -> saveRequested <- true
-                                   | _ -> ())
+    let response = function
+        | ProfileSaved _ -> saveRequested <- true
+        | _ -> ()
+
+    let responders =   { ForProfileSave= [response]; ForTopicsFnFailed= [] }
+    let dependencies = { ProfileEditor.dependencies with EventResponders= responders }
+
+    let profileEditor = ViewModel(dependencies)
 
     profileEditor.FirstName <- someFirstName
     profileEditor.LastName  <- someLastName

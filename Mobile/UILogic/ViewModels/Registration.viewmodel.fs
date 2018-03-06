@@ -6,6 +6,7 @@ open Nikeza.Mobile.UILogic.Adapter
 open Nikeza.Mobile.Profile
 open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.Profile.Commands.Registration
+open Nikeza.Mobile.UILogic.Response
 
 module Updates =
     let statusOf formValidated events = 
@@ -49,11 +50,8 @@ type ViewModel(dependencies) as x =
                
     let submit() =
 
-        let handle event = 
-            responders.ForRegistrationSubmission |> List.iter(fun handle -> handle event)
-
-        let broadcast (events:RegistrationSubmissionEvent list) = 
-            events |> List.iter handle
+        let broadcast events =
+            events |> List.iter (fun event -> handle event responders.ForRegistrationSubmission)
 
         validatedForm |> function 
                          | Some form -> 

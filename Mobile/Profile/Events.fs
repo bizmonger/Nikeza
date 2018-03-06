@@ -35,3 +35,5 @@ type ProfileSaveEvent =
 type SourcesSaveEvent =
     | SourcesSaved  of Profile
     | SourcesFailed of DataSourceSubmit list
+
+type QueryTopicsFailed = QueryTopicsFailed of string

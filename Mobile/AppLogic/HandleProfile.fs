@@ -25,8 +25,20 @@ module ProfileEvents =
         let addResponders (responders:Responders) =
  
             let handle =  function
-             | ProfileSaveEvent.ProfileSaved      p -> (Debug.WriteLine(sprintf "Log: Profile saved\n %A" p))
-             | ProfileSaveEvent.ProfileSaveFailed _ -> ()
+             | ProfileSaved      p -> (Debug.WriteLine(sprintf "Request: Navigate to previous page"))
+             | ProfileSaveFailed _ -> ()
 
             let handlers = handle::responders.ForProfileSave
             { responders with Responders.ForProfileSave= handlers }
+
+    module Topics =
+        
+        open Nikeza.Mobile.UILogic.Portal.ProfileEditor
+
+        let addResponders (responders:Responders) =
+ 
+            let handle = function
+                QueryTopicsFailed msg -> (Debug.WriteLine(sprintf "Request: Navigate to Error page\n %s" msg))
+
+            let handlers = handle::responders.ForTopicsFnFailed
+            { responders with Responders.ForTopicsFnFailed= handlers }

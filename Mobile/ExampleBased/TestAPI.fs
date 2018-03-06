@@ -95,7 +95,7 @@ module ProfileEditor =
     
     let dependencies =
 
-        let responders =   { ForProfileSave= [] }
+        let responders =   { ForProfileSave= []; ForTopicsFnFailed= [] }
         let sideEffects =  { Save= mockSave }
     
         { SideEffectFunctions=  sideEffects
