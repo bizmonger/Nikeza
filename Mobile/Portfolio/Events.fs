@@ -12,3 +12,6 @@ type LinksEvent =
 type TopicsEvent =
     | TopicsFeatured       of TopicId list
     | TopicsFeaturedFailed of TopicId list
+
+type GetPortfolioEvent =
+    | GetPortfolioEventFailed of ProviderId error

@@ -8,7 +8,6 @@
   <ItemGroup>
     <Compile Include="Response.fs" />
     <Compile Include="Pages.fs" />
-    <Compile Include="Publisher.fs" />
     <Compile Include="Adapter.fs" />
     <Compile Include="DelegateCommand.fs" />
     <Compile Include="TestAPI.fs" />

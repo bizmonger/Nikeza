@@ -2,9 +2,9 @@
 
 open Nikeza.Common
 
-type RecentFn =        ProfileId -> Result<ProviderRequest list, string>
-type SubscriptionsFn = ProfileId -> Result<ProviderRequest list, string>
-type MembersFn =       unit      -> Result<ProviderRequest list, string>
+type RecentFn =        ProfileId -> Result<ProviderRequest list, ProfileId error>
+type SubscriptionsFn = ProfileId -> Result<ProviderRequest list, ProfileId error>
+type MembersFn =       unit      -> Result<ProviderRequest list, ProfileId error>
 
 let recent : RecentFn =
-    fun _ -> Error "Not yet implemented"
+    fun _ -> Error { Context= ProfileId "-1"; Description="Not impleented yet"}

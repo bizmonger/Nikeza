@@ -36,7 +36,7 @@ let ``Registration submitted after being validated`` () =
     let hasRegistrationSucceeded event = event |> mutateOnSuccess
 
     let responders =   { ForRegistrationSubmission= [hasRegistrationSucceeded] }
-    let dependencies = { dependencies with EventResponders= responders }
+    let dependencies = { dependencies with Observers= responders }
     
     let registration =   ViewModel(dependencies)
 
@@ -54,7 +54,7 @@ let ``Navigation requested after registration submitted`` () =
     
     // Setup
     let responders =     addResponders { ForRegistrationSubmission= [] }
-    let dependencies = { dependencies with EventResponders= responders }
+    let dependencies = { dependencies with Observers= responders }
 
     let registration =   ViewModel(dependencies)
 

@@ -10,8 +10,7 @@ type private UnsubscribeLogic = Unsubscribe.ResultOf -> NotificationEvent list
 module Follow =
     open Nikeza.Mobile.Subscriptions.Try.Follow
 
-    let events : FollowLogic =
-        fun command -> command |> function
+    let events : FollowLogic = function
          ResultOf.Follow response -> 
                          response |> function
                                      | Ok    info      -> [SubscriberAdded    <| ProfileId info.User.Profile.Id]
@@ -20,8 +19,7 @@ module Follow =
 module Unsubscribe =
     open Nikeza.Mobile.Subscriptions.Try.Unsubscribe
 
-    let events : UnsubscribeLogic =
-        fun command -> command |> function
+    let events : UnsubscribeLogic = function
          Unsubscribe response -> 
                      response |> function
                                  | Ok    info      -> [SubscriberRemoved   <| ProfileId info.User.Profile.Id]

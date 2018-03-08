@@ -3,34 +3,54 @@
 open Nikeza.Common
 open Nikeza.DataTransfer
 open Nikeza.Mobile.UILogic
-open Nikeza.Mobile.UILogic.Publisher
-open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio.Query
 open Nikeza.Mobile.UILogic.Pages
+open Nikeza.Mobile.UILogic.Response
+open Nikeza.Mobile.Subscriptions.Events
 
-//type SubscriptionsEvent = Nikeza.Mobile.Subscriptions.Events.RecentQuery
+type Query = {
+    Recent    : RecentFn
+    Portfolio : PortfolioFn
+}
 
-type ViewModel(userId:string, queryRecent:RecentFn, queryPortfolio:PortfolioFn) =
+type Observers = {
+    ForPageRequested : (PageRequested  -> unit) list
+    ForQueryFailed   : (GetProfilesEvent -> unit) list
+}
+
+type Dependencies = {
+    UserId     : ProfileId
+    Query      : Query
+    Observers  : Observers
+}
+
+type ViewModel(dependencies:Dependencies) =
 
     inherit ViewModelBase()
 
-    let pageRequested =      new Event<PageRequested>()
-    let subscriptionsEvent = new Event<_>()
+    let userId =         dependencies.UserId
+    let responders =     dependencies.Observers
+    let query =          dependencies.Query
 
     let mutable selection: Provider option = None
     let mutable recent:    Provider list =   []
     
     let viewProvider() =
+
+        let broadcast events = 
+            events |> List.iter (fun event -> responders.ForPageRequested |> handle event)
+
         selection 
          |> function
             | Some provider -> 
                    provider.Profile.Id 
                     |> ProviderId  
-                    |> queryPortfolio
+                    |> query.Portfolio
                     |> function
-                       | Result.Ok     p  -> publishEvent pageRequested <| Portfolio p
-                       | Result.Error id  -> publishEvent pageRequested <| PortfolioError { Context=id; Description="Failed to get portfolio" }
+                       | Result.Ok    p           -> broadcast [PageRequested.Portfolio p]
+                       | Result.Error providerId  -> let error = { Context=providerId; Description="Failed to get portfolio" }
+                                                     broadcast [PageRequested.PortfolioError error]
             | None -> ()
 
     member x.ViewProvider = DelegateCommand( (fun _ -> viewProvider() ), fun _ -> selection.IsSome)
@@ -44,7 +64,11 @@ type ViewModel(userId:string, queryRecent:RecentFn, queryPortfolio:PortfolioFn) 
              and  set(value) = recent    <- value
 
     member x.Init() =
-        queryRecent <| ProfileId userId
+
+        let broadcast events = 
+            events |> List.iter (fun event -> responders.ForQueryFailed |> handle event)
+
+        query.Recent userId
          |> function
-            | Ok providers -> recent <- providers
-            | other  -> publishEvent subscriptionsEvent other
+            | Result.Ok    providers -> recent <- providers
+            | Result.Error error     -> broadcast [GetRecentFailed error]

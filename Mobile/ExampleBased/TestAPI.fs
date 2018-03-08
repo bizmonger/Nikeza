@@ -95,13 +95,13 @@ module ProfileEditor =
     
     let dependencies =
 
-        let responders =   { ForProfileSave= []; ForTopicsFnFailed= [] }
-        let sideEffects =  { Save= mockSave }
+        let responders = { ForProfileSave= []; ForTopicsFnFailed= [] }
+        let actions =    { Save= mockSave }
     
-        { SideEffectFunctions=  sideEffects
-          EventResponders= responders 
-          User = someUser
-          Query = { Topics= mockTopics }
+        { Actions=   actions
+          Observers= responders 
+          User =     someUser
+          Query =  { Topics= mockTopics }
         }
 
 module Registration =
@@ -110,13 +110,14 @@ module Registration =
 
     let dependencies =
 
-        let responders =   { ForRegistrationSubmission= [] }
-        let functions =    { Submit=mockSubmit }
+        let observers = { ForRegistrationSubmission= [] }
+        let actions =   { Submit=mockSubmit }
     
-        { SideEffectFunctions=  functions; EventResponders= responders }
+        { Actions=  actions; Observers= observers }
 
 
 module Portfolio =
+
     open Nikeza.Mobile.UILogic.Portal.Portfolio
 
     let injected = {

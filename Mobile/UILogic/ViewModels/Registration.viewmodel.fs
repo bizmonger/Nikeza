@@ -12,25 +12,25 @@ module Updates =
     let statusOf formValidated events = 
         events |> List.exists formValidated
 
-type SideEffectFunctions = {
+type Actions = {
     Submit : Try.SubmitFn
 }
 
-type Responders = {
+type Observers = {
     ForRegistrationSubmission : (RegistrationSubmissionEvent -> unit) list
 }
 
 type Dependencies = {
-    SideEffectFunctions : SideEffectFunctions
-    EventResponders     : Responders
+    Actions   : Actions
+    Observers : Observers
 }
 
 type ViewModel(dependencies) as x =
 
     inherit ViewModelBase()
 
-    let sideEffects = dependencies.SideEffectFunctions
-    let responders =  dependencies.EventResponders
+    let implementation = dependencies.Actions
+    let responders =     dependencies.Observers
 
     let mutable validatedForm = None
 
@@ -56,7 +56,7 @@ type ViewModel(dependencies) as x =
         validatedForm |> function 
                          | Some form -> 
                                 form |> Command.Execute 
-                                     |> In.SubmitRegistration.workflow sideEffects.Submit
+                                     |> In.SubmitRegistration.workflow implementation.Submit
                                      |> broadcast
                                      
                          | None -> ()
@@ -77,8 +77,6 @@ type ViewModel(dependencies) as x =
 
     member x.Validate = validateCommand :> ICommand
     member x.Submit =   submitCommand   :> ICommand
-
-    member val Events = [] with get,set
     
     member x.Email
              with get() =      email 

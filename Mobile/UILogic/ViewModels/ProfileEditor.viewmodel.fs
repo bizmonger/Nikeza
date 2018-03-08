@@ -5,7 +5,6 @@ open System.Windows.Input
 open Nikeza.Common
 open Nikeza.DataTransfer
 open Nikeza.Mobile.UILogic
-open Nikeza.Mobile.UILogic.Publisher
 open Nikeza.Mobile.Profile
 open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Profile.Query
@@ -14,7 +13,7 @@ open System.Collections.ObjectModel
 open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.UILogic.Response
 
-type SideEffectFunctions = {
+type Actions = {
     Save : SaveProfileFn
 }
 
@@ -22,35 +21,34 @@ type Query = {
     Topics : TopicsFn
 }
 
-type Responders = {
+type Observers = {
     ForProfileSave    : (ProfileSaveEvent  -> unit) list
     ForTopicsFnFailed : (QueryTopicsFailed -> unit) list
 }
 
 type Dependencies = {
-    User                : Profile
-    Query               : Query
-    SideEffectFunctions : SideEffectFunctions
-    EventResponders     : Responders
+    User      : Profile
+    Query     : Query
+    Actions   : Actions
+    Observers : Observers
 }
-
 
 type ViewModel(dependencies) as x =
 
     inherit ViewModelBase()
 
-    let query =      dependencies.Query
-    let user =       dependencies.User
-    let sideEffect = dependencies.SideEffectFunctions
-    let responders = dependencies.EventResponders
+    let query =          dependencies.Query
+    let user =           dependencies.User
+    let implementation = dependencies.Actions
+    let responders =     dependencies.Observers
     
     let mutable firstNamePlaceholder = "first name"
     let mutable lastNamePlaceholder =  "last name"
 
-    let mutable profile =        dependencies.User
+    let mutable profile =        user
     let mutable firstName =      firstNamePlaceholder
     let mutable lastName =       lastNamePlaceholder
-    let mutable email =          dependencies.User.Email
+    let mutable email =          user.Email
     let mutable topics =         ObservableCollection<string>()
     let mutable featuredTopics = ObservableCollection<string>()
     let mutable topic:string =   null
@@ -89,7 +87,7 @@ type ViewModel(dependencies) as x =
         
         { Profile= profile }
            |> SaveCommand.Execute 
-           |> In.Editor.Save.workflow sideEffect.Save
+           |> In.Editor.Save.workflow implementation.Save
            |> broadcast
 
     member x.FirstName

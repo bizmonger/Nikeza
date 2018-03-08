@@ -4,22 +4,46 @@ open System
 open System.Collections.ObjectModel
 open Nikeza.DataTransfer
 open Nikeza.Mobile.UILogic
-open Nikeza.Mobile.UILogic.Publisher
 open Nikeza.Mobile.Profile
 open Nikeza.Mobile.Profile.Query
 open Nikeza.Mobile.Profile.Commands.DataSources
+open Nikeza.Mobile.Profile.Events
+open Nikeza.Mobile.UILogic.Response
+open Nikeza.Common
 
-type ViewModel(user:Profile, platformsFn:PlatformsFn, savefn) as x =
+type Actions = {
+    Save : Try.SaveSourcesFn
+}
+
+type Query = {
+    Platforms : PlatformsFn
+}
+
+type Observers = {
+    ForSaveDataSources : (SourcesSaveEvent -> unit) list
+}
+
+type Dependencies = {
+    UserId    : ProfileId
+    Query     : Query
+    Actions   : Actions
+    Observers : Observers
+}
+
+type ViewModel(dependencies:Dependencies) as x =
 
     inherit ViewModelBase()
+
+    let userId =     dependencies.UserId
+    let query =      dependencies.Query
+    let actions =    dependencies.Actions
+    let responders = dependencies.Observers
 
     let mutable platforms = ObservableCollection<string>()
     let mutable platform =  ""
     let mutable accessId =  ""
     let mutable sources =   ObservableCollection<DataSourceSubmit>()
     let mutable validated = false
-
-    let saveRequest = Event<_>()
 
     let canAdd() =
         x.Validated <-
@@ -29,17 +53,21 @@ type ViewModel(user:Profile, platformsFn:PlatformsFn, savefn) as x =
         x.Validated
 
     let createSource() = {
-        ProfileId= user.Id
+        ProfileId= userId |> string
         Platform= x.Platform
         AccessId= x.AccessId
     }
 
     let save() = 
+
+        let broadcast events =
+            events |> List.iter (fun event -> responders.ForSaveDataSources |> handle event)
+
         x.Sources
            |> List.ofSeq
            |> SaveCommand.Execute 
-           |> In.DataSources.Save.workflow savefn
-           |> publishEvents saveRequest
+           |> In.DataSources.Save.workflow actions.Save
+           |> broadcast
     
     member x.Platform
              with get() =      platform
@@ -69,7 +97,7 @@ type ViewModel(user:Profile, platformsFn:PlatformsFn, savefn) as x =
 
     member x.Init() =
     
-             platformsFn()
+             query.Platforms()
               |> function
                  | Ok p    -> x.Platforms <- ObservableCollection<string>(p)
                  | Error _ -> ()
@@ -77,6 +105,3 @@ type ViewModel(user:Profile, platformsFn:PlatformsFn, savefn) as x =
     member x.Add =    DelegateCommand( (fun _ -> x.Sources.Add(createSource())) , fun _ -> true )
     member x.Remove = DelegateCommand( (fun _ -> () (*todo...*)) , fun _ -> true )
     member x.Save =   DelegateCommand( (fun _ -> save()) , fun _ -> true )
-
-    [<CLIEvent>]
-    member x.SaveRequest = saveRequest.Publish
