@@ -11,10 +11,7 @@ let ``Save edited profile`` () =
 
     // Setup
     let mutable saveRequested = false
-
-    let response = function
-        | ProfileSaved _ -> saveRequested <- true
-        | _ -> ()
+    let response = function ProfileSaved _ -> saveRequested <- true | _ -> ()
 
     let responders =   { ForProfileSave= [response]; ForTopicsFnFailed= [] }
     let dependencies = { ProfileEditor.dependencies with Observers= responders }

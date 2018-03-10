@@ -28,14 +28,9 @@ let ``Registration submitted after being validated`` () =
     
     // Setup
     let mutable successful = false
+    let mutateOnSuccess = function RegistrationSucceeded _ -> successful <- true | _ -> ()
 
-    let mutateOnSuccess = function 
-        | RegistrationSucceeded _ -> successful <- true 
-        | _                       -> successful <- false
-
-    let hasRegistrationSucceeded event = event |> mutateOnSuccess
-
-    let responders =   { ForRegistrationSubmission= [hasRegistrationSucceeded] }
+    let responders =   { ForRegistrationSubmission= [mutateOnSuccess] }
     let dependencies = { dependencies with Observers= responders }
     
     let registration =   ViewModel(dependencies)

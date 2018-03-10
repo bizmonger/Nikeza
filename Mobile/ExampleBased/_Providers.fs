@@ -60,8 +60,7 @@ let ``Follow provider``() =
     
     // Setup
     let mutable followed = false
-    let response = function SubscriberAdded _ -> followed <- true 
-                                          | _ -> followed <- false
+    let response = function SubscriberAdded _ -> followed <- true | _ -> ()
 
     let responders =   { Portfolio.dependencies.Observers with ForFollow=[response] }
     let dependencies = { Portfolio.dependencies with Observers= responders }
@@ -78,8 +77,7 @@ let ``Unsubscribe from provider``() =
     
     // Setup
     let mutable unsubscribed = false
-    let response = function SubscriberRemoved _ -> unsubscribed <- true 
-                                            | _ -> unsubscribed <- false
+    let response = function SubscriberRemoved _ -> unsubscribed <- true | _ -> ()
 
     let responders =   { Portfolio.dependencies.Observers with ForUnsubscribe=[response] }
     let dependencies = { Portfolio.dependencies with Observers= responders }
@@ -96,8 +94,7 @@ let ``Navigate: portfolio -> articles``() =
     
     // Setup
     let mutable pageRequested = false
-    let response = function PageRequested.Articles _ -> pageRequested <- true 
-                                                 | _ -> pageRequested <- false
+    let response = function PageRequested.Articles _ -> pageRequested <- true | _ -> ()
 
     let responders =   { Portfolio.dependencies.Observers with ForPageRequested=[response] }
     let dependencies = { Portfolio.dependencies with Observers= responders }
@@ -114,8 +111,7 @@ let ``Navigate: portfolio -> videos``() =
     
     // Setup
     let mutable pageRequested = false
-    let response = function PageRequested.Videos _ -> pageRequested <- true 
-                                               | _ -> pageRequested <- false
+    let response = function PageRequested.Videos  _ -> pageRequested <- true | _ -> ()
 
     let responders =   { Portfolio.dependencies.Observers with ForPageRequested=[response] }
     let dependencies = { Portfolio.dependencies with Observers= responders }
@@ -131,8 +127,7 @@ let ``Navigate: portfolio -> answers``() =
     
     // Setup
     let mutable pageRequested = false
-    let response = function PageRequested.Answers _ -> pageRequested <- true 
-                                                | _ -> pageRequested <- false
+    let response = function PageRequested.Answers _ -> pageRequested <- true | _ -> ()
 
     let responders =   { Portfolio.dependencies.Observers with ForPageRequested=[response] }
     let dependencies = { Portfolio.dependencies with Observers= responders }
@@ -149,8 +144,7 @@ let ``Navigate: portfolio -> podcasts``() =
     
     // Setup
     let mutable pageRequested = false
-    let response = function PageRequested.Podcasts _ -> pageRequested <- true 
-                                                 | _ -> pageRequested <- false
+    let response = function PageRequested.Podcasts _ -> pageRequested <- true | _ -> ()
 
     let responders =   { Portfolio.dependencies.Observers with ForPageRequested=[response] }
     let dependencies = { Portfolio.dependencies with Observers= responders }
