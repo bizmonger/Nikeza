@@ -60,18 +60,14 @@ let ``Follow provider``() =
     
     // Setup
     let mutable followed = false
-
-    let response = function 
-        | SubscriberAdded _ -> followed <- true 
-        | _                 -> followed <- false
+    let response = function SubscriberAdded _ -> followed <- true | _ -> followed <- false
 
     let responders =   { Portfolio.dependencies.Observers with ForFollow=[response] }
     let dependencies = { Portfolio.dependencies with Observers= responders }
     
-    let viewmodel = Portfolio.ViewModel(dependencies)
-
     // Test
-    viewmodel.Follow.Execute()
+    Portfolio.ViewModel(dependencies).Follow
+                                     .Execute()
 
     // Verify
     followed |> should equal true
@@ -81,18 +77,14 @@ let ``Unsubscribe from provider``() =
     
     // Setup
     let mutable unsubscribed = false
-
-    let response = function 
-        | SubscriberRemoved _ -> unsubscribed <- true 
-        | _                   -> unsubscribed <- false
+    let response = function SubscriberRemoved _ -> unsubscribed <- true | _ -> unsubscribed <- false
 
     let responders =   { Portfolio.dependencies.Observers with ForUnsubscribe=[response] }
     let dependencies = { Portfolio.dependencies with Observers= responders }
     
-    let viewmodel = Portfolio.ViewModel(dependencies)
-
     // Test
-    viewmodel.Unsubscribe.Execute()
+    Portfolio.ViewModel(dependencies).Unsubscribe
+                                     .Execute()
 
     // Verify
     unsubscribed |> should equal true
@@ -102,18 +94,14 @@ let ``Navigate: portfolio -> articles``() =
     
     // Setup
     let mutable pageRequested = false
-
-    let response = function 
-        | PageRequested.Articles _ -> pageRequested <- true 
-        | _                        -> pageRequested <- false
+    let response = function PageRequested.Articles _ -> pageRequested <- true | _ -> pageRequested <- false
 
     let responders =   { Portfolio.dependencies.Observers with ForPageRequested=[response] }
     let dependencies = { Portfolio.dependencies with Observers= responders }
     
-    let viewmodel = Portfolio.ViewModel(dependencies)
-    
     // Test
-    viewmodel.Articles.Execute()
+    Portfolio.ViewModel(dependencies).Articles
+                                     .Execute()
 
     // Verify
     pageRequested |> should equal true
@@ -123,19 +111,14 @@ let ``Navigate: portfolio -> videos``() =
     
     // Setup
     let mutable pageRequested = false
-   
-    let response = function 
-        | PageRequested.Videos _ -> pageRequested <- true 
-        | _                      -> pageRequested <- false
+    let response = function PageRequested.Videos _ -> pageRequested <- true | _ -> pageRequested <- false
 
     let responders =   { Portfolio.dependencies.Observers with ForPageRequested=[response] }
     let dependencies = { Portfolio.dependencies with Observers= responders }
     
-    let viewmodel = Portfolio.ViewModel(dependencies)
-
     // Test
-    viewmodel.Videos.Execute()
-
+    Portfolio.ViewModel(dependencies).Videos
+                                     .Execute()
     // Verify
     pageRequested |> should equal true
 
@@ -144,17 +127,14 @@ let ``Navigate: portfolio -> answers``() =
     
     // Setup
     let mutable pageRequested = false
-   
-    let response = function 
-        | PageRequested.Answers _ -> pageRequested <- true 
-        | _                       -> pageRequested <- false
+    let response = function PageRequested.Answers _ -> pageRequested <- true | _ -> pageRequested <- false
 
     let responders =   { Portfolio.dependencies.Observers with ForPageRequested=[response] }
     let dependencies = { Portfolio.dependencies with Observers= responders }
     
-    let viewmodel = Portfolio.ViewModel(dependencies)
     // Test
-    viewmodel.Answers.Execute()
+    Portfolio.ViewModel(dependencies).Answers
+                                     .Execute()
 
     // Verify
     pageRequested |> should equal true
@@ -164,18 +144,14 @@ let ``Navigate: portfolio -> podcasts``() =
     
     // Setup
     let mutable pageRequested = false
-   
-    let response = function 
-        | PageRequested.Podcasts _ -> pageRequested <- true 
-        | _                        -> pageRequested <- false
-        
+    let response = function PageRequested.Podcasts _ -> pageRequested <- true | _ -> pageRequested <- false
+
     let responders =   { Portfolio.dependencies.Observers with ForPageRequested=[response] }
     let dependencies = { Portfolio.dependencies with Observers= responders }
     
-    let viewmodel = Portfolio.ViewModel(dependencies)
-
     // Test
-    viewmodel.Podcasts.Execute()
+    Portfolio.ViewModel(dependencies).Podcasts
+                                     .Execute()
 
     // Verify
     pageRequested |> should equal true
