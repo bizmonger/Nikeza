@@ -10,10 +10,10 @@ open System.Linq
 let ``Initializing viewmodel loads platforms`` () =
     
     // Setup
-    let dataSources = ViewModel(someUser, mockPlatforms, mockSaveSources)
+    let dataSources = ViewModel(DataSource.dependencies)
 
     // Test
     dataSources.Init()
 
     // Verify
-    Assert.IsTrue(dataSources.Platforms.Any())
+    dataSources.Platforms.Any() |> should equal true

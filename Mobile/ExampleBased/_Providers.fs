@@ -3,16 +3,15 @@
 open FsUnit
 open NUnit.Framework
 open Nikeza.Mobile.TestAPI
-open Nikeza.Mobile.TestAPI.Portfolio
 open Nikeza.Mobile.UILogic.Portal
-open Nikeza.Mobile.UILogic.Pages
 open Nikeza.Mobile.Subscriptions.Events
+open Nikeza.Mobile.UILogic.Pages
 
 [<Test>]
 let ``Load recent links from providers`` () =
     
     // Setup
-    let viewmodel = Recent.ViewModel(someProvider.Profile.Id, mockRecent, mockPortfolio)
+    let viewmodel = Recent.ViewModel(Recent.dependencies)
     
     // Test
     viewmodel.Init()
@@ -24,7 +23,7 @@ let ``Load recent links from providers`` () =
 let ``Load members`` () =
     
     // Setup
-    let viewmodel = Members.ViewModel(someProvider, mockMembers)
+    let viewmodel = Members.ViewModel(Members.dependencies)
     
     // Test
     viewmodel.Init()
@@ -36,7 +35,7 @@ let ``Load members`` () =
 let ``Load subscriptions`` () =
     
     // Setup
-    let viewmodel = Subscriptions.ViewModel(someProvider, mockSubscriptions)
+    let viewmodel = Subscriptions.ViewModel(Subscriptions.dependencies)
     
     // Test
     viewmodel.Init()
@@ -48,7 +47,7 @@ let ``Load subscriptions`` () =
 let ``Load portfolio``() =
     
     // Setup
-    let viewmodel = Portfolio.ViewModel(injected)
+    let viewmodel = Portfolio.ViewModel(Portfolio.dependencies)
 
     // Test
     viewmodel.Init()
@@ -61,14 +60,16 @@ let ``Follow provider``() =
     
     // Setup
     let mutable followed = false
-    
-    let viewmodel = Portfolio.ViewModel(injected)
 
-    viewmodel.CommandEvents()
-             .Add(fun event ->
-                      event |> function 
-                               | SubscriberAdded _ -> followed <- true
-                               | _ ->                 followed <- false)
+    let response = function 
+        | SubscriberAdded _ -> followed <- true 
+        | _                 -> followed <- false
+
+    let responders =   { Portfolio.dependencies.Observers with ForFollow=[response] }
+    let dependencies = { Portfolio.dependencies with Observers= responders }
+    
+    let viewmodel = Portfolio.ViewModel(dependencies)
+
     // Test
     viewmodel.Follow.Execute()
 
@@ -80,14 +81,16 @@ let ``Unsubscribe from provider``() =
     
     // Setup
     let mutable unsubscribed = false
-   
-    let viewmodel = Portfolio.ViewModel(injected)
 
-    viewmodel.CommandEvents()
-             .Add(fun event ->
-                      event |> function 
-                               | SubscriberRemoved _ -> unsubscribed <- true
-                               | _ ->                   unsubscribed <- false)
+    let response = function 
+        | SubscriberRemoved _ -> unsubscribed <- true 
+        | _                   -> unsubscribed <- false
+
+    let responders =   { Portfolio.dependencies.Observers with ForUnsubscribe=[response] }
+    let dependencies = { Portfolio.dependencies with Observers= responders }
+    
+    let viewmodel = Portfolio.ViewModel(dependencies)
+
     // Test
     viewmodel.Unsubscribe.Execute()
 
@@ -99,14 +102,16 @@ let ``Navigate: portfolio -> articles``() =
     
     // Setup
     let mutable pageRequested = false
-   
-    let viewmodel = Portfolio.ViewModel(injected)
 
-    viewmodel.PageRequested()
-             .Add(fun event ->
-                      event |> function 
-                               | PageRequested.Articles _ -> pageRequested <- true
-                               | _ ->                        pageRequested <- false)
+    let response = function 
+        | PageRequested.Articles _ -> pageRequested <- true 
+        | _                        -> pageRequested <- false
+
+    let responders =   { Portfolio.dependencies.Observers with ForPageRequested=[response] }
+    let dependencies = { Portfolio.dependencies with Observers= responders }
+    
+    let viewmodel = Portfolio.ViewModel(dependencies)
+    
     // Test
     viewmodel.Articles.Execute()
 
@@ -119,13 +124,15 @@ let ``Navigate: portfolio -> videos``() =
     // Setup
     let mutable pageRequested = false
    
-    let viewmodel = Portfolio.ViewModel(injected)
+    let response = function 
+        | PageRequested.Videos _ -> pageRequested <- true 
+        | _                      -> pageRequested <- false
 
-    viewmodel.PageRequested()
-             .Add(fun event ->
-                      event |> function 
-                               | PageRequested.Videos _ -> pageRequested <- true
-                               | _ ->                      pageRequested <- false)
+    let responders =   { Portfolio.dependencies.Observers with ForPageRequested=[response] }
+    let dependencies = { Portfolio.dependencies with Observers= responders }
+    
+    let viewmodel = Portfolio.ViewModel(dependencies)
+
     // Test
     viewmodel.Videos.Execute()
 
@@ -138,13 +145,14 @@ let ``Navigate: portfolio -> answers``() =
     // Setup
     let mutable pageRequested = false
    
-    let viewmodel = Portfolio.ViewModel(injected)
+    let response = function 
+        | PageRequested.Answers _ -> pageRequested <- true 
+        | _                       -> pageRequested <- false
 
-    viewmodel.PageRequested()
-             .Add(fun event ->
-                      event |> function 
-                               | PageRequested.Answers _ -> pageRequested <- true
-                               | _ ->                       pageRequested <- false)
+    let responders =   { Portfolio.dependencies.Observers with ForPageRequested=[response] }
+    let dependencies = { Portfolio.dependencies with Observers= responders }
+    
+    let viewmodel = Portfolio.ViewModel(dependencies)
     // Test
     viewmodel.Answers.Execute()
 
@@ -157,13 +165,15 @@ let ``Navigate: portfolio -> podcasts``() =
     // Setup
     let mutable pageRequested = false
    
-    let viewmodel = Portfolio.ViewModel(injected)
+    let response = function 
+        | PageRequested.Podcasts _ -> pageRequested <- true 
+        | _                        -> pageRequested <- false
+        
+    let responders =   { Portfolio.dependencies.Observers with ForPageRequested=[response] }
+    let dependencies = { Portfolio.dependencies with Observers= responders }
+    
+    let viewmodel = Portfolio.ViewModel(dependencies)
 
-    viewmodel.PageRequested()
-             .Add(fun event ->
-                      event |> function 
-                               | PageRequested.Podcasts _ -> pageRequested <- true
-                               | _ ->                        pageRequested <- false)
     // Test
     viewmodel.Podcasts.Execute()
 

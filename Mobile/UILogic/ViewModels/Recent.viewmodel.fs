@@ -15,7 +15,7 @@ type Query = {
 }
 
 type Observers = {
-    ForPageRequested : (PageRequested  -> unit) list
+    ForPageRequested : (PageRequested    -> unit) list
     ForQueryFailed   : (GetProfilesEvent -> unit) list
 }
 
@@ -25,7 +25,7 @@ type Dependencies = {
     Observers  : Observers
 }
 
-type ViewModel(dependencies:Dependencies) =
+type ViewModel(dependencies) =
 
     inherit ViewModelBase()
 

@@ -89,6 +89,17 @@ let mockFollow : FollowFn =
 let mockUnsubscribe : UnsubscribeFn =
     fun _ -> Ok {User= someProvider; Provider=someProvider}
 
+module Registration =
+
+    open Nikeza.Mobile.UILogic.Registration
+
+    let dependencies =
+
+        let observers = { ForRegistrationSubmission= [] }
+        let actions =   { Submit=mockSubmit }
+    
+        { Actions=  actions; Observers= observers }
+
 module ProfileEditor =
 
     open Nikeza.Mobile.UILogic.Portal.ProfileEditor
@@ -104,29 +115,93 @@ module ProfileEditor =
           Query =  { Topics= mockTopics }
         }
 
-module Registration =
+module DataSource =
 
-    open Nikeza.Mobile.UILogic.Registration
-
+    open Nikeza.Mobile.Portal.DataSources
+    
     let dependencies =
 
-        let observers = { ForRegistrationSubmission= [] }
-        let actions =   { Submit=mockSubmit }
+        let responders = { ForSaveSources= [] }
+        let actions =    { Save= mockSaveSources }
     
-        { Actions=  actions; Observers= observers }
+        { Actions=   actions
+          Observers= responders 
+          UserId =   ProfileId someUser.Id
+          Query =  { Platforms= mockPlatforms }
+        }
 
 
 module Portfolio =
 
     open Nikeza.Mobile.UILogic.Portal.Portfolio
 
-    let injected = {
-        UserId =        ProviderId someProfile.Id
-        ProviderId =    ProviderId someProvider.Profile.Id
-        PortfolioFn =   mockPortfolio
-        FollowFn =      mockFollow
-        UnsubscribeFn = mockUnsubscribe
-    }
+    let dependencies =
+
+        let observers = { 
+            ForFollow =        []
+            ForUnsubscribe =   []
+            ForQueryFailed =   []
+            ForPageRequested = []
+        }
+
+        let actions = { 
+            Follow= mockFollow 
+            Unsubscribe= mockUnsubscribe
+        }
+    
+        { UserId=     ProviderId someUser.Id
+          ProviderId= ProviderId someProvider.Profile.Id
+          Query=    { Portfolio= mockPortfolio }
+          Actions=    actions
+          Observers=  observers 
+        }
+        
+module Recent =
+
+    open Nikeza.Mobile.UILogic.Portal.Recent
+
+    let dependencies =
+
+        let observers = {
+            ForQueryFailed =   []
+            ForPageRequested = []
+        }
+    
+        { UserId=     ProfileId someUser.Id
+          Query=    { Portfolio= mockPortfolio; Recent= mockRecent }
+          Observers=  observers 
+        }
+
+module Members =
+
+    open Nikeza.Mobile.UILogic.Portal.Members
+
+    let dependencies =
+
+        let observers = {
+            ForQueryFailed =   []
+            ForPageRequested = []
+        }
+    
+        { Query=    { Members= mockMembers }
+          Observers=  observers 
+        }
+
+module Subscriptions =
+
+    open Nikeza.Mobile.UILogic.Portal.Subscriptions
+
+    let dependencies =
+
+        let observers = { 
+            ForQueryFailed =   []
+            ForPageRequested = []
+        }
+    
+        { UserId=     ProfileId someUser.Id
+          Query=    { Portfolio= mockPortfolio; Subscriptions=mockSubscriptions }
+          Observers=  observers 
+        }
 
 type Nikeza.Mobile.UILogic.Registration.ViewModel with
 

@@ -20,7 +20,7 @@ type Query = {
 }
 
 type Observers = {
-    ForSaveDataSources : (SourcesSaveEvent -> unit) list
+    ForSaveSources : (SourcesSaveEvent -> unit) list
 }
 
 type Dependencies = {
@@ -61,7 +61,7 @@ type ViewModel(dependencies:Dependencies) as x =
     let save() = 
 
         let broadcast events =
-            events |> List.iter (fun event -> responders.ForSaveDataSources |> handle event)
+            events |> List.iter (fun event -> responders.ForSaveSources |> handle event)
 
         x.Sources
            |> List.ofSeq
