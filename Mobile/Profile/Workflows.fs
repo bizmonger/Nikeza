@@ -81,7 +81,7 @@ module DataSources =
         type private SaveWorkflow = SaveSourcesFn -> SaveCommand -> SourcesSaveEvent list
 
         let workflow : SaveWorkflow = 
-            fun savefn command -> command |> function
+            fun savefn -> function
                 SaveCommand.Execute sources -> 
                                     sources |> savefn
                                             |> ResultOf.Save.Execute

@@ -10,14 +10,14 @@ type private FollowWorkflow =      FollowFn      -> Follow.Command      -> Notif
 type private UnsubscribeWorkflow = UnsubscribeFn -> Unsubscribe.Command -> NotificationEvent list
 
 let follow : FollowWorkflow = 
-    fun followFn command -> command |> function
+    fun followFn -> function
         Follow.Command.Execute request -> 
                                request |> followFn
                                        |> ResultOf.Follow 
                                        |> Are.Subscription.Follow.events
                                             
 let unsubscribe : UnsubscribeWorkflow =
-    fun unsubscribeFn command -> command |> function
+    fun unsubscribeFn -> function
         Unsubscribe.Command.Execute request -> 
                                     request |> unsubscribeFn
                                             |> ResultOf.Unsubscribe  
