@@ -2,14 +2,13 @@
 
 open System
 open System.Collections.ObjectModel
+open Nikeza.Common
 open Nikeza.DataTransfer
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Profile
 open Nikeza.Mobile.Profile.Query
 open Nikeza.Mobile.Profile.Commands.DataSources
 open Nikeza.Mobile.Profile.Events
-open Nikeza.Mobile.UILogic.Response
-open Nikeza.Common
 
 type Actions = {
     Save : Try.SaveSourcesFn

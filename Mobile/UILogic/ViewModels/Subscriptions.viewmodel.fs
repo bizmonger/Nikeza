@@ -7,8 +7,6 @@ open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio.Query
 open Nikeza.Mobile.UILogic.Pages
-open Nikeza.Mobile.UILogic.Response
-
 
 type Query = {
     Portfolio     : PortfolioFn

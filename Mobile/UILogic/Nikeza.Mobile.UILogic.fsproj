@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Response.fs" />
     <Compile Include="Pages.fs" />
     <Compile Include="Adapter.fs" />
     <Compile Include="DelegateCommand.fs" />

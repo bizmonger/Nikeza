@@ -6,7 +6,6 @@ open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio.Query
 open Nikeza.Mobile.UILogic.Pages
-open Nikeza.Mobile.UILogic.Response
 open Nikeza.Mobile.Subscriptions.Events
 
 type Query = {

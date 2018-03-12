@@ -1,4 +1,4 @@
-﻿namespace Nikeza.Mobile.UILogic
+﻿namespace Nikeza.Mobile.AppLogic
 
 module Response =
 

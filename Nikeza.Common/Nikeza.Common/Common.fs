@@ -186,3 +186,6 @@ let uninitializedProvider = {
     Subscriptions= []
     Followers=     []
 }
+
+let handle event observers= 
+    observers|> List.iter(fun handle -> handle event)

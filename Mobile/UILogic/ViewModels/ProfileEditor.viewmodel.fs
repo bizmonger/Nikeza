@@ -11,7 +11,6 @@ open Nikeza.Mobile.Profile.Query
 open Nikeza.Mobile.Profile.Commands.ProfileEditor
 open System.Collections.ObjectModel
 open Nikeza.Mobile.Profile.Events
-open Nikeza.Mobile.UILogic.Response
 
 type Actions = {
     Save : SaveProfileFn
