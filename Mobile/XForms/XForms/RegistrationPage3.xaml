@@ -10,6 +10,11 @@
             <Entry Style="{StaticResource RegistrationEntry}" Text="{Binding Confirm}"  Placeholder="confirm" IsPassword="True" Margin="0,50,0,0"  />
         </StackLayout>
 
-        <Button Style="{StaticResource RegistrationButton}" Text="Next" FontAttributes="Bold" FontSize="Medium" VerticalOptions="Fill" />
+        <Button Style="{StaticResource RegistrationButton}"
+                Command="{Binding Next}"
+                Text="Next" 
+                FontAttributes="Bold" 
+                FontSize="Medium" 
+                VerticalOptions="Fill" />
     </StackLayout>
 </ContentPage>

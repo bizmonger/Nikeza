@@ -1,28 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:XForms"
              x:Class="XForms.RegistrationPage1">
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <ControlTemplate x:Key="PortraitTemplate">
-                <StackLayout>
-                    <StackLayout VerticalOptions="CenterAndExpand">
-                        <Entry Style="{StaticResource RegistrationEntry}" Text="{Binding Email}"    Placeholder="email"  />
-                        <Entry Style="{StaticResource RegistrationEntry}" Text="{Binding Password}" Placeholder="password" IsPassword="True" Margin="0,15,0,0"  />
-                    </StackLayout>
+    <StackLayout>
+        <StackLayout VerticalOptions="CenterAndExpand">
+            <Entry Style="{StaticResource RegistrationEntry}" Text="{Binding Email}"    Placeholder="email"  />
+            <Entry Style="{StaticResource RegistrationEntry}" Text="{Binding Password}" Placeholder="password" IsPassword="True" Margin="0,15,0,0"  />
+        </StackLayout>
 
-                    <Button Style="{StaticResource RegistrationButton}" Text="Next" FontAttributes="Bold" FontSize="Small" VerticalOptions="Fill" />
-                </StackLayout>
-            </ControlTemplate>
-
-            <ControlTemplate x:Key="LandscapeTemplate">
-                <Label Text="Landscape" />
-            </ControlTemplate>
-        </ResourceDictionary>
-    </ContentPage.Resources>
-
-    <ContentView ControlTemplate="{StaticResource PortraitTemplate}" />
-
+        <Button Style="{StaticResource RegistrationButton}" 
+                            Command="{Binding Next}"
+                            Text="Next" FontAttributes="Bold" 
+                            FontSize="Small"
+                            VerticalOptions="Fill" />
+    </StackLayout>
 </ContentPage>

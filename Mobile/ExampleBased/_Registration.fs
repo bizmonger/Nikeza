@@ -9,6 +9,48 @@ open Nikeza.Mobile.AppLogic.ProfileEvents.Register
 open Nikeza.Mobile.TestAPI.Registration
 
 [<Test>]
+let ``Can't login if missing email`` () =
+    
+    // Setup
+    let registration = ViewModel1()
+    registration.Email    <- ""
+    registration.Password <- somePassword
+
+    // Test
+    registration.Next.Execute()
+
+    // Verify
+    registration.IsValidated |> should equal false
+
+[<Test>]
+let ``Can't login if missing password`` () =
+    
+    // Setup
+    let registration = ViewModel1()
+    registration.Email    <- someEmail
+    registration.Password <- ""
+
+    // Test
+    registration.Next.Execute()
+
+    // Verify
+    registration.IsValidated |> should equal false
+
+[<Test>]
+let ``Can login if provided email and password`` () =
+    
+    // Setup
+    let registration = ViewModel1()
+    registration.Email    <- someEmail
+    registration.Password <- somePassword
+
+    // Test
+    registration.Next.Execute()
+
+    // Verify
+    registration.IsValidated |> should equal true
+
+[<Test>]
 let ``Registration validated with email and matching passwords`` () =
     
     // Setup

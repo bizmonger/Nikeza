@@ -12,7 +12,8 @@ type ViewModel1() as x =
     let mutable isValidated = false
 
     let validate() =
-        email.Length > 0
+        email.Length    > 0 &&
+        password.Length > 0
 
     let nextCommand = DelegateCommand( (fun _ -> x.IsValidated <- validate()) , fun _ -> true)
 
