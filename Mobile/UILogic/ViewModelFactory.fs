@@ -5,10 +5,9 @@ module Registration =
 
     open Nikeza.Mobile.Profile.Commands
     open Nikeza.Mobile.Profile
-    open Nikeza.Mobile.Account
-    open Nikeza.Mobile.Account.Registration
+    open Nikeza.Mobile.UILogic.Registration
 
-    let getViewModel : Registration.ViewModel =
+    let getViewModel : Nikeza.Mobile.UILogic.Registration.ViewModel =
 
         let actions = { Submit= Try.submit }
         let responders = { ForRegistrationSubmission=[] }

@@ -5,6 +5,11 @@
     <AssemblyName>Nikeza.Mobile.UILogic</AssemblyName>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="Pages.fs" />
     <Compile Include="Adapter.fs" />
@@ -19,6 +24,7 @@
     <Compile Include="ViewModels\Subscriptions.viewmodel.fs" />
     <Compile Include="ViewModels\ProfileEditor.viewmodel.fs" />
     <Compile Include="ViewModels\Portfolio.viewmodel.fs" />
+    <Compile Include="ViewModelFactory.fs" />
   </ItemGroup>
 
   <ItemGroup>
