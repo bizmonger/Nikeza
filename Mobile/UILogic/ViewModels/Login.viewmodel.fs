@@ -1,9 +1,9 @@
-﻿namespace Nikeza.Mobile.UILogic.Registration
+﻿namespace Nikeza.Mobile.UILogic.Login
 
 open System.Windows.Input
 open Nikeza.Mobile.UILogic
 
-type ViewModel1() as x =
+type ViewModel() as x =
 
     inherit ViewModelBase()
 

@@ -7,12 +7,13 @@ open Nikeza.Mobile.UILogic.Registration
 open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.AppLogic.ProfileEvents.Register
 open Nikeza.Mobile.TestAPI.Registration
+open Nikeza.Mobile.UILogic
 
 [<Test>]
 let ``Can't login if missing email`` () =
     
     // Setup
-    let registration = ViewModel1()
+    let registration = Login.ViewModel()
     registration.Email    <- ""
     registration.Password <- somePassword
 
@@ -26,7 +27,7 @@ let ``Can't login if missing email`` () =
 let ``Can't login if missing password`` () =
     
     // Setup
-    let registration = ViewModel1()
+    let registration = Login.ViewModel()
     registration.Email    <- someEmail
     registration.Password <- ""
 
@@ -40,7 +41,7 @@ let ``Can't login if missing password`` () =
 let ``Can login if provided email and password`` () =
     
     // Setup
-    let registration = ViewModel1()
+    let registration = Login.ViewModel()
     registration.Email    <- someEmail
     registration.Password <- somePassword
 

@@ -20,7 +20,7 @@
     <Compile Include="ViewModels\Registration.viewmodel.fs" />
     <Compile Include="ViewModels\Recent.viewmodel.fs" />
     <Compile Include="ViewModels\Members.viewmodel.fs" />
-    <Compile Include="ViewModels\Registration1.viewmodel.fs" />
+    <Compile Include="ViewModels\Login.viewmodel.fs" />
     <Compile Include="ViewModels\Subscriptions.viewmodel.fs" />
     <Compile Include="ViewModels\ProfileEditor.viewmodel.fs" />
     <Compile Include="ViewModels\Portfolio.viewmodel.fs" />

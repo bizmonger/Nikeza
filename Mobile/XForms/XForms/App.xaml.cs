@@ -1,5 +1,5 @@
 ﻿
-using Nikeza.Mobile.UILogic.Registration;
+using Nikeza.Mobile.UILogic.Login;
 using Xamarin.Forms;
 
 namespace XForms
@@ -9,7 +9,7 @@ namespace XForms
 		public App ()
         {
             InitializeComponent();
-            MainPage = new RegistrationPage1 { BindingContext = new ViewModel1() };
+            MainPage = new RegistrationPage1 { BindingContext = new ViewModel() };
         }
 
         protected override void OnStart ()
