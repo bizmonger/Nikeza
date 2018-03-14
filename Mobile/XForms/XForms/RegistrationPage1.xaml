@@ -10,9 +10,8 @@
         </StackLayout>
 
         <Button Style="{StaticResource RegistrationButton}" 
-                            Command="{Binding Next}"
-                            Text="Next" FontAttributes="Bold" 
-                            FontSize="Small"
-                            VerticalOptions="Fill" />
+                Command=  "{Binding Next}"
+                IsEnabled="{Binding IsValidated}"
+                Text="Next"/>
     </StackLayout>
 </ContentPage>

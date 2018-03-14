@@ -14,11 +14,14 @@
             </Style>
 
             <Style x:Key="RegistrationButton"  TargetType="Button">
+                <Setter Property="VerticalOptions"   Value="Fill" />
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="WidthRequest"      Value="200" />
                 <Setter Property="HeightRequest"     Value="45" />
                 <Setter Property="BackgroundColor"   Value="#5784cc" />
                 <Setter Property="TextColor"         Value="White" />
+                <Setter Property="FontSize"          Value="Small" />
+                <Setter Property="FontAttributes"    Value="Bold" />
             </Style>
         </ResourceDictionary>
 

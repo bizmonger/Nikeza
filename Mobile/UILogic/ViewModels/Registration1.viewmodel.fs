@@ -22,11 +22,13 @@ type ViewModel1() as x =
     member x.Email
              with get() =      email 
              and  set(value) = email <- value
+                               x.IsValidated <- validate()
                                base.NotifyPropertyChanged (<@ x.Email @>)
 
     member x.Password
              with get() =      password
              and  set(value) = password <- value
+                               x.IsValidated <- validate()
                                base.NotifyPropertyChanged (<@ x.Password @>)
 
     member x.IsValidated
