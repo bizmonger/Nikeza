@@ -9,7 +9,7 @@ namespace XForms
 		public App ()
         {
             InitializeComponent();
-            MainPage = new RegistrationPage1 { BindingContext = new ViewModel() };
+            MainPage = new LoginPage { BindingContext = new ViewModel() };
         }
 
         protected override void OnStart ()
