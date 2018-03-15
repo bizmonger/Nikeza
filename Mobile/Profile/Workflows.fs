@@ -35,14 +35,14 @@ module Session =
 
     let workflow : SessionWorkflow = 
         fun command -> command |> function
-        | SessionCommand.Login credentials -> 
-                               credentials |> Try.login
-                                           |> ResultOf.Login
-                                           |> Are.Session.events
+        | Login credentials -> 
+                credentials |> Try.login
+                            |> ResultOf.Login
+                            |> Are.Session.events
         
-        | SessionCommand.Logout -> Try.logout()
-                                       |> ResultOf.Logout
-                                       |> Are.Session.events
+        | Logout -> Try.logout()
+                     |> ResultOf.Logout
+                     |> Are.Session.events
 
 module Editor =
 

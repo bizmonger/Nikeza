@@ -12,22 +12,22 @@ type Query = {
     Members : MembersFn
 }
 
-type Observers = {
+type SideEffects = {
     ForPageRequested : (PageRequested    -> unit) list
     ForQueryFailed   : (GetProfilesEvent -> unit) list
 }
 
 type Dependencies = {
-    Query     : Query
-    Observers : Observers
+    Query       : Query
+    SideEffects : SideEffects
 }
 
 type ViewModel(dependencies) =
 
     inherit ViewModelBase()
 
-    let responders = dependencies.Observers
-    let query =      dependencies.Query
+    let sideEffects = dependencies.SideEffects
+    let query =       dependencies.Query
 
     let mutable selection: Provider option = None
     let mutable members:   Provider list =   []
@@ -35,7 +35,7 @@ type ViewModel(dependencies) =
     let viewProvider() =
 
         let broadcast (events:PageRequested list) = 
-            events |> List.iter (fun event -> responders.ForPageRequested |> handle event)
+            events |> List.iter (fun event -> sideEffects.ForPageRequested |> handle event)
 
         selection |> function
                      | Some provider -> provider.Profile.Id 
@@ -60,7 +60,7 @@ type ViewModel(dependencies) =
     member x.Init() =
 
         let broadcast events = 
-            events |> List.iter (fun event -> responders.ForQueryFailed |> handle event)
+            events |> List.iter (fun event -> sideEffects.ForQueryFailed |> handle event)
 
         query.Members()
          |> function

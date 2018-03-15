@@ -1,6 +1,6 @@
-﻿
+﻿using Xamarin.Forms;
 using Nikeza.Mobile.UILogic.Login;
-using Xamarin.Forms;
+using static Nikeza.Mobile.UILogic.DependencyFactory;
 
 namespace XForms
 {
@@ -9,7 +9,7 @@ namespace XForms
 		public App ()
         {
             InitializeComponent();
-            MainPage = new LoginPage { BindingContext = new ViewModel() };
+            MainPage = new LoginPage { BindingContext = new ViewModel(Login.dependencies) };
         }
 
         protected override void OnStart ()

@@ -12,7 +12,7 @@ open Nikeza.Mobile.Profile.Commands.ProfileEditor
 open System.Collections.ObjectModel
 open Nikeza.Mobile.Profile.Events
 
-type Actions = {
+type Implementation = {
     Save : SaveProfileFn
 }
 
@@ -20,16 +20,16 @@ type Query = {
     Topics : TopicsFn
 }
 
-type Observers = {
+type SideEffects = {
     ForProfileSave    : (ProfileSaveEvent  -> unit) list
     ForTopicsFnFailed : (QueryTopicsFailed -> unit) list
 }
 
 type Dependencies = {
-    User      : Profile
-    Query     : Query
-    Actions   : Actions
-    Observers : Observers
+    User           : Profile
+    Query          : Query
+    Implementation : Implementation
+    SideEffects    : SideEffects
 }
 
 type ViewModel(dependencies) as x =
@@ -38,8 +38,8 @@ type ViewModel(dependencies) as x =
 
     let query =          dependencies.Query
     let user =           dependencies.User
-    let implementation = dependencies.Actions
-    let responders =     dependencies.Observers
+    let implementation = dependencies.Implementation
+    let sideEffects =    dependencies.SideEffects
     
     let mutable firstNamePlaceholder = "first name"
     let mutable lastNamePlaceholder =  "last name"
@@ -82,7 +82,7 @@ type ViewModel(dependencies) as x =
     let save() =
     
         let broadcast (events) = 
-            events |> List.iter (fun event -> responders.ForProfileSave|> handle event)
+            events |> List.iter (fun event -> sideEffects.ForProfileSave|> handle event)
         
         { Profile= profile }
            |> SaveCommand.Execute 
@@ -148,7 +148,7 @@ type ViewModel(dependencies) as x =
     member x.Init() =
 
         let broadcast (events:QueryTopicsFailed list) = 
-            events |> List.iter (fun event -> responders.ForTopicsFnFailed |> handle event)
+            events |> List.iter (fun event -> sideEffects.ForTopicsFnFailed |> handle event)
             
         query.Topics()
             |> function

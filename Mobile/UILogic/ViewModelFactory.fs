@@ -12,6 +12,6 @@ module Registration =
         let actions = { Submit= Try.submit }
         let responders = { ForRegistrationSubmission=[] }
 
-        let dependencies = { Actions=actions; Observers=responders }
+        let dependencies = { Implementation=actions; SideEffects=responders }
 
         Registration.ViewModel(dependencies)

@@ -89,16 +89,26 @@ let mockFollow : FollowFn =
 let mockUnsubscribe : UnsubscribeFn =
     fun _ -> Ok {User= someProvider; Provider=someProvider}
 
+module Login =
+
+    open Nikeza.Mobile.UILogic.Login
+
+    let dependencies =
+
+        let sideEffects = { ForLoginAttempt= [] }
+    
+        { SideEffects= sideEffects }
+
 module Registration =
 
     open Nikeza.Mobile.UILogic.Registration
 
     let dependencies =
 
-        let observers = { ForRegistrationSubmission= [] }
-        let actions =   { Submit=mockSubmit }
+        let sideEffects =    { ForRegistrationSubmission= [] }
+        let implementation = { Submit=mockSubmit }
     
-        { Actions=  actions; Observers= observers }
+        { Implementation=  implementation; SideEffects= sideEffects }
 
 module ProfileEditor =
 
@@ -106,13 +116,13 @@ module ProfileEditor =
     
     let dependencies =
 
-        let responders = { ForProfileSave= []; ForTopicsFnFailed= [] }
-        let actions =    { Save= mockSave }
+        let sideEffects =    { ForProfileSave= []; ForTopicsFnFailed= [] }
+        let implementation = { Save= mockSave }
     
-        { Actions=   actions
-          Observers= responders 
-          User =     someUser
-          Query =  { Topics= mockTopics }
+        { Implementation= implementation
+          SideEffects=    sideEffects 
+          User =          someUser
+          Query =       { Topics= mockTopics }
         }
 
 module DataSource =
@@ -121,13 +131,13 @@ module DataSource =
     
     let dependencies =
 
-        let responders = { ForSaveSources= [] }
-        let actions =    { Save= mockSaveSources }
+        let sideEffects =    { ForSaveSources= [] }
+        let implementation = { Save= mockSaveSources }
     
-        { Actions=   actions
-          Observers= responders 
-          UserId =   ProfileId someUser.Id
-          Query =  { Platforms= mockPlatforms }
+        { Implementation=  implementation
+          SideEffects=     sideEffects 
+          UserId =         ProfileId someUser.Id
+          Query =        { Platforms= mockPlatforms }
         }
 
 
@@ -137,23 +147,23 @@ module Portfolio =
 
     let dependencies =
 
-        let observers = { 
+        let sideEffects = { 
             ForFollow =        []
             ForUnsubscribe =   []
             ForQueryFailed =   []
             ForPageRequested = []
         }
 
-        let actions = { 
-            Follow= mockFollow 
+        let implementation = { 
+            Follow=      mockFollow 
             Unsubscribe= mockUnsubscribe
         }
     
-        { UserId=     ProviderId someUser.Id
-          ProviderId= ProviderId someProvider.Profile.Id
-          Query=    { Portfolio= mockPortfolio }
-          Actions=    actions
-          Observers=  observers 
+        { UserId=         ProviderId someUser.Id
+          ProviderId=     ProviderId someProvider.Profile.Id
+          Query=        { Portfolio= mockPortfolio }
+          Implementation= implementation
+          SideEffects=    sideEffects 
         }
         
 module Recent =
@@ -162,14 +172,14 @@ module Recent =
 
     let dependencies =
 
-        let observers = {
+        let sideEffects = {
             ForQueryFailed =   []
             ForPageRequested = []
         }
     
-        { UserId=     ProfileId someUser.Id
-          Query=    { Portfolio= mockPortfolio; Recent= mockRecent }
-          Observers=  observers 
+        { UserId=      ProfileId someUser.Id
+          Query=     { Portfolio= mockPortfolio; Recent= mockRecent }
+          SideEffects= sideEffects 
         }
 
 module Members =
@@ -178,13 +188,13 @@ module Members =
 
     let dependencies =
 
-        let observers = {
+        let sideEffects = {
             ForQueryFailed =   []
             ForPageRequested = []
         }
     
-        { Query=    { Members= mockMembers }
-          Observers=  observers 
+        { Query=      { Members= mockMembers }
+          SideEffects=  sideEffects 
         }
 
 module Subscriptions =
@@ -193,14 +203,14 @@ module Subscriptions =
 
     let dependencies =
 
-        let observers = { 
+        let sideEffects = { 
             ForQueryFailed =   []
             ForPageRequested = []
         }
     
-        { UserId=     ProfileId someUser.Id
-          Query=    { Portfolio= mockPortfolio; Subscriptions=mockSubscriptions }
-          Observers=  observers 
+        { UserId=       ProfileId someUser.Id
+          Query=      { Portfolio= mockPortfolio; Subscriptions=mockSubscriptions }
+          SideEffects=  sideEffects 
         }
 
 type Nikeza.Mobile.UILogic.Registration.ViewModel with

@@ -17,13 +17,13 @@ module ProfileEvents =
 
             let handlers = handle::responders.ForRegistrationSubmission
 
-            { responders with Observers.ForRegistrationSubmission= handlers }
+            { responders with SideEffects.ForRegistrationSubmission= handlers }
 
     module Save =
         
         open Nikeza.Mobile.UILogic.Portal.ProfileEditor
 
-        let addResponders (responders:Observers) =
+        let addResponders (responders:SideEffects) =
  
             let handle = function
                 | ProfileSaved      p -> (Debug.WriteLine(sprintf "Request: Navigate to previous page"))
@@ -31,17 +31,17 @@ module ProfileEvents =
 
             let handlers = handle::responders.ForProfileSave
 
-            { responders with Observers.ForProfileSave= handlers }
+            { responders with SideEffects.ForProfileSave= handlers }
 
     module Topics =
         
         open Nikeza.Mobile.UILogic.Portal.ProfileEditor
 
-        let addResponders (responders:Observers) =
+        let addResponders (responders:SideEffects) =
  
             let handle = function
                 QueryTopicsFailed msg -> (Debug.WriteLine(sprintf "Request: Navigate to Error page\n %s" msg))
 
             let handlers = handle::responders.ForTopicsFnFailed
 
-            { responders with Observers.ForTopicsFnFailed= handlers }
+            { responders with SideEffects.ForTopicsFnFailed= handlers }

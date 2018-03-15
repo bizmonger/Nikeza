@@ -8,12 +8,13 @@ open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.AppLogic.ProfileEvents.Register
 open Nikeza.Mobile.TestAPI.Registration
 open Nikeza.Mobile.UILogic
+open Nikeza.Mobile.UILogic.DependencyFactory
 
 [<Test>]
 let ``Can't login if missing email`` () =
     
     // Setup
-    let registration = Login.ViewModel()
+    let registration = Login.ViewModel(Login.dependencies)
     registration.Email    <- ""
     registration.Password <- somePassword
 
@@ -27,7 +28,7 @@ let ``Can't login if missing email`` () =
 let ``Can't login if missing password`` () =
     
     // Setup
-    let registration = Login.ViewModel()
+    let registration = Login.ViewModel(Login.dependencies)
     registration.Email    <- someEmail
     registration.Password <- ""
 
@@ -41,7 +42,7 @@ let ``Can't login if missing password`` () =
 let ``Can login if provided email and password`` () =
     
     // Setup
-    let registration = Login.ViewModel()
+    let registration = Login.ViewModel(Login.dependencies)
     registration.Email    <- someEmail
     registration.Password <- somePassword
 
@@ -74,7 +75,7 @@ let ``Registration submitted after being validated`` () =
     let mutateOnSuccess = function RegistrationSucceeded _ -> successful <- true | _ -> ()
 
     let responders =   { ForRegistrationSubmission= [mutateOnSuccess] }
-    let dependencies = { dependencies with Observers= responders }
+    let dependencies = { dependencies with SideEffects= responders }
     
     let registration =   ViewModel(dependencies)
 
@@ -92,7 +93,7 @@ let ``Navigation requested after registration submitted`` () =
     
     // Setup
     let responders =     addResponders { ForRegistrationSubmission= [] }
-    let dependencies = { dependencies with Observers= responders }
+    let dependencies = { dependencies with SideEffects= responders }
 
     let registration =   ViewModel(dependencies)
 

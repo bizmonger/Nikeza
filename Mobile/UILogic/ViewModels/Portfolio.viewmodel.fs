@@ -11,7 +11,7 @@ open Nikeza.Mobile.Subscriptions.Command
 open Nikeza.Mobile.Portfolio.Query
 open Nikeza.Mobile.UILogic.Pages
 
-type Actions = {
+type Implementation = {
     Follow      : FollowFn
     Unsubscribe : UnsubscribeFn
 }
@@ -20,7 +20,7 @@ type Query = {
     Portfolio : PortfolioFn
 }
 
-type Observers = {
+type SideEffects = {
     ForFollow        : (NotificationEvent -> unit) list
     ForUnsubscribe   : (NotificationEvent -> unit) list
     ForQueryFailed   : (GetPortfolioEvent -> unit) list
@@ -28,21 +28,21 @@ type Observers = {
 }
 
 type Dependencies = {
-    UserId     : ProviderId
-    ProviderId : ProviderId
-    Query      : Query
-    Actions    : Actions
-    Observers  : Observers
+    UserId         : ProviderId
+    ProviderId     : ProviderId
+    Query          : Query
+    Implementation : Implementation
+    SideEffects    : SideEffects
 }
 
-type ViewModel(dependencies:Dependencies) =
+type ViewModel(dependencies) =
 
     inherit ViewModelBase()
 
     let userId =         dependencies.UserId
     let providerId =     dependencies.ProviderId
-    let implementation = dependencies.Actions
-    let responders =     dependencies.Observers
+    let implementation = dependencies.Implementation
+    let sideEffects =    dependencies.SideEffects
     let query =          dependencies.Query
     
     let mutable provider =  None
@@ -55,17 +55,12 @@ type ViewModel(dependencies:Dependencies) =
                     | None -> false
 
     let broadcast events = 
-        events |> List.iter (fun event -> responders.ForPageRequested |> handle event)
-
-    let articles() = [userId |> PageRequested.Articles] |> broadcast
-    let videos() =   [userId |> PageRequested.Videos  ] |> broadcast
-    let answers() =  [userId |> PageRequested.Answers ] |> broadcast
-    let podcasts() = [userId |> PageRequested.Podcasts] |> broadcast
+        events |> List.iter (fun event -> sideEffects.ForPageRequested |> handle event)
 
     let follow() =
 
         let broadcast events = 
-            events |> List.iter (fun event -> responders.ForFollow|> handle event)
+            events |> List.iter (fun event -> sideEffects.ForFollow|> handle event)
 
         { FollowRequest.SubscriberId= getId userId
           FollowRequest.ProfileId=    getId providerId
@@ -77,7 +72,7 @@ type ViewModel(dependencies:Dependencies) =
     let unsubscribe() =
 
         let broadcast events = 
-            events |> List.iter (fun event -> responders.ForUnsubscribe|> handle event)
+            events |> List.iter (fun event -> sideEffects.ForUnsubscribe|> handle event)
 
         { UnsubscribeRequest.SubscriberId= getId userId
           UnsubscribeRequest.ProfileId=    getId providerId 
@@ -93,6 +88,11 @@ type ViewModel(dependencies:Dependencies) =
     let unsubscribeCommand = DelegateCommand( (fun _ -> unsubscribe()), 
                                                fun _ -> isAlreadyFollowing <| getId userId ) 
                                                :> ICommand
+
+    let articles() = [userId |> PageRequested.Articles] |> broadcast
+    let videos() =   [userId |> PageRequested.Videos  ] |> broadcast
+    let answers() =  [userId |> PageRequested.Answers ] |> broadcast
+    let podcasts() = [userId |> PageRequested.Podcasts] |> broadcast
 
     let articlesCommand = DelegateCommand( (fun _ -> articles()), fun _ -> true) :> ICommand
     let videosCommand =   DelegateCommand( (fun _ -> videos()),   fun _ -> true) :> ICommand
@@ -111,7 +111,7 @@ type ViewModel(dependencies:Dependencies) =
     member x.Init() =
 
         let broadcast events = 
-            events |> List.iter (fun event -> responders.ForQueryFailed|> handle event)
+            events |> List.iter (fun event -> sideEffects.ForQueryFailed|> handle event)
 
         providerId 
          |> query.Portfolio

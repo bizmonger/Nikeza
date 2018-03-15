@@ -62,8 +62,8 @@ let ``Follow provider``() =
     let mutable followed = false
     let response = function SubscriberAdded _ -> followed <- true | _ -> ()
 
-    let responders =   { Portfolio.dependencies.Observers with ForFollow=[response] }
-    let dependencies = { Portfolio.dependencies with Observers= responders }
+    let responders =   { Portfolio.dependencies.SideEffects with ForFollow=[response] }
+    let dependencies = { Portfolio.dependencies with SideEffects= responders }
     
     // Test
     Portfolio.ViewModel(dependencies).Follow
@@ -79,8 +79,8 @@ let ``Unsubscribe from provider``() =
     let mutable unsubscribed = false
     let response = function SubscriberRemoved _ -> unsubscribed <- true | _ -> ()
 
-    let responders =   { Portfolio.dependencies.Observers with ForUnsubscribe=[response] }
-    let dependencies = { Portfolio.dependencies with Observers= responders }
+    let responders =   { Portfolio.dependencies.SideEffects with ForUnsubscribe=[response] }
+    let dependencies = { Portfolio.dependencies with SideEffects= responders }
     
     // Test
     Portfolio.ViewModel(dependencies).Unsubscribe
@@ -96,8 +96,8 @@ let ``Navigate: portfolio -> articles``() =
     let mutable pageRequested = false
     let response = function PageRequested.Articles _ -> pageRequested <- true | _ -> ()
 
-    let responders =   { Portfolio.dependencies.Observers with ForPageRequested=[response] }
-    let dependencies = { Portfolio.dependencies with Observers= responders }
+    let responders =   { Portfolio.dependencies.SideEffects with ForPageRequested=[response] }
+    let dependencies = { Portfolio.dependencies with SideEffects= responders }
     
     // Test
     Portfolio.ViewModel(dependencies).Articles
@@ -113,8 +113,8 @@ let ``Navigate: portfolio -> videos``() =
     let mutable pageRequested = false
     let response = function PageRequested.Videos  _ -> pageRequested <- true | _ -> ()
 
-    let responders =   { Portfolio.dependencies.Observers with ForPageRequested=[response] }
-    let dependencies = { Portfolio.dependencies with Observers= responders }
+    let responders =   { Portfolio.dependencies.SideEffects with ForPageRequested=[response] }
+    let dependencies = { Portfolio.dependencies with SideEffects= responders }
     
     // Test
     Portfolio.ViewModel(dependencies).Videos
@@ -129,8 +129,8 @@ let ``Navigate: portfolio -> answers``() =
     let mutable pageRequested = false
     let response = function PageRequested.Answers _ -> pageRequested <- true | _ -> ()
 
-    let responders =   { Portfolio.dependencies.Observers with ForPageRequested=[response] }
-    let dependencies = { Portfolio.dependencies with Observers= responders }
+    let responders =   { Portfolio.dependencies.SideEffects with ForPageRequested=[response] }
+    let dependencies = { Portfolio.dependencies with SideEffects= responders }
     
     // Test
     Portfolio.ViewModel(dependencies).Answers
@@ -146,8 +146,8 @@ let ``Navigate: portfolio -> podcasts``() =
     let mutable pageRequested = false
     let response = function PageRequested.Podcasts _ -> pageRequested <- true | _ -> ()
 
-    let responders =   { Portfolio.dependencies.Observers with ForPageRequested=[response] }
-    let dependencies = { Portfolio.dependencies with Observers= responders }
+    let responders =   { Portfolio.dependencies.SideEffects with ForPageRequested=[response] }
+    let dependencies = { Portfolio.dependencies with SideEffects= responders }
     
     // Test
     Portfolio.ViewModel(dependencies).Podcasts

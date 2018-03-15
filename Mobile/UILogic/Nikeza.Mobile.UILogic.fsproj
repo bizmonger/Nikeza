@@ -25,6 +25,7 @@
     <Compile Include="ViewModels\ProfileEditor.viewmodel.fs" />
     <Compile Include="ViewModels\Portfolio.viewmodel.fs" />
     <Compile Include="ViewModelFactory.fs" />
+    <Compile Include="DependencyFactory.fs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -35,8 +35,8 @@ module ProfileEditor =
 module ResultOf =
 
     type Session =
-        | Login  of Result<Provider, Credentials>
-        | Logout of Result<unit, unit>
+         | Login  of Result<Provider, Credentials>
+         | Logout of Result<unit, unit>
 
 module DataSources =
 

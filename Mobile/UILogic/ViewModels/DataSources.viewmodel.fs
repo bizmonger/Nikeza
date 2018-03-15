@@ -10,7 +10,7 @@ open Nikeza.Mobile.Profile.Query
 open Nikeza.Mobile.Profile.Commands.DataSources
 open Nikeza.Mobile.Profile.Events
 
-type Actions = {
+type Implementation = {
     Save : Try.SaveSourcesFn
 }
 
@@ -18,25 +18,25 @@ type Query = {
     Platforms : PlatformsFn
 }
 
-type Observers = {
+type SideEffects = {
     ForSaveSources : (SourcesSaveEvent -> unit) list
 }
 
 type Dependencies = {
-    UserId    : ProfileId
-    Query     : Query
-    Actions   : Actions
-    Observers : Observers
+    UserId         : ProfileId
+    Query          : Query
+    Implementation : Implementation
+    SideEffects    : SideEffects
 }
 
-type ViewModel(dependencies:Dependencies) as x =
+type ViewModel(dependencies) as x =
 
     inherit ViewModelBase()
 
-    let userId =     dependencies.UserId
-    let query =      dependencies.Query
-    let actions =    dependencies.Actions
-    let responders = dependencies.Observers
+    let userId =         dependencies.UserId
+    let query =          dependencies.Query
+    let implementation = dependencies.Implementation
+    let sideEffects =    dependencies.SideEffects
 
     let mutable platforms = ObservableCollection<string>()
     let mutable platform =  ""
@@ -60,12 +60,12 @@ type ViewModel(dependencies:Dependencies) as x =
     let save() = 
 
         let broadcast events =
-            events |> List.iter (fun event -> responders.ForSaveSources |> handle event)
+            events |> List.iter (fun event -> sideEffects.ForSaveSources |> handle event)
 
         x.Sources
            |> List.ofSeq
            |> SaveCommand.Execute 
-           |> In.DataSources.Save.workflow actions.Save
+           |> In.DataSources.Save.workflow implementation.Save
            |> broadcast
     
     member x.Platform

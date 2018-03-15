@@ -12,25 +12,25 @@ module Updates =
     let statusOf formValidated events = 
         events |> List.exists formValidated
 
-type Actions = {
+type Implementation = {
     Submit : Try.SubmitFn
 }
 
-type Observers = {
+type SideEffects = {
     ForRegistrationSubmission : (RegistrationSubmissionEvent -> unit) list
 }
 
 type Dependencies = {
-    Actions   : Actions
-    Observers : Observers
+    Implementation : Implementation
+    SideEffects    : SideEffects
 }
 
 type ViewModel(dependencies) as x =
 
     inherit ViewModelBase()
 
-    let implementation = dependencies.Actions
-    let responders =     dependencies.Observers
+    let implementation = dependencies.Implementation
+    let sideEffects =    dependencies.SideEffects
 
     let mutable validatedForm = None
 
@@ -51,7 +51,7 @@ type ViewModel(dependencies) as x =
     let submit() =
 
         let broadcast events =
-            events |> List.iter (fun event -> responders.ForRegistrationSubmission |> handle event)
+            events |> List.iter (fun event -> sideEffects.ForRegistrationSubmission |> handle event)
 
         validatedForm |> function 
                          | Some form -> 
