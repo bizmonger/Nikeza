@@ -42,14 +42,14 @@ module Login =
                               |> Are.Login.events
 
 module Logout =
-    type private SessionWorkflow = LogoutCommand -> LogoutEvent list
+    type private LogoutWorkflow = LogoutCommand -> LogoutEvent list
 
-    let workflow : SessionWorkflow = 
+    let workflow : LogoutWorkflow = 
         fun command -> command |> function
             Logout p ->
                    p |> Try.logout
-                         |> ResultOf.Logout
-                         |> Are.Logout.events
+                     |> ResultOf.Logout
+                     |> Are.Logout.events
 
 module Editor =
 
