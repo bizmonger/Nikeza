@@ -53,11 +53,12 @@ module Editor =
         type private ValidateWorkflow = ValidateCommand -> ProfileValidateEvent list
 
         let workflow : ValidateWorkflow = 
-            fun command -> command |> function
-             ValidateCommand.Execute form -> 
-                                     form |> Editor.validate 
-                                          |> ResultOf.Editor.Validate
-                                          |> Are.Editor.Validate.events
+            fun command ->
+                command |> function
+                ValidateCommand.Execute form -> 
+                                        form |> Editor.validate 
+                                             |> ResultOf.Editor.Validate
+                                             |> Are.Editor.Validate.events
 
     module Save =
         open Commands.ProfileEditor.Save
