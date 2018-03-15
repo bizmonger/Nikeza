@@ -28,9 +28,13 @@ type ViewModel(dependencies) as x =
         password.Length > 0
 
     let OnNext _ =
+
         if   x.IsValidated
-        then In.Login.workflow <| Login { Email=email; Password=password }
+
+        then Login { Email=email; Password=password }
+             |> In.Login.workflow
              |> broadcast
+
         else ()
 
     let nextCommand = DelegateCommand( OnNext , fun _ -> true)
