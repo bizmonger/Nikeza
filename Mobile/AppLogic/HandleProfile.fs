@@ -9,39 +9,39 @@ module ProfileEvents =
 
         open Nikeza.Mobile.UILogic.Registration
 
-        let addResponders responders =
+        let addTo sideEffects =
  
             let handle = function
                 | RegistrationSucceeded p -> (Debug.WriteLine(sprintf "Request: Navigate to Portal\n %A" p))
                 | RegistrationFailed    _ -> ()
 
-            let handlers = handle::responders.ForRegistrationSubmission
+            let handlers = handle::sideEffects.ForRegistrationSubmission
 
-            { responders with SideEffects.ForRegistrationSubmission= handlers }
+            { sideEffects with SideEffects.ForRegistrationSubmission= handlers }
 
     module Save =
         
         open Nikeza.Mobile.UILogic.Portal.ProfileEditor
 
-        let addResponders (responders:SideEffects) =
+        let addTo sideEffects =
  
             let handle = function
                 | ProfileSaved      p -> (Debug.WriteLine(sprintf "Request: Navigate to previous page"))
                 | ProfileSaveFailed _ -> ()
 
-            let handlers = handle::responders.ForProfileSave
+            let handlers = handle::sideEffects.ForProfileSave
 
-            { responders with SideEffects.ForProfileSave= handlers }
+            { sideEffects with SideEffects.ForProfileSave= handlers }
 
     module Topics =
         
         open Nikeza.Mobile.UILogic.Portal.ProfileEditor
 
-        let addResponders (responders:SideEffects) =
+        let addTo sideEffects =
  
             let handle = function
                 QueryTopicsFailed msg -> (Debug.WriteLine(sprintf "Request: Navigate to Error page\n %s" msg))
 
-            let handlers = handle::responders.ForTopicsFnFailed
+            let handlers = handle::sideEffects.ForQueryTopicsFailed
 
-            { responders with SideEffects.ForTopicsFnFailed= handlers }
+            { sideEffects with SideEffects.ForQueryTopicsFailed= handlers }

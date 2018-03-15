@@ -54,11 +54,11 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="HandleLogin.fs" />
     <Compile Include="HandleProfile.fs" />
     <Compile Include="HandlePortfolio.fs" />
     <Compile Include="HandleSubscriptions.fs" />
     <Content Include="packages.config" />
-    <Compile Include="HandleLogin.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

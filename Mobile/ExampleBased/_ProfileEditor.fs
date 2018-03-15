@@ -13,7 +13,7 @@ let ``Save edited profile`` () =
     let mutable saveRequested = false
     let response = function ProfileSaved _ -> saveRequested <- true | _ -> ()
 
-    let responders =   { ForProfileSave= [response]; ForTopicsFnFailed= [] }
+    let responders =   { ForProfileSave= [response]; ForQueryTopicsFailed= [] }
     let dependencies = { ProfileEditor.dependencies with SideEffects= responders }
 
     let profileEditor = ViewModel(dependencies)

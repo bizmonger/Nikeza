@@ -116,7 +116,7 @@ module ProfileEditor =
     
     let dependencies =
 
-        let sideEffects =    { ForProfileSave= []; ForTopicsFnFailed= [] }
+        let sideEffects =    { ForProfileSave= []; ForQueryTopicsFailed= [] }
         let implementation = { Save= mockSave }
     
         { Implementation= implementation

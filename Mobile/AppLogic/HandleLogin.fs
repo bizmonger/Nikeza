@@ -2,19 +2,16 @@
 
 module LoginEvents =
 
-    open Nikeza.Mobile.Profile.Events
     open System.Diagnostics
+    open Nikeza.Mobile.Profile.Events
+    open Nikeza.Mobile.UILogic.Login
 
-    //module Login =
-
-    //    open Nikeza.Mobile.UILogic.Registration
-
-    //    let addResponders sideEffects =
+    let addTo sideEffects =
  
-    //        let handle = function
-    //            | LoggedIn    provider    -> Debug.WriteLine(sprintf "Request: Navigate to Portal\n %A" provider)
-    //            | LoginFailed credentials -> Debug.WriteLine(sprintf "Login failed\n %A" credentials.Email)
+        let handle = function
+            | LoggedIn    provider    -> Debug.WriteLine(sprintf "Request: Navigate to Portal\n %A" provider)
+            | LoginFailed credentials -> Debug.WriteLine(sprintf "Login failed\n %A" credentials.Email)
 
-    //        let handlers = handle::sideEffects.ForRegistrationSubmission
+        let handlers = handle::sideEffects.ForLoginAttempt
 
-    //        { sideEffects with SideEffects.ForRegistrationSubmission= handlers }
+        { sideEffects with SideEffects.ForLoginAttempt= handlers }

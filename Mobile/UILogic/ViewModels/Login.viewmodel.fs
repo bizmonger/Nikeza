@@ -7,7 +7,10 @@ open Nikeza.Mobile.Profile
 open Nikeza.Mobile.Profile.Commands
 open Nikeza.Mobile.Profile.Events
 
-type SideEffects =  { ForLoginAttempt : (LoginEvent -> unit) list }
+type SideEffects =  { 
+    ForLoginAttempt : (LoginEvent -> unit) list 
+}
+
 type Dependencies = { SideEffects : SideEffects }
 
 type ViewModel(dependencies) as x =

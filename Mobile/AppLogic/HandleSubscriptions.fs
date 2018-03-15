@@ -2,6 +2,6 @@
 
 module HandleSubscriptions =
 
-    let addTo responders =
+    let addTo sideEffects =
  
-        responders
+        sideEffects

@@ -92,7 +92,7 @@ let ``Registration submitted after being validated`` () =
 let ``Navigation requested after registration submitted`` () =
     
     // Setup
-    let responders =     addResponders { ForRegistrationSubmission= [] }
+    let responders =     addTo { ForRegistrationSubmission= [] }
     let dependencies = { dependencies with SideEffects= responders }
 
     let registration =   ViewModel(dependencies)
