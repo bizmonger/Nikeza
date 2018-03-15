@@ -58,6 +58,7 @@
     <Compile Include="HandlePortfolio.fs" />
     <Compile Include="HandleSubscriptions.fs" />
     <Content Include="packages.config" />
+    <Compile Include="HandleLogin.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

@@ -5,9 +5,8 @@ open Nikeza.DataTransfer
 type UnvalidatedForm = Nikeza.Mobile.Profile.Registration.UnvalidatedForm
 type ValidatedForm =   Nikeza.Mobile.Profile.Registration.ValidatedForm
 
-type SessionCommand =                          
-    | Login  of Credentials
-    | Logout 
+type LoginCommand =  Login  of Credentials
+type LogoutCommand = Logout of Provider
 
 module Registration =
     type Validate =  Execute of UnvalidatedForm
@@ -34,9 +33,9 @@ module ProfileEditor =
 
 module ResultOf =
 
-    type Session =
-         | Login  of Result<Provider, Credentials>
-         | Logout of Result<unit, unit>
+    type Login =  Login  of Result<Provider, Credentials>
+    type Logout = Logout of Result<Provider, Provider>
+
 
 module DataSources =
 

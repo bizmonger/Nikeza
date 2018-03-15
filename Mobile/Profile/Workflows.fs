@@ -30,19 +30,26 @@ module ValidateRegistration =
                                   |> ResultOf.Validate.Executed
                                   |> Are.Registration.Validation.events
 
-module Session =
-    type private SessionWorkflow = SessionCommand -> SessionEvent list
+module Login =
+    type private SessionWorkflow = LoginCommand -> LoginEvent list
+
+    let workflow : SessionWorkflow = 
+        fun command -> 
+            command |> function
+            Login credentials -> 
+                  credentials |> Try.login
+                              |> ResultOf.Login
+                              |> Are.Login.events
+
+module Logout =
+    type private SessionWorkflow = LogoutCommand -> LogoutEvent list
 
     let workflow : SessionWorkflow = 
         fun command -> command |> function
-        | Login credentials -> 
-                credentials |> Try.login
-                            |> ResultOf.Login
-                            |> Are.Session.events
-        
-        | Logout -> Try.logout()
-                     |> ResultOf.Logout
-                     |> Are.Session.events
+            Logout p ->
+                   p |> Try.logout
+                         |> ResultOf.Logout
+                         |> Are.Logout.events
 
 module Editor =
 

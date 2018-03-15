@@ -1,4 +1,4 @@
-﻿module internal Are.Editor
+﻿namespace Are.Editor
 
 open Nikeza.Mobile.Profile.Events
 

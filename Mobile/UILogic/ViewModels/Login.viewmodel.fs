@@ -7,7 +7,7 @@ open Nikeza.Mobile.Profile
 open Nikeza.Mobile.Profile.Commands
 open Nikeza.Mobile.Profile.Events
 
-type SideEffects =  { ForLoginAttempt : (SessionEvent -> unit) list }
+type SideEffects =  { ForLoginAttempt : (LoginEvent -> unit) list }
 type Dependencies = { SideEffects : SideEffects }
 
 type ViewModel(dependencies) as x =
@@ -20,7 +20,7 @@ type ViewModel(dependencies) as x =
     let mutable password = ""
     let mutable isValidated = false
 
-    let broadcast events = 
+    let broadcast (events:LoginEvent list) = 
         events |> List.iter (fun event -> sideEffects.ForLoginAttempt |> handle event)
 
     let validate() =
@@ -29,7 +29,7 @@ type ViewModel(dependencies) as x =
 
     let OnNext _ =
         if   x.IsValidated
-        then In.Session.workflow <| Login { Email=email; Password=password }
+        then In.Login.workflow <| Login { Email=email; Password=password }
              |> broadcast
         else ()
 

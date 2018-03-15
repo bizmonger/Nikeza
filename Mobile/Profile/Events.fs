@@ -14,11 +14,13 @@ type RegistrationSubmissionEvent =
     | RegistrationSucceeded of Profile
     | RegistrationFailed    of ValidatedForm
 
-type SessionEvent =
+type LoginEvent =
     | LoggedIn    of Provider
     | LoginFailed of Credentials
-    | LoggedOut
-    | LogoutFailed
+
+type LogoutEvent =
+    | LoggedOut    of Provider
+    | LogoutFailed of Provider
 
 type SubscriptionEvent =
     | Subscribed   of ProviderId
