@@ -89,15 +89,15 @@ let mockFollow : FollowFn =
 let mockUnsubscribe : UnsubscribeFn =
     fun _ -> Ok {User= someProvider; Provider=someProvider}
 
-module Login =
+//module Login =
 
-    open Nikeza.Mobile.UILogic.Login
+//    open Nikeza.Mobile.UILogic.Login
 
-    let dependencies =
+//    let dependencies =
 
-        let sideEffects = { ForLoginAttempt= [] }
+//        let sideEffects = { ForLoginAttempt= [] }
     
-        { SideEffects= sideEffects }
+//        { SideEffects= sideEffects }
 
 module Registration =
 
