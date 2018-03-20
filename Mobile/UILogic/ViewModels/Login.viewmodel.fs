@@ -6,18 +6,27 @@ open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Access
 open Nikeza.Mobile.Access.Commands
 open Nikeza.Mobile.Access.Events
+open Nikeza.Mobile.Access.Try
 
 type SideEffects =  { 
     ForLoginAttempt : (LoginEvent -> unit) list 
 }
 
-type Dependencies = { SideEffects : SideEffects }
+type Implementation =  { 
+    Login : LoginFn
+}
+
+type Dependencies = { 
+    SideEffects    : SideEffects
+    Implementation : Implementation
+}
 
 type ViewModel(dependencies) as x =
 
     inherit ViewModelBase()
 
-    let sideEffects = dependencies.SideEffects
+    let sideEffects =    dependencies.SideEffects
+    let implementation = dependencies.Implementation
 
     let mutable email =    ""
     let mutable password = ""
@@ -35,7 +44,7 @@ type ViewModel(dependencies) as x =
         if   x.IsValidated
 
         then Login { Email=email; Password=password }
-             |> In.Login.workflow
+             |> In.Login.workflow implementation.Login
              |> broadcast
 
         else ()

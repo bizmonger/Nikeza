@@ -32,11 +32,12 @@ module ValidateRegistration =
                               |> Are.Registration.Validation.events
 
 module Login =
-    type private SessionWorkflow = LoginCommand -> LoginEvent list
+    type private SessionWorkflow = LoginFn -> LoginCommand -> LoginEvent list
 
-    let workflow : SessionWorkflow = function
+    let workflow : SessionWorkflow =
+        fun loginFn -> function
         Login credentials -> 
-              credentials |> Try.login
+              credentials |> loginFn
                           |> ResultOf.Login
                           |> Are.Login.events
 

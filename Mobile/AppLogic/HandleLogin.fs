@@ -20,9 +20,13 @@ module Login =
 
     open Nikeza.Mobile.UILogic.Login
     open LoginEvents
+    open Nikeza.Mobile.Access
 
     let dependencies =
 
-        let sideEffects = addNavigation { ForLoginAttempt= [] }
+        let sideEffects =    { ForLoginAttempt= [] } |> addNavigation
+        let implementation = { Login= Try.login }
     
-        { SideEffects= sideEffects }
+        { SideEffects=    sideEffects; 
+          Implementation= implementation 
+        }
