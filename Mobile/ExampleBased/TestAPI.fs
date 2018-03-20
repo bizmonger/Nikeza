@@ -2,7 +2,7 @@
 
 open Nikeza.Common
 open Nikeza.DataTransfer
-open Nikeza.Mobile.Access.Try
+open Nikeza.Mobile.Access
 open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Profile.Query
 open Nikeza.Mobile.Subscriptions.Try
@@ -89,16 +89,6 @@ let mockFollow : FollowFn =
 
 let mockUnsubscribe : UnsubscribeFn =
     fun _ -> Ok {User= someProvider; Provider=someProvider}
-
-//module Login =
-
-//    open Nikeza.Mobile.UILogic.Login
-
-//    let dependencies =
-
-//        let sideEffects = { ForLoginAttempt= [] }
-    
-//        { SideEffects= sideEffects }
 
 module Registration =
 

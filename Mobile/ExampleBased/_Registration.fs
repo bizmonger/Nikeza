@@ -48,7 +48,7 @@ let ``Registration submitted after being validated`` () =
 let ``Navigation requested after registration submitted`` () =
     
     // Setup
-    let responders =     addTo { ForRegistrationSubmission= [] }
+    let responders =     appendNavigation { ForRegistrationSubmission= [] }
     let dependencies = { dependencies with SideEffects= responders }
 
     let registration =   ViewModel(dependencies)

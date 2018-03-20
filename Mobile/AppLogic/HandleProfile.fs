@@ -10,7 +10,7 @@ module ProfileEvents =
 
         open Nikeza.Mobile.UILogic.Registration
 
-        let addTo sideEffects =
+        let appendNavigation sideEffects =
  
             let handle = function
                 | RegistrationSucceeded p -> (Debug.WriteLine(sprintf "Request: Navigate to Portal\n %A" p))

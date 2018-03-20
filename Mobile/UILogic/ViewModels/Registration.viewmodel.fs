@@ -13,7 +13,7 @@ module Updates =
         events |> List.exists formValidated
 
 type Implementation = {
-    Submit : Try.SubmitFn
+    Submit : SubmitFn
 }
 
 type SideEffects = {

@@ -9,8 +9,8 @@ type LoginCommand =  Login  of Credentials
 type LogoutCommand = Logout of Provider
 
 module Registration =
-    type Validate =  Execute of UnvalidatedForm
-    type Command =   Execute of ValidatedForm
+    type Validate = Execute of UnvalidatedForm
+    type Command =  Execute of ValidatedForm
 
     module Validate =
         module ResultOf = type Validate = Executed of Result<ValidatedForm, UnvalidatedForm>
