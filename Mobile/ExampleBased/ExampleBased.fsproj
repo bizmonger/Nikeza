@@ -14,22 +14,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FsUnit" Version="3.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.0-preview-20171211-02" />
-    <PackageReference Include="NUnit" Version="3.9.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
+    <PackageReference Include="FsUnit" Version="3.1.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.1" />
+    <PackageReference Include="NUnit" Version="3.10.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
     <ProjectReference Include="..\AppLogic\Nikeza.Mobile.AppLogic.fsproj" />
-    <ProjectReference Include="..\Nieza.Mobile.Access\Nieza.Mobile.Access.fsproj" />
+    <ProjectReference Include="..\Nieza.Mobile.Access\Nikeza.Mobile.Access.fsproj" />
     <ProjectReference Include="..\Profile\Nikeza.Mobile.Profile.fsproj" />
     <ProjectReference Include="..\UILogic\Nikeza.Mobile.UILogic.fsproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="4.3.0" />
+    <PackageReference Update="FSharp.Core" Version="4.3.4" />
   </ItemGroup>
 
 </Project>

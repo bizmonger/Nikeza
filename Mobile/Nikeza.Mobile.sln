@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XForms", "XForms\XForms\XFo
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Nikeza.Mobile.AppLogic", "AppLogic\Nikeza.Mobile.AppLogic.fsproj", "{4756B54E-7164-4426-BBA8-ECD8D264416C}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Nieza.Mobile.Access", "Nieza.Mobile.Access\Nieza.Mobile.Access.fsproj", "{47BE763B-1585-4474-A91B-2E2F5E65FF60}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Nikeza.Mobile.Access", "Nieza.Mobile.Access\Nikeza.Mobile.Access.fsproj", "{47BE763B-1585-4474-A91B-2E2F5E65FF60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

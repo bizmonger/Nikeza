@@ -71,18 +71,16 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.ValueTuple">
-      <HintPath>..\packages\System.ValueTuple.4.3.1\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
       <Private>True</Private>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj">
       <Name>Nikeza.Common</Name>
       <Project>{90e1c6bb-b9d6-4081-b0e1-ed1414c2060f}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Nieza.Mobile.Access\Nieza.Mobile.Access.fsproj">
-      <Name>Nieza.Mobile.Access</Name>
+    <ProjectReference Include="..\Nieza.Mobile.Access\Nikeza.Mobile.Access.fsproj">
+      <Name>Nikeza.Mobile.Access</Name>
       <Project>{47be763b-1585-4474-a91b-2e2f5e65ff60}</Project>
       <Private>True</Private>
     </ProjectReference>
