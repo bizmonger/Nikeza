@@ -9,9 +9,11 @@ module Registration =
 
     let getViewModel : Nikeza.Mobile.UILogic.Registration.ViewModel =
 
-        let actions =    { Submit= Try.submit }
-        let responders = { ForRegistrationSubmission=[] }
+        let implementation = { Submit= Try.submit }
+        let sideEffects =    { ForRegistrationSubmission=[] }
 
-        let dependencies = { Implementation=actions; SideEffects=responders }
+        let dependencies = { Implementation=implementation
+                             SideEffects=sideEffects 
+        }
 
         Registration.ViewModel(dependencies)
