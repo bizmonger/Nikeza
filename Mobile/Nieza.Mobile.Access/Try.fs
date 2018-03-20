@@ -1,7 +1,7 @@
 ﻿module Nikeza.Mobile.Access.Try
 
 open Nikeza.DataTransfer
-open Nikeza.Mobile.Access.Registration
+open Nikeza.Mobile.Access
 
 type SubmitFn =      ValidatedForm         -> Result<Profile, ValidatedForm>
 type LoginFn =       Credentials           -> Result<Provider, Credentials>

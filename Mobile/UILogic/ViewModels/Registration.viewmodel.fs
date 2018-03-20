@@ -39,9 +39,9 @@ type ViewModel(dependencies) as x =
             | FormValidated form -> validatedForm <- Some form; true
             | _ -> false
 
-        { Form.Email=    x.Email
-          Form.Password= x.Password
-          Form.Confirm=  x.Confirm
+        { Adapter.Form.Email=    x.Email
+          Adapter.Form.Password= x.Password
+          Adapter.Form.Confirm=  x.Confirm
         } 
           |> ofUnvalidated
           |> Validate.Execute 

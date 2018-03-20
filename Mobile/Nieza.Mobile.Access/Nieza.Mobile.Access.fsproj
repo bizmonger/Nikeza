@@ -53,7 +53,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Content Include="packages.config" />
-    <Compile Include="Registration.fs" />
+    <Compile Include="Types.fs" />
     <Compile Include="Events.fs" />
     <Compile Include="EventExtensions.fs" />
     <Compile Include="Commands.fs" />

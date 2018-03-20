@@ -2,10 +2,10 @@
 
 open System
 open Nikeza.Common
-open Nikeza.Mobile.Access.Registration
+open Nikeza.Mobile.Access
 
-type ValidatedForm =   Nikeza.Mobile.Access.Registration.ValidatedForm
-type UnvalidatedForm = Nikeza.Mobile.Access.Registration.UnvalidatedForm
+type ValidatedForm =   Nikeza.Mobile.Access.ValidatedForm
+type UnvalidatedForm = Nikeza.Mobile.Access.UnvalidatedForm
 
 let validate (unvalidatedForm:UnvalidatedForm) : Result<ValidatedForm, UnvalidatedForm> =
 

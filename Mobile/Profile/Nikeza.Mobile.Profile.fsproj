@@ -10,12 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Logic.edit.fs" />
     <Compile Include="Events.fs" />
     <Compile Include="EventExtensions.fs" />
     <Compile Include="Queries.fs" />
     <Compile Include="Commands.fs" />
     <Compile Include="Try.fs" />
+    <Compile Include="Logic.edit.fs" />
     <Compile Include="Logic.datasources.fs" />
     <Compile Include="Logic.editor.fs" />
     <Compile Include="Workflows.fs" />
@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="4.2.3" />
+    <PackageReference Update="FSharp.Core" Version="4.3.4" />
   </ItemGroup>
 
 </Project>

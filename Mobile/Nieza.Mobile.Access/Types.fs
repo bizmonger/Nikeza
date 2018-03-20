@@ -1,4 +1,4 @@
-﻿module Nikeza.Mobile.Access.Registration
+﻿namespace Nikeza.Mobile.Access
 
 type Email =      Email      of string
 type Password =   Password   of string

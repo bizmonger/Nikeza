@@ -44,7 +44,7 @@ let someProvider = {
     Nikeza.Common.ProviderRequest.Followers=     []
 }
 
-open Nikeza.Mobile.Access.Registration
+open Nikeza.Mobile.Access
 
 let someValidatedForm = { 
    Form = { Email= Email ""

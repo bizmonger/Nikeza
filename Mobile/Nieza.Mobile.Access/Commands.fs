@@ -2,8 +2,8 @@
 
 open Nikeza.DataTransfer
 
-type UnvalidatedForm = Nikeza.Mobile.Access.Registration.UnvalidatedForm
-type ValidatedForm =   Nikeza.Mobile.Access.Registration.ValidatedForm
+type UnvalidatedForm = Nikeza.Mobile.Access.UnvalidatedForm
+type ValidatedForm =   Nikeza.Mobile.Access.ValidatedForm
 
 type LoginCommand =  Login  of Credentials
 type LogoutCommand = Logout of Provider
