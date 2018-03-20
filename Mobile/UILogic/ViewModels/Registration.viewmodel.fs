@@ -4,9 +4,9 @@ open System.Windows.Input
 open Nikeza.Common
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.UILogic.Adapter
-open Nikeza.Mobile.Profile
-open Nikeza.Mobile.Profile.Events
-open Nikeza.Mobile.Profile.Commands.Registration
+open Nikeza.Mobile.Access
+open Nikeza.Mobile.Access.Events
+open Nikeza.Mobile.Access.Commands.Registration
 
 module Updates =
     let statusOf formValidated events = 

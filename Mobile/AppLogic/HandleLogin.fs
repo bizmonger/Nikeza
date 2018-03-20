@@ -3,7 +3,7 @@
 module LoginEvents =
 
     open System.Diagnostics
-    open Nikeza.Mobile.Profile.Events
+    open Nikeza.Mobile.Access.Events
     open Nikeza.Mobile.UILogic.Login
 
     let addNavigation sideEffects =

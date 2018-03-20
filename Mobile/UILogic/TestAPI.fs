@@ -1,6 +1,7 @@
 ﻿module Nikeza.Mobile.UILogic.TestAPI
 
 open Nikeza.Mobile.Profile.Try
+open Nikeza.Mobile.Access.Try
 open Nikeza.Mobile.Profile.Query
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio.Query
@@ -43,7 +44,7 @@ let someProvider = {
     Nikeza.Common.ProviderRequest.Followers=     []
 }
 
-open Nikeza.Mobile.Profile.Registration
+open Nikeza.Mobile.Access.Registration
 
 let someValidatedForm = { 
    Form = { Email= Email ""

@@ -1,51 +1,7 @@
 ﻿module Nikeza.Mobile.Profile.In
 
-open Nikeza.Mobile.Profile.Commands
-open Nikeza.Mobile.Profile.Commands.Registration
 open Nikeza.Mobile.Profile.Events
-open Logic
 open Try
-
-module SubmitRegistration =
-    open Submit
-
-    type private SubmitWorkflow = SubmitFn -> Command -> RegistrationSubmissionEvent list
-
-    let workflow : SubmitWorkflow =
-        fun submitFn -> function
-        Command.Execute form -> 
-                        form |> submitFn
-                             |> ResultOf.Submit.Executed
-                             |> Are.Registration.Submission.events
-
-module ValidateRegistration =
-    open Registration.Validate
-
-    type private ValidateWorkflow = Validate -> RegistrationValidationEvent list
-
-    let workflow : ValidateWorkflow = function
-        Validate.Execute form -> 
-                         form |> Registration.validate
-                              |> ResultOf.Validate.Executed
-                              |> Are.Registration.Validation.events
-
-module Login =
-    type private SessionWorkflow = LoginCommand -> LoginEvent list
-
-    let workflow : SessionWorkflow = function
-        Login credentials -> 
-              credentials |> Try.login
-                          |> ResultOf.Login
-                          |> Are.Login.events
-
-module Logout =
-    type private LogoutWorkflow = LogoutCommand -> LogoutEvent list
-
-    let workflow : LogoutWorkflow = function
-        Logout p ->
-               p |> Try.logout
-                   |> ResultOf.Logout
-                   |> Are.Logout.events
 
 module Editor =
 

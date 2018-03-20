@@ -2,6 +2,7 @@
 
 open Nikeza.Common
 open Nikeza.DataTransfer
+open Nikeza.Mobile.Access.Try
 open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Profile.Query
 open Nikeza.Mobile.Subscriptions.Try

@@ -1,7 +1,7 @@
 ﻿namespace Are
 
-open Nikeza.Mobile.Profile.Commands
-open Nikeza.Mobile.Profile.Events
+open Nikeza.Mobile.Access.Commands.Session
+open Nikeza.Mobile.Access.Events
 
 module Login =
     type private HandleLogin = ResultOf.Login -> LoginEvent list

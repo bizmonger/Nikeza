@@ -3,9 +3,9 @@
 open System.Windows.Input
 open Nikeza.Common
 open Nikeza.Mobile.UILogic
-open Nikeza.Mobile.Profile
-open Nikeza.Mobile.Profile.Commands
-open Nikeza.Mobile.Profile.Events
+open Nikeza.Mobile.Access
+open Nikeza.Mobile.Access.Commands
+open Nikeza.Mobile.Access.Events
 
 type SideEffects =  { 
     ForLoginAttempt : (LoginEvent -> unit) list 

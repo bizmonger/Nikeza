@@ -1,6 +1,6 @@
 ﻿module Nikeza.Mobile.UILogic.Adapter
 
-open Nikeza.Mobile.Profile.Registration
+open Nikeza.Mobile.Access.Registration
 
 type Form = {
     Email:string
@@ -9,7 +9,7 @@ type Form = {
 }
 
 type UIForm = Form
-type DomainForm = Nikeza.Mobile.Profile.Registration.Form
+type DomainForm = Nikeza.Mobile.Access.Registration.Form
 
 let ofUnvalidated (form:UIForm) : UnvalidatedForm = {
     UnvalidatedForm.Form= { Email =    Email    form.Email

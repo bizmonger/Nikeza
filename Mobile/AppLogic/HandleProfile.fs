@@ -2,6 +2,7 @@
 
 module ProfileEvents =
 
+    open Nikeza.Mobile.Access.Events
     open Nikeza.Mobile.Profile.Events
     open System.Diagnostics
 

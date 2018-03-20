@@ -4,7 +4,7 @@ open FsUnit
 open NUnit.Framework
 open Nikeza.Mobile.TestAPI
 open Nikeza.Mobile.UILogic.Registration
-open Nikeza.Mobile.Profile.Events
+open Nikeza.Mobile.Access.Events
 open Nikeza.Mobile.AppLogic.ProfileEvents.Register
 open Nikeza.Mobile.TestAPI.Registration
 
