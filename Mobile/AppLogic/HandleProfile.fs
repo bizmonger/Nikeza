@@ -11,7 +11,7 @@ module ProfileEvents =
 
         open Nikeza.Mobile.UILogic.Registration
 
-        let appendNavigation : ``registration side effects`` =
+        let appendNavigation : ``side effects from registration`` =
 
             fun app sideEffects ->
  
