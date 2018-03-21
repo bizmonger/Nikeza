@@ -11,7 +11,7 @@ module ProfileEvents =
 
         let appendPersistence : Save.SideEffects =
 
-            fun sideEffects ->
+            fun app sideEffects ->
  
                 let handle = function
                     | ProfileSaved      p -> (Debug.WriteLine(sprintf "Request: Navigate to previous page"))
@@ -25,7 +25,7 @@ module ProfileEvents =
 
         let appendQuery : QueryFailed.SideEffects =
 
-            fun sideEffects ->
+            fun app sideEffects ->
  
                 let handle = function
                     QueryTopicsFailed msg -> (Debug.WriteLine(sprintf "Request: Navigate to Error page\n %s" msg))

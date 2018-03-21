@@ -18,7 +18,7 @@ module Design =
     module ProfileEditor =
 
         module Save =
-            type SideEffects =  ProfileEditor.SideEffects -> ProfileEditor.SideEffects
+            type SideEffects =  Application -> ProfileEditor.SideEffects -> ProfileEditor.SideEffects
  
         module QueryFailed =
-            type SideEffects =  ProfileEditor.SideEffects -> ProfileEditor.SideEffects
+            type SideEffects =  Application -> ProfileEditor.SideEffects -> ProfileEditor.SideEffects
