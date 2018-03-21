@@ -11,7 +11,7 @@ module ProfileEvents =
 
         open Nikeza.Mobile.UILogic.Registration
 
-        let appendNavigation : ``side effects from registration`` =
+        let appendNavigation : Registration.SideEffects =
 
             fun app sideEffects ->
  
@@ -26,8 +26,9 @@ module ProfileEvents =
     module Save =
         
         open Nikeza.Mobile.UILogic.Portal.ProfileEditor
+        open Nikeza.Mobile.AppLogic.Design.ProfileEditor
 
-        let appendPersistence : ``side effects from save`` =
+        let appendPersistence : Save.SideEffects =
 
             fun sideEffects ->
  
@@ -42,8 +43,9 @@ module ProfileEvents =
     module Topics =
         
         open Nikeza.Mobile.UILogic.Portal.ProfileEditor
+        open Nikeza.Mobile.AppLogic.Design.ProfileEditor
 
-        let appendQuery : ``side effects from query`` =
+        let appendQuery : QueryFailed.SideEffects =
 
             fun sideEffects ->
  

@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Design.fs" />
+    <Compile Include="HandleRegistration.fs" />
     <Compile Include="HandleLogin.fs" />
     <Compile Include="HandleProfile.fs" />
     <Compile Include="HandlePortfolio.fs" />

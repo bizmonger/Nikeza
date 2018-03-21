@@ -9,7 +9,7 @@ module LoginEvents =
     open System.Diagnostics
     open Nikeza.Mobile.Access.Events
     
-    let appendNavigation : ``Side effects from login`` =
+    let appendNavigation : Login.SideEffects =
 
         fun app sideEffects ->
 

@@ -6,8 +6,17 @@ module Design =
     open Nikeza.Mobile.UILogic
     open Nikeza.Mobile.UILogic.Portal
 
-    type ``Side effects from login`` =        Application -> Login.SideEffects         -> Login.SideEffects
-    type ``side effects from registration`` = Application -> Registration.SideEffects  -> Registration.SideEffects
+    module Login =
+        type SideEffects = Application -> Login.SideEffects -> Login.SideEffects
 
-    type ``side effects from save`` =  ProfileEditor.SideEffects -> ProfileEditor.SideEffects
-    type ``side effects from query`` = ProfileEditor.SideEffects -> ProfileEditor.SideEffects
+    module Registration = 
+        type SideEffects = Application -> Registration.SideEffects  -> Registration.SideEffects
+
+
+    module ProfileEditor =
+
+        module Save =
+            type SideEffects =  ProfileEditor.SideEffects -> ProfileEditor.SideEffects
+ 
+        module QueryFailed =
+            type SideEffects = ProfileEditor.SideEffects -> ProfileEditor.SideEffects
