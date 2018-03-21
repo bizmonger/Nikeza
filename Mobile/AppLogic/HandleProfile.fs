@@ -27,25 +27,29 @@ module ProfileEvents =
         
         open Nikeza.Mobile.UILogic.Portal.ProfileEditor
 
-        let addTo sideEffects =
+        let appendPersistence : ``side effects from save`` =
+
+            fun sideEffects ->
  
-            let handle = function
-                | ProfileSaved      p -> (Debug.WriteLine(sprintf "Request: Navigate to previous page"))
-                | ProfileSaveFailed _ -> ()
+                let handle = function
+                    | ProfileSaved      p -> (Debug.WriteLine(sprintf "Request: Navigate to previous page"))
+                    | ProfileSaveFailed _ -> ()
 
-            let handlers = handle::sideEffects.ForProfileSave
+                let handlers = handle::sideEffects.ForProfileSave
 
-            { sideEffects with SideEffects.ForProfileSave= handlers }
+                { sideEffects with SideEffects.ForProfileSave= handlers }
 
     module Topics =
         
         open Nikeza.Mobile.UILogic.Portal.ProfileEditor
 
-        let addTo sideEffects =
+        let appendQuery : ``side effects from query`` =
+
+            fun sideEffects ->
  
-            let handle = function
-                QueryTopicsFailed msg -> (Debug.WriteLine(sprintf "Request: Navigate to Error page\n %s" msg))
+                let handle = function
+                    QueryTopicsFailed msg -> (Debug.WriteLine(sprintf "Request: Navigate to Error page\n %s" msg))
 
-            let handlers = handle::sideEffects.ForQueryTopicsFailed
+                let handlers = handle::sideEffects.ForQueryTopicsFailed
 
-            { sideEffects with SideEffects.ForQueryTopicsFailed= handlers }
+                { sideEffects with SideEffects.ForQueryTopicsFailed= handlers }
