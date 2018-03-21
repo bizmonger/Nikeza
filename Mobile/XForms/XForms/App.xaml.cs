@@ -1,6 +1,7 @@
 ﻿using Xamarin.Forms;
 using Nikeza.Mobile.UILogic.Login;
 using Nikeza.Mobile.AppLogic;
+using Nikeza.Mobile.UI;
 
 namespace XForms
 {

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="XForms.RegistrationPage2">
+             x:Class="Nikeza.Mobile.UI.RegistrationPage2">
     <StackLayout>
         <Label Text="Return Back" Margin="5" FontAttributes="Italic" />
         <Label Text="New to Nikeza?" TextColor="#5784cc" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" FontAttributes="Bold" FontSize="Large" />

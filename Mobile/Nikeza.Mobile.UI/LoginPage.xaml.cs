@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace XForms
+namespace Nikeza.Mobile.UI
 {
     public partial class LoginPage : ContentPage
 	{
