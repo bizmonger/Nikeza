@@ -2,6 +2,8 @@
 
 module Design =
 
-    open Nikeza.Mobile.UILogic.Login
+    open Xamarin.Forms
+    open Nikeza.Mobile.UILogic
 
-    type ``side effects with Navigation`` = SideEffects -> SideEffects
+    type ``login side effects`` =        Application -> Login.SideEffects        -> Login.SideEffects
+    type ``registration side effects`` = Application -> Registration.SideEffects -> Registration.SideEffects

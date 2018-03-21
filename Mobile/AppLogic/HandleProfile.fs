@@ -2,23 +2,26 @@
 
 module ProfileEvents =
 
+    open System.Diagnostics
     open Nikeza.Mobile.Access.Events
     open Nikeza.Mobile.Profile.Events
-    open System.Diagnostics
+    open Design
 
     module Register =
 
         open Nikeza.Mobile.UILogic.Registration
 
-        let appendNavigation sideEffects =
+        let appendNavigation : ``registration side effects`` =
+
+            fun app sideEffects ->
  
-            let handle = function
-                | RegistrationSucceeded p -> (Debug.WriteLine(sprintf "Request: Navigate to Portal\n %A" p))
-                | RegistrationFailed    _ -> ()
+                let handle = function
+                    | RegistrationSucceeded p -> (Debug.WriteLine(sprintf "Request: Navigate to Portal\n %A" p))
+                    | RegistrationFailed    _ -> ()
 
-            let handlers = handle::sideEffects.ForRegistrationSubmission
+                let handlers = handle::sideEffects.ForRegistrationSubmission
 
-            { sideEffects with SideEffects.ForRegistrationSubmission= handlers }
+                { sideEffects with SideEffects.ForRegistrationSubmission= handlers }
 
     module Save =
         

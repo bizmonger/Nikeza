@@ -7,6 +7,7 @@ open Nikeza.Mobile.UILogic.Registration
 open Nikeza.Mobile.Access.Events
 open Nikeza.Mobile.AppLogic.ProfileEvents.Register
 open Nikeza.Mobile.TestAPI.Registration
+open Xamarin.Forms
 
 [<Test>]
 let ``Registration validated with email and matching passwords`` () =
@@ -48,7 +49,7 @@ let ``Registration submitted after being validated`` () =
 let ``Navigation requested after registration submitted`` () =
     
     // Setup
-    let responders =     appendNavigation { ForRegistrationSubmission= [] }
+    let responders =     { ForRegistrationSubmission= [] } |> appendNavigation Application.Current
     let dependencies = { dependencies with SideEffects= responders }
 
     let registration =   ViewModel(dependencies)

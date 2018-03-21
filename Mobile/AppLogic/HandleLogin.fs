@@ -9,12 +9,14 @@ module LoginEvents =
     open System.Diagnostics
     open Nikeza.Mobile.Access.Events
     
-    let appendNavigation : ``side effects with Navigation`` =
+    let appendNavigation : ``login side effects`` =
 
-        fun sideEffects ->
+        fun app sideEffects ->
 
             let handle = function
-                | LoggedIn    provider    -> Debug.WriteLine(sprintf "\nRequest: Navigate to Portal\n %A" provider)
+                | LoggedIn    provider    -> //app.MainPage = new PortalPage()
+                                             Debug.WriteLine(sprintf "\nRequest: Navigate to Portal\n %A" provider)
+                                             
                 | LoginFailed credentials -> Debug.WriteLine(sprintf "\nLogin failed\n %A" credentials.Email)
 
             let handlers = handle::sideEffects.ForLoginAttempt
@@ -24,10 +26,11 @@ module LoginEvents =
 module Login =
 
     open LoginEvents
+    open Xamarin.Forms
 
     let dependencies =
 
-        let sideEffects =    { ForLoginAttempt= [] } |> appendNavigation
+        let sideEffects =    { ForLoginAttempt= [] } |> appendNavigation Application.Current
         let implementation = { Login= TestAPI.mockLogin }
     
         { SideEffects=    sideEffects; 
