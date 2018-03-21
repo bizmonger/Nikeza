@@ -68,7 +68,7 @@
     <Compile Include="Design.fs" />
     <Compile Include="HandleRegistration.fs" />
     <Compile Include="HandleLogin.fs" />
-    <Compile Include="HandleProfile.fs" />
+    <Compile Include="HandleProfileEditor.fs" />
     <Compile Include="HandlePortfolio.fs" />
     <Compile Include="HandleSubscriptions.fs" />
     <Content Include="packages.config" />
