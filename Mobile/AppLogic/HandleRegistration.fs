@@ -4,7 +4,7 @@ module RegistrationEvents =
 
     open System.Diagnostics
     open Nikeza.Mobile.Access.Events
-    open Design
+    open Design.Access
 
     module Register =
 

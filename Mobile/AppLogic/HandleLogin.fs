@@ -2,7 +2,7 @@
 
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.UILogic.Login
-open Design
+open Design.Access
 
 module LoginEvents =
 

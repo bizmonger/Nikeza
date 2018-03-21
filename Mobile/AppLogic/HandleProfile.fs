@@ -5,7 +5,7 @@ module ProfileEvents =
     open System.Diagnostics
     open Nikeza.Mobile.Access.Events
     open Nikeza.Mobile.Profile.Events
-    open Design
+    open Design.Access
 
     module Register =
 
