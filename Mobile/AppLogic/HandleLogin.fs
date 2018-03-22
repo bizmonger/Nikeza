@@ -1,12 +1,13 @@
 ﻿namespace Nikeza.Mobile.AppLogic
 
+open Nikeza.Mobile.UI
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.UILogic.Login
+open Nikeza.Mobile.AppLogic.Navigation
 open Design.Access
 
 module LoginEvents =
 
-    open System.Diagnostics
     open Nikeza.Mobile.Access.Events
     
     let appendNavigation : Login.SideEffects =
@@ -14,10 +15,8 @@ module LoginEvents =
         fun app sideEffects ->
 
             let handle = function
-                | LoggedIn    provider    -> //app.MainPage = new PortalPage()
-                                             Debug.WriteLine(sprintf "\nRequest: Navigate to Portal\n %A" provider)
-                                             
-                | LoginFailed credentials -> Debug.WriteLine(sprintf "\nLogin failed\n %A" credentials.Email)
+                | LoggedIn    provider    -> app |> navigate (new PortalPage()) provider
+                | LoginFailed credentials -> app |> navigate (new ErrorPage())  credentials.Email
 
             let handlers = handle::sideEffects.ForLoginAttempt
 

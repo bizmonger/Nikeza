@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Design.fs" />
+    <Compile Include="HandleNavigation.fs" />
     <Compile Include="HandleRegistration.fs" />
     <Compile Include="HandleLogin.fs" />
     <Compile Include="HandleProfileEditor.fs" />
@@ -85,6 +86,11 @@
     <ProjectReference Include="..\Nieza.Mobile.Access\Nikeza.Mobile.Access.fsproj">
       <Name>Nikeza.Mobile.Access</Name>
       <Project>{47be763b-1585-4474-a91b-2e2f5e65ff60}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Nikeza.Mobile.UI\Nikeza.Mobile.UI.csproj">
+      <Name>Nikeza.Mobile.UI</Name>
+      <Project>{732c1781-bd9e-4cb8-90cc-82a0549b7780}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Portfolio\Nikeza.Mobile.Portfolio.fsproj">
