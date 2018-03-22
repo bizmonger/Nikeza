@@ -2,11 +2,39 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Nikeza.Mobile.UI.PortalPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to the Portal Page!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="ButtonStyle" TargetType="Button">
+
+            </Style>
+
+            <Style x:Key="ImageStyle" TargetType="Image">
+                <Setter Property="HeightRequest" Value="100" />
+                <Setter Property="WidthRequest"  Value="100" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Image  Grid.Column="0" Grid.Row="0" Style="{StaticResource ImageStyle}" />
+        <Button Grid.Column="0" Grid.Row="1" Style="{StaticResource ButtonStyle}" Text="Recent" />
+        <Button Grid.Column="0" Grid.Row="2" Style="{StaticResource ButtonStyle}" Text="Subscriptions" />
+        <Button Grid.Column="0" Grid.Row="3" Style="{StaticResource ButtonStyle}" Text="Followers" />
+        <Button Grid.Column="0" Grid.Row="4" Style="{StaticResource ButtonStyle}" Text="Members" />
+
+    </Grid>
+    
 </ContentPage>
