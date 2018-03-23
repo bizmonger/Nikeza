@@ -21,7 +21,7 @@ type Query = {
 }
 
 type SideEffects = {
-    ForProfileSave    : (ProfileSaveEvent  -> unit) list
+    ForProfileSave       : (ProfileSaveEvent  -> unit) list
     ForQueryTopicsFailed : (QueryTopicsFailed -> unit) list
 }
 
