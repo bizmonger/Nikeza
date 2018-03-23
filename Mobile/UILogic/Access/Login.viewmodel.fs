@@ -24,13 +24,13 @@ type ViewModel(dependencies) as x =
 
     inherit ViewModelBase()
 
-    let notAuthenticatedHandler = function
+    let onAuthenticationFailed = function
         | FailedToAuthenticate _ -> x.AuthenticationFailed <- true
         | _ -> ()
 
-    let initialSideEffects = dependencies.SideEffects
+    let sideEffects' = dependencies.SideEffects
 
-    let sideEffects =   { initialSideEffects with ForLoginAttempt= notAuthenticatedHandler::initialSideEffects.ForLoginAttempt }
+    let sideEffects =   { sideEffects' with ForLoginAttempt= onAuthenticationFailed::sideEffects'.ForLoginAttempt }
     let implementation =  dependencies.Implementation
 
     let mutable email =    ""
