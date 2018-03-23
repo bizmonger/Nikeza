@@ -45,3 +45,15 @@ let ``Can login if provided email and password`` () =
     // Test
     try       login.Next.Execute()
     with _ -> login.AuthenticationFailed |> should equal false
+
+[<Test>]
+let ``Can't login if provided invalid password`` () =
+    
+    // Setup
+    let login = Login.ViewModel(Login.dependencies)
+    login.Email    <- someEmail
+    login.Password <- someInvalidPassword
+
+    // Test
+    try       login.Next.Execute()
+    with _ -> login.AuthenticationFailed |> should equal true

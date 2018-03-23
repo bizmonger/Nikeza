@@ -9,10 +9,11 @@ open Nikeza.Mobile.Subscriptions.Try
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio.Query
 
-let someFirstName = "Scott"
-let someLastName =  "Nimrod"
-let someEmail =     "scott@abc.com"
-let somePassword =  "some_password"
+let someFirstName =       "Scott"
+let someLastName =        "Nimrod"
+let someEmail =           "scott@abc.com"
+let somePassword =        "some_password"
+let someInvalidPassword = "some_invalid_password"
 
 let someProfile:ProfileRequest = { 
     Id =        ""

@@ -46,15 +46,28 @@ let someProvider = {
 
 open Nikeza.Mobile.Access
 
+let someFirstName =       "Scott"
+let someLastName =        "Nimrod"
+let someEmail =           "scott@abc.com"
+let somePassword =        "some_password"
+let someInvalidPassword = "some_invalid_password"
+
 let someValidatedForm = { 
-   Form = { Email= Email ""
+   Form = { Email=    Email ""
             Password= Password ""
             Confirm=  Password ""
           }
     }
 
 let mockLogin : LoginFn =
-    fun _ -> Ok <| Some someProvider
+    fun credentials -> 
+        if credentials.Password = somePassword then 
+            Ok <| Some someProvider
+
+        elif credentials.Password = someInvalidPassword then
+            Ok <| None
+
+        else Error credentials
 
 let mockLogout : LogoutFn =
     fun _ -> Ok someProvider
