@@ -25,7 +25,7 @@ type ViewModel(dependencies) as x =
     inherit ViewModelBase()
 
     let notAuthenticatedHandler = function
-        | FailedToAuthenticate _ -> x.IsAuthenticated <- true
+        | FailedToAuthenticate _ -> x.AuthenticationFailed <- true
         | _ -> ()
 
     let initialSideEffects = dependencies.SideEffects
@@ -34,8 +34,8 @@ type ViewModel(dependencies) as x =
 
     let mutable email =    ""
     let mutable password = ""
-    let mutable isValidated =     false
-    let mutable isAuthenticated = false
+    let mutable isValidated =          false
+    let mutable authenticationFailed = false
 
     let broadcast (events:LoginEvent list) = 
         events |> List.iter (fun event -> sideEffects.ForLoginAttempt |> handle event)
@@ -75,7 +75,7 @@ type ViewModel(dependencies) as x =
              and  set(value) = isValidated <- value
                                base.NotifyPropertyChanged (<@ x.IsValidated @>)
 
-    member x.IsAuthenticated
-             with get() =      isAuthenticated
-             and  set(value) = isAuthenticated <- value
-                               base.NotifyPropertyChanged (<@ x.IsAuthenticated @>)
+    member x.AuthenticationFailed
+             with get() =      authenticationFailed
+             and  set(value) = authenticationFailed <- value
+                               base.NotifyPropertyChanged (<@ x.AuthenticationFailed @>)

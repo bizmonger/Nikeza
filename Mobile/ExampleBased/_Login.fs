@@ -44,5 +44,5 @@ let ``Can login if provided email and password`` () =
     login.Password <- somePassword
 
     // Test
-    try     login.Next.Execute()
-    with :? TypeInitializationException -> login.IsAuthenticated |> should equal true
+    try       login.Next.Execute()
+    with _ -> login.AuthenticationFailed |> should equal false
