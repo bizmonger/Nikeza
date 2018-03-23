@@ -1,6 +1,5 @@
 ﻿module Tests.Login
 
-open System
 open FsUnit
 open NUnit.Framework
 open Nikeza.Mobile.TestAPI
