@@ -54,7 +54,7 @@ let someValidatedForm = {
     }
 
 let mockLogin : LoginFn =
-    fun _ -> Ok someProvider
+    fun _ -> Ok <| Some someProvider
 
 let mockLogout : LogoutFn =
     fun _ -> Ok someProvider

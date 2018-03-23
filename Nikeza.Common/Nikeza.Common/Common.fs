@@ -187,5 +187,5 @@ let uninitializedProvider = {
     Followers=     []
 }
 
-let handle event observers= 
-    observers|> List.iter(fun handle -> handle event)
+let handle event handlers= 
+    handlers|> List.iter(fun handle -> handle event)

@@ -2,6 +2,7 @@
 
 open Nikeza.Mobile.Access.Commands.Session
 open Nikeza.Mobile.Access.Events
+open Nikeza.DataTransfer
 
 module Login =
     type private HandleLogin = ResultOf.Login -> LoginEvent list
@@ -9,8 +10,13 @@ module Login =
     let events : HandleLogin = function 
         ResultOf.Login result -> 
                        result |> function
-                                   | Ok    info -> [LoggedIn    info]
-                                   | Error info -> [LoginFailed info]
+                                   | Ok    info -> info |> function
+                                                   | Some p -> [LoggedIn p]
+
+                                                   | None   -> let credentials = { Credentials.Email=""; Credentials.Password="" }
+                                                               [FailedToAuthenticate credentials]
+                                                   
+                                   | Error info -> [FailedToConnect info]
             
 module Logout =
     type private HandleLogout = ResultOf.Logout -> LogoutEvent list

@@ -20,5 +20,5 @@ type ValidatedForm =   { Form : Form }
 
 (* FUNCTIONS *)
 type SubmitFn = ValidatedForm -> Result<Profile,  ValidatedForm>
-type LoginFn =  Credentials   -> Result<Provider, Credentials>
+type LoginFn =  Credentials   -> Result<Provider option, Credentials>
 type LogoutFn = Provider      -> Result<Provider, Provider>

@@ -10,8 +10,8 @@ namespace XForms
 		public App ()
         {
             InitializeComponent();
-            //MainPage = new LoginPage { BindingContext = new ViewModel(Login.dependencies) };
-            MainPage = new PortalPage();
+            MainPage = new LoginPage { BindingContext = new ViewModel(Login.dependencies) };
+            //MainPage = new PortalPage();
         }
 
         protected override void OnStart ()

@@ -14,8 +14,9 @@ type RegistrationSubmissionEvent =
     | RegistrationFailed    of ValidatedForm
 
 type LoginEvent =
-    | LoggedIn    of Provider
-    | LoginFailed of Credentials
+    | LoggedIn             of Provider
+    | FailedToConnect      of Credentials
+    | FailedToAuthenticate of Credentials
 
 type LogoutEvent =
     | LoggedOut    of Provider

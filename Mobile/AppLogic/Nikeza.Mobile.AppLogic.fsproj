@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Design.fs" />
+    <Compile Include="PageFactory.fs" />
     <Compile Include="HandleNavigation.fs" />
     <Compile Include="HandleRegistration.fs" />
     <Compile Include="HandleLogin.fs" />

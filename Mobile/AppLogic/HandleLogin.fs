@@ -1,10 +1,10 @@
 ﻿namespace Nikeza.Mobile.AppLogic
 
-open Nikeza.Mobile.UI
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.UILogic.Login
 open Nikeza.Mobile.AppLogic.Navigation
 open Design.Access
+open PageFactory
 
 module LoginEvents =
 
@@ -15,8 +15,10 @@ module LoginEvents =
         fun app sideEffects ->
 
             let handle = function
-                | LoggedIn    provider    -> app |> navigate (new PortalPage()) provider
-                | LoginFailed credentials -> app |> navigate (new ErrorPage())  credentials.Email
+                | LoggedIn        provider    -> app |> navigate portalPage provider
+                | FailedToConnect credentials -> app |> navigate errorPage  credentials.Email
+
+                | FailedToAuthenticate _ -> ()
 
             let handlers = handle::sideEffects.ForLoginAttempt
 
