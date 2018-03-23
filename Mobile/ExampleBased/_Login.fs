@@ -45,4 +45,4 @@ let ``Can login if provided email and password`` () =
 
     // Test
     try     login.Next.Execute()
-    with :? TypeInitializationException -> login.IsValidated |> should equal true
+    with :? TypeInitializationException -> login.IsAuthenticated |> should equal true

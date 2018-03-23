@@ -3,9 +3,12 @@
 open Xamarin.Forms
 open System.Diagnostics
 
-let navigate (page:Page) context (app:Application) =
+let navigate page context (app:Application) =
 
-    let expression = sprintf "\n\n** Request: Navigate to %s\n\n** Payload as follows:\n\n %A"
-    Debug.WriteLine(expression (page.ToString()) context)
+    try 
+        let expression = sprintf "\n\n** Request: Navigate to %s\n\n** Payload as follows:\n\n %A"
+        Debug.WriteLine(expression (page.ToString()) context)
 
-    app.MainPage <- page
+        app.MainPage <- page
+
+    with ex -> Debug.WriteLine(ex.Message)
