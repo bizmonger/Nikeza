@@ -16,8 +16,8 @@ type Implementation =  {
 }
 
 type Dependencies = { 
-    SideEffects    : SideEffects
     Implementation : Implementation
+    SideEffects    : SideEffects
 }
 
 type ViewModel(dependencies) as x =
