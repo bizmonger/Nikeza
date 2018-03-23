@@ -5,19 +5,25 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <Style x:Key="ButtonStyle" TargetType="Button">
-
+            
+            <Style x:Key="ButtonStyle" TargetType="Button" />
+            
+            <Style x:Key="ImageStyle"  TargetType="Image">
+                <Setter Property="Source" Value="http://www.ngu.edu/myimages/silhouette2230.jpg" />
             </Style>
 
-            <Style x:Key="ImageStyle" TargetType="Image">
-                <Setter Property="HeightRequest" Value="100" />
-                <Setter Property="WidthRequest"  Value="100" />
+            <Style x:Key="RecentImageStyle"  TargetType="Image">
+                <Setter Property="Source" Value="http://www.ngu.edu/myimages/silhouette2230.jpg" />
+                <Setter Property="WidthRequest"  Value="60" />
+                <Setter Property="HeightRequest" Value="60" />
             </Style>
+
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid>
+    <Grid Margin="5">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
 
@@ -29,11 +35,27 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <Image  Grid.Column="0" Grid.Row="0" Style="{StaticResource ImageStyle}" />
+        <Image  Grid.Column="0" Grid.Row="0" Style="{StaticResource ImageStyle}"  />
         <Button Grid.Column="0" Grid.Row="1" Style="{StaticResource ButtonStyle}" Text="Recent" />
         <Button Grid.Column="0" Grid.Row="2" Style="{StaticResource ButtonStyle}" Text="Subscriptions" />
         <Button Grid.Column="0" Grid.Row="3" Style="{StaticResource ButtonStyle}" Text="Followers" />
         <Button Grid.Column="0" Grid.Row="4" Style="{StaticResource ButtonStyle}" Text="Members" />
+
+        <Grid Grid.Column="1" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Image Grid.Column="0" Grid.Row="0" Style="{StaticResource RecentImageStyle}" VerticalOptions="Start" />
+            <Label Grid.Column="0" Grid.Row="1" Text="some name" />
+            <Label Grid.Column="1" Grid.Row="0" Text="some link" />
+        </Grid>
 
     </Grid>
     
