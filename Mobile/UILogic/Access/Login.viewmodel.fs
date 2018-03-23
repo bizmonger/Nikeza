@@ -29,6 +29,7 @@ type ViewModel(dependencies) as x =
         | _ -> ()
 
     let initialSideEffects = dependencies.SideEffects
+
     let sideEffects =      { initialSideEffects with ForLoginAttempt= notAuthenticatedHandler::initialSideEffects.ForLoginAttempt }
     let implementation =     dependencies.Implementation
 
@@ -48,7 +49,7 @@ type ViewModel(dependencies) as x =
 
         if   x.IsValidated
 
-        then Login { Email=email; Password=password }
+        then Submit { Email=email; Password=password }
              |> In.Login.workflow implementation.Login
              |> broadcast
 

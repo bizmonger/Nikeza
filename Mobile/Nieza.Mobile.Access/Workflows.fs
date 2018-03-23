@@ -36,7 +36,7 @@ module Login =
 
     let workflow : SessionWorkflow =
         fun loginFn -> function
-        Login credentials -> 
+        Submit credentials -> 
               credentials |> loginFn
                           |> ResultOf.Login
                           |> Are.Login.events
