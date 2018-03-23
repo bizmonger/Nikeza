@@ -45,6 +45,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -54,7 +55,7 @@
 
             <Image Grid.Column="0" Grid.Row="0" Style="{StaticResource RecentImageStyle}" />
             <Label Grid.Column="0" Grid.Row="1" Text="some name" />
-            <Label Grid.Column="1" Grid.Row="0" Text="some link" />
+            <Label Grid.Column="1" Grid.Row="0" Text="some 1st link" />
         </Grid>
 
     </Grid>

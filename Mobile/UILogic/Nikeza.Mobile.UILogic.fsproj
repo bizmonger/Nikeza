@@ -11,16 +11,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Pages.fs" />
-    <Compile Include="Adapter.fs" />
-    <Compile Include="DelegateCommand.fs" />
     <Compile Include="TestAPI.fs" />
+    <Compile Include="Pages.fs" />
+    <Compile Include="DelegateCommand.fs" />
     <Compile Include="ViewModelBase.fs" />
-    <Compile Include="Profile\DataSources.viewmodel.fs" />
+    <Compile Include="Access\Adapter.fs" />
     <Compile Include="Access\Registration.viewmodel.fs" />
+    <Compile Include="Access\Login.viewmodel.fs" />
+    <Compile Include="Profile\DataSources.viewmodel.fs" />
     <Compile Include="Subscriptions\Recent.viewmodel.fs" />
     <Compile Include="Subscriptions\Members.viewmodel.fs" />
-    <Compile Include="Access\Login.viewmodel.fs" />
     <Compile Include="Subscriptions\Subscriptions.viewmodel.fs" />
     <Compile Include="Profile\ProfileEditor.viewmodel.fs" />
     <Compile Include="Portfolio\Portfolio.viewmodel.fs" />
