@@ -30,8 +30,8 @@ type ViewModel(dependencies) as x =
 
     let initialSideEffects = dependencies.SideEffects
 
-    let sideEffects =      { initialSideEffects with ForLoginAttempt= notAuthenticatedHandler::initialSideEffects.ForLoginAttempt }
-    let implementation =     dependencies.Implementation
+    let sideEffects =   { initialSideEffects with ForLoginAttempt= notAuthenticatedHandler::initialSideEffects.ForLoginAttempt }
+    let implementation =  dependencies.Implementation
 
     let mutable email =    ""
     let mutable password = ""
