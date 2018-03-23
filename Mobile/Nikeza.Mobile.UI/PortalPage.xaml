@@ -12,10 +12,10 @@
                 <Setter Property="Source" Value="http://www.ngu.edu/myimages/silhouette2230.jpg" />
             </Style>
 
-            <Style x:Key="RecentImageStyle"  TargetType="Image">
-                <Setter Property="Source" Value="http://www.ngu.edu/myimages/silhouette2230.jpg" />
-                <Setter Property="WidthRequest"  Value="60" />
-                <Setter Property="HeightRequest" Value="60" />
+            <Style x:Key="RecentImageStyle"  TargetType="Image" BasedOn="{StaticResource ImageStyle}">
+                <Setter Property="WidthRequest"    Value="60" />
+                <Setter Property="HeightRequest"   Value="60" />
+                <Setter Property="VerticalOptions" Value="Start" />
             </Style>
 
         </ResourceDictionary>
@@ -52,7 +52,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Image Grid.Column="0" Grid.Row="0" Style="{StaticResource RecentImageStyle}" VerticalOptions="Start" />
+            <Image Grid.Column="0" Grid.Row="0" Style="{StaticResource RecentImageStyle}" />
             <Label Grid.Column="0" Grid.Row="1" Text="some name" />
             <Label Grid.Column="1" Grid.Row="0" Text="some link" />
         </Grid>

@@ -16,14 +16,14 @@
     <Compile Include="DelegateCommand.fs" />
     <Compile Include="TestAPI.fs" />
     <Compile Include="ViewModelBase.fs" />
-    <Compile Include="ViewModels\DataSources.viewmodel.fs" />
-    <Compile Include="ViewModels\Registration.viewmodel.fs" />
-    <Compile Include="ViewModels\Recent.viewmodel.fs" />
-    <Compile Include="ViewModels\Members.viewmodel.fs" />
-    <Compile Include="ViewModels\Login.viewmodel.fs" />
-    <Compile Include="ViewModels\Subscriptions.viewmodel.fs" />
-    <Compile Include="ViewModels\ProfileEditor.viewmodel.fs" />
-    <Compile Include="ViewModels\Portfolio.viewmodel.fs" />
+    <Compile Include="Profile\DataSources.viewmodel.fs" />
+    <Compile Include="Access\Registration.viewmodel.fs" />
+    <Compile Include="Subscriptions\Recent.viewmodel.fs" />
+    <Compile Include="Subscriptions\Members.viewmodel.fs" />
+    <Compile Include="Access\Login.viewmodel.fs" />
+    <Compile Include="Subscriptions\Subscriptions.viewmodel.fs" />
+    <Compile Include="Profile\ProfileEditor.viewmodel.fs" />
+    <Compile Include="Portfolio\Portfolio.viewmodel.fs" />
     <Compile Include="ViewModelFactory.fs" />
   </ItemGroup>
 
