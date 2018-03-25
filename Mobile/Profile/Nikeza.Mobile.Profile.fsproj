@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Events.fs" />
+    <Compile Include="Design.fs" />
     <Compile Include="EventExtensions.fs" />
     <Compile Include="Queries.fs" />
     <Compile Include="Commands.fs" />

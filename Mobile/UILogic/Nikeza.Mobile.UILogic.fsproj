@@ -18,6 +18,7 @@
     <Compile Include="Access\Adapter.fs" />
     <Compile Include="Access\Registration.viewmodel.fs" />
     <Compile Include="Access\Login.viewmodel.fs" />
+    <Compile Include="Profile\Portal.viewmodel.fs" />
     <Compile Include="Profile\DataSources.viewmodel.fs" />
     <Compile Include="Subscriptions\Recent.viewmodel.fs" />
     <Compile Include="Subscriptions\Members.viewmodel.fs" />

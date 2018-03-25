@@ -62,6 +62,7 @@
     <Compile Include="HandleNavigation.fs" />
     <Compile Include="HandleRegistration.fs" />
     <Compile Include="HandleLogin.fs" />
+    <Compile Include="HandlePortal.fs" />
     <Compile Include="HandleProfileEditor.fs" />
     <Compile Include="HandlePortfolio.fs" />
     <Compile Include="HandleSubscriptions.fs" />

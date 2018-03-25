@@ -41,14 +41,14 @@ type ViewModel(dependencies) =
             events |> List.iter (fun event -> sideEffects.ForPageRequested |> handle event)
 
         selection |> function
-                     | Some provider -> provider.Profile.Id 
-                                         |> ProviderId  
-                                         //|> Query.portfolio
-                                           |> query.Portfolio
-                                                    |> function
-                                                       | Result.Ok    p          -> broadcast [PageRequested.Portfolio p]
-                                                       | Result.Error providerId -> let error = { Context=providerId |> string; Description="Failed to load portfolio" }
-                                                                                    broadcast [PageRequested.Error error]
+                     | Some provider -> 
+                            provider.Profile.Id 
+                             |> ProviderId  
+                             |> query.Portfolio
+                                      |> function
+                                         | Result.Ok    p          -> broadcast [PageRequested.Portfolio p]
+                                         | Result.Error providerId -> let error = { Context=providerId |> string; Description="Failed to load portfolio" }
+                                                                      broadcast [PageRequested.Error error]
                      | None -> ()
 
     member x.ViewProvider = DelegateCommand( (fun _ -> viewProvider() ), fun _ -> selection.IsSome)
