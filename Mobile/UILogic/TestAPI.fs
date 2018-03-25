@@ -2,7 +2,7 @@
 
 open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Access.Try
-open Nikeza.Mobile.Profile.Query
+open Nikeza.Mobile.Profile.Queries
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio.Query
 open Nikeza.Common

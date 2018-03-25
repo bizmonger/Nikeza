@@ -40,4 +40,8 @@ module Queries =
 
     open Events
 
+    type PlatformsFn =     unit-> Result<string list, string>
+    type TopicsFn =        unit-> Result<Topic list, string>
+    type SourcesFn =       unit-> Result<DataSourceRequest list, string>
+
     type SubscriptionsFn = ProfileId -> QuerySubscriptionsEvent list

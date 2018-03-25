@@ -6,7 +6,7 @@ open Nikeza.Common
 open Nikeza.DataTransfer
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Profile
-open Nikeza.Mobile.Profile.Query
+open Nikeza.Mobile.Profile.Queries
 open Nikeza.Mobile.Profile.Commands.DataSources
 open Nikeza.Mobile.Profile.Events
 

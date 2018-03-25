@@ -1,10 +1,6 @@
 ﻿module Nikeza.Mobile.Profile.Query
 
-open Nikeza.Common
-
-type PlatformsFn = unit-> Result<string list, string>
-type TopicsFn =    unit-> Result<Topic list, string>
-type SourcesFn =   unit-> Result<DataSourceRequest list, string>
+open Queries
 
 let topics : TopicsFn =
     fun _ -> Error "Not Implemented..."
