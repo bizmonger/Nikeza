@@ -36,7 +36,6 @@ module DataSources =
     module Save =
         open Commands.DataSources
         open Commands.DataSources.Save
-        open Nikeza.Common
         open Nikeza.DataTransfer
 
         type private SaveWorkflow = SaveSourcesFn -> SaveCommand -> Result<Profile, DataSourceSubmit list> list
