@@ -4,14 +4,13 @@ open FsUnit
 open NUnit.Framework
 open Nikeza.Mobile.TestAPI
 open Nikeza.Mobile.UILogic.Portal.ProfileEditor
-open Nikeza.Mobile.Profile.Events
 
 [<Test>]
 let ``Save edited profile`` () =
 
     // Setup
     let mutable saveRequested = false
-    let response = function ProfileSaved _ -> saveRequested <- true | _ -> ()
+    let response = function Ok _ -> saveRequested <- true | _ -> ()
 
     let responders =   { ForProfileSave= [response]; ForQueryTopicsFailed= [] }
     let dependencies = { ProfileEditor.dependencies with SideEffects= responders }

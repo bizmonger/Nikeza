@@ -3,7 +3,6 @@
 open System.Collections.ObjectModel
 open Nikeza.Common
 open Nikeza.Mobile.Profile.Language
-open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.Profile.Queries
 open Nikeza.Mobile.UILogic
 

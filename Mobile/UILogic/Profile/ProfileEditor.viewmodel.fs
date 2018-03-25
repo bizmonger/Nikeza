@@ -10,7 +10,6 @@ open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Profile.Queries
 open Nikeza.Mobile.Profile.Commands.ProfileEditor
 open System.Collections.ObjectModel
-open Nikeza.Mobile.Profile.Events
 
 type Implementation = {
     Save : SaveProfileFn
@@ -21,7 +20,7 @@ type Query = {
 }
 
 type SideEffects = {
-    ForProfileSave       : (ProfileSaveEvent -> unit) list
+    ForProfileSave       : (Result<Profile, ValidatedProfile> -> unit) list
     ForQueryTopicsFailed : (Result<Topic list, string> -> unit) list
 }
 
@@ -81,8 +80,8 @@ type ViewModel(dependencies) as x =
 
     let save() =
     
-        let broadcast (events) = 
-            events |> List.iter (fun event -> sideEffects.ForProfileSave|> handle event)
+        let broadcast (events:Result<Profile,ValidatedProfile> list) = 
+            events |> List.iter (fun event -> sideEffects.ForProfileSave |> handle event)
         
         { Profile= profile }
            |> SaveCommand.Execute 

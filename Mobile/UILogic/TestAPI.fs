@@ -1,7 +1,6 @@
 ﻿module Nikeza.Mobile.UILogic.TestAPI
 
 open Nikeza.Mobile.Profile.Try
-open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.Profile.Queries
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio.Query

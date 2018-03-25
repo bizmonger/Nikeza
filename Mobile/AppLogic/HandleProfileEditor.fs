@@ -3,7 +3,6 @@
 module ProfileEvents =
 
     open System.Diagnostics
-    open Nikeza.Mobile.Profile.Events
     open Nikeza.Mobile.UILogic.Portal.ProfileEditor
     open Nikeza.Mobile.AppLogic.Design.ProfileEditor
 
@@ -14,8 +13,8 @@ module ProfileEvents =
             fun app sideEffects ->
  
                 let handle = function
-                    | ProfileSaved      p -> (Debug.WriteLine(sprintf "Request: Navigate to previous page"))
-                    | ProfileSaveFailed _ -> ()
+                    | Ok    _ -> (Debug.WriteLine(sprintf "Request: Navigate to previous page"))
+                    | Error _ -> ()
 
                 let handlers = handle::sideEffects.ForProfileSave
 

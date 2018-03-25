@@ -20,8 +20,9 @@ module Editor =
     module Save =
         open Commands.ProfileEditor.Save
         open Commands.ProfileEditor
+        open Nikeza.DataTransfer
 
-        type private SaveWorkflow = SaveProfileFn -> SaveCommand -> ProfileSaveEvent list
+        type private SaveWorkflow = SaveProfileFn -> SaveCommand -> Result<Profile,ValidatedProfile> list
 
         let workflow : SaveWorkflow = 
             fun saveFn -> function
@@ -35,8 +36,10 @@ module DataSources =
     module Save =
         open Commands.DataSources
         open Commands.DataSources.Save
+        open Nikeza.Common
+        open Nikeza.DataTransfer
 
-        type private SaveWorkflow = SaveSourcesFn -> SaveCommand -> SourcesSaveEvent list
+        type private SaveWorkflow = SaveSourcesFn -> SaveCommand -> Result<Profile, DataSourceSubmit list> list
 
         let workflow : SaveWorkflow = 
             fun savefn -> function

@@ -12,8 +12,6 @@ module Language =
 
 module Events =
 
-    open Language
-
     type SubscriptionEvent =
         | Subscribed   of ProviderId
         | Unsubscribed of ProviderId
@@ -21,14 +19,6 @@ module Events =
     type ProfileValidateEvent =
         | ProfileValidated    of ValidatedProfile
         | ProfileNotValidated of EditedProfile
-
-    type ProfileSaveEvent =
-        | ProfileSaved      of Profile
-        | ProfileSaveFailed of ValidatedProfile
-
-    type SourcesSaveEvent =
-        | SourcesSaved  of Profile
-        | SourcesFailed of DataSourceSubmit list
 
 module Queries =
 
