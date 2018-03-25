@@ -12,7 +12,7 @@ type Query = {
 }
 
 type SideEffects = {
-    ForSubscriptionsQuery : (QuerySubscriptionsEvent -> unit) list
+    ForSubscriptionsQuery : (Result<Subscription list,ProfileId> -> unit) list
 }
 
 type Dependencies = {
@@ -44,5 +44,5 @@ type ViewModel(dependencies) =
         userId
          |> query.Subscriptions
          |> function
-            | QuerySubscriptionsSucceeeded result -> x.Subscriptions <- ObservableCollection<Subscription>(result)
-            | QuerySubscriptionsFailed     msg    -> broadcast [QuerySubscriptionsFailed msg]
+            | Ok    result -> x.Subscriptions <- ObservableCollection<Subscription>(result)
+            | Error msg    -> broadcast [Error msg]

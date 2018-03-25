@@ -30,28 +30,12 @@ module Events =
         | SourcesSaved  of Profile
         | SourcesFailed of DataSourceSubmit list
 
-    type QueryTopicsEvent =
-        | QueryTopicsSucceeded of Topic list
-        | QueryTopicsFailed    of string
-
-    type QuerySourcesEvent =
-        | QuerySourcesSucceeded of DataSourceRequest list
-        | QuerySourcesFailed    of string
-
-    type QueryPlatformsEvent =
-        | QueryPlatformsSucceeeded of string list
-        | QueryPlatformsFailed     of string
-
-    type QuerySubscriptionsEvent =
-        | QuerySubscriptionsSucceeeded of Subscription list
-        | QuerySubscriptionsFailed     of ProfileId
-
 module Queries =
 
-    open Events
+    open Language
 
-    type PlatformsFn = unit-> QueryPlatformsEvent
-    type TopicsFn =    unit-> QueryTopicsEvent   
-    type SourcesFn =   unit-> QuerySourcesEvent  
+    type PlatformsFn = unit-> Result<string list, string>
+    type TopicsFn =    unit-> Result<Topic list, string>
+    type SourcesFn =   unit-> Result<DataSourceRequest list, string>
 
-    type SubscriptionsFn = ProfileId -> QuerySubscriptionsEvent
+    type SubscriptionsFn = ProfileId -> Result<Subscription list, ProfileId>

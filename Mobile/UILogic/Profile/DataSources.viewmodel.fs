@@ -98,8 +98,8 @@ type ViewModel(dependencies) as x =
     
              query.Platforms()
               |> function
-                 | QueryPlatformsSucceeeded p -> x.Platforms <- ObservableCollection<string>(p)
-                 | QueryPlatformsFailed     _ -> ()
+                 | Ok    p -> x.Platforms <- ObservableCollection<string>(p)
+                 | Error _ -> ()
 
     member x.Add =    DelegateCommand( (fun _ -> x.Sources.Add(createSource())) , fun _ -> true )
     member x.Remove = DelegateCommand( (fun _ -> () (*todo...*)) , fun _ -> true )

@@ -78,10 +78,10 @@ let mockSaveSources : SaveSourcesFn =
     fun _ -> Ok someProfile
 
 let mockTopics : TopicsFn =
-    fun _ -> QueryTopicsSucceeded [{Id=0; Name="F#" }]
+    fun _ -> Ok [{Id=0; Name="F#" }]
 
 let mockPlatforms : PlatformsFn =
-    fun _ -> QueryPlatformsSucceeeded ["YouTube"; "WordPress"; "StackOverflow"]
+    fun _ -> Ok ["YouTube"; "WordPress"; "StackOverflow"]
 
 let mockPortfolio : PortfolioFn =
     fun _ -> Ok someProvider

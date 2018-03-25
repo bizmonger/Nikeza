@@ -1,12 +1,12 @@
 ﻿module Nikeza.Mobile.Profile.Query
 
-open Events
+open Nikeza.Common
 
-let topics : QueryTopicsEvent =
-    QueryTopicsFailed "Not Implemented..."
+let topics : Result<Topic list, string> =
+    Error "Not Implemented..."
                              
-let profile : QuerySourcesEvent =    
-    QuerySourcesFailed "Not Implemented..."
+let profile : Result<Profile, string> =    
+    Error "Not Implemented..."
 
-let platforms : QueryPlatformsEvent =
-    QueryPlatformsFailed "Not Implemented..."
+let platforms : Result<string list, string>=
+    Error "Not Implemented..."
