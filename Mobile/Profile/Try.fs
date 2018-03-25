@@ -1,9 +1,10 @@
 ﻿module Nikeza.Mobile.Profile.Try
 
 open Nikeza.DataTransfer
+open Events
 
-type SaveProfileFn = ValidatedProfile      -> Result<Profile, ValidatedProfile>
-type SaveSourcesFn = DataSourceSubmit list -> Result<Profile, DataSourceSubmit list>
+type SaveProfileFn = ValidatedProfile      -> SaveProfileEvent
+type SaveSourcesFn = DataSourceSubmit list -> SaveDataSourcesEvent
 
 let internal saveProfile : SaveProfileFn = 
     fun profile -> Error profile

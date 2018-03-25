@@ -16,7 +16,7 @@ module Save =
     open Nikeza.Mobile.Profile.Commands.ProfileEditor.Save
     open Nikeza.DataTransfer
 
-    type private Handle = ResultOf.Editor -> Result<Profile,ValidatedProfile> list
+    type private Handle = ResultOf.Editor -> SaveProfileEvent list
 
     let events : Handle = function
         ResultOf.Editor.Save result -> [result]

@@ -7,6 +7,7 @@ open Nikeza.DataTransfer
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Profile
 open Nikeza.Mobile.Profile.Try
+open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.Profile.Queries
 open Nikeza.Mobile.Profile.Commands.ProfileEditor
 open System.Collections.ObjectModel
@@ -20,7 +21,7 @@ type Query = {
 }
 
 type SideEffects = {
-    ForProfileSave       : (Result<Profile, ValidatedProfile> -> unit) list
+    ForProfileSave       : (SaveProfileEvent -> unit) list
     ForQueryTopicsFailed : (Result<Topic list, string> -> unit) list
 }
 
@@ -80,7 +81,7 @@ type ViewModel(dependencies) as x =
 
     let save() =
     
-        let broadcast (events:Result<Profile,ValidatedProfile> list) = 
+        let broadcast events = 
             events |> List.iter (fun event -> sideEffects.ForProfileSave |> handle event)
         
         { Profile= profile }

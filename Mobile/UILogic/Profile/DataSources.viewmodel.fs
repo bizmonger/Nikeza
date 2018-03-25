@@ -7,6 +7,7 @@ open Nikeza.DataTransfer
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Profile
 open Nikeza.Mobile.Profile.Queries
+open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.Profile.Commands.DataSources
 
 type Implementation = {
@@ -18,7 +19,7 @@ type Query = {
 }
 
 type SideEffects = {
-    ForSaveSources : (Result<Profile, DataSourceSubmit List> -> unit) list
+    ForSaveSources : (SaveDataSourcesEvent -> unit) list
 }
 
 type Dependencies = {

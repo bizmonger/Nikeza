@@ -2,9 +2,9 @@
 
 module Save =
     open Nikeza.Mobile.Profile.Commands.DataSources.Save
-    open Nikeza.DataTransfer
+    open Nikeza.Mobile.Profile.Events
 
-    type private SaveDataSources = ResultOf.Save -> Result<Profile, DataSourceSubmit list> list
+    type private SaveDataSources = ResultOf.Save -> SaveDataSourcesEvent list
 
     let events : SaveDataSources = function
         ResultOf.Save.Execute result -> [result]
