@@ -25,9 +25,9 @@ type ViewModel(dependencies) =
 
     inherit ViewModelBase()
 
-    let userId=       dependencies.UserId
-    let query=        dependencies.Query
-    let sideEffects=  dependencies.SideEffects
+    let userId=      dependencies.UserId
+    let query=       dependencies.Query
+    let sideEffects= dependencies.SideEffects
 
     let mutable subscritions = ObservableCollection<Subscription>()
 
