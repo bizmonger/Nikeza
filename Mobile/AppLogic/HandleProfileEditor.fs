@@ -28,7 +28,8 @@ module ProfileEvents =
             fun app sideEffects ->
  
                 let handle = function
-                    QueryTopicsFailed msg -> (Debug.WriteLine(sprintf "Request: Navigate to Error page\n %s" msg))
+                    | QueryTopicsFailed    msg -> (Debug.WriteLine(sprintf "Request: Navigate to Error page\n %s" msg))
+                    | QueryTopicsSucceeded _   -> ()
 
                 let handlers = handle::sideEffects.ForQueryTopicsFailed
 

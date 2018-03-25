@@ -21,8 +21,8 @@ type Query = {
 }
 
 type SideEffects = {
-    ForProfileSave       : (ProfileSaveEvent  -> unit) list
-    ForQueryTopicsFailed : (QueryTopicsFailed -> unit) list
+    ForProfileSave       : (ProfileSaveEvent -> unit) list
+    ForQueryTopicsFailed : (QueryTopicsEvent -> unit) list
 }
 
 type Dependencies = {
@@ -147,10 +147,10 @@ type ViewModel(dependencies) as x =
 
     member x.Init() =
 
-        let broadcast (events:QueryTopicsFailed list) = 
+        let broadcast (events:QueryTopicsEvent list) = 
             events |> List.iter (fun event -> sideEffects.ForQueryTopicsFailed |> handle event)
             
         query.Topics()
             |> function
-            | Ok    v -> topics <- ObservableCollection(v |> Seq.map (fun topic -> topic.Name))
-            | Error msg -> broadcast [QueryTopicsFailed msg]
+               | QueryTopicsSucceeded v -> topics <- ObservableCollection(v |> Seq.map (fun topic -> topic.Name))
+               | QueryTopicsFailed  msg -> broadcast [QueryTopicsFailed msg]

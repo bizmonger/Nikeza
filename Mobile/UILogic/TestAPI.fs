@@ -1,7 +1,7 @@
 ﻿module Nikeza.Mobile.UILogic.TestAPI
 
 open Nikeza.Mobile.Profile.Try
-open Nikeza.Mobile.Access.Try
+open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.Profile.Queries
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio.Query
@@ -85,13 +85,15 @@ let mockSaveSources : SaveSourcesFn =
     fun _ -> Ok someProfileRequest
 
 let mockTopics : TopicsFn =
-    fun _ -> Ok [{ Id=0; Name="F#" }
+    fun _ -> QueryTopicsSucceeded 
+                [{ Id=0; Name="F#" }
                  { Id=1; Name="Elm"}
                  { Id=2; Name="Architecture" }
                 ]
 
 let mockPlatforms : PlatformsFn =
-    fun _ -> Ok [ "YouTube"
+    fun _ -> QueryPlatformsSucceeeded 
+                [ "YouTube"
                   "WordPress"
                   "StackOverflow"
                 ]

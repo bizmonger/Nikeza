@@ -1,6 +1,5 @@
 ﻿namespace Nikeza.Mobile.Portal
 
-open System.Diagnostics
 open System.Collections.ObjectModel
 open Nikeza.Common
 open Nikeza.Mobile.Profile.Language
@@ -22,23 +21,13 @@ type Dependencies = {
     SideEffects : SideEffects
 }
 
-type ViewModel(dependencies) as x =
+type ViewModel(dependencies) =
 
     inherit ViewModelBase()
 
     let userId=       dependencies.UserId
     let query=        dependencies.Query
-    let sideEffects'= dependencies.SideEffects
-
-    let onQueryResponse = function
-        | QuerySucceeeded result -> x.Subscriptions <- ObservableCollection<Subscription>(result)
-        | QueryFailed id         -> Debug.WriteLine(sprintf "Failed to retrieve subscriptions with userid: %A" id)
-
-    let sideEffects = 
-        { sideEffects' with ForSubscriptionsQuery= onQueryResponse::sideEffects'.ForSubscriptionsQuery }
-
-    let broadcast events = 
-        events |> List.iter (fun event -> sideEffects.ForSubscriptionsQuery |> handle event)
+    let sideEffects=  dependencies.SideEffects
 
     let mutable subscritions = ObservableCollection<Subscription>()
 
@@ -48,6 +37,12 @@ type ViewModel(dependencies) as x =
                                base.NotifyPropertyChanged(<@ x.Subscriptions @>)
 
     member x.Init() = 
-           userId
-            |> query.Subscriptions
-            |> broadcast
+
+        let broadcast events = 
+            events |> List.iter (fun event -> sideEffects.ForSubscriptionsQuery |> handle event)
+            
+        userId
+         |> query.Subscriptions
+         |> function
+            | QuerySubscriptionsSucceeeded result -> x.Subscriptions <- ObservableCollection<Subscription>(result)
+            | QuerySubscriptionsFailed     msg    -> broadcast [QuerySubscriptionsFailed msg]

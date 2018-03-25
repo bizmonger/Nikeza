@@ -5,6 +5,7 @@ open Nikeza.DataTransfer
 open Nikeza.Mobile.Access
 open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Profile.Queries
+open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.Subscriptions.Try
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio.Query
@@ -77,10 +78,10 @@ let mockSaveSources : SaveSourcesFn =
     fun _ -> Ok someProfile
 
 let mockTopics : TopicsFn =
-    fun _ -> Ok [{Id=0; Name="F#" }]
+    fun _ -> QueryTopicsSucceeded [{Id=0; Name="F#" }]
 
 let mockPlatforms : PlatformsFn =
-    fun _ -> Ok ["YouTube"; "WordPress"; "StackOverflow"]
+    fun _ -> QueryPlatformsSucceeeded ["YouTube"; "WordPress"; "StackOverflow"]
 
 let mockPortfolio : PortfolioFn =
     fun _ -> Ok someProvider
