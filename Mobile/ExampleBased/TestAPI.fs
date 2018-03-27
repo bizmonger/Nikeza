@@ -8,6 +8,7 @@ open Nikeza.Mobile.Profile.Queries
 open Nikeza.Mobile.Subscriptions.Try
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio.Query
+open Nikeza.Mobile.Profile
 
 let someFirstName =       "Scott"
 let someLastName =        "Nimrod"
@@ -68,7 +69,7 @@ let mockMembers : MembersFn =
     fun _ -> Ok [someProvider]
 
 let mockSubscriptions : SubscriptionsFn =
-    fun _ -> Ok [someProvider]
+    fun _ -> Ok [someProvider;someProvider;someProvider]
 
 let mockSave : SaveProfileFn =
     fun _ -> Ok someProfile
@@ -115,6 +116,20 @@ module ProfileEditor =
           SideEffects=    sideEffects 
           User =          someUser
           Query =       { Topics= mockTopics }
+        }
+
+
+module Portal =
+
+    open Nikeza.Mobile.Portal
+    
+    let dependencies =
+
+        let sideEffects = { ForQueryFailed= [] }
+    
+        { SideEffects=  sideEffects 
+          UserId =      ProfileId someUser.Id
+          Query =     { Subscriptions= mockSubscriptions }
         }
 
 module DataSource =
@@ -199,8 +214,10 @@ module Subscriptions =
             ForQueryFailed =   []
             ForPageRequested = []
         }
+
+        let userId = ProfileId someUser.Id
     
-        { UserId=       ProfileId someUser.Id
+        { UserId=       userId
           Query=      { Portfolio= mockPortfolio; Subscriptions=mockSubscriptions }
           SideEffects=  sideEffects 
         }

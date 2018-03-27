@@ -3,13 +3,6 @@
 open Nikeza.Common
 open Nikeza.DataTransfer
 
-module Language =
-
-    type Subscription = {
-        Name     : string
-        ImageUrl : string
-    }
-
 module Events =
 
     type SaveProfileEvent =     Result<Profile,ValidatedProfile>
@@ -25,10 +18,6 @@ module Events =
 
 module Queries =
 
-    open Language
-
     type PlatformsFn = unit-> Result<string list, string>
     type TopicsFn =    unit-> Result<Topic list, string>
     type SourcesFn =   unit-> Result<DataSourceRequest list, string>
-
-    type SubscriptionsFn = ProfileId -> Result<Subscription list, ProfileId>

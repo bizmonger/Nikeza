@@ -2,16 +2,16 @@
 
 open System.Collections.ObjectModel
 open Nikeza.Common
-open Nikeza.Mobile.Profile.Language
-open Nikeza.Mobile.Profile.Queries
+open Nikeza.DataTransfer
 open Nikeza.Mobile.UILogic
+open Nikeza.Mobile.Subscriptions.Query
 
 type Query = {
     Subscriptions : SubscriptionsFn
 }
 
 type SideEffects = {
-    ForSubscriptionsQuery : (Result<Subscription list,ProfileId> -> unit) list
+    ForQueryFailed : (ProfileId error -> unit) list
 }
 
 type Dependencies = {
@@ -28,7 +28,7 @@ type ViewModel(dependencies) =
     let query=       dependencies.Query
     let sideEffects= dependencies.SideEffects
 
-    let mutable subscritions = ObservableCollection<Subscription>()
+    let mutable subscritions = ObservableCollection<Provider>()
 
     member x.Subscriptions
              with get() =      subscritions
@@ -37,11 +37,11 @@ type ViewModel(dependencies) =
 
     member x.Init() = 
 
-        let broadcast events = 
-            events |> List.iter (fun event -> sideEffects.ForSubscriptionsQuery |> handle event)
+        let broadcast (events:error<ProfileId> list) = 
+            events |> List.iter (fun event -> sideEffects.ForQueryFailed |> handle event)
             
         userId
          |> query.Subscriptions
          |> function
-            | Ok    result -> x.Subscriptions <- ObservableCollection<Subscription>(result)
-            | Error msg    -> broadcast [Error msg]
+            | Ok    result -> x.Subscriptions <- ObservableCollection<Provider>(result)
+            | Error msg    -> broadcast [msg]

@@ -33,13 +33,17 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <Image  Grid.Column="0" Grid.Row="0" Style="{StaticResource ImageStyle}"  />
-        <Button Grid.Column="0" Grid.Row="1" Style="{StaticResource ButtonStyle}" Text="Recent" />
-        <Button Grid.Column="0" Grid.Row="2" Style="{StaticResource ButtonStyle}" Text="Subscriptions" />
-        <Button Grid.Column="0" Grid.Row="3" Style="{StaticResource ButtonStyle}" Text="Followers" />
-        <Button Grid.Column="0" Grid.Row="4" Style="{StaticResource ButtonStyle}" Text="Members" />
+        <Button Grid.Column="0" Grid.Row="1" Style="{StaticResource ButtonStyle}" Text="Latest" />
+        <Button Grid.Column="0" Grid.Row="2" Style="{StaticResource ButtonStyle}" Text="Portfolio" />
+        <Button Grid.Column="0" Grid.Row="3" Style="{StaticResource ButtonStyle}" Text="Link" />
+        <Button Grid.Column="0" Grid.Row="4" Style="{StaticResource ButtonStyle}" Text="Subscriptions" />
+        <Button Grid.Column="0" Grid.Row="5" Style="{StaticResource ButtonStyle}" Text="Followers" />
+        <Button Grid.Column="0" Grid.Row="6" Style="{StaticResource ButtonStyle}" Text="Members" />
 
         <Grid Grid.Column="1" Grid.Row="0">
             <Grid.RowDefinitions>
@@ -53,8 +57,9 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Image Grid.Column="0" Grid.Row="0" Style="{StaticResource RecentImageStyle}" />
-            <Label Grid.Column="0" Grid.Row="1" Text="some name" />
+            <Entry Grid.Column="0" Grid.Row="0" Placeholder="name on feed"  />
+            <Image Grid.Column="0" Grid.Row="1" Style="{StaticResource RecentImageStyle}" />
+            <Label Grid.Column="0" Grid.Row="2" Text="some name" />
             <Label Grid.Column="1" Grid.Row="0" Text="some 1st link" />
         </Grid>
 
