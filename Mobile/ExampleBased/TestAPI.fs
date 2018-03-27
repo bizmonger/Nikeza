@@ -125,7 +125,10 @@ module Portal =
     
     let dependencies =
 
-        let sideEffects = { ForQueryFailed= [] }
+        let sideEffects = { 
+            ForQueryFailed=  []
+            ForPageRequested=[] 
+        }
     
         { SideEffects=  sideEffects 
           UserId =      ProfileId someUser.Id

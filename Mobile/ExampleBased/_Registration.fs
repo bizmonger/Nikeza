@@ -31,8 +31,8 @@ let ``Registration submitted after being validated`` () =
     let mutable successful = false
     let mutateOnSuccess = function RegistrationSucceeded _ -> successful <- true | _ -> ()
 
-    let responders =   { ForRegistrationSubmission= [mutateOnSuccess] }
-    let dependencies = { dependencies with SideEffects= responders }
+    let sideEffects =  { ForRegistrationSubmission= [mutateOnSuccess] }
+    let dependencies = { dependencies with SideEffects= sideEffects }
     
     let registration =   ViewModel(dependencies)
 
@@ -49,8 +49,8 @@ let ``Registration submitted after being validated`` () =
 let ``Navigation requested after registration submitted`` () =
     
     // Setup
-    let responders =   { ForRegistrationSubmission= [] } |> appendNavigation Application.Current
-    let dependencies = { dependencies with SideEffects= responders }
+    let sideEffects =  { ForRegistrationSubmission= [] } |> appendNavigation Application.Current
+    let dependencies = { dependencies with SideEffects= sideEffects }
 
     let registration =   ViewModel(dependencies)
 

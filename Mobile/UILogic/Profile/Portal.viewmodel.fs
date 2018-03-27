@@ -1,17 +1,20 @@
 ﻿namespace Nikeza.Mobile.Portal
 
 open System.Collections.ObjectModel
+open System.Windows.Input
 open Nikeza.Common
 open Nikeza.DataTransfer
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Subscriptions.Query
+open Nikeza.Mobile.UILogic.Pages
 
 type Query = {
     Subscriptions : SubscriptionsFn
 }
 
 type SideEffects = {
-    ForQueryFailed : (ProfileId error -> unit) list
+    ForQueryFailed   : (ProfileId error -> unit) list
+    ForPageRequested : (PageRequested   -> unit) list
 }
 
 type Dependencies = {
@@ -30,6 +33,11 @@ type ViewModel(dependencies) =
 
     let mutable subscritions = ObservableCollection<Provider>()
 
+    member x.ViewMembers =       DelegateCommand( (fun _-> ()), fun _ -> true) :> ICommand
+    member x.ViewRecent =        DelegateCommand( (fun _-> ()), fun _ -> true) :> ICommand
+    member x.ViewFollowers =     DelegateCommand( (fun _-> ()), fun _ -> true) :> ICommand
+    member x.ViewSubscriptions = DelegateCommand( (fun _-> ()), fun _ -> true) :> ICommand
+
     member x.Subscriptions
              with get() =      subscritions
              and  set(value) = subscritions <- value
@@ -43,5 +51,5 @@ type ViewModel(dependencies) =
         userId
          |> query.Subscriptions
          |> function
-            | Ok    result -> x.Subscriptions <- ObservableCollection<Provider>(result)
-            | Error msg    -> broadcast [msg]
+            | Result.Ok    result -> x.Subscriptions <- ObservableCollection<Provider>(result)
+            | Result.Error msg    -> broadcast [msg]
