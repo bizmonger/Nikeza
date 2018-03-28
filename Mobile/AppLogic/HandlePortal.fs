@@ -2,11 +2,11 @@
 
 open Nikeza.Mobile.AppLogic.Navigation
 open Nikeza.Mobile.AppLogic.Design
-open PageFactory
+open Nikeza.Mobile.UILogic.Portal
 
 module PortalEvents =
     open Nikeza.Mobile.UILogic.Pages
-    open Nikeza.Mobile.UILogic.Portal
+    open PageFactory
 
     let appendNavigation : Portal.SideEffects =
 
@@ -26,11 +26,10 @@ module PortalEvents =
 
 module Portal =
 
-    open PortalEvents
     open Xamarin.Forms
-    open Nikeza.Mobile.UILogic.Portal
     open Nikeza.Mobile.UILogic
     open Nikeza.Common
+    open PortalEvents
 
     let dependencies =
 
@@ -41,7 +40,7 @@ module Portal =
 
             } |> appendNavigation Application.Current
     
-        { UserId= ProfileId TestAPI.someProvider.Profile.Id
+        { UserId=      ProfileId TestAPI.someProvider.Profile.Id
           SideEffects= sideEffects; 
           Query=     { Subscriptions= TestAPI.mockRecent }  
         }
