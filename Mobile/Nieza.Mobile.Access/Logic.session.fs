@@ -10,13 +10,14 @@ module Login =
     let events : HandleLogin = function 
         ResultOf.Login result -> 
                        result |> function
-                                   | Ok    info -> info |> function
-                                                   | Some p -> [LoggedIn p]
+                                 | Ok    info -> 
+                                         info |> function
+                                                 | Some p -> [LoggedIn p]
 
-                                                   | None   -> let credentials = { Credentials.Email=""; Credentials.Password="" }
-                                                               [FailedToAuthenticate credentials]
-                                                   
-                                   | Error info -> [FailedToConnect info]
+                                                 | None   -> let credentials = { Credentials.Email=""; Credentials.Password="" }
+                                                             [FailedToAuthenticate credentials]
+                                                 
+                                 | Error info -> [FailedToConnect info]
             
 module Logout =
     type private HandleLogout = ResultOf.Logout -> LogoutEvent list

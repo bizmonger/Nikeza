@@ -14,7 +14,6 @@ module Validate =
 
 module Save =
     open Nikeza.Mobile.Profile.Commands.ProfileEditor.Save
-    open Nikeza.DataTransfer
 
     type private Handle = ResultOf.Editor -> SaveProfileEvent list
 

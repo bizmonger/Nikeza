@@ -6,7 +6,7 @@ open Nikeza.Mobile.Portfolio.Events
 module Links =
     type private LinksWorkflow = LinkCommand -> LinksEvent  list
 
-    let workflow = function
+    let workflow : LinksWorkflow = function
         | LinkCommand.Feature   linkId -> 
                                 linkId |> Try.featureLink
                                        |> ResultOf.Link.Feature

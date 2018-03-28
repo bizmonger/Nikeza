@@ -10,8 +10,8 @@ module Submission =
     let events : RegistrationSubmission = function
         ResultOf.Submit.Executed result -> 
                                  result |> function
-                                         | Ok    profile -> [ RegistrationSucceeded profile]
-                                         | Error form    -> [ RegistrationFailed    form ]
+                                           | Ok    profile -> [ RegistrationSucceeded profile]
+                                           | Error form    -> [ RegistrationFailed    form ]
 
 module Validation =
     open Nikeza.Mobile.Access.Commands.Registration.Validate

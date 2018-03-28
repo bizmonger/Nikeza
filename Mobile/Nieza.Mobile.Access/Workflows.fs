@@ -47,5 +47,5 @@ module Logout =
     let workflow : LogoutWorkflow = function
         Logout p ->
                p |> Try.logout
-                   |> ResultOf.Logout
-                   |> Are.Logout.events
+                 |> ResultOf.Logout
+                 |> Are.Logout.events
