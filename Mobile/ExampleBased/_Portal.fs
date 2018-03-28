@@ -32,7 +32,6 @@ let ``Navigate: Portal to Members`` () =
     let dependencies = { Portal.dependencies with SideEffects= sideEffects }
 
     let portal = ViewModel(dependencies)
-    portal.Init()
 
     // Test
     portal.ViewMembers.Execute()
@@ -51,7 +50,6 @@ let ``Navigate: Portal to Latest`` () =
     let dependencies = { Portal.dependencies with SideEffects= sideEffects }
 
     let portal = ViewModel(dependencies)
-    portal.Init()
 
     // Test
     portal.ViewLatest.Execute()
@@ -70,7 +68,6 @@ let ``Navigate: Portal to Followers`` () =
     let dependencies = { Portal.dependencies with SideEffects= sideEffects }
 
     let portal = ViewModel(dependencies)
-    portal.Init()
 
     // Test
     portal.ViewFollowers.Execute()
@@ -89,7 +86,6 @@ let ``Navigate: Portal to Subscriptions`` () =
     let dependencies = { Portal.dependencies with SideEffects= sideEffects }
 
     let portal = ViewModel(dependencies)
-    portal.Init()
 
     // Test
     portal.ViewSubscriptions.Execute()
