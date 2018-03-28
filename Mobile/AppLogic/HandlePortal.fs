@@ -40,10 +40,8 @@ module Portal =
               ForQueryFailed =  [] 
 
             } |> appendNavigation Application.Current
-
-        let query = { Subscriptions= TestAPI.mockRecent } 
     
         { UserId= ProfileId TestAPI.someProvider.Profile.Id
-          SideEffects=  sideEffects; 
-          Query=        query 
+          SideEffects= sideEffects; 
+          Query=     { Subscriptions= TestAPI.mockRecent }  
         }
