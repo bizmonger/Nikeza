@@ -22,17 +22,18 @@ module Profile =
 
     module Portal = 
 
-        open Nikeza.Mobile.Access
-        open Nikeza.Mobile.Access.Commands
-        open Nikeza.Mobile.UILogic.Registration
+        open Nikeza.Mobile.UILogic.Portal
+        open Nikeza.Common
 
-        let getViewModel : Nikeza.Mobile.UILogic.Registration.ViewModel =
+        let getViewModel : Nikeza.Mobile.UILogic.Portal.ViewModel =
 
-            let implementation = { Submit= Try.submit }
-            let sideEffects =    { ForRegistrationSubmission=[] }
-
-            let dependencies = { Implementation=implementation
-                                 SideEffects=sideEffects 
+            let sideEffects = { ForPageRequested=[]
+                                ForQueryFailed= []
             }
 
-            Registration.ViewModel(dependencies)
+            let dependencies = { UserId=      ProfileId TestAPI.someProvider.Profile.Id
+                                 Query=     { Subscriptions= TestAPI.mockSubscriptions }
+                                 SideEffects= sideEffects 
+            }
+
+            Portal.ViewModel(dependencies)

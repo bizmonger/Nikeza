@@ -100,5 +100,8 @@ let mockPlatforms : PlatformsFn =
 let mockRecent : RecentFn =
     fun _ -> Ok [someProvider]
 
+let mockSubscriptions : SubscriptionsFn =
+    fun _ -> Ok [someProvider]
+
 let mockPortfolio : PortfolioFn =
     fun _ -> Ok someProvider
