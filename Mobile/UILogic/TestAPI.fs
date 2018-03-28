@@ -98,7 +98,7 @@ let mockPlatforms : PlatformsFn =
                 ]
 
 let mockRecent : RecentFn =
-    fun _ -> Ok []
+    fun _ -> Ok [someProvider]
 
 let mockPortfolio : PortfolioFn =
     fun _ -> Ok someProvider

@@ -8,7 +8,6 @@ open Nikeza.Mobile.Profile.Queries
 open Nikeza.Mobile.Subscriptions.Try
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio.Query
-open Nikeza.Mobile.Profile
 
 let someFirstName =       "Scott"
 let someLastName =        "Nimrod"
@@ -121,7 +120,7 @@ module ProfileEditor =
 
 module Portal =
 
-    open Nikeza.Mobile.Portal
+    open Nikeza.Mobile.UILogic.Portal
     
     let dependencies =
 
@@ -137,7 +136,7 @@ module Portal =
 
 module DataSource =
 
-    open Nikeza.Mobile.Portal.DataSources
+    open Nikeza.Mobile.UILogic.Portal.DataSources
     
     let dependencies =
 

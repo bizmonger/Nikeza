@@ -1,10 +1,11 @@
 ﻿module _DataSources
 
+open System.Linq
 open FsUnit
 open NUnit.Framework
-open Nikeza.Mobile.Portal.DataSources
+open Nikeza.Mobile.UILogic.Portal.DataSources
 open Nikeza.Mobile.TestAPI
-open System.Linq
+
 
 [<Test>]
 let ``Initializing viewmodel loads platforms`` () =

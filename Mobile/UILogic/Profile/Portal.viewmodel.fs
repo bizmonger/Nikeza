@@ -1,4 +1,4 @@
-﻿namespace Nikeza.Mobile.Portal
+﻿namespace Nikeza.Mobile.UILogic.Portal
 
 open System.Collections.ObjectModel
 open System.Windows.Input

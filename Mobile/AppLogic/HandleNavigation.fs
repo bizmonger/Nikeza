@@ -11,4 +11,4 @@ let navigate page context (app:Application) =
 
         app.MainPage <- page
 
-    with ex -> Debug.WriteLine(ex.Message)
+    with ex -> Debug.WriteLine(ex.Message); raise ex

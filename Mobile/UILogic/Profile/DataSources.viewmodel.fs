@@ -1,4 +1,4 @@
-﻿namespace Nikeza.Mobile.Portal.DataSources
+﻿namespace Nikeza.Mobile.UILogic.Portal.DataSources
 
 open System
 open System.Collections.ObjectModel

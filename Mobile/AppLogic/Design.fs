@@ -14,7 +14,9 @@ module Design =
         module Registration = 
             type SideEffects = Application -> Registration.SideEffects  -> Registration.SideEffects
 
-
+    module Portal =
+        type SideEffects = Application -> Portal.SideEffects -> Portal.SideEffects
+        
     module ProfileEditor =
 
         module Save =

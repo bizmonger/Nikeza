@@ -4,8 +4,10 @@ open FsUnit
 open NUnit.Framework
 open Nikeza.Mobile.TestAPI
 open Nikeza.Mobile.UILogic
-open Nikeza.Mobile.Portal
+open Nikeza.Mobile.UILogic.Portal
 open Nikeza.Mobile.UILogic.Pages
+open Nikeza.Mobile.AppLogic
+open System.Linq
 
 [<Test>]
 let ``Initialize viewmodel`` () =
@@ -17,7 +19,7 @@ let ``Initialize viewmodel`` () =
     portal.Init()
 
     // Verify
-    portal.Subscriptions.Count |> should equal 3
+    portal.Subscriptions.Any() |> should equal true
 
 [<Test>]
 let ``Navigate: Portal to Members`` () =
