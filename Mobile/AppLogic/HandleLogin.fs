@@ -1,22 +1,22 @@
 ﻿namespace Nikeza.Mobile.AppLogic
 
+open Nikeza.DataTransfer
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.UILogic.Login
-open Nikeza.Mobile.AppLogic.Navigation
-open Design.Access
+open Nikeza.Mobile.Access.Events
+open Navigation
 open PageFactory
+open Design.Access
 
 module LoginEvents =
-
-    open Nikeza.Mobile.Access.Events
     
     let appendNavigation : Login.SideEffects =
 
         fun app sideEffects ->
 
             let handle = function
-                | LoggedIn        provider    -> app |> navigate portalPage provider
-                | FailedToConnect credentials -> app |> navigate errorPage  credentials.Email
+                | LoggedIn        provider    -> app |> navigate (portalPage <| idFrom provider) provider
+                | FailedToConnect credentials -> app |> navigate errorPage credentials.Email
 
                 | FailedToAuthenticate _ -> ()
 

@@ -39,7 +39,10 @@
       <SubType>Code</SubType>
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
-    <Compile Update="PortalPage.xaml.cs">
+    <Compile Update="Profile\LatestPage.xaml.cs">
+      <DependentUpon>LatestPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Profile\PortalPage.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
@@ -55,6 +58,9 @@
 
   <ItemGroup>
     <EmbeddedResource Update="ErrorPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Profile\LatestPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

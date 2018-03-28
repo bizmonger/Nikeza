@@ -31,3 +31,6 @@ type DataSourceSubmit = {
     Platform:  string
     AccessId:  string
 }
+
+let idFrom (provider:Provider) = 
+    ProfileId provider.Profile.Id
