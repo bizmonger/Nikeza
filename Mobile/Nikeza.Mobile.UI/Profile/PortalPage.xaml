@@ -58,9 +58,44 @@
             </Grid.ColumnDefinitions>
 
             <Entry Grid.Column="0" Grid.Row="0" Placeholder="name on feed"  />
-            <Image Grid.Column="0" Grid.Row="1" Style="{StaticResource RecentImageStyle}" />
-            <Label Grid.Column="0" Grid.Row="2" Text="some name" />
-            <Label Grid.Column="1" Grid.Row="0" Text="some 1st link" />
+            
+            <ListView Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Subscriptions}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Image Grid.Column="0" 
+                                   Grid.Row=   "0" 
+                                   Style= "{StaticResource RecentImageStyle}"
+                                   Source="{Binding Profile.ImageUrl}"/>
+                            
+                            <Label Grid.Column="0" 
+                                   Grid.Row=   "1" 
+                                   Text="{Binding Profile.FirstName}" />
+
+                            <ListView Grid.Column="1" 
+                                      Grid.Row=   "0" 
+                                      ItemsSource="{Binding RecentLinks}" >
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Text="{Binding Title}" />
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
         </Grid>
 
     </Grid>
