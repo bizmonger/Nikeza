@@ -33,10 +33,13 @@ type ViewModel(dependencies) =
 
     let mutable subscritions = ObservableCollection<Provider>()
 
-    member x.ViewMembers =       DelegateCommand( (fun _-> ()), fun _ -> true) :> ICommand
-    member x.ViewRecent =        DelegateCommand( (fun _-> ()), fun _ -> true) :> ICommand
-    member x.ViewFollowers =     DelegateCommand( (fun _-> ()), fun _ -> true) :> ICommand
-    member x.ViewSubscriptions = DelegateCommand( (fun _-> ()), fun _ -> true) :> ICommand
+    let broadcast pageRequest = 
+        sideEffects.ForPageRequested |> handle pageRequest
+
+    member x.ViewMembers =       DelegateCommand( (fun _-> broadcast    PageRequested.Members),              fun _ -> true) :> ICommand
+    member x.ViewLatest =        DelegateCommand( (fun _-> broadcast <| PageRequested.Latest        userId), fun _ -> true) :> ICommand
+    member x.ViewFollowers =     DelegateCommand( (fun _-> broadcast <| PageRequested.Followers     userId), fun _ -> true) :> ICommand
+    member x.ViewSubscriptions = DelegateCommand( (fun _-> broadcast <| PageRequested.Subscriptions userId), fun _ -> true) :> ICommand
 
     member x.Subscriptions
              with get() =      subscritions

@@ -23,13 +23,14 @@ let ``Initialize viewmodel`` () =
 let ``Navigate: Portal to Members`` () =
 
     // Setup
-    let portal = ViewModel(Portal.dependencies)
-    portal.Init()
-
     let mutable pageRequested = false
-    let sideEffect = function PageRequested.Articles _ -> pageRequested <- true | _ -> ()
+    let sideEffect = function PageRequested.Members _ -> pageRequested <- true | _ -> ()
 
     let sideEffects =  { Portal.dependencies.SideEffects with ForPageRequested=[sideEffect] }
+    let dependencies = { Portal.dependencies with SideEffects= sideEffects }
+
+    let portal = ViewModel(dependencies)
+    portal.Init()
 
     // Test
     portal.ViewMembers.Execute()
@@ -38,52 +39,58 @@ let ``Navigate: Portal to Members`` () =
     pageRequested |> should equal true
 
 [<Test>]
-let ``Navigate: Portal to Recent`` () =
+let ``Navigate: Portal to Latest`` () =
 
     // Setup
-    let portal = ViewModel(Portal.dependencies)
+    let mutable pageRequested = false
+    let sideEffect = function PageRequested.Latest _ -> pageRequested <- true | _ -> ()
+
+    let sideEffects =  { Portal.dependencies.SideEffects with ForPageRequested=[sideEffect] }
+    let dependencies = { Portal.dependencies with SideEffects= sideEffects }
+
+    let portal = ViewModel(dependencies)
     portal.Init()
 
-    let mutable pageRequested = false
-    let sideEffect = function PageRequested.Articles _ -> pageRequested <- true | _ -> ()
-
     // Test
-    portal.ViewRecent.Execute()
+    portal.ViewLatest.Execute()
     
-
     // Verify
-    failwith "todo..."
+    pageRequested |> should equal true
 
 [<Test>]
 let ``Navigate: Portal to Followers`` () =
 
     // Setup
-    let portal = ViewModel(Portal.dependencies)
-    portal.Init()
-
     let mutable pageRequested = false
-    let sideEffect = function PageRequested.Articles _ -> pageRequested <- true | _ -> ()
+    let sideEffect = function PageRequested.Followers _ -> pageRequested <- true | _ -> ()
+
+    let sideEffects =  { Portal.dependencies.SideEffects with ForPageRequested=[sideEffect] }
+    let dependencies = { Portal.dependencies with SideEffects= sideEffects }
+
+    let portal = ViewModel(dependencies)
+    portal.Init()
 
     // Test
     portal.ViewFollowers.Execute()
     
-
     // Verify
-    failwith "todo..."
+    pageRequested |> should equal true
 
 [<Test>]
 let ``Navigate: Portal to Subscriptions`` () =
 
     // Setup
-    let portal = ViewModel(Portal.dependencies)
-    portal.Init()
-
     let mutable pageRequested = false
-    let sideEffect = function PageRequested.Articles _ -> pageRequested <- true | _ -> ()
+    let sideEffect = function PageRequested.Subscriptions _ -> pageRequested <- true | _ -> ()
+
+    let sideEffects =  { Portal.dependencies.SideEffects with ForPageRequested=[sideEffect] }
+    let dependencies = { Portal.dependencies with SideEffects= sideEffects }
+
+    let portal = ViewModel(dependencies)
+    portal.Init()
 
     // Test
     portal.ViewSubscriptions.Execute()
     
-
     // Verify
-    failwith "todo..."
+    pageRequested |> should equal true

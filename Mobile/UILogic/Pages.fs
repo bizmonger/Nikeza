@@ -13,9 +13,10 @@ type PageRequested =
     | Portal            of Profile
     | EditProfile       of UnvalidatedForm
                         
-    | Latest            of Profile
-    | Subscriptions     of Profile
-    | Followers         of Profile
+    | Latest            of ProfileId
+    | Subscriptions     of ProfileId
+    | Followers         of ProfileId
+    | Members
                         
     | Portfolio         of Provider
     | PortfolioError    of ProviderId error
