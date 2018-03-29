@@ -82,7 +82,7 @@ type ViewModel(dependencies) as x =
     let save() =
     
         let broadcast events = 
-            events |> List.iter (fun event -> sideEffects.ForProfileSave |> handle event)
+            events.Head::events.Tail |> List.iter (fun event -> sideEffects.ForProfileSave |> handle' event)
         
         { Profile= profile }
            |> SaveCommand.Execute 
@@ -148,7 +148,7 @@ type ViewModel(dependencies) as x =
     member x.Init() =
 
         let broadcast (events:Result<Topic list, string> list) = 
-            events |> List.iter (fun event -> sideEffects.ForQueryTopicsFailed |> handle event)
+            events |> List.iter (fun event -> sideEffects.ForQueryTopicsFailed |> handle' event)
             
         query.Topics()
             |> function

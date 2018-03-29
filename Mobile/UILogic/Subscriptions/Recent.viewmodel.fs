@@ -14,8 +14,8 @@ type Query = {
 }
 
 type SideEffects = {
-    ForPageRequested : (PageRequested    -> unit) list
-    ForQueryFailed   : (GetProfilesEvent -> unit) list
+    ForPageRequested : (PageRequested    -> unit) nonempty
+    ForQueryFailed   : (GetProfilesEvent -> unit) nonempty
 }
 
 type Dependencies = {
@@ -38,7 +38,7 @@ type ViewModel(dependencies) =
     let viewProvider() =
 
         let broadcast events = 
-            events |> List.iter (fun event -> sideEffects.ForPageRequested |> handle event)
+            events.Head::events.Tail |> List.iter (fun event -> sideEffects.ForPageRequested |> handle event)
 
         selection 
          |> function
@@ -47,9 +47,10 @@ type ViewModel(dependencies) =
                     |> ProviderId  
                     |> query.Portfolio
                     |> function
-                       | Result.Ok    p           -> broadcast [PageRequested.Portfolio p]
+                       | Result.Ok    p           -> broadcast   { Head= PageRequested.Portfolio p; Tail= [] }
+
                        | Result.Error providerId  -> let error = { Context=providerId; Description="Failed to get portfolio" }
-                                                     broadcast [PageRequested.PortfolioError error]
+                                                     broadcast   { Head= PageRequested.PortfolioError error; Tail= [] }
             | None -> ()
 
     member x.ViewProvider = DelegateCommand( (fun _ -> viewProvider() ), fun _ -> selection.IsSome)

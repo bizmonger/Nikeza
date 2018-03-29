@@ -10,7 +10,7 @@ open Nikeza.Mobile.Access.Commands.Registration
 
 module Updates =
     let statusOf formValidated events = 
-        events |> List.exists formValidated
+        events.Head::events.Tail |> List.exists formValidated
 
 type Implementation = {
     Submit : SubmitFn
@@ -51,7 +51,7 @@ type ViewModel(dependencies) as x =
     let submit() =
 
         let broadcast events =
-            events |> List.iter (fun event -> sideEffects.ForRegistrationSubmission |> handle event)
+            events.Head::events.Tail |> List.iter (fun event -> sideEffects.ForRegistrationSubmission |> handle' event)
 
         validatedForm |> function 
                          | Some form -> 

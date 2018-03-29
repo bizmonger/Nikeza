@@ -14,8 +14,8 @@ type Query = {
 }
 
 type SideEffects = {
-    ForPageRequested : (PageRequested    -> unit) list
-    ForQueryFailed   : (GetProfilesEvent -> unit) list
+    ForPageRequested : (PageRequested    -> unit) nonempty
+    ForQueryFailed   : (GetProfilesEvent -> unit) nonempty
 }
 
 type Dependencies = {
@@ -37,8 +37,8 @@ type ViewModel(dependencies) =
     
     let viewProvider() =
 
-        let broadcast (events:PageRequested list) = 
-            events |> List.iter (fun event -> sideEffects.ForPageRequested |> handle event)
+        let broadcast events = 
+            events.Head::events.Tail |> List.iter (fun event -> sideEffects.ForPageRequested |> handle event)
 
         selection |> function
                      | Some provider -> 
@@ -46,9 +46,9 @@ type ViewModel(dependencies) =
                              |> ProviderId  
                              |> query.Portfolio
                                       |> function
-                                         | Result.Ok    p          -> broadcast [PageRequested.Portfolio p]
+                                         | Result.Ok    p          -> broadcast { Head= PageRequested.Portfolio p; Tail= [] }
                                          | Result.Error providerId -> let error = { Context=providerId |> string; Description="Failed to load portfolio" }
-                                                                      broadcast [PageRequested.Error error]
+                                                                      broadcast { Head= PageRequested.Error error; Tail= [] }
                      | None -> ()
 
     member x.ViewProvider = DelegateCommand( (fun _ -> viewProvider() ), fun _ -> selection.IsSome)
@@ -64,9 +64,9 @@ type ViewModel(dependencies) =
     member x.Init() =
 
         let broadcast events = 
-            events |> List.iter (fun event -> sideEffects.ForQueryFailed |> handle event)
+            events.Head::events.Tail |> List.iter (fun event -> sideEffects.ForQueryFailed |> handle event)
         
         query.Subscriptions userId
          |> function
             | Result.Ok providers -> subscriptions <- providers
-            | Result.Error error  -> broadcast [GetSubscriptionsFailed error]
+            | Result.Error error  -> broadcast { Head= GetSubscriptionsFailed error; Tail= [] }

@@ -1,5 +1,6 @@
 ﻿module Nikeza.Mobile.Profile.In
 
+open Nikeza.Common
 open Nikeza.Mobile.Profile.Events
 open Try
 
@@ -9,19 +10,19 @@ module Editor =
         open Commands.ProfileEditor.Validate
         open Commands.ProfileEditor
         
-        type private ValidateWorkflow = ValidateCommand -> ProfileValidateEvent list
+        type private ValidateWorkflow = ValidateCommand -> ProfileValidateEvent nonempty
 
         let workflow : ValidateWorkflow = function
             ValidateCommand.Execute form -> 
                                     form |> Editor.validate 
-                                            |> ResultOf.Editor.Validate
-                                            |> Are.Editor.Validate.events
+                                         |> ResultOf.Editor.Validate
+                                         |> Are.Editor.Validate.events
 
     module Save =
         open Commands.ProfileEditor.Save
         open Commands.ProfileEditor
 
-        type private SaveWorkflow = SaveProfileFn -> SaveCommand -> SaveProfileEvent list
+        type private SaveWorkflow = SaveProfileFn -> SaveCommand -> SaveProfileEvent nonempty
 
         let workflow : SaveWorkflow = 
             fun saveFn -> function

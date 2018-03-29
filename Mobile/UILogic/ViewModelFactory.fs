@@ -2,14 +2,21 @@
 
 module Registration = 
 
+    open Nikeza.Common
     open Nikeza.Mobile.Access
     open Nikeza.Mobile.Access.Commands
+    open Nikeza.Mobile.Access.Events
     open Nikeza.Mobile.UILogic.Registration
+    open System.Diagnostics
 
     let getViewModel : Registration.ViewModel =
 
+        let log = function
+            | RegistrationSucceeded p    -> Debug.WriteLine(sprintf "Registration succeeded for %A" p)
+            | RegistrationFailed    form -> Debug.WriteLine(sprintf "Registration Failed for %A" form)
+
         let implementation = { Submit= Try.submit }
-        let sideEffects =    { ForRegistrationSubmission=[] }
+        let sideEffects =    { ForRegistrationSubmission= log::[] }
 
         let dependencies = { Implementation=implementation
                              SideEffects=sideEffects 
@@ -26,8 +33,8 @@ module Profile =
 
         let getViewModel userId : Portal.ViewModel =
 
-            let sideEffects = { ForPageRequested=[]
-                                ForQueryFailed= []
+            let sideEffects = { ForPageRequested= []
+                                ForQueryFailed=   []
             }
 
             let dependencies = { UserId=      userId

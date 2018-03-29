@@ -1,5 +1,6 @@
 ﻿namespace Nikeza.Mobile.AppLogic
 
+open Nikeza.Common
 open Nikeza.DataTransfer
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.UILogic.Login
@@ -20,18 +21,28 @@ module LoginEvents =
 
                 | FailedToAuthenticate _ -> ()
 
-            let handlers = handle::sideEffects.ForLoginAttempt
+            let forLoginAttempt = sideEffects.ForLoginAttempt
+            let handlers = { Head= forLoginAttempt.Head
+                             Tail= handle::forLoginAttempt.Tail 
+                           }
 
-            { sideEffects with SideEffects.ForLoginAttempt= handlers }
+            { sideEffects with ForLoginAttempt= handlers }
 
 module Login =
 
     open LoginEvents
     open Xamarin.Forms
+    open System.Diagnostics
 
     let dependencies =
 
-        let sideEffects =    { ForLoginAttempt= [] } |> appendNavigation Application.Current
+        let log = function
+            | LoggedIn             user        -> Debug.WriteLine(sprintf "Login successful:\n %A" user)
+            | FailedToConnect      credentials -> Debug.WriteLine(sprintf "Error: Unable to connect to server:\n %A" credentials)
+            | FailedToAuthenticate credentials -> Debug.WriteLine(sprintf "Warning: Unable to authenticate user:\n %A" credentials)
+
+        let handlers =       { Head=log; Tail=[] }
+        let sideEffects =    { ForLoginAttempt= handlers } |> appendNavigation Application.Current
         let implementation = { Login= TestAPI.mockLogin }
     
         { SideEffects=    sideEffects; 

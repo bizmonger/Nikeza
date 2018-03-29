@@ -60,7 +60,7 @@ type ViewModel(dependencies) as x =
     let save() = 
 
         let broadcast events =
-            events |> List.iter (fun event -> sideEffects.ForSaveSources |> handle event)
+            events |> List.iter (fun event -> sideEffects.ForSaveSources |> handle' event)
 
         x.Sources
            |> List.ofSeq

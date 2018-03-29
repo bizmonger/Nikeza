@@ -7,6 +7,7 @@ open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Profile.Queries
 open Nikeza.Mobile.Subscriptions.Try
 open Nikeza.Mobile.Subscriptions.Query
+open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Portfolio.Query
 
 let someFirstName =       "Scott"
@@ -90,6 +91,13 @@ let mockFollow : FollowFn =
 
 let mockUnsubscribe : UnsubscribeFn =
     fun _ -> Ok {User= someProvider; Provider=someProvider}
+
+let onQueryFailed = function
+    | GetRecentFailed        _ -> ()
+    | GetMembersFailed       _ -> ()
+    | GetSubscriptionsFailed _ -> ()
+
+let onPageRequested = function _ -> ()
 
 module Registration =
 
@@ -182,8 +190,8 @@ module Recent =
     let dependencies =
 
         let sideEffects = {
-            ForQueryFailed =   []
-            ForPageRequested = []
+            ForQueryFailed =   { Head=onQueryFailed;   Tail=[] }
+            ForPageRequested = { Head=onPageRequested; Tail=[] }
         }
     
         { UserId=      ProfileId someUser.Id
@@ -198,8 +206,8 @@ module Members =
     let dependencies =
 
         let sideEffects = {
-            ForQueryFailed =   []
-            ForPageRequested = []
+            ForQueryFailed =   { Head=onQueryFailed;   Tail=[] }
+            ForPageRequested = { Head=onPageRequested; Tail=[] }
         }
     
         { Query=      { Members= mockMembers }
@@ -211,10 +219,10 @@ module Subscriptions =
     open Nikeza.Mobile.UILogic.Portal.Subscriptions
 
     let dependencies =
-
+            
         let sideEffects = { 
-            ForQueryFailed =   []
-            ForPageRequested = []
+            ForQueryFailed =   { Head=onQueryFailed;   Tail=[] }
+            ForPageRequested = { Head=onPageRequested; Tail=[] }
         }
 
         let userId = ProfileId someUser.Id

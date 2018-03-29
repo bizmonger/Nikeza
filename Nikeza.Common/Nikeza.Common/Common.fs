@@ -2,6 +2,11 @@ module Nikeza.Common
 
 open System
 
+type nonempty<'a> = {
+    Head : 'a
+    Tail : 'a list
+}
+
 type Id =          Id         of string
 type ProviderId =  ProviderId of string
 type ProfileId =   ProfileId  of string
@@ -11,7 +16,7 @@ type Url = Url                of string
 
 type Platform = Platform of string
 
-type error<'a> = {Context:'a; Description:string}
+type error<'a> = { Context:'a; Description:string }
 
 [<CLIMutable>]
 type LogInRequest = {
@@ -187,5 +192,10 @@ let uninitializedProvider = {
     Followers=     []
 }
 
-let handle event handlers= 
+let handle' event handlers= 
     handlers|> List.iter(fun handle -> handle event)
+
+let handle event handlers= 
+     
+    handlers.Head::handlers.Tail 
+     |> List.iter(fun handle -> handle event)

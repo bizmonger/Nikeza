@@ -34,7 +34,7 @@ type ViewModel(dependencies) =
     let mutable subscritions = ObservableCollection<Provider>()
 
     let broadcast pageRequest = 
-        sideEffects.ForPageRequested |> handle pageRequest
+        sideEffects.ForPageRequested |> handle' pageRequest
 
     member x.ViewMembers =       DelegateCommand( (fun _-> broadcast    PageRequested.Members),              fun _ -> true) :> ICommand
     member x.ViewLatest =        DelegateCommand( (fun _-> broadcast <| PageRequested.Latest        userId), fun _ -> true) :> ICommand
@@ -49,7 +49,7 @@ type ViewModel(dependencies) =
     member x.Init() = 
 
         let broadcast (events:error<ProfileId> list) = 
-            events |> List.iter (fun event -> sideEffects.ForQueryFailed |> handle event)
+            events |> List.iter (fun event -> sideEffects.ForQueryFailed |> handle' event)
             
         userId
          |> query.Subscriptions

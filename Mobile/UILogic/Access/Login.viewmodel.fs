@@ -8,7 +8,7 @@ open Nikeza.Mobile.Access.Commands
 open Nikeza.Mobile.Access.Events
 
 type SideEffects =  { 
-    ForLoginAttempt : (LoginEvent -> unit) list 
+    ForLoginAttempt : (LoginEvent -> unit) nonempty 
 }
 
 type Implementation =  { 
@@ -28,9 +28,10 @@ type ViewModel(dependencies) as x =
         | FailedToAuthenticate _ -> x.AuthenticationFailed <- true
         | _ -> ()
 
-    let sideEffects' = dependencies.SideEffects
-
-    let sideEffects =   { sideEffects' with ForLoginAttempt= onAuthenticationFailed::sideEffects'.ForLoginAttempt }
+    let sideEffects' =    dependencies.SideEffects
+    let forLoginAttempt = sideEffects'.ForLoginAttempt
+    let updates =       { forLoginAttempt with Tail=onAuthenticationFailed::forLoginAttempt.Tail }
+    let sideEffects =   { sideEffects' with ForLoginAttempt= updates }
     let implementation =  dependencies.Implementation
 
     let mutable email =    ""
@@ -38,8 +39,8 @@ type ViewModel(dependencies) as x =
     let mutable isValidated =          false
     let mutable authenticationFailed = false
 
-    let broadcast (events:LoginEvent list) = 
-        events |> List.iter (fun event -> sideEffects.ForLoginAttempt |> handle event)
+    let broadcast events = 
+        events.Head::events.Tail |> List.iter (fun event -> sideEffects.ForLoginAttempt |> handle event)
 
     let validate() =
         email.Length    > 0 &&

@@ -55,12 +55,12 @@ type ViewModel(dependencies) =
                     | None -> false
 
     let broadcast events = 
-        events |> List.iter (fun event -> sideEffects.ForPageRequested |> handle event)
+        events |> List.iter (fun event -> sideEffects.ForPageRequested |> handle' event)
 
     let follow() =
 
         let broadcast events = 
-            events |> List.iter (fun event -> sideEffects.ForFollow|> handle event)
+            events |> List.iter (fun event -> sideEffects.ForFollow|> handle' event)
 
         { FollowRequest.SubscriberId= getId userId
           FollowRequest.ProfileId=    getId providerId
@@ -72,7 +72,7 @@ type ViewModel(dependencies) =
     let unsubscribe() =
 
         let broadcast events = 
-            events |> List.iter (fun event -> sideEffects.ForUnsubscribe|> handle event)
+            events |> List.iter (fun event -> sideEffects.ForUnsubscribe|> handle' event)
 
         { UnsubscribeRequest.SubscriberId= getId userId
           UnsubscribeRequest.ProfileId=    getId providerId 
@@ -111,11 +111,14 @@ type ViewModel(dependencies) =
     member x.Init() =
 
         let broadcast events = 
-            events |> List.iter (fun event -> sideEffects.ForQueryFailed|> handle event)
+            events.Head::events.Tail |> List.iter (fun event -> sideEffects.ForQueryFailed|> handle' event)
 
         providerId 
          |> query.Portfolio
          |> function
             | Result.Ok    p          -> provider <- Some p
             | Result.Error providerId -> let error = { Context=providerId; Description="Failed to load portfolio" }
-                                         [GetPortfolioEventFailed error] |> broadcast
+                                         { Head=GetPortfolioEventFailed error
+                                           Tail=[] 
+
+                                         } |> broadcast
