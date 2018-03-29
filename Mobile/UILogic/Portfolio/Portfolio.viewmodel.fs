@@ -117,6 +117,7 @@ type ViewModel(dependencies) =
          |> query.Portfolio
          |> function
             | Result.Ok    p          -> provider <- Some p
+
             | Result.Error providerId -> let error = { Context=providerId; Description="Failed to load portfolio" }
                                          { Head=GetPortfolioEventFailed error
                                            Tail=[] 
