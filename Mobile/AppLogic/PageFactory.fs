@@ -45,6 +45,7 @@ let portalPage userId : Page =
     let mutable page:Page = null
 
     let viewmodel = Portal.getViewModel userId
+    viewmodel.Init()
 
     try page <- configurePage (new PortalPage()) viewmodel
     with ex -> Debug.WriteLine(ex.Message)

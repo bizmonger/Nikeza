@@ -7,7 +7,7 @@ let navigate page context (app:Application) =
 
     try 
         let expression = sprintf "\n\n** Request: Navigate to %s\n\n** Payload as follows:\n\n %A"
-        Debug.WriteLine(expression (page.ToString()) context)
+        Debug.WriteLine <| expression (page.ToString()) context
 
         app.MainPage <- page
 

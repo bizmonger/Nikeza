@@ -7,25 +7,24 @@ open Nikeza.Mobile.Portfolio.Query
 open Nikeza.Common
 
 let someProfile = {
-    Nikeza.Common.ProfileRequest.Id =        ""
-    Nikeza.Common.ProfileRequest.FirstName = ""
-    Nikeza.Common.ProfileRequest.LastName =  ""
+    Nikeza.Common.ProfileRequest.Id =        "0"
+    Nikeza.Common.ProfileRequest.FirstName = "some_first_name"
+    Nikeza.Common.ProfileRequest.LastName =  "some_last_name"
     Nikeza.Common.ProfileRequest.Email =     "test@abc.com"
     Nikeza.Common.ProfileRequest.Bio =       ""
-    Nikeza.Common.ProfileRequest.ImageUrl =  ""
+    Nikeza.Common.ProfileRequest.ImageUrl =  "http://www.ngu.edu/myimages/silhouette2230.jpg"
     Nikeza.Common.ProfileRequest.Sources =   []
 }
 
 let someProfileRequest = {
-    Nikeza.Common.ProfileRequest.Id =        ""
-    Nikeza.Common.ProfileRequest.FirstName = ""
-    Nikeza.Common.ProfileRequest.LastName =  ""
-    Nikeza.Common.ProfileRequest.Email =     ""
+    Nikeza.Common.ProfileRequest.Id =        "0"
+    Nikeza.Common.ProfileRequest.FirstName = "some_first_name"
+    Nikeza.Common.ProfileRequest.LastName =  "some_last_name"
+    Nikeza.Common.ProfileRequest.Email =     "test@abc.com"
     Nikeza.Common.ProfileRequest.Bio =       ""
-    Nikeza.Common.ProfileRequest.ImageUrl =  ""
+    Nikeza.Common.ProfileRequest.ImageUrl =  "http://www.ngu.edu/myimages/silhouette2230.jpg"
     Nikeza.Common.ProfileRequest.Sources =   []
 }
-
 
 let somePortfolio = { 
     Answers  = []

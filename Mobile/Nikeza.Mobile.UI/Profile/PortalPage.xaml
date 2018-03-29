@@ -57,47 +57,49 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Entry Grid.Column="0" Grid.Row="0" Placeholder="name on feed"  />
-            
+            <Entry Grid.Column="0" Grid.Row="0" Placeholder="name on feed" />
+
             <ListView Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Subscriptions}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
 
-                            <Image Grid.Column="0" 
+                                <Image Grid.Column="0" 
                                    Grid.Row=   "0" 
                                    Style= "{StaticResource RecentImageStyle}"
                                    Source="{Binding Profile.ImageUrl}"/>
-                            
-                            <Label Grid.Column="0" 
+
+                                <Label Grid.Column="0" 
                                    Grid.Row=   "1" 
                                    Text="{Binding Profile.FirstName}" />
 
-                            <ListView Grid.Column="1" 
+                                <ListView Grid.Column="1" 
                                       Grid.Row=   "0" 
                                       ItemsSource="{Binding RecentLinks}" >
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Label Text="{Binding Title}" />
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </Grid>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <Label Text="{Binding Title}" />
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Grid>
+                        </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-
             </ListView>
         </Grid>
-
     </Grid>
     
 </ContentPage>

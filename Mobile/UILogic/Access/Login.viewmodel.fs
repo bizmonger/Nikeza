@@ -40,7 +40,8 @@ type ViewModel(dependencies) as x =
     let mutable authenticationFailed = false
 
     let broadcast events = 
-        events.Head::events.Tail |> List.iter (fun event -> sideEffects.ForLoginAttempt |> handle event)
+        events.Head::events.Tail 
+         |> List.iter (fun event -> sideEffects.ForLoginAttempt |> handle event)
 
     let validate() =
         email.Length    > 0 &&
