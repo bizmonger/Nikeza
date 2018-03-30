@@ -54,8 +54,8 @@ type ViewModel(dependencies) =
                     | Some p -> p.Followers |> List.contains subscriberId
                     | None -> false
 
-    let broadcast events = 
-        events |> List.iter (fun event -> sideEffects.ForPageRequested |> handle' event)
+    let broadcast event = 
+        sideEffects.ForPageRequested |> handle' event
 
     let follow() =
 
@@ -89,10 +89,10 @@ type ViewModel(dependencies) =
                                                fun _ -> isAlreadyFollowing <| getId userId ) 
                                                :> ICommand
 
-    let articles() = [userId |> PageRequested.Articles] |> broadcast
-    let videos() =   [userId |> PageRequested.Videos  ] |> broadcast
-    let answers() =  [userId |> PageRequested.Answers ] |> broadcast
-    let podcasts() = [userId |> PageRequested.Podcasts] |> broadcast
+    let articles() = userId |> PageRequested.Articles |> broadcast
+    let videos() =   userId |> PageRequested.Videos   |> broadcast
+    let answers() =  userId |> PageRequested.Answers  |> broadcast
+    let podcasts() = userId |> PageRequested.Podcasts |> broadcast
 
     let articlesCommand = DelegateCommand( (fun _ -> articles()), fun _ -> true) :> ICommand
     let videosCommand =   DelegateCommand( (fun _ -> videos()),   fun _ -> true) :> ICommand
