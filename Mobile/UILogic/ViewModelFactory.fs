@@ -2,7 +2,6 @@
 
 module Registration = 
 
-    open Nikeza.Common
     open Nikeza.Mobile.Access
     open Nikeza.Mobile.Access.Commands
     open Nikeza.Mobile.Access.Events

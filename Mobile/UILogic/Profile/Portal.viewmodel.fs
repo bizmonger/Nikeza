@@ -38,7 +38,7 @@ type ViewModel(dependencies) =
     let broadcast pageRequest = 
         sideEffects.ForPageRequested |> handle' pageRequest
 
-    member x.ViewMembers =       DelegateCommand( (fun _-> broadcast    PageRequested.Members),              fun _ -> true) :> ICommand
+    member x.ViewMembers =       DelegateCommand( (fun _-> broadcast    PageRequested.Members),            fun _ -> true) :> ICommand
     member x.ViewLatest =        DelegateCommand( (fun _-> broadcast <| PageRequested.Latest        user), fun _ -> true) :> ICommand
     member x.ViewFollowers =     DelegateCommand( (fun _-> broadcast <| PageRequested.Followers     user), fun _ -> true) :> ICommand
     member x.ViewSubscriptions = DelegateCommand( (fun _-> broadcast <| PageRequested.Subscriptions user), fun _ -> true) :> ICommand
