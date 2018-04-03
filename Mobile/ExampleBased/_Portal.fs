@@ -8,13 +8,12 @@ open Nikeza.Mobile.UILogic.Portal
 open Nikeza.Mobile.UILogic.Pages
 open Nikeza.Mobile.AppLogic
 open System.Linq
-open Nikeza.Common
 
 [<Test>]
 let ``Initialize viewmodel`` () =
 
     // Setup
-    let portal = ViewModel(Portal.dependencies <| ProfileId someUser.Id)
+    let portal = ViewModel(Portal.dependencies someUser)
     
     // Test
     portal.Init()
@@ -29,7 +28,7 @@ let ``Navigate: Portal to Members`` () =
     let mutable pageRequested = false
     let sideEffect = function PageRequested.Members _ -> pageRequested <- true | _ -> ()
 
-    let dependencies' =  Portal.dependencies <| ProfileId someUser.Id
+    let dependencies' =  Portal.dependencies someUser
     let sideEffects =  { dependencies'.SideEffects with ForPageRequested=[sideEffect] }
     let dependencies = { dependencies' with SideEffects= sideEffects }
 
@@ -48,7 +47,7 @@ let ``Navigate: Portal to Latest`` () =
     let mutable pageRequested = false
     let sideEffect = function PageRequested.Latest _ -> pageRequested <- true | _ -> ()
 
-    let dependencies' =  Portal.dependencies <| ProfileId someUser.Id
+    let dependencies' =  Portal.dependencies someUser
     let sideEffects =  { dependencies'.SideEffects with ForPageRequested=[sideEffect] }
     let dependencies = { dependencies' with SideEffects= sideEffects }
 
@@ -67,7 +66,7 @@ let ``Navigate: Portal to Followers`` () =
     let mutable pageRequested = false
     let sideEffect = function PageRequested.Followers _ -> pageRequested <- true | _ -> ()
 
-    let dependencies' =  Portal.dependencies <| ProfileId someUser.Id
+    let dependencies' =  Portal.dependencies someUser
     let sideEffects =  { dependencies'.SideEffects with ForPageRequested=[sideEffect] }
     let dependencies = { dependencies' with SideEffects= sideEffects }
 
@@ -86,7 +85,7 @@ let ``Navigate: Portal to Subscriptions`` () =
     let mutable pageRequested = false
     let sideEffect = function PageRequested.Subscriptions _ -> pageRequested <- true | _ -> ()
 
-    let dependencies' =  Portal.dependencies <| ProfileId someUser.Id
+    let dependencies' =  Portal.dependencies someUser
     let sideEffects =  { dependencies'.SideEffects with ForPageRequested=[sideEffect] }
     let dependencies = { dependencies' with SideEffects= sideEffects }
 

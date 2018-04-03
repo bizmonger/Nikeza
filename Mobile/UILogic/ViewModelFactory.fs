@@ -31,13 +31,13 @@ module Profile =
 
         open Nikeza.Mobile.UILogic.Portal
 
-        let getViewModel userId : Portal.ViewModel =
+        let getViewModel user : Portal.ViewModel =
 
             let sideEffects = { ForPageRequested= []
                                 ForQueryFailed=   []
             }
 
-            let dependencies = { UserId=      userId
+            let dependencies = { User=        user
                                  Query=     { Subscriptions= TestAPI.mockSubscriptions }
                                  SideEffects= sideEffects 
             }

@@ -18,7 +18,7 @@ type SideEffects = {
 }
 
 type Dependencies = {
-    UserId      : ProfileId
+    User        : Profile
     Query       : Query
     SideEffects : SideEffects
 }
@@ -27,26 +27,35 @@ type ViewModel(dependencies) =
 
     inherit ViewModelBase()
 
-    let userId=      dependencies.UserId
+    let userId=      ProfileId dependencies.User.Id
+    let user=        dependencies.User
     let query=       dependencies.Query
     let sideEffects= dependencies.SideEffects
 
+    let mutable profileImage = ""
     let mutable subscritions = ObservableCollection<Provider>()
 
     let broadcast pageRequest = 
         sideEffects.ForPageRequested |> handle' pageRequest
 
     member x.ViewMembers =       DelegateCommand( (fun _-> broadcast    PageRequested.Members),              fun _ -> true) :> ICommand
-    member x.ViewLatest =        DelegateCommand( (fun _-> broadcast <| PageRequested.Latest        userId), fun _ -> true) :> ICommand
-    member x.ViewFollowers =     DelegateCommand( (fun _-> broadcast <| PageRequested.Followers     userId), fun _ -> true) :> ICommand
-    member x.ViewSubscriptions = DelegateCommand( (fun _-> broadcast <| PageRequested.Subscriptions userId), fun _ -> true) :> ICommand
+    member x.ViewLatest =        DelegateCommand( (fun _-> broadcast <| PageRequested.Latest        user), fun _ -> true) :> ICommand
+    member x.ViewFollowers =     DelegateCommand( (fun _-> broadcast <| PageRequested.Followers     user), fun _ -> true) :> ICommand
+    member x.ViewSubscriptions = DelegateCommand( (fun _-> broadcast <| PageRequested.Subscriptions user), fun _ -> true) :> ICommand
+
+    member x.ProfileImage
+             with get() =      profileImage
+             and  set(value) = profileImage <- value
+                               base.NotifyPropertyChanged(<@ x.ProfileImage @>)
 
     member x.Subscriptions
              with get() =      subscritions
              and  set(value) = subscritions <- value
                                base.NotifyPropertyChanged(<@ x.Subscriptions @>)
 
-    member x.Init() = 
+    member x.Init() =
+
+        x.ProfileImage <- user.ImageUrl
 
         let broadcast (events:error<ProfileId> list) = 
             events |> List.iter (fun event -> sideEffects.ForQueryFailed |> handle' event)

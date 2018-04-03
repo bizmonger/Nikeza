@@ -10,12 +10,14 @@
             
             <Style x:Key="ImageStyle"  TargetType="Image">
                 <Setter Property="Source" Value="http://www.ngu.edu/myimages/silhouette2230.jpg" />
+                <Setter Property="WidthRequest"    Value="100" />
+                <Setter Property="HeightRequest"   Value="100" />
+                <Setter Property="VerticalOptions" Value="Start" />
             </Style>
 
             <Style x:Key="RecentImageStyle"  TargetType="Image" BasedOn="{StaticResource ImageStyle}">
                 <Setter Property="WidthRequest"    Value="60" />
                 <Setter Property="HeightRequest"   Value="60" />
-                <Setter Property="VerticalOptions" Value="Start" />
             </Style>
 
         </ResourceDictionary>
@@ -37,7 +39,7 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <Image  Grid.Column="0" Grid.Row="0" Style="{StaticResource ImageStyle}"  />
+        <Image  Grid.Column="0" Grid.Row="0" Style="{StaticResource ImageStyle}" Source="ProfileImage"  />
         <Button Grid.Column="0" Grid.Row="1" Style="{StaticResource ButtonStyle}" Text="Latest" />
         <Button Grid.Column="0" Grid.Row="2" Style="{StaticResource ButtonStyle}" Text="Portfolio" />
         <Button Grid.Column="0" Grid.Row="3" Style="{StaticResource ButtonStyle}" Text="Link" />

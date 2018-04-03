@@ -13,10 +13,10 @@ module PortalEvents =
         fun app sideEffects ->
     
             let handle = function
-                | PageRequested.Latest        userId -> app |> navigate (latestPage        userId) userId
-                | PageRequested.Followers     userId -> app |> navigate (followersPage     userId) userId
-                | PageRequested.Subscriptions userId -> app |> navigate (subscriptionsPage userId) userId
-                | PageRequested.Members              -> app |> navigate membersPage ()
+                | PageRequested.Latest        user -> app |> navigate (latestPage        user) user
+                | PageRequested.Followers     user -> app |> navigate (followersPage     user) user
+                | PageRequested.Subscriptions user -> app |> navigate (subscriptionsPage user) user
+                | PageRequested.Members            -> app |> navigate membersPage ()
 
                 | _ -> app |> navigate errorPage ()
 
@@ -30,7 +30,7 @@ module Portal =
     open Nikeza.Mobile.UILogic
     open PortalEvents
 
-    let dependencies userId =
+    let dependencies user =
 
         let sideEffects = 
 
@@ -39,7 +39,7 @@ module Portal =
 
             } |> appendNavigation Application.Current
     
-        { UserId=      userId
+        { User=        user
           SideEffects= sideEffects; 
           Query=     { Subscriptions= TestAPI.mockRecent }  
         }

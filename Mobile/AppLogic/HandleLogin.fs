@@ -16,7 +16,7 @@ module LoginEvents =
         fun app sideEffects ->
 
             let handle = function
-                | LoggedIn        provider    -> app |> navigate (portalPage <| idFrom provider) provider
+                | LoggedIn        provider    -> app |> navigate (portalPage <| provider.Profile) provider
                 | FailedToConnect credentials -> app |> navigate errorPage credentials.Email
 
                 | FailedToAuthenticate _ -> ()

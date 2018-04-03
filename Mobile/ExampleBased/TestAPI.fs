@@ -138,7 +138,7 @@ module Portal =
         }
     
         { SideEffects=  sideEffects 
-          UserId =      ProfileId someUser.Id
+          User =        someProfile
           Query =     { Subscriptions= mockSubscriptions }
         }
 
