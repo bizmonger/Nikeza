@@ -7,7 +7,6 @@ open Nikeza.Mobile.Access.Commands.Session
 open Nikeza.Mobile.Access.Events
 open Logic
 
-
 module SubmitRegistration =
     open Submit
 
@@ -38,9 +37,9 @@ module Login =
     let workflow : SessionWorkflow =
         fun loginFn -> function
         Submit credentials -> 
-              credentials |> loginFn
-                          |> ResultOf.Login
-                          |> Are.Login.events
+               credentials |> loginFn
+                           |> ResultOf.Login
+                           |> Are.Login.events
 
 module Logout =
 
