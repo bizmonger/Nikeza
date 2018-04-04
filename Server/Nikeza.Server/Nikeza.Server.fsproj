@@ -118,6 +118,6 @@
     <ProjectReference Include="..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="4.2.3" />
+    <PackageReference Update="FSharp.Core" Version="4.3.4" />
   </ItemGroup>
 </Project>

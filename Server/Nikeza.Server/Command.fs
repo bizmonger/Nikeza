@@ -3,7 +3,6 @@ module Nikeza.Server.Command
 open DatabaseCommand
 open Model
 open Commands
-open Nikeza.Common
 
 let execute = function
     | UpdateProfile   info -> info |> updateProfile
