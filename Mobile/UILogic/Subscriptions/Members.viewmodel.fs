@@ -59,9 +59,9 @@ type ViewModel(dependencies) =
     member x.Init() =
 
         let broadcast events = 
-            events |> List.iter (fun event -> sideEffects.ForQueryFailed |> handle event)
+            events.Head::events.Tail |> List.iter (fun event -> sideEffects.ForQueryFailed |> handle event)
 
         query.Members()
          |> function
             | Result.Ok    providers -> members <- providers
-            | Result.Error profileId -> [GetMembersFailed profileId] |> broadcast
+            | Result.Error profileId -> broadcast { Head= GetMembersFailed profileId; Tail= [] }

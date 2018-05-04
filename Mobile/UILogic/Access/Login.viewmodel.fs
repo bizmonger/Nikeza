@@ -52,8 +52,8 @@ type ViewModel(dependencies) as x =
         if   x.IsValidated
 
         then Submit { Email=email; Password=password }
-             |> In.Login.workflow implementation.Login
-             |> broadcast
+              |> In.Login.workflow implementation.Login
+              |> broadcast
 
         else ()
 

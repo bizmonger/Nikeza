@@ -1,7 +1,6 @@
 ﻿namespace Nikeza.Mobile.AppLogic
 
 open Nikeza.Common
-open Nikeza.DataTransfer
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.UILogic.Login
 open Nikeza.Mobile.Access.Events
