@@ -8,8 +8,8 @@ open Nikeza.Common
 
 let someProfile = {
     Nikeza.Common.ProfileRequest.Id =        "0"
-    Nikeza.Common.ProfileRequest.FirstName = "some_first_name"
-    Nikeza.Common.ProfileRequest.LastName =  "some_last_name"
+    Nikeza.Common.ProfileRequest.FirstName = "first_name"
+    Nikeza.Common.ProfileRequest.LastName =  "last_name"
     Nikeza.Common.ProfileRequest.Email =     "test@abc.com"
     Nikeza.Common.ProfileRequest.Bio =       ""
     Nikeza.Common.ProfileRequest.ImageUrl =  "http://www.ngu.edu/myimages/silhouette2230.jpg"
@@ -18,8 +18,8 @@ let someProfile = {
 
 let someProfileRequest = {
     Nikeza.Common.ProfileRequest.Id =        "0"
-    Nikeza.Common.ProfileRequest.FirstName = "some_first_name"
-    Nikeza.Common.ProfileRequest.LastName =  "some_last_name"
+    Nikeza.Common.ProfileRequest.FirstName = "first_name"
+    Nikeza.Common.ProfileRequest.LastName =  "last_name"
     Nikeza.Common.ProfileRequest.Email =     "test@abc.com"
     Nikeza.Common.ProfileRequest.Bio =       ""
     Nikeza.Common.ProfileRequest.ImageUrl =  "http://www.ngu.edu/myimages/silhouette2230.jpg"
@@ -94,10 +94,10 @@ let mockPlatforms : PlatformsFn =
                 ]
 
 let mockRecent : RecentFn =
-    fun _ -> Ok [someProvider]
+    fun _ -> Ok [someProvider;someProvider;someProvider]
 
 let mockSubscriptions : SubscriptionsFn =
-    fun _ -> Ok [someProvider]
+    fun _ -> Ok [someProvider;someProvider;someProvider]
 
 let mockPortfolio : PortfolioFn =
     fun _ -> Ok someProvider

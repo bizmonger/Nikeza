@@ -1,11 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:Nikeza.Mobile.UI.Converters"
              x:Class="Nikeza.Mobile.UI.PortalPage">
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            
+
+            <converters:NameConverter x:Key="NameConverter" />
+
             <Style x:Key="ButtonStyle" TargetType="Button" />
             
             <Style x:Key="ImageStyle"  TargetType="Image">
@@ -55,7 +58,7 @@
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
@@ -70,7 +73,7 @@
                                 </Grid.RowDefinitions>
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="auto" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
 
@@ -79,13 +82,13 @@
                                    Style= "{StaticResource RecentImageStyle}"
                                    Source="{Binding Profile.ImageUrl}"/>
 
-                                <Label Grid.Column="0" 
-                                   Grid.Row=   "1" 
-                                   Text="{Binding Profile.FirstName}" />
+                                <Label Grid.Column="1" 
+                                       Grid.Row=   "0" 
+                                       Text="{Binding Profile, Converter={StaticResource NameConverter}}" />
 
                                 <ListView Grid.Column="1" 
-                                      Grid.Row=   "0" 
-                                      ItemsSource="{Binding RecentLinks}" >
+                                          Grid.Row=   "0" 
+                                          ItemsSource="{Binding RecentLinks}" >
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <ViewCell>
