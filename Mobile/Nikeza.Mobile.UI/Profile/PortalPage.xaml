@@ -39,7 +39,7 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <Image  Grid.Column="0" Grid.Row="0" Style="{StaticResource ImageStyle}" Source="ProfileImage"  />
+        <Image  Grid.Column="0" Grid.Row="0" Style="{StaticResource ImageStyle}" Source="{Binding ProfileImage}"  />
         <Button Grid.Column="0" Grid.Row="1" Style="{StaticResource ButtonStyle}" Text="Latest" />
         <Button Grid.Column="0" Grid.Row="2" Style="{StaticResource ButtonStyle}" Text="Portfolio" />
         <Button Grid.Column="0" Grid.Row="3" Style="{StaticResource ButtonStyle}" Text="Link" />
@@ -58,8 +58,6 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-
-            <Entry Grid.Column="0" Grid.Row="0" Placeholder="name on feed" />
 
             <ListView Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Subscriptions}">
                 <ListView.ItemTemplate>

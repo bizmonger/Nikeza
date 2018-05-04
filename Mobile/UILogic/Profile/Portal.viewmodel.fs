@@ -43,6 +43,8 @@ type ViewModel(dependencies) =
     member x.ViewFollowers =     DelegateCommand( (fun _-> broadcast <| PageRequested.Followers     user), fun _ -> true) :> ICommand
     member x.ViewSubscriptions = DelegateCommand( (fun _-> broadcast <| PageRequested.Subscriptions user), fun _ -> true) :> ICommand
 
+    member x.Name = sprintf "%s %s" user.FirstName user.LastName
+
     member x.ProfileImage
              with get() =      profileImage
              and  set(value) = profileImage <- value
