@@ -9,12 +9,14 @@
 
             <converters:NameConverter x:Key="NameConverter" />
 
-            <Style x:Key="ButtonStyle" TargetType="Button" />
-            
+            <Style x:Key="ButtonStyle" TargetType="Button">
+                <Setter Property="WidthRequest" Value="130" />
+            </Style>
+
             <Style x:Key="ImageStyle"  TargetType="Image">
                 <Setter Property="Source" Value="http://www.ngu.edu/myimages/silhouette2230.jpg" />
-                <Setter Property="WidthRequest"    Value="100" />
-                <Setter Property="HeightRequest"   Value="100" />
+                <Setter Property="WidthRequest"    Value="130" />
+                <Setter Property="HeightRequest"   Value="130" />
                 <Setter Property="VerticalOptions" Value="Start" />
             </Style>
 
@@ -26,83 +28,61 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid Margin="5">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-        </Grid.ColumnDefinitions>
+    <StackLayout Orientation="Horizontal" Margin="5">
+        
+        <StackLayout>
+            <Image  HorizontalOptions="Start" Style="{StaticResource ImageStyle}" Source="{Binding ProfileImage}"  />
+            <Button HorizontalOptions="Start" Style="{StaticResource ButtonStyle}" Text="Latest" />
+            <Button HorizontalOptions="Start" Style="{StaticResource ButtonStyle}" Text="Portfolio" />
+            <Button HorizontalOptions="Start" Style="{StaticResource ButtonStyle}" Text="Link" />
+            <Button HorizontalOptions="Start" Style="{StaticResource ButtonStyle}" Text="Subscriptions" />
+            <Button HorizontalOptions="Start" Style="{StaticResource ButtonStyle}" Text="Followers" />
+            <Button HorizontalOptions="Start" Style="{StaticResource ButtonStyle}" Text="Members" />
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-        <Image  Grid.Column="0" Grid.Row="0" Style="{StaticResource ImageStyle}" Source="{Binding ProfileImage}"  />
-        <Button Grid.Column="0" Grid.Row="1" Style="{StaticResource ButtonStyle}" Text="Latest" />
-        <Button Grid.Column="0" Grid.Row="2" Style="{StaticResource ButtonStyle}" Text="Portfolio" />
-        <Button Grid.Column="0" Grid.Row="3" Style="{StaticResource ButtonStyle}" Text="Link" />
-        <Button Grid.Column="0" Grid.Row="4" Style="{StaticResource ButtonStyle}" Text="Subscriptions" />
-        <Button Grid.Column="0" Grid.Row="5" Style="{StaticResource ButtonStyle}" Text="Followers" />
-        <Button Grid.Column="0" Grid.Row="6" Style="{StaticResource ButtonStyle}" Text="Members" />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </StackLayout>
 
-        <Grid Grid.Column="1" Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
+        <ListView ItemsSource="{Binding Subscriptions}" >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+                        <StackLayout Orientation="Horizontal">
+                            <Image Style= "{StaticResource RecentImageStyle}"
+                                   Source="{Binding Profile.ImageUrl}"
+                                   HorizontalOptions="Start" />
+                            
+                            <StackLayout>
+                                <Label Text="{Binding Profile, Converter={StaticResource NameConverter}}" 
+                                       FontSize="Micro" />
 
-            <ListView Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Subscriptions}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
+                                <Label Text="{Binding RecentLinks.Length}" />
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-
-                                <Image Grid.Column="0" 
-                                   Grid.Row=   "0" 
-                                   Style= "{StaticResource RecentImageStyle}"
-                                   Source="{Binding Profile.ImageUrl}"/>
-
-                                <Label Grid.Column="1" 
-                                       Grid.Row=   "0" 
-                                       Text="{Binding Profile, Converter={StaticResource NameConverter}}" />
-
-                                <ListView Grid.Column="1" 
-                                          Grid.Row=   "1" 
-                                          ItemsSource="{Binding RecentLinks}" >
+                                <ListView ItemsSource="{Binding RecentLinks}">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <ViewCell>
-                                                <Label Text="{Binding Title}" />
+                                                <Label Text="{Binding Title}" FontSize="Micro" />
                                             </ViewCell>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Grid>
-    </Grid>
+                            </StackLayout>
+                        </StackLayout>
+                    </ViewCell>
+                    
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
     
 </ContentPage>
