@@ -111,7 +111,7 @@ let ``Navigate: portfolio -> videos``() =
     
     // Setup
     let mutable pageRequested = false
-    let sideEffect = function PageRequested.Videos  _ -> pageRequested <- true | _ -> ()
+    let sideEffect = function PageRequested.Videos _ -> pageRequested <- true | _ -> ()
 
     let sideEffects =  { Portfolio.dependencies.SideEffects with ForPageRequested=[sideEffect] }
     let dependencies = { Portfolio.dependencies with SideEffects= sideEffects }

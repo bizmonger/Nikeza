@@ -87,7 +87,7 @@
                                        Text="{Binding Profile, Converter={StaticResource NameConverter}}" />
 
                                 <ListView Grid.Column="1" 
-                                          Grid.Row=   "0" 
+                                          Grid.Row=   "1" 
                                           ItemsSource="{Binding RecentLinks}" >
                                     <ListView.ItemTemplate>
                                         <DataTemplate>

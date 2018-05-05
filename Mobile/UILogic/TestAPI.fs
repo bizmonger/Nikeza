@@ -5,6 +5,7 @@ open Nikeza.Mobile.Profile.Queries
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.Portfolio.Query
 open Nikeza.Common
+open System
 
 let someProfile = {
     Nikeza.Common.ProfileRequest.Id =        "0"
@@ -33,11 +34,23 @@ let somePortfolio = {
     Podcasts = []
 }
 
+let someLink = { 
+    Id=           123
+    ProfileId=   "profileId1"
+    Title=       "Some Link Title"
+    Description= "Some link description"
+    Url=         "http://some_url.com"
+    Topics=       []
+    ContentType= "article"
+    IsFeatured=   false
+    Timestamp=    DateTime.Now
+}
+
 let someProvider = {
     Nikeza.Common.ProviderRequest.Profile =      someProfile
     Nikeza.Common.ProviderRequest.Topics =        []
     Nikeza.Common.ProviderRequest.Portfolio=     somePortfolio
-    Nikeza.Common.ProviderRequest.RecentLinks=   []
+    Nikeza.Common.ProviderRequest.RecentLinks=   [someLink;someLink;someLink]
     Nikeza.Common.ProviderRequest.Subscriptions= []
     Nikeza.Common.ProviderRequest.Followers=     []
 }
