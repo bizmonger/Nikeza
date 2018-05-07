@@ -10,19 +10,26 @@
             <converters:NameConverter x:Key="NameConverter" />
 
             <Style x:Key="ButtonStyle" TargetType="Button">
-                <Setter Property="WidthRequest" Value="130" />
+                <Setter Property="WidthRequest"      Value="130" />
+                <Setter Property="HorizontalOptions" Value="Start" />
             </Style>
 
             <Style x:Key="ImageStyle"  TargetType="Image">
                 <Setter Property="Source" Value="http://www.ngu.edu/myimages/silhouette2230.jpg" />
-                <Setter Property="WidthRequest"    Value="130" />
-                <Setter Property="HeightRequest"   Value="130" />
-                <Setter Property="VerticalOptions" Value="Start" />
+                <Setter Property="WidthRequest"      Value="130" />
+                <Setter Property="HeightRequest"     Value="130" />
+                <Setter Property="VerticalOptions"   Value="Start" />
+                <Setter Property="HorizontalOptions" Value="Start" />
             </Style>
 
             <Style x:Key="RecentImageStyle"  TargetType="Image" BasedOn="{StaticResource ImageStyle}">
                 <Setter Property="WidthRequest"    Value="60" />
                 <Setter Property="HeightRequest"   Value="60" />
+            </Style>
+
+            <Style x:Key="LinkStyle" TargetType="Label">
+                <Setter Property="Margin"   Value="8,0" />
+                <Setter Property="FontSize" Value="Micro" />
             </Style>
 
         </ResourceDictionary>
@@ -31,9 +38,9 @@
     <StackLayout Orientation="Horizontal" Margin="5">
         
         <StackLayout>
-            <Image  HorizontalOptions="Start" Style="{StaticResource ImageStyle}" Source="{Binding ProfileImage}"  />
-            <Button HorizontalOptions="Start" Style="{StaticResource ButtonStyle}" Text="Portfolio" />
-            <Button HorizontalOptions="Start" Style="{StaticResource ButtonStyle}" Text="Link" />
+            <Image  Style="{StaticResource ImageStyle}"  Source="{Binding ProfileImage}"  />
+            <Button Style="{StaticResource ButtonStyle}" Text="Portfolio" />
+            <Button Style="{StaticResource ButtonStyle}" Text="Link" />
 
             <Grid>
                 <Grid.RowDefinitions>
@@ -54,16 +61,15 @@
 
                         <StackLayout Orientation="Horizontal">
                             <Image Style= "{StaticResource RecentImageStyle}"
-                                   Source="{Binding Profile.ImageUrl}"
-                                   HorizontalOptions="Start" />
+                                   Source="{Binding Profile.ImageUrl}"/>
                             
                             <StackLayout>
                                 <Label Text="{Binding Profile, Converter={StaticResource NameConverter}}" 
                                        FontSize="Micro" />
 
-                                <Label Text="{Binding RecentLinks[0].Title}" FontSize="Micro" Margin="8,0" />
-                                <Label Text="{Binding RecentLinks[1].Title}" FontSize="Micro" Margin="8,0" />
-                                <Label Text="{Binding RecentLinks[2].Title}" FontSize="Micro" Margin="8,0" />
+                                <Label Style="{StaticResource LinkStyle}" Text="{Binding RecentLinks[0].Title}" />
+                                <Label Style="{StaticResource LinkStyle}" Text="{Binding RecentLinks[1].Title}" />
+                                <Label Style="{StaticResource LinkStyle}" Text="{Binding RecentLinks[2].Title}" />
 
                             </StackLayout>
                         </StackLayout>
