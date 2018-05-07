@@ -32,12 +32,8 @@
         
         <StackLayout>
             <Image  HorizontalOptions="Start" Style="{StaticResource ImageStyle}" Source="{Binding ProfileImage}"  />
-            <Button HorizontalOptions="Start" Style="{StaticResource ButtonStyle}" Text="Latest" />
             <Button HorizontalOptions="Start" Style="{StaticResource ButtonStyle}" Text="Portfolio" />
             <Button HorizontalOptions="Start" Style="{StaticResource ButtonStyle}" Text="Link" />
-            <Button HorizontalOptions="Start" Style="{StaticResource ButtonStyle}" Text="Subscriptions" />
-            <Button HorizontalOptions="Start" Style="{StaticResource ButtonStyle}" Text="Followers" />
-            <Button HorizontalOptions="Start" Style="{StaticResource ButtonStyle}" Text="Members" />
 
             <Grid>
                 <Grid.RowDefinitions>
@@ -51,7 +47,7 @@
             </Grid>
         </StackLayout>
 
-        <ListView ItemsSource="{Binding Subscriptions}" >
+        <ListView ItemsSource="{Binding Subscriptions}" RowHeight="90">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -65,17 +61,10 @@
                                 <Label Text="{Binding Profile, Converter={StaticResource NameConverter}}" 
                                        FontSize="Micro" />
 
-                                <Label Text="{Binding RecentLinks.Length}" />
+                                <Label Text="{Binding RecentLinks[0].Title}" FontSize="Micro" Margin="8,0" />
+                                <Label Text="{Binding RecentLinks[1].Title}" FontSize="Micro" Margin="8,0" />
+                                <Label Text="{Binding RecentLinks[2].Title}" FontSize="Micro" Margin="8,0" />
 
-                                <ListView ItemsSource="{Binding RecentLinks}">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <ViewCell>
-                                                <Label Text="{Binding Title}" FontSize="Micro" />
-                                            </ViewCell>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
                             </StackLayout>
                         </StackLayout>
                     </ViewCell>
