@@ -8,6 +8,18 @@ open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.UILogic.Pages
 
+type RecentLinksAdapter(profileSeed, linksSeed) =
+    let mutable profile =     profileSeed
+    let mutable recentLinks = linksSeed
+
+    member x.Profile 
+        with get()=       profile
+        and  set(value) = profile <- value
+                
+    member x.RecentLinks
+        with get() =      recentLinks
+        and  set(value) = recentLinks <- value
+
 type Query = {
     Subscriptions : SubscriptionsFn
 }
@@ -33,7 +45,7 @@ type ViewModel(dependencies) =
     let sideEffects= dependencies.SideEffects
 
     let mutable profileImage = ""
-    let mutable subscritions = ObservableCollection<Provider>()
+    let mutable subscritions = ObservableCollection<RecentLinksAdapter>()
 
     let broadcast pageRequest = 
         sideEffects.ForPageRequested |> handle' pageRequest
@@ -61,9 +73,13 @@ type ViewModel(dependencies) =
 
         let broadcast (events:error<ProfileId> list) = 
             events |> List.iter (fun event -> sideEffects.ForQueryFailed |> handle' event)
+
+        let setSubscriptions (result:ProviderRequest list) =
+            let adapter = result |> List.map (fun s -> RecentLinksAdapter(s.Profile, s.RecentLinks))
+            x.Subscriptions <- ObservableCollection<RecentLinksAdapter>(adapter)
             
         userId
          |> query.Subscriptions
          |> function
-            | Result.Ok    result -> x.Subscriptions <- ObservableCollection<Provider>(result)
+            | Result.Ok    result -> setSubscriptions result
             | Result.Error msg    -> broadcast [msg]

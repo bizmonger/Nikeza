@@ -54,25 +54,47 @@
             </Grid>
         </StackLayout>
 
-        <ListView ItemsSource="{Binding Subscriptions}" RowHeight="90">
+        <ListView ItemsSource="{Binding Subscriptions}"
+                  IsGroupingEnabled="True">
+
+            <ListView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Label Text="{Binding Profile, Converter={StaticResource NameConverter}}" 
+                               FontSize="Micro" />
+                        <!--<StackLayout Orientation="Horizontal">
+                            <Image Style= "{StaticResource RecentImageStyle}"
+                                   Source="{Binding Profile.ImageUrl}"/>
+
+                            <StackLayout>
+                                <Label Text="{Binding Profile, Converter={StaticResource NameConverter}}" 
+                                       FontSize="Micro" />
+                            </StackLayout>
+                        </StackLayout>-->
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.GroupHeaderTemplate>
+            
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
 
-                        <StackLayout Orientation="Horizontal">
+                        <!--<Label Style="{StaticResource LinkStyle}" Text="{Binding RecentLinks[0].Title}" />-->
+                        
+                        <!--<StackLayout Orientation="Horizontal">
                             <Image Style= "{StaticResource RecentImageStyle}"
                                    Source="{Binding Profile.ImageUrl}"/>
                             
                             <StackLayout>
                                 <Label Text="{Binding Profile, Converter={StaticResource NameConverter}}" 
-                                       FontSize="Micro" />
+                                       FontSize="Micro" />-->
 
-                                <Label Style="{StaticResource LinkStyle}" Text="{Binding RecentLinks[0].Title}" />
-                                <Label Style="{StaticResource LinkStyle}" Text="{Binding RecentLinks[1].Title}" />
+                                <Label Style="{StaticResource LinkStyle}" Text="{Binding Title}" />
+                                <!--<Label Style="{StaticResource LinkStyle}" Text="{Binding RecentLinks[1].Title}" />
                                 <Label Style="{StaticResource LinkStyle}" Text="{Binding RecentLinks[2].Title}" />
 
                             </StackLayout>
-                        </StackLayout>
+                        </StackLayout>-->
                     </ViewCell>
                     
                 </DataTemplate>
