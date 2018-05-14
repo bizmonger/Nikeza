@@ -49,7 +49,7 @@ type ProviderTopic = {
 type Link = { 
     Id:            int
     ProfileId:     string
-    ; Title:         string
+    Title:         string
     Description:   string
     Url:           string
     Topics:        ProviderTopic list

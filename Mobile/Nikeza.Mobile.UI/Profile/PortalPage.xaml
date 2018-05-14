@@ -60,9 +60,7 @@
             <ListView.GroupHeaderTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Label Text="{Binding Profile, Converter={StaticResource NameConverter}}" 
-                               FontSize="Micro" />
-                        <!--<StackLayout Orientation="Horizontal">
+                        <StackLayout Orientation="Horizontal">
                             <Image Style= "{StaticResource RecentImageStyle}"
                                    Source="{Binding Profile.ImageUrl}"/>
 
@@ -70,7 +68,7 @@
                                 <Label Text="{Binding Profile, Converter={StaticResource NameConverter}}" 
                                        FontSize="Micro" />
                             </StackLayout>
-                        </StackLayout>-->
+                        </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.GroupHeaderTemplate>

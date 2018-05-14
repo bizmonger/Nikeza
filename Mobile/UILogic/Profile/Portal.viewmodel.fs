@@ -8,9 +8,11 @@ open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.UILogic.Pages
 
-type RecentLinksAdapter(profileSeed, linksSeed) =
+type RecentLinksAdapter(profileSeed) as x =
+
+    inherit ObservableCollection<Link list>()
     let mutable profile =     profileSeed
-    let mutable recentLinks = linksSeed
+    let mutable recentLinks = x
 
     member x.Profile 
         with get()=       profile
@@ -75,7 +77,14 @@ type ViewModel(dependencies) =
             events |> List.iter (fun event -> sideEffects.ForQueryFailed |> handle' event)
 
         let setSubscriptions (result:ProviderRequest list) =
-            let adapter = result |> List.map (fun s -> RecentLinksAdapter(s.Profile, s.RecentLinks))
+
+            let toRecentLinks (s:ProviderRequest) =
+
+                let recentLinksList = RecentLinksAdapter(s.Profile)
+                recentLinksList.Add(s.RecentLinks)
+                recentLinksList
+
+            let adapter = result |> List.map toRecentLinks
             x.Subscriptions <- ObservableCollection<RecentLinksAdapter>(adapter)
             
         userId
