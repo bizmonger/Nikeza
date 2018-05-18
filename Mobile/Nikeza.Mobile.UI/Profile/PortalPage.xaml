@@ -61,7 +61,7 @@
                 <DataTemplate>
                     <ViewCell>
 
-                        <StackLayout Orientation="Horizontal" Margin="0,5,0,0">
+                        <StackLayout Orientation="Horizontal" Margin="0,3,0,0">
                             <Image Style= "{StaticResource RecentImageStyle}"
                                    Source="{Binding Profile.ImageUrl}"/>
 

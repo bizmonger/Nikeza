@@ -73,10 +73,10 @@ let someValidatedForm = {
 
 let mockLogin : LoginFn =
     fun credentials -> 
-        if credentials.Password = somePassword then 
+        //if credentials.Password = somePassword then 
              Ok <| Some someProvider
 
-        else Ok <| None
+        //else Ok <| None
 
 let mockLogout : LogoutFn =
     fun _ -> Ok someProvider
