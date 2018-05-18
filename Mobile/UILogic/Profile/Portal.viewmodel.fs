@@ -7,11 +7,7 @@ open Nikeza.DataTransfer
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.UILogic.Pages
-
-type Adapter = { 
-    Profile       : Profile
-    RecentLinks   : Link list
-}
+open Nikeza.Mobile.UILogic.Helpers
 
 type Query = {
     Subscriptions : SubscriptionsFn
@@ -66,35 +62,9 @@ type ViewModel(dependencies) =
         
         let broadcast (events:error<ProfileId> list) = 
             events |> List.iter (fun event -> sideEffects.ForQueryFailed |> handle' event)
-
-        let toSubscriptions (result:ProviderRequest list) =
-
-            let toAdapters (subscription:ProviderRequest) =
-
-                { Profile = subscription.Profile
-                  RecentLinks=subscription.RecentLinks
-                }
-                                
-            let rec completeSet(adapters) = 
-
-                let maxPlaceholders = 3
-
-                if   List.length adapters < maxPlaceholders
-
-                then let updatedAdapters = { adapters.Head with Title = "" } :: adapters
-                     completeSet(updatedAdapters)
-
-                else adapters
-            
-            let adapters =
-                result 
-                 |> List.map toAdapters 
-                 |> List.map ( fun adapter -> { adapter with RecentLinks= adapter.RecentLinks |> completeSet } )
-
-            x.Subscriptions <- ObservableCollection<Adapter>(adapters)
             
         userId
          |> query.Subscriptions
          |> function
-            | Result.Ok    result -> result |> toSubscriptions
+            | Result.Ok    result -> x.Subscriptions <- ObservableCollection<Adapter>(result |> toSubscriptions)
             | Result.Error msg    -> broadcast [msg]
