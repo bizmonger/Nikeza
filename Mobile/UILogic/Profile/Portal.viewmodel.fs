@@ -8,19 +8,10 @@ open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Subscriptions.Query
 open Nikeza.Mobile.UILogic.Pages
 
-type RecentLinksAdapter(profileSeed) as x =
-
-    inherit ObservableCollection<Link list>()
-    let mutable profile =     profileSeed
-    let mutable recentLinks = x
-
-    member x.Profile 
-        with get()=       profile
-        and  set(value) = profile <- value
-                
-    member x.RecentLinks
-        with get() =      recentLinks
-        and  set(value) = recentLinks <- value
+type Adapter = { 
+    Profile       : Profile
+    RecentLinks   : Link list
+}
 
 type Query = {
     Subscriptions : SubscriptionsFn
@@ -47,7 +38,7 @@ type ViewModel(dependencies) =
     let sideEffects= dependencies.SideEffects
 
     let mutable profileImage = ""
-    let mutable subscritions = ObservableCollection<RecentLinksAdapter>()
+    let mutable subscritions = ObservableCollection<Adapter>()
 
     let broadcast pageRequest = 
         sideEffects.ForPageRequested |> handle' pageRequest
@@ -72,23 +63,38 @@ type ViewModel(dependencies) =
     member x.Init() =
 
         x.ProfileImage <- user.ImageUrl
-
+        
         let broadcast (events:error<ProfileId> list) = 
             events |> List.iter (fun event -> sideEffects.ForQueryFailed |> handle' event)
 
-        let setSubscriptions (result:ProviderRequest list) =
+        let toSubscriptions (result:ProviderRequest list) =
 
-            let toRecentLinks (s:ProviderRequest) =
+            let toAdapters (subscription:ProviderRequest) =
 
-                let recentLinksList = RecentLinksAdapter(s.Profile)
-                recentLinksList.Add(s.RecentLinks)
-                recentLinksList
+                { Profile = subscription.Profile
+                  RecentLinks=subscription.RecentLinks
+                }
+                                
+            let rec completeSet(adapters) = 
 
-            let adapter = result |> List.map toRecentLinks
-            x.Subscriptions <- ObservableCollection<RecentLinksAdapter>(adapter)
+                let maxPlaceholders = 3
+
+                if   List.length adapters < maxPlaceholders
+
+                then let updatedAdapters = { adapters.Head with Title = "" } :: adapters
+                     completeSet(updatedAdapters)
+
+                else adapters
+            
+            let adapters =
+                result 
+                 |> List.map toAdapters 
+                 |> List.map ( fun adapter -> { adapter with RecentLinks= adapter.RecentLinks |> completeSet } )
+
+            x.Subscriptions <- ObservableCollection<Adapter>(adapters)
             
         userId
          |> query.Subscriptions
          |> function
-            | Result.Ok    result -> setSubscriptions result
+            | Result.Ok    result -> result |> toSubscriptions
             | Result.Error msg    -> broadcast [msg]

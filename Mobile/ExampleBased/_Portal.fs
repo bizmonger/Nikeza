@@ -22,6 +22,19 @@ let ``Initialize viewmodel`` () =
     portal.Subscriptions.Any() |> should equal true
 
 [<Test>]
+let ``Provide placeholders if less than 3 links`` () =
+
+    // Setup
+    let portal = ViewModel(Portal.dependencies someUser)
+    
+    // Test
+    portal.Init()
+
+    // Verify
+    portal.Subscriptions.Count |> should equal 3
+
+
+[<Test>]
 let ``Navigate: Portal to Members`` () =
 
     // Setup

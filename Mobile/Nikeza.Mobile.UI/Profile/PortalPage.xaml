@@ -8,6 +8,7 @@
         <ResourceDictionary>
 
             <converters:NameConverter x:Key="NameConverter" />
+            <converters:EmptyTextToVisibilityConverter x:Key="EmptyTextToVisibilityConverter" />
 
             <Style x:Key="ButtonStyle" TargetType="Button">
                 <Setter Property="WidthRequest"      Value="130" />
@@ -54,45 +55,32 @@
             </Grid>
         </StackLayout>
 
-        <ListView ItemsSource="{Binding Subscriptions}"
-                  IsGroupingEnabled="True">
+        <ListView ItemsSource="{Binding Subscriptions}" RowHeight="80">
 
-            <ListView.GroupHeaderTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Orientation="Horizontal">
-                            <Image Style= "{StaticResource RecentImageStyle}"
-                                   Source="{Binding Profile.ImageUrl}"/>
-
-                            <StackLayout>
-                                <Label Text="{Binding Profile, Converter={StaticResource NameConverter}}" 
-                                       FontSize="Micro" />
-                            </StackLayout>
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.GroupHeaderTemplate>
-            
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
 
-                        <!--<Label Style="{StaticResource LinkStyle}" Text="{Binding RecentLinks[0].Title}" />-->
-                        
-                        <!--<StackLayout Orientation="Horizontal">
+                        <StackLayout Orientation="Horizontal" Margin="0,5,0,0">
                             <Image Style= "{StaticResource RecentImageStyle}"
                                    Source="{Binding Profile.ImageUrl}"/>
-                            
+
                             <StackLayout>
                                 <Label Text="{Binding Profile, Converter={StaticResource NameConverter}}" 
-                                       FontSize="Micro" />-->
+                                       FontSize=      "Micro"
+                                       FontAttributes="Bold" />
 
-                                <Label Style="{StaticResource LinkStyle}" Text="{Binding Title}" />
-                                <!--<Label Style="{StaticResource LinkStyle}" Text="{Binding RecentLinks[1].Title}" />
-                                <Label Style="{StaticResource LinkStyle}" Text="{Binding RecentLinks[2].Title}" />
+                                <Label Style="{StaticResource LinkStyle}" Text="{Binding RecentLinks[0].Title}" 
+                                       IsVisible="{Binding RecentLinks[0].Title, Converter={StaticResource EmptyTextToVisibilityConverter}}" />
+                                
+                                <Label Style="{StaticResource LinkStyle}" Text="{Binding RecentLinks[1].Title}" 
+                                       IsVisible="{Binding RecentLinks[1].Title, Converter={StaticResource EmptyTextToVisibilityConverter}}" />
+                                
+                                <Label Style="{StaticResource LinkStyle}" Text="{Binding RecentLinks[2].Title}" 
+                                       IsVisible="{Binding RecentLinks[2].Title, Converter={StaticResource EmptyTextToVisibilityConverter}}" />
 
                             </StackLayout>
-                        </StackLayout>-->
+                        </StackLayout>
                     </ViewCell>
                     
                 </DataTemplate>

@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
+    <ProjectReference Include="..\UILogic\Nikeza.Mobile.UILogic.fsproj" />
   </ItemGroup>
 
   <ItemGroup>
