@@ -13,10 +13,11 @@ module PortalEvents =
         fun app sideEffects ->
     
             let handle = function
-                | PageRequested.Latest        user -> app |> navigate (latestPage        user) user
-                | PageRequested.Followers     user -> app |> navigate (followersPage     user) user
-                | PageRequested.Subscriptions user -> app |> navigate (subscriptionsPage user) user
-                | PageRequested.Members            -> app |> navigate membersPage ()
+                | PageRequested.Latest        user    -> app |> navigate (latestPage        user) user
+                | PageRequested.Followers     user    -> app |> navigate (followersPage     user) user
+                | PageRequested.Subscriptions user    -> app |> navigate (subscriptionsPage user) user
+                | PageRequested.Members               -> app |> navigate membersPage ()
+                | PageRequested.Portfolio     profile -> app |> navigate membersPage ()
 
                 | _ -> app |> navigate errorPage ()
 

@@ -8,6 +8,13 @@ open Xamarin.Forms
 let configurePage (page:ContentPage) viewmodel =
     page.BindingContext <- viewmodel; page
 
+let errorPage : Page = 
+    let mutable page:Page = null
+
+    try page <- new ErrorPage()
+    with ex -> Debug.WriteLine(ex.Message)
+    page
+
 let membersPage : Page = 
     let mutable page:Page = null
 
@@ -50,9 +57,10 @@ let portalPage user : Page =
     with ex -> Debug.WriteLine(ex.Message)
     page
 
-let errorPage : Page = 
+
+let portfolioPage : Page = 
     let mutable page:Page = null
 
-    try page <- new ErrorPage()
+    try page <- new PortfolioPage()
     with ex -> Debug.WriteLine(ex.Message)
     page
