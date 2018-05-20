@@ -47,7 +47,7 @@ type ViewModel(dependencies) =
                     |> ProviderId  
                     |> query.Portfolio
                     |> function
-                       | Result.Ok    p           -> broadcast <|  PageRequested.Portfolio p
+                       | Result.Ok    p           -> broadcast <|  PageRequested.Portfolio p.Profile
                        | Result.Error providerId  -> broadcast <|  PageRequested.PortfolioError { Context=providerId; Description="Failed to get portfolio" }
             | None -> ()
 

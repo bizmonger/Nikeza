@@ -34,27 +34,38 @@ type ViewModel(dependencies) =
     let sideEffects= dependencies.SideEffects
 
     let mutable profileImage = ""
-    let mutable subscritions = ObservableCollection<Adapter>()
+    let mutable subscriptions = ObservableCollection<Adapter>()
+
+    let mutable subscription:Adapter =  null
 
     let broadcast pageRequest = 
         sideEffects.ForPageRequested |> handle' pageRequest
-
-    member x.ViewMembers =       DelegateCommand( (fun _-> broadcast    PageRequested.Members),            fun _ -> true) :> ICommand
-    member x.ViewLatest =        DelegateCommand( (fun _-> broadcast <| PageRequested.Latest        user), fun _ -> true) :> ICommand
-    member x.ViewFollowers =     DelegateCommand( (fun _-> broadcast <| PageRequested.Followers     user), fun _ -> true) :> ICommand
-    member x.ViewSubscriptions = DelegateCommand( (fun _-> broadcast <| PageRequested.Subscriptions user), fun _ -> true) :> ICommand
-
-    member x.Name = sprintf "%s %s" user.FirstName user.LastName
 
     member x.ProfileImage
              with get() =      profileImage
              and  set(value) = profileImage <- value
                                base.NotifyPropertyChanged(<@ x.ProfileImage @>)
 
+    member x.Subscription
+             with get() =      subscription
+             and  set(value) = subscription <- value
+                               base.NotifyPropertyChanged(<@ x.Subscription @>)
+
     member x.Subscriptions
-             with get() =      subscritions
-             and  set(value) = subscritions <- value
+             with get() =      subscriptions
+             and  set(value) = subscriptions <- value
                                base.NotifyPropertyChanged(<@ x.Subscriptions @>)
+
+    member x.ViewSubscription =  DelegateCommand( (fun _-> broadcast <| PageRequested.Portfolio x.Subscription.Profile), 
+                                                   fun _ -> true) :> ICommand
+
+    member x.ViewMembers =       DelegateCommand( (fun _-> broadcast    PageRequested.Members),                      fun _ -> true) :> ICommand
+    member x.ViewLatest =        DelegateCommand( (fun _-> broadcast <| PageRequested.Latest        user),           fun _ -> true) :> ICommand
+    member x.ViewFollowers =     DelegateCommand( (fun _-> broadcast <| PageRequested.Followers     user),           fun _ -> true) :> ICommand
+    member x.ViewSubscriptions = DelegateCommand( (fun _-> broadcast <| PageRequested.Subscriptions user),           fun _ -> true) :> ICommand
+
+    member x.Name = sprintf "%s %s" user.FirstName user.LastName
+
 
     member x.Init() =
 

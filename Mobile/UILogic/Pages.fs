@@ -18,7 +18,7 @@ type PageRequested =
     | Followers         of Profile
     | Members
                         
-    | Portfolio         of Provider
+    | Portfolio         of Profile
     | PortfolioError    of ProviderId error
 
     | Videos            of ProviderId

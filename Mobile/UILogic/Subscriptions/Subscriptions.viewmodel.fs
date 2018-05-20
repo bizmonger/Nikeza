@@ -45,9 +45,9 @@ type ViewModel(dependencies) =
                             provider.Profile.Id 
                              |> ProviderId  
                              |> query.Portfolio
-                                      |> function
-                                         | Result.Ok    p          -> broadcast <| PageRequested.Portfolio p
-                                         | Result.Error providerId -> broadcast <| PageRequested.Error { Context=providerId |> string; Description="Failed to load portfolio" }
+                             |> function
+                                | Result.Ok    p          -> broadcast <| PageRequested.Portfolio p.Profile
+                                | Result.Error providerId -> broadcast <| PageRequested.Error { Context=providerId |> string; Description="Failed to load portfolio" }
                      | None -> ()
 
     member x.ViewProvider = DelegateCommand( (fun _ -> viewProvider() ), fun _ -> selection.IsSome)

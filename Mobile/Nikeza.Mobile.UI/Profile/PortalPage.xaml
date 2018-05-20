@@ -55,7 +55,7 @@
             </Grid>
         </StackLayout>
 
-        <ListView ItemsSource="{Binding Subscriptions}" RowHeight="80">
+        <ListView ItemsSource="{Binding Subscriptions}" RowHeight="80" SelectedItem="{Binding Subscription}">
 
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -63,7 +63,11 @@
 
                         <StackLayout Orientation="Horizontal" Margin="0,3,0,0">
                             <Image Style= "{StaticResource RecentImageStyle}"
-                                   Source="{Binding Profile.ImageUrl}"/>
+                                   Source="{Binding Profile.ImageUrl}">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ViewSubscription}" />
+                                </Image.GestureRecognizers>
+                            </Image>
 
                             <StackLayout>
                                 <Label Text="{Binding Profile, Converter={StaticResource NameConverter}}" 
