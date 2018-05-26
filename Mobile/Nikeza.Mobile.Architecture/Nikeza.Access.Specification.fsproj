@@ -9,7 +9,7 @@
     <Compile Include="Commands.fs" />
     <Compile Include="Events.fs" />
     <Compile Include="Functions.fs" />
-    <Compile Include="Login.sideEffects.fs" />
+    <Compile Include="SideEffects.fs" />
   </ItemGroup>
 
   <ItemGroup>
