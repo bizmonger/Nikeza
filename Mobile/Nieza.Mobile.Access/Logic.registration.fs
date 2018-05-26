@@ -1,10 +1,10 @@
 ﻿module internal Are.Registration
 
 open Nikeza.Common
-open Nikeza.Mobile.Access.Events
+open Nikeza.Access.Specification.Events
 
 module Submission =
-    open Nikeza.Mobile.Access.Commands.Registration.Submit
+    open Nikeza.Access.Specification.Commands.Registration.Submit
 
     type private RegistrationSubmission = ResultOf.Submit -> RegistrationSubmissionEvent nonempty
 
@@ -15,7 +15,7 @@ module Submission =
                                            | Error form    -> { Head= RegistrationFailed    form;    Tail=[] }
 
 module Validation =
-    open Nikeza.Mobile.Access.Commands.Registration.Validate
+    open Nikeza.Access.Specification.Commands.Registration.Validate
 
     type private RegistrationValidation = ResultOf.Validate -> RegistrationValidationEvent nonempty
 

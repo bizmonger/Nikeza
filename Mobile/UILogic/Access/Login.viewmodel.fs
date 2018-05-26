@@ -2,23 +2,11 @@
 
 open System.Windows.Input
 open Nikeza.Common
+open Nikeza.Access.Specification.Commands
+open Nikeza.Access.Specification.Events
+open Nikeza.Access.Specification.Login
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Access
-open Nikeza.Mobile.Access.Commands
-open Nikeza.Mobile.Access.Events
-
-type SideEffects =  { 
-    ForLoginAttempt : (LoginEvent -> unit) nonempty 
-}
-
-type Implementation =  { 
-    Login : LoginFn
-}
-
-type Dependencies = { 
-    Implementation : Implementation
-    SideEffects    : SideEffects
-}
 
 type ViewModel(dependencies) as x =
 

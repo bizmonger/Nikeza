@@ -2,9 +2,7 @@ module Nikeza.Mobile.UILogic.Pages
 
 open Nikeza.Common
 open Nikeza.DataTransfer
-open Nikeza.Mobile.Access
-
-type UnvalidatedForm = Nikeza.Mobile.Access.UnvalidatedForm
+open Nikeza.Access.Specification
 
 type PageRequested =
     | Registration

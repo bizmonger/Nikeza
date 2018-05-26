@@ -4,7 +4,7 @@ open FsUnit
 open NUnit.Framework
 open Nikeza.Mobile.TestAPI
 open Nikeza.Mobile.UILogic.Registration
-open Nikeza.Mobile.Access.Events
+open Nikeza.Access.Specification.Events
 open Nikeza.Mobile.AppLogic.RegistrationEvents.Register
 open Nikeza.Mobile.TestAPI.Registration
 open Xamarin.Forms

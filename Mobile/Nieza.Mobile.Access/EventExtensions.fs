@@ -1,7 +1,7 @@
 ﻿module Nikeza.Mobile.Profile.EventExtentions
 
 open System.Runtime.CompilerServices
-open Nikeza.Mobile.Access.Events
+open Nikeza.Access.Specification.Events
 
 [<Extension>]
 type RegistrationSubmissionEventExtension () =

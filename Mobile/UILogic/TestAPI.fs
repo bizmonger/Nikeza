@@ -1,5 +1,6 @@
 ﻿module Nikeza.Mobile.UILogic.TestAPI
 
+open Nikeza.Access.Specification.Functions
 open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Profile.Queries
 open Nikeza.Mobile.Subscriptions.Query
@@ -56,7 +57,7 @@ let someProvider = {
 let someProvider2 = {someProvider with Profile=someProfile2}
 let someProvider3 = {someProvider with Profile=someProfile3}
 
-open Nikeza.Mobile.Access
+open Nikeza.Access.Specification
 
 let someFirstName =       "Scott"
 let someLastName =        "Nimrod"

@@ -1,6 +1,6 @@
 ﻿module Nikeza.Mobile.UILogic.Adapter
 
-open Nikeza.Mobile.Access
+open Nikeza.Access.Specification
 
 type Form = {
     Email:string

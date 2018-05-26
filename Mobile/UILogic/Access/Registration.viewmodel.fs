@@ -5,8 +5,9 @@ open Nikeza.Common
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.UILogic.Adapter
 open Nikeza.Mobile.Access
-open Nikeza.Mobile.Access.Events
-open Nikeza.Mobile.Access.Commands.Registration
+open Nikeza.Access.Specification.Commands
+open Nikeza.Access.Specification.Events
+open Nikeza.Access.Specification.Functions
 
 module Updates =
     let statusOf formValidated events = 
@@ -44,7 +45,7 @@ type ViewModel(dependencies) as x =
           Adapter.Form.Confirm=  x.Confirm
         } 
           |> ofUnvalidated
-          |> Validate.Execute 
+          |> Registration.Validate.Execute 
           |> In.ValidateRegistration.workflow
           |> Updates.statusOf isValidated
                
@@ -55,7 +56,7 @@ type ViewModel(dependencies) as x =
 
         validatedForm |> function 
                          | Some form -> 
-                                form |> Command.Execute 
+                                form |> Registration.Command.Execute 
                                      |> In.SubmitRegistration.workflow implementation.Submit
                                      |> broadcast
                                      

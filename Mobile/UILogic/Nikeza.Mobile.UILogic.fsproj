@@ -32,6 +32,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
     <ProjectReference Include="..\Nieza.Mobile.Access\Nikeza.Mobile.Access.fsproj" />
+    <ProjectReference Include="..\Nikeza.Mobile.Architecture\Nikeza.Access.Specification.fsproj" />
     <ProjectReference Include="..\Portfolio\Nikeza.Mobile.Portfolio.fsproj" />
     <ProjectReference Include="..\Profile\Nikeza.Mobile.Profile.fsproj" />
     <ProjectReference Include="..\Subscriptions\Nikeza.Mobile.Subscriptions.fsproj" />

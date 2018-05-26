@@ -1,23 +1,23 @@
 ﻿namespace Nikeza.Mobile.AppLogic
 
+open Nikeza.Mobile.AppLogic.Specification
 open Nikeza.Mobile.AppLogic.Navigation
-open Nikeza.Mobile.AppLogic.Design
 open Nikeza.Mobile.UILogic.Portal
 open Nikeza.Mobile.UILogic.Pages
 open PageFactory
 
 module PortalEvents =
 
-    let appendNavigation : Portal.SideEffects =
+    let appendNavigation : Portal.AddSideEffectsFn =
 
         fun app sideEffects ->
     
             let handle = function
-                | PageRequested.Latest        user    -> app |> navigate (latestPage        user) user
-                | PageRequested.Followers     user    -> app |> navigate (followersPage     user) user
-                | PageRequested.Subscriptions user    -> app |> navigate (subscriptionsPage user) user
-                | PageRequested.Members               -> app |> navigate membersPage ()
-                | PageRequested.Portfolio     profile -> app |> navigate membersPage ()
+                | PageRequested.Latest        user -> app |> navigate (latestPage        user) user
+                | PageRequested.Followers     user -> app |> navigate (followersPage     user) user
+                | PageRequested.Subscriptions user -> app |> navigate (subscriptionsPage user) user
+                | PageRequested.Members            -> app |> navigate membersPage ()
+                | PageRequested.Portfolio     _    -> app |> navigate membersPage ()
 
                 | _ -> app |> navigate errorPage ()
 

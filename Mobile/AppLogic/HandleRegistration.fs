@@ -3,15 +3,15 @@
 module RegistrationEvents =
 
     open System.Diagnostics
-    open Nikeza.Mobile.Access.Events
+    open Nikeza.Mobile.AppLogic.Specification.Access
+    open Nikeza.Access.Specification.Events
     open Nikeza.Mobile.UILogic.Registration
-    open Design.Access
 
     module Register =
     
-        let appendNavigation : Registration.SideEffects =
+        let appendNavigation : Registration.AddSideEffectsFn =
 
-            fun app sideEffects ->
+            fun _ sideEffects ->
  
                 let handle = function
                     | RegistrationSucceeded p -> (Debug.WriteLine(sprintf "Request: Navigate to Portal\n %A" p))

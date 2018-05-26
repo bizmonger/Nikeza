@@ -1,16 +1,17 @@
 ﻿namespace Nikeza.Mobile.AppLogic
 
+open Xamarin.Forms
 open Nikeza.Common
 open Nikeza.Mobile.UILogic
-open Nikeza.Mobile.UILogic.Login
-open Nikeza.Mobile.Access.Events
+open Nikeza.Access.Specification.Login
+open Nikeza.Access.Specification.Events
+open Nikeza.Mobile.AppLogic.Specification.Access
 open Navigation
 open PageFactory
-open Design.Access
 
 module LoginEvents =
     
-    let appendNavigation : Login.SideEffects =
+    let appendNavigation : Login.AddSideEffectsFn =
 
         fun app sideEffects ->
 
@@ -30,7 +31,6 @@ module LoginEvents =
 module Login =
 
     open LoginEvents
-    open Xamarin.Forms
     open System.Diagnostics
 
     let dependencies =

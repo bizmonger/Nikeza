@@ -1,16 +1,14 @@
 ﻿module Nikeza.Mobile.Access.In
 
 open Nikeza.Common
-open Nikeza.Mobile.Access.Commands
-open Nikeza.Mobile.Access.Commands.Registration
-open Nikeza.Mobile.Access.Commands.Session
-open Nikeza.Mobile.Access.Events
+open Nikeza.Access.Specification.Commands
+open Nikeza.Access.Specification.Commands.Registration
+open Nikeza.Access.Specification.Commands.Session
+open Nikeza.Access.Specification.Functions
 open Logic
 
 module SubmitRegistration =
     open Submit
-
-    type private SubmitWorkflow = SubmitFn -> Command -> RegistrationSubmissionEvent nonempty
 
     let workflow : SubmitWorkflow =
         fun submitFn -> function
@@ -21,6 +19,7 @@ module SubmitRegistration =
 
 module ValidateRegistration =
     open Registration.Validate
+    open Nikeza.Access.Specification.Events
 
     type private ValidateWorkflow = Validate -> RegistrationValidationEvent nonempty
 
@@ -31,6 +30,7 @@ module ValidateRegistration =
                               |> Are.Registration.Validation.events
 
 module Login =
+    open Nikeza.Access.Specification.Events
 
     type private SessionWorkflow = LoginFn -> LoginCommand -> LoginEvent nonempty
 
@@ -42,6 +42,7 @@ module Login =
                            |> Are.Login.events
 
 module Logout =
+    open Nikeza.Access.Specification.Events
 
     type private LogoutWorkflow = LogoutCommand -> LogoutEvent nonempty
 

@@ -1,9 +1,9 @@
 ﻿namespace Are
 
-open Nikeza.Mobile.Access.Commands.Session
-open Nikeza.Mobile.Access.Events
-open Nikeza.DataTransfer
+open Nikeza.Access.Specification.Commands.Session
+open Nikeza.Access.Specification.Events
 open Nikeza.Common
+open Nikeza.DataTransfer
 
 module Login =
 

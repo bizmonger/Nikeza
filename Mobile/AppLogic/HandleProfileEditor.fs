@@ -4,11 +4,11 @@ module ProfileEvents =
 
     open System.Diagnostics
     open Nikeza.Mobile.UILogic.Portal.ProfileEditor
-    open Nikeza.Mobile.AppLogic.Design.ProfileEditor
+    open Nikeza.Mobile.AppLogic.Specification.ProfileEditor
 
     module Save =
 
-        let appendPersistence : Save.SideEffects =
+        let appendPersistence : Save.AddSideEffectsFn =
 
             fun app sideEffects ->
  
@@ -22,7 +22,7 @@ module ProfileEvents =
 
     module Topics =
 
-        let appendQuery : QueryFailed.SideEffects =
+        let appendQuery : QueryFailed.AddSideEffectsFn =
 
             fun app sideEffects ->
  

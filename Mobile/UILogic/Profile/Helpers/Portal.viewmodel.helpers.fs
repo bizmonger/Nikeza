@@ -26,5 +26,4 @@ let toSubscriptions (result:ProviderRequest list) =
         
     result 
      |> List.map toAdapters 
-     |> List.map ( fun adapter -> Adapter(adapter.Profile, completeSet adapter.RecentLinks) )//{ adapter with RecentLinks= adapter.RecentLinks |> completeSet } )
-     //|> List.map ( fun adapter -> { adapter with RecentLinks= adapter.RecentLinks |> completeSet } )
+     |> List.map ( fun adapter -> Adapter(adapter.Profile, completeSet adapter.RecentLinks) )

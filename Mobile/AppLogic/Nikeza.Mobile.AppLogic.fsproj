@@ -57,7 +57,7 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Design.fs" />
+    <Compile Include="Specification.fs" />
     <Compile Include="PageFactory.fs" />
     <Compile Include="HandleNavigation.fs" />
     <Compile Include="HandleRegistration.fs" />
@@ -88,6 +88,11 @@
     <ProjectReference Include="..\Nieza.Mobile.Access\Nikeza.Mobile.Access.fsproj">
       <Name>Nikeza.Mobile.Access</Name>
       <Project>{47be763b-1585-4474-a91b-2e2f5e65ff60}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Nikeza.Mobile.Architecture\Nikeza.Access.Specification.fsproj">
+      <Name>Nikeza.Access.Specification</Name>
+      <Project>{4bcb41f3-1451-4a33-9b16-a0f214900e2e}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Nikeza.Mobile.UI\Nikeza.Mobile.UI.csproj">

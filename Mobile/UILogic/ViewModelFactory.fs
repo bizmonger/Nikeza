@@ -3,8 +3,7 @@
 module Registration = 
 
     open Nikeza.Mobile.Access
-    open Nikeza.Mobile.Access.Commands
-    open Nikeza.Mobile.Access.Events
+    open Nikeza.Access.Specification.Events
     open Nikeza.Mobile.UILogic.Registration
     open System.Diagnostics
 
