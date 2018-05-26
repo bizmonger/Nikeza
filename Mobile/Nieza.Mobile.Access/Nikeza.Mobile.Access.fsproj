@@ -52,8 +52,6 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="EventExtensions.fs" />
-    <Compile Include="Commands.fs" />
     <Compile Include="Try.fs" />
     <Compile Include="Logic.session.fs" />
     <Compile Include="Logic.registration.fs" />

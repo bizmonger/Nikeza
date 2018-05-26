@@ -3,7 +3,7 @@
 open Nikeza.Common
 open Nikeza.Access.Specification.Events
 
-module Submission =
+module internal Submission =
     open Nikeza.Access.Specification.Commands.Registration.Submit
 
     type private RegistrationSubmission = ResultOf.Submit -> RegistrationSubmissionEvent nonempty
@@ -14,7 +14,7 @@ module Submission =
                                            | Ok    profile -> { Head= RegistrationSucceeded profile; Tail=[] }
                                            | Error form    -> { Head= RegistrationFailed    form;    Tail=[] }
 
-module Validation =
+module internal Validation =
     open Nikeza.Access.Specification.Commands.Registration.Validate
 
     type private RegistrationValidation = ResultOf.Validate -> RegistrationValidationEvent nonempty
