@@ -53,9 +53,9 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Try.fs" />
-    <Compile Include="Logic.session.fs" />
-    <Compile Include="Logic.registration.fs" />
-    <Compile Include="Logic.validation.fs" />
+    <Compile Include="Session.fs" />
+    <Compile Include="Registration.fs" />
+    <Compile Include="Validation.fs" />
     <Compile Include="Workflows.fs" />
     <Content Include="packages.config" />
   </ItemGroup>

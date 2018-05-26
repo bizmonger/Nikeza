@@ -1,6 +1,6 @@
 ﻿module Nikeza.Mobile.Access.Try
 
-open Nikeza.Access.Specification.Functions
+open Nikeza.Access.Specification.Try
 
 let submit : SubmitFn = 
     fun validatedForm -> Error validatedForm

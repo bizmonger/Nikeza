@@ -5,6 +5,7 @@ open NUnit.Framework
 open Nikeza.Mobile.TestAPI
 open Nikeza.Mobile.UILogic.Registration
 open Nikeza.Access.Specification.Events
+open Nikeza.Access.Specification.Registration
 open Nikeza.Mobile.AppLogic.RegistrationEvents.Register
 open Nikeza.Mobile.TestAPI.Registration
 open Xamarin.Forms

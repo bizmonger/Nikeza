@@ -5,26 +5,14 @@ open Nikeza.Common
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.UILogic.Adapter
 open Nikeza.Mobile.Access
-open Nikeza.Access.Specification.Commands
 open Nikeza.Access.Specification.Events
-open Nikeza.Access.Specification.Functions
+open Nikeza.Access.Specification.Commands
+open Nikeza.Access.Specification.Registration
+open Nikeza.Access.Specification.Try
 
 module Updates =
     let statusOf formValidated events = 
         events.Head::events.Tail |> List.exists formValidated
-
-type Implementation = {
-    Submit : SubmitFn
-}
-
-type SideEffects = {
-    ForRegistrationSubmission : (RegistrationSubmissionEvent -> unit) list
-}
-
-type Dependencies = {
-    Implementation : Implementation
-    SideEffects    : SideEffects
-}
 
 type ViewModel(dependencies) as x =
 

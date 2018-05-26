@@ -2,7 +2,7 @@
 
 open Nikeza.Common
 open Nikeza.DataTransfer
-open Nikeza.Access.Specification.Functions
+open Nikeza.Access.Specification.Try
 open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Profile.Queries
 open Nikeza.Mobile.Subscriptions.Try
@@ -101,7 +101,7 @@ let onPageRequested = function _ -> ()
 
 module Registration =
 
-    open Nikeza.Mobile.UILogic.Registration
+    open Nikeza.Access.Specification.Registration
 
     let dependencies =
 

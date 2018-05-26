@@ -5,7 +5,7 @@ module RegistrationEvents =
     open System.Diagnostics
     open Nikeza.Mobile.AppLogic.Specification.Access
     open Nikeza.Access.Specification.Events
-    open Nikeza.Mobile.UILogic.Registration
+    open Nikeza.Access.Specification.Registration
 
     module Register =
     

@@ -4,7 +4,7 @@ module Registration =
 
     open Nikeza.Mobile.Access
     open Nikeza.Access.Specification.Events
-    open Nikeza.Mobile.UILogic.Registration
+    open Nikeza.Access.Specification.Registration
     open System.Diagnostics
 
     let getViewModel : Registration.ViewModel =

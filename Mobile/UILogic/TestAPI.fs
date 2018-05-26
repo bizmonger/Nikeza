@@ -1,6 +1,6 @@
 ﻿module Nikeza.Mobile.UILogic.TestAPI
 
-open Nikeza.Access.Specification.Functions
+open Nikeza.Access.Specification.Try
 open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Profile.Queries
 open Nikeza.Mobile.Subscriptions.Query
