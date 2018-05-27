@@ -20,7 +20,7 @@ module Registration =
         module ResultOf = type Validate = Executed of Result<ValidatedForm, UnvalidatedForm>
 
     module Submit =
-        module ResultOf = type Submit = Executed of Result<Profile, ValidatedForm>
+        module ResultOf = type Submit =   Executed of Result<Profile, ValidatedForm>
 
 
 module Session =

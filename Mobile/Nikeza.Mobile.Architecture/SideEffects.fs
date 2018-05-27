@@ -1,5 +1,23 @@
 ﻿namespace Nikeza.Access.Specification
 
+module Registration =
+    open Events
+    open Nikeza.Access.Specification.Try
+
+    type Implementation = {
+        Submit : Submit
+    }
+
+    type SideEffects = {
+        ForRegistrationSubmission : (RegistrationSubmissionEvent -> unit) list
+    }
+
+    type Dependencies = {
+        Implementation : Implementation
+        SideEffects    : SideEffects
+    }
+
+
 module Login =
 
     open Nikeza.Common
@@ -11,27 +29,10 @@ module Login =
     }
 
     type Implementation =  { 
-        Login : LoginFn
+        Login : Login
     }
 
     type Dependencies = { 
-        Implementation : Implementation
-        SideEffects    : SideEffects
-    }
-
-module Registration =
-    open Events
-    open Nikeza.Access.Specification.Try
-
-    type Implementation = {
-        Submit : SubmitFn
-    }
-
-    type SideEffects = {
-        ForRegistrationSubmission : (RegistrationSubmissionEvent -> unit) list
-    }
-
-    type Dependencies = {
         Implementation : Implementation
         SideEffects    : SideEffects
     }

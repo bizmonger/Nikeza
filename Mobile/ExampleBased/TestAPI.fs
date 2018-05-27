@@ -2,7 +2,7 @@
 
 open Nikeza.Common
 open Nikeza.DataTransfer
-open Nikeza.Access.Specification.Try
+open Nikeza.Access.Specification
 open Nikeza.Mobile.Profile.Try
 open Nikeza.Mobile.Profile.Queries
 open Nikeza.Mobile.Subscriptions.Try
@@ -52,7 +52,7 @@ let someProvider = {
     Followers=     []
 }
 
-let mockSubmit : SubmitFn =
+let mockSubmit : Try.Submit =
     fun _ -> Ok { Id =        ""
                   FirstName = ""
                   LastName =  ""

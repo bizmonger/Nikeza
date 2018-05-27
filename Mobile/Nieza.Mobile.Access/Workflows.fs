@@ -10,10 +10,10 @@ module SubmitRegistration =
     open Submit
 
     let workflow : SubmitWorkflow =
-        fun submitFn -> function
+        fun submit -> function
         Registration.Command
                     .Execute form -> 
-                             form |> submitFn
+                             form |> submit
                                   |> ResultOf.Submit.Executed
                                   |> Are.Registration.Submission.events
 
@@ -30,16 +30,17 @@ module ValidateRegistration =
 module Login =
     
     let workflow : SessionWorkflow =
-        fun loginFn -> function
+        fun login -> function
         Submit credentials -> 
-               credentials |> loginFn
+               credentials |> login
                            |> ResultOf.Login
                            |> Are.Login.events
 
 module Logout =
     
-    let workflow : LogoutWorkflow = function
+    let workflow : LogoutWorkflow =
+        fun logout -> function
         Logout p ->
-               p |> Try.logout
+               p |> logout
                  |> ResultOf.Logout
                  |> Are.Logout.events

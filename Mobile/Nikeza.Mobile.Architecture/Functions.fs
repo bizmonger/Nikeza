@@ -7,20 +7,32 @@ open Events
 
 module Try =
 
-    type LoginFn =  Credentials -> Result<Provider option, Credentials>
-    type LogoutFn = Provider    -> Result<Provider, Provider>
+    type Login =  Credentials -> Result<Provider option, Credentials>
+    type Logout = Provider    -> Result<Provider, Provider>
 
-    type SubmitFn = ValidatedForm -> Result<DataTransfer.Profile,  ValidatedForm>
+    type Submit = ValidatedForm -> Result<DataTransfer.Profile,  ValidatedForm>
+
 
 module Workflows =
 
-    open Try
     open Nikeza.Access.Specification.Commands
 
-    type SubmitWorkflow =   SubmitFn -> Registration.Command -> RegistrationSubmissionEvent nonempty
+    type SubmitWorkflow =   Try.Submit -> Registration.Command -> RegistrationSubmissionEvent nonempty
 
-    type SessionWorkflow =  LoginFn  -> LoginCommand -> LoginEvent nonempty
+    type SessionWorkflow =  Try.Login  -> LoginCommand -> LoginEvent nonempty
 
     type ValidateWorkflow = Registration.Validate -> RegistrationValidationEvent nonempty
 
-    type LogoutWorkflow =   LogoutCommand -> LogoutEvent nonempty
+    type LogoutWorkflow =   Try.Logout -> LogoutCommand -> LogoutEvent nonempty
+
+
+module Submission =
+    open Commands.Registration.Submit
+
+    type RegistrationSubmission = ResultOf.Submit -> RegistrationSubmissionEvent nonempty
+
+
+module Validation =
+    open Commands.Registration.Validate
+
+    type RegistrationValidation = ResultOf.Validate -> RegistrationValidationEvent nonempty

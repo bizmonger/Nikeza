@@ -72,20 +72,20 @@ let someValidatedForm = {
           }
     }
 
-let mockLogin : LoginFn =
+let mockLogin : Try.Login =
     fun credentials -> 
         if credentials.Password = somePassword then 
              Ok <| Some someProvider
 
         else Ok <| None
 
-let mockLogout : LogoutFn =
+let mockLogout : Try.Logout =
     fun _ -> Ok someProvider
 
-let mockSubmit : SubmitFn =
+let mockSubmit : Try.Submit =
     fun _ -> Ok someProfile
 
-let mockFailedSubmit : SubmitFn =
+let mockFailedSubmit : Try.Submit =
     fun _ -> Error someValidatedForm
 
 let mockSave : SaveProfileFn =
