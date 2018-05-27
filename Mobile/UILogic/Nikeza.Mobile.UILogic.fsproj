@@ -15,7 +15,6 @@
     <Compile Include="Pages.fs" />
     <Compile Include="DelegateCommand.fs" />
     <Compile Include="ViewModelBase.fs" />
-    <Compile Include="Access\Adapter.fs" />
     <Compile Include="Access\Registration.viewmodel.fs" />
     <Compile Include="Access\Login.viewmodel.fs" />
     <Compile Include="Profile\Helpers\Portal.viewmodel.helpers.fs" />

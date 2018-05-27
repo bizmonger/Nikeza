@@ -12,5 +12,5 @@ type Form = {
     Confirm:  Password
 }
 
-type UnvalidatedForm = { Form : Form }
-type ValidatedForm =   { Form : Form }
+type UnvalidatedForm = Unvalidated of Form
+type ValidatedForm =   Validated   of Form

@@ -3,8 +3,8 @@ namespace Nikeza.Mobile.UILogic.Registration
 open System.Windows.Input
 open Nikeza.Common
 open Nikeza.Mobile.UILogic
-open Nikeza.Mobile.UILogic.Adapter
 open Nikeza.Mobile.Access
+open Nikeza.Access.Specification
 open Nikeza.Access.Specification.Events
 open Nikeza.Access.Specification.Commands
 open Nikeza.Access.Specification.Commands.Registration.Submit
@@ -29,11 +29,11 @@ type ViewModel(dependencies) as x =
             | FormValidated form -> validatedForm <- Some form; true
             | _ -> false
 
-        { Adapter.Form.Email=    x.Email
-          Adapter.Form.Password= x.Password
-          Adapter.Form.Confirm=  x.Confirm
+        { Email=    Email    x.Email
+          Password= Password x.Password
+          Confirm=  Password x.Confirm
         } 
-          |> ofUnvalidated
+          |> Unvalidated
           |> Registration.Validate.Execute 
           |> In.ValidateRegistration.workflow
           |> Updates.statusOf isValidated

@@ -1,5 +1,6 @@
 ﻿module Nikeza.Mobile.UILogic.TestAPI
 
+open Nikeza.Access.Specification
 open Nikeza.Access.Specification.Attempt
 open Nikeza.Mobile.Profile.Attempt
 open Nikeza.Mobile.Profile.Queries
@@ -57,20 +58,17 @@ let someProvider = {
 let someProvider2 = {someProvider with Profile=someProfile2}
 let someProvider3 = {someProvider with Profile=someProfile3}
 
-open Nikeza.Access.Specification
-
 let someFirstName =       "Scott"
 let someLastName =        "Nimrod"
 let someEmail =           "scott@abc.com"
 let somePassword =        "some_password"
 let someInvalidPassword = "some_invalid_password"
 
-let someValidatedForm = { 
-   Form = { Email=    Email ""
-            Password= Password ""
-            Confirm=  Password ""
-          }
-    }
+let someValidatedForm =
+   Validated { Email=    Email ""
+               Password= Password ""
+               Confirm=  Password ""
+             }
 
 let mockLogin : Attempt.Login =
     fun credentials -> 
