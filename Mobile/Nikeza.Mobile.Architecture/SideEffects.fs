@@ -1,6 +1,7 @@
 ﻿namespace Nikeza.Access.Specification
 
 module Registration =
+
     open Events
     open Nikeza.Access.Specification.Try
 
