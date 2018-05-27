@@ -41,7 +41,7 @@ type ViewModel(dependencies) as x =
         if   x.IsValidated
 
         then Submit { Email=email; Password=password }
-              |> For.Login.attempt implementation.Login
+              |> Using.Login.implementation implementation.Login
               |> ResultOf.Login
               |> Are.Login.events
               |> broadcast

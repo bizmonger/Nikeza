@@ -14,7 +14,7 @@ type LogoutCommand = Logout of Provider
 module Registration =
 
     type Validate = Execute of UnvalidatedForm
-    type Command =  Execute of ValidatedForm
+    type Submit =   Execute of ValidatedForm
 
     module Validate =
         module ResultOf = type Validate = Executed of Result<ValidatedForm, UnvalidatedForm>
