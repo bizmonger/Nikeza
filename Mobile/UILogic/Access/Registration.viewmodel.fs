@@ -11,7 +11,7 @@ open Nikeza.Access.Specification.Commands.Registration.Submit
 open Nikeza.Access.Specification.Registration
 open Nikeza.Access.Specification.Attempt
 
-module Updates =
+module Update =
     let statusOf formValidated events = 
         events.Head::events.Tail |> List.exists formValidated
 
@@ -36,7 +36,7 @@ type ViewModel(dependencies) as x =
           |> Unvalidated
           |> Registration.Validate.Execute 
           |> In.ValidateRegistration.workflow
-          |> Updates.statusOf isValidated
+          |> Update.statusOf isValidated
                
     let submit() =
 
@@ -46,7 +46,7 @@ type ViewModel(dependencies) as x =
         validatedForm |> function 
                          | Some form -> 
                                 form |> Registration.Submit.Execute 
-                                     |> Using.SubmitRegistration.interpreter implementation.Submit
+                                     |> Using.SubmitRegistration.interpret implementation.Submit
                                      |> ResultOf.Submit.Executed
                                      |> Are.Registration.Submission.events
                                      |> broadcast
