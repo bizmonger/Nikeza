@@ -24,12 +24,12 @@ module Login =
     open Try
     open Events
 
-    type SideEffects =  { 
-        ForLoginAttempt : (LoginEvent -> unit) nonempty 
-    }
-
     type Implementation =  { 
         Login : Login
+    }
+
+    type SideEffects =  { 
+        ForLoginAttempt : (LoginEvent -> unit) nonempty 
     }
 
     type Dependencies = { 
