@@ -52,11 +52,12 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Attempt.fs" />
-    <Compile Include="Session.fs" />
-    <Compile Include="Registration.fs" />
-    <Compile Include="Validation.fs" />
+    <Compile Include="Interpreters\Attempt.fs" />
+    <Compile Include="Interpreters\Registration.fs" />
+    <Compile Include="Interpreters\Session.fs" />
+    <Compile Include="Interpreters\Validation.fs" />
     <Compile Include="Workflows.fs" />
+    <Compile Include="Attempts.fs" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

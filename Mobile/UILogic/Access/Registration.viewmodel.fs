@@ -35,7 +35,7 @@ type ViewModel(dependencies) as x =
         } 
           |> ofUnvalidated
           |> Registration.Validate.Execute 
-          |> For.ValidateRegistration.workflow
+          |> In.ValidateRegistration.workflow
           |> Updates.statusOf isValidated
                
     let submit() =
