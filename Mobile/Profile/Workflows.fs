@@ -2,7 +2,7 @@
 
 open Nikeza.Common
 open Nikeza.Mobile.Profile.Events
-open Try
+open Attempt
 
 module Editor =
 

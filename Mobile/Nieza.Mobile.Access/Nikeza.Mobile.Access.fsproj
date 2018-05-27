@@ -52,7 +52,7 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Try.fs" />
+    <Compile Include="Attempt.fs" />
     <Compile Include="Session.fs" />
     <Compile Include="Registration.fs" />
     <Compile Include="Validation.fs" />

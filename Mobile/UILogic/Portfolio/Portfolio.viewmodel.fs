@@ -6,7 +6,7 @@ open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Portfolio.Events
 open Nikeza.Mobile.Subscription
 open Nikeza.Mobile.Subscriptions.Events
-open Nikeza.Mobile.Subscriptions.Try
+open Nikeza.Mobile.Subscriptions.Attempt
 open Nikeza.Mobile.Subscriptions.Command
 open Nikeza.Mobile.Portfolio.Query
 open Nikeza.Mobile.UILogic.Pages

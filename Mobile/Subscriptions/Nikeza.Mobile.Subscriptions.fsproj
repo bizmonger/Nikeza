@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <Compile Include="Events.fs" />
-    <Compile Include="Try.fs" />
+    <Compile Include="Attempt.fs" />
     <Compile Include="Commands.fs" />
     <Compile Include="Queries.fs" />
     <Compile Include="Logic.fs" />

@@ -9,7 +9,7 @@ open Nikeza.Access.Specification.Events
 open Nikeza.Access.Specification.Commands
 open Nikeza.Access.Specification.Commands.Registration.Submit
 open Nikeza.Access.Specification.Registration
-open Nikeza.Access.Specification.Try
+open Nikeza.Access.Specification.Attempt
 
 module Updates =
     let statusOf formValidated events = 

@@ -5,7 +5,7 @@ open DataTransfer
 open Common
 open Events
 
-module Try =
+module Attempt =
 
     type Login =  Credentials   -> Result<Provider option, Credentials>
     type Logout = Provider      -> Result<Provider, Provider>
@@ -16,9 +16,9 @@ module Attempts =
 
     open Nikeza.Access.Specification.Commands
 
-    type SubmitAttempt = Try.Submit -> Registration.Command -> Result<DataTransfer.Profile,  ValidatedForm>
-    type LoginAttempt =  Try.Login  -> LoginCommand         -> Result<Provider option, Credentials>
-    type LogoutAttempt = Try.Logout -> LogoutCommand        -> Result<Provider, Provider>
+    type SubmitAttempt = Attempt.Submit -> Registration.Command -> Result<DataTransfer.Profile,  ValidatedForm>
+    type LoginAttempt =  Attempt.Login  -> LoginCommand         -> Result<Provider option, Credentials>
+    type LogoutAttempt = Attempt.Logout -> LogoutCommand        -> Result<Provider, Provider>
     
 
 module Workflows =

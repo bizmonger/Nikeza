@@ -1,4 +1,4 @@
-﻿module Nikeza.Mobile.Subscriptions.Try
+﻿module Nikeza.Mobile.Subscriptions.Attempt
 
 open Nikeza.Common
 open Nikeza.DataTransfer

@@ -1,14 +1,14 @@
 ﻿module internal Are.Subscription
 
 open Nikeza.Mobile.Subscriptions.Events
-open Nikeza.Mobile.Subscriptions.Try
+open Nikeza.Mobile.Subscriptions.Attempt
 open Nikeza.Common
 
 type private FollowLogic =      Follow.ResultOf      -> NotificationEvent list
 type private UnsubscribeLogic = Unsubscribe.ResultOf -> NotificationEvent list
 
 module Follow =
-    open Nikeza.Mobile.Subscriptions.Try.Follow
+    open Nikeza.Mobile.Subscriptions.Attempt.Follow
 
     let events : FollowLogic = function
          ResultOf.Follow response -> 
@@ -17,7 +17,7 @@ module Follow =
                                      | Error profileId -> [SubscriberAddFailed   profileId]
 
 module Unsubscribe =
-    open Nikeza.Mobile.Subscriptions.Try.Unsubscribe
+    open Nikeza.Mobile.Subscriptions.Attempt.Unsubscribe
 
     let events : UnsubscribeLogic = function
          Unsubscribe response -> 

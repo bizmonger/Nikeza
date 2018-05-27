@@ -3,7 +3,7 @@
 module Registration =
 
     open Events
-    open Nikeza.Access.Specification.Try
+    open Nikeza.Access.Specification.Attempt
 
     type Implementation = {
         Submit : Submit
@@ -22,7 +22,7 @@ module Registration =
 module Login =
 
     open Nikeza.Common
-    open Try
+    open Attempt
     open Events
 
     type Implementation =  { 

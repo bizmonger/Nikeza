@@ -14,7 +14,7 @@
     <Compile Include="EventExtensions.fs" />
     <Compile Include="Queries.fs" />
     <Compile Include="Commands.fs" />
-    <Compile Include="Try.fs" />
+    <Compile Include="Attempt.fs" />
     <Compile Include="Logic.edit.fs" />
     <Compile Include="Logic.datasources.fs" />
     <Compile Include="Logic.editor.fs" />

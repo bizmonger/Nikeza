@@ -13,7 +13,7 @@ module Registration =
             | RegistrationSucceeded p    -> Debug.WriteLine(sprintf "Registration succeeded for %A" p)
             | RegistrationFailed    form -> Debug.WriteLine(sprintf "Registration Failed for %A" form)
 
-        let implementation = { Submit= Try.submit }
+        let implementation = { Submit= Attempt.submit }
         let sideEffects =    { ForRegistrationSubmission= log::[] }
 
         let dependencies = { Implementation=implementation

@@ -1,4 +1,4 @@
-﻿module internal Try
+﻿module internal Attempt
 
 open Nikeza.Common
 

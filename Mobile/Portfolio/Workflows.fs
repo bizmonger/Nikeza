@@ -8,11 +8,11 @@ module Links =
 
     let workflow : LinksWorkflow = function
         | LinkCommand.Feature   linkId -> 
-                                linkId |> Try.featureLink
+                                linkId |> Attempt.featureLink
                                        |> ResultOf.Link.Feature
                                        |> Are.Registration.events
                                    
         | LinkCommand.Unfeature linkId -> 
-                                linkId |> Try.unfeatureLink
+                                linkId |> Attempt.unfeatureLink
                                        |> ResultOf.Link.Unfeature
                                        |> Are.Registration.events

@@ -2,9 +2,9 @@
 
 open Nikeza.Mobile.Subscriptions.Command
 open Nikeza.Mobile.Subscriptions.Events
-open Nikeza.Mobile.Subscriptions.Try
-open Nikeza.Mobile.Subscriptions.Try.Follow
-open Nikeza.Mobile.Subscriptions.Try.Unsubscribe
+open Nikeza.Mobile.Subscriptions.Attempt
+open Nikeza.Mobile.Subscriptions.Attempt.Follow
+open Nikeza.Mobile.Subscriptions.Attempt.Unsubscribe
     
 type private FollowWorkflow =      FollowFn      -> Follow.Command      -> NotificationEvent list
 type private UnsubscribeWorkflow = UnsubscribeFn -> Unsubscribe.Command -> NotificationEvent list

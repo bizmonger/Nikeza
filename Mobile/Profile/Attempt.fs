@@ -1,4 +1,4 @@
-﻿module Nikeza.Mobile.Profile.Try
+﻿module Nikeza.Mobile.Profile.Attempt
 
 open Nikeza.DataTransfer
 open Events

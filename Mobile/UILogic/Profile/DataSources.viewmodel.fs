@@ -11,7 +11,7 @@ open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.Profile.Commands.DataSources
 
 type Implementation = {
-    Save : Try.SaveSourcesFn
+    Save : Attempt.SaveSourcesFn
 }
 
 type Query = {
