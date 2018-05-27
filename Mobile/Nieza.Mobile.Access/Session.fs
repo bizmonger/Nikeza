@@ -2,12 +2,11 @@
 
 open Nikeza.Access.Specification.Commands.Session
 open Nikeza.Access.Specification.Events
+open Nikeza.Access.Specification.Session
 open Nikeza.Common
 open Nikeza.DataTransfer
 
 module internal Login =
-
-    type private HandleLogin = ResultOf.Login -> LoginEvent nonempty
 
     let events : HandleLogin = function 
         ResultOf.Login result -> 
@@ -22,7 +21,6 @@ module internal Login =
                                  | Error info -> { Head= FailedToConnect info; Tail=[] }
             
 module internal Logout =
-    type private HandleLogout = ResultOf.Logout -> LogoutEvent nonempty
 
     let events : HandleLogout = function 
         ResultOf.Logout result -> 

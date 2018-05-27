@@ -26,6 +26,14 @@ module Workflows =
     type LogoutWorkflow =   Try.Logout -> LogoutCommand -> LogoutEvent nonempty
 
 
+module Session =
+
+    open Nikeza.Access.Specification.Commands.Session
+
+    type HandleLogin =  ResultOf.Login  -> LoginEvent  nonempty
+    type HandleLogout = ResultOf.Logout -> LogoutEvent nonempty
+
+
 module Submission =
     open Commands.Registration.Submit
 
