@@ -35,7 +35,7 @@ type ViewModel(dependencies) as x =
         } 
           |> ofUnvalidated
           |> Registration.Validate.Execute 
-          |> In.ValidateRegistration.workflow
+          |> For.ValidateRegistration.workflow
           |> Updates.statusOf isValidated
                
     let submit() =
@@ -46,7 +46,7 @@ type ViewModel(dependencies) as x =
         validatedForm |> function 
                          | Some form -> 
                                 form |> Registration.Command.Execute 
-                                     |> In.SubmitRegistration.workflow implementation.Submit
+                                     |> For.SubmitRegistration.attempt implementation.Submit
                                      |> ResultOf.Submit.Executed
                                      |> Are.Registration.Submission.events
                                      |> broadcast

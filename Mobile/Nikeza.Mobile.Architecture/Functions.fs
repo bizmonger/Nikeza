@@ -12,14 +12,17 @@ module Try =
     type Submit = ValidatedForm -> Result<DataTransfer.Profile,  ValidatedForm>
 
 
-module Workflows =
+module Attempts =
 
     open Nikeza.Access.Specification.Commands
 
-    type SubmitWorkflow =   Try.Submit -> Registration.Command -> Result<DataTransfer.Profile,  ValidatedForm>
-    type SessionWorkflow =  Try.Login  -> LoginCommand         -> Result<Provider option, Credentials>
-    type LogoutWorkflow =   Try.Logout -> LogoutCommand        -> Result<Provider, Provider>
+    type SubmitAttempt = Try.Submit -> Registration.Command -> Result<DataTransfer.Profile,  ValidatedForm>
+    type LoginAttempt =  Try.Login  -> LoginCommand         -> Result<Provider option, Credentials>
+    type LogoutAttempt = Try.Logout -> LogoutCommand        -> Result<Provider, Provider>
+    
 
+module Workflows =
+    open Nikeza.Access.Specification.Commands
     type ValidateWorkflow = Registration.Validate -> RegistrationValidationEvent nonempty
 
 

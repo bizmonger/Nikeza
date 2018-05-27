@@ -1,17 +1,18 @@
-﻿module Nikeza.Mobile.Access.In
+﻿module Nikeza.Mobile.Access.For
 
 open Nikeza.Access.Specification.Commands.Session
 open Nikeza.Access.Specification.Workflows
+open Nikeza.Access.Specification.Attempts
 open Nikeza.Access.Specification.Commands
 open Logic
 
 module SubmitRegistration =
 
-    let workflow : SubmitWorkflow =
+    let attempt : SubmitAttempt =
         fun submit -> function
-        Registration.Command
-                    .Execute form -> 
-                             form |> submit
+            Registration.Command
+                        .Execute form -> 
+                                 form |> submit
 
 module ValidateRegistration =
     open Registration.Validate
@@ -25,14 +26,14 @@ module ValidateRegistration =
                              
 module Login =
     
-    let workflow : SessionWorkflow =
+    let attempt : LoginAttempt =
         fun login -> function
-        Submit credentials -> 
-               credentials |> login
+            Submit credentials -> 
+                   credentials |> login
 
 module Logout =
     
-    let workflow : LogoutWorkflow =
+    let attempt : LogoutAttempt =
         fun logout -> function
-        Logout p ->
-               p |> logout
+            Logout p ->
+                   p |> logout
