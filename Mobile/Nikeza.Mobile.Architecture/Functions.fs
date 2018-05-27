@@ -27,7 +27,6 @@ module Workflows =
 
 
 module Session =
-
     open Nikeza.Access.Specification.Commands.Session
 
     type HandleLogin =  ResultOf.Login  -> LoginEvent  nonempty
