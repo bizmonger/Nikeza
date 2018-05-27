@@ -1,9 +1,9 @@
-﻿module internal Are.Registration
+﻿module Are.Registration
 
 open Nikeza.Common
 open Nikeza.Access.Specification.Events
 
-module internal Submission =
+module Submission =
     open Nikeza.Access.Specification.Commands.Registration.Submit
     open Nikeza.Access.Specification.Submission
 

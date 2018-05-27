@@ -7,6 +7,7 @@ open Nikeza.Mobile.UILogic.Adapter
 open Nikeza.Mobile.Access
 open Nikeza.Access.Specification.Events
 open Nikeza.Access.Specification.Commands
+open Nikeza.Access.Specification.Commands.Registration.Submit
 open Nikeza.Access.Specification.Registration
 open Nikeza.Access.Specification.Try
 
@@ -46,6 +47,8 @@ type ViewModel(dependencies) as x =
                          | Some form -> 
                                 form |> Registration.Command.Execute 
                                      |> In.SubmitRegistration.workflow implementation.Submit
+                                     |> ResultOf.Submit.Executed
+                                     |> Are.Registration.Submission.events
                                      |> broadcast
                                      
                          | None -> ()

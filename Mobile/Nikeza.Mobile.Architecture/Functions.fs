@@ -7,9 +7,8 @@ open Events
 
 module Try =
 
-    type Login =  Credentials -> Result<Provider option, Credentials>
-    type Logout = Provider    -> Result<Provider, Provider>
-
+    type Login =  Credentials   -> Result<Provider option, Credentials>
+    type Logout = Provider      -> Result<Provider, Provider>
     type Submit = ValidatedForm -> Result<DataTransfer.Profile,  ValidatedForm>
 
 
@@ -17,13 +16,11 @@ module Workflows =
 
     open Nikeza.Access.Specification.Commands
 
-    type SubmitWorkflow =   Try.Submit -> Registration.Command -> RegistrationSubmissionEvent nonempty
-
-    type SessionWorkflow =  Try.Login  -> LoginCommand -> LoginEvent nonempty
+    type SubmitWorkflow =   Try.Submit -> Registration.Command -> Result<DataTransfer.Profile,  ValidatedForm>
+    type SessionWorkflow =  Try.Login  -> LoginCommand         -> Result<Provider option, Credentials>
+    type LogoutWorkflow =   Try.Logout -> LogoutCommand        -> Result<Provider, Provider>
 
     type ValidateWorkflow = Registration.Validate -> RegistrationValidationEvent nonempty
-
-    type LogoutWorkflow =   Try.Logout -> LogoutCommand -> LogoutEvent nonempty
 
 
 module Session =

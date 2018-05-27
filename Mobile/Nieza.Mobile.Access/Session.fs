@@ -6,7 +6,7 @@ open Nikeza.Access.Specification.Session
 open Nikeza.Common
 open Nikeza.DataTransfer
 
-module internal Login =
+module Login =
 
     let events : HandleLogin = function 
         ResultOf.Login result -> 
@@ -20,7 +20,7 @@ module internal Login =
                                                  
                                  | Error info -> { Head= FailedToConnect info; Tail=[] }
             
-module internal Logout =
+module Logout =
 
     let events : HandleLogout = function 
         ResultOf.Logout result -> 

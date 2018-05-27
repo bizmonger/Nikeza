@@ -3,6 +3,7 @@
 open System.Windows.Input
 open Nikeza.Common
 open Nikeza.Access.Specification.Commands
+open Nikeza.Access.Specification.Commands.Session
 open Nikeza.Access.Specification.Events
 open Nikeza.Access.Specification.Login
 open Nikeza.Mobile.UILogic
@@ -41,6 +42,8 @@ type ViewModel(dependencies) as x =
 
         then Submit { Email=email; Password=password }
               |> In.Login.workflow implementation.Login
+              |> ResultOf.Login
+              |> Are.Login.events
               |> broadcast
 
         else ()
