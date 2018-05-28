@@ -1,7 +1,6 @@
 ﻿namespace Nikeza.Access.Specification
 
 open Events
-open Nikeza.Common
 
 module Registration =
 
