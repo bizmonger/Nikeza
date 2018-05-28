@@ -1,8 +1,8 @@
 ﻿namespace Nikeza.Access.Specification.Commands
 
 open Nikeza
-open Nikeza.Access.Specification
 open DataTransfer
+open Nikeza.Access.Specification
 
 type Validate = Execute of UnvalidatedForm
 type Command =  Execute of ValidatedForm
