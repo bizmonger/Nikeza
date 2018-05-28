@@ -6,7 +6,7 @@ open Logic
 
 module SubmitRegistration =
 
-    let interpret : SubmitAttempt =
+    let attempt : SubmitAttempt =
         fun submit -> function
             Registration.Submit
                         .Execute form -> 
@@ -14,14 +14,14 @@ module SubmitRegistration =
 
 module Login =
     
-    let interpret : LoginAttempt =
+    let attempt : LoginAttempt =
         fun login -> function
             Submit credentials -> 
                    credentials |> login
 
 module Logout =
     
-    let interpret : LogoutAttempt =
+    let attempt : LogoutAttempt =
         fun logout -> function
             Logout p ->
                    p |> logout

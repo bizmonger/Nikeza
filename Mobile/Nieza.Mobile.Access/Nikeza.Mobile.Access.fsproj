@@ -57,7 +57,7 @@
     <Compile Include="Interpreters\Session.fs" />
     <Compile Include="Interpreters\Validation.fs" />
     <Compile Include="Workflows.fs" />
-    <Compile Include="Attempts.fs" />
+    <Compile Include="Attempt.fs" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

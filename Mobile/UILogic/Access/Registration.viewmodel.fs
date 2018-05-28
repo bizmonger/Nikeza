@@ -46,7 +46,7 @@ type ViewModel(dependencies) as x =
         validatedForm |> function 
                          | Some form -> 
                                 form |> Registration.Submit.Execute 
-                                     |> Using.SubmitRegistration.interpret implementation.Submit
+                                     |> Using.SubmitRegistration.attempt implementation.Submit
                                      |> ResultOf.Submit.Executed
                                      |> Are.Registration.Submission.events
                                      |> broadcast

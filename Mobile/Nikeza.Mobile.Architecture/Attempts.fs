@@ -15,5 +15,5 @@ module Attempts =
     open Nikeza.Access.Specification.Commands
 
     type SubmitAttempt = Attempt.Submit -> Registration.Submit -> Result<DataTransfer.Profile,  ValidatedForm>
-    type LoginAttempt =  Attempt.Login  -> LoginCommand         -> Result<Provider option, Credentials>
-    type LogoutAttempt = Attempt.Logout -> LogoutCommand        -> Result<Provider, Provider>
+    type LoginAttempt =  Attempt.Login  -> LoginCommand        -> Result<Provider option, Credentials>
+    type LogoutAttempt = Attempt.Logout -> LogoutCommand       -> Result<Provider, Provider>
