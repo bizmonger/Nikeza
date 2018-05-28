@@ -5,7 +5,7 @@ module Registration =
     open Events
     open Nikeza.Access.Specification.Attempt
 
-    type Implementation = {
+    type Attempt = {
         Submit : Submit
     }
 
@@ -14,7 +14,7 @@ module Registration =
     }
 
     type Dependencies = {
-        Implementation : Implementation
+        Attempt : Attempt
         SideEffects    : SideEffects
     }
 
@@ -25,7 +25,7 @@ module Login =
     open Attempt
     open Events
 
-    type Implementation =  { 
+    type Attempt =  { 
         Login : Login
     }
 
@@ -34,6 +34,6 @@ module Login =
     }
 
     type Dependencies = { 
-        Implementation : Implementation
-        SideEffects    : SideEffects
+        Attempt     : Attempt
+        SideEffects : SideEffects
     }

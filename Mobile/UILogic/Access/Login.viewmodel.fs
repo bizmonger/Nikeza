@@ -21,7 +21,7 @@ type ViewModel(dependencies) as x =
     let forLoginAttempt = sideEffects'.ForLoginAttempt
     let updates =       { forLoginAttempt with Tail=onAuthenticationFailed::forLoginAttempt.Tail }
     let sideEffects =   { sideEffects' with ForLoginAttempt= updates }
-    let implementation =  dependencies.Implementation
+    let login =           dependencies.Attempt.Login
 
     let mutable email =    ""
     let mutable password = ""
@@ -33,15 +33,15 @@ type ViewModel(dependencies) as x =
          |> List.iter (fun event -> sideEffects.ForLoginAttempt |> handle event)
 
     let validate() =
-        email.Length    > 0 &&
-        password.Length > 0
+        email    .Length > 0 &&
+        password .Length > 0
 
     let OnNext _ =
 
         if   x.IsValidated
 
         then Submit { Email=email; Password=password }
-              |> Using.Login.attempt implementation.Login
+              |> Using.Login.attempt login
               |> ResultOf.Login
               |> Are.Login.events
               |> broadcast

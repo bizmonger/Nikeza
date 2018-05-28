@@ -40,10 +40,10 @@ module Login =
             | FailedToConnect      credentials -> Debug.WriteLine(sprintf "Error: Unable to connect to server:\n %A" credentials)
             | FailedToAuthenticate credentials -> Debug.WriteLine(sprintf "Warning: Unable to authenticate user:\n %A" credentials)
 
-        let handlers =       { Head=log; Tail=[] }
-        let sideEffects =    { ForLoginAttempt= handlers } |> appendNavigation Application.Current
-        let implementation = { Login= TestAPI.mockLogin }
+        let handlers =    { Head=log; Tail=[] }
+        let sideEffects = { ForLoginAttempt= handlers } |> appendNavigation Application.Current
+        let attempt =     { Login= TestAPI.mockLogin }
     
         { SideEffects=    sideEffects; 
-          Implementation= implementation 
+          Attempt= attempt 
         }

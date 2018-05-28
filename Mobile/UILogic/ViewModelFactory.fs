@@ -16,7 +16,7 @@ module Registration =
         let implementation = { Submit= Attempt.submit }
         let sideEffects =    { ForRegistrationSubmission= log::[] }
 
-        let dependencies = { Implementation=implementation
+        let dependencies = { Attempt=implementation
                              SideEffects=sideEffects 
         }
 

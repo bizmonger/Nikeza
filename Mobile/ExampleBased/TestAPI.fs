@@ -108,7 +108,7 @@ module Registration =
         let sideEffects =    { ForRegistrationSubmission= [] }
         let implementation = { Submit=mockSubmit }
     
-        { Implementation=  implementation; SideEffects= sideEffects }
+        { Attempt=  implementation; SideEffects= sideEffects }
 
 module ProfileEditor =
 

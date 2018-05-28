@@ -19,8 +19,8 @@ type ViewModel(dependencies) as x =
 
     inherit ViewModelBase()
 
-    let implementation = dependencies.Implementation
-    let sideEffects =    dependencies.SideEffects
+    let submit =      dependencies.Attempt.Submit
+    let sideEffects = dependencies.SideEffects
 
     let mutable validatedForm = None
 
@@ -46,7 +46,7 @@ type ViewModel(dependencies) as x =
         validatedForm |> function 
                          | Some form -> 
                                 form |> Registration.Submit.Execute 
-                                     |> Using.SubmitRegistration.attempt implementation.Submit
+                                     |> Using.SubmitRegistration.attempt submit
                                      |> ResultOf.Submit.Executed
                                      |> Are.Registration.Submission.events
                                      |> broadcast
