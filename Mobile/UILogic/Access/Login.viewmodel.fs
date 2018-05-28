@@ -40,7 +40,7 @@ type ViewModel(dependencies) as x =
 
         if   x.IsValidated
 
-        then Submit { Email=email; Password=password }
+        then Login { Email=email; Password=password }
               |> attempt login
               |> ResultOf.Login
               |> Are.Login.events

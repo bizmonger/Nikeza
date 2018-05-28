@@ -7,7 +7,7 @@ open DataTransfer
 type Validate = Execute of UnvalidatedForm
 type Command =  Execute of ValidatedForm
 
-type LoginCommand =  Submit of Credentials
+type LoginCommand =  Login  of Credentials
 type LogoutCommand = Logout of Provider
 
 

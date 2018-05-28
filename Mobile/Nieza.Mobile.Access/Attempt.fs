@@ -15,7 +15,7 @@ module Login =
     
     let attempt : LoginAttempt =
         fun login -> function
-            Submit credentials -> 
+            Login credentials -> 
                    credentials |> login
 
 module Logout =
