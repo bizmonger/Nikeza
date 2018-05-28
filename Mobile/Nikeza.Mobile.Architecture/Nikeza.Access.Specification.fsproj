@@ -10,7 +10,8 @@
     <Compile Include="Events.fs" />
     <Compile Include="Functions.fs" />
     <Compile Include="Attempts.fs" />
-    <Compile Include="SideEffects.fs" />
+    <Compile Include="Dependencies.login.fs" />
+    <Compile Include="Dependencies.registration.fs" />
   </ItemGroup>
 
   <ItemGroup>

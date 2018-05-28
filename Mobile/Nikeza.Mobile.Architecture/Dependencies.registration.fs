@@ -1,8 +1,10 @@
 ﻿namespace Nikeza.Access.Specification
 
+open Events
+open Nikeza.Common
+
 module Registration =
 
-    open Events
     open Nikeza.Access.Specification.Attempt
 
     type Attempt = {
@@ -14,26 +16,6 @@ module Registration =
     }
 
     type Dependencies = {
-        Attempt : Attempt
-        SideEffects    : SideEffects
-    }
-
-
-module Login =
-
-    open Nikeza.Common
-    open Attempt
-    open Events
-
-    type Attempt =  { 
-        Login : Login
-    }
-
-    type SideEffects =  { 
-        ForLoginAttempt : (LoginEvent -> unit) nonempty 
-    }
-
-    type Dependencies = { 
         Attempt     : Attempt
         SideEffects : SideEffects
     }
