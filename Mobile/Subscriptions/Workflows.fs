@@ -14,11 +14,11 @@ let follow : FollowWorkflow =
         Follow.Command.Execute request -> 
                                request |> followFn
                                        |> ResultOf.Follow 
-                                       |> Are.Subscription.Follow.events
+                                       |> Are.Follow.events
                                             
 let unsubscribe : UnsubscribeWorkflow =
     fun unsubscribeFn -> function
         Unsubscribe.Command.Execute request -> 
                                     request |> unsubscribeFn
                                             |> ResultOf.Unsubscribe  
-                                            |> Are.Subscription.Unsubscribe.events
+                                            |> Are.Unsubscribe.events

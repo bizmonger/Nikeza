@@ -1,4 +1,4 @@
-﻿module internal Are.Subscription
+﻿module internal Are
 
 open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Attempt

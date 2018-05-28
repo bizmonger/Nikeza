@@ -4,13 +4,12 @@ open Nikeza.Access.Specification.Attempts
 open Nikeza.Access.Specification.Commands
 open Logic
 
-module SubmitRegistration =
+module ValidatedForm =
 
     let attempt : SubmitAttempt =
         fun submit -> function
-            Registration.Submit
-                        .Execute form -> 
-                                 form |> submit
+            Registration.Attach form -> 
+                                form |> submit
 
 module Login =
     
@@ -23,5 +22,5 @@ module Logout =
     
     let attempt : LogoutAttempt =
         fun logout -> function
-            Logout p ->
-                   p |> logout
+            Logout provider ->
+                   provider |> logout

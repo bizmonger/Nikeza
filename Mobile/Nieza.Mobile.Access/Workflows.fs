@@ -13,4 +13,4 @@ module ValidateRegistration =
                     .Execute form -> 
                              form |> Registration.validate
                                   |> ResultOf.Validate.Executed
-                                  |> Are.Registration.Validation.events
+                                  |> Are.Validation.events

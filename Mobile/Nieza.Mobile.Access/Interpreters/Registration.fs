@@ -1,4 +1,4 @@
-﻿module Are.Registration
+﻿namespace Are
 
 open Nikeza.Common
 open Nikeza.Access.Specification.Events
