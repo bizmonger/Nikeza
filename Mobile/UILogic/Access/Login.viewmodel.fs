@@ -7,7 +7,7 @@ open Nikeza.Access.Specification.Commands.Session
 open Nikeza.Access.Specification.Events
 open Nikeza.Access.Specification.Login
 open Nikeza.Mobile.UILogic
-open Nikeza.Mobile.Access
+open Nikeza.Mobile.Access.Using.Login
 
 type ViewModel(dependencies) as x =
 
@@ -41,7 +41,7 @@ type ViewModel(dependencies) as x =
         if   x.IsValidated
 
         then Submit { Email=email; Password=password }
-              |> Using.Login.attempt login
+              |> attempt login
               |> ResultOf.Login
               |> Are.Login.events
               |> broadcast
