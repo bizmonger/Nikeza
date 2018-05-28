@@ -9,7 +9,7 @@ module RegistrationEvents =
 
     module Register =
     
-        let appendNavigation : Registration.AddSideEffectsFn =
+        let appendNavigation : Registration.AddSideEffects =
 
             fun _ sideEffects ->
  

@@ -8,7 +8,7 @@ module ProfileEvents =
 
     module Save =
 
-        let appendPersistence : Save.AddSideEffectsFn =
+        let appendPersistence : Save.AddSideEffects =
 
             fun app sideEffects ->
  
@@ -22,7 +22,7 @@ module ProfileEvents =
 
     module Topics =
 
-        let appendQuery : QueryFailed.AddSideEffectsFn =
+        let appendQuery : QueryFailed.AddSideEffects =
 
             fun app sideEffects ->
  

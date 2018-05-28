@@ -11,7 +11,7 @@ open PageFactory
 
 module LoginEvents =
     
-    let appendNavigation : Login.AddSideEffectsFn =
+    let appendNavigation : Login.AddSideEffects =
 
         fun app sideEffects ->
 

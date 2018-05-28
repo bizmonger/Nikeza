@@ -8,7 +8,7 @@ open PageFactory
 
 module PortalEvents =
 
-    let appendNavigation : Portal.AddSideEffectsFn =
+    let appendNavigation : Portal.AddSideEffects =
 
         fun app sideEffects ->
     
