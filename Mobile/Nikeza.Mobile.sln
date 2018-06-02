@@ -29,7 +29,7 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Nikeza.Mobile.Access", "Nie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nikeza.Mobile.UI", "Nikeza.Mobile.UI\Nikeza.Mobile.UI.csproj", "{732C1781-BD9E-4CB8-90CC-82A0549B7780}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Nikeza.Access.Specification", "Nikeza.Mobile.Architecture\Nikeza.Access.Specification.fsproj", "{4BCB41F3-1451-4A33-9B16-A0F214900E2E}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Nikeza.Access.Specification", "Nikeza.Mobile.Specification\Nikeza.Access.Specification.fsproj", "{4BCB41F3-1451-4A33-9B16-A0F214900E2E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domains", "Domains", "{9F115005-38DA-46D4-B249-45933E6F9AAA}"
 EndProject
