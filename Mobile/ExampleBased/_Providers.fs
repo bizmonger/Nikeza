@@ -62,7 +62,7 @@ let ``Follow provider``() =
     let mutable followed = false
     let sideEffect = function SubscriberAdded _ -> followed <- true | _ -> ()
 
-    let sideEffects =   { Portfolio.dependencies.SideEffects with ForFollow=[sideEffect] }
+    let sideEffects =  { Portfolio.dependencies.SideEffects with ForFollow=[sideEffect] }
     let dependencies = { Portfolio.dependencies with SideEffects= sideEffects }
     
     // Test

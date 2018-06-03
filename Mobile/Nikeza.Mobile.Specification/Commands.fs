@@ -4,9 +4,6 @@ open Nikeza
 open DataTransfer
 open Nikeza.Access.Specification
 
-type Validate = Execute of UnvalidatedForm
-type Command =  Execute of ValidatedForm
-
 type LoginCommand =  Login  of Credentials
 type LogoutCommand = Logout of Provider
 
