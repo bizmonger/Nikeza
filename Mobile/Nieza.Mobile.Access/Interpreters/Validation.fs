@@ -3,27 +3,30 @@
 open System
 open Nikeza.Common
 open Nikeza.Access.Specification
+open Nikeza.Access.Specification.Validation
 
 type ValidatedForm =   Nikeza.Access.Specification.ValidatedForm
 type UnvalidatedForm = Nikeza.Access.Specification.UnvalidatedForm
 
-let validate (Unvalidated form) : Result<ValidatedForm, UnvalidatedForm> =
+let validate : ValidateForm =
 
-    let  isValidEmail (Email email) = email |> String.length > 3
+    fun (Unvalidated form) ->
 
-    let (password,confirm) =
-        (form.Password |> function Password p -> p, form.Confirm  |> function Password p -> p)
+        let  isValidEmail (Email email) = email |> String.length > 3
 
-    if   not (form.Email |> isValidEmail) then
-         Unvalidated form |> Error
+        let (password,confirm) =
+            (form.Password |> function Password p -> p, form.Confirm  |> function Password p -> p)
 
-    elif String.length password < 3 then
-         Error <| Unvalidated form
+        if   not (form.Email |> isValidEmail) then
+             Unvalidated form |> Error
 
-    elif not (password = confirm) then
-         Error <| Unvalidated form
+        elif String.length password < 3 then
+             Error <| Unvalidated form
 
-    else Ok <| Validated form
+        elif not (password = confirm) then
+             Error <| Unvalidated form
+
+        else Ok <| Validated form
 
 let isValid (credentials:LogInRequest) =
     let validEmail =    not <| String.IsNullOrEmpty(credentials.Email)

@@ -7,10 +7,10 @@ open Logic
 
 module ValidateRegistration =
     open Registration.Validate
+    open Nikeza.Access.Specification.Commands.Registration
     
     let workflow : ValidateWorkflow = function
-        Registration.Validate
-                    .Execute form -> 
-                             form |> Registration.validate
-                                  |> ResultOf.Validate.Executed
-                                  |> Are.Validation.events
+        Validate form -> 
+                 form |> Registration.validate
+                      |> ResultOf.Validate.Executed
+                      |> Are.Validation.events

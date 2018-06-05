@@ -7,8 +7,7 @@ open Events
 
 module Workflows =
     open Nikeza.Access.Specification.Commands
-    type ValidateWorkflow = Registration.Validate -> RegistrationValidationEvent nonempty
-
+    type ValidateWorkflow = Registration.ValidateCommand -> RegistrationValidationEvent nonempty
 
 module Session =
     open Nikeza.Access.Specification.Commands.Session
@@ -25,5 +24,7 @@ module Submission =
 
 module Validation =
     open Commands.Registration.Validate
+    
+    type ValidateForm = UnvalidatedForm -> Result<ValidatedForm, UnvalidatedForm>
 
     type RegistrationValidation = ResultOf.Validate -> RegistrationValidationEvent nonempty

@@ -61,7 +61,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Nikeza.Mobile.Architecture\Nikeza.Access.Specification.fsproj">
+    <ProjectReference Include="..\Nikeza.Mobile.Specification\Nikeza.Access.Specification.fsproj">
       <Name>Nikeza.Access.Specification</Name>
       <Project>{4bcb41f3-1451-4a33-9b16-a0f214900e2e}</Project>
       <Private>True</Private>

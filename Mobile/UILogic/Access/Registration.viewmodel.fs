@@ -27,6 +27,7 @@ type ViewModel(dependencies) as x =
     let mutable validatedForm = None
 
     let validate() =
+
         let isValidated = function
             | FormValidated form -> validatedForm <- Some form; true
             | _ -> false
@@ -34,8 +35,8 @@ type ViewModel(dependencies) as x =
         Unvalidated { Email=    Email    x.Email
                       Password= Password x.Password
                       Confirm=  Password x.Confirm
-                    }
-                      |> Registration.Validate.Execute 
+                    } 
+                      |> Validate
                       |> In.ValidateRegistration.workflow
                       |> Update.statusOf isValidated
                
