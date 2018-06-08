@@ -12,8 +12,8 @@
 
   <ItemGroup>
     <Compile Include="TestAPI.fs" />
-    <Compile Include="Pages.fs" />
     <Compile Include="DelegateCommand.fs" />
+    <Compile Include="Pages.fs" />
     <Compile Include="ViewModelBase.fs" />
     <Compile Include="Access\Registration.viewmodel.fs" />
     <Compile Include="Access\Login.viewmodel.fs" />

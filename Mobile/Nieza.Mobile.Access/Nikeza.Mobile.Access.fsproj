@@ -61,6 +61,11 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj">
+      <Name>Nikeza.Common</Name>
+      <Project>{90e1c6bb-b9d6-4081-b0e1-ed1414c2060f}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Nikeza.Mobile.Specification\Nikeza.Access.Specification.fsproj">
       <Name>Nikeza.Access.Specification</Name>
       <Project>{4bcb41f3-1451-4a33-9b16-a0f214900e2e}</Project>
@@ -77,11 +82,6 @@
       <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <ProjectReference Include="..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj">
-      <Name>Nikeza.Common</Name>
-      <Project>{90e1c6bb-b9d6-4081-b0e1-ed1414c2060f}</Project>
-      <Private>True</Private>
-    </ProjectReference>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
