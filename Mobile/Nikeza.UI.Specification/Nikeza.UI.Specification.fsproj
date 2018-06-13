@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Pages.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
+    <ProjectReference Include="..\Nieza.Mobile.Access\Nikeza.Mobile.Access.fsproj" />
+    <ProjectReference Include="..\Nikeza.Mobile.Specification\Nikeza.Access.Specification.fsproj" />
+    <ProjectReference Include="..\Nikeza.Portfolio.Specification\Nikeza.Portfolio.Specification.fsproj" />
+    <ProjectReference Include="..\Nikeza.Profile.Specification\Nikeza.Portal.Specification.fsproj" />
+    <ProjectReference Include="..\Nikeza.Subscriptions.Specification\Nikeza.Subscriptions.Specification.fsproj" />
+  </ItemGroup>
+
+</Project>
