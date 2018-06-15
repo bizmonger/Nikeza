@@ -12,5 +12,5 @@ module ProfileEditor =
 
     module Submission =
 
-        type AddTopicSubmission =    ResultOf.AddTopic    -> AddTopicEvent nonempty
-        type RemoveTopicSubmission = ResultOf.RemoveTopic -> AddTopicEvent nonempty
+        type AddTopicSubmission =    ResultOf.AddTopic    -> AddTopicEvent    nonempty
+        type RemoveTopicSubmission = ResultOf.RemoveTopic -> RemoveTopicEvent nonempty
