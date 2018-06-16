@@ -4,6 +4,9 @@ open System.Diagnostics
 open Nikeza.Mobile.UI
 open Nikeza.Mobile.UILogic.ViewModelFactory.Profile
 open Xamarin.Forms
+open Nikeza.Mobile.AppLogic.Specification
+open Nikeza.Mobile.UI.Profile
+open Nikeza.Mobile.UILogic.ViewModelFactory
 
 let configurePage (page:ContentPage) viewmodel =
     page.BindingContext <- viewmodel; page
@@ -43,6 +46,17 @@ let latestPage user : Page =
     let viewmodel = Portal.getViewModel user
 
     try page <- configurePage (new LatestPage()) viewmodel
+    with ex -> Debug.WriteLine(ex.Message)
+    page
+
+let profilePage profile : Page =
+
+    let mutable page:Page = null
+
+    let viewmodel = Profile.Editor.getViewModel profile
+    viewmodel.Init()
+
+    try page <- configurePage (new ProfilePage()) viewmodel
     with ex -> Debug.WriteLine(ex.Message)
     page
 

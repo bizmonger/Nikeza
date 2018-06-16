@@ -1,35 +1,12 @@
 ﻿namespace Nikeza.Mobile.AppLogic
 
-module ProfileEvents =
+open Xamarin.Forms
+open Nikeza.Mobile.AppLogic.Navigation
+open Nikeza.Mobile.AppLogic.PageFactory
+open Nikeza.Mobile.UILogic.Pages
 
-    open System.Diagnostics
-    open Nikeza.Mobile.UILogic.Portal.ProfileEditor
-    open Nikeza.Mobile.AppLogic.Specification.ProfileEditor
+module ProfileEditor =
 
-    module Save =
-
-        let appendPersistence : Save.AddSideEffects =
-
-            fun app sideEffects ->
- 
-                let handle = function
-                    | Ok    _ -> (Debug.WriteLine(sprintf "Request: Navigate to previous page"))
-                    | Error _ -> ()
-
-                let handlers = handle::sideEffects.ForProfileSave
-
-                { sideEffects with SideEffects.ForProfileSave= handlers }
-
-    module Topics =
-
-        let appendQuery : QueryFailed.AddSideEffects =
-
-            fun app sideEffects ->
- 
-                let handle = function
-                    | Error msg -> (Debug.WriteLine(sprintf "Request: Navigate to Error page\n %s" msg))
-                    | Ok    _   -> ()
-
-                let handlers = handle::sideEffects.ForQueryTopicsFailed
-
-                { sideEffects with SideEffects.ForQueryTopicsFailed= handlers }
+    let navigate' = function
+        | PageRequested.EditProfile profile -> Application.Current |> navigate (profilePage profile) profile
+        | _ -> ()

@@ -7,6 +7,7 @@ module Registration =
     open Nikeza.Access.Specification.Registration
     open System.Diagnostics
 
+
     let getViewModel : Registration.ViewModel =
 
         let log = function
@@ -41,3 +42,22 @@ module Profile =
             }
 
             Portal.ViewModel(dependencies)
+
+    module Editor = 
+
+        open Nikeza.Mobile.UILogic.Portal
+        open Nikeza.Mobile.UILogic.Portal.ProfileEditor
+
+        let getViewModel user : ProfileEditor.ViewModel =
+
+            let sideEffects = { ForProfileSave=       []
+                                ForQueryTopicsFailed= []
+            }
+
+            let dependencies = { User=        user
+                                 SideEffects= sideEffects 
+                                 Query=           { Topics= TestAPI.mockTopics }
+                                 Implementation = { Save=   TestAPI.mockSave }
+            }
+
+            ProfileEditor.ViewModel(dependencies)

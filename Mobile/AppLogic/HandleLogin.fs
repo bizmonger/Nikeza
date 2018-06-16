@@ -17,7 +17,7 @@ module Login =
 
         let log' = function
             | LoggedIn             user        -> Debug.WriteLine(sprintf "Login successful:\n %A" user)
-            | FailedToConnect      credentials -> Debug.WriteLine(sprintf "Error: Unable to connect to server:\n %A" credentials)
+            | FailedToConnect      credentials -> Debug.WriteLine(sprintf "Error:   Unable to connect to server:\n %A" credentials)
             | FailedToAuthenticate credentials -> Debug.WriteLine(sprintf "Warning: Unable to authenticate user:\n %A" credentials)
 
         let navigate' = function
