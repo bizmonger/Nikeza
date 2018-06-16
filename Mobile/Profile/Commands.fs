@@ -1,11 +1,13 @@
 ﻿module Nikeza.Mobile.Profile.Commands
 
+open Nikeza
+open Nikeza.Common
 open Nikeza.DataTransfer
 
 module ProfileEditor =
 
     type ValidateCommand = Execute of EditedProfile
-    type SaveCommand =     Execute of ValidatedProfile
+    type SaveCommand =     Save of ValidatedProfile
 
     module Validate =
         module ResultOf =
@@ -13,7 +15,8 @@ module ProfileEditor =
 
     module Save =
         module ResultOf =
-            type Editor = Save of Result<Profile, ValidatedProfile>
+
+            type Editor = Save of Result<DataTransfer.Profile, ValidatedProfile error>
 
 
 module DataSources =

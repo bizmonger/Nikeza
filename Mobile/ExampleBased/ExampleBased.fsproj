@@ -27,6 +27,7 @@
     <ProjectReference Include="..\AppLogic\Nikeza.Mobile.AppLogic.fsproj" />
     <ProjectReference Include="..\Nieza.Mobile.Access\Nikeza.Mobile.Access.fsproj" />
     <ProjectReference Include="..\Nikeza.Mobile.Specification\Nikeza.Access.Specification.fsproj" />
+    <ProjectReference Include="..\Nikeza.Profile.Specification\Nikeza.Portal.Specification.fsproj" />
     <ProjectReference Include="..\Profile\Nikeza.Mobile.Profile.fsproj" />
     <ProjectReference Include="..\UILogic\Nikeza.Mobile.UILogic.fsproj" />
   </ItemGroup>

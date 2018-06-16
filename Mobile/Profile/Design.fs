@@ -5,7 +5,7 @@ open Nikeza.DataTransfer
 
 module Events =
 
-    type SaveProfileEvent =     Result<Profile,ValidatedProfile>
+    //type SaveProfileEvent =     Result<Profile,ValidatedProfile>
     type SaveDataSourcesEvent = Result<Profile, DataSourceSubmit list>
 
     type SubscriptionEvent =

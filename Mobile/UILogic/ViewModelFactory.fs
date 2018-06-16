@@ -57,7 +57,7 @@ module Profile =
             let dependencies = { User=        user
                                  SideEffects= sideEffects 
                                  Query=           { Topics= TestAPI.mockTopics }
-                                 Implementation = { Save=   TestAPI.mockSave }
+                                 Attempt = { Save=   TestAPI.mockSave }
             }
 
             ProfileEditor.ViewModel(dependencies)

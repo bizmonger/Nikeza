@@ -18,18 +18,19 @@ module Editor =
                                          |> ResultOf.Editor.Validate
                                          |> Are.Editor.Validate.events
 
-    module Save =
-        open Commands.ProfileEditor.Save
-        open Commands.ProfileEditor
+    //module Save =
+    //    open Commands.ProfileEditor.Save2
+    //    open Commands.ProfileEditor
+    //    open Nikeza.DataTransfer
 
-        type private SaveWorkflow = SaveProfileFn -> SaveCommand -> SaveProfileEvent nonempty
+    //    type private SaveWorkflow = Result<Profile, ValidatedProfile error> -> SaveProfileEvent nonempty
 
-        let workflow : SaveWorkflow = 
-            fun saveFn -> function
-            SaveCommand.Execute profile -> 
-                                profile |> saveFn
-                                        |> ResultOf.Editor.Save
-                                        |> Are.Editor.Save.events
+    //    let events : SaveWorkflow = 
+    //        fun saveFn -> function
+    //        SaveCommand.Save profile -> 
+    //                         profile |> saveFn
+    //                                 |> ResultOf.Editor.Save
+    //                                 |> Are.Editor.Save.events
 
 module DataSources =
 

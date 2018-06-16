@@ -15,8 +15,14 @@ module Validate =
 
 module Save =
     open Nikeza.Mobile.Profile.Commands.ProfileEditor.Save
+    open Nikeza.Portal.Specification.Events
 
     type private Handle = ResultOf.Editor -> SaveProfileEvent nonempty
 
     let events : Handle = function
-        ResultOf.Editor.Save result -> { Head=result; Tail=[] }
+        ResultOf.Editor.Save result -> 
+                             result |> function 
+                                       | Ok    profile -> { Head=SaveProfileSucceeded profile; Tail=[] }
+                                       | Error error   -> let profile = error.Context.Profile
+                                                          let error' = { Context=profile; Description=error.Description }
+                                                          { Head=SaveProfileFailed error'; Tail=[] }

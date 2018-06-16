@@ -1,13 +1,17 @@
 ﻿module Nikeza.Mobile.Profile.Attempt
 
-open Nikeza.DataTransfer
+open Nikeza
 open Events
+open Nikeza.Common
+open Nikeza.DataTransfer
+open Nikeza.Mobile.Profile.Commands.ProfileEditor
 
-type SaveProfileFn = ValidatedProfile      -> SaveProfileEvent
+type SaveProfileFn = SaveCommand -> Result<DataTransfer.Profile,ValidatedProfile error>
 type SaveSourcesFn = DataSourceSubmit list -> SaveDataSourcesEvent
 
-let internal saveProfile : SaveProfileFn = 
-    fun profile -> Error profile
+let saveProfile : SaveProfileFn = 
+    fun command ->
+        command |> function Save profile -> Error { Context=profile; Description="Not implemented" }
 
-let internal saveSources : SaveSourcesFn = 
+let saveSources : SaveSourcesFn = 
     fun sources -> Error sources

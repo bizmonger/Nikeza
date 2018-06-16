@@ -3,6 +3,7 @@
 open Nikeza.Common
 
 module Events =
+    open Nikeza
 
     type AddTopicEvent =
         | TopicAdded       of Topic
@@ -11,3 +12,7 @@ module Events =
     type RemoveTopicEvent =
         | TopicRemoved        of Topic
         | FailedToRemoveTopic of Topic
+
+    type SaveProfileEvent =
+        | SaveProfileSucceeded of DataTransfer.Profile
+        | SaveProfileFailed    of DataTransfer.Profile error

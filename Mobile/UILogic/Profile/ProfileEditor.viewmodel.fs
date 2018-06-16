@@ -2,17 +2,17 @@
 
 open System
 open System.Windows.Input
+open System.Collections.ObjectModel
 open Nikeza.Common
 open Nikeza.DataTransfer
 open Nikeza.Mobile.UILogic
-open Nikeza.Mobile.Profile
 open Nikeza.Mobile.Profile.Attempt
-open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.Profile.Queries
 open Nikeza.Mobile.Profile.Commands.ProfileEditor
-open System.Collections.ObjectModel
+open Nikeza.Mobile.Profile.Commands.ProfileEditor.Save
+open Nikeza.Portal.Specification.Events
 
-type Implementation = {
+type Attempt = {
     Save : SaveProfileFn
 }
 
@@ -26,10 +26,10 @@ type SideEffects = {
 }
 
 type Dependencies = {
-    User           : Profile
-    Query          : Query
-    Implementation : Implementation
-    SideEffects    : SideEffects
+    User        : Profile
+    Query       : Query
+    Attempt     : Attempt
+    SideEffects : SideEffects
 }
 
 type ViewModel(dependencies) as x =
@@ -38,7 +38,7 @@ type ViewModel(dependencies) as x =
 
     let query =          dependencies.Query
     let user =           dependencies.User
-    let implementation = dependencies.Implementation
+    let save =           dependencies.Attempt.Save
     let sideEffects =    dependencies.SideEffects
     
     let mutable firstNamePlaceholder = "first name"
@@ -84,10 +84,11 @@ type ViewModel(dependencies) as x =
         let broadcast events = 
             events.Head::events.Tail |> List.iter (fun event -> sideEffects.ForProfileSave |> handle' event)
         
-        { Profile= profile }
-           |> SaveCommand.Execute 
-           |> In.Editor.Save.workflow implementation.Save
-           |> broadcast
+        Save { Profile= profile } 
+         |> save
+         |> ResultOf.Editor.Save
+         |> Are.Editor.Save.events
+         |> broadcast
 
     member x.FirstName
         with get() =       firstName
