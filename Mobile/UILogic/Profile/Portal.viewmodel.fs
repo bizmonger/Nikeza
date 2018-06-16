@@ -56,13 +56,15 @@ type ViewModel(dependencies) =
              and  set(value) = subscriptions <- value
                                base.NotifyPropertyChanged(<@ x.Subscriptions @>)
 
-    member x.ViewSubscription =  DelegateCommand( (fun _-> broadcast <| PageRequested.Portfolio x.Subscription.Profile), 
+    member x.ViewSubscription =  DelegateCommand( (fun _ -> broadcast <| PageRequested.Portfolio x.Subscription.Profile), 
                                                    fun _ -> true) :> ICommand
 
-    member x.ViewMembers =       DelegateCommand( (fun _-> broadcast    PageRequested.Members),            fun _ -> true) :> ICommand
-    member x.ViewLatest =        DelegateCommand( (fun _-> broadcast <| PageRequested.Latest        user), fun _ -> true) :> ICommand
-    member x.ViewFollowers =     DelegateCommand( (fun _-> broadcast <| PageRequested.Followers     user), fun _ -> true) :> ICommand
-    member x.ViewSubscriptions = DelegateCommand( (fun _-> broadcast <| PageRequested.Subscriptions user), fun _ -> true) :> ICommand
+    member x.ViewMembers =       DelegateCommand( (fun _ -> broadcast    PageRequested.Members),            fun _ -> true) :> ICommand
+    member x.ViewLatest =        DelegateCommand( (fun _ -> broadcast <| PageRequested.Latest        user), fun _ -> true) :> ICommand
+    member x.ViewFollowers =     DelegateCommand( (fun _ -> broadcast <| PageRequested.Followers     user), fun _ -> true) :> ICommand
+    member x.ViewSubscriptions = DelegateCommand( (fun _ -> broadcast <| PageRequested.Subscriptions user), fun _ -> true) :> ICommand
+
+    member x.EditProfile =       DelegateCommand( (fun _ -> broadcast <| PageRequested.EditProfile   user), fun _ -> true) :> ICommand
 
     member x.Name = sprintf "%s %s" user.FirstName user.LastName
 

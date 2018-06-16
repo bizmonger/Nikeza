@@ -9,7 +9,7 @@ type PageRequested =
     | RegistrationError of ValidatedForm error
 
     | Portal            of Profile
-    | EditProfile       of UnvalidatedForm
+    | EditProfile       of Profile
                         
     | Latest            of Profile
     | Subscriptions     of Profile
