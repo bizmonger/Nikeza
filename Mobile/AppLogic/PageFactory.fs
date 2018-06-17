@@ -1,9 +1,9 @@
 ﻿module Nikeza.Mobile.AppLogic.PageFactory
 
 open System.Diagnostics
+open Xamarin.Forms
 open Nikeza.Mobile.UI
 open Nikeza.Mobile.UILogic.ViewModelFactory.Profile
-open Xamarin.Forms
 open Nikeza.Mobile.AppLogic.Specification
 open Nikeza.Mobile.UI.Profile
 open Nikeza.Mobile.UILogic.ViewModelFactory

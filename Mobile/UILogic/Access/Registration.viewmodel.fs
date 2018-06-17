@@ -4,7 +4,7 @@ open System.Windows.Input
 open Nikeza.Common
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Access
-open Nikeza.Mobile.Access.Using.ValidatedForm
+open Nikeza.Mobile.Access.ValidatedForm
 open Nikeza.Access.Specification
 open Nikeza.Access.Specification.Events
 open Nikeza.Access.Specification.Commands

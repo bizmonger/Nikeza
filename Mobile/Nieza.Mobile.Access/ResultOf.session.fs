@@ -1,29 +1,28 @@
-﻿namespace Are
+﻿namespace Nikeza.Mobile.Access
 
-open Nikeza.Access.Specification.Commands.Session
 open Nikeza.Access.Specification.Events
 open Nikeza.Access.Specification.Session
 open Nikeza.Common
 open Nikeza.DataTransfer
 
-module Login =
+module AttemptLogin =
 
-    let events : HandleLogin = function 
-        ResultOf.Login result -> 
-                       result |> function
-                                 | Ok    info -> 
-                                         info |> function
-                                                 | Some p -> { Head= LoggedIn p; Tail=[] }
+    let toEvents : HandleLogin = function 
+        result -> 
+        result |> function
+                  | Ok    info -> 
+                          info |> function
+                                  | Some p -> { Head= LoggedIn p; Tail=[] }
 
-                                                 | None   -> let credentials = { Credentials.Email=""; Credentials.Password="" }
-                                                             { Head= FailedToAuthenticate credentials; Tail=[] }
-                                                 
-                                 | Error info -> { Head= FailedToConnect info; Tail=[] }
+                                  | None   -> let credentials = { Credentials.Email=""; Credentials.Password="" }
+                                              { Head= FailedToAuthenticate credentials; Tail=[] }
+                                  
+                  | Error info -> { Head= FailedToConnect info; Tail=[] }
             
-module Logout =
+module AttemptLogout =
 
-    let events : HandleLogout = function 
-        ResultOf.Logout result -> 
-                        result |> function 
-                                  | Ok    p -> { Head= LoggedOut    p; Tail= [] }
-                                  | Error p -> { Head= LogoutFailed p; Tail= [] }
+    let toEvents : HandleLogout = function 
+        result -> 
+        result |> function 
+                  | Ok    p -> { Head= LoggedOut    p; Tail= [] }
+                  | Error p -> { Head= LogoutFailed p; Tail= [] }

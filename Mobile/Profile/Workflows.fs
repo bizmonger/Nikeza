@@ -16,21 +16,7 @@ module Editor =
             ValidateCommand.Execute form -> 
                                     form |> Editor.validate 
                                          |> ResultOf.Editor.Validate
-                                         |> Are.Editor.Validate.events
-
-    //module Save =
-    //    open Commands.ProfileEditor.Save2
-    //    open Commands.ProfileEditor
-    //    open Nikeza.DataTransfer
-
-    //    type private SaveWorkflow = Result<Profile, ValidatedProfile error> -> SaveProfileEvent nonempty
-
-    //    let events : SaveWorkflow = 
-    //        fun saveFn -> function
-    //        SaveCommand.Save profile -> 
-    //                         profile |> saveFn
-    //                                 |> ResultOf.Editor.Save
-    //                                 |> Are.Editor.Save.events
+                                         |> Validate.events
 
 module DataSources =
 

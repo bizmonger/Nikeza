@@ -1,4 +1,4 @@
-﻿module Nikeza.Mobile.Access.Using
+﻿namespace Nikeza.Mobile.Access
 
 open Nikeza.Access.Specification.Attempts
 open Nikeza.Access.Specification.Commands

@@ -3,6 +3,7 @@
 open Nikeza
 open Common
 open Events
+open DataTransfer
     
 
 module Workflows =
@@ -10,10 +11,9 @@ module Workflows =
     type ValidateWorkflow = Registration.ValidateCommand -> RegistrationValidationEvent nonempty
 
 module Session =
-    open Nikeza.Access.Specification.Commands.Session
 
-    type HandleLogin =  ResultOf.Login  -> LoginEvent  nonempty
-    type HandleLogout = ResultOf.Logout -> LogoutEvent nonempty
+    type HandleLogin =  Result<Provider option, Credentials>  -> LoginEvent  nonempty
+    type HandleLogout = Result<Provider, Provider>            -> LogoutEvent nonempty
 
 
 module Submission =

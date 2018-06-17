@@ -3,11 +3,11 @@
 open System.Windows.Input
 open Nikeza.Common
 open Nikeza.Access.Specification.Commands
-open Nikeza.Access.Specification.Commands.Session
 open Nikeza.Access.Specification.Events
 open Nikeza.Access.Specification.Login
 open Nikeza.Mobile.UILogic
-open Nikeza.Mobile.Access.Using.Login
+open Nikeza.Mobile.Access.Login
+open Nikeza.Mobile.Access.AttemptLogin
 
 type ViewModel(dependencies) as x =
 
@@ -42,8 +42,7 @@ type ViewModel(dependencies) as x =
 
         then Login { Email=email; Password=password }
               |> attempt login
-              |> ResultOf.Login
-              |> Are.Login.events
+              |> toEvents
               |> broadcast
 
         else ()

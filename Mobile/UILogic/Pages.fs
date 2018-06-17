@@ -1,4 +1,4 @@
-module Nikeza.Mobile.UILogic.Pages
+namespace Nikeza.Mobile.UILogic.Pages
 
 open Nikeza.Common
 open Nikeza.DataTransfer

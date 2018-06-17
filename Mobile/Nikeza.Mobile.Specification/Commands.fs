@@ -18,11 +18,3 @@ module Registration =
 
     module Submit =
         module ResultOf = type Submit =   Executed of Result<Profile, ValidatedForm>
-
-
-module Session =
-
-    module ResultOf =
-
-        type Login =  Login  of Result<Provider option, Credentials>
-        type Logout = Logout of Result<Provider, Provider>

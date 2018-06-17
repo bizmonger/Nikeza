@@ -6,10 +6,10 @@ open System.Collections.ObjectModel
 open Nikeza.Common
 open Nikeza.DataTransfer
 open Nikeza.Mobile.UILogic
+open Nikeza.Mobile.Profile.Save
 open Nikeza.Mobile.Profile.Attempt
 open Nikeza.Mobile.Profile.Queries
 open Nikeza.Mobile.Profile.Commands.ProfileEditor
-open Nikeza.Mobile.Profile.Commands.ProfileEditor.Save
 open Nikeza.Portal.Specification.Events
 
 type Attempt = {
@@ -86,8 +86,7 @@ type ViewModel(dependencies) as x =
         
         Save { Profile= profile } 
          |> attempt
-         |> ResultOf.Editor.Save
-         |> Are.Editor.Save.events
+         |> toEvents
          |> broadcast
 
     member x.FirstName
