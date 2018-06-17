@@ -1,11 +1,11 @@
 ﻿namespace Nikeza.Mobile.Profile
 
-open Nikeza.Mobile.Profile.Events
 open Nikeza.Common
+open Nikeza.DataTransfer
 
 module Validate =
 
-    open Nikeza.DataTransfer
+    open Nikeza.Mobile.Profile.Events
 
     type private Handle = Result<ValidatedProfile, EditedProfile> -> ProfileValidateEvent nonempty
 
@@ -18,7 +18,6 @@ module Validate =
 module Save =
     open Nikeza.Portal.Specification.Events
     open Nikeza
-    open Nikeza.DataTransfer
 
     type private Handle = Result<DataTransfer.Profile, ValidatedProfile error> -> SaveProfileEvent nonempty
 
