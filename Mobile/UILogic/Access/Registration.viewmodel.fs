@@ -7,9 +7,9 @@ open Nikeza.Mobile.Access
 open Nikeza.Mobile.Access.ValidatedForm
 open Nikeza.Access.Specification
 open Nikeza.Access.Specification.Events
+open Nikeza.Mobile.Access.Submission
 open Nikeza.Access.Specification.Commands
 open Nikeza.Access.Specification.Commands.Registration
-open Nikeza.Access.Specification.Commands.Registration.Submit
 open Nikeza.Access.Specification.Registration
 open Nikeza.Access.Specification.Attempt
 
@@ -37,7 +37,7 @@ type ViewModel(dependencies) as x =
                       Confirm=  Password x.Confirm
                     } 
                       |> Validate
-                      |> In.ValidateRegistration.workflow
+                      |> ValidateRegistration.workflow
                       |> Update.statusOf isValidated
                
     let submit() =
@@ -49,8 +49,7 @@ type ViewModel(dependencies) as x =
                          | Some form -> 
                                 form |> Attach 
                                      |> attempt submit
-                                     |> ResultOf.Submit.Executed
-                                     |> Are.Submission.events
+                                     |> toEvents
                                      |> broadcast
                                      
                          | None -> ()

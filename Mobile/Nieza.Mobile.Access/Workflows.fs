@@ -1,16 +1,14 @@
-﻿namespace Nikeza.Mobile.Access.In
+﻿namespace Nikeza.Mobile.Access
 
-open Nikeza.Access.Specification.Commands
 open Nikeza.Access.Specification.Workflows
 open Nikeza.Access.Specification.Commands.Registration
-open Logic
+open Nikeza.Mobile.Access.Validation
+open Logic.Registration
 
 module ValidateRegistration =
-
-    open Registration.Validate
     
     let workflow : ValidateWorkflow = function
+
         Validate form -> 
-                 form |> Registration.validate
-                      |> ResultOf.Validate.Executed
-                      |> Are.Validation.events
+                 form |> validate
+                      |> toEevents

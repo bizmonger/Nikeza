@@ -17,14 +17,12 @@ module Session =
 
 
 module Submission =
-    open Commands.Registration.Submit
 
-    type RegistrationSubmission = ResultOf.Submit -> RegistrationSubmissionEvent nonempty
+    type RegistrationSubmission = Result<Profile, ValidatedForm> -> RegistrationSubmissionEvent nonempty
 
 
 module Validation =
-    open Commands.Registration.Validate
     
     type ValidateForm = UnvalidatedForm -> Result<ValidatedForm, UnvalidatedForm>
 
-    type RegistrationValidation = ResultOf.Validate -> RegistrationValidationEvent nonempty
+    type RegistrationValidation = Result<ValidatedForm, UnvalidatedForm> -> RegistrationValidationEvent nonempty

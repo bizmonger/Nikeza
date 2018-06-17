@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
+    <ProjectReference Include="..\Nikeza.Profile.Specification\Nikeza.Portal.Specification.fsproj" />
   </ItemGroup>
 
   <ItemGroup>
