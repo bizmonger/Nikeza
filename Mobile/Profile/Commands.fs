@@ -7,10 +7,6 @@ module ProfileEditor =
     type ValidateCommand = Execute of EditedProfile
     type SaveCommand =     Save    of ValidatedProfile
 
-    //module Validate =
-    //    module ResultOf =
-    //        type Editor =  Validate of Result<ValidatedProfile, EditedProfile>
-
 
 module DataSources =
 
