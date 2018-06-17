@@ -21,14 +21,15 @@ module Editor =
 module DataSources =
 
     module Save =
+
         open Commands.DataSources
-        open Commands.DataSources.Save
+        open Nikeza
+        open Nikeza.DataTransfer
 
-        type private SaveWorkflow = SaveSourcesFn -> SaveCommand -> SaveDataSourcesEvent list
+        type private SaveWorkflow = SaveSourcesFn -> SaveCommand -> Result<DataTransfer.Profile, ValidatedProfile error>
 
-        let workflow : SaveWorkflow = 
-            fun savefn -> function
-            SaveCommand.Execute sources -> 
-                                sources |> savefn
-                                        |> ResultOf.Save.Execute
-                                        |> Are.DataSources.Save.events    
+        //let workflow : SaveWorkflow = 
+        //    fun savefn -> function
+        //    SaveCommand.Execute sources -> 
+        //                        sources |> savefn
+                                        //|> Nikeza.Mobile.Profile.Save.toEvents    

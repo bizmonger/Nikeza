@@ -54,8 +54,8 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Interpret.attempts.fs" />
     <Compile Include="Interpret.workflows.fs" />
-    <Compile Include="ResultOf.session.fs" />
-    <Compile Include="ResultOf.registration.fs" />
+    <Compile Include="EventsFrom.session.fs" />
+    <Compile Include="EventsFrom.registration.fs" />
     <Compile Include="Workflows.fs" />
     <Compile Include="Attempt.fs" />
     <Content Include="packages.config" />

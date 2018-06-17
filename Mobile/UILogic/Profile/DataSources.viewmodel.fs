@@ -57,16 +57,17 @@ type ViewModel(dependencies) as x =
         AccessId= x.AccessId
     }
 
-    let save() = 
+    //let save() = 
 
-        let broadcast events =
-            events |> List.iter (fun event -> sideEffects.ForSaveSources |> handle' event)
+    //    let broadcast events =
+    //        events |> List.iter (fun event -> sideEffects.ForSaveSources |> handle' event)
 
-        x.Sources
-           |> List.ofSeq
-           |> SaveCommand.Execute 
-           |> In.DataSources.Save.workflow implementation.Save
-           |> broadcast
+        //x.Sources
+        //   |> List.ofSeq
+        //   |> SaveCommand.Execute 
+        //   |> In.DataSources.Save.workflow implementation.Save
+        //   |> broadcast
+
     
     member x.Platform
              with get() =      platform
@@ -103,4 +104,4 @@ type ViewModel(dependencies) as x =
 
     member x.Add =    DelegateCommand( (fun _ -> x.Sources.Add(createSource())) , fun _ -> true )
     member x.Remove = DelegateCommand( (fun _ -> () (*todo...*)) , fun _ -> true )
-    member x.Save =   DelegateCommand( (fun _ -> save()) , fun _ -> true )
+    //member x.Save =   DelegateCommand( (fun _ -> save()) , fun _ -> true )

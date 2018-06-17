@@ -16,7 +16,7 @@ module DataSources =
 
     type SaveCommand = Execute of DataSourceSubmit list
 
-    module Save =
-        module ResultOf =
+    //module Save =
+    //    module ResultOf =
 
-            type Save = Execute of Result<Nikeza.DataTransfer.Profile, DataSourceSubmit list>
+    //        type Save = Execute of Result<Nikeza.DataTransfer.Profile, DataSourceSubmit list>
