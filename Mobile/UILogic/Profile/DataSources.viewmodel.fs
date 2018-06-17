@@ -103,4 +103,4 @@ type ViewModel(dependencies) as x =
 
     member x.Add =    DelegateCommand( (fun _ -> x.Sources.Add(createSource())) , fun _ -> true )
     member x.Remove = DelegateCommand( (fun _ -> () (*todo...*)) , fun _ -> true )
-    //member x.Save =   DelegateCommand( (fun _ -> save()) , fun _ -> true )
+    member x.Save =   DelegateCommand( (fun _ -> save()) , fun _ -> true )
