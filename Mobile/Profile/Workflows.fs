@@ -2,21 +2,23 @@
 
 open Nikeza.Common
 open Nikeza.Mobile.Profile.Events
+open Nikeza.Mobile.Profile
 open Attempt
 
 module Editor =
 
     module Validate =
-        open Commands.ProfileEditor.Validate
+
+        open Validate
+        open Editor
         open Commands.ProfileEditor
-        
+
         type private ValidateWorkflow = ValidateCommand -> ProfileValidateEvent nonempty
 
         let workflow : ValidateWorkflow = function
             ValidateCommand.Execute form -> 
-                                    form |> Editor.validate 
-                                         |> ResultOf.Editor.Validate
-                                         |> Validate.events
+                                    form |> validate 
+                                         |> toEvents
 
 module DataSources =
 
