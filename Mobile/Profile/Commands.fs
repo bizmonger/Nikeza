@@ -8,6 +8,6 @@ module ProfileEditor =
     type SaveCommand =     Save    of ValidatedProfile
 
 
-module DataSources =
+//module DataSources =
 
-    type SaveCommand = Execute of DataSourceSubmit list
+//    type SaveCommand = Execute of DataSourceSubmit list

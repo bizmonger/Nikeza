@@ -8,7 +8,7 @@ open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Profile
 open Nikeza.Mobile.Profile.Queries
 open Nikeza.Mobile.Profile.Events
-open Nikeza.Mobile.Profile.Commands.DataSources
+open Nikeza.Mobile.Profile.DataSources.Save
 
 type Implementation = {
     Save : Attempt.SaveSourcesFn
@@ -33,10 +33,10 @@ type ViewModel(dependencies) as x =
 
     inherit ViewModelBase()
 
-    let userId =         dependencies.UserId
-    let query =          dependencies.Query
-    let implementation = dependencies.Implementation
-    let sideEffects =    dependencies.SideEffects
+    let userId =      dependencies.UserId
+    let query =       dependencies.Query
+    let attempt =     dependencies.Implementation
+    let sideEffects = dependencies.SideEffects
 
     let mutable platforms = ObservableCollection<string>()
     let mutable platform =  ""
@@ -57,17 +57,16 @@ type ViewModel(dependencies) as x =
         AccessId= x.AccessId
     }
 
-    //let save() = 
+    let save() = 
 
-    //    let broadcast events =
-    //        events |> List.iter (fun event -> sideEffects.ForSaveSources |> handle' event)
+        let broadcast events =
+            events |> List.iter (fun event -> sideEffects.ForSaveSources |> handle' event)
 
-    //    x.Sources
-    //       |> List.ofSeq
-    //       |> SaveCommand.Execute 
-    //       |> In.DataSources.Save.workflow implementation.Save
-    //       |> broadcast
-
+        x.Sources
+           |> List.ofSeq
+           |> attempt.Save
+           |> toEvents
+           |> broadcast
     
     member x.Platform
              with get() =      platform
