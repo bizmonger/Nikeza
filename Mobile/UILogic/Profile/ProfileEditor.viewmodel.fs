@@ -9,7 +9,6 @@ open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Profile.Save
 open Nikeza.Mobile.Profile.Attempt
 open Nikeza.Mobile.Profile.Queries
-open Nikeza.Mobile.Profile.Commands.ProfileEditor
 open Nikeza.Portal.Specification.Events
 
 type Attempt = {
@@ -84,10 +83,10 @@ type ViewModel(dependencies) as x =
         let broadcast events = 
             events.Head::events.Tail |> List.iter (fun event -> sideEffects.ForProfileSave |> handle' event)
         
-        Save { Profile= profile } 
-         |> attempt
-         |> toEvents
-         |> broadcast
+        { Profile= profile }
+           |> attempt
+           |> toEvents
+           |> broadcast
 
     member x.FirstName
         with get() =       firstName

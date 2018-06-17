@@ -62,11 +62,11 @@ type ViewModel(dependencies) as x =
     //    let broadcast events =
     //        events |> List.iter (fun event -> sideEffects.ForSaveSources |> handle' event)
 
-        //x.Sources
-        //   |> List.ofSeq
-        //   |> SaveCommand.Execute 
-        //   |> In.DataSources.Save.workflow implementation.Save
-        //   |> broadcast
+    //    x.Sources
+    //       |> List.ofSeq
+    //       |> SaveCommand.Execute 
+    //       |> In.DataSources.Save.workflow implementation.Save
+    //       |> broadcast
 
     
     member x.Platform

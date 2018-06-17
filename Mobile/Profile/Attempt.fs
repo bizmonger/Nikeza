@@ -3,14 +3,13 @@
 open Nikeza
 open Nikeza.Common
 open Nikeza.DataTransfer
-open Nikeza.Mobile.Profile.Commands.ProfileEditor
 
-type SaveProfileFn = SaveCommand -> Result<DataTransfer.Profile,ValidatedProfile error>
-type SaveSourcesFn = DataSourceSubmit list -> Result<DataTransfer.Profile, DataSourceSubmit list>
+type SaveProfileFn = ValidatedProfile      -> Result<DataTransfer.Profile,ValidatedProfile error>
+type SaveSourcesFn = DataSourceSubmit list -> Result<DataTransfer.Profile, (DataSourceSubmit list) error>
 
 let saveProfile : SaveProfileFn = 
-    fun command ->
-        command |> function Save profile -> Error { Context=profile; Description="Not implemented" }
+    fun profile -> Error { Context=profile; Description="Not implemented" }
+
 
 let saveSources : SaveSourcesFn = 
-    fun sources -> Error sources
+    fun sources -> Error { Context=sources; Description="Not implemented" }  
