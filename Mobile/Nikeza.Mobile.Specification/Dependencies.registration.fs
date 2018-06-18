@@ -1,13 +1,12 @@
 ﻿namespace Nikeza.Access.Specification
 
 open Events
+open Nikeza.Access.Specification.Attempts
 
 module Registration =
 
-    open Nikeza.Access.Specification.Attempt
-
     type Attempt = {
-        Submit : Submit
+        Submit : SubmitAttempt
     }
 
     type SideEffects = {

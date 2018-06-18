@@ -1,13 +1,13 @@
 ﻿namespace Nikeza.Mobile.UILogic.Login
 
 open System.Windows.Input
+open Nikeza
 open Nikeza.Common
-open Nikeza.Access.Specification.Commands
 open Nikeza.Access.Specification.Events
 open Nikeza.Access.Specification.Login
 open Nikeza.Mobile.UILogic
-open Nikeza.Mobile.Access.Login
 open Nikeza.Mobile.Access.AttemptLogin
+open DataTransfer
 
 type ViewModel(dependencies) as x =
 
@@ -40,10 +40,10 @@ type ViewModel(dependencies) as x =
 
         if   x.IsValidated
 
-        then Login { Email=email; Password=password }
-              |> attempt login
-              |> toEvents
-              |> broadcast
+        then { Credentials.Email=email; Password=password }
+                |> login
+                |> toEvents
+                |> broadcast
 
         else ()
 

@@ -11,7 +11,7 @@ open Nikeza.Mobile.Access.Submission
 open Nikeza.Access.Specification.Commands
 open Nikeza.Access.Specification.Commands.Registration
 open Nikeza.Access.Specification.Registration
-open Nikeza.Access.Specification.Attempt
+open Nikeza.Access.Specification.Attempts
 
 module Update =
     let statusOf formValidated events = 
@@ -47,8 +47,7 @@ type ViewModel(dependencies) as x =
 
         validatedForm |> function 
                          | Some form -> 
-                                form |> Attach 
-                                     |> attempt submit
+                                form |> submit
                                      |> toEvents
                                      |> broadcast
                                      

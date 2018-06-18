@@ -1,6 +1,7 @@
 ﻿module Nikeza.Mobile.UILogic.TestAPI
 
 open Nikeza.Access.Specification
+open Nikeza.Access.Specification.Attempts
 open Nikeza.Mobile.Profile.Attempt
 open Nikeza.Mobile.Profile.Queries
 open Nikeza.Mobile.Subscriptions.Query
@@ -69,20 +70,20 @@ let someValidatedForm =
                Confirm=  Password ""
              }
 
-let mockLogin : Attempt.Login =
+let mockLogin : LoginAttempt =
     fun credentials -> 
         if credentials.Password = somePassword then 
              Ok <| Some someProvider
 
         else Ok <| None
 
-let mockLogout : Attempt.Logout =
+let mockLogout : LogoutAttempt =
     fun _ -> Ok someProvider
 
-let mockSubmit : Attempt.Submit =
+let mockSubmit : SubmitAttempt =
     fun _ -> Ok someProfile
 
-let mockFailedSubmit : Attempt.Submit =
+let mockFailedSubmit : SubmitAttempt =
     fun _ -> Error someValidatedForm
 
 let mockSave : SaveProfileFn =
