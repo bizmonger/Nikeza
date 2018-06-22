@@ -7,13 +7,13 @@ open DataTransfer
     
 
 module Workflows =
-    open Nikeza.Access.Specification.Commands
-    type ValidateWorkflow = Registration.ValidateCommand -> RegistrationValidationEvent nonempty
+
+    type ValidateWorkflow = UnvalidatedForm -> RegistrationValidationEvent nonempty
 
 module Session =
 
-    type HandleLogin =  Result<Provider option, Credentials>  -> LoginEvent  nonempty
-    type HandleLogout = Result<Provider, Provider>            -> LogoutEvent nonempty
+    type HandleLogin =  Result<Provider option, Credentials> -> LoginEvent  nonempty
+    type HandleLogout = Result<Provider, Provider>           -> LogoutEvent nonempty
 
 
 module Submission =

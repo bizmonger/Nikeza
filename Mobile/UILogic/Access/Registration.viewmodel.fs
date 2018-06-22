@@ -8,8 +8,6 @@ open Nikeza.Mobile.Access.ValidatedForm
 open Nikeza.Access.Specification
 open Nikeza.Access.Specification.Events
 open Nikeza.Mobile.Access.Submission
-open Nikeza.Access.Specification.Commands
-open Nikeza.Access.Specification.Commands.Registration
 open Nikeza.Access.Specification.Registration
 open Nikeza.Access.Specification.Attempts
 
@@ -36,7 +34,6 @@ type ViewModel(dependencies) as x =
                       Password= Password x.Password
                       Confirm=  Password x.Confirm
                     } 
-                      |> Validate
                       |> ValidateRegistration.workflow
                       |> Update.statusOf isValidated
                

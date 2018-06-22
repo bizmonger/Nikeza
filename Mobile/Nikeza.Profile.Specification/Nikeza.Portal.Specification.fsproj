@@ -6,9 +6,7 @@
 
   <ItemGroup>
     <Compile Include="Language.fs" />
-    <Compile Include="Commands.fs" />
     <Compile Include="Events.fs" />
-    <Compile Include="Functions.fs" />
     <Compile Include="Attempts.fs" />
     <Compile Include="Query.fs" />
   </ItemGroup>
