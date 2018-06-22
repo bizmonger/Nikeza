@@ -40,7 +40,7 @@ type ViewModel(dependencies) as x =
 
         if   x.IsValidated
 
-        then { Credentials.Email=email; Password=password }
+        then { Email=email; Password=password }
                 |> tryLogin
                 |> toEvents
                 |> broadcast
