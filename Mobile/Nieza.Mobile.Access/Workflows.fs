@@ -4,9 +4,9 @@ open Nikeza.Access.Specification.Workflows
 open Nikeza.Mobile.Access.Validation
 open Logic.Registration
 
-module ValidateRegistration =
+module Registration =
     
-    let workflow : ValidateRegistration = function
+    let validate : ValidateRegistration = function
 
         form -> 
         form |> validate

@@ -37,7 +37,7 @@ type ViewModel(dependencies) as x =
 
     let query =       dependencies.Query
     let user =        dependencies.User
-    let attempt =     dependencies.Attempt.Save
+    let trySave =     dependencies.Attempt.Save
     let sideEffects = dependencies.SideEffects
     
     let mutable firstNamePlaceholder = "first name"
@@ -84,7 +84,7 @@ type ViewModel(dependencies) as x =
             events.Head::events.Tail |> List.iter (fun event -> sideEffects.ForProfileSave |> handle' event)
         
         { Profile= profile }
-           |> attempt
+           |> trySave
            |> toEvents
            |> broadcast
 

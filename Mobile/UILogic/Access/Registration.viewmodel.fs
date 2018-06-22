@@ -3,23 +3,20 @@ namespace Nikeza.Mobile.UILogic.Registration
 open System.Windows.Input
 open Nikeza.Common
 open Nikeza.Mobile.UILogic
-open Nikeza.Mobile.Access
-open Nikeza.Mobile.Access.ValidatedForm
 open Nikeza.Access.Specification
 open Nikeza.Access.Specification.Events
-open Nikeza.Mobile.Access.Submission
 open Nikeza.Access.Specification.Registration
-open Nikeza.Access.Specification.Attempts
-
-module Update =
-    let statusOf formValidated events = 
-        events.Head::events.Tail |> List.exists formValidated
+open Nikeza.Mobile.Access.Submission
+open Nikeza.Mobile.Access.Registration
 
 type ViewModel(dependencies) as x =
 
     inherit ViewModelBase()
 
-    let submit =      dependencies.Attempt.Submit
+    let update formValidated events = 
+        events.Head::events.Tail |> List.exists formValidated
+
+    let trySubmit =   dependencies.Attempt.Submit
     let sideEffects = dependencies.SideEffects
 
     let mutable validatedForm = None
@@ -34,8 +31,8 @@ type ViewModel(dependencies) as x =
                       Password= Password x.Password
                       Confirm=  Password x.Confirm
                     } 
-                      |> ValidateRegistration.workflow
-                      |> Update.statusOf isValidated
+                      |> validate
+                      |> update isValidated
                
     let submit() =
 
@@ -44,7 +41,7 @@ type ViewModel(dependencies) as x =
 
         validatedForm |> function 
                          | Some form -> 
-                                form |> submit
+                                form |> trySubmit
                                      |> toEvents
                                      |> broadcast
                                      
