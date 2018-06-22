@@ -8,17 +8,17 @@ open DataTransfer
 
 module Workflows =
 
-    type ValidateWorkflow = UnvalidatedForm -> RegistrationValidationEvent nonempty
+    type ValidateRegistration = UnvalidatedForm -> RegistrationValidationEvent nonempty
 
 module Session =
 
-    type HandleLogin =  Result<Provider option, Credentials> -> LoginEvent  nonempty
-    type HandleLogout = Result<Provider, Provider>           -> LogoutEvent nonempty
+    type HandleLoginResult =  Result<Provider option, Credentials> -> LoginEvent  nonempty
+    type HandleLogoutResult = Result<Provider, Provider>           -> LogoutEvent nonempty
 
 
 module Submission =
 
-    type RegistrationSubmission = Result<Profile, ValidatedForm> -> RegistrationSubmissionEvent nonempty
+    type HandleRegistrationResult = Result<Profile, ValidatedForm> -> RegistrationSubmissionEvent nonempty
 
 
 module Validation =

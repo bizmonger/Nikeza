@@ -7,7 +7,7 @@ open Nikeza.DataTransfer
 
 module AttemptLogin =
 
-    let toEvents : HandleLogin = function 
+    let toEvents : HandleLoginResult = function 
 
         result -> 
         result |> function
@@ -22,7 +22,7 @@ module AttemptLogin =
             
 module AttemptLogout =
 
-    let toEvents : HandleLogout = function 
+    let toEvents : HandleLogoutResult = function 
         result -> 
         result |> function 
                   | Ok    p -> { Head= LoggedOut    p; Tail= [] }

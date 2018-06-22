@@ -6,7 +6,7 @@ open Nikeza.Access.Specification.Events
 module Submission =
     open Nikeza.Access.Specification.Submission
 
-    let toEvents : RegistrationSubmission = function
+    let toEvents : HandleRegistrationResult = function
         
         result -> 
         result |> function

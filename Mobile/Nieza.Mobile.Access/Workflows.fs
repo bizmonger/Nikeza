@@ -6,7 +6,7 @@ open Logic.Registration
 
 module ValidateRegistration =
     
-    let workflow : ValidateWorkflow = function
+    let workflow : ValidateRegistration = function
 
         form -> 
         form |> validate
