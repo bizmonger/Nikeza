@@ -1,12 +1,12 @@
 ﻿module Nikeza.Mobile.Access.Attempt
 
-open Nikeza.Access.Specification.Attempts
+open Nikeza.Access.Specification.Attempt
 
-let submit : SubmitAttempt = 
+let submit : Submit = 
     fun validatedForm -> Error validatedForm
 
-let logout : LogoutAttempt = 
+let logout : Logout = 
     fun provider -> Error provider
 
-let login : LoginAttempt = 
+let login : Login = 
     fun credentials -> Error credentials

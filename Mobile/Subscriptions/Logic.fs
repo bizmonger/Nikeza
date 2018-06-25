@@ -7,7 +7,7 @@ open Nikeza.DataTransfer
 type private FollowLogic =      Result<SubscriptionResponse, ProfileId> -> NotificationEvent list
 type private UnsubscribeLogic = Result<SubscriptionResponse, ProfileId> -> NotificationEvent list
 
-module Follow =
+module FollowResponse =
 
     let toEvents : FollowLogic = function
          
@@ -16,7 +16,7 @@ module Follow =
                     | Ok    info      -> [SubscriberAdded    <| ProfileId info.User.Profile.Id]
                     | Error profileId -> [SubscriberAddFailed   profileId]
 
-module Unsubscribe =
+module UnsubscribeResponse =
 
     let toEvents : UnsubscribeLogic = function
          

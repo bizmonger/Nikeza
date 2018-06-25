@@ -9,7 +9,7 @@ open Nikeza.Mobile.Portfolio
 open Nikeza.Mobile.UILogic.Pages
 
 type Query = {
-    Members : MembersFn
+    Members : GetMembers
 }
 
 type SideEffects = {

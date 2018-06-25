@@ -1,21 +1,21 @@
 ﻿namespace Nikeza.Mobile.Access
 
-open Nikeza.Access.Specification.Attempts
+open Nikeza.Access.Specification.Attempt
 open Nikeza.Mobile.Access.Attempt
 
 module ValidatedForm =
 
-    let attempt : SubmitAttempt =
+    let attempt : Submit =
         fun form -> form |> submit
 
 
 module Login =
 
-    let attempt : LoginAttempt =
+    let attempt : Login =
         fun credentials -> credentials |> login
 
 
 module Logout =
     
-    let attempt : LogoutAttempt =
+    let attempt : Logout =
         fun provider -> provider |> logout

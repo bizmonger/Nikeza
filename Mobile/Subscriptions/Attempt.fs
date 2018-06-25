@@ -16,9 +16,3 @@ let follow : FollowFn =
 let unsubscribe :  UnsubscribeFn =
     fun request ->
         Error <| ProfileId request.ProfileId
-
-//module Follow =
-//    type ResultOf = Follow      of Result<SubscriptionResponse, ProfileId>
-
-//module Unsubscribe =
-//    type ResultOf = Unsubscribe of Result<SubscriptionResponse, ProfileId>

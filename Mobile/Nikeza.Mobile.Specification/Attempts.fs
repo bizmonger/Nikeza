@@ -3,8 +3,8 @@
 open Nikeza
 open DataTransfer
 
-module Attempts =
+module Attempt =
 
-    type SubmitAttempt = ValidatedForm -> Result<DataTransfer.Profile,  ValidatedForm>
-    type LoginAttempt =  Credentials   -> Result<Provider option, Credentials>
-    type LogoutAttempt = Provider      -> Result<Provider, Provider>
+    type Submit = ValidatedForm -> Result<DataTransfer.Profile,  ValidatedForm>
+    type Login =  Credentials   -> Result<Provider option, Credentials>
+    type Logout = Provider      -> Result<Provider, Provider>

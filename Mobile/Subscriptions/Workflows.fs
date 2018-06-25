@@ -1,21 +1,19 @@
 ﻿module Nikeza.Mobile.Subscription.Workflow
 
-open Nikeza.Mobile.Subscriptions.Command
 open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Attempt
-open Nikeza.Mobile.Subscriptions.Unsubscribe
+open Nikeza.Mobile.Subscriptions
+open Nikeza.Common
     
-type private FollowWorkflow =      FollowFn      -> Follow.Command      -> NotificationEvent list
-type private UnsubscribeWorkflow = UnsubscribeFn -> Unsubscribe.Command -> NotificationEvent list
+type private FollowWorkflow =      FollowFn      -> FollowRequest      -> NotificationEvent list
+type private UnsubscribeWorkflow = UnsubscribeFn -> UnsubscribeRequest -> NotificationEvent list
 
 let follow : FollowWorkflow = 
-    fun attempt -> function
-        Follow.Command.Execute request -> 
-                               request |> attempt
-                                       |> toEvents
+    fun attempt request ->
+                request |> attempt
+                        |> FollowResponse.toEvents
                                             
 let unsubscribe : UnsubscribeWorkflow =
-    fun attempt -> function
-        Unsubscribe.Command.Execute request -> 
-                                    request |> attempt
-                                            |> toEvents
+    fun attempt request ->
+                request |> attempt
+                        |> UnsubscribeResponse.toEvents

@@ -10,7 +10,7 @@ open Nikeza.Mobile.UILogic.Pages
 open Nikeza.Mobile.UILogic.Helpers
 
 type Query = {
-    Subscriptions : SubscriptionsFn
+    Subscriptions : GetSubscriptions
 }
 
 type SideEffects = {

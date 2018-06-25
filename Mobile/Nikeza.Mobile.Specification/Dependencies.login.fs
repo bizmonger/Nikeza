@@ -1,13 +1,13 @@
 ﻿namespace Nikeza.Access.Specification
 
-open Attempts
+open Attempt
 open Events
 open Nikeza.Common
 
 module Login =
 
     type Attempt =  { 
-        Login : LoginAttempt
+        Login : Login
     }
 
     type SideEffects =  { 

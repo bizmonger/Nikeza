@@ -2,7 +2,7 @@
 
 open Nikeza.Common
 open Nikeza.DataTransfer
-open Nikeza.Access.Specification.Attempts
+open Nikeza.Access.Specification.Attempt
 open Nikeza.Mobile.Profile.Attempt
 open Nikeza.Mobile.Profile.Queries
 open Nikeza.Mobile.Subscriptions.Attempt
@@ -52,7 +52,7 @@ let someProvider = {
     Followers=     []
 }
 
-let mockSubmit : SubmitAttempt =
+let mockSubmit : Submit =
     fun _ -> Ok { Id =        ""
                   FirstName = ""
                   LastName =  ""
@@ -62,13 +62,13 @@ let mockSubmit : SubmitAttempt =
                   Sources =   []
                 }
 
-let mockRecent : RecentFn =
+let mockRecent : GetRecent =
     fun _ -> Ok [someProvider]
 
-let mockMembers : MembersFn =
+let mockMembers : GetMembers =
     fun _ -> Ok [someProvider]
 
-let mockSubscriptions : SubscriptionsFn =
+let mockSubscriptions : GetSubscriptions =
     fun _ -> Ok [someProvider;someProvider;someProvider]
 
 let mockSave : SaveProfileFn =
@@ -87,10 +87,10 @@ let mockPortfolio : PortfolioFn =
     fun _ -> Ok someProvider
 
 let mockFollow : FollowFn =
-    fun _ -> Ok {User= someProvider; Provider=someProvider}
+    fun _ -> Ok { User= someProvider; Provider=someProvider }
 
 let mockUnsubscribe : UnsubscribeFn =
-    fun _ -> Ok {User= someProvider; Provider=someProvider}
+    fun _ -> Ok { User= someProvider; Provider=someProvider }
 
 let onQueryFailed = function
     | GetRecentFailed        _ -> ()
@@ -171,16 +171,16 @@ module Portfolio =
             ForPageRequested = []
         }
 
-        let implementation = { 
+        let attempt = { 
             Follow=      mockFollow 
             Unsubscribe= mockUnsubscribe
         }
     
-        { UserId=         ProviderId someUser.Id
-          ProviderId=     ProviderId someProvider.Profile.Id
-          Query=        { Portfolio= mockPortfolio }
-          Implementation= implementation
-          SideEffects=    sideEffects 
+        { UserId=       ProviderId someUser.Id
+          ProviderId=   ProviderId someProvider.Profile.Id
+          Query=      { Portfolio= mockPortfolio }
+          Attempt=      attempt
+          SideEffects=  sideEffects 
         }
         
 module Recent =

@@ -9,7 +9,7 @@ open Nikeza.Mobile.UILogic.Pages
 open Nikeza.Mobile.Subscriptions.Events
 
 type Query = {
-    Recent    : RecentFn
+    Recent    : GetRecent
     Portfolio : PortfolioFn
 }
 

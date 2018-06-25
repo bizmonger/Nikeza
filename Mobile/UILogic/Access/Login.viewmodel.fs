@@ -1,13 +1,11 @@
 ﻿namespace Nikeza.Mobile.UILogic.Login
 
 open System.Windows.Input
-open Nikeza
 open Nikeza.Common
 open Nikeza.Access.Specification.Events
 open Nikeza.Access.Specification.Login
 open Nikeza.Mobile.UILogic
 open Nikeza.Mobile.Access.AttemptLogin
-open DataTransfer
 
 type ViewModel(dependencies) as x =
 

@@ -7,11 +7,10 @@ open Nikeza.Mobile.Portfolio.Events
 open Nikeza.Mobile.Subscription
 open Nikeza.Mobile.Subscriptions.Events
 open Nikeza.Mobile.Subscriptions.Attempt
-open Nikeza.Mobile.Subscriptions.Command
 open Nikeza.Mobile.Portfolio.Query
 open Nikeza.Mobile.UILogic.Pages
 
-type Implementation = {
+type Attempt = {
     Follow      : FollowFn
     Unsubscribe : UnsubscribeFn
 }
@@ -31,7 +30,7 @@ type Dependencies = {
     UserId         : ProviderId
     ProviderId     : ProviderId
     Query          : Query
-    Implementation : Implementation
+    Attempt : Attempt
     SideEffects    : SideEffects
 }
 
@@ -39,11 +38,11 @@ type ViewModel(dependencies) =
 
     inherit ViewModelBase()
 
-    let userId =         dependencies.UserId
-    let providerId =     dependencies.ProviderId
-    let implementation = dependencies.Implementation
-    let sideEffects =    dependencies.SideEffects
-    let query =          dependencies.Query
+    let userId =      dependencies.UserId
+    let providerId =  dependencies.ProviderId
+    let attempt =     dependencies.Attempt
+    let sideEffects = dependencies.SideEffects
+    let query =       dependencies.Query
     
     let mutable provider =  None
 
@@ -61,12 +60,13 @@ type ViewModel(dependencies) =
 
         let broadcast events = 
             events |> List.iter (fun event -> sideEffects.ForFollow|> handle' event)
+            
+        let attempt = attempt.Follow
 
         { FollowRequest.SubscriberId= getId userId
           FollowRequest.ProfileId=    getId providerId
         } 
-          |> Follow.Command.Execute
-          |> Workflow.follow implementation.Follow
+          |> Workflow.follow attempt
           |> broadcast
 
     let unsubscribe() =
@@ -74,11 +74,12 @@ type ViewModel(dependencies) =
         let broadcast events = 
             events |> List.iter (fun event -> sideEffects.ForUnsubscribe|> handle' event)
 
+        let attempt = attempt.Unsubscribe
+        
         { UnsubscribeRequest.SubscriberId= getId userId
           UnsubscribeRequest.ProfileId=    getId providerId 
         } 
-          |> Unsubscribe.Command.Execute
-          |> Workflow.unsubscribe implementation.Unsubscribe
+          |> Workflow.unsubscribe attempt
           |> broadcast
 
     let followCommand =      DelegateCommand( (fun _ -> follow() ), 
