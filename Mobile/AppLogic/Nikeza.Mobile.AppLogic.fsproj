@@ -58,14 +58,14 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Specification.fs" />
-    <Compile Include="PageFactory.fs" />
-    <Compile Include="HandleNavigation.fs" />
-    <Compile Include="HandleRegistration.fs" />
-    <Compile Include="HandleLogin.fs" />
-    <Compile Include="HandlePortal.fs" />
-    <Compile Include="HandleProfileEditor.fs" />
-    <Compile Include="HandlePortfolio.fs" />
-    <Compile Include="HandleSubscriptions.fs" />
+    <Compile Include="Navigation\HandleNavigation.fs" />
+    <Compile Include="Navigation\PageFactory.fs" />
+    <Compile Include="Access\HandleRegistration.fs" />
+    <Compile Include="Access\HandleLogin.fs" />
+    <Compile Include="Portal\HandlePortal.fs" />
+    <Compile Include="Portal\HandleProfileEditor.fs" />
+    <Compile Include="Portal\HandleSubscriptions.fs" />
+    <Compile Include="Portfolio\HandlePortfolio.fs" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
