@@ -18,7 +18,7 @@ type ViewModel(dependencies) as x =
     let sideEffects' =    dependencies.SideEffects
     let forLoginAttempt = sideEffects'.ForLoginAttempt
     let updates =       { forLoginAttempt with Tail=onAuthenticationFailed::forLoginAttempt.Tail }
-    let sideEffects =   { sideEffects' with ForLoginAttempt= updates }
+    let sideEffects =   { sideEffects'    with ForLoginAttempt= updates }
     let tryLogin =        dependencies.Attempt.Login
 
     let mutable email =    ""
@@ -34,7 +34,7 @@ type ViewModel(dependencies) as x =
         email    .Length > 0 &&
         password .Length > 0
 
-    let OnNext _ =
+    let OnLogin _ =
 
         if   x.IsValidated
 
@@ -45,7 +45,7 @@ type ViewModel(dependencies) as x =
 
         else ()
 
-    let nextCommand = DelegateCommand( OnNext , fun _ -> true)
+    let nextCommand = DelegateCommand( OnLogin , fun _ -> true)
 
     member x.Next = nextCommand :> ICommand
 
