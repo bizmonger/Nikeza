@@ -43,7 +43,7 @@ let ``Navigate: Portal to Members`` () =
 
     let dependencies' =  Portal.dependencies someUser
     let sideEffects =  { dependencies'.SideEffects with ForPageRequested=[sideEffect] }
-    let dependencies = { dependencies' with SideEffects= sideEffects }
+    let dependencies = { dependencies'             with SideEffects= sideEffects }
 
     let portal = ViewModel(dependencies)
 
@@ -62,7 +62,7 @@ let ``Navigate: Portal to Latest`` () =
 
     let dependencies' =  Portal.dependencies someUser
     let sideEffects =  { dependencies'.SideEffects with ForPageRequested=[sideEffect] }
-    let dependencies = { dependencies' with SideEffects= sideEffects }
+    let dependencies = { dependencies'             with SideEffects= sideEffects }
 
     let portal = ViewModel(dependencies)
 
@@ -81,7 +81,7 @@ let ``Navigate: Portal to Followers`` () =
 
     let dependencies' =  Portal.dependencies someUser
     let sideEffects =  { dependencies'.SideEffects with ForPageRequested=[sideEffect] }
-    let dependencies = { dependencies' with SideEffects= sideEffects }
+    let dependencies = { dependencies'             with SideEffects= sideEffects }
 
     let portal = ViewModel(dependencies)
 
@@ -100,7 +100,7 @@ let ``Navigate: Portal to Subscriptions`` () =
 
     let dependencies' =  Portal.dependencies someUser
     let sideEffects =  { dependencies'.SideEffects with ForPageRequested=[sideEffect] }
-    let dependencies = { dependencies' with SideEffects= sideEffects }
+    let dependencies = { dependencies'             with SideEffects= sideEffects }
 
     let portal = ViewModel(dependencies)
 

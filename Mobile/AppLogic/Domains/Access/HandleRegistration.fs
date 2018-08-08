@@ -14,8 +14,8 @@ module RegistrationEvents =
             fun _ sideEffects ->
  
                 let handle = function
-                    | RegistrationSucceeded p -> (Debug.WriteLine(sprintf "Request: Navigate to Portal\n %A" p))
-                    | RegistrationFailed    _ -> ()
+                    | RegistrationSucceeded p -> Debug.WriteLine(sprintf "Request: Navigate to Portal\n %A" p)
+                    | RegistrationFailed    _ -> Debug.WriteLine("Registration failed")
 
                 let handlers = handle::sideEffects.ForRegistrationSubmission
 
