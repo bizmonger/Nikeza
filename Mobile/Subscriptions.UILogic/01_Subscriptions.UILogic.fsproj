@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Members.viewmodel.fs" />
+    <Compile Include="Recent.viewmodel.fs" />
+    <Compile Include="Subscriptions.viewmodel.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\UILogic\Nikeza.Mobile.UILogic.fsproj" />
+  </ItemGroup>
+
+</Project>

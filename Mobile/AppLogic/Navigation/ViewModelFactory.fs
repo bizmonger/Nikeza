@@ -17,8 +17,8 @@ module Registration =
         let implementation = { Submit= Attempt.submit }
         let sideEffects =    { ForRegistrationSubmission= log::[] }
 
-        let dependencies = { Attempt=implementation
-                             SideEffects=sideEffects 
+        let dependencies = { Attempt=     implementation
+                             SideEffects= sideEffects 
         }
 
         Registration.ViewModel(dependencies)
@@ -56,8 +56,8 @@ module Profile =
 
             let dependencies = { User=        user
                                  SideEffects= sideEffects 
-                                 Query=           { Topics= TestAPI.mockTopics }
-                                 Attempt = { Save=   TestAPI.mockSave }
+                                 Query=     { Topics= TestAPI.mockTopics }
+                                 Attempt =  { Save=   TestAPI.mockSave }
             }
 
             ProfileEditor.ViewModel(dependencies)

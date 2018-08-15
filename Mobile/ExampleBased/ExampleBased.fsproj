@@ -8,9 +8,7 @@
     <Compile Include="TestAPI.fs" />
     <Compile Include="_DataSources.fs" />
     <Compile Include="_Portal.fs" />
-    <Compile Include="_Login.fs" />
     <Compile Include="_ProfileEditor.fs" />
-    <Compile Include="_Registration.fs" />
     <Compile Include="_Providers.fs" />
   </ItemGroup>
 
@@ -24,11 +22,19 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
+    <ProjectReference Include="..\01_Portfolio.UILogic\01_Portfolio.UILogic.fsproj" />
+    <ProjectReference Include="..\Access.EventHandlers\03_Access.EventHandlers.fsproj" />
+    <ProjectReference Include="..\Access.UILogic\01_Access.UILogic.fsproj" />
     <ProjectReference Include="..\AppLogic\Nikeza.Mobile.AppLogic.fsproj" />
-    <ProjectReference Include="..\Nieza.Mobile.Access\Nikeza.Mobile.Access.fsproj" />
-    <ProjectReference Include="..\Nikeza.Mobile.Specification\Nikeza.Access.Specification.fsproj" />
-    <ProjectReference Include="..\Nikeza.Profile.Specification\Nikeza.Portal.Specification.fsproj" />
-    <ProjectReference Include="..\Profile\Nikeza.Mobile.Profile.fsproj" />
+    <ProjectReference Include="..\EventHandlers\03_Portal.EventHandlers.fsproj" />
+    <ProjectReference Include="..\Nieza.Mobile.Access\02_Access.Domain.fsproj" />
+    <ProjectReference Include="..\Nikeza.Mobile.Specification\00_Access.Specification.fsproj" />
+    <ProjectReference Include="..\Nikeza.Profile.Specification\00_Portal.Specification.fsproj" />
+    <ProjectReference Include="..\Portfolio.EventHandlers\03_Portfolio.EventHandlers.fsproj" />
+    <ProjectReference Include="..\Portfolio\02_Portfolio.Domain.fsproj" />
+    <ProjectReference Include="..\Profile.UILogic\01_Portal.UILogic.fsproj" />
+    <ProjectReference Include="..\Profile\02_Profile.Domain.fsproj" />
+    <ProjectReference Include="..\Subscriptions.UILogic\01_Subscriptions.UILogic.fsproj" />
     <ProjectReference Include="..\UILogic\Nikeza.Mobile.UILogic.fsproj" />
   </ItemGroup>
 

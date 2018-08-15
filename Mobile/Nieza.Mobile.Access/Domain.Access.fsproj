@@ -8,12 +8,12 @@
     <ProjectGuid>47be763b-1585-4474-a91b-2e2f5e65ff60</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Nieza.Mobile.Access</RootNamespace>
-    <AssemblyName>Nieza.Mobile.Access</AssemblyName>
+    <AssemblyName>Domain.Access</AssemblyName>
     <UseStandardResourceNames>true</UseStandardResourceNames>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.3.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Name>Nikeza.Mobile.Access</Name>
+    <Name>Domain.Access</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

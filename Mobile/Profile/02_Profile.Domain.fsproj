@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>Nikeza.Mobile.UILogic</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -11,20 +10,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="TestAPI.fs" />
-    <Compile Include="DelegateCommand.fs" />
-    <Compile Include="Pages.fs" />
-    <Compile Include="ViewModelBase.fs" />
+    <Compile Include="Design.fs" />
+    <Compile Include="EventExtensions.fs" />
+    <Compile Include="Queries.fs" />
+    <Compile Include="Commands.fs" />
+    <Compile Include="Attempt.fs" />
+    <Compile Include="Logic.edit.fs" />
+    <Compile Include="Logic.datasources.fs" />
+    <Compile Include="Logic.editor.fs" />
+    <Compile Include="Workflows.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
-    <ProjectReference Include="..\Nieza.Mobile.Access\02_Access.Domain.fsproj" />
-    <ProjectReference Include="..\Nikeza.Mobile.Specification\00_Access.Specification.fsproj" />
     <ProjectReference Include="..\Nikeza.Profile.Specification\00_Portal.Specification.fsproj" />
-    <ProjectReference Include="..\Portfolio\02_Portfolio.Domain.fsproj" />
-    <ProjectReference Include="..\Profile\02_Profile.Domain.fsproj" />
-    <ProjectReference Include="..\Subscriptions\02_Subscriptions.Domain.fsproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,10 +32,6 @@
 
   <ItemGroup>
     <PackageReference Update="FSharp.Core" Version="4.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Profile\" />
   </ItemGroup>
 
 </Project>
