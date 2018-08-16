@@ -20,8 +20,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
     <ProjectReference Include="..\Nieza.Mobile.Access\02_Access.Domain.fsproj" />
-    <ProjectReference Include="..\Nikeza.Mobile.Specification\00_Access.Specification.fsproj" />
-    <ProjectReference Include="..\Nikeza.Profile.Specification\00_Portal.Specification.fsproj" />
+    <ProjectReference Include="..\Nikeza.Mobile.Specification\Access.Specification.fsproj" />
+    <ProjectReference Include="..\Nikeza.Profile.Specification\Portal.Specification.fsproj" />
     <ProjectReference Include="..\Portfolio\02_Portfolio.Domain.fsproj" />
     <ProjectReference Include="..\Profile\02_Profile.Domain.fsproj" />
     <ProjectReference Include="..\Subscriptions\02_Subscriptions.Domain.fsproj" />

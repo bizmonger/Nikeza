@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
-    <ProjectReference Include="..\Nikeza.Profile.Specification\00_Portal.Specification.fsproj" />
+    <ProjectReference Include="..\Nikeza.Profile.Specification\Portal.Specification.fsproj" />
   </ItemGroup>
 
   <ItemGroup>

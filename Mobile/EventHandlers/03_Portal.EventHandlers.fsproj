@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AppLogic\Nikeza.Mobile.AppLogic.fsproj" />
-    <ProjectReference Include="..\Nikeza.Profile.Specification\00_Portal.Specification.fsproj" />
+    <ProjectReference Include="..\Nikeza.Profile.Specification\Portal.Specification.fsproj" />
     <ProjectReference Include="..\Profile.UILogic\01_Portal.UILogic.fsproj" />
   </ItemGroup>
 

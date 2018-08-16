@@ -119,10 +119,10 @@ module ProfileEditor =
         let sideEffects =    { ForProfileSave= []; ForQueryTopicsFailed= [] }
         let implementation = { Save= mockSave }
     
-        { Attempt=     implementation
-          SideEffects= sideEffects 
-          User =       someUser
-          Query =    { Topics= mockTopics }
+        { Attempt= implementation
+          SideEffects=    sideEffects 
+          User =          someUser
+          Query =       { Topics= mockTopics }
         }
 
 

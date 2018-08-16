@@ -67,8 +67,8 @@
       <Project>{90e1c6bb-b9d6-4081-b0e1-ed1414c2060f}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Nikeza.Mobile.Specification\00_Access.Specification.fsproj">
-      <Name>00_Access.Specification</Name>
+    <ProjectReference Include="..\Nikeza.Mobile.Specification\Access.Specification.fsproj">
+      <Name>Access.Specification</Name>
       <Project>{4bcb41f3-1451-4a33-9b16-a0f214900e2e}</Project>
       <Private>True</Private>
     </ProjectReference>

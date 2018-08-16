@@ -1,44 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Include="TestAPI.fs" />
-    <Compile Include="_DataSources.fs" />
-    <Compile Include="_ProfileEditor.fs" />
-    <Compile Include="_Providers.fs" />
+    <Compile Include="_Portal.fs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FsUnit" Version="3.1.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
-    <PackageReference Include="NUnit" Version="3.10.1" />
+    <PackageReference Include="FsUnit" Version="3.2.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
-    <PackageReference Include="Xamarin.Forms" Version="3.1.0.637273" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
     <ProjectReference Include="..\01_Portfolio.UILogic\01_Portfolio.UILogic.fsproj" />
-    <ProjectReference Include="..\Access.EventHandlers\03_Access.EventHandlers.fsproj" />
     <ProjectReference Include="..\Access.UILogic\01_Access.UILogic.fsproj" />
     <ProjectReference Include="..\AppLogic\Nikeza.Mobile.AppLogic.fsproj" />
     <ProjectReference Include="..\EventHandlers\03_Portal.EventHandlers.fsproj" />
-    <ProjectReference Include="..\Nieza.Mobile.Access\02_Access.Domain.fsproj" />
     <ProjectReference Include="..\Nikeza.Mobile.Specification\Access.Specification.fsproj" />
+    <ProjectReference Include="..\Nikeza.Portfolio.Specification\Portfolio.Specification.fsproj" />
     <ProjectReference Include="..\Nikeza.Profile.Specification\Portal.Specification.fsproj" />
-    <ProjectReference Include="..\Portfolio.EventHandlers\03_Portfolio.EventHandlers.fsproj" />
-    <ProjectReference Include="..\Portfolio\02_Portfolio.Domain.fsproj" />
     <ProjectReference Include="..\Profile.UILogic\01_Portal.UILogic.fsproj" />
-    <ProjectReference Include="..\Profile\02_Profile.Domain.fsproj" />
+    <ProjectReference Include="..\Subscriptions.Specification\Subscriptions.Specification.fsproj" />
     <ProjectReference Include="..\Subscriptions.UILogic\01_Subscriptions.UILogic.fsproj" />
     <ProjectReference Include="..\UILogic\Nikeza.Mobile.UILogic.fsproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="4.5.0" />
   </ItemGroup>
 
 </Project>

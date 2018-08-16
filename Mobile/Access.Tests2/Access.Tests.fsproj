@@ -15,7 +15,7 @@
     <UseStandardResourceNames>true</UseStandardResourceNames>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Name>05_Access.Tests</Name>
+    <Name>Access.Tests</Name>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -115,18 +115,13 @@
       <Project>{47be763b-1585-4474-a91b-2e2f5e65ff60}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Nikeza.Mobile.Specification\00_Access.Specification.fsproj">
-      <Name>00_Access.Specification</Name>
+    <ProjectReference Include="..\Nikeza.Mobile.Specification\Access.Specification.fsproj">
+      <Name>Access.Specification</Name>
       <Project>{4bcb41f3-1451-4a33-9b16-a0f214900e2e}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Nikeza.Portfolio.Specification\00_Portfolio.Specification.fsproj">
-      <Name>00_Portfolio.Specification</Name>
-      <Project>{792772b0-3b4f-4984-a6d7-9d1af18fd5e1}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Nikeza.Profile.Specification\00_Portal.Specification.fsproj">
-      <Name>00_Portal.Specification</Name>
+    <ProjectReference Include="..\Nikeza.Profile.Specification\Portal.Specification.fsproj">
+      <Name>Portal.Specification</Name>
       <Project>{791a94b6-1d0d-4317-a2fb-937b754bdb5d}</Project>
       <Private>True</Private>
     </ProjectReference>
@@ -148,11 +143,6 @@
     <ProjectReference Include="..\Subscriptions.EventHandlers\03_Subscriptions.EventHandlers.fsproj">
       <Name>03_Subscriptions.EventHandlers</Name>
       <Project>{98f3ee97-a846-4ab5-b464-fd699f7150a9}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Subscriptions.Specification\00_Subscriptions.Specification.fsproj">
-      <Name>00_Subscriptions.Specification</Name>
-      <Project>{cd7b13f4-c755-4d26-a36d-714162402ca3}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Subscriptions.UILogic\01_Subscriptions.UILogic.fsproj">

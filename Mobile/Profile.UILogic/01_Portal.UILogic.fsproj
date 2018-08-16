@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj" />
+    <ProjectReference Include="..\Nikeza.Profile.Specification\Portal.Specification.fsproj" />
     <ProjectReference Include="..\Profile\02_Profile.Domain.fsproj" />
     <ProjectReference Include="..\UILogic\Nikeza.Mobile.UILogic.fsproj" />
   </ItemGroup>

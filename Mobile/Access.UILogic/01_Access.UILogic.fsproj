@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Nieza.Mobile.Access\02_Access.Domain.fsproj" />
-    <ProjectReference Include="..\Nikeza.Mobile.Specification\00_Access.Specification.fsproj" />
+    <ProjectReference Include="..\Nikeza.Mobile.Specification\Access.Specification.fsproj" />
     <ProjectReference Include="..\UILogic\Nikeza.Mobile.UILogic.fsproj" />
   </ItemGroup>
 

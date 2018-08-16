@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AppLogic\Nikeza.Mobile.AppLogic.fsproj" />
-    <ProjectReference Include="..\Nikeza.Mobile.Specification\00_Access.Specification.fsproj" />
+    <ProjectReference Include="..\Nikeza.Mobile.Specification\Access.Specification.fsproj" />
     <ProjectReference Include="..\UILogic\Nikeza.Mobile.UILogic.fsproj" />
   </ItemGroup>
 
