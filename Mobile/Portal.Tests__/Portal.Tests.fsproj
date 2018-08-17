@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props')" />
+  <Import Project="..\packages\NUnit.3.10.1\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>7220c152-e0d1-4467-a396-82a0fe6aaea6</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Portal.Tests__</RootNamespace>
+    <AssemblyName>Portal.Tests__</AssemblyName>
+    <UseStandardResourceNames>true</UseStandardResourceNames>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Name>Portal.Tests</Name>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <Tailcalls>false</Tailcalls>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+    <DocumentationFile>bin\$(Configuration)\$(AssemblyName).XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <Tailcalls>true</Tailcalls>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+    <DocumentationFile>bin\$(Configuration)\$(AssemblyName).XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(FSharpTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.Targets') ">
+    <FSharpTargetsPath>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.Targets</FSharpTargetsPath>
+  </PropertyGroup>
+  <Import Project="$(FSharpTargetsPath)" />
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
+    <Content Include="packages.config" />
+    <Compile Include="TestAPI.fs" />
+    <Compile Include="_Portal.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FSharp.Core">
+      <HintPath>..\packages\FSharp.Core.4.5.0\lib\net45\FSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FsUnit.NUnit">
+      <HintPath>..\packages\FsUnit.3.2.0\lib\net46\FsUnit.NUnit.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.3.10.1\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.ValueTuple">
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Nikeza.Common\Nikeza.Common\Nikeza.Common.fsproj">
+      <Name>Nikeza.Common</Name>
+      <Project>{90e1c6bb-b9d6-4081-b0e1-ed1414c2060f}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\01_Portfolio.UILogic\01_Portfolio.UILogic.fsproj">
+      <Name>01_Portfolio.UILogic</Name>
+      <Project>{a3179f5a-72a8-4787-b7b5-8800dd3a093a}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Access.UILogic\01_Access.UILogic.fsproj">
+      <Name>01_Access.UILogic</Name>
+      <Project>{0cce5288-1316-4f5d-88ba-c54e605e035d}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\AppLogic\Nikeza.Mobile.AppLogic.fsproj">
+      <Name>Nikeza.Mobile.AppLogic</Name>
+      <Project>{4756b54e-7164-4426-bba8-ecd8d264416c}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\EventHandlers\03_Portal.EventHandlers.fsproj">
+      <Name>03_Portal.EventHandlers</Name>
+      <Project>{6511b126-b631-42f9-8864-5ca054912b7b}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Nikeza.Mobile.Specification\Access.Specification.fsproj">
+      <Name>Access.Specification</Name>
+      <Project>{4bcb41f3-1451-4a33-9b16-a0f214900e2e}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Nikeza.Portfolio.Specification\Portfolio.Specification.fsproj">
+      <Name>Portfolio.Specification</Name>
+      <Project>{792772b0-3b4f-4984-a6d7-9d1af18fd5e1}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Nikeza.Profile.Specification\Portal.Specification.fsproj">
+      <Name>Portal.Specification</Name>
+      <Project>{791a94b6-1d0d-4317-a2fb-937b754bdb5d}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Portfolio\02_Portfolio.Domain.fsproj">
+      <Name>02_Portfolio.Domain</Name>
+      <Project>{b9b36589-9387-4217-9f9c-d225c4f54d1c}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Profile.UILogic\01_Portal.UILogic.fsproj">
+      <Name>01_Portal.UILogic</Name>
+      <Project>{9430cc07-32b0-4f73-a1a3-4647d2dac2bd}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Profile\02_Profile.Domain.fsproj">
+      <Name>02_Profile.Domain</Name>
+      <Project>{a98e9556-cf8a-46b3-9cf5-760c657a0850}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Subscriptions.Specification\Subscriptions.Specification.fsproj">
+      <Name>Subscriptions.Specification</Name>
+      <Project>{cd7b13f4-c755-4d26-a36d-714162402ca3}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Subscriptions.UILogic\01_Subscriptions.UILogic.fsproj">
+      <Name>01_Subscriptions.UILogic</Name>
+      <Project>{f50b8818-229c-46f5-95dc-bbd95d0bbdae}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Subscriptions\02_Subscriptions.Domain.fsproj">
+      <Name>02_Subscriptions.Domain</Name>
+      <Project>{ed5526a4-3865-43b2-9f12-3d2a4e5f8e7b}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\UILogic\Nikeza.Mobile.UILogic.fsproj">
+      <Name>Nikeza.Mobile.UILogic</Name>
+      <Project>{2f426613-6ecc-440f-b9cd-5f2d46cad82a}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.10.1\build\NUnit.props'))" />
+    <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
