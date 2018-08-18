@@ -41,13 +41,13 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "03_Access.EventHandlers", "
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "01_Access.UILogic", "Access.UILogic\01_Access.UILogic.fsproj", "{0CCE5288-1316-4F5D-88BA-C54E605E035D}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "04_Access.DataStore", "Access.DataStore\04_Access.DataStore.fsproj", "{B6DEEC21-2101-4049-91A4-824DBAEA6041}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "04_Access.DataGateway", "Access.DataStore\04_Access.DataGateway.fsproj", "{B6DEEC21-2101-4049-91A4-824DBAEA6041}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03_Portfolio", "03_Portfolio", "{5D3EE41A-04DC-491B-8970-AC9A7E0CCEA1}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "01_Portfolio.UILogic", "01_Portfolio.UILogic\01_Portfolio.UILogic.fsproj", "{A3179F5A-72A8-4787-B7B5-8800DD3A093A}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "04_Portfolio.DataStore", "Portfolio.DataStore\04_Portfolio.DataStore.fsproj", "{137839B3-75DD-4A2F-8B55-41A8D9CBD302}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "04_Portfolio.DataGateway", "Portfolio.DataStore\04_Portfolio.DataGateway.fsproj", "{137839B3-75DD-4A2F-8B55-41A8D9CBD302}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04_Subscriptions", "04_Subscriptions", "{8177756C-9568-41CC-903B-4E16E8079592}"
 EndProject
@@ -63,11 +63,11 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "01_Portal.UILogic", "Profil
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "03_Portal.EventHandlers", "EventHandlers\03_Portal.EventHandlers.fsproj", "{6511B126-B631-42F9-8864-5CA054912B7B}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "04_Portal.DataStore", "Portal.DataStore\04_Portal.DataStore.fsproj", "{945584F5-16E5-4788-9BB9-2B07095D973F}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "04_Portal.DataGateway", "Portal.DataStore\04_Portal.DataGateway.fsproj", "{945584F5-16E5-4788-9BB9-2B07095D973F}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "03_Subscriptions.EventHandlers", "Subscriptions.EventHandlers\03_Subscriptions.EventHandlers.fsproj", "{98F3EE97-A846-4AB5-B464-FD699F7150A9}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "04_Subscriptions.DataStore", "Subscriptions.DataStore\04_Subscriptions.DataStore.fsproj", "{39991A6C-6B2F-439C-90E8-F3362381BD8F}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "04_Subscriptions.DataGateway", "Subscriptions.DataStore\04_Subscriptions.DataGateway.fsproj", "{39991A6C-6B2F-439C-90E8-F3362381BD8F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domains", "Domains", "{B065C82D-66EE-41DA-A10F-02566E6BA7D9}"
 EndProject
