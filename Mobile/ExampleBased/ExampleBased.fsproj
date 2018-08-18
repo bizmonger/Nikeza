@@ -7,8 +7,7 @@
   <ItemGroup>
     <Compile Include="TestAPI.fs" />
     <Compile Include="_DataSources.fs" />
-    <Compile Include="_ProfileEditor.fs" />
-    <Compile Include="_Providers.fs" />
+    <Compile Include="_Subscriptions.fs" />
   </ItemGroup>
 
   <ItemGroup>
