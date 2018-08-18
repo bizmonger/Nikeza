@@ -2,10 +2,10 @@
 
 open Nikeza.DataTransfer
 
-module ProfileEditor =
+//module ProfileEditor =
 
-    type ValidateCommand = Execute of EditedProfile
-    type SaveCommand =     Save    of ValidatedProfile
+//    type ValidateCommand = Execute of EditedProfile
+//    type SaveCommand =     Save    of ValidatedProfile
 
 
 //module DataSources =

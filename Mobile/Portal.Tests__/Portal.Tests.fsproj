@@ -49,6 +49,7 @@
     <Content Include="packages.config" />
     <Compile Include="TestAPI.fs" />
     <Compile Include="_Portal.fs" />
+    <Compile Include="_ProfileEditor.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">

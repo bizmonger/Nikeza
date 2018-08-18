@@ -3,7 +3,6 @@
 open Nikeza.Common
 open Nikeza.Mobile.Profile.Events
 open Nikeza.Mobile.Profile
-open Attempt
 
 module Editor =
 
@@ -11,14 +10,14 @@ module Editor =
 
         open Validate
         open Editor
-        open Commands.ProfileEditor
+        open Nikeza.DataTransfer
 
-        type private ValidateWorkflow = ValidateCommand -> ProfileValidateEvent nonempty
+        type private ValidateWorkflow = EditedProfile -> ProfileValidateEvent nonempty
 
         let workflow : ValidateWorkflow = function
-            ValidateCommand.Execute form -> 
-                                    form |> validate 
-                                         |> toEvents
+            form -> 
+            form |> validate 
+                 |> toEvents
 
 //module DataSources =
 
