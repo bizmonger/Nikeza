@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props')" />
+  <Import Project="..\packages\NUnit.3.10.1\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>dcf9cf2e-191d-4133-a033-be976975ffe2</ProjectGuid>
+    <ProjectGuid>daac4b5c-e616-41d4-afe6-9f1b8bac5b58</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Portfolio.Tests__</RootNamespace>
-    <AssemblyName>Portfolio.Tests</AssemblyName>
+    <RootNamespace>Subscriptions.Tests__</RootNamespace>
+    <AssemblyName>Subscriptions.Tests</AssemblyName>
     <UseStandardResourceNames>true</UseStandardResourceNames>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Name>Portfolio.Tests</Name>
+    <Name>Subscriptions.Tests__</Name>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,12 +48,19 @@
     <Compile Include="AssemblyInfo.fs" />
     <Content Include="packages.config" />
     <Compile Include="TestAPI.fs" />
+    <Compile Include="_Subscriptions.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">
       <HintPath>..\packages\FSharp.Core.4.5.0\lib\net45\FSharp.Core.dll</HintPath>
     </Reference>
+    <Reference Include="FsUnit.NUnit">
+      <HintPath>..\packages\FsUnit.3.2.0\lib\net46\FsUnit.NUnit.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.3.10.1\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
@@ -68,6 +79,11 @@
       <Project>{a3179f5a-72a8-4787-b7b5-8800dd3a093a}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Access.EventHandlers\03_Access.EventHandlers.fsproj">
+      <Name>03_Access.EventHandlers</Name>
+      <Project>{6e6e4df8-5a6a-4408-b74e-d7ee9e6f7f2c}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Access.UILogic\01_Access.UILogic.fsproj">
       <Name>01_Access.UILogic</Name>
       <Project>{0cce5288-1316-4f5d-88ba-c54e605e035d}</Project>
@@ -76,6 +92,11 @@
     <ProjectReference Include="..\EventHandlers\03_Portal.EventHandlers.fsproj">
       <Name>03_Portal.EventHandlers</Name>
       <Project>{6511b126-b631-42f9-8864-5ca054912b7b}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Nieza.Mobile.Access\02_Access.Domain.fsproj">
+      <Name>02_Access.Domain</Name>
+      <Project>{47be763b-1585-4474-a91b-2e2f5e65ff60}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Nikeza.Mobile.Specification\Access.Specification.fsproj">
@@ -91,6 +112,11 @@
     <ProjectReference Include="..\Nikeza.Profile.Specification\Portal.Specification.fsproj">
       <Name>Portal.Specification</Name>
       <Project>{791a94b6-1d0d-4317-a2fb-937b754bdb5d}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Portfolio.EventHandlers\03_Portfolio.EventHandlers.fsproj">
+      <Name>03_Portfolio.EventHandlers</Name>
+      <Project>{e2f30e5d-9967-4266-a45e-a35909c6706b}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Portfolio\02_Portfolio.Domain.fsproj">
@@ -129,6 +155,13 @@
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.10.1\build\NUnit.props'))" />
+    <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

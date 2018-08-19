@@ -10,7 +10,7 @@
     <ProjectGuid>7220c152-e0d1-4467-a396-82a0fe6aaea6</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Portal.Tests__</RootNamespace>
-    <AssemblyName>Portal.Tests__</AssemblyName>
+    <AssemblyName>Portal.Tests</AssemblyName>
     <UseStandardResourceNames>true</UseStandardResourceNames>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
