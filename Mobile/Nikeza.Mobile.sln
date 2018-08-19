@@ -55,7 +55,7 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Subscriptions.Specification
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02_Portal", "02_Portal", "{DB8B23FE-9788-44AA-8E81-C2FCF35674A2}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "01_Portal.UILogic", "Profile.UILogic\01_Portal.UILogic.fsproj", "{9430CC07-32B0-4F73-A1A3-4647D2DAC2BD}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "01_Portal.Viewmodels", "Profile.UILogic\01_Portal.Viewmodels.fsproj", "{9430CC07-32B0-4F73-A1A3-4647D2DAC2BD}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "03_Portal.EventHandlers", "EventHandlers\03_Portal.EventHandlers.fsproj", "{6511B126-B631-42F9-8864-5CA054912B7B}"
 EndProject

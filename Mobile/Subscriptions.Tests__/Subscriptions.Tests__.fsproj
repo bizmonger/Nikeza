@@ -124,8 +124,8 @@
       <Project>{b9b36589-9387-4217-9f9c-d225c4f54d1c}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Profile.UILogic\01_Portal.UILogic.fsproj">
-      <Name>01_Portal.UILogic</Name>
+    <ProjectReference Include="..\Profile.UILogic\01_Portal.Viewmodels.fsproj">
+      <Name>01_Portal.Viewmodels</Name>
       <Project>{9430cc07-32b0-4f73-a1a3-4647d2dac2bd}</Project>
       <Private>True</Private>
     </ProjectReference>
