@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Access.EventHandlers\03_Access.EventHandlers.fsproj" />
-    <ProjectReference Include="..\..\Access.UILogic\01_Access.UILogic.fsproj" />
+    <ProjectReference Include="..\..\Access.UILogic\01_Access.Viewmodels.fsproj" />
     <ProjectReference Include="..\..\AppLogic\Nikeza.Mobile.AppLogic.fsproj" />
     <ProjectReference Include="..\..\Nikeza.Mobile.Specification\Access.Specification.fsproj" />
     <ProjectReference Include="..\..\Nikeza.Mobile.UI\Nikeza.Mobile.UI.csproj" />

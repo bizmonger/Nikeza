@@ -35,7 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01_Access", "01_Access", "{
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "03_Access.EventHandlers", "Access.EventHandlers\03_Access.EventHandlers.fsproj", "{6E6E4DF8-5A6A-4408-B74E-D7EE9E6F7F2C}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "01_Access.UILogic", "Access.UILogic\01_Access.UILogic.fsproj", "{0CCE5288-1316-4F5D-88BA-C54E605E035D}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "01_Access.Viewmodels", "Access.UILogic\01_Access.Viewmodels.fsproj", "{0CCE5288-1316-4F5D-88BA-C54E605E035D}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "04_Access.DataGateway", "Access.DataStore\04_Access.DataGateway.fsproj", "{B6DEEC21-2101-4049-91A4-824DBAEA6041}"
 EndProject

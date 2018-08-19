@@ -95,8 +95,8 @@
       <Project>{6e6e4df8-5a6a-4408-b74e-d7ee9e6f7f2c}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Access.UILogic\01_Access.UILogic.fsproj">
-      <Name>01_Access.UILogic</Name>
+    <ProjectReference Include="..\Access.UILogic\01_Access.Viewmodels.fsproj">
+      <Name>01_Access.Viewmodels</Name>
       <Project>{0cce5288-1316-4f5d-88ba-c54e605e035d}</Project>
       <Private>True</Private>
     </ProjectReference>
