@@ -79,7 +79,7 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Portal.Tests", "Portal.Test
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Portfolio.Tests", "Portfolio.Tests__\Portfolio.Tests.fsproj", "{DCF9CF2E-191D-4133-A033-BE976975FFE2}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Subscriptions.Tests__", "Subscriptions.Tests__\Subscriptions.Tests__.fsproj", "{DAAC4B5C-E616-41D4-AFE6-9F1B8BAC5B58}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Subscriptions.Tests", "Subscriptions.Tests__\Subscriptions.Tests.fsproj", "{DAAC4B5C-E616-41D4-AFE6-9F1B8BAC5B58}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "00_Access.UI", "Access.UI\00_Access.UI.csproj", "{B08A25C4-BB1D-433C-B5CE-E513CC47B380}"
 EndProject
