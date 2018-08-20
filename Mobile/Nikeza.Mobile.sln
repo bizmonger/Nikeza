@@ -41,13 +41,13 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "04_Access.DataGateway", "Ac
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03_Portfolio", "03_Portfolio", "{5D3EE41A-04DC-491B-8970-AC9A7E0CCEA1}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "01_Portfolio.UILogic", "01_Portfolio.UILogic\01_Portfolio.UILogic.fsproj", "{A3179F5A-72A8-4787-B7B5-8800DD3A093A}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "01_Portfolio.Viewmodels", "01_Portfolio.UILogic\01_Portfolio.Viewmodels.fsproj", "{A3179F5A-72A8-4787-B7B5-8800DD3A093A}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "04_Portfolio.DataGateway", "Portfolio.DataStore\04_Portfolio.DataGateway.fsproj", "{137839B3-75DD-4A2F-8B55-41A8D9CBD302}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04_Subscriptions", "04_Subscriptions", "{8177756C-9568-41CC-903B-4E16E8079592}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "01_Subscriptions.UILogic", "Subscriptions.UILogic\01_Subscriptions.UILogic.fsproj", "{F50B8818-229C-46F5-95DC-BBD95D0BBDAE}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "01_Subscriptions.Viewmodels", "Subscriptions.UILogic\01_Subscriptions.Viewmodels.fsproj", "{F50B8818-229C-46F5-95DC-BBD95D0BBDAE}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "03_Portfolio.EventHandlers", "Portfolio.EventHandlers\03_Portfolio.EventHandlers.fsproj", "{E2F30E5D-9967-4266-A45E-A35909C6706B}"
 EndProject

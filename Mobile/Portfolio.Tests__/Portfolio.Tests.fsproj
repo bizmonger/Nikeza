@@ -63,8 +63,8 @@
       <Project>{90e1c6bb-b9d6-4081-b0e1-ed1414c2060f}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\01_Portfolio.UILogic\01_Portfolio.UILogic.fsproj">
-      <Name>01_Portfolio.UILogic</Name>
+    <ProjectReference Include="..\01_Portfolio.UILogic\01_Portfolio.Viewmodels.fsproj">
+      <Name>01_Portfolio.Viewmodels</Name>
       <Project>{a3179f5a-72a8-4787-b7b5-8800dd3a093a}</Project>
       <Private>True</Private>
     </ProjectReference>
@@ -113,8 +113,8 @@
       <Project>{cd7b13f4-c755-4d26-a36d-714162402ca3}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Subscriptions.UILogic\01_Subscriptions.UILogic.fsproj">
-      <Name>01_Subscriptions.UILogic</Name>
+    <ProjectReference Include="..\Subscriptions.UILogic\01_Subscriptions.Viewmodels.fsproj">
+      <Name>01_Subscriptions.Viewmodels</Name>
       <Project>{f50b8818-229c-46f5-95dc-bbd95d0bbdae}</Project>
       <Private>True</Private>
     </ProjectReference>

@@ -5,6 +5,12 @@
     <RootNamespace>_01_Portfolio.UILogic</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="Portfolio.viewmodel.fs" />
   </ItemGroup>

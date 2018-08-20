@@ -26,7 +26,7 @@
     <Tailcalls>false</Tailcalls>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <WarningLevel>3</WarningLevel>
+    <WarningLevel>5</WarningLevel>
     <DocumentationFile>bin\$(Configuration)\$(AssemblyName).XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
@@ -81,11 +81,6 @@
       <Project>{90e1c6bb-b9d6-4081-b0e1-ed1414c2060f}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\01_Portfolio.UILogic\01_Portfolio.UILogic.fsproj">
-      <Name>01_Portfolio.UILogic</Name>
-      <Project>{a3179f5a-72a8-4787-b7b5-8800dd3a093a}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="..\Access.UILogic\01_Access.Viewmodels.fsproj">
       <Name>01_Access.Viewmodels</Name>
       <Project>{0cce5288-1316-4f5d-88ba-c54e605e035d}</Project>
@@ -124,11 +119,6 @@
     <ProjectReference Include="..\Profile\02_Profile.Domain.fsproj">
       <Name>02_Profile.Domain</Name>
       <Project>{a98e9556-cf8a-46b3-9cf5-760c657a0850}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Subscriptions.UILogic\01_Subscriptions.UILogic.fsproj">
-      <Name>01_Subscriptions.UILogic</Name>
-      <Project>{f50b8818-229c-46f5-95dc-bbd95d0bbdae}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Subscriptions\02_Subscriptions.Domain.fsproj">
