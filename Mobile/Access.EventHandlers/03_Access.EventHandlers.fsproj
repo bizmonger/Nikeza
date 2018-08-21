@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="_Security.fs" />
     <Compile Include="HandleLogin.fs" />
     <Compile Include="HandleRegistration.fs" />
   </ItemGroup>

@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="_Security.fs" />
     <Compile Include="HandlePortfolio.fs" />
   </ItemGroup>
 
