@@ -185,7 +185,7 @@ let uninitializedPortfolio = {
 
 let uninitializedProvider = {
     Profile =      uninitializedProfile
-    Topics =        []
+    Topics =       []
     Portfolio=     uninitializedPortfolio
     RecentLinks=   []
     Subscriptions= []
@@ -193,9 +193,9 @@ let uninitializedProvider = {
 }
 
 let handle' event handlers= 
-    handlers|> List.iter(fun handle -> handle event)
+    handlers|> List.iter(fun handleThis -> handleThis event)
 
 let handle event handlers= 
      
     handlers.Head::handlers.Tail 
-     |> List.iter(fun handle -> handle event)
+     |> List.iter(fun handleThis -> handleThis event)
